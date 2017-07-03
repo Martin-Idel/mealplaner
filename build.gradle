@@ -1,0 +1,56 @@
+
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'eclipse'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'org.slf4j:slf4j-api:1.7.22'
+    compile 'org.swinglabs.swingx:swingx-all:1.6.4'
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.+'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs 'src/main/java'
+        }
+        resources {
+        	srcDirs 'src/test/resources'
+        }
+    }
+    
+    test {
+    	java {
+    		srcDirs 'src/test/java'
+    	}
+    }
+}
+ 
+ test {
+    testLogging {
+        events "PASSED", "FAILED", "SKIPPED"
+    }
+    
+    afterSuite { desc, result ->
+    	if (!desc.parent) {
+        	println "Test results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+		}
+	}
+}
+
+mainClassName = 'mealplaner.Kochplaner'
+
+jar {
+	manifest {
+		attributes(
+			'Manifest-Version': '1.0',
+			'Main-Class': 'mealplaner.Kochplaner'
+		)
+	}
+}
