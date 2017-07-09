@@ -1,10 +1,12 @@
 package mealplaner.gui;
 
+import static mealplaner.errorhandling.ErrorMessages.formatMessage;
+import static mealplaner.gui.commons.MessageDialog.errorMessages;
+import static mealplaner.gui.commons.MessageDialog.showSaveExitDialog;
+
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -14,7 +16,6 @@ import java.util.ResourceBundle;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -23,9 +24,6 @@ import javax.swing.WindowConstants;
 import mealplaner.MealplanerData;
 import mealplaner.ProposalBuilder;
 import mealplaner.errorhandling.ErrorKeys;
-import mealplaner.errorhandling.ErrorMessages;
-import mealplaner.errorhandling.Logger;
-import mealplaner.errorhandling.MealException;
 import mealplaner.gui.commons.ButtonPanelBuilder;
 import mealplaner.gui.commons.MenuBarBuilder;
 import mealplaner.gui.databaseedit.DatabaseEdit;
@@ -36,16 +34,13 @@ import mealplaner.gui.dialogs.proposaloutput.ProposalTableFactory;
 import mealplaner.gui.dialogs.proposaloutput.TablePrinter;
 import mealplaner.gui.dialogs.settingsinput.DefaultSettingsInput;
 import mealplaner.gui.dialogs.settingsinput.ProposalSettingsInput;
-import mealplaner.gui.dialogs.settingsinput.SettingsInput;
-import mealplaner.io.MealplanerFileLoader;
-import mealplaner.io.MealplanerFileSaver;
+import mealplaner.io.FileIOGui;
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
 import mealplaner.model.settings.ProposalOutline;
 import mealplaner.model.settings.Settings;
 
 public class MainGUI implements ErrorKeys {
-
 	private JFrame frame = new JFrame("Meal planer");
 
 	private MealplanerData mealPlan;
@@ -54,12 +49,14 @@ public class MainGUI implements ErrorKeys {
 
 	private Locale currentLocale;
 	private ResourceBundle messages;
+	private FileIOGui fileIOGui;
 
 	public MainGUI(MealplanerData mealPlan) {
 		this.mealPlan = mealPlan;
 
 		loadResourceBundle();
-		loadDatabase();
+		fileIOGui = new FileIOGui(messages, frame);
+		this.mealPlan = fileIOGui.loadDatabase();
 
 		JMenuBar menuBar = createMenuBar();
 
@@ -78,25 +75,7 @@ public class MainGUI implements ErrorKeys {
 			currentLocale = Locale.getDefault();
 			messages = ResourceBundle.getBundle("MessagesBundle", currentLocale);
 		} catch (MissingResourceException exc) {
-			errorMessages(exc, ErrorMessages.formatMessage(MSG_MISSING_RBUNDLE));
-		}
-	}
-
-	private void loadDatabase() {
-		try {
-			MealplanerData mealPlanLoaded = MealplanerFileLoader.load("save01.ser");
-			this.mealPlan = mealPlanLoaded; // do not inline: This will only be
-											// done when load was successful
-			this.mealPlan.getMealListData().sortMealsAccordingToName();
-		} catch (FileNotFoundException exc) {
-			errorMessages(exc, ErrorMessages.formatMessage(MSG_FILE_NOT_FOUND));
-			this.mealPlan = new MealplanerData();
-		} catch (IOException exc) {
-			errorMessages(exc, ErrorMessages.formatMessage(MSG_IOEX));
-			this.mealPlan = new MealplanerData();
-		} catch (MealException exc) {
-			errorMessages(exc, ErrorMessages.formatMessage(MSG_CLASS_NOT_FOUND));
-			this.mealPlan = new MealplanerData();
+			errorMessages(frame, exc, formatMessage(MSG_MISSING_RBUNDLE));
 		}
 	}
 
@@ -105,9 +84,9 @@ public class MainGUI implements ErrorKeys {
 				.setupFileMenu()
 				.createMealMenu(action -> {
 					MultipleMealInput multipleMealInput = new MultipleMealInput(frame, messages);
-					List<Meal> multipleMeals = multipleMealInput.showDialog();
-					multipleMeals.forEach(
-							meal -> mealPlan.getMealListData().addMealAtSortedPosition(meal));
+					multipleMealInput.showDialog()
+							.forEach(meal -> mealPlan.getMealListData()
+									.addMealAtSortedPosition(meal));
 					dbaseEdit.updateTable();
 				})
 				.viewProposalMenu(
@@ -115,15 +94,20 @@ public class MainGUI implements ErrorKeys {
 								currentLocale, messages))
 				.createSeparatorForMenu();
 
-		builder.createBackupMenu(action -> createBackup())
-				.loadBackupMenu(action -> loadBackup())
+		builder.createBackupMenu(action -> fileIOGui.createBackup(mealPlan))
+				.loadBackupMenu(action -> {
+					fileIOGui.loadBackup()
+							.ifPresent(loadedMealPlaner -> this.mealPlan = loadedMealPlaner);
+					dbaseEdit.updateTable();
+				})
 				.createSeparatorForMenu();
 
-		builder.printDatabaseMenu(action -> printDatabase())
+		builder.printDatabaseMenu(action -> dbaseEdit.printTable())
 				.printProposalMenu(action -> printProposal())
 				.createSeparatorForMenu();
 
-		builder.exitMenu(action -> showSaveExitDialog());
+		builder.exitMenu(action -> showSaveExitDialog(frame, messages.getString("saveYesNo"),
+				() -> fileIOGui.saveDatabase(mealPlan)));
 
 		builder.setupHelpMenu()
 				.showDatabaseHelpMenu()
@@ -135,10 +119,11 @@ public class MainGUI implements ErrorKeys {
 	private JPanel createButtonPanel() {
 		return new ButtonPanelBuilder(messages)
 				.addButton("saveEndButton", "saveEndMnemonic", action -> {
-					save();
+					fileIOGui.saveDatabase(mealPlan);
 					frame.dispose();
 				})
-				.addExitButton(action -> showSaveExitDialog())
+				.addExitButton(action -> showSaveExitDialog(frame, messages.getString("saveYesNo"),
+						() -> fileIOGui.saveDatabase(mealPlan)))
 				.build();
 	}
 
@@ -171,101 +156,22 @@ public class MainGUI implements ErrorKeys {
 		frame.setVisible(true);
 	}
 
-	public void save() {
-		try {
-			MealplanerFileSaver.save(mealPlan, "save01.ser");
-			JOptionPane.showMessageDialog(frame, messages.getString("successSave"),
-					messages.getString("successHeading"), JOptionPane.INFORMATION_MESSAGE);
-		} catch (IOException exc) {
-			errorMessages(exc, ErrorMessages.formatMessage(MSG_IOEX));
-		}
-	}
-
-	public void createBackup() {
-		String bak = JOptionPane.showInputDialog(frame, messages.getString("createLoadBackup"),
-				"*.ser");
-		if (bak != null) {
-			try {
-				MealplanerFileSaver.save(mealPlan, bak);
-				JOptionPane.showMessageDialog(frame, messages.getString("successSave"),
-						messages.getString("successHeading"), JOptionPane.INFORMATION_MESSAGE);
-			} catch (IOException exc) {
-				errorMessages(exc, ErrorMessages.formatMessage(MSG_IOEX));
-			}
-		}
-	}
-
-	public void loadBackup() {
-		String bak = JOptionPane.showInputDialog(frame, messages.getString("createLoadBackup"),
-				"*.ser");
-		if (bak != null) {
-			try {
-				mealPlan = MealplanerFileLoader.load(bak);
-				dbaseEdit.updateTable();
-			} catch (FileNotFoundException exc) {
-				errorMessages(exc, ErrorMessages.formatMessage(MSG_BKU_FILE_NOT_FOUND));
-			} catch (IOException exc) {
-				errorMessages(exc, ErrorMessages.formatMessage(MSG_IOEX));
-			} catch (MealException exc) {
-				errorMessages(exc, ErrorMessages.formatMessage(MSG_BKU_CLASS_NOT_FOUND));
-			}
-		}
-	}
-
-	private void errorMessages(Exception exc, String errorMessage) {
-		JOptionPane.showMessageDialog(frame, ErrorMessages.formatMessage(MSG_BKU_CLASS_NOT_FOUND),
-				ErrorMessages.formatMessage(ERR_HEADING), JOptionPane.ERROR_MESSAGE);
-		Logger.logError(exc);
-	}
-
-	public void printDatabase() {
-		dbaseEdit.printTable();
-	}
-
 	public void printProposal() {
 		JTable proposalTable = new ProposalTableFactory(messages, currentLocale)
 				.createTable(mealPlan.getLastProposal());
 		TablePrinter.printTable(proposalTable, frame);
 	}
 
-	public class SaveExitWindowListener extends WindowAdapter {
-		@Override
-		public void windowClosing(WindowEvent e) {
-			showSaveExitDialog();
-		}
-	}
-
-	public void showSaveExitDialog() {
-		int result = JOptionPane.showConfirmDialog(frame, messages.getString("saveYesNo"));
-		if (result == JOptionPane.YES_OPTION) {
-			save();
-			frame.dispose();
-		} else if (result == JOptionPane.NO_OPTION) {
-			frame.dispose();
-		}
-	}
-
 	public void makeProposal() {
 		ProposalOutline outline = proposalSummary.getProposalOutline();
-
 		if (outline.isIncludedToday()) {
 			Settings[] settings = setDefaultSettings(outline);
-			Proposal proposal = propose(settings, outline.isIncludedToday(),
-					outline.isShallBeRandomised());
-			mealPlan.setLastProposal(proposal);
-			new ProposalOutput(frame, mealPlan.getLastProposal(), currentLocale, messages);
+			makeProposal(settings, outline);
 		} else {
-			SettingsInput input = new ProposalSettingsInput(frame,
-					mealPlan.getDefaultSettings(),
-					outline, messages, currentLocale);
-			input.showDialog()
-					.map(settings -> propose(settings, outline.isIncludedToday(),
-							outline.isShallBeRandomised()))
-					.ifPresent(proposal -> {
-						mealPlan.setLastProposal(proposal);
-						new ProposalOutput(frame, mealPlan.getLastProposal(), currentLocale,
-								messages);
-					});
+			Optional<Settings[]> settingsInput = new ProposalSettingsInput(frame,
+					mealPlan.getDefaultSettings(), outline, messages, currentLocale)
+							.showDialog();
+			settingsInput.ifPresent(settings -> makeProposal(settings, outline));
 		}
 	}
 
@@ -283,30 +189,39 @@ public class MainGUI implements ErrorKeys {
 		return settings;
 	}
 
+	private void makeProposal(Settings[] settings, ProposalOutline outline) {
+		Proposal proposal = propose(settings, outline.isIncludedToday(),
+				outline.isShallBeRandomised());
+		mealPlan.setLastProposal(proposal);
+		new ProposalOutput(frame, mealPlan.getLastProposal(), currentLocale, messages);
+	}
+
 	private Proposal propose(Settings[] set, boolean today, boolean random) {
-		ProposalBuilder proposalBuilder = new ProposalBuilder();
-		if (today) {
-			proposalBuilder.firstProposalToday();
-		}
-		if (random) {
-			proposalBuilder.randomiseProposal();
-		}
-		return proposalBuilder.propose(mealPlan.getMealListData(), set);
+		return new ProposalBuilder()
+				.firstProposal(today)
+				.randomise(random)
+				.propose(mealPlan.getMealListData(), set);
 	}
 
 	public void changeDefaultSettings() {
-		SettingsInput defaultSettingInput = new DefaultSettingsInput(frame,
-				mealPlan.getDefaultSettings(),
-				messages);
-		Optional<Settings[]> defaultSettings = defaultSettingInput.showDialog();
+		Optional<Settings[]> defaultSettings = new DefaultSettingsInput(frame,
+				mealPlan.getDefaultSettings(), messages)
+						.showDialog();
 		defaultSettings.ifPresent(settings -> mealPlan.setDefaultSettings(settings));
 	}
 
 	public void updatePastMeals() {
-		UpdatePastMeals updateMeals = new UpdatePastMeals(frame, mealPlan, currentLocale,
-				messages);
-		List<Meal> lastCookedMealList = updateMeals.showDialog();
+		List<Meal> lastCookedMealList = new UpdatePastMeals(frame, mealPlan, currentLocale,
+				messages).showDialog();
 		mealPlan.update(lastCookedMealList);
 		proposalSummary.update();
+	}
+
+	public class SaveExitWindowListener extends WindowAdapter {
+		@Override
+		public void windowClosing(WindowEvent e) {
+			showSaveExitDialog(frame, messages.getString("saveYesNo"),
+					() -> fileIOGui.saveDatabase(mealPlan));
+		}
 	}
 }

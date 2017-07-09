@@ -26,13 +26,13 @@ public class ProposalBuilder {
 		this.sideDish = sideDish;
 	}
 
-	public ProposalBuilder randomiseProposal() {
-		random = true;
+	public ProposalBuilder randomise(boolean randomise) {
+		random = randomise;
 		return this;
 	}
 
-	public ProposalBuilder firstProposalToday() {
-		firstDayIsToday = true;
+	public ProposalBuilder firstProposal(boolean today) {
+		firstDayIsToday = today;
 		return this;
 	}
 
@@ -61,7 +61,8 @@ public class ProposalBuilder {
 		Optional<List<Meal>> mealList = mealListData.getLastCookedDishes(3);
 		if (mealList.isPresent()) {
 			sideDish.current = mealList.get().get(0).getSidedish();
-			while (sideDish.inARow < 3 && mealList.get().get(sideDish.inARow).getSidedish() == sideDish.current) {
+			while (sideDish.inARow < 3
+					&& mealList.get().get(sideDish.inARow).getSidedish() == sideDish.current) {
 				sideDish.incrementInARow();
 			}
 		}
@@ -104,7 +105,8 @@ public class ProposalBuilder {
 	// Maybe we won't need it anymore at some time.
 	private void setPriorityMultipliersAccordingToSetting(MealListData mealListData,
 			PreferenceSettings preferenceSetting) {
-		if (preferenceSetting == PreferenceSettings.NORMAL || preferenceSetting == PreferenceSettings.RARE_NONE) {
+		if (preferenceSetting == PreferenceSettings.NORMAL
+				|| preferenceSetting == PreferenceSettings.RARE_NONE) {
 			mealListData.setPreferenceMutlipliers(CookingPreference.VERY_POPULAR, 4);
 			mealListData.setPreferenceMutlipliers(CookingPreference.NO_PREFERENCE, 2);
 		} else if (preferenceSetting == PreferenceSettings.RARE_PREFERED) {
