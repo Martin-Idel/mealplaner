@@ -15,6 +15,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import mealplaner.commons.NonnegativeInteger;
 import mealplaner.errorhandling.MealException;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.Sidedish;
@@ -24,10 +25,14 @@ import mealplaner.model.settings.CookingSetting;
 public class MealListDataTest {
 
 	private ArrayList<Meal> mealList;
-	@Mock private Meal meal1;
-	@Mock private Meal meal2;
-	@Mock private Meal meal3;
-	@Mock private Meal meal4;
+	@Mock
+	private Meal meal1;
+	@Mock
+	private Meal meal2;
+	@Mock
+	private Meal meal3;
+	@Mock
+	private Meal meal4;
 	private MealListData sut;
 
 	@Test
@@ -48,7 +53,7 @@ public class MealListDataTest {
 		mealList.add(meal2);
 		sut = new MealListData(mealList);
 
-		sut.updateDaysPassed(5);
+		sut.updateDaysPassed(new NonnegativeInteger(5));
 
 		verify(meal1).addDaysPassed(5);
 		verify(meal2).addDaysPassed(5);
