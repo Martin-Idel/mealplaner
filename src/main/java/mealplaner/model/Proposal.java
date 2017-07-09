@@ -1,9 +1,4 @@
 package mealplaner.model;
-/**
- * Martin Idel,
- * Proposal: base class to save a proposal. Serializable.
- * Contains the date of the proposal (when the program created it) and whether the proposal started at this date or the day after that.
- **/
 
 import java.io.Serializable;
 import java.util.ArrayList;

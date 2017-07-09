@@ -1,10 +1,4 @@
 package mealplaner.gui.dialogs.settingsinput;
-/**
- * Martin Idel,
- * SettingsInput: Enter options for settings (extends JDialog-Extension).
- * Two modes: We can change the default settings or create settings for proposal.
- * This is a GUI-class, so it needs to interact with MainGUI. It is called by ProposalSummary and it actually calls the method for proposals of Menuplaner.
- **/
 
 import java.awt.BorderLayout;
 import java.awt.Component;

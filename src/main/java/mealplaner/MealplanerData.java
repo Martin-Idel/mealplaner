@@ -1,9 +1,4 @@
 package mealplaner;
-/**
- * Martin Idel
- * Mealplaner: base class with data base, algorithms for sorting and proposing + IO dialogs.
- * Does not need any GUI, only Proposal, Meal, Setting + basic IO support.
- **/
 
 import static mealplaner.DataStoreEventType.DATABASE_EDITED;
 import static mealplaner.DataStoreEventType.DATE_UPDATED;

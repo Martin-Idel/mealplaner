@@ -1,10 +1,4 @@
 package mealplaner.gui.editing;
-/**
- * Martin Idel,
- * This is a text field that only allows positive integers to be entered.
- * It extends the DocumentFilter which manages the input to the underlying content field of the JTextField.
- * Heavily based on the ideas and code here: http://stackoverflow.com/questions/11093326/restricting-jtextfield-input-to-integers?lq=1
- **/
 
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -14,7 +8,8 @@ import javax.swing.text.DocumentFilter;
 public class NonnegativeIntegerTextFilter extends DocumentFilter {
 
 	@Override
-	public void insertString(FilterBypass filterBypass, int offset, String string, AttributeSet attributes)
+	public void insertString(FilterBypass filterBypass, int offset, String string,
+			AttributeSet attributes)
 			throws BadLocationException {
 		Document doc = filterBypass.getDocument();
 		StringBuilder composedString = new StringBuilder()
@@ -27,7 +22,8 @@ public class NonnegativeIntegerTextFilter extends DocumentFilter {
 	}
 
 	@Override
-	public void remove(FilterBypass filterBypass, int offset, int length) throws BadLocationException {
+	public void remove(FilterBypass filterBypass, int offset, int length)
+			throws BadLocationException {
 		Document doc = filterBypass.getDocument();
 		StringBuilder removedPartialString = new StringBuilder()
 				.append(doc.getText(0, doc.getLength()))
@@ -39,7 +35,8 @@ public class NonnegativeIntegerTextFilter extends DocumentFilter {
 	}
 
 	@Override
-	public void replace(FilterBypass filterBypass, int offset, int length, String string, AttributeSet attributes)
+	public void replace(FilterBypass filterBypass, int offset, int length, String string,
+			AttributeSet attributes)
 			throws BadLocationException {
 		Document doc = filterBypass.getDocument();
 		StringBuilder replacedString = new StringBuilder()

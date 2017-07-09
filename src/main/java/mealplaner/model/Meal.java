@@ -1,9 +1,4 @@
 package mealplaner.model;
-/**
- * Martin Idel
- * Meal: base class, representing a menu.
- * Serializable and Comparable (with other meals, comparison by names in alphabetical order).
- **/
 
 import java.io.Serializable;
 
@@ -25,7 +20,8 @@ public class Meal implements Serializable, Comparable<Meal>, ErrorKeys {
 	private int priority;
 	private boolean compareToPriority = false;
 
-	public Meal(String name, CookingTime cookingTime, Sidedish sideDish, ObligatoryUtensil obligatoryUtensil,
+	public Meal(String name, CookingTime cookingTime, Sidedish sideDish,
+			ObligatoryUtensil obligatoryUtensil,
 			CookingPreference cookingPreference, int daysPassed) throws MealException {
 		setName(name);
 		this.cookingTime = cookingTime;
@@ -49,7 +45,7 @@ public class Meal implements Serializable, Comparable<Meal>, ErrorKeys {
 	@Override
 	public int compareTo(Meal otherMeal) {
 		return compareToPriority
-				? ((Integer) this.getPriority()).compareTo((Integer) otherMeal.getPriority())
+				? ((Integer) this.getPriority()).compareTo(otherMeal.getPriority())
 				: this.getName().compareToIgnoreCase(otherMeal.getName());
 	}
 

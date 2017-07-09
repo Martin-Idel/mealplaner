@@ -1,9 +1,4 @@
 package mealplaner.gui.dialogs.mealinput;
-/**
- * Martin Idel
- * MealInput: extends JDialog to become the GUI to enter new menus.
- * Several constructors using the data bank of Mealplaner or not. 
- **/
 
 import static java.util.Optional.of;
 import static mealplaner.gui.model.EnumToStringRepresentation.getCookingPreferenceStrings;
@@ -86,7 +81,8 @@ public abstract class MealInput extends JDialog implements ErrorKeys {
 		mealCreationPanel = new JPanel();
 		mealCreationPanel.setLayout(new GridLayout(0, 2));
 
-		Arrays.asList(nameField, cookingTimeField, sidedishField, obligatoryUtensilField, daysPassedField,
+		Arrays.asList(nameField, cookingTimeField, sidedishField, obligatoryUtensilField,
+				daysPassedField,
 				preferenceField)
 				.stream()
 				.forEach(field -> field.addToPanel(mealCreationPanel));
@@ -113,7 +109,8 @@ public abstract class MealInput extends JDialog implements ErrorKeys {
 	}
 
 	protected void resetFields() {
-		Arrays.asList(nameField, cookingTimeField, sidedishField, obligatoryUtensilField, daysPassedField,
+		Arrays.asList(nameField, cookingTimeField, sidedishField, obligatoryUtensilField,
+				daysPassedField,
 				preferenceField)
 				.stream()
 				.forEach(InputField::resetField);

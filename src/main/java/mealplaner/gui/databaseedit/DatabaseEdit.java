@@ -1,9 +1,4 @@
 package mealplaner.gui.databaseedit;
-/**
- * Martin Idel,
- * DatabaseEdit: display table of meals + GUI for changing the data base of Gerichteplaner.java.
- * This class provides the GUI for one of the two main tabs of MainGUI and allows the user to make any changes to the database
- **/
 
 import java.awt.BorderLayout;
 import java.util.ArrayDeque;

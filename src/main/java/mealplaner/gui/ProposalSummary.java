@@ -1,10 +1,4 @@
 package mealplaner.gui;
-/**
- * Martin Idel, 
- * ProposalSummary: Gives an overview about the proposal, default settings and how to create a new proposal.
- * one of the two main tabbed pones on the MainGUI (the other one being DatabaseEdit).
- * calls SettingsInput, UpdatePastMeals and ProposalOutput.
- **/
 
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;

@@ -1,10 +1,4 @@
 package mealplaner.gui.dialogs.pastupdate;
-/**
- * Martin Idel,
- * UpdatePastMeals: update what you cooked since last save (a JDialog-Extension).
- * Inserts meals cooked recently. User enters all meals cooked since the last proposal.
- * Only known meals can be entered so this is checked with AutoCompleteCellEditor. The method then updates the "last cooked" item in the data bank.
- **/
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -32,7 +26,8 @@ public class UpdatePastMeals extends JDialog {
 	private UpdateTable updateTable;
 	private List<Meal> changedMeals = new ArrayList<>();
 
-	public UpdatePastMeals(JFrame parentFrame, DataStore mealPlan, Locale parentLocale, ResourceBundle parentMes) {
+	public UpdatePastMeals(JFrame parentFrame, DataStore mealPlan, Locale parentLocale,
+			ResourceBundle parentMes) {
 		super(parentFrame, parentMes.getString("cookingProposal"), true);
 		this.parentFrame = parentFrame;
 		this.mealPlan = mealPlan;
@@ -75,6 +70,7 @@ public class UpdatePastMeals extends JDialog {
 	}
 
 	public class SavingListener implements ActionListener {
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			changedMeals = updateTable.returnContent();
 			dispose();

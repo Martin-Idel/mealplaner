@@ -1,9 +1,4 @@
 package mealplaner.model.settings;
-/**
- * Martin Idel
- * Settings: base class, collects all the constraints (settings) for a day.
- * Serializable (DefaultSettings must be saved).
- **/
 
 import java.io.Serializable;
 
@@ -24,10 +19,12 @@ public class Settings implements Serializable, ErrorKeys {
 	private final CookingUtensilSetting cookingUtensil;
 
 	public Settings() {
-		this(new CookingTimeSetting(), false, CasseroleSettings.POSSIBLE, PreferenceSettings.NORMAL);
+		this(new CookingTimeSetting(), false, CasseroleSettings.POSSIBLE,
+				PreferenceSettings.NORMAL);
 	}
 
-	public Settings(CookingTimeSetting cookingTime, boolean manyPeople, CasseroleSettings casseroleSettings,
+	public Settings(CookingTimeSetting cookingTime, boolean manyPeople,
+			CasseroleSettings casseroleSettings,
 			PreferenceSettings preferenceSettings) {
 
 		this.cookingPreferences = new CookingPreferenceSetting();

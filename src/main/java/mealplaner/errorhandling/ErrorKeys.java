@@ -1,9 +1,4 @@
 package mealplaner.errorhandling;
-/**
- * Martin Idel
- * Only keys for error messages (other bundles than normal messages) - makes sure we have internationalised error messages.
- * Heavily based on the ideas and code here: http://www.javaworld.com/article/2075897/testing-debugging/exceptional-practices--part-3.html
- **/
 
 public interface ErrorKeys {
 	// This is the name of all error fields.

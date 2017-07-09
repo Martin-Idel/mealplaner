@@ -1,9 +1,4 @@
 package mealplaner.gui;
-/**
- * Martin Idel, 
- * MainGUI: GUI parent: has the data base and Mealplaner and creates all other GUI. Saving and Loading from here.
- * Uses ProposalSummary and DatabaseEdit
- **/
 
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;

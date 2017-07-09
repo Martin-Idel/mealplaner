@@ -1,9 +1,4 @@
 package mealplaner.gui.dialogs.proposaloutput;
-/**
- * Martin Idel, 
- * ProposalOutput: Present Proposal in table form. It is also possible to print the proposal directly.
- * It is called by ProposalSummary once entering the settings is completed.
- **/
 
 import static mealplaner.gui.dialogs.proposaloutput.TablePrinter.printTable;
 
@@ -24,12 +19,14 @@ import mealplaner.model.Proposal;
 public class ProposalOutput extends JDialog implements ErrorKeys {
 	private static final long serialVersionUID = 1L;
 
-	public ProposalOutput(JFrame parentFrame, Proposal lastProposal, Locale parentLocale, ResourceBundle parentMes) {
+	public ProposalOutput(JFrame parentFrame, Proposal lastProposal, Locale parentLocale,
+			ResourceBundle parentMes) {
 		super(parentFrame, parentMes.getString("proposeWindow"), true);
 
 		JPanel dataPanel = setupDataPanel();
 
-		JTable proposalTable = new ProposalTableFactory(parentMes, parentLocale).createTable(lastProposal);
+		JTable proposalTable = new ProposalTableFactory(parentMes, parentLocale)
+				.createTable(lastProposal);
 		JScrollPane tablescroll = new JScrollPane(proposalTable);
 		JPanel buttonPanel = new ButtonPanelBuilder(parentMes)
 				.addButton("proposeButton1", "proposeButton1Mnemonic",
@@ -46,7 +43,8 @@ public class ProposalOutput extends JDialog implements ErrorKeys {
 		return dataPanel;
 	}
 
-	private void displayGUI(JPanel dataPanel, JFrame parentFrame, JScrollPane tablescroll, JPanel buttonPanel) {
+	private void displayGUI(JPanel dataPanel, JFrame parentFrame, JScrollPane tablescroll,
+			JPanel buttonPanel) {
 		dataPanel.add(tablescroll, BorderLayout.CENTER);
 		dataPanel.add(buttonPanel, BorderLayout.SOUTH);
 		getContentPane().add(dataPanel);

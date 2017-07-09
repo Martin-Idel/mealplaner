@@ -1,11 +1,4 @@
 package mealplaner.gui.editing;
-/**
- * Martin Idel,
- * TextCellEditor: for Datenbankbearbeitung: based on TextCellEditor. Allows only nonnegative numbers to be entered.
- * Works differently than PositiveTextFieldEditor.
- * "tageHer" must be a positive number.
- * Same inspiration as TextCellEditor.
- **/
 
 import java.awt.Color;
 import java.awt.Component;
@@ -45,7 +38,8 @@ public class PositiveIntegerCellEditor extends DefaultCellEditor {
 	}
 
 	@Override
-	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected,
+			int row, int column) {
 		textField.setBorder(black);
 		return super.getTableCellEditorComponent(table, value, isSelected, row, column);
 	}
