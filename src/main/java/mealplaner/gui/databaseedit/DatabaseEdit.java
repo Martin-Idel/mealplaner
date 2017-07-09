@@ -8,8 +8,10 @@ package mealplaner.gui.databaseedit;
 import java.awt.BorderLayout;
 import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -47,11 +49,14 @@ public class DatabaseEdit implements DataStoreListener, ErrorKeys {
 		dataPanel = parentPanel;
 		dataPanel.setLayout(new BorderLayout());
 		messages = parentMessages;
+	}
 
-		buttonPanel = createButtonPanelWithEnabling();
+	public void setupPane(Consumer<List<Meal>> setMealListData) {
+		buttonPanel = createButtonPanelWithEnabling(setMealListData);
 		buttonPanel.disableButtons();
 
-		tableModel = new DataBaseTableModel(mealplanerData.getMealListData(), buttonPanel, messages);
+		tableModel = new DataBaseTableModel(mealplanerData.getMealListData(), buttonPanel,
+				messages);
 		table = new DataBaseTableFactory(messages).createTable(tableModel);
 		JScrollPane tablescroll = new JScrollPane(table);
 
@@ -59,7 +64,7 @@ public class DatabaseEdit implements DataStoreListener, ErrorKeys {
 		dataPanel.add(buttonPanel.getPanel(), BorderLayout.SOUTH);
 	}
 
-	private ButtonPanelEnabling createButtonPanelWithEnabling() {
+	private ButtonPanelEnabling createButtonPanelWithEnabling(Consumer<List<Meal>> setData) {
 		return new ButtonPanelBuilder(messages)
 				.addButton("databankButtonAdd", "databankButtonAddMnemonic",
 						action -> {
@@ -78,11 +83,12 @@ public class DatabaseEdit implements DataStoreListener, ErrorKeys {
 						action -> {
 							// Override database. Not efficient but presently
 							// enough.
-							mealplanerData.setMealListData(tableModel.returnContent());
+							setData.accept(tableModel.returnContent());
 							buttonPanel.disableButtons();
 						})
 				.makeLastButtonEnabling()
-				.addButton("databankButtonEsc", "databankButtonEscMnemonic", action -> updateTable())
+				.addButton("databankButtonEsc", "databankButtonEscMnemonic",
+						action -> updateTable())
 				.makeLastButtonEnabling()
 				.buildEnablingPanel();
 	}

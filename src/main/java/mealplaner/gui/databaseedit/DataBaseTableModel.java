@@ -1,5 +1,6 @@
 package mealplaner.gui.databaseedit;
 
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.swing.table.AbstractTableModel;
@@ -33,7 +34,7 @@ public class DataBaseTableModel extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-		return workingCopy.getSize();
+		return workingCopy.size();
 	}
 
 	@Override
@@ -45,17 +46,17 @@ public class DataBaseTableModel extends AbstractTableModel {
 	public Object getValueAt(int row, int col) {
 		switch (col) {
 		case 0:
-			return workingCopy.getMeal(row).getName();
+			return workingCopy.get(row).getName();
 		case 1:
-			return workingCopy.getMeal(row).getCookingTime();
+			return workingCopy.get(row).getCookingTime();
 		case 2:
-			return workingCopy.getMeal(row).getSidedish();
+			return workingCopy.get(row).getSidedish();
 		case 3:
-			return workingCopy.getMeal(row).getObligatoryUtensil();
+			return workingCopy.get(row).getObligatoryUtensil();
 		case 4:
-			return workingCopy.getMeal(row).getDaysPassed();
+			return workingCopy.get(row).getDaysPassed();
 		case 5:
-			return workingCopy.getMeal(row).getCookingPreference();
+			return workingCopy.get(row).getCookingPreference();
 		default:
 			return "";
 		}
@@ -82,7 +83,7 @@ public class DataBaseTableModel extends AbstractTableModel {
 	}
 
 	public void removeRow(int row) {
-		workingCopy.removeMeal(workingCopy.getMeal(row));
+		workingCopy.removeMeal(workingCopy.get(row));
 		fireTableRowsDeleted(row, row);
 		onlyActiveOnChangedButtons.enableButtons();
 	}
@@ -102,22 +103,22 @@ public class DataBaseTableModel extends AbstractTableModel {
 	public void setValueAt(Object value, int row, int col) {
 		switch (col) {
 		case 0:
-			workingCopy.getMeal(row).setName((String) value);
+			workingCopy.get(row).setName((String) value);
 			break;
 		case 1:
-			workingCopy.getMeal(row).setCookingTime((CookingTime) value);
+			workingCopy.get(row).setCookingTime((CookingTime) value);
 			break;
 		case 2:
-			workingCopy.getMeal(row).setSidedish((Sidedish) value);
+			workingCopy.get(row).setSidedish((Sidedish) value);
 			break;
 		case 3:
-			workingCopy.getMeal(row).setObligatoryUtensil((ObligatoryUtensil) value);
+			workingCopy.get(row).setObligatoryUtensil((ObligatoryUtensil) value);
 			break;
 		case 4:
-			workingCopy.getMeal(row).setDaysPassed(Integer.parseInt((String) value));
+			workingCopy.get(row).setDaysPassed(Integer.parseInt((String) value));
 			break;
 		case 5:
-			workingCopy.getMeal(row).setCookingPreference((CookingPreference) value);
+			workingCopy.get(row).setCookingPreference((CookingPreference) value);
 			break;
 		default:
 			return;
@@ -132,7 +133,7 @@ public class DataBaseTableModel extends AbstractTableModel {
 		onlyActiveOnChangedButtons.disableButtons();
 	}
 
-	public MealListData returnContent() {
+	public List<Meal> returnContent() {
 		return workingCopy;
 	}
 }

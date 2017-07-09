@@ -7,6 +7,7 @@ package mealplaner.gui;
  **/
 
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -31,7 +32,6 @@ import mealplaner.model.settings.ProposalOutline;
 
 public class ProposalSummary implements DataStoreListener, ErrorKeys {
 	private DataStore mealPlan;
-	private JFrame dataFrame;
 	private JPanel dataPanel;
 	private JLabel dateShow;
 	private JButton dateUpdate;
@@ -48,7 +48,6 @@ public class ProposalSummary implements DataStoreListener, ErrorKeys {
 	public ProposalSummary(DataStore mealPlan, JFrame parentFrame, Locale parentLocale,
 			ResourceBundle parentMes) {
 		this.mealPlan = mealPlan;
-		this.dataFrame = parentFrame;
 		this.dataPanel = new JPanel();
 		this.dataPanel.setLayout(new GridLayout(0, 2));
 		this.currentLocale = parentLocale;
@@ -57,10 +56,11 @@ public class ProposalSummary implements DataStoreListener, ErrorKeys {
 		mealPlan.register(this);
 	}
 
-	public JPanel buildProposalPanel() {
+	public JPanel buildProposalPanel(ActionListener setDefaultSettings,
+			ActionListener makeProposal) {
 		buildDateShowField(mealPlan.getCalendar());
 		buildInputFields();
-		buildButtons(messages);
+		buildButtons(messages, setDefaultSettings, makeProposal);
 
 		adjustFieldsOnPanel();
 
@@ -78,17 +78,18 @@ public class ProposalSummary implements DataStoreListener, ErrorKeys {
 	private void buildDateShowField(Calendar mealCalendar) {
 		Date lastDate = mealCalendar.getTime();
 		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG, currentLocale);
-		dateShow = new JLabel(messages.getString("dateLastUpdate") + " " + dateFormat.format(lastDate));
+		dateShow = new JLabel(
+				messages.getString("dateLastUpdate") + " " + dateFormat.format(lastDate));
 	}
 
-	private void buildButtons(ResourceBundle parentMes) {
-		dateUpdate = SwingUtilityMethods.createButton(parentMes, "updateButton", "updateButtonMnemonic",
-				action -> update());
+	private void buildButtons(ResourceBundle parentMes, ActionListener setDefaultSettings,
+			ActionListener makeProposal) {
+		dateUpdate = SwingUtilityMethods.createButton(parentMes, "updateButton",
+				"updateButtonMnemonic", action -> update());
 		defaultSettings = SwingUtilityMethods.createButton(parentMes, "proposalDefaultButton",
-				"proposalDefaultButtonMnemonic",
-				action -> changeDefaultSettings());
-		giveProposal = SwingUtilityMethods.createButton(parentMes, "proposalShowButton", "proposalShowButtonMnemonic",
-				action -> makeProposal());
+				"proposalDefaultButtonMnemonic", setDefaultSettings);
+		giveProposal = SwingUtilityMethods.createButton(parentMes, "proposalShowButton",
+				"proposalShowButtonMnemonic", makeProposal);
 	}
 
 	private void buildInputFields() {
@@ -115,7 +116,8 @@ public class ProposalSummary implements DataStoreListener, ErrorKeys {
 		boolean shallBeRandomised = randomiseCheckBox.getUserInput();
 		boolean includesToday = takeTodayCheckBox.getUserInput();
 
-		return new ProposalOutline(numberOfDays, includesToday, shallBeRandomised, mealPlan.getCalendar().getTime());
+		return new ProposalOutline(numberOfDays, includesToday, shallBeRandomised,
+				mealPlan.getCalendar().getTime());
 	}
 
 	public void update() {

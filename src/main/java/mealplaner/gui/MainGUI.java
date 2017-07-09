@@ -10,9 +10,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.MissingResourceException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javax.swing.JFrame;
@@ -24,6 +26,7 @@ import javax.swing.JTable;
 import javax.swing.WindowConstants;
 
 import mealplaner.MealplanerData;
+import mealplaner.ProposalBuilder;
 import mealplaner.errorhandling.ErrorKeys;
 import mealplaner.errorhandling.ErrorMessages;
 import mealplaner.errorhandling.Logger;
@@ -32,12 +35,19 @@ import mealplaner.gui.commons.ButtonPanelBuilder;
 import mealplaner.gui.commons.MenuBarBuilder;
 import mealplaner.gui.databaseedit.DatabaseEdit;
 import mealplaner.gui.dialogs.mealinput.MultipleMealInput;
+import mealplaner.gui.dialogs.pastupdate.UpdatePastMeals;
 import mealplaner.gui.dialogs.proposaloutput.ProposalOutput;
 import mealplaner.gui.dialogs.proposaloutput.ProposalTableFactory;
 import mealplaner.gui.dialogs.proposaloutput.TablePrinter;
+import mealplaner.gui.dialogs.settingsinput.DefaultSettingsInput;
+import mealplaner.gui.dialogs.settingsinput.ProposalSettingsInput;
+import mealplaner.gui.dialogs.settingsinput.SettingsInput;
 import mealplaner.io.MealplanerFileLoader;
 import mealplaner.io.MealplanerFileSaver;
 import mealplaner.model.Meal;
+import mealplaner.model.Proposal;
+import mealplaner.model.settings.ProposalOutline;
+import mealplaner.model.settings.Settings;
 
 public class MainGUI implements ErrorKeys {
 
@@ -85,10 +95,13 @@ public class MainGUI implements ErrorKeys {
 			this.mealPlan.getMealListData().sortMealsAccordingToName();
 		} catch (FileNotFoundException exc) {
 			errorMessages(exc, ErrorMessages.formatMessage(MSG_FILE_NOT_FOUND));
+			this.mealPlan = new MealplanerData();
 		} catch (IOException exc) {
 			errorMessages(exc, ErrorMessages.formatMessage(MSG_IOEX));
+			this.mealPlan = new MealplanerData();
 		} catch (MealException exc) {
 			errorMessages(exc, ErrorMessages.formatMessage(MSG_CLASS_NOT_FOUND));
+			this.mealPlan = new MealplanerData();
 		}
 	}
 
@@ -98,11 +111,13 @@ public class MainGUI implements ErrorKeys {
 				.createMealMenu(action -> {
 					MultipleMealInput multipleMealInput = new MultipleMealInput(frame, messages);
 					List<Meal> multipleMeals = multipleMealInput.showDialog();
-					multipleMeals.forEach(meal -> mealPlan.getMealListData().addMealAtSortedPosition(meal));
+					multipleMeals.forEach(
+							meal -> mealPlan.getMealListData().addMealAtSortedPosition(meal));
 					dbaseEdit.updateTable();
 				})
 				.viewProposalMenu(
-						action -> new ProposalOutput(frame, mealPlan.getLastProposal(), currentLocale, messages))
+						action -> new ProposalOutput(frame, mealPlan.getLastProposal(),
+								currentLocale, messages))
 				.createSeparatorForMenu();
 
 		builder.createBackupMenu(action -> createBackup())
@@ -135,6 +150,7 @@ public class MainGUI implements ErrorKeys {
 	private JPanel setupDatabasePanel() {
 		JPanel databasePanel = new JPanel();
 		dbaseEdit = new DatabaseEdit(this.mealPlan, frame, databasePanel, messages);
+		dbaseEdit.setupPane((mealListData) -> mealPlan.getMealListData().setMealList(mealListData));
 		return databasePanel;
 	}
 
@@ -142,7 +158,10 @@ public class MainGUI implements ErrorKeys {
 		JPanel mealPanel = new JPanel();
 		mealPanel.setLayout(new BorderLayout());
 		proposalSummary = new ProposalSummary(this.mealPlan, frame, currentLocale, messages);
-		mealPanel.add(proposalSummary.buildProposalPanel(), BorderLayout.CENTER);
+		mealPanel.add(proposalSummary.buildProposalPanel(
+				action -> changeDefaultSettings(),
+				action -> makeProposal()),
+				BorderLayout.CENTER);
 		mealPanel.add(buttonPanel, BorderLayout.SOUTH);
 		return mealPanel;
 	}
@@ -168,7 +187,8 @@ public class MainGUI implements ErrorKeys {
 	}
 
 	public void createBackup() {
-		String bak = JOptionPane.showInputDialog(frame, messages.getString("createLoadBackup"), "*.ser");
+		String bak = JOptionPane.showInputDialog(frame, messages.getString("createLoadBackup"),
+				"*.ser");
 		if (bak != null) {
 			try {
 				MealplanerFileSaver.save(mealPlan, bak);
@@ -181,7 +201,8 @@ public class MainGUI implements ErrorKeys {
 	}
 
 	public void loadBackup() {
-		String bak = JOptionPane.showInputDialog(frame, messages.getString("createLoadBackup"), "*.ser");
+		String bak = JOptionPane.showInputDialog(frame, messages.getString("createLoadBackup"),
+				"*.ser");
 		if (bak != null) {
 			try {
 				mealPlan = MealplanerFileLoader.load(bak);
@@ -213,6 +234,7 @@ public class MainGUI implements ErrorKeys {
 	}
 
 	public class SaveExitWindowListener extends WindowAdapter {
+		@Override
 		public void windowClosing(WindowEvent e) {
 			showSaveExitDialog();
 		}
@@ -226,5 +248,70 @@ public class MainGUI implements ErrorKeys {
 		} else if (result == JOptionPane.NO_OPTION) {
 			frame.dispose();
 		}
+	}
+
+	public void makeProposal() {
+		ProposalOutline outline = proposalSummary.getProposalOutline();
+
+		if (outline.isIncludedToday()) {
+			Settings[] settings = setDefaultSettings(outline);
+			Proposal proposal = propose(settings, outline.isIncludedToday(),
+					outline.isShallBeRandomised());
+			mealPlan.setLastProposal(proposal);
+			new ProposalOutput(frame, mealPlan.getLastProposal(), currentLocale, messages);
+		} else {
+			SettingsInput input = new ProposalSettingsInput(frame,
+					mealPlan.getDefaultSettings(),
+					outline, messages, currentLocale);
+			input.showDialog()
+					.map(settings -> propose(settings, outline.isIncludedToday(),
+							outline.isShallBeRandomised()))
+					.ifPresent(proposal -> {
+						mealPlan.setLastProposal(proposal);
+						new ProposalOutput(frame, mealPlan.getLastProposal(), currentLocale,
+								messages);
+					});
+		}
+	}
+
+	private Settings[] setDefaultSettings(ProposalOutline outline) {
+		Settings[] settings = new Settings[outline.getNumberOfDays()];
+		int dayOfWeek = mealPlan.getCalendar().get(Calendar.DAY_OF_WEEK); // today
+		Settings[] defaultSettings = mealPlan.getDefaultSettings();
+		if (!outline.isIncludedToday()) {
+			dayOfWeek++;
+		}
+		for (int i = 0; i < settings.length; i++) {
+			settings[i] = defaultSettings[(dayOfWeek - 2) % 7];
+			dayOfWeek++;
+		}
+		return settings;
+	}
+
+	private Proposal propose(Settings[] set, boolean today, boolean random) {
+		ProposalBuilder proposalBuilder = new ProposalBuilder();
+		if (today) {
+			proposalBuilder.firstProposalToday();
+		}
+		if (random) {
+			proposalBuilder.randomiseProposal();
+		}
+		return proposalBuilder.propose(mealPlan.getMealListData(), set);
+	}
+
+	public void changeDefaultSettings() {
+		SettingsInput defaultSettingInput = new DefaultSettingsInput(frame,
+				mealPlan.getDefaultSettings(),
+				messages);
+		Optional<Settings[]> defaultSettings = defaultSettingInput.showDialog();
+		defaultSettings.ifPresent(settings -> mealPlan.setDefaultSettings(settings));
+	}
+
+	public void updatePastMeals() {
+		UpdatePastMeals updateMeals = new UpdatePastMeals(frame, mealPlan, currentLocale,
+				messages);
+		List<Meal> lastCookedMealList = updateMeals.showDialog();
+		mealPlan.update(lastCookedMealList);
+		proposalSummary.update();
 	}
 }

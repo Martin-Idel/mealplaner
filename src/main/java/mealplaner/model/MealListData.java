@@ -2,8 +2,11 @@ package mealplaner.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Optional;
 import java.util.Random;
 
@@ -13,7 +16,7 @@ import mealplaner.model.enums.Sidedish;
 import mealplaner.model.settings.CookingSetting;
 
 // TODO: Implement sort functionality within streams.
-public class MealListData implements Serializable {
+public class MealListData implements List<Meal>, Serializable {
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Meal> mealList;
 
@@ -30,11 +33,13 @@ public class MealListData implements Serializable {
 		mealListData.mealList.stream().forEach(meal -> this.mealList.add(new Meal(meal)));
 	}
 
-	public Meal getMeal(int index) {
+	@Override
+	public Meal get(int index) {
 		return mealList.get(index);
 	}
 
-	public int getSize() {
+	@Override
+	public int size() {
 		return mealList.size();
 	}
 
@@ -42,8 +47,8 @@ public class MealListData implements Serializable {
 		return !mealList.isEmpty();
 	}
 
-	public void setMealList(ArrayList<Meal> mealList) {
-		this.mealList = mealList;
+	public void setMealList(List<Meal> mealList) {
+		this.mealList = new ArrayList<Meal>(mealList);
 		sort();
 	}
 
@@ -128,7 +133,8 @@ public class MealListData implements Serializable {
 
 	public void addRandomIntegersToPriorities() {
 		Random randomIntGenerator = new Random();
-		mealList.forEach(meal -> meal.setPriority(meal.getPriority() + randomIntGenerator.nextInt(7)));
+		mealList.forEach(
+				meal -> meal.setPriority(meal.getPriority() + randomIntGenerator.nextInt(7)));
 	}
 
 	public void setPreferenceMutlipliers(CookingPreference compareToPreference, float multiplier) {
@@ -147,5 +153,114 @@ public class MealListData implements Serializable {
 		mealList.stream()
 				.filter(meal -> cookingSetting.prohibits(meal))
 				.forEach(meal -> meal.prohibit());
+	}
+
+	@Override
+	public boolean add(Meal arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void add(int arg0, Meal arg1) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public boolean addAll(Collection<? extends Meal> arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean addAll(int arg0, Collection<? extends Meal> arg1) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void clear() {
+		mealList.clear();
+	}
+
+	@Override
+	public boolean contains(Object element) {
+		return mealList.contains(element);
+	}
+
+	@Override
+	public boolean containsAll(Collection<?> elements) {
+		return mealList.containsAll(elements);
+	}
+
+	@Override
+	public int indexOf(Object element) {
+		return mealList.indexOf(element);
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return mealList.isEmpty();
+	}
+
+	@Override
+	public Iterator<Meal> iterator() {
+		return mealList.iterator();
+	}
+
+	@Override
+	public int lastIndexOf(Object element) {
+		return mealList.lastIndexOf(element);
+	}
+
+	@Override
+	public ListIterator<Meal> listIterator() {
+		return mealList.listIterator();
+	}
+
+	@Override
+	public ListIterator<Meal> listIterator(int index) {
+		return mealList.listIterator(index);
+	}
+
+	@Override
+	public boolean remove(Object element) {
+		return mealList.remove(element);
+	}
+
+	@Override
+	public Meal remove(int index) {
+		return mealList.remove(index);
+	}
+
+	@Override
+	public boolean removeAll(Collection<?> elements) {
+		return mealList.removeAll(elements);
+	}
+
+	@Override
+	public boolean retainAll(Collection<?> elements) {
+		return mealList.retainAll(elements);
+	}
+
+	@Override
+	public Meal set(int index, Meal meal) {
+		return mealList.set(index, meal);
+	}
+
+	@Override
+	public List<Meal> subList(int fromIndex, int toIndex) {
+		return mealList.subList(fromIndex, toIndex);
+	}
+
+	@Override
+	public Object[] toArray() {
+		return mealList.toArray();
+	}
+
+	@Override
+	public <T> T[] toArray(T[] a) {
+		return mealList.toArray(a);
 	}
 }

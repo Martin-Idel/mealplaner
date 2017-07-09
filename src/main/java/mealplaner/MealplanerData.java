@@ -10,6 +10,7 @@ import static mealplaner.DataStoreEventType.DATE_UPDATED;
 import static mealplaner.DataStoreEventType.PROPOSAL_ADDED;
 import static mealplaner.DataStoreEventType.SETTINGS_CHANGED;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class MealplanerData implements DataStore {
 	private MealplanerCalendar cal;
 	private Proposal proposal;
 
-	private List<DataStoreListener> listeners;
+	private List<DataStoreListener> listeners = new ArrayList<>();
 
 	public MealplanerData() {
 		mealListData = new MealListData();
@@ -46,22 +47,27 @@ public class MealplanerData implements DataStore {
 		this.proposal = proposal;
 	}
 
+	@Override
 	public int getDaysPassed() {
 		return cal.getDaysPassedTo(Calendar.getInstance());
 	}
 
+	@Override
 	public Calendar getCalendar() {
 		return cal.getCalendar();
 	}
 
+	@Override
 	public Settings[] getDefaultSettings() {
 		return defaultSettings;
 	}
 
+	@Override
 	public Proposal getLastProposal() {
 		return proposal;
 	}
 
+	@Override
 	public MealListData getMealListData() {
 		return mealListData;
 	}
@@ -103,13 +109,14 @@ public class MealplanerData implements DataStore {
 		for (int i = 0; i < mealsCookedLast.size(); i++) {
 			int indexOfMeal = mealListData.getMealList().indexOf(mealsCookedLast.get(i));
 			if (indexOfMeal >= 0) {
-				mealListData.getMeal(indexOfMeal).setDaysPassed(mealsCookedLast.size() - i - 1);
+				mealListData.get(indexOfMeal).setDaysPassed(mealsCookedLast.size() - i - 1);
 			}
 		}
 		listeners.forEach(listener -> listener.updateData(DATE_UPDATED));
 		listeners.forEach(listener -> listener.updateData(DATABASE_EDITED));
 	}
 
+	@Override
 	public void register(DataStoreListener listener) {
 		listeners.add(listener);
 	}

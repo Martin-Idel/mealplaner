@@ -51,7 +51,7 @@ public class UpdatePastMeals extends JDialog {
 				updateTable.createTable(mealPlan.getCalendar().getTime(),
 						mealPlan.getLastProposal(),
 						mealPlan.getMealListData().getMealList()
-								.toArray(new Meal[mealPlan.getMealListData().getSize()]),
+								.toArray(new Meal[mealPlan.getMealListData().size()]),
 						mealPlan.getDaysPassed()));
 		JPanel buttonPanel = displayButtons();
 		dataPanel = new JPanel();
