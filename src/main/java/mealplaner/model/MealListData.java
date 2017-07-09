@@ -10,7 +10,7 @@ import java.util.ListIterator;
 import java.util.Optional;
 import java.util.Random;
 
-import mealplaner.errorhandling.MealException;
+import mealplaner.commons.NonnegativeInteger;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.Sidedish;
 import mealplaner.model.settings.CookingSetting;
@@ -89,11 +89,8 @@ public class MealListData implements List<Meal>, Serializable {
 		mealList.remove(meal);
 	}
 
-	// TODO: This shall be a stream. Maybe even define type positiveINT.
-	public void updateDaysPassed(int daysSinceLastUpdate) throws MealException {
-		for (Meal meal : mealList) {
-			meal.addDaysPassed(daysSinceLastUpdate);
-		}
+	public void updateDaysPassed(NonnegativeInteger daysSinceLastUpdate) {
+		mealList.forEach(meal -> meal.addDaysPassed(daysSinceLastUpdate.value));
 	}
 
 	public void setPriorityToDaysPassedPlus(int daysSinceStartOfUpdate) {
@@ -156,27 +153,27 @@ public class MealListData implements List<Meal>, Serializable {
 	}
 
 	@Override
-	public boolean add(Meal arg0) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean add(Meal meal) {
+		throw new UnsupportedOperationException(
+				"Cannot add meal, use addMealAtSortedPosition(Meal meal) instead");
 	}
 
 	@Override
-	public void add(int arg0, Meal arg1) {
-		// TODO Auto-generated method stub
-
+	public void add(int index, Meal meal) {
+		throw new UnsupportedOperationException(
+				"Cannot add meal, use addMealAtSortedPosition(Meal meal) instead");
 	}
 
 	@Override
-	public boolean addAll(Collection<? extends Meal> arg0) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean addAll(Collection<? extends Meal> meals) {
+		throw new UnsupportedOperationException(
+				"Cannot add meal, use addMealAtSortedPosition(Meal meal) instead");
 	}
 
 	@Override
-	public boolean addAll(int arg0, Collection<? extends Meal> arg1) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean addAll(int fromIndex, Collection<? extends Meal> meals) {
+		throw new UnsupportedOperationException(
+				"Cannot add meal, use addMealAtSortedPosition(Meal meal) instead");
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import mealplaner.commons.NonnegativeInteger;
 import mealplaner.errorhandling.MealException;
 import mealplaner.model.Meal;
 import mealplaner.model.MealListData;
@@ -99,7 +100,7 @@ public class MealplanerData implements DataStore {
 
 	public void update(List<Meal> mealsCookedLast) throws MealException {
 		int daysSinceLastUpdate = cal.updateCalendar();
-		mealListData.updateDaysPassed(daysSinceLastUpdate);
+		mealListData.updateDaysPassed(new NonnegativeInteger(daysSinceLastUpdate));
 		mealListData.getMealList().stream();
 		for (int i = 0; i < mealsCookedLast.size(); i++) {
 			int indexOfMeal = mealListData.getMealList().indexOf(mealsCookedLast.get(i));
