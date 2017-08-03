@@ -7,6 +7,7 @@ import static mealplaner.DataStoreEventType.SETTINGS_CHANGED;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import mealplaner.commons.NonnegativeInteger;
@@ -27,7 +28,7 @@ public class MealplanerData implements DataStore {
 
 	public MealplanerData() {
 		mealListData = new MealListData();
-		cal = new MealplanerCalendar();
+		cal = new MealplanerCalendar(Calendar.getInstance());
 		defaultSettings = new Settings[7];
 		for (int i = 0; i < defaultSettings.length; i++) {
 			defaultSettings[i] = new Settings();
@@ -49,8 +50,12 @@ public class MealplanerData implements DataStore {
 	}
 
 	@Override
-	public Calendar getCalendar() {
-		return cal.getCalendar();
+	public Date getTime() {
+		return cal.getTime();
+	}
+
+	public int getToday() {
+		return cal.getToday();
 	}
 
 	@Override

@@ -11,7 +11,7 @@ public class MealplanerFileSaver {
 	public static void save(MealplanerData mealplaner, String name) throws IOException {
 		try (FileOutputStream fos1 = new FileOutputStream(name);
 				ObjectOutputStream oos1 = new ObjectOutputStream(fos1)) {
-			oos1.writeObject(mealplaner.getCalendar());
+			oos1.writeObject(mealplaner.getTime());
 			oos1.writeObject(mealplaner.getMealListData());
 			oos1.writeObject(mealplaner.getDefaultSettings());
 			oos1.writeObject(mealplaner.getLastProposal());

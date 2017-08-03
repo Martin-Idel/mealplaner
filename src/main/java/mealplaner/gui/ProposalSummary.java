@@ -3,7 +3,6 @@ package mealplaner.gui;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -52,7 +51,7 @@ public class ProposalSummary implements DataStoreListener, ErrorKeys {
 
 	public JPanel buildProposalPanel(ActionListener setDefaultSettings,
 			ActionListener makeProposal) {
-		buildDateShowField(mealPlan.getCalendar());
+		buildDateShowField(mealPlan.getTime());
 		buildInputFields();
 		buildButtons(messages, setDefaultSettings, makeProposal);
 
@@ -69,8 +68,7 @@ public class ProposalSummary implements DataStoreListener, ErrorKeys {
 		return dataPanel;
 	}
 
-	private void buildDateShowField(Calendar mealCalendar) {
-		Date lastDate = mealCalendar.getTime();
+	private void buildDateShowField(Date lastDate) {
 		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG, currentLocale);
 		dateShow = new JLabel(
 				messages.getString("dateLastUpdate") + " " + dateFormat.format(lastDate));
@@ -111,11 +109,11 @@ public class ProposalSummary implements DataStoreListener, ErrorKeys {
 		boolean includesToday = takeTodayCheckBox.getUserInput();
 
 		return new ProposalOutline(numberOfDays, includesToday, shallBeRandomised,
-				mealPlan.getCalendar().getTime());
+				mealPlan.getTime());
 	}
 
 	public void update() {
-		Date lastDate = mealPlan.getCalendar().getTime();
+		Date lastDate = mealPlan.getTime();
 		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG, currentLocale);
 		dateShow.setText(messages.getString("dateLastUpdate") + " " + dateFormat.format(lastDate));
 		if (mealPlan.getDaysPassed() == 0) {

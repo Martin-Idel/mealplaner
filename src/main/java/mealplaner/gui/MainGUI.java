@@ -7,7 +7,6 @@ import static mealplaner.gui.commons.MessageDialog.showSaveExitDialog;
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.MissingResourceException;
@@ -177,7 +176,7 @@ public class MainGUI implements ErrorKeys {
 
 	private Settings[] setDefaultSettings(ProposalOutline outline) {
 		Settings[] settings = new Settings[outline.getNumberOfDays()];
-		int dayOfWeek = mealPlan.getCalendar().get(Calendar.DAY_OF_WEEK); // today
+		int dayOfWeek = mealPlan.getToday();
 		Settings[] defaultSettings = mealPlan.getDefaultSettings();
 		if (!outline.isIncludedToday()) {
 			dayOfWeek++;

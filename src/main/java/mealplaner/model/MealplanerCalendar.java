@@ -2,26 +2,27 @@ package mealplaner.model;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Date;
 
 public class MealplanerCalendar implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	private static final int MILLISECONDS_PER_DAY = 86400000;
 	private static final int LAST_HOUR = 23;
 	private static final int LAST_MINUTE_OR_SECOND = 59;
 
-	private static final long serialVersionUID = 1L;
-
 	private Calendar date;
 
-	public MealplanerCalendar() {
-		date = Calendar.getInstance();
-	}
-
-	public Calendar getCalendar() {
-		return date;
-	}
-
-	public void setCalendar(Calendar calendar) {
+	public MealplanerCalendar(Calendar calendar) {
 		date = calendar;
+	}
+
+	public int getToday() {
+		return date.get(Calendar.DAY_OF_WEEK);
+	}
+
+	public Date getTime() {
+		return date.getTime();
 	}
 
 	public void setDate(int year, int month, int day) {
@@ -31,7 +32,7 @@ public class MealplanerCalendar implements Serializable {
 	public int updateCalendar() {
 		Calendar newCal = Calendar.getInstance();
 		int daysSince = getDaysPassedTo(newCal);
-		setCalendar(newCal);
+		date = newCal;
 		return daysSince;
 	}
 

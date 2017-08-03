@@ -43,7 +43,7 @@ public class UpdatePastMeals extends JDialog {
 
 	private void display() {
 		JScrollPane tablescroll = new JScrollPane(
-				updateTable.createTable(mealPlan.getCalendar().getTime(),
+				updateTable.createTable(mealPlan.getTime(),
 						mealPlan.getLastProposal(),
 						mealPlan.getMealListData().getMealList()
 								.toArray(new Meal[mealPlan.getMealListData().size()]),

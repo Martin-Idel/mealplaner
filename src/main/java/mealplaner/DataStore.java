@@ -1,6 +1,6 @@
 package mealplaner;
 
-import java.util.Calendar;
+import java.util.Date;
 
 import mealplaner.model.MealListData;
 import mealplaner.model.Proposal;
@@ -13,7 +13,7 @@ public interface DataStore {
 
 	Proposal getLastProposal();
 
-	Calendar getCalendar();
+	Date getTime();
 
 	MealListData getMealListData();
 
