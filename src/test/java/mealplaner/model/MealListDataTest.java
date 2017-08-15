@@ -94,7 +94,7 @@ public class MealListDataTest {
 		buildArrayListWithThreeItemsAndAllCookingPreferences();
 		sut = new MealListData(mealList);
 
-		sut.setPreferenceMutlipliers(CookingPreference.RARE, 2);
+		sut.setPreferenceMultipliers(CookingPreference.RARE, 2);
 
 		verify(meal1, never()).multiplyPriority(anyFloat());
 		verify(meal2).multiplyPriority(2);
@@ -106,7 +106,7 @@ public class MealListDataTest {
 		buildArrayListWithThreeItemsAndDifferentSideDishes();
 		sut = new MealListData(mealList);
 
-		sut.setSidedishMultipliers(Sidedish.POTATOES, 3);
+		sut.setMultipliers((meal) -> meal.getSidedish(), () -> Sidedish.POTATOES, 3);
 
 		verify(meal1, never()).multiplyPriority(anyFloat());
 		verify(meal2, never()).multiplyPriority(anyFloat());

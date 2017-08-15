@@ -42,7 +42,9 @@ public class ProposalBuilderIT {
 	public void proposeNoShortManyPeopleRestInactive() throws MealException {
 		addMeals();
 		CookingTimeSetting cookingTimeSetting = new CookingTimeSetting(CookingTime.SHORT);
-		settings[0] = new Settings(cookingTimeSetting, true, CasseroleSettings.POSSIBLE, PreferenceSettings.NORMAL);
+		settings[0] = new Settings(cookingTimeSetting, true,
+				CasseroleSettings.POSSIBLE,
+				PreferenceSettings.NORMAL);
 
 		Proposal proposal = proposalBuilder.propose(mealListData, settings);
 
@@ -54,7 +56,8 @@ public class ProposalBuilderIT {
 	public void proposeOnlyVeryPopoularNoCasserole() throws MealException {
 		addMeals();
 		CookingTimeSetting cookingTimeSetting = new CookingTimeSetting();
-		settings[0] = new Settings(cookingTimeSetting, false, CasseroleSettings.NONE,
+		settings[0] = new Settings(cookingTimeSetting, false,
+				CasseroleSettings.NONE,
 				PreferenceSettings.VERY_POPULAR_ONLY);
 
 		Proposal proposal = proposalBuilder.propose(mealListData, settings);
@@ -66,7 +69,8 @@ public class ProposalBuilderIT {
 	public void proposeOnlyCasseroleRareNone() throws MealException {
 		addMeals();
 		CookingTimeSetting cookingTimeSetting = new CookingTimeSetting();
-		settings[0] = new Settings(cookingTimeSetting, false, CasseroleSettings.ONLY,
+		settings[0] = new Settings(cookingTimeSetting, false,
+				CasseroleSettings.ONLY,
 				PreferenceSettings.RARE_NONE);
 
 		Proposal proposal = proposalBuilder.propose(mealListData, settings);
@@ -78,7 +82,8 @@ public class ProposalBuilderIT {
 	public void proposeSideDishMultiplierTwo() throws MealException {
 		addMealsToTestMultipliers();
 		CookingTimeSetting cookingTimeSetting = new CookingTimeSetting();
-		settings[0] = new Settings(cookingTimeSetting, false, CasseroleSettings.POSSIBLE,
+		settings[0] = new Settings(cookingTimeSetting, false,
+				CasseroleSettings.POSSIBLE,
 				PreferenceSettings.NORMAL);
 
 		Proposal proposal = proposalBuilder.propose(mealListData, settings);
@@ -90,7 +95,8 @@ public class ProposalBuilderIT {
 	public void proposePreferenceMultiplierRare() throws MealException {
 		addMeals();
 		CookingTimeSetting cookingTimeSetting = new CookingTimeSetting();
-		settings[0] = new Settings(cookingTimeSetting, false, CasseroleSettings.POSSIBLE,
+		settings[0] = new Settings(cookingTimeSetting, false,
+				CasseroleSettings.POSSIBLE,
 				PreferenceSettings.RARE_PREFERED);
 
 		Proposal proposal = proposalBuilder.propose(mealListData, settings);
@@ -102,7 +108,8 @@ public class ProposalBuilderIT {
 	public void proposePreferenceMultiplierNormal() throws MealException {
 		addMeals();
 		CookingTimeSetting cookingTimeSetting = new CookingTimeSetting();
-		settings[0] = new Settings(cookingTimeSetting, false, CasseroleSettings.POSSIBLE,
+		settings[0] = new Settings(cookingTimeSetting, false,
+				CasseroleSettings.POSSIBLE,
 				PreferenceSettings.NORMAL);
 
 		Proposal proposal = proposalBuilder.propose(mealListData, settings);
@@ -111,10 +118,12 @@ public class ProposalBuilderIT {
 	}
 
 	@Test
-	public void proposePreferenceMultiplierRarePreferredButCookedRecently() throws MealException {
+	public void proposePreferenceMultiplierRarePreferredButCookedRecently()
+			throws MealException {
 		addMealsToTestMultipliers();
 		CookingTimeSetting cookingTimeSetting = new CookingTimeSetting();
-		settings[0] = new Settings(cookingTimeSetting, false, CasseroleSettings.POSSIBLE,
+		settings[0] = new Settings(cookingTimeSetting, false,
+				CasseroleSettings.POSSIBLE,
 				PreferenceSettings.RARE_PREFERED);
 
 		Proposal proposal = proposalBuilder.propose(mealListData, settings);
@@ -126,14 +135,14 @@ public class ProposalBuilderIT {
 		Meal meal1 = new Meal("Meal1", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.PAN,
 				CookingPreference.NO_PREFERENCE, 50);
 		mealList.add(meal1);
-		Meal meal2 = new Meal("Meal2", CookingTime.MEDIUM, Sidedish.PASTA, ObligatoryUtensil.CASSEROLE,
-				CookingPreference.RARE, 100);
+		Meal meal2 = new Meal("Meal2", CookingTime.MEDIUM, Sidedish.PASTA,
+				ObligatoryUtensil.CASSEROLE, CookingPreference.RARE, 101);
 		mealList.add(meal2);
 		Meal meal3 = new Meal("Meal3", CookingTime.LONG, Sidedish.RICE, ObligatoryUtensil.POT,
 				CookingPreference.VERY_POPULAR, 20);
 		mealList.add(meal3);
-		Meal meal4 = new Meal("Meal4", CookingTime.MEDIUM, Sidedish.POTATOES, ObligatoryUtensil.CASSEROLE,
-				CookingPreference.VERY_POPULAR, 25);
+		Meal meal4 = new Meal("Meal4", CookingTime.MEDIUM, Sidedish.POTATOES,
+				ObligatoryUtensil.CASSEROLE, CookingPreference.VERY_POPULAR, 25);
 		mealList.add(meal4);
 		Meal meal5 = new Meal("Meal5", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.POT,
 				CookingPreference.NO_PREFERENCE, 100);
@@ -144,13 +153,15 @@ public class ProposalBuilderIT {
 		Meal meal1 = new Meal("Meal1", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.PAN,
 				CookingPreference.NO_PREFERENCE, 0);
 		mealList.add(meal1);
-		Meal meal2 = new Meal("Meal2", CookingTime.MEDIUM, Sidedish.PASTA, ObligatoryUtensil.CASSEROLE,
+		Meal meal2 = new Meal("Meal2", CookingTime.MEDIUM, Sidedish.PASTA,
+				ObligatoryUtensil.CASSEROLE,
 				CookingPreference.RARE, 10);
 		mealList.add(meal2);
 		Meal meal3 = new Meal("Meal3", CookingTime.LONG, Sidedish.RICE, ObligatoryUtensil.POT,
 				CookingPreference.VERY_POPULAR, 20);
 		mealList.add(meal3);
-		Meal meal4 = new Meal("Meal4", CookingTime.MEDIUM, Sidedish.POTATOES, ObligatoryUtensil.CASSEROLE,
+		Meal meal4 = new Meal("Meal4", CookingTime.MEDIUM, Sidedish.POTATOES,
+				ObligatoryUtensil.CASSEROLE,
 				CookingPreference.NO_PREFERENCE, 30);
 		mealList.add(meal4);
 		Meal meal5 = new Meal("Meal5", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.POT,

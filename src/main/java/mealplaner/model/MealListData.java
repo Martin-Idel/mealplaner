@@ -9,10 +9,11 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Optional;
 import java.util.Random;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.model.enums.CookingPreference;
-import mealplaner.model.enums.Sidedish;
 import mealplaner.model.settings.CookingSetting;
 
 // TODO: Implement sort functionality within streams.
@@ -134,15 +135,14 @@ public class MealListData implements List<Meal>, Serializable {
 				meal -> meal.setPriority(meal.getPriority() + randomIntGenerator.nextInt(7)));
 	}
 
-	public void setPreferenceMutlipliers(CookingPreference compareToPreference, float multiplier) {
-		mealList.stream()
-				.filter(meal -> meal.getCookingPreference().equals(compareToPreference))
-				.forEach(meal -> meal.multiplyPriority(multiplier));
+	public void setPreferenceMultipliers(CookingPreference preference, float multiplier) {
+		setMultipliers((meal) -> meal.getCookingPreference(), () -> preference, multiplier);
 	}
 
-	public void setSidedishMultipliers(Sidedish compareSidedish, float multiplier) {
+	public <T> void setMultipliers(Function<Meal, T> multiplierFunction,
+			Supplier<T> compareSidedish, float multiplier) {
 		mealList.stream()
-				.filter(meal -> meal.getSidedish().equals(compareSidedish))
+				.filter(meal -> multiplierFunction.apply(meal).equals(compareSidedish.get()))
 				.forEach(meal -> meal.multiplyPriority(multiplier));
 	}
 
