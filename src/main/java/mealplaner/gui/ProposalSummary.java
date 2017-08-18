@@ -49,11 +49,11 @@ public class ProposalSummary implements DataStoreListener, ErrorKeys {
 		mealPlan.register(this);
 	}
 
-	public JPanel buildProposalPanel(ActionListener setDefaultSettings,
+	public JPanel buildProposalPanel(ActionListener updateMeals, ActionListener setDefaultSettings,
 			ActionListener makeProposal) {
 		buildDateShowField(mealPlan.getTime());
 		buildInputFields();
-		buildButtons(messages, setDefaultSettings, makeProposal);
+		buildButtons(messages, updateMeals, setDefaultSettings, makeProposal);
 
 		adjustFieldsOnPanel();
 
@@ -74,10 +74,13 @@ public class ProposalSummary implements DataStoreListener, ErrorKeys {
 				messages.getString("dateLastUpdate") + " " + dateFormat.format(lastDate));
 	}
 
-	private void buildButtons(ResourceBundle parentMes, ActionListener setDefaultSettings,
-			ActionListener makeProposal) {
+	private void buildButtons(ResourceBundle parentMes, ActionListener updateMeals,
+			ActionListener setDefaultSettings, ActionListener makeProposal) {
 		dateUpdate = SwingUtilityMethods.createButton(parentMes, "updateButton",
-				"updateButtonMnemonic", action -> update());
+				"updateButtonMnemonic", action -> {
+					updateMeals.actionPerformed(action);
+					update();
+				});
 		defaultSettings = SwingUtilityMethods.createButton(parentMes, "proposalDefaultButton",
 				"proposalDefaultButtonMnemonic", setDefaultSettings);
 		giveProposal = SwingUtilityMethods.createButton(parentMes, "proposalShowButton",

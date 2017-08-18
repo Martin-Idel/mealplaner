@@ -84,8 +84,7 @@ public class MainGUI implements ErrorKeys {
 				.createMealMenu(action -> {
 					MultipleMealInput multipleMealInput = new MultipleMealInput(frame, messages);
 					multipleMealInput.showDialog()
-							.forEach(meal -> mealPlan.getMealListData()
-									.addMealAtSortedPosition(meal));
+							.forEach(meal -> mealPlan.addMeal(meal));
 					dbaseEdit.updateTable();
 				})
 				.viewProposalMenu(
@@ -129,7 +128,7 @@ public class MainGUI implements ErrorKeys {
 	private JPanel setupDatabasePanel() {
 		JPanel databasePanel = new JPanel();
 		dbaseEdit = new DatabaseEdit(this.mealPlan, frame, databasePanel, messages);
-		dbaseEdit.setupPane((mealListData) -> mealPlan.getMealListData().setMealList(mealListData));
+		dbaseEdit.setupPane((meals) -> mealPlan.setMeals(meals));
 		return databasePanel;
 	}
 
@@ -138,6 +137,7 @@ public class MainGUI implements ErrorKeys {
 		mealPanel.setLayout(new BorderLayout());
 		proposalSummary = new ProposalSummary(this.mealPlan, frame, currentLocale, messages);
 		mealPanel.add(proposalSummary.buildProposalPanel(
+				action -> updatePastMeals(),
 				action -> changeDefaultSettings(),
 				action -> makeProposal()),
 				BorderLayout.CENTER);
@@ -199,7 +199,7 @@ public class MainGUI implements ErrorKeys {
 		return new ProposalBuilder()
 				.firstProposal(today)
 				.randomise(random)
-				.propose(mealPlan.getMealListData(), set);
+				.propose(mealPlan.getMeals(), set);
 	}
 
 	public void changeDefaultSettings() {

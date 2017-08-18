@@ -3,13 +3,13 @@ package mealplaner;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import mealplaner.errorhandling.MealException;
 import mealplaner.model.Meal;
-import mealplaner.model.MealListData;
 import mealplaner.model.Proposal;
 import mealplaner.model.SideDish;
 import mealplaner.model.enums.CasseroleSettings;
@@ -23,16 +23,14 @@ import mealplaner.model.settings.Settings;
 
 public class ProposalBuilderIT {
 
-	private ArrayList<Meal> mealList;
-	private MealListData mealListData;
+	private List<Meal> meals;
 	private ProposalBuilder proposalBuilder;
 	private SideDish sideDish;
 	private Settings[] settings;
 
 	@Before
 	public void setup() {
-		mealList = new ArrayList<>();
-		mealListData = new MealListData(mealList);
+		meals = new ArrayList<>();
 		sideDish = new SideDish();
 		proposalBuilder = new ProposalBuilder(sideDish);
 		settings = new Settings[1];
@@ -46,10 +44,10 @@ public class ProposalBuilderIT {
 				CasseroleSettings.POSSIBLE,
 				PreferenceSettings.NORMAL);
 
-		Proposal proposal = proposalBuilder.propose(mealListData, settings);
+		Proposal proposal = proposalBuilder.propose(meals, settings);
 
 		assertEquals(1, proposal.getProposalList().size());
-		assertMealsEquals(mealList.get(1), proposal.getItem(0));
+		assertMealsEquals(meals.get(1), proposal.getItem(0));
 	}
 
 	@Test
@@ -60,9 +58,9 @@ public class ProposalBuilderIT {
 				CasseroleSettings.NONE,
 				PreferenceSettings.VERY_POPULAR_ONLY);
 
-		Proposal proposal = proposalBuilder.propose(mealListData, settings);
+		Proposal proposal = proposalBuilder.propose(meals, settings);
 
-		assertMealsEquals(mealList.get(2), proposal.getItem(0));
+		assertMealsEquals(meals.get(2), proposal.getItem(0));
 	}
 
 	@Test
@@ -73,9 +71,9 @@ public class ProposalBuilderIT {
 				CasseroleSettings.ONLY,
 				PreferenceSettings.RARE_NONE);
 
-		Proposal proposal = proposalBuilder.propose(mealListData, settings);
+		Proposal proposal = proposalBuilder.propose(meals, settings);
 
-		assertMealsEquals(mealList.get(3), proposal.getItem(0));
+		assertMealsEquals(meals.get(3), proposal.getItem(0));
 	}
 
 	@Test
@@ -86,9 +84,9 @@ public class ProposalBuilderIT {
 				CasseroleSettings.POSSIBLE,
 				PreferenceSettings.NORMAL);
 
-		Proposal proposal = proposalBuilder.propose(mealListData, settings);
+		Proposal proposal = proposalBuilder.propose(meals, settings);
 
-		assertMealsEquals(mealList.get(2), proposal.getItem(0));
+		assertMealsEquals(meals.get(2), proposal.getItem(0));
 	}
 
 	@Test
@@ -99,9 +97,9 @@ public class ProposalBuilderIT {
 				CasseroleSettings.POSSIBLE,
 				PreferenceSettings.RARE_PREFERED);
 
-		Proposal proposal = proposalBuilder.propose(mealListData, settings);
+		Proposal proposal = proposalBuilder.propose(meals, settings);
 
-		assertMealsEquals(mealList.get(1), proposal.getItem(0));
+		assertMealsEquals(meals.get(1), proposal.getItem(0));
 	}
 
 	@Test
@@ -112,9 +110,9 @@ public class ProposalBuilderIT {
 				CasseroleSettings.POSSIBLE,
 				PreferenceSettings.NORMAL);
 
-		Proposal proposal = proposalBuilder.propose(mealListData, settings);
+		Proposal proposal = proposalBuilder.propose(meals, settings);
 
-		assertMealsEquals(mealList.get(4), proposal.getItem(0));
+		assertMealsEquals(meals.get(4), proposal.getItem(0));
 	}
 
 	@Test
@@ -126,47 +124,47 @@ public class ProposalBuilderIT {
 				CasseroleSettings.POSSIBLE,
 				PreferenceSettings.RARE_PREFERED);
 
-		Proposal proposal = proposalBuilder.propose(mealListData, settings);
+		Proposal proposal = proposalBuilder.propose(meals, settings);
 
-		assertMealsEquals(mealList.get(4), proposal.getItem(0));
+		assertMealsEquals(meals.get(4), proposal.getItem(0));
 	}
 
 	private void addMeals() throws MealException {
 		Meal meal1 = new Meal("Meal1", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.PAN,
 				CookingPreference.NO_PREFERENCE, 50);
-		mealList.add(meal1);
+		meals.add(meal1);
 		Meal meal2 = new Meal("Meal2", CookingTime.MEDIUM, Sidedish.PASTA,
 				ObligatoryUtensil.CASSEROLE, CookingPreference.RARE, 101);
-		mealList.add(meal2);
+		meals.add(meal2);
 		Meal meal3 = new Meal("Meal3", CookingTime.LONG, Sidedish.RICE, ObligatoryUtensil.POT,
 				CookingPreference.VERY_POPULAR, 20);
-		mealList.add(meal3);
+		meals.add(meal3);
 		Meal meal4 = new Meal("Meal4", CookingTime.MEDIUM, Sidedish.POTATOES,
 				ObligatoryUtensil.CASSEROLE, CookingPreference.VERY_POPULAR, 25);
-		mealList.add(meal4);
+		meals.add(meal4);
 		Meal meal5 = new Meal("Meal5", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.POT,
 				CookingPreference.NO_PREFERENCE, 100);
-		mealList.add(meal5);
+		meals.add(meal5);
 	}
 
 	private void addMealsToTestMultipliers() throws MealException {
 		Meal meal1 = new Meal("Meal1", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.PAN,
 				CookingPreference.NO_PREFERENCE, 0);
-		mealList.add(meal1);
+		meals.add(meal1);
 		Meal meal2 = new Meal("Meal2", CookingTime.MEDIUM, Sidedish.PASTA,
 				ObligatoryUtensil.CASSEROLE,
 				CookingPreference.RARE, 10);
-		mealList.add(meal2);
+		meals.add(meal2);
 		Meal meal3 = new Meal("Meal3", CookingTime.LONG, Sidedish.RICE, ObligatoryUtensil.POT,
 				CookingPreference.VERY_POPULAR, 20);
-		mealList.add(meal3);
+		meals.add(meal3);
 		Meal meal4 = new Meal("Meal4", CookingTime.MEDIUM, Sidedish.POTATOES,
 				ObligatoryUtensil.CASSEROLE,
 				CookingPreference.NO_PREFERENCE, 30);
-		mealList.add(meal4);
+		meals.add(meal4);
 		Meal meal5 = new Meal("Meal5", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.POT,
 				CookingPreference.NO_PREFERENCE, 70);
-		mealList.add(meal5);
+		meals.add(meal5);
 	}
 
 	public static void assertMealsEquals(Meal expected, Meal actual) {

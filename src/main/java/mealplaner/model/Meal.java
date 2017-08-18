@@ -17,8 +17,6 @@ public class Meal implements Serializable, Comparable<Meal>, ErrorKeys {
 	private ObligatoryUtensil obligatoryUtensil;
 	private CookingPreference cookingPreference;
 	private int daysPassed;
-	private int priority;
-	private boolean compareToPriority = false;
 
 	public Meal(String name, CookingTime cookingTime, Sidedish sideDish,
 			ObligatoryUtensil obligatoryUtensil,
@@ -29,7 +27,6 @@ public class Meal implements Serializable, Comparable<Meal>, ErrorKeys {
 		this.obligatoryUtensil = obligatoryUtensil;
 		this.cookingPreference = cookingPreference;
 		setDaysPassed(daysPassed);
-		setPriority(daysPassed);
 	}
 
 	public Meal(Meal meal) {
@@ -39,14 +36,11 @@ public class Meal implements Serializable, Comparable<Meal>, ErrorKeys {
 		this.obligatoryUtensil = meal.getObligatoryUtensil();
 		this.cookingPreference = meal.getCookingPreference();
 		setDaysPassed(meal.getDaysPassed());
-		setPriority(meal.getPriority());
 	}
 
 	@Override
 	public int compareTo(Meal otherMeal) {
-		return compareToPriority
-				? ((Integer) this.getPriority()).compareTo(otherMeal.getPriority())
-				: this.getName().compareToIgnoreCase(otherMeal.getName());
+		return this.getName().compareToIgnoreCase(otherMeal.getName());
 	}
 
 	public String getName() {
@@ -107,30 +101,6 @@ public class Meal implements Serializable, Comparable<Meal>, ErrorKeys {
 
 	public void setCookingPreference(CookingPreference cookingPreference) {
 		this.cookingPreference = cookingPreference;
-	}
-
-	public int getPriority() {
-		return priority;
-	}
-
-	public void setPriority(int priority) {
-		this.priority = priority;
-	}
-
-	public void prohibit() {
-		this.priority = -1;
-	}
-
-	public void multiplyPriority(float factor) {
-		this.priority = (int) (factor * this.priority);
-	}
-
-	public boolean doCompareToPriority() {
-		return compareToPriority;
-	}
-
-	public void setCompareToPriority(boolean c) {
-		compareToPriority = c;
 	}
 
 	@Override

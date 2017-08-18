@@ -1,8 +1,9 @@
 package mealplaner;
 
 import java.util.Date;
+import java.util.List;
 
-import mealplaner.model.MealListData;
+import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
 import mealplaner.model.settings.Settings;
 
@@ -15,7 +16,7 @@ public interface DataStore {
 
 	Date getTime();
 
-	MealListData getMealListData();
+	List<Meal> getMeals();
 
 	Settings[] getDefaultSettings();
 }

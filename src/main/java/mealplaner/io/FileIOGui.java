@@ -37,7 +37,7 @@ public class FileIOGui {
 			MealplanerData mealPlanLoaded = MealplanerFileLoader.load("save01.ser");
 			mealPlan = mealPlanLoaded; // do not inline: This will only be
 										// done when load was successful
-			mealPlan.getMealListData().sortMealsAccordingToName();
+			mealPlan.getMeals();
 		} catch (FileNotFoundException exc) {
 			errorMessages(frame, exc, ErrorMessages.formatMessage(MSG_FILE_NOT_FOUND));
 		} catch (IOException exc) {

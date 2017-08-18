@@ -45,8 +45,7 @@ public class UpdatePastMeals extends JDialog {
 		JScrollPane tablescroll = new JScrollPane(
 				updateTable.createTable(mealPlan.getTime(),
 						mealPlan.getLastProposal(),
-						mealPlan.getMealListData().getMealList()
-								.toArray(new Meal[mealPlan.getMealListData().size()]),
+						mealPlan.getMeals().toArray(new Meal[mealPlan.getMeals().size()]),
 						mealPlan.getDaysPassed()));
 		JPanel buttonPanel = displayButtons();
 		dataPanel = new JPanel();

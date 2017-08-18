@@ -4,12 +4,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import mealplaner.MealplanerData;
 import mealplaner.errorhandling.MealException;
-import mealplaner.model.MealListData;
+import mealplaner.model.Meal;
 import mealplaner.model.MealplanerCalendar;
 import mealplaner.model.Proposal;
 import mealplaner.model.settings.Settings;
@@ -30,6 +32,7 @@ public class MealplanerFileLoader {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private static MealplanerData constructMealplanerFromFile(ObjectInputStream os1)
 			throws IOException, ClassNotFoundException, MealException {
 
@@ -37,10 +40,10 @@ public class MealplanerFileLoader {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		MealplanerCalendar cal = new MealplanerCalendar(calendar);
-		MealListData mealListData = (MealListData) os1.readObject();
+		List<Meal> meals = (ArrayList<Meal>) os1.readObject();
 		Settings[] defaultSettings = (Settings[]) os1.readObject();
 		Proposal proposal = (Proposal) os1.readObject();
 
-		return new MealplanerData(mealListData, cal, defaultSettings, proposal);
+		return new MealplanerData(meals, cal, defaultSettings, proposal);
 	}
 }

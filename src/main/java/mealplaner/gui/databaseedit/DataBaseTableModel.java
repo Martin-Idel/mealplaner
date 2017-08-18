@@ -1,5 +1,6 @@
 package mealplaner.gui.databaseedit;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -8,7 +9,6 @@ import javax.swing.table.AbstractTableModel;
 import mealplaner.gui.ButtonPanelEnabling;
 import mealplaner.gui.model.StringArrayCollection;
 import mealplaner.model.Meal;
-import mealplaner.model.MealListData;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
 import mealplaner.model.enums.ObligatoryUtensil;
@@ -17,14 +17,14 @@ import mealplaner.model.enums.Sidedish;
 public class DataBaseTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	private String[] columnNames;
-	private MealListData workingCopy;
+	private List<Meal> workingCopy;
 	private ButtonPanelEnabling onlyActiveOnChangedButtons;
 
-	DataBaseTableModel(MealListData mealListData, ButtonPanelEnabling onlyActiveOnChangedButtons,
+	DataBaseTableModel(List<Meal> mealListData, ButtonPanelEnabling onlyActiveOnChangedButtons,
 			ResourceBundle messages) {
 		this.onlyActiveOnChangedButtons = onlyActiveOnChangedButtons;
 		columnNames = StringArrayCollection.getDatabaseColumnNames(messages);
-		workingCopy = new MealListData(mealListData);
+		workingCopy = createWorkingCopy(mealListData);
 	}
 
 	@Override
@@ -83,13 +83,17 @@ public class DataBaseTableModel extends AbstractTableModel {
 	}
 
 	public void removeRow(int row) {
-		workingCopy.removeMeal(workingCopy.get(row));
+		workingCopy.remove(workingCopy.get(row));
 		fireTableRowsDeleted(row, row);
 		onlyActiveOnChangedButtons.enableButtons();
 	}
 
 	public void addRow(Meal newMeal) {
-		int row = workingCopy.addMealAtSortedPosition(newMeal);
+		int row = 0;
+		while (row < workingCopy.size() && newMeal.compareTo(workingCopy.get(row)) >= 0) {
+			row++;
+		}
+		workingCopy.add(row, newMeal);
 		fireTableRowsInserted(row, row);
 		onlyActiveOnChangedButtons.enableButtons();
 	}
@@ -127,13 +131,22 @@ public class DataBaseTableModel extends AbstractTableModel {
 		onlyActiveOnChangedButtons.enableButtons();
 	}
 
-	public void update(MealListData mealListData) {
-		workingCopy = new MealListData(mealListData);
+	public void update(List<Meal> mealListData) {
+		workingCopy = createWorkingCopy(mealListData);
 		fireTableDataChanged();
 		onlyActiveOnChangedButtons.disableButtons();
 	}
 
 	public List<Meal> returnContent() {
+		return workingCopy;
+	}
+
+	private List<Meal> createWorkingCopy(List<Meal> meals) {
+		List<Meal> workingCopy = new ArrayList<>();
+		meals.forEach(meal -> {
+			Meal copy = new Meal(meal);
+			workingCopy.add(copy);
+		});
 		return workingCopy;
 	}
 }

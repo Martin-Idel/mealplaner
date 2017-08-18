@@ -46,11 +46,11 @@ public class DatabaseEdit implements DataStoreListener, ErrorKeys {
 		messages = parentMessages;
 	}
 
-	public void setupPane(Consumer<List<Meal>> setMealListData) {
-		buttonPanel = createButtonPanelWithEnabling(setMealListData);
+	public void setupPane(Consumer<List<Meal>> setMeals) {
+		buttonPanel = createButtonPanelWithEnabling(setMeals);
 		buttonPanel.disableButtons();
 
-		tableModel = new DataBaseTableModel(mealplanerData.getMealListData(), buttonPanel,
+		tableModel = new DataBaseTableModel(mealplanerData.getMeals(), buttonPanel,
 				messages);
 		table = new DataBaseTableFactory(messages).createTable(tableModel);
 		JScrollPane tablescroll = new JScrollPane(table);
@@ -97,7 +97,7 @@ public class DatabaseEdit implements DataStoreListener, ErrorKeys {
 	}
 
 	public void updateTable() {
-		tableModel.update(mealplanerData.getMealListData());
+		tableModel.update(mealplanerData.getMeals());
 	}
 
 	@Override
