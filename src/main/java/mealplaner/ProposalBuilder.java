@@ -4,6 +4,7 @@ import static java.lang.Integer.compare;
 import static mealplaner.model.Proposal.prepareProposal;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -52,6 +53,7 @@ public class ProposalBuilder {
 		Proposal proposal = prepareProposal(firstDayIsToday);
 		setCurrentSideDishFromHistory(meals);
 		if (!meals.isEmpty()) {
+			System.out.println("Here");
 			for (int today = 0; today < settings.length; today++) {
 				Optional<Meal> nextMeal = proposeNextMeal(meals, proposal, settings[today]);
 				proposal.addItemToProposalList(nextMeal.orElse(meals.get(0)));
@@ -63,11 +65,11 @@ public class ProposalBuilder {
 
 	private void setCurrentSideDishFromHistory(List<Meal> meals) {
 		sideDish.reset();
-		List<Meal> mealList = getLastCookedDishes(meals);
-		if (!mealList.isEmpty()) {
-			sideDish.current = mealList.get(0).getSidedish();
-			while (sideDish.inARow < 3
-					&& mealList.get(sideDish.inARow).getSidedish() == sideDish.current) {
+		Iterator<Meal> mealList = getLastCookedDishes(meals).iterator();
+		if (mealList.hasNext()) {
+			sideDish.current = mealList.next().getSidedish();
+			while (sideDish.inARow < 3 && mealList.hasNext()
+					&& mealList.next().getSidedish() == sideDish.current) {
 				sideDish.incrementInARow();
 			}
 		}
