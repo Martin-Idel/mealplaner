@@ -157,19 +157,19 @@ public class MealplanerDataTest {
 
 	private void addInitializedMeals() throws MealException {
 		meal1 = new Meal("Meal1", CookingTime.SHORT, Sidedish.NONE, ObligatoryUtensil.PAN,
-				CookingPreference.NO_PREFERENCE, 50);
+				CookingPreference.NO_PREFERENCE, 50, "");
 		meals.add(meal1);
 		meal2 = new Meal("Meal2", CookingTime.MEDIUM, Sidedish.PASTA,
-				ObligatoryUtensil.CASSEROLE, CookingPreference.RARE, 101);
+				ObligatoryUtensil.CASSEROLE, CookingPreference.RARE, 101, "");
 		meals.add(meal2);
 		meal4 = new Meal("Meal4", CookingTime.LONG, Sidedish.RICE, ObligatoryUtensil.POT,
-				CookingPreference.VERY_POPULAR, 20);
+				CookingPreference.VERY_POPULAR, 20, "");
 		meals.add(meal4);
 	}
 
 	private Meal initializeNewMeal() {
 		return new Meal("Meal3", CookingTime.SHORT, Sidedish.POTATOES, ObligatoryUtensil.PAN,
-				CookingPreference.NO_PREFERENCE, 10);
+				CookingPreference.NO_PREFERENCE, 10, "");
 	}
 
 	private Settings[] getCorrectlyFilledSettings() {

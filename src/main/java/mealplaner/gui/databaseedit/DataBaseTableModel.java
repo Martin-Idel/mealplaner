@@ -57,6 +57,8 @@ public class DataBaseTableModel extends AbstractTableModel {
 			return workingCopy.get(row).getDaysPassed();
 		case 5:
 			return workingCopy.get(row).getCookingPreference();
+		case 6:
+			return workingCopy.get(row).getComment();
 		default:
 			return "";
 		}
@@ -77,6 +79,8 @@ public class DataBaseTableModel extends AbstractTableModel {
 			return Integer.class;
 		case 5:
 			return CookingPreference.class;
+		case 6:
+			return String.class;
 		default:
 			return String.class;
 		}
@@ -123,6 +127,9 @@ public class DataBaseTableModel extends AbstractTableModel {
 			break;
 		case 5:
 			workingCopy.get(row).setCookingPreference((CookingPreference) value);
+			break;
+		case 6:
+			workingCopy.get(row).setComment((String) value);
 			break;
 		default:
 			return;

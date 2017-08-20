@@ -18,7 +18,7 @@ public class MealTest {
 	@Before
 	public void setup() throws MealException {
 		sut = new Meal("Test", CookingTime.SHORT, Sidedish.NONE, ObligatoryUtensil.POT,
-				CookingPreference.NO_PREFERENCE, 5);
+				CookingPreference.NO_PREFERENCE, 5, "");
 	}
 
 	@Test
@@ -56,7 +56,7 @@ public class MealTest {
 	@Test
 	public void compareToWithName() throws MealException {
 		Meal compareMeal = new Meal("Test2", CookingTime.SHORT, Sidedish.NONE,
-				ObligatoryUtensil.POT, CookingPreference.NO_PREFERENCE, 1);
+				ObligatoryUtensil.POT, CookingPreference.NO_PREFERENCE, 1, "");
 
 		int compareResult = sut.compareTo(compareMeal);
 

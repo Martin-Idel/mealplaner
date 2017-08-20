@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Stream;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -26,6 +27,7 @@ import mealplaner.gui.commons.ComboBoxInputField;
 import mealplaner.gui.commons.InputField;
 import mealplaner.gui.commons.NonEmptyTextInputField;
 import mealplaner.gui.commons.NonnegativeIntegerInputField;
+import mealplaner.gui.commons.TextField;
 import mealplaner.model.Meal;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
@@ -44,6 +46,7 @@ public abstract class MealInput extends JDialog implements ErrorKeys {
 	private InputField<ObligatoryUtensil> obligatoryUtensilField;
 	private InputField<NonnegativeInteger> daysPassedField;
 	private InputField<CookingPreference> preferenceField;
+	private InputField<String> commentField;
 
 	private ResourceBundle messages;
 
@@ -75,17 +78,14 @@ public abstract class MealInput extends JDialog implements ErrorKeys {
 				CookingPreference.class,
 				getCookingPreferenceStrings(messages),
 				CookingPreference.NO_PREFERENCE);
+		commentField = new TextField(messages.getString("commentInsert"));
 	}
 
 	protected void display(ActionListener saveListener) {
 		mealCreationPanel = new JPanel();
 		mealCreationPanel.setLayout(new GridLayout(0, 2));
 
-		Arrays.asList(nameField, cookingTimeField, sidedishField, obligatoryUtensilField,
-				daysPassedField,
-				preferenceField)
-				.stream()
-				.forEach(field -> field.addToPanel(mealCreationPanel));
+		allFields().forEach(field -> field.addToPanel(mealCreationPanel));
 
 		buttonPanel = new ButtonPanelBuilder(messages)
 				.addSaveButton(saveListener)
@@ -109,11 +109,7 @@ public abstract class MealInput extends JDialog implements ErrorKeys {
 	}
 
 	protected void resetFields() {
-		Arrays.asList(nameField, cookingTimeField, sidedishField, obligatoryUtensilField,
-				daysPassedField,
-				preferenceField)
-				.stream()
-				.forEach(InputField::resetField);
+		allFields().forEach(InputField::resetField);
 	}
 
 	protected Optional<Meal> getMealAndShowDialog() {
@@ -125,6 +121,11 @@ public abstract class MealInput extends JDialog implements ErrorKeys {
 		return mealFromInput;
 	}
 
+	private Stream<InputField<?>> allFields() {
+		return Arrays.asList(nameField, cookingTimeField, sidedishField, obligatoryUtensilField,
+				daysPassedField, preferenceField, commentField).stream();
+	}
+
 	private Optional<Meal> getMealFromUserInput() {
 		return nameField.getUserInput().isPresent() ? of(new Meal(
 				nameField.getUserInput().get(),
@@ -132,7 +133,8 @@ public abstract class MealInput extends JDialog implements ErrorKeys {
 				sidedishField.getUserInput(),
 				obligatoryUtensilField.getUserInput(),
 				preferenceField.getUserInput(),
-				daysPassedField.getUserInput().value))
+				daysPassedField.getUserInput().value,
+				commentField.getUserInput()))
 				: Optional.empty();
 	}
 }

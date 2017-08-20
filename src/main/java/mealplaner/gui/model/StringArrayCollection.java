@@ -10,7 +10,8 @@ public class StringArrayCollection {
 				messages.getString("databankExtra"),
 				messages.getString("databankUtensil"),
 				messages.getString("databankLasttime"),
-				messages.getString("databankPopularity") };
+				messages.getString("databankPopularity"),
+				messages.getString("commentInsert") };
 		return columnNames;
 	}
 

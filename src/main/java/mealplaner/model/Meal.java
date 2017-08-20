@@ -17,16 +17,19 @@ public class Meal implements Serializable, Comparable<Meal>, ErrorKeys {
 	private ObligatoryUtensil obligatoryUtensil;
 	private CookingPreference cookingPreference;
 	private int daysPassed;
+	private String comment;
 
 	public Meal(String name, CookingTime cookingTime, Sidedish sideDish,
 			ObligatoryUtensil obligatoryUtensil,
-			CookingPreference cookingPreference, int daysPassed) throws MealException {
+			CookingPreference cookingPreference, int daysPassed, String comment)
+			throws MealException {
 		setName(name);
 		this.cookingTime = cookingTime;
 		this.sidedish = sideDish;
 		this.obligatoryUtensil = obligatoryUtensil;
 		this.cookingPreference = cookingPreference;
 		setDaysPassed(daysPassed);
+		this.setComment(comment);
 	}
 
 	public Meal(Meal meal) {
@@ -36,6 +39,7 @@ public class Meal implements Serializable, Comparable<Meal>, ErrorKeys {
 		this.obligatoryUtensil = meal.getObligatoryUtensil();
 		this.cookingPreference = meal.getCookingPreference();
 		setDaysPassed(meal.getDaysPassed());
+		this.setComment(meal.getComment());
 	}
 
 	@Override
@@ -101,6 +105,14 @@ public class Meal implements Serializable, Comparable<Meal>, ErrorKeys {
 
 	public void setCookingPreference(CookingPreference cookingPreference) {
 		this.cookingPreference = cookingPreference;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 
 	@Override

@@ -9,7 +9,8 @@ public final class EmptyMeal extends Meal {
 	private static final long serialVersionUID = 1L;
 
 	public EmptyMeal() {
-		super("EMPTY", CookingTime.SHORT, Sidedish.NONE, ObligatoryUtensil.CASSEROLE, CookingPreference.RARE, 0);
+		super("EMPTY", CookingTime.SHORT, Sidedish.NONE, ObligatoryUtensil.CASSEROLE,
+				CookingPreference.RARE, 0, "");
 	}
 
 	@Override
