@@ -1,17 +1,22 @@
 package mealplaner;
 
+import static mealplaner.model.enums.CookingPreference.RARE;
+import static mealplaner.model.enums.PreferenceSettings.NORMAL;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import mealplaner.commons.Pair;
 import mealplaner.errorhandling.MealException;
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
 import mealplaner.model.SideDish;
+import mealplaner.model.configuration.PreferenceMap;
 import mealplaner.model.enums.CasseroleSettings;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
@@ -21,7 +26,7 @@ import mealplaner.model.enums.Sidedish;
 import mealplaner.model.settings.CookingTimeSetting;
 import mealplaner.model.settings.Settings;
 
-public class ProposalBuilderIT {
+public class ProposalBuilderTest {
 
 	private List<Meal> meals;
 	private ProposalBuilder proposalBuilder;
@@ -32,7 +37,7 @@ public class ProposalBuilderIT {
 	public void setup() {
 		meals = new ArrayList<>();
 		sideDish = new SideDish();
-		proposalBuilder = new ProposalBuilder(sideDish);
+		proposalBuilder = new ProposalBuilder(PreferenceMap.getPreferenceMap(), sideDish);
 		settings = new Settings[1];
 	}
 
@@ -127,6 +132,22 @@ public class ProposalBuilderIT {
 		Proposal proposal = proposalBuilder.propose(meals, settings);
 
 		assertMealsEquals(meals.get(4), proposal.getItem(0));
+	}
+
+	@Test
+	public void multipliersCanBeConfiguredByDifferentHashMap() {
+		addMealsToTestMultipliers();
+		HashMap<Pair<CookingPreference, PreferenceSettings>, Integer> preferenceMap = new HashMap<>();
+		preferenceMap.put(Pair.of(RARE, NORMAL), 10);
+		CookingTimeSetting cookingTimeSetting = new CookingTimeSetting();
+		settings[0] = new Settings(cookingTimeSetting, false,
+				CasseroleSettings.POSSIBLE,
+				PreferenceSettings.NORMAL);
+		proposalBuilder = new ProposalBuilder(preferenceMap, sideDish);
+
+		Proposal proposal = proposalBuilder.propose(meals, settings);
+
+		assertMealsEquals(meals.get(1), proposal.getItem(0));
 	}
 
 	private void addMeals() throws MealException {

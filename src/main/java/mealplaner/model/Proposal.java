@@ -26,6 +26,10 @@ public class Proposal implements Serializable {
 		this.includeToday = includeToday;
 	}
 
+	public static Proposal prepareProposal(boolean includeToday) {
+		return new Proposal(Calendar.getInstance(), includeToday);
+	}
+
 	public List<Meal> getProposalList() {
 		return mealList;
 	}
