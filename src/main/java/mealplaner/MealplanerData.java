@@ -10,7 +10,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import mealplaner.commons.NonnegativeInteger;
 import mealplaner.errorhandling.MealException;
 import mealplaner.model.Meal;
 import mealplaner.model.MealplanerCalendar;
@@ -72,27 +71,33 @@ public class MealplanerData implements DataStore {
 		return meals;
 	}
 
+	public void setMeals(List<Meal> meals) {
+		this.meals = meals;
+		listeners.forEach(listener -> listener.updateData(DATABASE_EDITED));
+	}
+
 	public void addMeal(Meal neu) {
-		int index = 0;
-		while (index < meals.size() && neu.compareTo(meals.get(index)) >= 0) {
-			index++;
-		}
-		meals.add(index, neu);
+		meals.add(neu);
+		meals.sort((meal1, meal2) -> meal1.compareTo(meal2));
 		listeners.forEach(listener -> listener.updateData(DATABASE_EDITED));
 	}
 
 	public void setDate(int day, int month, int year) {
 		cal.setDate(day, month, year);
-		listeners.forEach(listener -> listener
-				.updateData(DATE_UPDATED));
+		listeners.forEach(listener -> listener.updateData(DATE_UPDATED));
 	}
 
 	public void setDefaultSettings(Settings[] defaultSettings) throws MealException {
 		if (defaultSettings.length == 7) {
+			for (Settings setting : defaultSettings) {
+				if (setting == null) {
+					throw new MealException("One of the default settings is null");
+				}
+			}
 			this.defaultSettings = defaultSettings;
 			listeners.forEach(listener -> listener.updateData(SETTINGS_CHANGED));
 		} else {
-			throw new MealException("Default Settings not of size 7");
+			throw new MealException("Default settings not of size 7");
 		}
 	}
 
@@ -101,20 +106,11 @@ public class MealplanerData implements DataStore {
 		listeners.forEach(listener -> listener.updateData(PROPOSAL_ADDED));
 	}
 
-	public void setMeals(List<Meal> meals) {
-		this.meals = meals;
-		listeners.forEach(listener -> listener.updateData(DATABASE_EDITED));
-	}
-
-	public void update(List<Meal> mealsCookedLast) throws MealException {
+	public void update(List<Meal> mealsCookedLast) {
 		int daysSinceLastUpdate = cal.updateCalendar();
-		updateDaysPassed(new NonnegativeInteger(daysSinceLastUpdate));
-		for (int i = 0; i < mealsCookedLast.size(); i++) {
-			int indexOfMeal = meals.indexOf(mealsCookedLast.get(i));
-			if (indexOfMeal >= 0) {
-				meals.get(indexOfMeal).setDaysPassed(mealsCookedLast.size() - i - 1);
-			}
-		}
+		meals.forEach(meal -> meal.setDaysPassed(mealsCookedLast.contains(meal)
+				? mealsCookedLast.size() - mealsCookedLast.indexOf(meal) - 1
+				: meal.getDaysPassed() + daysSinceLastUpdate));
 		listeners.forEach(listener -> listener.updateData(DATE_UPDATED));
 		listeners.forEach(listener -> listener.updateData(DATABASE_EDITED));
 	}
@@ -123,9 +119,4 @@ public class MealplanerData implements DataStore {
 	public void register(DataStoreListener listener) {
 		listeners.add(listener);
 	}
-
-	private void updateDaysPassed(NonnegativeInteger daysSinceLastUpdate) {
-		meals.forEach(meal -> meal.addDaysPassed(daysSinceLastUpdate.value));
-	}
-
 }
