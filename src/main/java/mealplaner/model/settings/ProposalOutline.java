@@ -3,10 +3,10 @@ package mealplaner.model.settings;
 import java.util.Date;
 
 public class ProposalOutline {
-	private int numberOfDays;
-	private boolean includedToday;
-	private boolean shallBeRandomised;
-	private Date dateToday;
+	private final int numberOfDays;
+	private final boolean includedToday;
+	private final boolean shallBeRandomised;
+	private final Date dateToday;
 
 	public ProposalOutline(int numberOfDays, boolean includedToday, boolean shallBeRandomised,
 			Date dateToday) {

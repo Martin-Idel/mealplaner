@@ -5,11 +5,15 @@ import mealplaner.errorhandling.MealException;
 public class NonnegativeInteger {
 	public final int value;
 
-	public NonnegativeInteger(int positive) {
-		if (positive < 0) {
+	public NonnegativeInteger(int nonnegative) {
+		if (nonnegative < 0) {
 			throw new MealException("Integer must be nonnegative");
 		}
-		this.value = positive;
+		this.value = nonnegative;
+	}
+
+	public static NonnegativeInteger nonNegative(int nonnegative) {
+		return new NonnegativeInteger(nonnegative);
 	}
 
 	@Override
