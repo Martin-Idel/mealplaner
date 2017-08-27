@@ -63,8 +63,8 @@ public class MainGUI implements ErrorKeys {
 		JPanel mealPanel = setupMealPanel(buttonPanel);
 		JPanel databasePanel = setupDatabasePanel();
 		JTabbedPane tabPane = new JTabbedPane();
-		tabPane.add(messages.getString("menuPanel"), mealPanel);
-		tabPane.add(messages.getString("dataPanel"), databasePanel);
+		tabPane.add(messages.getString("menuPanelName"), mealPanel);
+		tabPane.add(messages.getString("dataPanelName"), databasePanel);
 
 		setupMainFrame(tabPane, menuBar);
 	}
@@ -104,8 +104,9 @@ public class MainGUI implements ErrorKeys {
 				.printProposalMenu(action -> printProposal())
 				.createSeparatorForMenu();
 
-		builder.exitMenu(action -> showSaveExitDialog(frame, messages.getString("saveYesNo"),
-				() -> fileIOGui.saveDatabase(mealPlan)));
+		builder.exitMenu(
+				action -> showSaveExitDialog(frame, messages.getString("saveYesNoQuestion"),
+						() -> fileIOGui.saveDatabase(mealPlan)));
 
 		builder.setupHelpMenu()
 				.showDatabaseHelpMenu()
@@ -116,12 +117,13 @@ public class MainGUI implements ErrorKeys {
 
 	private JPanel createButtonPanel() {
 		return new ButtonPanelBuilder(messages)
-				.addButton("saveEndButton", "saveEndMnemonic", action -> {
+				.addButton("saveExitButton", "saveExitMnemonic", action -> {
 					fileIOGui.saveDatabase(mealPlan);
 					frame.dispose();
 				})
-				.addExitButton(action -> showSaveExitDialog(frame, messages.getString("saveYesNo"),
-						() -> fileIOGui.saveDatabase(mealPlan)))
+				.addExitButton(
+						action -> showSaveExitDialog(frame, messages.getString("saveYesNoQuestion"),
+								() -> fileIOGui.saveDatabase(mealPlan)))
 				.build();
 	}
 
@@ -146,7 +148,7 @@ public class MainGUI implements ErrorKeys {
 	}
 
 	private void setupMainFrame(JTabbedPane tabPane, JMenuBar menuBar) {
-		frame.setTitle(messages.getString("planer"));
+		frame.setTitle(messages.getString("mainFrameTitle"));
 		frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		frame.addWindowListener(new SaveExitWindowListener());
 		frame.setJMenuBar(menuBar);
@@ -219,7 +221,7 @@ public class MainGUI implements ErrorKeys {
 	public class SaveExitWindowListener extends WindowAdapter {
 		@Override
 		public void windowClosing(WindowEvent e) {
-			showSaveExitDialog(frame, messages.getString("saveYesNo"),
+			showSaveExitDialog(frame, messages.getString("saveYesNoQuestion"),
 					() -> fileIOGui.saveDatabase(mealPlan));
 		}
 	}

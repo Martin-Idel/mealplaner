@@ -51,34 +51,35 @@ public abstract class MealInput extends JDialog implements ErrorKeys {
 	private ResourceBundle messages;
 
 	public MealInput(JFrame parent, ResourceBundle parentMessages) {
-		super(parent, parentMessages.getString("menuFrameTitle"), true);
+		super(parent, parentMessages.getString("mealInputDialogTitle"), true);
 		parentFrame = parent;
 		messages = parentMessages;
 
-		nameField = new NonEmptyTextInputField(messages.getString("menuNameInsert"));
+		nameField = new NonEmptyTextInputField(messages.getString("insertMealName"));
 		cookingTimeField = new ComboBoxInputField<CookingTime>(
-				messages.getString("menuLengthChoice"),
+				messages.getString("insertMealLength"),
 				CookingTime.class,
 				getCookingTimeStrings(messages),
 				CookingTime.SHORT);
 		sidedishField = new ComboBoxInputField<Sidedish>(
-				messages.getString("menuSideChoice"),
+				messages.getString("insertMealSidedish"),
 				Sidedish.class,
 				getSidedishStrings(messages),
 				Sidedish.NONE);
 		obligatoryUtensilField = new ComboBoxInputField<ObligatoryUtensil>(
-				messages.getString("menuUtensilChoice"),
+				messages.getString("insertMealUtensil"),
 				ObligatoryUtensil.class,
 				getObligatoryUtensilStrings(messages),
 				ObligatoryUtensil.POT);
-		daysPassedField = new NonnegativeIntegerInputField(messages.getString("menuLasttimeChoice"),
+		daysPassedField = new NonnegativeIntegerInputField(
+				messages.getString("insertMealLastCooked"),
 				new NonnegativeInteger(0));
 		preferenceField = new ComboBoxInputField<CookingPreference>(
-				messages.getString("menuPopularChoice"),
+				messages.getString("insertMealPopularity"),
 				CookingPreference.class,
 				getCookingPreferenceStrings(messages),
 				CookingPreference.NO_PREFERENCE);
-		commentField = new TextField(messages.getString("commentInsert"));
+		commentField = new TextField(messages.getString("insertMealComment"));
 	}
 
 	protected void display(ActionListener saveListener) {
@@ -115,7 +116,7 @@ public abstract class MealInput extends JDialog implements ErrorKeys {
 	protected Optional<Meal> getMealAndShowDialog() {
 		Optional<Meal> mealFromInput = getMealFromUserInput();
 		if (!mealFromInput.isPresent()) {
-			JOptionPane.showMessageDialog(null, messages.getString("menuChoiceEmpty"),
+			JOptionPane.showMessageDialog(null, messages.getString("menuNameChoiceEmpty"),
 					messages.getString("errorHeading"), JOptionPane.INFORMATION_MESSAGE);
 		}
 		return mealFromInput;

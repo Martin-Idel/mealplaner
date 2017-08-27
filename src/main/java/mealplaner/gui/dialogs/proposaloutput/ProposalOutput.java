@@ -21,7 +21,7 @@ public class ProposalOutput extends JDialog implements ErrorKeys {
 
 	public ProposalOutput(JFrame parentFrame, Proposal lastProposal, Locale parentLocale,
 			ResourceBundle parentMes) {
-		super(parentFrame, parentMes.getString("proposeWindow"), true);
+		super(parentFrame, parentMes.getString("proposalOutputDialogTitle"), true);
 
 		JPanel dataPanel = setupDataPanel();
 
@@ -29,7 +29,7 @@ public class ProposalOutput extends JDialog implements ErrorKeys {
 				.createTable(lastProposal);
 		JScrollPane tablescroll = new JScrollPane(proposalTable);
 		JPanel buttonPanel = new ButtonPanelBuilder(parentMes)
-				.addButton("proposeButton1", "proposeButton1Mnemonic",
+				.addButton("printButton", "printButtonMnemonic",
 						action -> printTable(proposalTable, parentFrame))
 				.addOkButton(ButtonPanelBuilder.justDisposeListener(this))
 				.build();

@@ -15,7 +15,6 @@ import mealplaner.model.enums.CasseroleSettings;
 import mealplaner.model.enums.PreferenceSettings;
 import mealplaner.model.settings.Settings;
 
-// TODO: Maybe have better column names. This could also be useful for other table models.
 // TODO: removeDateColumn should be transported to the model. This way, we don't need a crappy default calendar
 public class SettingTable {
 	private JTable table;
@@ -28,10 +27,12 @@ public class SettingTable {
 		calendar = Calendar.getInstance();
 		calendar.setWeekDate(2000, 1, 2);
 
-		tableModel = new SettingTableModel(defaultSettings, calendar, messages, Locale.getDefault());
+		tableModel = new SettingTableModel(defaultSettings, calendar, messages,
+				Locale.getDefault());
 	}
 
-	public SettingTable(Settings[] settings, Calendar calendar, ResourceBundle messages, Locale currentLocale) {
+	public SettingTable(Settings[] settings, Calendar calendar, ResourceBundle messages,
+			Locale currentLocale) {
 		this.calendar = calendar;
 		this.messages = messages;
 

@@ -61,12 +61,12 @@ public class DatabaseEdit implements DataStoreListener, ErrorKeys {
 
 	private ButtonPanelEnabling createButtonPanelWithEnabling(Consumer<List<Meal>> setData) {
 		return new ButtonPanelBuilder(messages)
-				.addButton("databankButtonAdd", "databankButtonAddMnemonic",
+				.addButton("addButton", "addButtonMnemonic",
 						action -> {
 							Meal newMeal = new SingleMealInput(dataFrame, messages).showDialog();
 							insertItem(Optional.of(newMeal));
 						})
-				.addButton("databankButtonRem", "databankButtonRemMnemonic",
+				.addButton("removeSelectedButton", "removeSelectedButtonMnemonic",
 						action -> {
 							Arrays.stream(table.getSelectedRows())
 									.collect(ArrayDeque<Integer>::new, ArrayDeque<Integer>::add,
@@ -74,7 +74,7 @@ public class DatabaseEdit implements DataStoreListener, ErrorKeys {
 									.descendingIterator()
 									.forEachRemaining(number -> tableModel.removeRow(number));
 						})
-				.addButton("databankButtonSav", "databankButtonSavMnemonic",
+				.addButton("saveButton", "saveButtonMnemonic",
 						action -> {
 							// Override database. Not efficient but presently
 							// enough.
@@ -82,7 +82,7 @@ public class DatabaseEdit implements DataStoreListener, ErrorKeys {
 							buttonPanel.disableButtons();
 						})
 				.makeLastButtonEnabling()
-				.addButton("databankButtonEsc", "databankButtonEscMnemonic",
+				.addButton("cancelButton", "cancelButton",
 						action -> updateTable())
 				.makeLastButtonEnabling()
 				.buildEnablingPanel();

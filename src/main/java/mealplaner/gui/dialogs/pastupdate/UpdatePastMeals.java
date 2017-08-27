@@ -28,7 +28,7 @@ public class UpdatePastMeals extends JDialog {
 
 	public UpdatePastMeals(JFrame parentFrame, DataStore mealPlan, Locale parentLocale,
 			ResourceBundle parentMes) {
-		super(parentFrame, parentMes.getString("cookingProposal"), true);
+		super(parentFrame, parentMes.getString("updatePastMealsDialogTitle"), true);
 		this.parentFrame = parentFrame;
 		this.mealPlan = mealPlan;
 		messages = parentMes;

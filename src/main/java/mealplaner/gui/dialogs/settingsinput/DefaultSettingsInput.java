@@ -18,8 +18,9 @@ public class DefaultSettingsInput extends SettingsInput {
 	private JPanel buttonPanel;
 	private SettingTable settingTable;
 
-	public DefaultSettingsInput(JFrame parentFrame, Settings[] defaultSettings, ResourceBundle parentMes) {
-		super(parentFrame, defaultSettings, parentMes.getString("settingsUpdatePropose"));
+	public DefaultSettingsInput(JFrame parentFrame, Settings[] defaultSettings,
+			ResourceBundle parentMes) {
+		super(parentFrame, defaultSettings, parentMes.getString("settingsUpdateDefaultTitle"));
 		setup(defaultSettings);
 
 		settingTable = new SettingTable(defaultSettings, parentMes);

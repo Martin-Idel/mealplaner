@@ -21,18 +21,21 @@ public class ProposalSettingsInput extends SettingsInput {
 	private JPanel buttonPanel;
 	private SettingTable settingTable;
 
-	public ProposalSettingsInput(JFrame parentFrame, Settings[] defaultSettings, ProposalOutline outline,
+	public ProposalSettingsInput(JFrame parentFrame, Settings[] defaultSettings,
+			ProposalOutline outline,
 			ResourceBundle parentMes, Locale parentLocale) {
-		super(parentFrame, defaultSettings, parentMes.getString("settingsUpdatePropose"));
+		super(parentFrame, defaultSettings, parentMes.getString("settingsUpdateProposeTitle"));
 		setup(defaultSettings);
 
-		Settings[] tableSettings = createSettingsForTable(outline.getNumberOfDays(), outline.isIncludedToday());
-		Calendar calendar = createCalendarForTable(outline.getDateToday(), outline.isIncludedToday());
+		Settings[] tableSettings = createSettingsForTable(outline.getNumberOfDays(),
+				outline.isIncludedToday());
+		Calendar calendar = createCalendarForTable(outline.getDateToday(),
+				outline.isIncludedToday());
 		settingTable = new SettingTable(tableSettings, calendar, parentMes, parentLocale);
 		tablescroll = new JScrollPane(settingTable.setupTable());
 
 		buttonPanel = new ButtonPanelBuilder(parentMes)
-				.addButton("settingsButton1", "settingsButton1Mnemonic",
+				.addButton("useDefaultButton", "useDefaultButtonMnemonic",
 						action -> settingTable.useDefaultSettings(defaultSettings))
 				.addCancelDialogButton(this)
 				.addOkButton(getSaveListener(settingTable))

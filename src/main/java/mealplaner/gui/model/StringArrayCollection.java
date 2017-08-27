@@ -5,58 +5,57 @@ import java.util.ResourceBundle;
 public class StringArrayCollection {
 
 	public static String[] getDatabaseColumnNames(ResourceBundle messages) {
-		String[] columnNames = { messages.getString("databankName"),
-				messages.getString("databankLength"),
-				messages.getString("databankExtra"),
-				messages.getString("databankUtensil"),
-				messages.getString("databankLasttime"),
-				messages.getString("databankPopularity"),
-				messages.getString("commentInsert") };
+		String[] columnNames = { messages.getString("mealNameColumn"),
+				messages.getString("cookingLengthColumn"),
+				messages.getString("sidedishColumn"),
+				messages.getString("utensilColumn"),
+				messages.getString("cookedLastTimeColumn"),
+				messages.getString("popularityColumn"),
+				messages.getString("commentInsertColumn") };
 		return columnNames;
 	}
 
 	public static String[] getWeekDays(ResourceBundle messages) {
-		String[] weekDays = { messages.getString("Day1"),
-				messages.getString("Day2"),
-				messages.getString("Day3"),
-				messages.getString("Day4"),
-				messages.getString("Day5"),
-				messages.getString("Day6"),
-				messages.getString("Day7") };
+		String[] weekDays = { messages.getString("sunday"),
+				messages.getString("monday"),
+				messages.getString("tuesday"),
+				messages.getString("wednesday"),
+				messages.getString("thursday"),
+				messages.getString("friday"),
+				messages.getString("saturday") };
 		return weekDays;
 	}
 
 	public static String[] getProposalOutputColumnNames(ResourceBundle messages) {
-		String[] columnNames = { messages.getString("proposeDate"),
-				messages.getString("proposeDay"),
-				messages.getString("proposeName") };
+		String[] columnNames = { messages.getString("date"),
+				messages.getString("weekday"),
+				messages.getString("menu") };
 		return columnNames;
 	}
 
 	public static String[] getSettingsInputColumnNames(ResourceBundle messages) {
-		String[] columnNames = { messages.getString("settingsDay"),
-				messages.getString("settingsDate"),
-				messages.getString("settingsLength1"),
-				messages.getString("settingsLength2"),
-				messages.getString("settingsLength3"),
-				messages.getString("settingsAmount1"),
-				messages.getString("settingsAmount2"),
-				messages.getString("settingsPreference") };
+		String[] columnNames = { messages.getString("weekday"),
+				messages.getString("shortColumn"),
+				messages.getString("short"),
+				messages.getString("mediumColumn"),
+				messages.getString("longColumn"),
+				messages.getString("manyColumn"),
+				messages.getString("casseroleColumn"),
+				messages.getString("preferenceColumn") };
 		return columnNames;
 	}
 
 	public static String[] getUpdatePastMealColumnNames(ResourceBundle messages) {
-		String[] columnNames = { messages.getString("dateDate"),
-				messages.getString("dateDay"),
-				messages.getString("dateName") };
+		String[] columnNames = { messages.getString("date"),
+				messages.getString("weekday"),
+				messages.getString("menu") };
 		return columnNames;
 	}
 
 	public static String[] getCasseroleCheckboxEntries(ResourceBundle messagesInner) {
-		String[] comboboxNames = { messagesInner.getString("casserole1"),
-				messagesInner.getString("casserole2"),
-				messagesInner.getString("casserole3") };
+		String[] comboboxNames = { messagesInner.getString("allowedCasseroles"),
+				messagesInner.getString("onlyCasseroles"),
+				messagesInner.getString("noCasseroles") };
 		return comboboxNames;
 	}
-
 }

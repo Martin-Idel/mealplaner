@@ -71,7 +71,7 @@ public class ProposalSummary implements DataStoreListener, ErrorKeys {
 	private void buildDateShowField(Date lastDate) {
 		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG, currentLocale);
 		dateShow = new JLabel(
-				messages.getString("dateLastUpdate") + " " + dateFormat.format(lastDate));
+				messages.getString("updatedLastDate") + " " + dateFormat.format(lastDate));
 	}
 
 	private void buildButtons(ResourceBundle parentMes, ActionListener updateMeals,
@@ -81,18 +81,21 @@ public class ProposalSummary implements DataStoreListener, ErrorKeys {
 					updateMeals.actionPerformed(action);
 					update();
 				});
-		defaultSettings = SwingUtilityMethods.createButton(parentMes, "proposalDefaultButton",
-				"proposalDefaultButtonMnemonic", setDefaultSettings);
+		defaultSettings = SwingUtilityMethods.createButton(parentMes,
+				"proposalChangeDefaultSettingsButton",
+				"proposalChangeDefaultSettingsButtonMnemonic",
+				setDefaultSettings);
 		giveProposal = SwingUtilityMethods.createButton(parentMes, "proposalShowButton",
 				"proposalShowButtonMnemonic", makeProposal);
 	}
 
 	private void buildInputFields() {
-		numberOfDaysField = new NonnegativeIntegerInputField(messages.getString("proposalDays"),
-				new NonnegativeInteger(7));
-		takeTodayCheckBox = new CheckboxInputField(messages.getString("proposalTake"));
-		randomiseCheckBox = new CheckboxInputField(messages.getString("proposalRandom"));
-		takeDefaultCheckBox = new CheckboxInputField(messages.getString("proposalDefault"));
+		numberOfDaysField = new NonnegativeIntegerInputField(
+				messages.getString("proposalNumberOfDays"), new NonnegativeInteger(7));
+		takeTodayCheckBox = new CheckboxInputField(messages.getString("proposalStartToday"));
+		randomiseCheckBox = new CheckboxInputField(messages.getString("proposalRandomize"));
+		takeDefaultCheckBox = new CheckboxInputField(
+				messages.getString("proposalApplyDefaultSettings"));
 	}
 
 	private void adjustFieldsOnPanel() {
@@ -118,7 +121,7 @@ public class ProposalSummary implements DataStoreListener, ErrorKeys {
 	public void update() {
 		Date lastDate = mealPlan.getTime();
 		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG, currentLocale);
-		dateShow.setText(messages.getString("dateLastUpdate") + " " + dateFormat.format(lastDate));
+		dateShow.setText(messages.getString("updatedLastDate") + " " + dateFormat.format(lastDate));
 		if (mealPlan.getDaysPassed() == 0) {
 			dateUpdate.setEnabled(false);
 			giveProposal.setEnabled(true);
