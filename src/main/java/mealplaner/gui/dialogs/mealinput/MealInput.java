@@ -21,7 +21,6 @@ import javax.swing.WindowConstants;
 
 import mealplaner.BundleStore;
 import mealplaner.commons.NonnegativeInteger;
-import mealplaner.errorhandling.ErrorKeys;
 import mealplaner.gui.commons.ButtonPanelBuilder;
 import mealplaner.gui.commons.ComboBoxInputField;
 import mealplaner.gui.commons.InputField;
@@ -34,7 +33,7 @@ import mealplaner.model.enums.CookingTime;
 import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.Sidedish;
 
-public abstract class MealInput extends JDialog implements ErrorKeys {
+public abstract class MealInput extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private JFrame parentFrame;
 	private JPanel mealCreationPanel;

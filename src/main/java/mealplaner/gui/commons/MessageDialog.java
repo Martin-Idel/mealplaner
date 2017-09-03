@@ -1,7 +1,6 @@
 package mealplaner.gui.commons;
 
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
-import static mealplaner.errorhandling.ErrorKeys.ERR_HEADING;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -14,7 +13,7 @@ public class MessageDialog {
 	public static void errorMessages(JFrame frame, Exception exc, String errorMessage,
 			BundleStore bundles) {
 		JOptionPane.showMessageDialog(frame, errorMessage,
-				bundles.error(ERR_HEADING), ERROR_MESSAGE);
+				bundles.error("ERR_HEADING"), ERROR_MESSAGE);
 		Logger.logError(exc);
 	}
 

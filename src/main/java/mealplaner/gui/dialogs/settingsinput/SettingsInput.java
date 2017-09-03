@@ -9,10 +9,9 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import mealplaner.errorhandling.ErrorKeys;
 import mealplaner.model.settings.Settings;
 
-public abstract class SettingsInput extends JDialog implements ErrorKeys {
+public abstract class SettingsInput extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private JPanel dataPanel;
 	private Optional<Settings[]> enteredSettings = Optional.empty();

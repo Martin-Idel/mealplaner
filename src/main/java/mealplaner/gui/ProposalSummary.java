@@ -17,14 +17,13 @@ import mealplaner.DataStore;
 import mealplaner.DataStoreEventType;
 import mealplaner.DataStoreListener;
 import mealplaner.commons.NonnegativeInteger;
-import mealplaner.errorhandling.ErrorKeys;
 import mealplaner.gui.commons.CheckboxInputField;
 import mealplaner.gui.commons.InputField;
 import mealplaner.gui.commons.NonnegativeIntegerInputField;
 import mealplaner.gui.commons.SwingUtilityMethods;
 import mealplaner.model.settings.ProposalOutline;
 
-public class ProposalSummary implements DataStoreListener, ErrorKeys {
+public class ProposalSummary implements DataStoreListener {
 	private DataStore mealPlan;
 	private JPanel dataPanel;
 	private JLabel dateShow;

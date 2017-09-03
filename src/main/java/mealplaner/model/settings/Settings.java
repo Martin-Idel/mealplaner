@@ -2,13 +2,12 @@ package mealplaner.model.settings;
 
 import java.io.Serializable;
 
-import mealplaner.errorhandling.ErrorKeys;
 import mealplaner.model.enums.CasseroleSettings;
 import mealplaner.model.enums.CookingTime;
 import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.PreferenceSettings;
 
-public class Settings implements Serializable, ErrorKeys {
+public class Settings implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

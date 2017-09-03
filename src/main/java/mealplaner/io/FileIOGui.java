@@ -3,11 +3,6 @@ package mealplaner.io;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static javax.swing.JOptionPane.showInputDialog;
-import static mealplaner.errorhandling.ErrorKeys.MSG_BKU_CLASS_NOT_FOUND;
-import static mealplaner.errorhandling.ErrorKeys.MSG_BKU_FILE_NOT_FOUND;
-import static mealplaner.errorhandling.ErrorKeys.MSG_CLASS_NOT_FOUND;
-import static mealplaner.errorhandling.ErrorKeys.MSG_FILE_NOT_FOUND;
-import static mealplaner.errorhandling.ErrorKeys.MSG_IOEX;
 import static mealplaner.gui.commons.MessageDialog.errorMessages;
 
 import java.io.FileNotFoundException;
@@ -38,11 +33,11 @@ public class FileIOGui {
 										// done when load was successful
 			mealPlan.getMeals();
 		} catch (FileNotFoundException exc) {
-			errorMessages(frame, exc, bundles.error(MSG_FILE_NOT_FOUND), bundles);
+			errorMessages(frame, exc, bundles.error("MSG_FILE_NOT_FOUND"), bundles);
 		} catch (IOException exc) {
-			errorMessages(frame, exc, bundles.error(MSG_IOEX), bundles);
+			errorMessages(frame, exc, bundles.error("MSG_IOEX"), bundles);
 		} catch (MealException exc) {
-			errorMessages(frame, exc, bundles.error(MSG_CLASS_NOT_FOUND), bundles);
+			errorMessages(frame, exc, bundles.error("MSG_CLASS_NOT_FOUND"), bundles);
 		}
 		return mealPlan;
 	}
@@ -54,11 +49,11 @@ public class FileIOGui {
 			try {
 				mealPlan = MealplanerFileLoader.load(bak);
 			} catch (FileNotFoundException exc) {
-				errorMessages(frame, exc, bundles.error(MSG_BKU_FILE_NOT_FOUND), bundles);
+				errorMessages(frame, exc, bundles.error("MSG_BKU_FILE_NOT_FOUND"), bundles);
 			} catch (IOException exc) {
-				errorMessages(frame, exc, bundles.error(MSG_IOEX), bundles);
+				errorMessages(frame, exc, bundles.error("MSG_IOEX"), bundles);
 			} catch (MealException exc) {
-				errorMessages(frame, exc, bundles.error(MSG_BKU_CLASS_NOT_FOUND), bundles);
+				errorMessages(frame, exc, bundles.error("MSG_BKU_CLASS_NOT_FOUND"), bundles);
 			}
 			return of(mealPlan);
 		}
@@ -71,7 +66,7 @@ public class FileIOGui {
 			JOptionPane.showMessageDialog(frame, bundles.message("successSave"),
 					bundles.message("successHeading"), JOptionPane.INFORMATION_MESSAGE);
 		} catch (IOException exc) {
-			errorMessages(frame, exc, bundles.error(MSG_IOEX), bundles);
+			errorMessages(frame, exc, bundles.error("MSG_IOEX"), bundles);
 		}
 	}
 
@@ -83,7 +78,7 @@ public class FileIOGui {
 				JOptionPane.showMessageDialog(frame, bundles.message("successSave"),
 						bundles.message("successHeading"), JOptionPane.INFORMATION_MESSAGE);
 			} catch (IOException exc) {
-				errorMessages(frame, exc, bundles.error(MSG_IOEX), bundles);
+				errorMessages(frame, exc, bundles.error("MSG_IOEX"), bundles);
 			}
 		}
 	}

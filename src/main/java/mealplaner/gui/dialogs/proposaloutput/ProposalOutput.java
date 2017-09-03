@@ -11,11 +11,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import mealplaner.BundleStore;
-import mealplaner.errorhandling.ErrorKeys;
 import mealplaner.gui.commons.ButtonPanelBuilder;
 import mealplaner.model.Proposal;
 
-public class ProposalOutput extends JDialog implements ErrorKeys {
+public class ProposalOutput extends JDialog {
 	private static final long serialVersionUID = 1L;
 
 	public ProposalOutput(JFrame parentFrame, Proposal lastProposal, BundleStore bundles) {

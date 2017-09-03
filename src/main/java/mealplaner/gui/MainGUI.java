@@ -18,7 +18,6 @@ import javax.swing.WindowConstants;
 import mealplaner.BundleStore;
 import mealplaner.MealplanerData;
 import mealplaner.ProposalBuilder;
-import mealplaner.errorhandling.ErrorKeys;
 import mealplaner.gui.commons.ButtonPanelBuilder;
 import mealplaner.gui.commons.MenuBarBuilder;
 import mealplaner.gui.databaseedit.DatabaseEdit;
@@ -35,7 +34,7 @@ import mealplaner.model.Proposal;
 import mealplaner.model.settings.ProposalOutline;
 import mealplaner.model.settings.Settings;
 
-public class MainGUI implements ErrorKeys {
+public class MainGUI {
 	private JFrame frame = new JFrame("Meal planer");
 
 	private MealplanerData mealPlan;

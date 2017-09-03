@@ -2,14 +2,13 @@ package mealplaner.model;
 
 import java.io.Serializable;
 
-import mealplaner.errorhandling.ErrorKeys;
 import mealplaner.errorhandling.MealException;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
 import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.Sidedish;
 
-public class Meal implements Serializable, Comparable<Meal>, ErrorKeys {
+public class Meal implements Serializable, Comparable<Meal> {
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private CookingTime cookingTime;

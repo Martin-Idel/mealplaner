@@ -1,8 +1,5 @@
 package mealplaner.gui.dialogs.proposaloutput;
 
-import static mealplaner.errorhandling.ErrorKeys.ERR_HEADING;
-import static mealplaner.errorhandling.ErrorKeys.MSG_FAIL_PRINT;
-
 import java.awt.print.PrinterException;
 
 import javax.swing.JFrame;
@@ -18,8 +15,8 @@ public class TablePrinter {
 		try {
 			table.print();
 		} catch (PrinterException exc) {
-			JOptionPane.showMessageDialog(frame, bundles.error(MSG_FAIL_PRINT),
-					bundles.error(ERR_HEADING), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, bundles.error("MSG_FAIL_PRINT"),
+					bundles.error("ERR_HEADING"), JOptionPane.ERROR_MESSAGE);
 			Logger.logError(exc);
 		}
 	}

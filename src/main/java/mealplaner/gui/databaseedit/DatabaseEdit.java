@@ -16,7 +16,6 @@ import mealplaner.BundleStore;
 import mealplaner.DataStore;
 import mealplaner.DataStoreEventType;
 import mealplaner.DataStoreListener;
-import mealplaner.errorhandling.ErrorKeys;
 import mealplaner.gui.ButtonPanelEnabling;
 import mealplaner.gui.commons.ButtonPanelBuilder;
 import mealplaner.gui.dialogs.mealinput.SingleMealInput;
@@ -24,7 +23,7 @@ import mealplaner.gui.dialogs.proposaloutput.TablePrinter;
 import mealplaner.model.Meal;
 
 // TODO: When entering meals but having entered unsaved meals, maybe we want to just add new (saved) meals and not delete the rest?
-public class DatabaseEdit implements DataStoreListener, ErrorKeys {
+public class DatabaseEdit implements DataStoreListener {
 	private JFrame dataFrame;
 	private JPanel dataPanel;
 	private JTable table;
