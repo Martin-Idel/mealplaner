@@ -4,8 +4,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 import javax.swing.JComboBox;
 import javax.swing.JTable;
@@ -13,24 +11,23 @@ import javax.swing.JTable;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 
+import mealplaner.BundleStore;
 import mealplaner.model.EmptyMeal;
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
 
 public class UpdateTable {
-	private ResourceBundle messages;
-	private Locale currentLocale;
+	private BundleStore bundles;
 	private UpdateTableModel tableModel;
 
-	public UpdateTable(ResourceBundle messages, Locale parentLocale) {
-		this.messages = messages;
-		this.currentLocale = parentLocale;
+	public UpdateTable(BundleStore bundles) {
+		this.bundles = bundles;
 	}
 
 	public JTable createTable(Date date, Proposal lastProposal, Meal[] mealList, int daySince) {
 		Meal[] tableList = setupMealList(lastProposal, daySince);
 		Date proposalStartDate = addDayOnToday(date, lastProposal.isToday());
-		tableModel = new UpdateTableModel(proposalStartDate, tableList, messages, currentLocale);
+		tableModel = new UpdateTableModel(proposalStartDate, tableList, bundles);
 		JTable table = new JTable(tableModel);
 
 		addAutocompletionToNameColumn(mealList, table);
@@ -53,7 +50,8 @@ public class UpdateTable {
 	private Meal[] setupMealList(Proposal proposal, int daySinceLastProposal) {
 		List<Meal> proposalList = proposal.getProposalList();
 
-		Meal[] updateMeals = proposal.isToday() ? new Meal[daySinceLastProposal + 1] : new Meal[daySinceLastProposal];
+		Meal[] updateMeals = proposal.isToday() ? new Meal[daySinceLastProposal + 1]
+				: new Meal[daySinceLastProposal];
 		for (int i = 0; i < updateMeals.length; i++) {
 			updateMeals[i] = (i < proposalList.size()) ? proposalList.get(i) : new EmptyMeal();
 		}

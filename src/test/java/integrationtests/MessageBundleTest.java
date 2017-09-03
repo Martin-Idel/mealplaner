@@ -23,8 +23,10 @@ import org.junit.Test;
 import mealplaner.commons.Pair;
 
 public class MessageBundleTest {
-	private static final Pattern GET_STRING_AT_FILE_END = Pattern.compile("\\.getString\\($");
-	private static final Pattern GET_STRING_PATTERN = Pattern.compile("\\.getString\\(.*?\\)");
+	private static final Pattern GET_STRING_AT_FILE_END = Pattern.compile("\\.message\\($");
+	private static final Pattern GET_STRING_PATTERN = Pattern.compile("\\.message\\(.*?\\)");
+	private static final Pattern GET_STRING_WITHOUT_QUOTE_PATTERN = Pattern
+			.compile("\\.message\\([^\"]");
 	private static final Pattern STRING_PATTERN = Pattern.compile("\".*?\"");
 
 	@Test
@@ -46,11 +48,6 @@ public class MessageBundleTest {
 		}
 	}
 
-	// TODO: This is not enough: We can have calls elsewhere. In fact, we need
-	// to either disallow calls where the string is not there immediately (bad),
-	// or we need to check all strings. Or whatever. If you want to be sure, you
-	// HAVE to forbid calls of the form getString(parameter), since you cannot
-	// possibly track them.
 	@Test
 	public void allCallsInJavaFilesAreMatchedInResourceBundle() {
 		try {
@@ -69,9 +66,9 @@ public class MessageBundleTest {
 
 	/*
 	 * This tests enforces that we never have a scenario where the string of the
-	 * call to the ResourceBundle is matched on the new line. While I consider
-	 * it good style anyways, this is also crucial to have a complete check for
-	 * calls to ResourceBundles, since I parse line-wise.
+	 * call to the BundleStore is matched on the new line. While I consider it
+	 * good style anyways, this is also crucial to have a more complete check
+	 * for calls to ResourceBundles, since I parse line-wise.
 	 */
 	@Test
 	public void noCallsToResourceBundleAreLineBroken() {
@@ -87,8 +84,33 @@ public class MessageBundleTest {
 		}
 	}
 
+	/*
+	 * This tests enforces that we never have a scenario where the string of a
+	 * call to the BundleStore is passed as a parameter. This is a necessary to
+	 * be able to detect all calls to the BundleStore.
+	 */
+	@Test
+	public void noCallsToResourceBundleUseStringParameters() {
+		try {
+			List<Pair<Path, String>> filesWithErrors = Files
+					.find(Paths.get("src/main/java/"), 1000, (p, bfa) -> bfa.isRegularFile())
+					.flatMap(this::findLinesWithParameterCalls)
+					.collect(Collectors.toList());
+			assertEmpty(filesWithErrors);
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
 	private boolean keyIsContainedIn(String key, List<String> lines) {
 		return lines.stream().anyMatch(line -> line.contains("\"" + key + "\""));
+	}
+
+	private Stream<Pair<Path, String>> findLinesWithParameterCalls(Path path) {
+		return readAllLines(path).stream()
+				.filter(line -> GET_STRING_WITHOUT_QUOTE_PATTERN.matcher(line.trim()).find())
+				.map(content -> Pair.of(path, content));
 	}
 
 	private Stream<Pair<Path, String>> findWronglyFormattedLines(Path path) {

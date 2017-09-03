@@ -5,7 +5,6 @@ import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 import javax.swing.JFrame;
@@ -13,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import mealplaner.BundleStore;
 import mealplaner.DataStore;
 import mealplaner.DataStoreEventType;
 import mealplaner.DataStoreListener;
@@ -28,7 +28,7 @@ public class DatabaseEdit implements DataStoreListener, ErrorKeys {
 	private JFrame dataFrame;
 	private JPanel dataPanel;
 	private JTable table;
-	private ResourceBundle messages;
+	private BundleStore bundles;
 
 	private DataBaseTableModel tableModel;
 	private ButtonPanelEnabling buttonPanel;
@@ -36,23 +36,22 @@ public class DatabaseEdit implements DataStoreListener, ErrorKeys {
 	private DataStore mealplanerData;
 
 	public DatabaseEdit(DataStore mealPlan, JFrame parentFrame, JPanel parentPanel,
-			ResourceBundle parentMessages) {
+			BundleStore parentMessages) {
 		this.mealplanerData = mealPlan;
 		mealplanerData.register(this);
 
 		dataFrame = parentFrame;
 		dataPanel = parentPanel;
 		dataPanel.setLayout(new BorderLayout());
-		messages = parentMessages;
+		bundles = parentMessages;
 	}
 
 	public void setupPane(Consumer<List<Meal>> setMeals) {
 		buttonPanel = createButtonPanelWithEnabling(setMeals);
 		buttonPanel.disableButtons();
 
-		tableModel = new DataBaseTableModel(mealplanerData.getMeals(), buttonPanel,
-				messages);
-		table = new DataBaseTableFactory(messages).createTable(tableModel);
+		tableModel = new DataBaseTableModel(mealplanerData.getMeals(), buttonPanel, bundles);
+		table = new DataBaseTableFactory(bundles).createTable(tableModel);
 		JScrollPane tablescroll = new JScrollPane(table);
 
 		dataPanel.add(tablescroll, BorderLayout.CENTER);
@@ -60,13 +59,15 @@ public class DatabaseEdit implements DataStoreListener, ErrorKeys {
 	}
 
 	private ButtonPanelEnabling createButtonPanelWithEnabling(Consumer<List<Meal>> setData) {
-		return new ButtonPanelBuilder(messages)
-				.addButton("addButton", "addButtonMnemonic",
+		return new ButtonPanelBuilder(bundles)
+				.addButton(bundles.message("addButton"),
+						bundles.message("addButtonMnemonic"),
 						action -> {
-							Meal newMeal = new SingleMealInput(dataFrame, messages).showDialog();
+							Meal newMeal = new SingleMealInput(dataFrame, bundles).showDialog();
 							insertItem(Optional.of(newMeal));
 						})
-				.addButton("removeSelectedButton", "removeSelectedButtonMnemonic",
+				.addButton(bundles.message("removeSelectedButton"),
+						bundles.message("removeSelectedButtonMnemonic"),
 						action -> {
 							Arrays.stream(table.getSelectedRows())
 									.collect(ArrayDeque<Integer>::new, ArrayDeque<Integer>::add,
@@ -74,22 +75,21 @@ public class DatabaseEdit implements DataStoreListener, ErrorKeys {
 									.descendingIterator()
 									.forEachRemaining(number -> tableModel.removeRow(number));
 						})
-				.addButton("saveButton", "saveButtonMnemonic",
-						action -> {
-							// Override database. Not efficient but presently
-							// enough.
-							setData.accept(tableModel.returnContent());
-							buttonPanel.disableButtons();
-						})
+				.addSaveButton(action -> {
+					// Override database. Not efficient but presently enough.
+					setData.accept(tableModel.returnContent());
+					buttonPanel.disableButtons();
+				})
 				.makeLastButtonEnabling()
-				.addButton("cancelButton", "cancelButton",
+				.addButton(bundles.message("cancelButton"),
+						bundles.message("cancelButton"),
 						action -> updateTable())
 				.makeLastButtonEnabling()
 				.buildEnablingPanel();
 	}
 
 	public void printTable() {
-		TablePrinter.printTable(table, dataFrame);
+		TablePrinter.printTable(table, dataFrame, bundles);
 	}
 
 	public void insertItem(Optional<Meal> optionalMeal) {

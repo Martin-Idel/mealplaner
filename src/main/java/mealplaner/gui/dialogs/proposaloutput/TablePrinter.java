@@ -9,17 +9,17 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
-import mealplaner.errorhandling.ErrorMessages;
+import mealplaner.BundleStore;
 import mealplaner.errorhandling.Logger;
 
 public class TablePrinter {
 
-	public static void printTable(JTable table, JFrame frame) {
+	public static void printTable(JTable table, JFrame frame, BundleStore bundles) {
 		try {
 			table.print();
 		} catch (PrinterException exc) {
-			JOptionPane.showMessageDialog(frame, ErrorMessages.formatMessage(MSG_FAIL_PRINT),
-					ErrorMessages.formatMessage(ERR_HEADING), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, bundles.error(MSG_FAIL_PRINT),
+					bundles.error(ERR_HEADING), JOptionPane.ERROR_MESSAGE);
 			Logger.logError(exc);
 		}
 	}

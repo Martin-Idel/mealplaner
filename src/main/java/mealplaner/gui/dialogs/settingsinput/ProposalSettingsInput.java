@@ -4,13 +4,12 @@ import java.awt.BorderLayout;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import mealplaner.BundleStore;
 import mealplaner.gui.commons.ButtonPanelBuilder;
 import mealplaner.model.settings.ProposalOutline;
 import mealplaner.model.settings.Settings;
@@ -22,20 +21,20 @@ public class ProposalSettingsInput extends SettingsInput {
 	private SettingTable settingTable;
 
 	public ProposalSettingsInput(JFrame parentFrame, Settings[] defaultSettings,
-			ProposalOutline outline,
-			ResourceBundle parentMes, Locale parentLocale) {
-		super(parentFrame, defaultSettings, parentMes.getString("settingsUpdateProposeTitle"));
+			ProposalOutline outline, BundleStore bundles) {
+		super(parentFrame, defaultSettings, bundles.message("settingsUpdateProposeTitle"));
 		setup(defaultSettings);
 
 		Settings[] tableSettings = createSettingsForTable(outline.getNumberOfDays(),
 				outline.isIncludedToday());
 		Calendar calendar = createCalendarForTable(outline.getDateToday(),
 				outline.isIncludedToday());
-		settingTable = new SettingTable(tableSettings, calendar, parentMes, parentLocale);
+		settingTable = new SettingTable(tableSettings, calendar, bundles);
 		tablescroll = new JScrollPane(settingTable.setupTable());
 
-		buttonPanel = new ButtonPanelBuilder(parentMes)
-				.addButton("useDefaultButton", "useDefaultButtonMnemonic",
+		buttonPanel = new ButtonPanelBuilder(bundles)
+				.addButton(bundles.message("useDefaultButton"),
+						bundles.message("useDefaultButtonMnemonic"),
 						action -> settingTable.useDefaultSettings(defaultSettings))
 				.addCancelDialogButton(this)
 				.addOkButton(getSaveListener(settingTable))

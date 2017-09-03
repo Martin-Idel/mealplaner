@@ -2,10 +2,10 @@ package mealplaner.gui.databaseedit;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import javax.swing.table.AbstractTableModel;
 
+import mealplaner.BundleStore;
 import mealplaner.gui.ButtonPanelEnabling;
 import mealplaner.gui.model.StringArrayCollection;
 import mealplaner.model.Meal;
@@ -21,7 +21,7 @@ public class DataBaseTableModel extends AbstractTableModel {
 	private ButtonPanelEnabling onlyActiveOnChangedButtons;
 
 	DataBaseTableModel(List<Meal> mealListData, ButtonPanelEnabling onlyActiveOnChangedButtons,
-			ResourceBundle messages) {
+			BundleStore messages) {
 		this.onlyActiveOnChangedButtons = onlyActiveOnChangedButtons;
 		columnNames = StringArrayCollection.getDatabaseColumnNames(messages);
 		workingCopy = createWorkingCopy(mealListData);

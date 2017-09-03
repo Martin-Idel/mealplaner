@@ -7,10 +7,10 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 import javax.swing.table.AbstractTableModel;
 
+import mealplaner.BundleStore;
 import mealplaner.model.Meal;
 
 public class UpdateTableModel extends AbstractTableModel {
@@ -21,12 +21,11 @@ public class UpdateTableModel extends AbstractTableModel {
 	private Calendar cal;
 	private Locale currentLocale;
 
-	public UpdateTableModel(Date proposalDate, Meal[] dataForDaysPassed, ResourceBundle messages,
-			Locale currentLocale) {
+	public UpdateTableModel(Date proposalDate, Meal[] dataForDaysPassed, BundleStore bundles) {
 		this.dataForDaysPassed = dataForDaysPassed;
-		this.columnNames = getUpdatePastMealColumnNames(messages);
-		this.currentLocale = currentLocale;
-		days = getWeekDays(messages);
+		this.columnNames = getUpdatePastMealColumnNames(bundles);
+		this.currentLocale = bundles.locale();
+		days = getWeekDays(bundles);
 		cal = Calendar.getInstance();
 		cal.setTime(proposalDate);
 	}

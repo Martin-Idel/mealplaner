@@ -1,17 +1,17 @@
 package mealplaner.gui.dialogs.mealinput;
 
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 import javax.swing.JFrame;
 
+import mealplaner.BundleStore;
 import mealplaner.model.Meal;
 
 public class SingleMealInput extends MealInput {
 	private static final long serialVersionUID = 1L;
 	private Meal newMeal;
 
-	public SingleMealInput(JFrame parent, ResourceBundle parentMessages) {
+	public SingleMealInput(JFrame parent, BundleStore parentMessages) {
 		super(parent, parentMessages);
 	}
 

@@ -6,14 +6,15 @@ import static mealplaner.errorhandling.ErrorKeys.ERR_HEADING;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import mealplaner.errorhandling.ErrorMessages;
+import mealplaner.BundleStore;
 import mealplaner.errorhandling.Logger;
 
 public class MessageDialog {
 
-	public static void errorMessages(JFrame frame, Exception exc, String errorMessage) {
+	public static void errorMessages(JFrame frame, Exception exc, String errorMessage,
+			BundleStore bundles) {
 		JOptionPane.showMessageDialog(frame, errorMessage,
-				ErrorMessages.formatMessage(ERR_HEADING), ERROR_MESSAGE);
+				bundles.error(ERR_HEADING), ERROR_MESSAGE);
 		Logger.logError(exc);
 	}
 

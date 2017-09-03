@@ -3,10 +3,10 @@ package mealplaner.gui.dialogs.settingsinput;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 import javax.swing.table.AbstractTableModel;
 
+import mealplaner.BundleStore;
 import mealplaner.gui.model.StringArrayCollection;
 import mealplaner.model.enums.CasseroleSettings;
 import mealplaner.model.enums.CookingTime;
@@ -22,10 +22,10 @@ public class SettingTableModel extends AbstractTableModel {
 	private Calendar cal;
 	private Locale currentLocale;
 
-	public SettingTableModel(Settings[] settings, Calendar calendar, ResourceBundle messages, Locale currentLocale) {
-		this.currentLocale = currentLocale;
-		columnNames = StringArrayCollection.getSettingsInputColumnNames(messages);
-		days = StringArrayCollection.getWeekDays(messages);
+	public SettingTableModel(Settings[] settings, Calendar calendar, BundleStore bundles) {
+		currentLocale = bundles.locale();
+		columnNames = StringArrayCollection.getSettingsInputColumnNames(bundles);
+		days = StringArrayCollection.getWeekDays(bundles);
 		cal = Calendar.getInstance();
 		cal.setTime(calendar.getTime());
 		workingCopy = new Settings[settings.length];
@@ -77,7 +77,8 @@ public class SettingTableModel extends AbstractTableModel {
 	@Override
 	public boolean isCellEditable(int row, int col) {
 		return !(col == 0 || col == 1
-				|| (col == 5 && (CasseroleSettings) getValueAt(row, col + 1) == CasseroleSettings.ONLY));
+				|| (col == 5
+						&& (CasseroleSettings) getValueAt(row, col + 1) == CasseroleSettings.ONLY));
 	}
 
 	@Override
@@ -108,11 +109,13 @@ public class SettingTableModel extends AbstractTableModel {
 		default:
 			return;
 		}
-		workingCopy[row] = new Settings(newCookingTimeSetting, newIsMany, newCasseroleSettings, newPreferenceSettings);
+		workingCopy[row] = new Settings(newCookingTimeSetting, newIsMany, newCasseroleSettings,
+				newPreferenceSettings);
 		fireTableCellUpdated(row, col);
 	}
 
-	private void changeStateOf(CookingTime cookingTime, Object value, CookingTimeSetting newCookingTimeSetting) {
+	private void changeStateOf(CookingTime cookingTime, Object value,
+			CookingTimeSetting newCookingTimeSetting) {
 		if ((Boolean) value == true) {
 			newCookingTimeSetting.allowCookingTime(cookingTime);
 		} else {

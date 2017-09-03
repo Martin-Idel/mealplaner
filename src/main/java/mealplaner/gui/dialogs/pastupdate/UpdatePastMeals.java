@@ -5,14 +5,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import mealplaner.BundleStore;
 import mealplaner.DataStore;
 import mealplaner.gui.commons.ButtonPanelBuilder;
 import mealplaner.model.Meal;
@@ -21,19 +20,18 @@ public class UpdatePastMeals extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private JFrame parentFrame;
 	private JPanel dataPanel;
-	private ResourceBundle messages;
+	private BundleStore messages;
 	private DataStore mealPlan;
 	private UpdateTable updateTable;
 	private List<Meal> changedMeals = new ArrayList<>();
 
-	public UpdatePastMeals(JFrame parentFrame, DataStore mealPlan, Locale parentLocale,
-			ResourceBundle parentMes) {
-		super(parentFrame, parentMes.getString("updatePastMealsDialogTitle"), true);
+	public UpdatePastMeals(JFrame parentFrame, DataStore mealPlan, BundleStore bundles) {
+		super(parentFrame, bundles.message("updatePastMealsDialogTitle"), true);
 		this.parentFrame = parentFrame;
 		this.mealPlan = mealPlan;
-		messages = parentMes;
+		messages = bundles;
 
-		updateTable = new UpdateTable(parentMes, parentLocale);
+		updateTable = new UpdateTable(bundles);
 	}
 
 	public List<Meal> showDialog() {

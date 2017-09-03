@@ -3,23 +3,23 @@ package mealplaner.gui.commons;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
+import mealplaner.BundleStore;
 import mealplaner.gui.ButtonPanelEnabling;
 
 public class ButtonPanelBuilder {
 	JPanel panel;
-	ResourceBundle messages;
+	BundleStore bundles;
 	List<JButton> buttonList = new ArrayList<>();
 	List<JButton> enablingList = new ArrayList<>();
 
-	public ButtonPanelBuilder(ResourceBundle messages) {
-		this.messages = messages;
+	public ButtonPanelBuilder(BundleStore bundles) {
+		this.bundles = bundles;
 		panel = new JPanel();
 	}
 
@@ -29,22 +29,31 @@ public class ButtonPanelBuilder {
 	}
 
 	public ButtonPanelBuilder addExitButton(ActionListener listener) {
-		buttonList.add(createButton("exitButton", "exitButtonMnemonic", listener));
+		buttonList.add(createButton(bundles.message("exitButton"),
+				bundles.message("exitButtonMnemonic"),
+				listener));
 		return this;
 	}
 
 	public ButtonPanelBuilder addOkButton(ActionListener listener) {
-		buttonList.add(createButton("okButton", "okButtonMnemonic", listener));
+		buttonList.add(createButton(bundles.message("okButton"),
+				bundles.message("okButtonMnemonic"),
+				listener));
 		return this;
 	}
 
 	public ButtonPanelBuilder addSaveButton(ActionListener listener) {
-		buttonList.add(createButton("saveButton", "saveButtonMnemonic", listener));
+		buttonList.add(createButton(bundles.message("saveButton"),
+				bundles.message("saveButtonMnemonic"),
+				listener));
 		return this;
 	}
 
 	public ButtonPanelBuilder addCancelDialogButton(JDialog dialog) {
-		buttonList.add(createButton("cancelButton", "cancelButtonMnemonic", justDisposeListener(dialog)));
+		buttonList.add(
+				createButton(bundles.message("cancelButton"),
+						bundles.message("cancelButtonMnemonic"),
+						justDisposeListener(dialog)));
 		return this;
 	}
 
@@ -85,8 +94,8 @@ public class ButtonPanelBuilder {
 	}
 
 	private JButton createButton(String label, String mnemonic, ActionListener listener) {
-		JButton button = new JButton(messages.getString(label));
-		button.setMnemonic(KeyStroke.getKeyStroke(messages.getString(mnemonic)).getKeyCode());
+		JButton button = new JButton(label);
+		button.setMnemonic(KeyStroke.getKeyStroke(mnemonic).getKeyCode());
 		button.addActionListener(listener);
 		return button;
 	}

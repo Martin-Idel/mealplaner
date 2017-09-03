@@ -1,40 +1,40 @@
 package mealplaner.gui.dialogs.proposaloutput;
 
+import static mealplaner.gui.model.StringArrayCollection.getProposalOutputColumnNames;
+import static mealplaner.gui.model.StringArrayCollection.getWeekDays;
+
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 import javax.swing.JTable;
 
-import mealplaner.gui.model.StringArrayCollection;
+import mealplaner.BundleStore;
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
 
 public class ProposalTableFactory {
-	private ResourceBundle messages;
-	private Locale currentLocale;
+	private BundleStore bundles;
 	private JTable table;
 
-	public ProposalTableFactory(ResourceBundle messages, Locale currentLocale) {
-		this.messages = messages;
-		this.currentLocale = currentLocale;
+	public ProposalTableFactory(BundleStore bundles) {
+		this.bundles = bundles;
 	}
 
 	public JTable createTable(Proposal lastProposal) {
-		String[] columnNames = StringArrayCollection.getProposalOutputColumnNames(messages);
-		table = new JTable(new ProposalTableModel(prepareProposalForTable(lastProposal), columnNames));
+		String[] columnNames = getProposalOutputColumnNames(bundles);
+		table = new JTable(
+				new ProposalTableModel(prepareProposalForTable(lastProposal), columnNames));
 		return table;
 	}
 
 	private String[][] prepareProposalForTable(Proposal proposal) {
-		String[] weekDays = StringArrayCollection.getWeekDays(messages);
+		String[] weekDays = getWeekDays(bundles);
 
 		List<Meal> mealList = proposal.getProposalList();
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(proposal.getCalendar().getTime());
-		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, currentLocale);
+		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, bundles.locale());
 		String[][] data = new String[mealList.size()][3];
 
 		if (!proposal.isToday()) {
@@ -48,5 +48,4 @@ public class ProposalTableFactory {
 		}
 		return data;
 	}
-
 }

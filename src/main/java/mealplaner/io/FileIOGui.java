@@ -13,21 +13,20 @@ import static mealplaner.gui.commons.MessageDialog.errorMessages;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import mealplaner.BundleStore;
 import mealplaner.MealplanerData;
-import mealplaner.errorhandling.ErrorMessages;
 import mealplaner.errorhandling.MealException;
 
 public class FileIOGui {
-	private ResourceBundle messages;
+	private BundleStore bundles;
 	private JFrame frame;
 
-	public FileIOGui(ResourceBundle messages, JFrame frame) {
-		this.messages = messages;
+	public FileIOGui(BundleStore bundles, JFrame frame) {
+		this.bundles = bundles;
 		this.frame = frame;
 	}
 
@@ -39,27 +38,27 @@ public class FileIOGui {
 										// done when load was successful
 			mealPlan.getMeals();
 		} catch (FileNotFoundException exc) {
-			errorMessages(frame, exc, ErrorMessages.formatMessage(MSG_FILE_NOT_FOUND));
+			errorMessages(frame, exc, bundles.error(MSG_FILE_NOT_FOUND), bundles);
 		} catch (IOException exc) {
-			errorMessages(frame, exc, ErrorMessages.formatMessage(MSG_IOEX));
+			errorMessages(frame, exc, bundles.error(MSG_IOEX), bundles);
 		} catch (MealException exc) {
-			errorMessages(frame, exc, ErrorMessages.formatMessage(MSG_CLASS_NOT_FOUND));
+			errorMessages(frame, exc, bundles.error(MSG_CLASS_NOT_FOUND), bundles);
 		}
 		return mealPlan;
 	}
 
 	public Optional<MealplanerData> loadBackup() {
-		String bak = showInputDialog(frame, messages.getString("createLoadBackup"), "*.ser");
+		String bak = showInputDialog(frame, bundles.message("createLoadBackup"), "*.ser");
 		if (bak != null) {
 			MealplanerData mealPlan = new MealplanerData();
 			try {
 				mealPlan = MealplanerFileLoader.load(bak);
 			} catch (FileNotFoundException exc) {
-				errorMessages(frame, exc, ErrorMessages.formatMessage(MSG_BKU_FILE_NOT_FOUND));
+				errorMessages(frame, exc, bundles.error(MSG_BKU_FILE_NOT_FOUND), bundles);
 			} catch (IOException exc) {
-				errorMessages(frame, exc, ErrorMessages.formatMessage(MSG_IOEX));
+				errorMessages(frame, exc, bundles.error(MSG_IOEX), bundles);
 			} catch (MealException exc) {
-				errorMessages(frame, exc, ErrorMessages.formatMessage(MSG_BKU_CLASS_NOT_FOUND));
+				errorMessages(frame, exc, bundles.error(MSG_BKU_CLASS_NOT_FOUND), bundles);
 			}
 			return of(mealPlan);
 		}
@@ -69,22 +68,22 @@ public class FileIOGui {
 	public void saveDatabase(MealplanerData mealPlan) {
 		try {
 			MealplanerFileSaver.save(mealPlan, "save01.ser");
-			JOptionPane.showMessageDialog(frame, messages.getString("successSave"),
-					messages.getString("successHeading"), JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(frame, bundles.message("successSave"),
+					bundles.message("successHeading"), JOptionPane.INFORMATION_MESSAGE);
 		} catch (IOException exc) {
-			errorMessages(frame, exc, ErrorMessages.formatMessage(MSG_IOEX));
+			errorMessages(frame, exc, bundles.error(MSG_IOEX), bundles);
 		}
 	}
 
 	public void createBackup(MealplanerData mealPlan) {
-		String bak = showInputDialog(frame, messages.getString("createLoadBackup"), "*.ser");
+		String bak = showInputDialog(frame, bundles.message("createLoadBackup"), "*.ser");
 		if (bak != null) {
 			try {
 				MealplanerFileSaver.save(mealPlan, bak);
-				JOptionPane.showMessageDialog(frame, messages.getString("successSave"),
-						messages.getString("successHeading"), JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(frame, bundles.message("successSave"),
+						bundles.message("successHeading"), JOptionPane.INFORMATION_MESSAGE);
 			} catch (IOException exc) {
-				errorMessages(frame, exc, ErrorMessages.formatMessage(MSG_IOEX));
+				errorMessages(frame, exc, bundles.error(MSG_IOEX), bundles);
 			}
 		}
 	}

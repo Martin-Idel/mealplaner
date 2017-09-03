@@ -1,61 +1,61 @@
 package mealplaner.gui.model;
 
-import java.util.ResourceBundle;
+import mealplaner.BundleStore;
 
 public class StringArrayCollection {
 
-	public static String[] getDatabaseColumnNames(ResourceBundle messages) {
-		String[] columnNames = { messages.getString("mealNameColumn"),
-				messages.getString("cookingLengthColumn"),
-				messages.getString("sidedishColumn"),
-				messages.getString("utensilColumn"),
-				messages.getString("cookedLastTimeColumn"),
-				messages.getString("popularityColumn"),
-				messages.getString("commentInsertColumn") };
+	public static String[] getDatabaseColumnNames(BundleStore bundles) {
+		String[] columnNames = { bundles.message("mealNameColumn"),
+				bundles.message("cookingLengthColumn"),
+				bundles.message("sidedishColumn"),
+				bundles.message("utensilColumn"),
+				bundles.message("cookedLastTimeColumn"),
+				bundles.message("popularityColumn"),
+				bundles.message("commentInsertColumn") };
 		return columnNames;
 	}
 
-	public static String[] getWeekDays(ResourceBundle messages) {
-		String[] weekDays = { messages.getString("sunday"),
-				messages.getString("monday"),
-				messages.getString("tuesday"),
-				messages.getString("wednesday"),
-				messages.getString("thursday"),
-				messages.getString("friday"),
-				messages.getString("saturday") };
+	public static String[] getWeekDays(BundleStore bundles) {
+		String[] weekDays = { bundles.message("sunday"),
+				bundles.message("monday"),
+				bundles.message("tuesday"),
+				bundles.message("wednesday"),
+				bundles.message("thursday"),
+				bundles.message("friday"),
+				bundles.message("saturday") };
 		return weekDays;
 	}
 
-	public static String[] getProposalOutputColumnNames(ResourceBundle messages) {
-		String[] columnNames = { messages.getString("date"),
-				messages.getString("weekday"),
-				messages.getString("menu") };
+	public static String[] getProposalOutputColumnNames(BundleStore bundles) {
+		String[] columnNames = { bundles.message("date"),
+				bundles.message("weekday"),
+				bundles.message("menu") };
 		return columnNames;
 	}
 
-	public static String[] getSettingsInputColumnNames(ResourceBundle messages) {
-		String[] columnNames = { messages.getString("weekday"),
-				messages.getString("shortColumn"),
-				messages.getString("short"),
-				messages.getString("mediumColumn"),
-				messages.getString("longColumn"),
-				messages.getString("manyColumn"),
-				messages.getString("casseroleColumn"),
-				messages.getString("preferenceColumn") };
+	public static String[] getSettingsInputColumnNames(BundleStore bundles) {
+		String[] columnNames = { bundles.message("weekday"),
+				bundles.message("shortColumn"),
+				bundles.message("short"),
+				bundles.message("mediumColumn"),
+				bundles.message("longColumn"),
+				bundles.message("manyColumn"),
+				bundles.message("casseroleColumn"),
+				bundles.message("preferenceColumn") };
 		return columnNames;
 	}
 
-	public static String[] getUpdatePastMealColumnNames(ResourceBundle messages) {
-		String[] columnNames = { messages.getString("date"),
-				messages.getString("weekday"),
-				messages.getString("menu") };
+	public static String[] getUpdatePastMealColumnNames(BundleStore bundles) {
+		String[] columnNames = { bundles.message("date"),
+				bundles.message("weekday"),
+				bundles.message("menu") };
 		return columnNames;
 	}
 
-	public static String[] getCasseroleCheckboxEntries(ResourceBundle messagesInner) {
-		String[] comboboxNames = { messagesInner.getString("allowedCasseroles"),
-				messagesInner.getString("onlyCasseroles"),
-				messagesInner.getString("noCasseroles") };
+	public static String[] getCasseroleCheckboxEntries(BundleStore bundles) {
+		String[] comboboxNames = { bundles.message("allowedCasseroles"),
+				bundles.message("onlyCasseroles"),
+				bundles.message("noCasseroles") };
 		return comboboxNames;
 	}
 }

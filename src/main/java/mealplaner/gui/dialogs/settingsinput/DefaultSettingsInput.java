@@ -3,12 +3,12 @@ package mealplaner.gui.dialogs.settingsinput;
 import static mealplaner.gui.commons.ButtonPanelBuilder.justDisposeListener;
 
 import java.awt.BorderLayout;
-import java.util.ResourceBundle;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import mealplaner.BundleStore;
 import mealplaner.gui.commons.ButtonPanelBuilder;
 import mealplaner.model.settings.Settings;
 
@@ -19,15 +19,15 @@ public class DefaultSettingsInput extends SettingsInput {
 	private SettingTable settingTable;
 
 	public DefaultSettingsInput(JFrame parentFrame, Settings[] defaultSettings,
-			ResourceBundle parentMes) {
-		super(parentFrame, defaultSettings, parentMes.getString("settingsUpdateDefaultTitle"));
+			BundleStore bundles) {
+		super(parentFrame, defaultSettings, bundles.message("settingsUpdateDefaultTitle"));
 		setup(defaultSettings);
 
-		settingTable = new SettingTable(defaultSettings, parentMes);
+		settingTable = new SettingTable(defaultSettings, bundles);
 		tablescroll = new JScrollPane(settingTable.setupTable());
 		settingTable.removeDateColumn();
 
-		buttonPanel = new ButtonPanelBuilder(parentMes)
+		buttonPanel = new ButtonPanelBuilder(bundles)
 				.addSaveButton(getSaveListener(settingTable))
 				.addExitButton(justDisposeListener(this))
 				.build();

@@ -4,12 +4,11 @@ import static mealplaner.gui.model.EnumToStringRepresentation.getCasseroleSettin
 import static mealplaner.gui.model.EnumToStringRepresentation.getPreferenceSettingsStrings;
 
 import java.util.Calendar;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 
+import mealplaner.BundleStore;
 import mealplaner.gui.commons.SwingUtilityMethods;
 import mealplaner.model.enums.CasseroleSettings;
 import mealplaner.model.enums.PreferenceSettings;
@@ -20,23 +19,21 @@ public class SettingTable {
 	private JTable table;
 	private SettingTableModel tableModel;
 	private Calendar calendar;
-	private ResourceBundle messages;
+	private BundleStore bundles;
 
-	public SettingTable(Settings[] defaultSettings, ResourceBundle messages) {
-		this.messages = messages;
+	public SettingTable(Settings[] defaultSettings, BundleStore bundles) {
+		this.bundles = bundles;
 		calendar = Calendar.getInstance();
 		calendar.setWeekDate(2000, 1, 2);
 
-		tableModel = new SettingTableModel(defaultSettings, calendar, messages,
-				Locale.getDefault());
+		tableModel = new SettingTableModel(defaultSettings, calendar, bundles);
 	}
 
-	public SettingTable(Settings[] settings, Calendar calendar, ResourceBundle messages,
-			Locale currentLocale) {
+	public SettingTable(Settings[] settings, Calendar calendar, BundleStore bundles) {
 		this.calendar = calendar;
-		this.messages = messages;
+		this.bundles = bundles;
 
-		tableModel = new SettingTableModel(settings, calendar, messages, currentLocale);
+		tableModel = new SettingTableModel(settings, calendar, bundles);
 	}
 
 	public JTable setupTable() {
@@ -44,13 +41,13 @@ public class SettingTable {
 		setPreferredWidthXofColumns(100, 0, 6, 7);
 		setPreferredWidthXofColumns(50, 1, 2, 3, 4, 5);
 		SwingUtilityMethods.setupEnumColumnRenderer(getTableColumn(6), CasseroleSettings.class,
-				getCasseroleSettingsStrings(messages));
+				getCasseroleSettingsStrings(bundles));
 		SwingUtilityMethods.setupComboBoxEditor(getTableColumn(6), CasseroleSettings.class,
-				getCasseroleSettingsStrings(messages));
+				getCasseroleSettingsStrings(bundles));
 		SwingUtilityMethods.setupEnumColumnRenderer(getTableColumn(7), PreferenceSettings.class,
-				getPreferenceSettingsStrings(messages));
+				getPreferenceSettingsStrings(bundles));
 		SwingUtilityMethods.setupComboBoxEditor(getTableColumn(7), PreferenceSettings.class,
-				getPreferenceSettingsStrings(messages));
+				getPreferenceSettingsStrings(bundles));
 		return table;
 	}
 

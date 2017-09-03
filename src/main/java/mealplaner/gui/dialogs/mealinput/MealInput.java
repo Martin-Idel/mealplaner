@@ -11,7 +11,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.Optional;
-import java.util.ResourceBundle;
 import java.util.stream.Stream;
 
 import javax.swing.JDialog;
@@ -20,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import mealplaner.BundleStore;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.errorhandling.ErrorKeys;
 import mealplaner.gui.commons.ButtonPanelBuilder;
@@ -48,38 +48,38 @@ public abstract class MealInput extends JDialog implements ErrorKeys {
 	private InputField<CookingPreference> preferenceField;
 	private InputField<String> commentField;
 
-	private ResourceBundle messages;
+	private BundleStore bundles;
 
-	public MealInput(JFrame parent, ResourceBundle parentMessages) {
-		super(parent, parentMessages.getString("mealInputDialogTitle"), true);
-		parentFrame = parent;
-		messages = parentMessages;
+	public MealInput(JFrame parent, BundleStore bundles) {
+		super(parent, bundles.message("mealInputDialogTitle"), true);
+		this.parentFrame = parent;
+		this.bundles = bundles;
 
-		nameField = new NonEmptyTextInputField(messages.getString("insertMealName"));
+		nameField = new NonEmptyTextInputField(bundles.message("insertMealName"));
 		cookingTimeField = new ComboBoxInputField<CookingTime>(
-				messages.getString("insertMealLength"),
+				bundles.message("insertMealLength"),
 				CookingTime.class,
-				getCookingTimeStrings(messages),
+				getCookingTimeStrings(bundles),
 				CookingTime.SHORT);
 		sidedishField = new ComboBoxInputField<Sidedish>(
-				messages.getString("insertMealSidedish"),
+				bundles.message("insertMealSidedish"),
 				Sidedish.class,
-				getSidedishStrings(messages),
+				getSidedishStrings(bundles),
 				Sidedish.NONE);
 		obligatoryUtensilField = new ComboBoxInputField<ObligatoryUtensil>(
-				messages.getString("insertMealUtensil"),
+				bundles.message("insertMealUtensil"),
 				ObligatoryUtensil.class,
-				getObligatoryUtensilStrings(messages),
+				getObligatoryUtensilStrings(bundles),
 				ObligatoryUtensil.POT);
 		daysPassedField = new NonnegativeIntegerInputField(
-				messages.getString("insertMealLastCooked"),
+				bundles.message("insertMealLastCooked"),
 				new NonnegativeInteger(0));
 		preferenceField = new ComboBoxInputField<CookingPreference>(
-				messages.getString("insertMealPopularity"),
+				bundles.message("insertMealPopularity"),
 				CookingPreference.class,
-				getCookingPreferenceStrings(messages),
+				getCookingPreferenceStrings(bundles),
 				CookingPreference.NO_PREFERENCE);
-		commentField = new TextField(messages.getString("insertMealComment"));
+		commentField = new TextField(bundles.message("insertMealComment"));
 	}
 
 	protected void display(ActionListener saveListener) {
@@ -88,7 +88,7 @@ public abstract class MealInput extends JDialog implements ErrorKeys {
 
 		allFields().forEach(field -> field.addToPanel(mealCreationPanel));
 
-		buttonPanel = new ButtonPanelBuilder(messages)
+		buttonPanel = new ButtonPanelBuilder(bundles)
 				.addSaveButton(saveListener)
 				.addCancelDialogButton(this)
 				.build();
@@ -116,8 +116,8 @@ public abstract class MealInput extends JDialog implements ErrorKeys {
 	protected Optional<Meal> getMealAndShowDialog() {
 		Optional<Meal> mealFromInput = getMealFromUserInput();
 		if (!mealFromInput.isPresent()) {
-			JOptionPane.showMessageDialog(null, messages.getString("menuNameChoiceEmpty"),
-					messages.getString("errorHeading"), JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, bundles.message("menuNameChoiceEmpty"),
+					bundles.message("errorHeading"), JOptionPane.INFORMATION_MESSAGE);
 		}
 		return mealFromInput;
 	}
