@@ -13,6 +13,7 @@ public class BundleStore {
 		super();
 		this.messages = messages;
 		this.errors = errors;
+		this.currentLocale = currentLocale;
 	}
 
 	public String message(String message) {

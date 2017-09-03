@@ -21,13 +21,8 @@ import mealplaner.ProposalBuilder;
 import mealplaner.gui.commons.ButtonPanelBuilder;
 import mealplaner.gui.commons.MenuBarBuilder;
 import mealplaner.gui.databaseedit.DatabaseEdit;
-import mealplaner.gui.dialogs.mealinput.MultipleMealInput;
-import mealplaner.gui.dialogs.pastupdate.UpdatePastMeals;
-import mealplaner.gui.dialogs.proposaloutput.ProposalOutput;
-import mealplaner.gui.dialogs.proposaloutput.ProposalTableFactory;
 import mealplaner.gui.dialogs.proposaloutput.TablePrinter;
-import mealplaner.gui.dialogs.settingsinput.DefaultSettingsInput;
-import mealplaner.gui.dialogs.settingsinput.ProposalSettingsInput;
+import mealplaner.gui.factories.DialogFactory;
 import mealplaner.io.FileIOGui;
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
@@ -35,7 +30,8 @@ import mealplaner.model.settings.ProposalOutline;
 import mealplaner.model.settings.Settings;
 
 public class MainGUI {
-	private JFrame frame = new JFrame("Meal planer");
+	private JFrame frame;
+	private DialogFactory dialogs;
 
 	private MealplanerData mealPlan;
 	private DatabaseEdit dbaseEdit;
@@ -44,8 +40,11 @@ public class MainGUI {
 	private BundleStore bundles;
 	private FileIOGui fileIOGui;
 
-	public MainGUI(MealplanerData mealPlan, BundleStore bundles) {
+	public MainGUI(JFrame mainFrame, MealplanerData mealPlan, DialogFactory dialogFactory,
+			BundleStore bundles) {
+		this.frame = mainFrame;
 		this.mealPlan = mealPlan;
+		this.dialogs = dialogFactory;
 		this.bundles = bundles;
 
 		fileIOGui = new FileIOGui(bundles, frame);
@@ -67,13 +66,13 @@ public class MainGUI {
 		MenuBarBuilder builder = new MenuBarBuilder(frame, bundles)
 				.setupFileMenu()
 				.createMealMenu(action -> {
-					MultipleMealInput multipleMealInput = new MultipleMealInput(frame, bundles);
-					multipleMealInput.showDialog()
+					dialogs.createMultipleMealInputDialog()
+							.showDialog()
 							.forEach(meal -> mealPlan.addMeal(meal));
 					dbaseEdit.updateTable();
 				})
-				.viewProposalMenu(
-						action -> new ProposalOutput(frame, mealPlan.getLastProposal(), bundles))
+				.viewProposalMenu(action -> dialogs.createProposalOutputDialog()
+						.showDialog(mealPlan.getLastProposal()))
 				.createSeparatorForMenu();
 
 		builder.createBackupMenu(action -> fileIOGui.createBackup(mealPlan))
@@ -144,7 +143,7 @@ public class MainGUI {
 	}
 
 	public void printProposal() {
-		JTable proposalTable = new ProposalTableFactory(bundles)
+		JTable proposalTable = dialogs.createProposalTableFactory()
 				.createTable(mealPlan.getLastProposal());
 		TablePrinter.printTable(proposalTable, frame, bundles);
 	}
@@ -155,8 +154,9 @@ public class MainGUI {
 			Settings[] settings = setDefaultSettings(outline);
 			makeProposal(settings, outline);
 		} else {
-			Optional<Settings[]> settingsInput = new ProposalSettingsInput(frame,
-					mealPlan.getDefaultSettings(), outline, bundles).showDialog();
+			Optional<Settings[]> settingsInput = dialogs
+					.createProposalSettingsDialog()
+					.showDialog(mealPlan.getDefaultSettings(), outline);
 			settingsInput.ifPresent(settings -> makeProposal(settings, outline));
 		}
 	}
@@ -179,7 +179,7 @@ public class MainGUI {
 		Proposal proposal = propose(settings, outline.isIncludedToday(),
 				outline.isShallBeRandomised());
 		mealPlan.setLastProposal(proposal);
-		new ProposalOutput(frame, mealPlan.getLastProposal(), bundles);
+		dialogs.createProposalOutputDialog().showDialog(proposal);
 	}
 
 	private Proposal propose(Settings[] set, boolean today, boolean random) {
@@ -190,14 +190,14 @@ public class MainGUI {
 	}
 
 	public void changeDefaultSettings() {
-		Optional<Settings[]> defaultSettings = new DefaultSettingsInput(frame,
-				mealPlan.getDefaultSettings(), bundles)
-						.showDialog();
+		Optional<Settings[]> defaultSettings = dialogs
+				.createDefaultSettingsDialog()
+				.showDialog(mealPlan.getDefaultSettings());
 		defaultSettings.ifPresent(settings -> mealPlan.setDefaultSettings(settings));
 	}
 
 	public void updatePastMeals() {
-		List<Meal> lastCookedMealList = new UpdatePastMeals(frame, mealPlan, bundles).showDialog();
+		List<Meal> lastCookedMealList = dialogs.createUpdatePastMealDialog().showDialog(mealPlan);
 		mealPlan.update(lastCookedMealList);
 		proposalSummary.update();
 	}

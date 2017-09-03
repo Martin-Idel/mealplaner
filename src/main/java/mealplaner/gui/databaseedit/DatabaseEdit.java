@@ -35,14 +35,14 @@ public class DatabaseEdit implements DataStoreListener {
 	private DataStore mealplanerData;
 
 	public DatabaseEdit(DataStore mealPlan, JFrame parentFrame, JPanel parentPanel,
-			BundleStore parentMessages) {
+			BundleStore bundleStore) {
 		this.mealplanerData = mealPlan;
 		mealplanerData.register(this);
 
 		dataFrame = parentFrame;
 		dataPanel = parentPanel;
 		dataPanel.setLayout(new BorderLayout());
-		bundles = parentMessages;
+		bundles = bundleStore;
 	}
 
 	public void setupPane(Consumer<List<Meal>> setMeals) {
@@ -81,7 +81,7 @@ public class DatabaseEdit implements DataStoreListener {
 				})
 				.makeLastButtonEnabling()
 				.addButton(bundles.message("cancelButton"),
-						bundles.message("cancelButton"),
+						bundles.message("cancelButtonMnemonic"),
 						action -> updateTable())
 				.makeLastButtonEnabling()
 				.buildEnablingPanel();

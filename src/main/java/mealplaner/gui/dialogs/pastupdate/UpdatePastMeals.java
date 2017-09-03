@@ -21,25 +21,22 @@ public class UpdatePastMeals extends JDialog {
 	private JFrame parentFrame;
 	private JPanel dataPanel;
 	private BundleStore messages;
-	private DataStore mealPlan;
 	private UpdateTable updateTable;
 	private List<Meal> changedMeals = new ArrayList<>();
 
-	public UpdatePastMeals(JFrame parentFrame, DataStore mealPlan, BundleStore bundles) {
+	public UpdatePastMeals(JFrame parentFrame, BundleStore bundles) {
 		super(parentFrame, bundles.message("updatePastMealsDialogTitle"), true);
 		this.parentFrame = parentFrame;
-		this.mealPlan = mealPlan;
 		messages = bundles;
-
 		updateTable = new UpdateTable(bundles);
 	}
 
-	public List<Meal> showDialog() {
-		display();
+	public List<Meal> showDialog(DataStore mealPlan) {
+		display(mealPlan);
 		return changedMeals;
 	}
 
-	private void display() {
+	private void display(DataStore mealPlan) {
 		JScrollPane tablescroll = new JScrollPane(
 				updateTable.createTable(mealPlan.getTime(),
 						mealPlan.getLastProposal(),

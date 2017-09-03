@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Optional;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,15 +17,40 @@ import mealplaner.model.settings.Settings;
 
 public class ProposalSettingsInput extends SettingsInput {
 	private static final long serialVersionUID = 1L;
+	private JFrame parentFrame;
 	private JScrollPane tablescroll;
 	private JPanel buttonPanel;
 	private SettingTable settingTable;
+	private BundleStore bundles;
 
-	public ProposalSettingsInput(JFrame parentFrame, Settings[] defaultSettings,
-			ProposalOutline outline, BundleStore bundles) {
-		super(parentFrame, defaultSettings, bundles.message("settingsUpdateProposeTitle"));
-		setup(defaultSettings);
+	public ProposalSettingsInput(JFrame parentFrame, BundleStore bundles) {
+		super(parentFrame, bundles.message("settingsUpdateProposeTitle"));
+		this.parentFrame = parentFrame;
+		this.bundles = bundles;
+	}
 
+	public Optional<Settings[]> showDialog(Settings[] settings, ProposalOutline outline) {
+		setup(settings, outline);
+		setVisible(true);
+		return getEnteredSettings();
+	}
+
+	private Calendar createCalendarForTable(Date date, boolean today) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		if (!today) {
+			calendar.add(Calendar.DATE, 1);
+		}
+		return calendar;
+	}
+
+	private Settings[] createSettingsForTable(int numberOfDays, boolean today) {
+		Settings[] settings = new Settings[numberOfDays];
+		Arrays.fill(settings, new Settings());
+		return settings;
+	}
+
+	protected void setup(Settings[] defaultSettings, ProposalOutline outline) {
 		Settings[] tableSettings = createSettingsForTable(outline.getNumberOfDays(),
 				outline.isIncludedToday());
 		Calendar calendar = createCalendarForTable(outline.getDateToday(),
@@ -43,20 +69,5 @@ public class ProposalSettingsInput extends SettingsInput {
 		addPanel(tablescroll, BorderLayout.CENTER);
 		addPanel(buttonPanel, BorderLayout.SOUTH);
 		adjustPanesTo(parentFrame);
-	}
-
-	private Calendar createCalendarForTable(Date date, boolean today) {
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
-		if (!today) {
-			calendar.add(Calendar.DATE, 1);
-		}
-		return calendar;
-	}
-
-	private Settings[] createSettingsForTable(int numberOfDays, boolean today) {
-		Settings[] settings = new Settings[numberOfDays];
-		Arrays.fill(settings, new Settings());
-		return settings;
 	}
 }

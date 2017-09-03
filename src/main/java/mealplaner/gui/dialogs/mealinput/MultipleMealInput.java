@@ -13,8 +13,8 @@ public class MultipleMealInput extends MealInput {
 	private static final long serialVersionUID = 1L;
 	private List<Meal> newMeals;
 
-	public MultipleMealInput(JFrame parent, BundleStore messages) {
-		super(parent, messages);
+	public MultipleMealInput(JFrame parent, BundleStore bundles) {
+		super(parent, bundles);
 		newMeals = new ArrayList<>();
 	}
 

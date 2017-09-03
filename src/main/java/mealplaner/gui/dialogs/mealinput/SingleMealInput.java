@@ -11,8 +11,8 @@ public class SingleMealInput extends MealInput {
 	private static final long serialVersionUID = 1L;
 	private Meal newMeal;
 
-	public SingleMealInput(JFrame parent, BundleStore parentMessages) {
-		super(parent, parentMessages);
+	public SingleMealInput(JFrame parent, BundleStore bundles) {
+		super(parent, bundles);
 	}
 
 	public Meal showDialog() {

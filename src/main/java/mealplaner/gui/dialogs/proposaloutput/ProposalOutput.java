@@ -16,15 +16,22 @@ import mealplaner.model.Proposal;
 
 public class ProposalOutput extends JDialog {
 	private static final long serialVersionUID = 1L;
+	private JFrame parentFrame;
+	private BundleStore bundles;
 
-	public ProposalOutput(JFrame parentFrame, Proposal lastProposal, BundleStore bundles) {
+	public ProposalOutput(JFrame parentFrame, BundleStore bundles) {
 		super(parentFrame, bundles.message("proposalOutputDialogTitle"), true);
+		this.parentFrame = parentFrame;
+		this.bundles = bundles;
+	}
 
+	public void showDialog(Proposal lastProposal) {
 		JPanel dataPanel = setupDataPanel();
 
 		JTable proposalTable = new ProposalTableFactory(bundles)
 				.createTable(lastProposal);
 		JScrollPane tablescroll = new JScrollPane(proposalTable);
+
 		JPanel buttonPanel = new ButtonPanelBuilder(bundles)
 				.addButton(bundles.message("printButton"),
 						bundles.message("printButtonMnemonic"),
@@ -32,7 +39,8 @@ public class ProposalOutput extends JDialog {
 				.addOkButton(ButtonPanelBuilder.justDisposeListener(this))
 				.build();
 
-		displayGUI(dataPanel, parentFrame, tablescroll, buttonPanel);
+		arrangeGui(dataPanel, parentFrame, tablescroll, buttonPanel);
+		setVisible(true);
 	}
 
 	private JPanel setupDataPanel() {
@@ -41,13 +49,12 @@ public class ProposalOutput extends JDialog {
 		return dataPanel;
 	}
 
-	private void displayGUI(JPanel dataPanel, JFrame parentFrame, JScrollPane tablescroll,
+	private void arrangeGui(JPanel dataPanel, JFrame parentFrame, JScrollPane tablescroll,
 			JPanel buttonPanel) {
 		dataPanel.add(tablescroll, BorderLayout.CENTER);
 		dataPanel.add(buttonPanel, BorderLayout.SOUTH);
 		getContentPane().add(dataPanel);
 		setSize(300, 300);
 		setLocationRelativeTo(parentFrame);
-		setVisible(true);
 	}
 }

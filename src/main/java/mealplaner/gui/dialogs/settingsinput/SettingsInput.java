@@ -16,18 +16,14 @@ public abstract class SettingsInput extends JDialog {
 	private JPanel dataPanel;
 	private Optional<Settings[]> enteredSettings = Optional.empty();
 
-	public SettingsInput(JFrame parentFrame, Settings[] defaultSettings, String label) {
+	public SettingsInput(JFrame parentFrame, String label) {
 		super(parentFrame, label, true);
-	}
-
-	public Optional<Settings[]> showDialog() {
-		setVisible(true);
-		return enteredSettings;
-	}
-
-	protected void setup(Settings[] defaultSettings) {
 		this.dataPanel = new JPanel();
 		this.dataPanel.setLayout(new BorderLayout());
+	}
+
+	protected Optional<Settings[]> getEnteredSettings() {
+		return enteredSettings;
 	}
 
 	protected ActionListener getSaveListener(SettingTable settingTable) {
