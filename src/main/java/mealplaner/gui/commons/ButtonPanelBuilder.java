@@ -50,10 +50,9 @@ public class ButtonPanelBuilder {
 	}
 
 	public ButtonPanelBuilder addCancelDialogButton(JDialog dialog) {
-		buttonList.add(
-				createButton(bundles.message("cancelButton"),
-						bundles.message("cancelButtonMnemonic"),
-						justDisposeListener(dialog)));
+		buttonList.add(createButton(bundles.message("cancelButton"),
+				bundles.message("cancelButtonMnemonic"),
+				justDisposeListener(dialog)));
 		return this;
 	}
 

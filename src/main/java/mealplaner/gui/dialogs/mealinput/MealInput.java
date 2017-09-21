@@ -1,10 +1,10 @@
 package mealplaner.gui.dialogs.mealinput;
 
 import static java.util.Optional.of;
-import static mealplaner.gui.model.EnumToStringRepresentation.getCookingPreferenceStrings;
-import static mealplaner.gui.model.EnumToStringRepresentation.getCookingTimeStrings;
-import static mealplaner.gui.model.EnumToStringRepresentation.getObligatoryUtensilStrings;
-import static mealplaner.gui.model.EnumToStringRepresentation.getSidedishStrings;
+import static mealplaner.model.enums.CookingPreference.getCookingPreferenceStrings;
+import static mealplaner.model.enums.CookingTime.getCookingTimeStrings;
+import static mealplaner.model.enums.ObligatoryUtensil.getObligatoryUtensilStrings;
+import static mealplaner.model.enums.Sidedish.getSidedishStrings;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;

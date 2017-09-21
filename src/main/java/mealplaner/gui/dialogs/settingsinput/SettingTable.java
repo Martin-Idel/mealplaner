@@ -1,7 +1,7 @@
 package mealplaner.gui.dialogs.settingsinput;
 
-import static mealplaner.gui.model.EnumToStringRepresentation.getCasseroleSettingsStrings;
-import static mealplaner.gui.model.EnumToStringRepresentation.getPreferenceSettingsStrings;
+import static mealplaner.model.enums.CasseroleSettings.getCasseroleSettingsStrings;
+import static mealplaner.model.enums.PreferenceSettings.getPreferenceSettingsStrings;
 
 import java.util.Calendar;
 
