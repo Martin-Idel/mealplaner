@@ -2,6 +2,7 @@ package mealplaner.gui.model;
 
 import mealplaner.BundleStore;
 
+// TODO: Move to TableModel and write tests to make sure we have the correct number of array elements.
 public class StringArrayCollection {
 
 	public static String[] getDatabaseColumnNames(BundleStore bundles) {
@@ -35,8 +36,9 @@ public class StringArrayCollection {
 
 	public static String[] getSettingsInputColumnNames(BundleStore bundles) {
 		String[] columnNames = { bundles.message("weekday"),
+				bundles.message("date"),
+				bundles.message("veryShortColumn"),
 				bundles.message("shortColumn"),
-				bundles.message("short"),
 				bundles.message("mediumColumn"),
 				bundles.message("longColumn"),
 				bundles.message("manyColumn"),

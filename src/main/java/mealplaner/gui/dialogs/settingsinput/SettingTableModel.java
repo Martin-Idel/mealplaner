@@ -66,8 +66,10 @@ public class SettingTableModel extends AbstractTableModel {
 		case 5:
 			return Boolean.class;
 		case 6:
-			return CasseroleSettings.class;
+			return Boolean.class;
 		case 7:
+			return CasseroleSettings.class;
+		case 8:
 			return PreferenceSettings.class;
 		default:
 			return String.class;
@@ -77,7 +79,7 @@ public class SettingTableModel extends AbstractTableModel {
 	@Override
 	public boolean isCellEditable(int row, int col) {
 		return !(col == 0 || col == 1
-				|| (col == 5
+				|| (col == 6
 						&& (CasseroleSettings) getValueAt(row, col + 1) == CasseroleSettings.ONLY));
 	}
 
@@ -89,21 +91,24 @@ public class SettingTableModel extends AbstractTableModel {
 		PreferenceSettings newPreferenceSettings = workingCopy[row].getPreference();
 		switch (col) {
 		case 2:
-			changeStateOf(CookingTime.SHORT, value, newCookingTimeSetting);
+			changeStateOf(CookingTime.VERY_SHORT, value, newCookingTimeSetting);
 			break;
 		case 3:
-			changeStateOf(CookingTime.MEDIUM, value, newCookingTimeSetting);
+			changeStateOf(CookingTime.SHORT, value, newCookingTimeSetting);
 			break;
 		case 4:
-			changeStateOf(CookingTime.LONG, value, newCookingTimeSetting);
+			changeStateOf(CookingTime.MEDIUM, value, newCookingTimeSetting);
 			break;
 		case 5:
-			newIsMany = (boolean) value;
+			changeStateOf(CookingTime.LONG, value, newCookingTimeSetting);
 			break;
 		case 6:
-			newCasseroleSettings = (CasseroleSettings) value;
+			newIsMany = (boolean) value;
 			break;
 		case 7:
+			newCasseroleSettings = (CasseroleSettings) value;
+			break;
+		case 8:
 			newPreferenceSettings = (PreferenceSettings) value;
 			break;
 		default:
@@ -136,16 +141,18 @@ public class SettingTableModel extends AbstractTableModel {
 			newCalCopy.add(Calendar.DATE, row);
 			return dateFormat.format(newCalCopy.getTime());
 		case 2:
-			return !workingCopy[row].getCookingTime().contains(CookingTime.SHORT);
+			return !workingCopy[row].getCookingTime().contains(CookingTime.VERY_SHORT);
 		case 3:
-			return !workingCopy[row].getCookingTime().contains(CookingTime.MEDIUM);
+			return !workingCopy[row].getCookingTime().contains(CookingTime.SHORT);
 		case 4:
-			return !workingCopy[row].getCookingTime().contains(CookingTime.LONG);
+			return !workingCopy[row].getCookingTime().contains(CookingTime.MEDIUM);
 		case 5:
-			return workingCopy[row].getCookingUtensil().containsMany();
+			return !workingCopy[row].getCookingTime().contains(CookingTime.LONG);
 		case 6:
-			return workingCopy[row].getCasserole();
+			return workingCopy[row].getCookingUtensil().containsMany();
 		case 7:
+			return workingCopy[row].getCasserole();
+		case 8:
 			return workingCopy[row].getPreference();
 		default:
 			return "";

@@ -38,15 +38,15 @@ public class SettingTable {
 
 	public JTable setupTable() {
 		table = new JTable(tableModel);
-		setPreferredWidthXofColumns(100, 0, 6, 7);
-		setPreferredWidthXofColumns(50, 1, 2, 3, 4, 5);
-		SwingUtilityMethods.setupEnumColumnRenderer(getTableColumn(6), CasseroleSettings.class,
+		setPreferredWidthXofColumns(100, 0, 7, 8);
+		setPreferredWidthXofColumns(50, 1, 2, 3, 4, 5, 6);
+		SwingUtilityMethods.setupEnumColumnRenderer(getTableColumn(7), CasseroleSettings.class,
 				getCasseroleSettingsStrings(bundles));
-		SwingUtilityMethods.setupComboBoxEditor(getTableColumn(6), CasseroleSettings.class,
+		SwingUtilityMethods.setupComboBoxEditor(getTableColumn(7), CasseroleSettings.class,
 				getCasseroleSettingsStrings(bundles));
-		SwingUtilityMethods.setupEnumColumnRenderer(getTableColumn(7), PreferenceSettings.class,
+		SwingUtilityMethods.setupEnumColumnRenderer(getTableColumn(8), PreferenceSettings.class,
 				getPreferenceSettingsStrings(bundles));
-		SwingUtilityMethods.setupComboBoxEditor(getTableColumn(7), PreferenceSettings.class,
+		SwingUtilityMethods.setupComboBoxEditor(getTableColumn(8), PreferenceSettings.class,
 				getPreferenceSettingsStrings(bundles));
 		return table;
 	}
