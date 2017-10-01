@@ -1,6 +1,6 @@
 package mealplaner.model;
 
-import static mealplaner.io.XMLHelpers.node;
+import static mealplaner.io.XMLHelpers.createTextNode;
 import static mealplaner.io.XMLHelpers.readEnum;
 
 import java.io.Serializable;
@@ -131,20 +131,20 @@ public class Meal implements Serializable, Comparable<Meal> {
 		Element mealNode = saveFileContent.createElement("meal");
 		mealNode.setAttribute("name", meal.getName());
 
-		mealNode.appendChild(node(saveFileContent, "comment", () -> meal.getComment()));
-		mealNode.appendChild(node(saveFileContent,
+		mealNode.appendChild(createTextNode(saveFileContent, "comment", () -> meal.getComment()));
+		mealNode.appendChild(createTextNode(saveFileContent,
 				"cookingTime",
 				() -> meal.getCookingTime().name()));
-		mealNode.appendChild(node(saveFileContent,
+		mealNode.appendChild(createTextNode(saveFileContent,
 				"sideDish",
 				() -> meal.getSidedish().name()));
-		mealNode.appendChild(node(saveFileContent,
+		mealNode.appendChild(createTextNode(saveFileContent,
 				"utensil",
 				() -> meal.getObligatoryUtensil().name()));
-		mealNode.appendChild(node(saveFileContent,
+		mealNode.appendChild(createTextNode(saveFileContent,
 				"preference",
 				() -> meal.getCookingPreference().name()));
-		mealNode.appendChild(node(saveFileContent,
+		mealNode.appendChild(createTextNode(saveFileContent,
 				"lastCooked",
 				() -> Integer.toString(meal.getDaysPassed())));
 		return mealNode;

@@ -1,6 +1,6 @@
 package mealplaner.model.settings;
 
-import static mealplaner.io.XMLHelpers.node;
+import static mealplaner.io.XMLHelpers.createTextNode;
 import static mealplaner.io.XMLHelpers.readBoolean;
 import static mealplaner.io.XMLHelpers.readEnum;
 
@@ -92,29 +92,29 @@ public class Settings implements Serializable {
 		Element settingsNode = saveFileContent.createElement("setting");
 		settingsNode.setAttribute("dayOfWeek", Integer.toString(dayOfWeek));
 
-		settingsNode.appendChild(node(saveFileContent,
+		settingsNode.appendChild(createTextNode(saveFileContent,
 				"casseroleSettings",
 				() -> settings.getCasserole().name()));
-		settingsNode.appendChild(node(saveFileContent,
+		settingsNode.appendChild(createTextNode(saveFileContent,
 				"preferenceSettings",
 				() -> settings.getPreference().name()));
-		settingsNode.appendChild(node(saveFileContent,
+		settingsNode.appendChild(createTextNode(saveFileContent,
 				"manyPeople",
 				() -> Boolean.toString(
 						settings.getCookingUtensil().contains(ObligatoryUtensil.PAN))));
-		settingsNode.appendChild(node(saveFileContent,
+		settingsNode.appendChild(createTextNode(saveFileContent,
 				"VERY_SHORT",
 				() -> Boolean.toString(
 						settings.getCookingTime().isTimeProhibited(CookingTime.VERY_SHORT))));
-		settingsNode.appendChild(node(saveFileContent,
+		settingsNode.appendChild(createTextNode(saveFileContent,
 				"SHORT",
 				() -> Boolean.toString(
 						settings.getCookingTime().isTimeProhibited(CookingTime.SHORT))));
-		settingsNode.appendChild(node(saveFileContent,
+		settingsNode.appendChild(createTextNode(saveFileContent,
 				"MEDIUM",
 				() -> Boolean.toString(
 						settings.getCookingTime().isTimeProhibited(CookingTime.MEDIUM))));
-		settingsNode.appendChild(node(saveFileContent,
+		settingsNode.appendChild(createTextNode(saveFileContent,
 				"LONG",
 				() -> Boolean.toString(
 						settings.getCookingTime().isTimeProhibited(CookingTime.LONG))));

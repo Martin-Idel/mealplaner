@@ -1,5 +1,6 @@
 package mealplaner.io;
 
+import java.util.Calendar;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -10,11 +11,11 @@ import mealplaner.errorhandling.Logger;
 
 public class XMLHelpers {
 
-	public static Element node(Document doc, String name,
+	public static Element createTextNode(Document doc, String name,
 			Supplier<String> stringRepresentationOfField) {
-		Element mealFieldNode = doc.createElement(name);
-		mealFieldNode.appendChild(doc.createTextNode(stringRepresentationOfField.get()));
-		return mealFieldNode;
+		Element textNode = doc.createElement(name);
+		textNode.appendChild(doc.createTextNode(stringRepresentationOfField.get()));
+		return textNode;
 	}
 
 	public static <T extends Enum<T>> T readEnum(T defaultType, Function<String, T> valueOf,
@@ -42,5 +43,26 @@ public class XMLHelpers {
 							+ " could not be read or contains an invalid Enum.", tagName));
 		}
 		return enumType;
+	}
+
+	public static Element saveCalendarToXml(Document saveDocument, Calendar calendar) {
+		Element calNode = saveDocument.createElement("Calendar");
+		calNode.appendChild(
+				createTextNode(saveDocument, "time",
+						() -> Long.toString(calendar.getTime().getTime())));
+		return calNode;
+	}
+
+	public static Calendar getCalendarFromXml(Element calendarNode) {
+		Calendar cal = Calendar.getInstance();
+		try {
+			long time = Long
+					.parseLong(calendarNode.getElementsByTagName("time").item(0).getTextContent());
+			cal.setTimeInMillis(time);
+		} catch (NumberFormatException exc) {
+			Logger.logParsingError(String.format(
+					"The time of calendar " + calendarNode.toString() + " could not be read"));
+		}
+		return cal;
 	}
 }
