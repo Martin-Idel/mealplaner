@@ -1,8 +1,14 @@
 package mealplaner.model;
 
+import static mealplaner.io.XMLHelpers.getCalendarFromXml;
+import static mealplaner.io.XMLHelpers.saveCalendarToXml;
+
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 public class MealplanerCalendar implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -52,5 +58,13 @@ public class MealplanerCalendar implements Serializable {
 					/ MILLISECONDS_PER_DAY;
 		}
 		return (int) daysSince;
+	}
+
+	public static Element saveToXml(Document doc, MealplanerCalendar calendar) {
+		return saveCalendarToXml(doc, calendar.date);
+	}
+
+	public static MealplanerCalendar getMealplanerCalendarFromXml(Element calendarNode) {
+		return new MealplanerCalendar(getCalendarFromXml(calendarNode));
 	}
 }

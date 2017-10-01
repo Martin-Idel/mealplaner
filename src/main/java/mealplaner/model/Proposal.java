@@ -1,10 +1,23 @@
 package mealplaner.model;
 
+import static mealplaner.io.XMLHelpers.createTextNode;
+import static mealplaner.io.XMLHelpers.getCalendarFromXml;
+import static mealplaner.io.XMLHelpers.getMealListFromXml;
+import static mealplaner.io.XMLHelpers.readBoolean;
+import static mealplaner.io.XMLHelpers.saveCalendarToXml;
+import static mealplaner.io.XMLHelpers.saveMealsToXml;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+
+import mealplaner.errorhandling.Logger;
 
 public class Proposal implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -77,4 +90,28 @@ public class Proposal implements Serializable {
 	public void setDate(Date time) {
 		calendar.setTime(time);
 	}
+
+	public static Element saveToXml(Document saveFileContent, Proposal proposal) {
+		Element proposalNode = saveFileContent.createElement("proposal");
+		proposalNode.appendChild(saveMealsToXml(saveFileContent, proposal.mealList));
+		proposalNode.appendChild(saveCalendarToXml(saveFileContent, proposal.calendar));
+		proposalNode.appendChild(createTextNode(saveFileContent, "includesToday",
+				() -> Boolean.toString(proposal.includeToday)));
+		return proposalNode;
+	}
+
+	public static Proposal getFromXml(Element proposalNode) {
+		List<Meal> meals = new ArrayList<>();
+		Node mealsNode = proposalNode.getElementsByTagName("mealList").item(0);
+		if (mealsNode.getNodeType() == Node.ELEMENT_NODE) {
+			meals = getMealListFromXml((Element) mealsNode);
+		} else {
+			Logger.logParsingError(
+					"List of meals in " + proposalNode.toString() + " could not be found");
+		}
+		Calendar calendar = getCalendarFromXml(proposalNode);
+		boolean includesToday = readBoolean(false, proposalNode, "includesToday");
+		return new Proposal(meals, calendar, includesToday);
+	}
+
 }

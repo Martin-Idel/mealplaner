@@ -1,13 +1,20 @@
 package mealplaner.io;
 
+import static java.lang.Long.parseLong;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import mealplaner.errorhandling.Logger;
+import mealplaner.model.Meal;
 
 public class XMLHelpers {
 
@@ -46,7 +53,7 @@ public class XMLHelpers {
 	}
 
 	public static Element saveCalendarToXml(Document saveDocument, Calendar calendar) {
-		Element calNode = saveDocument.createElement("Calendar");
+		Element calNode = saveDocument.createElement("calendar");
 		calNode.appendChild(
 				createTextNode(saveDocument, "time",
 						() -> Long.toString(calendar.getTime().getTime())));
@@ -56,13 +63,41 @@ public class XMLHelpers {
 	public static Calendar getCalendarFromXml(Element calendarNode) {
 		Calendar cal = Calendar.getInstance();
 		try {
-			long time = Long
-					.parseLong(calendarNode.getElementsByTagName("time").item(0).getTextContent());
+			long time = parseLong(
+					calendarNode.getElementsByTagName("time").item(0).getTextContent());
 			cal.setTimeInMillis(time);
 		} catch (NumberFormatException exc) {
 			Logger.logParsingError(String.format(
 					"The time of calendar " + calendarNode.toString() + " could not be read"));
 		}
 		return cal;
+	}
+
+	public static Element saveMealsToXml(Document saveFileContent, List<Meal> meals) {
+		Element mealListNode = saveFileContent.createElement("mealList");
+		meals.stream().map(meal -> Meal.generateXml(saveFileContent, meal))
+				.forEach(mealListNode::appendChild);
+		return mealListNode;
+	}
+
+	public static List<Meal> getMealListFromXml(Element mealListNode) {
+		NodeList elementsByTagName = mealListNode.getElementsByTagName("meal");
+		List<Meal> meals = new ArrayList<>();
+		for (int i = 0; i < elementsByTagName.getLength(); i++) {
+			if (elementsByTagName.item(i).getNodeType() == Node.ELEMENT_NODE) {
+				Meal meal = Meal.loadFromXml((Element) elementsByTagName.item(i));
+				meals.add(meal);
+			} else {
+				Logger.logParsingError(
+						"A meal in " + mealListNode.toString() + " could not be read properly");
+			}
+		}
+		return meals;
+	}
+
+	public static <T> T logFailedXmlRetrieval(T fallback, String message, Element node) {
+		Logger.logParsingError(String
+				.format("Element %s not found in node " + node.toString(), message));
+		return fallback;
 	}
 }

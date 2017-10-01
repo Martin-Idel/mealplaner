@@ -4,13 +4,21 @@ import static mealplaner.DataStoreEventType.DATABASE_EDITED;
 import static mealplaner.DataStoreEventType.DATE_UPDATED;
 import static mealplaner.DataStoreEventType.PROPOSAL_ADDED;
 import static mealplaner.DataStoreEventType.SETTINGS_CHANGED;
+import static mealplaner.io.XMLHelpers.logFailedXmlRetrieval;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import mealplaner.errorhandling.Logger;
 import mealplaner.errorhandling.MealException;
+import mealplaner.io.XMLHelpers;
 import mealplaner.model.Meal;
 import mealplaner.model.MealplanerCalendar;
 import mealplaner.model.Proposal;
@@ -119,5 +127,62 @@ public class MealplanerData implements DataStore {
 	@Override
 	public void register(DataStoreListener listener) {
 		listeners.add(listener);
+	}
+
+	public MealplanerData readXml(Element mealPlanerNode) {
+		Node mealList = mealPlanerNode.getElementsByTagName("mealList").item(0);
+		List<Meal> meals = mealList.getNodeType() == Node.ELEMENT_NODE
+				? XMLHelpers.getMealListFromXml((Element) mealList)
+				: logFailedXmlRetrieval(new ArrayList<>(), "Proposal", mealPlanerNode);
+		Node settings = mealPlanerNode.getElementsByTagName("defaultSettings").item(0);
+		Settings[] defaultSettings = new Settings[7];
+		if (settings.getNodeType() == Node.ELEMENT_NODE) {
+			Element settingsNode = (Element) settings;
+			NodeList elementsByTagName = settingsNode.getElementsByTagName("setting");
+			for (int i = 0; i < elementsByTagName.getLength(); i++) {
+				defaultSettings[Integer.parseInt(elementsByTagName.item(i).getAttributes()
+						.getNamedItem("dayOfWeek").getTextContent())] = elementsByTagName.item(i)
+								.getNodeType() == Node.ELEMENT_NODE
+										? Settings.loadFromXml((Element) elementsByTagName.item(i))
+										: logFailedXmlRetrieval(new Settings(), "Settings " + i,
+												settingsNode);
+			}
+		} else {
+			Logger.logParsingError("Settings node not found in " + mealPlanerNode.toString());
+		}
+		for (int i = 0; i < defaultSettings.length; i++) {
+			if (defaultSettings[i] == null) {
+				defaultSettings[i] = new Settings();
+				Logger.logParsingError(
+						"Setting " + i + " not correctly read in " + mealPlanerNode.toString());
+			}
+		}
+		Node calendarNode = mealPlanerNode.getElementsByTagName("calendar").item(0);
+		MealplanerCalendar cal = calendarNode.getNodeType() == Node.ELEMENT_NODE
+				? MealplanerCalendar.getMealplanerCalendarFromXml((Element) calendarNode)
+				: logFailedXmlRetrieval(new MealplanerCalendar(Calendar.getInstance()), "Proposal",
+						mealPlanerNode);
+		Node proposalNode = mealPlanerNode.getElementsByTagName("proposal").item(0);
+		Proposal proposal = proposalNode.getNodeType() == Node.ELEMENT_NODE
+				? Proposal.getFromXml((Element) proposalNode)
+				: logFailedXmlRetrieval(new Proposal(), "Proposal", mealPlanerNode);
+		return new MealplanerData(meals, cal, defaultSettings, proposal);
+	}
+
+	public static Element generateXml(Document saveFileContent, MealplanerData mealplanerData) {
+		Element mealplanerDataNode = saveFileContent.createElement("mealplaner");
+		mealplanerDataNode
+				.appendChild(XMLHelpers.saveMealsToXml(saveFileContent, mealplanerData.meals));
+		Element defaultSettingsNode = saveFileContent.createElement("defaultSettings");
+		for (int i = 0; i < mealplanerData.defaultSettings.length; i++) {
+			defaultSettingsNode
+					.appendChild(Settings.generateXml(saveFileContent,
+							mealplanerData.defaultSettings[i], i));
+		}
+		mealplanerDataNode
+				.appendChild(MealplanerCalendar.saveToXml(saveFileContent, mealplanerData.cal));
+		mealplanerDataNode
+				.appendChild(Proposal.saveToXml(saveFileContent, mealplanerData.proposal));
+		return mealplanerDataNode;
 	}
 }
