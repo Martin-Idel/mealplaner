@@ -1,7 +1,9 @@
 package mealplaner.model;
 
+import static mealplaner.io.XMLHelpers.node;
+import static mealplaner.io.XMLHelpers.readEnum;
+
 import java.io.Serializable;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 import org.w3c.dom.Document;
@@ -169,13 +171,6 @@ public class Meal implements Serializable, Comparable<Meal> {
 				cookingPreference, daysLastCooked, comment);
 	}
 
-	private static Element node(Document doc, String name,
-			Supplier<String> stringRepresentationOfField) {
-		Element mealFieldNode = doc.createElement(name);
-		mealFieldNode.appendChild(doc.createTextNode(stringRepresentationOfField.get()));
-		return mealFieldNode;
-	}
-
 	private static int parseInteger(Element currentMeal) {
 		int daysLastCooked = 0;
 		try {
@@ -204,19 +199,5 @@ public class Meal implements Serializable, Comparable<Meal> {
 					"The %s of element " + currentMeal.toString() + " could not be read", tagName));
 		}
 		return name;
-	}
-
-	private static <T extends Enum<T>> T readEnum(T defaultType, Function<String, T> valueOf,
-			Element currentMeal, String tagName) {
-		T enumType = defaultType;
-		try {
-			enumType = valueOf.apply(currentMeal.getElementsByTagName(tagName).item(0)
-					.getTextContent());
-		} catch (NullPointerException | IllegalArgumentException exception) {
-			Logger.logParsingError(
-					String.format("The %s of element " + currentMeal.toString()
-							+ " could not be read or contains an invalid Enum.", tagName));
-		}
-		return enumType;
 	}
 }

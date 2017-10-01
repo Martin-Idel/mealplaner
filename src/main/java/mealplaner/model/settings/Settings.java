@@ -1,6 +1,13 @@
 package mealplaner.model.settings;
 
+import static mealplaner.io.XMLHelpers.node;
+import static mealplaner.io.XMLHelpers.readBoolean;
+import static mealplaner.io.XMLHelpers.readEnum;
+
 import java.io.Serializable;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import mealplaner.model.enums.CasseroleSettings;
 import mealplaner.model.enums.CookingTime;
@@ -22,7 +29,8 @@ public class Settings implements Serializable {
 				PreferenceSettings.NORMAL);
 	}
 
-	public Settings(CookingTimeSetting cookingTime, boolean manyPeople,
+	public Settings(CookingTimeSetting cookingTime,
+			boolean manyPeople,
 			CasseroleSettings casseroleSettings,
 			PreferenceSettings preferenceSettings) {
 
@@ -78,5 +86,60 @@ public class Settings implements Serializable {
 
 	public PreferenceSettings getPreference() {
 		return preference;
+	}
+
+	public static Element generateXml(Document saveFileContent, Settings settings, int dayOfWeek) {
+		Element settingsNode = saveFileContent.createElement("setting");
+		settingsNode.setAttribute("dayOfWeek", Integer.toString(dayOfWeek));
+
+		settingsNode.appendChild(node(saveFileContent,
+				"casseroleSettings",
+				() -> settings.getCasserole().name()));
+		settingsNode.appendChild(node(saveFileContent,
+				"preferenceSettings",
+				() -> settings.getPreference().name()));
+		settingsNode.appendChild(node(saveFileContent,
+				"manyPeople",
+				() -> Boolean.toString(
+						settings.getCookingUtensil().contains(ObligatoryUtensil.PAN))));
+		settingsNode.appendChild(node(saveFileContent,
+				"VERY_SHORT",
+				() -> Boolean.toString(
+						settings.getCookingTime().isTimeProhibited(CookingTime.VERY_SHORT))));
+		settingsNode.appendChild(node(saveFileContent,
+				"SHORT",
+				() -> Boolean.toString(
+						settings.getCookingTime().isTimeProhibited(CookingTime.SHORT))));
+		settingsNode.appendChild(node(saveFileContent,
+				"MEDIUM",
+				() -> Boolean.toString(
+						settings.getCookingTime().isTimeProhibited(CookingTime.MEDIUM))));
+		settingsNode.appendChild(node(saveFileContent,
+				"LONG",
+				() -> Boolean.toString(
+						settings.getCookingTime().isTimeProhibited(CookingTime.LONG))));
+		return settingsNode;
+	}
+
+	public static Settings loadFromXml(Element currentSetting) {
+		CasseroleSettings casseroleSettings = readEnum(CasseroleSettings.POSSIBLE,
+				CasseroleSettings::valueOf, currentSetting, "casseroleSettings");
+		PreferenceSettings preferenceSetting = readEnum(PreferenceSettings.NORMAL,
+				PreferenceSettings::valueOf, currentSetting, "preferenceSettings");
+		boolean manyPeople = readBoolean(false, currentSetting, "manyPeople");
+		CookingTimeSetting cookingTimes = new CookingTimeSetting();
+		if (readBoolean(false, currentSetting, "VERY_SHORT")) {
+			cookingTimes.prohibitCookingTime(CookingTime.VERY_SHORT);
+		}
+		if (readBoolean(false, currentSetting, "SHORT")) {
+			cookingTimes.prohibitCookingTime(CookingTime.SHORT);
+		}
+		if (readBoolean(false, currentSetting, "MEDIUM")) {
+			cookingTimes.prohibitCookingTime(CookingTime.MEDIUM);
+		}
+		if (readBoolean(false, currentSetting, "LONG")) {
+			cookingTimes.prohibitCookingTime(CookingTime.LONG);
+		}
+		return new Settings(cookingTimes, manyPeople, casseroleSettings, preferenceSetting);
 	}
 }
