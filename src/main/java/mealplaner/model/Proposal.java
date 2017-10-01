@@ -93,7 +93,8 @@ public class Proposal implements Serializable {
 
 	public static Element saveToXml(Document saveFileContent, Proposal proposal) {
 		Element proposalNode = saveFileContent.createElement("proposal");
-		proposalNode.appendChild(saveMealsToXml(saveFileContent, proposal.mealList));
+		proposalNode
+				.appendChild(saveMealsToXml(saveFileContent, proposal.mealList, "proposalList"));
 		proposalNode.appendChild(saveCalendarToXml(saveFileContent, proposal.calendar));
 		proposalNode.appendChild(createTextNode(saveFileContent, "includesToday",
 				() -> Boolean.toString(proposal.includeToday)));
@@ -102,7 +103,7 @@ public class Proposal implements Serializable {
 
 	public static Proposal getFromXml(Element proposalNode) {
 		List<Meal> meals = new ArrayList<>();
-		Node mealsNode = proposalNode.getElementsByTagName("mealList").item(0);
+		Node mealsNode = proposalNode.getElementsByTagName("proposalList").item(0);
 		if (mealsNode.getNodeType() == Node.ELEMENT_NODE) {
 			meals = getMealListFromXml((Element) mealsNode);
 		} else {

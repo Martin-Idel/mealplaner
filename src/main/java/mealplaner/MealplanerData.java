@@ -129,7 +129,7 @@ public class MealplanerData implements DataStore {
 		listeners.add(listener);
 	}
 
-	public MealplanerData readXml(Element mealPlanerNode) {
+	public static MealplanerData readXml(Element mealPlanerNode) {
 		Node mealList = mealPlanerNode.getElementsByTagName("mealList").item(0);
 		List<Meal> meals = mealList.getNodeType() == Node.ELEMENT_NODE
 				? XMLHelpers.getMealListFromXml((Element) mealList)
@@ -172,13 +172,15 @@ public class MealplanerData implements DataStore {
 	public static Element generateXml(Document saveFileContent, MealplanerData mealplanerData) {
 		Element mealplanerDataNode = saveFileContent.createElement("mealplaner");
 		mealplanerDataNode
-				.appendChild(XMLHelpers.saveMealsToXml(saveFileContent, mealplanerData.meals));
+				.appendChild(XMLHelpers.saveMealsToXml(saveFileContent, mealplanerData.meals,
+						"mealList"));
 		Element defaultSettingsNode = saveFileContent.createElement("defaultSettings");
 		for (int i = 0; i < mealplanerData.defaultSettings.length; i++) {
 			defaultSettingsNode
 					.appendChild(Settings.generateXml(saveFileContent,
 							mealplanerData.defaultSettings[i], i));
 		}
+		mealplanerDataNode.appendChild(defaultSettingsNode);
 		mealplanerDataNode
 				.appendChild(MealplanerCalendar.saveToXml(saveFileContent, mealplanerData.cal));
 		mealplanerDataNode

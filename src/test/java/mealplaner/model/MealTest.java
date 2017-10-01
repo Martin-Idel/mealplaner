@@ -25,7 +25,7 @@ public class MealTest {
 
 	@Before
 	public void setup() throws MealException {
-		sut = new Meal("Test", CookingTime.SHORT, Sidedish.NONE, ObligatoryUtensil.POT,
+		sut = new Meal("Test", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.POT,
 				CookingPreference.NO_PREFERENCE, 5, "");
 	}
 

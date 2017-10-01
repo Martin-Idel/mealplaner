@@ -1,30 +1,26 @@
 package mealplaner.io;
 
-import java.io.FileInputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 import mealplaner.MealplanerData;
 import mealplaner.errorhandling.MealException;
-import mealplaner.model.Meal;
-import mealplaner.model.MealplanerCalendar;
-import mealplaner.model.Proposal;
-import mealplaner.model.settings.Settings;
 
 public class MealplanerFileLoader {
 
 	public static MealplanerData load(String name)
 			throws FileNotFoundException, IOException, MealException {
-		try (FileInputStream fs1 = new FileInputStream(name);
-				ObjectInputStream os1 = new ObjectInputStream(fs1)) {
-			return constructMealplanerFromFile(os1);
-		} catch (ClassNotFoundException exc) {
-			throw new MealException("Corrupted Save File - some classes were not found");
+		try {
+			return readXml();
 		} catch (ClassCastException exc) {
 			throw new MealException("Corrupted Save File - some classes were not saved correctly");
 		} catch (MealException exc) {
@@ -32,18 +28,23 @@ public class MealplanerFileLoader {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	private static MealplanerData constructMealplanerFromFile(ObjectInputStream os1)
-			throws IOException, ClassNotFoundException, MealException {
+	private static MealplanerData readXml() throws IOException {
+		try {
+			File inputFile = new File("save.xml");
+			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder documentBuilder = docFactory.newDocumentBuilder();
+			Document parsedDocument = documentBuilder.parse(inputFile);
+			parsedDocument.getDocumentElement().normalize();
 
-		Date date = (Date) os1.readObject();
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
-		MealplanerCalendar cal = new MealplanerCalendar(calendar);
-		List<Meal> meals = (ArrayList<Meal>) os1.readObject();
-		Settings[] defaultSettings = (Settings[]) os1.readObject();
-		Proposal proposal = (Proposal) os1.readObject();
+			return MealplanerData.readXml((Element) parsedDocument.getDocumentElement()
+					.getElementsByTagName("mealplaner").item(0));
 
-		return new MealplanerData(meals, cal, defaultSettings, proposal);
+		} catch (ParserConfigurationException e) {
+			throw new MealException(
+					"Internal Error: Something went wrong when creating an XML document.");
+		} catch (SAXException e) {
+			throw new MealException(
+					"Internal Error: Something went wrong when creating an XML document.");
+		}
 	}
 }

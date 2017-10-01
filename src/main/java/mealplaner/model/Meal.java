@@ -136,7 +136,7 @@ public class Meal implements Serializable, Comparable<Meal> {
 				"cookingTime",
 				() -> meal.getCookingTime().name()));
 		mealNode.appendChild(createTextNode(saveFileContent,
-				"sideDish",
+				"sidedish",
 				() -> meal.getSidedish().name()));
 		mealNode.appendChild(createTextNode(saveFileContent,
 				"utensil",

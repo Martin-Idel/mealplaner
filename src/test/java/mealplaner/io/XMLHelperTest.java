@@ -103,7 +103,8 @@ public class XMLHelperTest {
 		meals.add(meal1);
 		meals.add(meal2);
 
-		List<Meal> actualMeals = getMealListFromXml(saveMealsToXml(saveDocument, meals));
+		List<Meal> actualMeals = getMealListFromXml(
+				saveMealsToXml(saveDocument, meals, "mealList"));
 
 		compareTwoMealLists(meals, actualMeals);
 	}

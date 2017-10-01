@@ -10,13 +10,19 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.w3c.dom.Document;
 
 import mealplaner.errorhandling.MealException;
 import mealplaner.model.Meal;
@@ -153,6 +159,42 @@ public class MealplanerDataTest {
 		sut.setDate(0, 0, 0);
 
 		verify(listener).updateData(DATE_UPDATED);
+	}
+
+	@Test
+	public void mealplanerXmlSaving() throws ParserConfigurationException {
+		Settings[] defaultSettings = getCorrectlyFilledSettings();
+		Proposal lastProposal = new Proposal();
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(2000000000);
+		MealplanerCalendar mealplanerCalendar = new MealplanerCalendar(cal);
+		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder documentBuilder = docFactory.newDocumentBuilder();
+		Document saveFileContent = documentBuilder.newDocument();
+
+		sut = new MealplanerData(meals, mealplanerCalendar, defaultSettings, lastProposal);
+
+		MealplanerData actual = MealplanerData
+				.readXml(MealplanerData.generateXml(saveFileContent, sut));
+		compareMealplanerData(sut, actual);
+	}
+
+	private void compareMealplanerData(MealplanerData expected, MealplanerData actual) {
+		for (int i = 0; i < expected.getMeals().size(); i++) {
+			compareTwoMeals(expected.getMeals().get(i), actual.getMeals().get(i));
+		}
+		assertEquals(expected.getDaysPassed(), actual.getDaysPassed());
+		assertEquals(expected.getLastProposal().isToday(), actual.getLastProposal().isToday());
+	}
+
+	private void compareTwoMeals(Meal expected, Meal actual) {
+		assertEquals(expected.getName(), actual.getName());
+		assertEquals(expected.getComment(), actual.getComment());
+		assertEquals(expected.getCookingPreference(), actual.getCookingPreference());
+		assertEquals(expected.getCookingTime(), actual.getCookingTime());
+		assertEquals(expected.getSidedish(), actual.getSidedish());
+		assertEquals(expected.getObligatoryUtensil(), actual.getObligatoryUtensil());
+		assertEquals(expected.getDaysPassed(), actual.getDaysPassed());
 	}
 
 	private void addInitializedMeals() throws MealException {
