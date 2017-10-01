@@ -13,4 +13,14 @@ public class Logger {
 			ex.printStackTrace();
 		}
 	}
+
+	public static void logParsingError(String message) {
+		try {
+			PrintStream ps = new PrintStream(new File("ParsingError.log"));
+			ps.println(message);
+		} catch (FileNotFoundException ex) {
+			ex.printStackTrace();
+		}
+	}
+
 }

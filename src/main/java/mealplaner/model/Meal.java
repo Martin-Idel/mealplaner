@@ -1,7 +1,13 @@
 package mealplaner.model;
 
 import java.io.Serializable;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import mealplaner.errorhandling.Logger;
 import mealplaner.errorhandling.MealException;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
@@ -19,8 +25,8 @@ public class Meal implements Serializable, Comparable<Meal> {
 	private String comment;
 
 	public Meal(String name, CookingTime cookingTime, Sidedish sideDish,
-			ObligatoryUtensil obligatoryUtensil,
-			CookingPreference cookingPreference, int daysPassed, String comment)
+			ObligatoryUtensil obligatoryUtensil, CookingPreference cookingPreference,
+			int daysPassed, String comment)
 			throws MealException {
 		setName(name);
 		this.cookingTime = cookingTime;
@@ -117,5 +123,100 @@ public class Meal implements Serializable, Comparable<Meal> {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	public static Element generateXml(Document saveFileContent, Meal meal) {
+		Element mealNode = saveFileContent.createElement("meal");
+		mealNode.setAttribute("name", meal.getName());
+
+		mealNode.appendChild(node(saveFileContent, "comment", () -> meal.getComment()));
+		mealNode.appendChild(node(saveFileContent,
+				"cookingTime",
+				() -> meal.getCookingTime().name()));
+		mealNode.appendChild(node(saveFileContent,
+				"sideDish",
+				() -> meal.getSidedish().name()));
+		mealNode.appendChild(node(saveFileContent,
+				"utensil",
+				() -> meal.getObligatoryUtensil().name()));
+		mealNode.appendChild(node(saveFileContent,
+				"preference",
+				() -> meal.getCookingPreference().name()));
+		mealNode.appendChild(node(saveFileContent,
+				"lastCooked",
+				() -> Integer.toString(meal.getDaysPassed())));
+		return mealNode;
+	}
+
+	public static Meal loadFromXml(Element currentMeal) {
+		String name = readString("corruptedName",
+				() -> currentMeal.getAttributes().getNamedItem("name").getTextContent(),
+				currentMeal,
+				"name");
+		String comment = readString("",
+				() -> currentMeal.getElementsByTagName("comment").item(0).getTextContent(),
+				currentMeal,
+				"comment");
+		CookingTime cookingTime = readEnum(CookingTime.VERY_SHORT,
+				CookingTime::valueOf, currentMeal, "cookingTime");
+		Sidedish sidedish = readEnum(Sidedish.NONE, Sidedish::valueOf, currentMeal, "sidedish");
+		ObligatoryUtensil obligatoryUtensil = readEnum(ObligatoryUtensil.POT,
+				ObligatoryUtensil::valueOf, currentMeal, "utensil");
+		CookingPreference cookingPreference = readEnum(CookingPreference.NO_PREFERENCE,
+				CookingPreference::valueOf, currentMeal, "preference");
+		int daysLastCooked = parseInteger(currentMeal);
+		return new Meal(name, cookingTime, sidedish, obligatoryUtensil,
+				cookingPreference, daysLastCooked, comment);
+	}
+
+	private static Element node(Document doc, String name,
+			Supplier<String> stringRepresentationOfField) {
+		Element mealFieldNode = doc.createElement(name);
+		mealFieldNode.appendChild(doc.createTextNode(stringRepresentationOfField.get()));
+		return mealFieldNode;
+	}
+
+	private static int parseInteger(Element currentMeal) {
+		int daysLastCooked = 0;
+		try {
+			daysLastCooked = Integer
+					.parseInt(currentMeal.getElementsByTagName("lastCooked").item(0)
+							.getTextContent());
+		} catch (NullPointerException | NumberFormatException exception) {
+			Logger.logParsingError(
+					"The number of days passed of element " + currentMeal.toString()
+							+ " could not be read or contains an invalid number.");
+		}
+		if (daysLastCooked < 0) {
+			daysLastCooked = 0;
+			Logger.logParsingError("The number of days must be nonnegative.");
+		}
+		return daysLastCooked;
+	}
+
+	private static String readString(String defaultType, Supplier<String> getElement,
+			Element currentMeal, String tagName) {
+		String name = defaultType;
+		try {
+			name = getElement.get();
+		} catch (NullPointerException exception) {
+			Logger.logParsingError(String.format(
+					"The %s of element " + currentMeal.toString() + " could not be read", tagName));
+		}
+		return name;
+	}
+
+	private static <T extends Enum<T>> T readEnum(T defaultType, Function<String, T> valueOf,
+			Element currentMeal, String tagName) {
+		T enumType = defaultType;
+		try {
+			enumType = valueOf.apply(currentMeal.getElementsByTagName(tagName).item(0)
+					.getTextContent());
+		} catch (NullPointerException | IllegalArgumentException exception) {
+			Logger.logParsingError(
+					String.format("The %s of element " + currentMeal.toString()
+							+ " could not be read or contains an invalid Enum.", tagName));
+		}
+		return enumType;
 	}
 }
