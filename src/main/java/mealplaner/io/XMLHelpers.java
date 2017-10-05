@@ -76,7 +76,7 @@ public class XMLHelpers {
 	public static Element saveMealsToXml(Document saveFileContent, List<Meal> meals,
 			String nodeName) {
 		Element mealListNode = saveFileContent.createElement(nodeName);
-		meals.stream().map(meal -> Meal.generateXml(saveFileContent, meal))
+		meals.stream().map(meal -> Meal.generateXml(saveFileContent, meal, "meal"))
 				.forEach(mealListNode::appendChild);
 		return mealListNode;
 	}

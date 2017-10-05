@@ -7,7 +7,6 @@ import static mealplaner.io.XMLHelpers.readBoolean;
 import static mealplaner.io.XMLHelpers.saveCalendarToXml;
 import static mealplaner.io.XMLHelpers.saveMealsToXml;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -19,8 +18,7 @@ import org.w3c.dom.Node;
 
 import mealplaner.errorhandling.Logger;
 
-public class Proposal implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class Proposal {
 	private List<Meal> mealList;
 	private Calendar calendar;
 	private boolean includeToday;
@@ -91,8 +89,9 @@ public class Proposal implements Serializable {
 		calendar.setTime(time);
 	}
 
-	public static Element saveToXml(Document saveFileContent, Proposal proposal) {
-		Element proposalNode = saveFileContent.createElement("proposal");
+	public static Element saveToXml(Document saveFileContent, Proposal proposal,
+			String elementName) {
+		Element proposalNode = saveFileContent.createElement(elementName);
 		proposalNode
 				.appendChild(saveMealsToXml(saveFileContent, proposal.mealList, "proposalList"));
 		proposalNode.appendChild(saveCalendarToXml(saveFileContent, proposal.calendar));
@@ -115,4 +114,36 @@ public class Proposal implements Serializable {
 		return new Proposal(meals, calendar, includesToday);
 	}
 
+	@Override
+	public String toString() {
+		return "Proposal [mealList=" + mealList + ", calendar=" + calendar + ", includeToday="
+				+ includeToday + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((calendar == null) ? 0 : calendar.hashCode());
+		result = prime * result + (includeToday ? 1231 : 1237);
+		result = prime * result + ((mealList == null) ? 0 : mealList.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null || getClass() != obj.getClass()) {
+			return false;
+		}
+		Proposal other = (Proposal) obj;
+		if (!calendar.equals(other.calendar)
+				|| includeToday != other.includeToday
+				|| !mealList.equals(other.mealList)) {
+			return false;
+		}
+		return true;
+	}
 }

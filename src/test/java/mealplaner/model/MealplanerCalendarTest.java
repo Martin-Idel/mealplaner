@@ -65,7 +65,7 @@ public class MealplanerCalendarTest {
 
 		int daysPassed = sut.getDaysPassedTo(compareToCalendar);
 
-		assertEquals(26 + 30 + 31 + 31 + 7, daysPassed);
+		assertEquals(26 + 31 + 30 + 31 + 7, daysPassed);
 	}
 
 	@Test

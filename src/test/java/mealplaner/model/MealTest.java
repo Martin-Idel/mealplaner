@@ -1,11 +1,12 @@
 package mealplaner.model;
 
-import static org.junit.Assert.assertEquals;
+import static mealplaner.io.XMLHelpers.createTextNode;
+import static org.assertj.core.api.Assertions.assertThat;
+import static testcommons.CommonFunctions.createDocument;
+import static testcommons.CommonFunctions.getMeal1;
+import static testcommons.CommonFunctions.getMeal2;
+import static testcommons.MealAssert.assertThat;
 
-import java.util.function.Supplier;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.Before;
@@ -34,7 +35,7 @@ public class MealTest {
 
 		sut.setName("New Name");
 
-		assertEquals("New Name", sut.getName());
+		assertThat(sut.getName()).isEqualTo("New Name");
 	}
 
 	@Test(expected = MealException.class)
@@ -42,7 +43,7 @@ public class MealTest {
 
 		sut.setName("  ");
 
-		assertEquals("Test", sut.getName());
+		assertThat(sut.getName()).isEqualTo("Test");
 	}
 
 	@Test
@@ -50,7 +51,7 @@ public class MealTest {
 
 		sut.setDaysPassed(154);
 
-		assertEquals(154, sut.getDaysPassed());
+		assertThat(sut.getDaysPassed()).isEqualTo(154);
 	}
 
 	@Test(expected = MealException.class)
@@ -58,45 +59,37 @@ public class MealTest {
 
 		sut.setDaysPassed(-5);
 
-		assertEquals(5, sut.getDaysPassed());
+		assertThat(sut.getDaysPassed()).isEqualTo(5);
 	}
 
 	@Test
 	public void compareToWithName() throws MealException {
-		Meal compareMeal = new Meal("Test2", CookingTime.SHORT, Sidedish.NONE,
-				ObligatoryUtensil.POT, CookingPreference.NO_PREFERENCE, 1, "");
+		Meal compareMeal = getMeal2();
 
 		int compareResult = sut.compareTo(compareMeal);
 
-		assertEquals(-1, compareResult);
+		assertThat(compareResult).isEqualTo(-1);
 	}
 
 	@Test
 	public void saveAndReadFromXmlNode() throws ParserConfigurationException {
-		Meal meal = new Meal("Test2", CookingTime.SHORT, Sidedish.NONE,
-				ObligatoryUtensil.POT, CookingPreference.NO_PREFERENCE, 1, "");
+		Meal meal = getMeal2();
+		Document saveFileContent = createDocument();
 
-		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder documentBuilder = docFactory.newDocumentBuilder();
-		Document saveFileContent = documentBuilder.newDocument();
+		sut = Meal.loadFromXml(Meal.generateXml(saveFileContent, meal, "meal"));
 
-		sut = Meal.loadFromXml(Meal.generateXml(saveFileContent, meal));
-
-		compareTwoMeals(meal, sut);
+		assertThat(sut).isEqualTo(meal);
 	}
 
 	@Test
 	public void readFromXmlNode() throws ParserConfigurationException {
-		Meal meal = new Meal("Test1", CookingTime.SHORT, Sidedish.PASTA,
-				ObligatoryUtensil.PAN, CookingPreference.VERY_POPULAR, 5, "no comment");
+		Meal meal = getMeal1();
 
-		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder documentBuilder = docFactory.newDocumentBuilder();
-		Document saveFileContent = documentBuilder.newDocument();
+		Document saveFileContent = createDocument();
 		Element mealNode = saveFileContent.createElement("meal");
 		mealNode.setAttribute("name", meal.getName());
-		mealNode.appendChild(node(saveFileContent, "comment", () -> meal.getComment()));
-		mealNode.appendChild(node(saveFileContent,
+		mealNode.appendChild(createTextNode(saveFileContent, "comment", () -> meal.getComment()));
+		mealNode.appendChild(createTextNode(saveFileContent,
 				"cookingTime",
 				() -> meal.getCookingTime().name()));
 
@@ -105,23 +98,6 @@ public class MealTest {
 		Meal expectedMeal = new Meal(meal.getName(), meal.getCookingTime(), Sidedish.NONE,
 				ObligatoryUtensil.POT, CookingPreference.NO_PREFERENCE, 0, meal.getComment());
 
-		compareTwoMeals(expectedMeal, sut);
-	}
-
-	private static Element node(Document doc, String name,
-			Supplier<String> stringRepresentationOfField) {
-		Element mealFieldNode = doc.createElement(name);
-		mealFieldNode.appendChild(doc.createTextNode(stringRepresentationOfField.get()));
-		return mealFieldNode;
-	}
-
-	private void compareTwoMeals(Meal expected, Meal actual) {
-		assertEquals(expected.getName(), actual.getName());
-		assertEquals(expected.getComment(), actual.getComment());
-		assertEquals(expected.getCookingPreference(), actual.getCookingPreference());
-		assertEquals(expected.getCookingTime(), actual.getCookingTime());
-		assertEquals(expected.getSidedish(), actual.getSidedish());
-		assertEquals(expected.getObligatoryUtensil(), actual.getObligatoryUtensil());
-		assertEquals(expected.getDaysPassed(), actual.getDaysPassed());
+		assertThat(sut).isEqualTo(expectedMeal);
 	}
 }

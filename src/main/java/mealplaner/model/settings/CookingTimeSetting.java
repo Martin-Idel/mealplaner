@@ -1,6 +1,5 @@
 package mealplaner.model.settings;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -8,9 +7,7 @@ import java.util.Set;
 import mealplaner.model.Meal;
 import mealplaner.model.enums.CookingTime;
 
-public class CookingTimeSetting implements Serializable, CookingSetting {
-
-	private static final long serialVersionUID = 1L;
+public class CookingTimeSetting implements CookingSetting {
 	private final Set<CookingTime> prohibitedCookingTime;
 
 	public CookingTimeSetting() {
@@ -53,5 +50,30 @@ public class CookingTimeSetting implements Serializable, CookingSetting {
 
 	public boolean contains(CookingTime cookingTime) {
 		return prohibitedCookingTime.contains(cookingTime);
+	}
+
+	@Override
+	public String toString() {
+		return "CookingTimeSetting [prohibitedCookingTime=" + prohibitedCookingTime + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return 31 + ((prohibitedCookingTime == null) ? 0 : prohibitedCookingTime.hashCode());
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null || getClass() != obj.getClass()) {
+			return false;
+		}
+		CookingTimeSetting other = (CookingTimeSetting) obj;
+		if (!prohibitedCookingTime.equals(other.prohibitedCookingTime)) {
+			return false;
+		}
+		return true;
 	}
 }

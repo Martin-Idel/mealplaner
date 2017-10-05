@@ -3,7 +3,6 @@ package mealplaner.model;
 import static mealplaner.io.XMLHelpers.createTextNode;
 import static mealplaner.io.XMLHelpers.readEnum;
 
-import java.io.Serializable;
 import java.util.function.Supplier;
 
 import org.w3c.dom.Document;
@@ -16,8 +15,8 @@ import mealplaner.model.enums.CookingTime;
 import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.Sidedish;
 
-public class Meal implements Serializable, Comparable<Meal> {
-	private static final long serialVersionUID = 1L;
+// TODO: investigate better toString method
+public class Meal implements Comparable<Meal> {
 	private String name;
 	private CookingTime cookingTime;
 	private Sidedish sidedish;
@@ -127,8 +126,8 @@ public class Meal implements Serializable, Comparable<Meal> {
 		return name;
 	}
 
-	public static Element generateXml(Document saveFileContent, Meal meal) {
-		Element mealNode = saveFileContent.createElement("meal");
+	public static Element generateXml(Document saveFileContent, Meal meal, String elementName) {
+		Element mealNode = saveFileContent.createElement(elementName);
 		mealNode.setAttribute("name", meal.getName());
 
 		mealNode.appendChild(createTextNode(saveFileContent, "comment", () -> meal.getComment()));
@@ -199,5 +198,40 @@ public class Meal implements Serializable, Comparable<Meal> {
 					"The %s of element " + currentMeal.toString() + " could not be read", tagName));
 		}
 		return name;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((comment == null) ? 0 : comment.hashCode());
+		result = prime * result + ((cookingPreference == null) ? 0 : cookingPreference.hashCode());
+		result = prime * result + ((cookingTime == null) ? 0 : cookingTime.hashCode());
+		result = prime * result + daysPassed;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((obligatoryUtensil == null) ? 0 : obligatoryUtensil.hashCode());
+		result = prime * result + ((sidedish == null) ? 0 : sidedish.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null || getClass() != obj.getClass()) {
+			return false;
+		}
+		Meal other = (Meal) obj;
+		if (!name.equals(other.name)
+				|| !comment.equals(other.comment)
+				|| cookingPreference != other.cookingPreference
+				|| cookingTime != other.cookingTime
+				|| obligatoryUtensil != other.obligatoryUtensil
+				|| sidedish != other.sidedish
+				|| daysPassed != other.daysPassed) {
+			return false;
+		}
+		return true;
 	}
 }

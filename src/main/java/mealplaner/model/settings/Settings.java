@@ -4,8 +4,6 @@ import static mealplaner.io.XMLHelpers.createTextNode;
 import static mealplaner.io.XMLHelpers.readBoolean;
 import static mealplaner.io.XMLHelpers.readEnum;
 
-import java.io.Serializable;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -14,10 +12,7 @@ import mealplaner.model.enums.CookingTime;
 import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.PreferenceSettings;
 
-public class Settings implements Serializable {
-
-	private static final long serialVersionUID = 1L;
-
+public class Settings {
 	private final CasseroleSettings casseroleSettings;
 	private final PreferenceSettings preference;
 	private final CookingPreferenceSetting cookingPreferences;
@@ -88,8 +83,9 @@ public class Settings implements Serializable {
 		return preference;
 	}
 
-	public static Element generateXml(Document saveFileContent, Settings settings, int dayOfWeek) {
-		Element settingsNode = saveFileContent.createElement("setting");
+	public static Element generateXml(Document saveFileContent, Settings settings, int dayOfWeek,
+			String elementName) {
+		Element settingsNode = saveFileContent.createElement(elementName);
 		settingsNode.setAttribute("dayOfWeek", Integer.toString(dayOfWeek));
 
 		settingsNode.appendChild(createTextNode(saveFileContent,
@@ -141,5 +137,44 @@ public class Settings implements Serializable {
 			cookingTimes.prohibitCookingTime(CookingTime.LONG);
 		}
 		return new Settings(cookingTimes, manyPeople, casseroleSettings, preferenceSetting);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((casseroleSettings == null) ? 0 : casseroleSettings.hashCode());
+		result = prime * result
+				+ ((cookingPreferences == null) ? 0 : cookingPreferences.hashCode());
+		result = prime * result + ((cookingTime == null) ? 0 : cookingTime.hashCode());
+		result = prime * result + ((cookingUtensil == null) ? 0 : cookingUtensil.hashCode());
+		result = prime * result + ((preference == null) ? 0 : preference.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null || getClass() != obj.getClass()) {
+			return false;
+		}
+		Settings other = (Settings) obj;
+		if (casseroleSettings != other.casseroleSettings
+				|| !cookingPreferences.equals(other.cookingPreferences)
+				|| !cookingTime.equals(other.cookingTime)
+				|| !cookingUtensil.equals(other.cookingUtensil)
+				|| preference != other.preference) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Settings [casseroleSettings=" + casseroleSettings + ", preference=" + preference
+				+ ", cookingPreferences=" + cookingPreferences + ", cookingTime=" + cookingTime
+				+ ", cookingUtensil=" + cookingUtensil + "]";
 	}
 }

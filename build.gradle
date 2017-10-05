@@ -5,9 +5,11 @@ apply plugin: 'eclipse'
 
 repositories {
     jcenter()
+    mavenCentral()
 }
 
 dependencies {
+    testCompile 'org.assertj:assertj-core:3.8.0'
     compile 'org.slf4j:slf4j-api:1.7.22'
     compile 'org.swinglabs.swingx:swingx-all:1.6.4'
 

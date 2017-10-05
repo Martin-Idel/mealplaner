@@ -4,10 +4,13 @@ import static mealplaner.DataStoreEventType.DATABASE_EDITED;
 import static mealplaner.DataStoreEventType.DATE_UPDATED;
 import static mealplaner.DataStoreEventType.PROPOSAL_ADDED;
 import static mealplaner.DataStoreEventType.SETTINGS_CHANGED;
-import static org.junit.Assert.assertEquals;
+import static mealplaner.MealplanerData.generateXml;
+import static mealplaner.MealplanerData.readXml;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static testcommons.MealAssert.assertThat;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -68,8 +71,8 @@ public class MealplanerDataTest {
 
 		sut.addMeal(meal3);
 
-		assertEquals(4, meals.size());
-		assertEquals(meal3, meals.get(2));
+		assertThat(meals).asList().hasSize(4);
+		assertThat(meals.get(2)).isEqualTo(meal3);
 	}
 
 	@Test
@@ -93,9 +96,9 @@ public class MealplanerDataTest {
 
 		sut.update(proposal.getProposalList());
 
-		assertEquals(60, meal1.getDaysPassed());
-		assertEquals(111, meal2.getDaysPassed());
-		assertEquals(30, meal4.getDaysPassed());
+		assertThat(meal1.getDaysPassed()).isEqualByComparingTo(60);
+		assertThat(meal2.getDaysPassed()).isEqualByComparingTo(111);
+		assertThat(meal4.getDaysPassed()).isEqualByComparingTo(30);
 	}
 
 	@Test
@@ -109,9 +112,9 @@ public class MealplanerDataTest {
 
 		sut.update(proposal.getProposalList());
 
-		assertEquals(1, meal1.getDaysPassed());
-		assertEquals(103, meal2.getDaysPassed());
-		assertEquals(0, meal4.getDaysPassed());
+		assertThat(meal1.getDaysPassed()).isEqualByComparingTo(1);
+		assertThat(meal2.getDaysPassed()).isEqualByComparingTo(103);
+		assertThat(meal4.getDaysPassed()).isEqualByComparingTo(0);
 	}
 
 	@Test
@@ -174,27 +177,10 @@ public class MealplanerDataTest {
 
 		sut = new MealplanerData(meals, mealplanerCalendar, defaultSettings, lastProposal);
 
-		MealplanerData actual = MealplanerData
-				.readXml(MealplanerData.generateXml(saveFileContent, sut));
-		compareMealplanerData(sut, actual);
-	}
-
-	private void compareMealplanerData(MealplanerData expected, MealplanerData actual) {
-		for (int i = 0; i < expected.getMeals().size(); i++) {
-			compareTwoMeals(expected.getMeals().get(i), actual.getMeals().get(i));
-		}
-		assertEquals(expected.getDaysPassed(), actual.getDaysPassed());
-		assertEquals(expected.getLastProposal().isToday(), actual.getLastProposal().isToday());
-	}
-
-	private void compareTwoMeals(Meal expected, Meal actual) {
-		assertEquals(expected.getName(), actual.getName());
-		assertEquals(expected.getComment(), actual.getComment());
-		assertEquals(expected.getCookingPreference(), actual.getCookingPreference());
-		assertEquals(expected.getCookingTime(), actual.getCookingTime());
-		assertEquals(expected.getSidedish(), actual.getSidedish());
-		assertEquals(expected.getObligatoryUtensil(), actual.getObligatoryUtensil());
-		assertEquals(expected.getDaysPassed(), actual.getDaysPassed());
+		MealplanerData actual = readXml(generateXml(saveFileContent, sut));
+		assertThat(actual.getMeals()).asList().containsAll(sut.getMeals());
+		assertThat(actual.getDaysPassed()).isEqualByComparingTo(sut.getDaysPassed());
+		assertThat(actual.getLastProposal()).isEqualTo(sut.getLastProposal());
 	}
 
 	private void addInitializedMeals() throws MealException {

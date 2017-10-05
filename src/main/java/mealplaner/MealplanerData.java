@@ -135,28 +135,7 @@ public class MealplanerData implements DataStore {
 				? XMLHelpers.getMealListFromXml((Element) mealList)
 				: logFailedXmlRetrieval(new ArrayList<>(), "Proposal", mealPlanerNode);
 		Node settings = mealPlanerNode.getElementsByTagName("defaultSettings").item(0);
-		Settings[] defaultSettings = new Settings[7];
-		if (settings.getNodeType() == Node.ELEMENT_NODE) {
-			Element settingsNode = (Element) settings;
-			NodeList elementsByTagName = settingsNode.getElementsByTagName("setting");
-			for (int i = 0; i < elementsByTagName.getLength(); i++) {
-				defaultSettings[Integer.parseInt(elementsByTagName.item(i).getAttributes()
-						.getNamedItem("dayOfWeek").getTextContent())] = elementsByTagName.item(i)
-								.getNodeType() == Node.ELEMENT_NODE
-										? Settings.loadFromXml((Element) elementsByTagName.item(i))
-										: logFailedXmlRetrieval(new Settings(), "Settings " + i,
-												settingsNode);
-			}
-		} else {
-			Logger.logParsingError("Settings node not found in " + mealPlanerNode.toString());
-		}
-		for (int i = 0; i < defaultSettings.length; i++) {
-			if (defaultSettings[i] == null) {
-				defaultSettings[i] = new Settings();
-				Logger.logParsingError(
-						"Setting " + i + " not correctly read in " + mealPlanerNode.toString());
-			}
-		}
+		Settings[] defaultSettings = readDefaultSettings(mealPlanerNode, settings);
 		Node calendarNode = mealPlanerNode.getElementsByTagName("calendar").item(0);
 		MealplanerCalendar cal = calendarNode.getNodeType() == Node.ELEMENT_NODE
 				? MealplanerCalendar.getMealplanerCalendarFromXml((Element) calendarNode)
@@ -169,6 +148,33 @@ public class MealplanerData implements DataStore {
 		return new MealplanerData(meals, cal, defaultSettings, proposal);
 	}
 
+	private static Settings[] readDefaultSettings(Element mealPlanerNode, Node settings) {
+		Settings[] defaultSettings = new Settings[7];
+		if (settings.getNodeType() == Node.ELEMENT_NODE) {
+			Element settingsNode = (Element) settings;
+			NodeList elementsByTagName = settingsNode.getElementsByTagName("setting");
+			for (int i = 0; i < elementsByTagName.getLength(); i++) {
+				int dayofWeek = Integer.parseInt(elementsByTagName
+						.item(i).getAttributes().getNamedItem("dayOfWeek").getTextContent());
+				defaultSettings[dayofWeek] = elementsByTagName.item(i)
+						.getNodeType() == Node.ELEMENT_NODE
+								? Settings.loadFromXml((Element) elementsByTagName.item(i))
+								: logFailedXmlRetrieval(new Settings(), "Settings " + i,
+										settingsNode);
+			}
+		} else {
+			Logger.logParsingError("Settings node not found in " + mealPlanerNode.toString());
+		}
+		for (int i = 0; i < defaultSettings.length; i++) {
+			if (defaultSettings[i] == null) {
+				defaultSettings[i] = new Settings();
+				Logger.logParsingError(
+						"Setting " + i + " not correctly read in " + mealPlanerNode.toString());
+			}
+		}
+		return defaultSettings;
+	}
+
 	public static Element generateXml(Document saveFileContent, MealplanerData mealplanerData) {
 		Element mealplanerDataNode = saveFileContent.createElement("mealplaner");
 		mealplanerDataNode
@@ -178,13 +184,14 @@ public class MealplanerData implements DataStore {
 		for (int i = 0; i < mealplanerData.defaultSettings.length; i++) {
 			defaultSettingsNode
 					.appendChild(Settings.generateXml(saveFileContent,
-							mealplanerData.defaultSettings[i], i));
+							mealplanerData.defaultSettings[i], i, "setting"));
 		}
 		mealplanerDataNode.appendChild(defaultSettingsNode);
 		mealplanerDataNode
 				.appendChild(MealplanerCalendar.saveToXml(saveFileContent, mealplanerData.cal));
 		mealplanerDataNode
-				.appendChild(Proposal.saveToXml(saveFileContent, mealplanerData.proposal));
+				.appendChild(
+						Proposal.saveToXml(saveFileContent, mealplanerData.proposal, "proposal"));
 		return mealplanerDataNode;
 	}
 }
