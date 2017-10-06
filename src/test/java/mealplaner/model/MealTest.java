@@ -1,5 +1,6 @@
 package mealplaner.model;
 
+import static java.util.Optional.empty;
 import static mealplaner.io.XMLHelpers.createTextNode;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.createDocument;
@@ -27,7 +28,7 @@ public class MealTest {
 	@Before
 	public void setup() throws MealException {
 		sut = new Meal("Test", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.POT,
-				CookingPreference.NO_PREFERENCE, 5, "");
+				CookingPreference.NO_PREFERENCE, 5, "", empty());
 	}
 
 	@Test
@@ -96,7 +97,8 @@ public class MealTest {
 		sut = Meal.loadFromXml(mealNode);
 
 		Meal expectedMeal = new Meal(meal.getName(), meal.getCookingTime(), Sidedish.NONE,
-				ObligatoryUtensil.POT, CookingPreference.NO_PREFERENCE, 0, meal.getComment());
+				ObligatoryUtensil.POT, CookingPreference.NO_PREFERENCE, 0, meal.getComment(),
+				empty());
 
 		assertThat(sut).isEqualTo(expectedMeal);
 	}

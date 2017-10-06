@@ -30,6 +30,7 @@ public class MealAssert extends AbstractAssert<MealAssert, Meal> {
 				+ ", cookingUtensil=" + meal.getObligatoryUtensil()
 				+ ", sidedish=" + meal.getSidedish()
 				+ ", daysPassed=" + meal.getDaysPassed()
-				+ ", comment=" + meal.getComment() + "]";
+				+ ", comment=" + meal.getComment()
+				+ ", recipe=" + meal.getRecipe() + "]";
 	}
 }

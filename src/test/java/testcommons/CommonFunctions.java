@@ -1,11 +1,15 @@
 package testcommons;
 
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -24,6 +28,10 @@ import mealplaner.model.enums.PreferenceSettings;
 import mealplaner.model.enums.Sidedish;
 import mealplaner.model.settings.CookingTimeSetting;
 import mealplaner.model.settings.Settings;
+import mealplaner.recepies.model.Ingredient;
+import mealplaner.recepies.model.IngredientType;
+import mealplaner.recepies.model.Measure;
+import mealplaner.recepies.model.Recipe;
 
 public class CommonFunctions {
 	public static <T extends Enum<T>> void allEnumValuesHaveACorrespondingStringRepresentation(
@@ -46,12 +54,27 @@ public class CommonFunctions {
 
 	public static Meal getMeal1() {
 		return new Meal("Test1", CookingTime.SHORT, Sidedish.PASTA,
-				ObligatoryUtensil.PAN, CookingPreference.VERY_POPULAR, 5, "no comment");
+				ObligatoryUtensil.PAN, CookingPreference.VERY_POPULAR, 5, "no comment",
+				empty());
 	}
 
 	public static Meal getMeal2() {
+		Map<Ingredient, Integer> ingredients = new HashMap<>();
+		ingredients.put(getIngredient1(), 100);
+		ingredients.put(getIngredient2(), 200);
 		return new Meal("Test2", CookingTime.SHORT, Sidedish.NONE,
-				ObligatoryUtensil.POT, CookingPreference.NO_PREFERENCE, 1, "");
+				ObligatoryUtensil.POT, CookingPreference.NO_PREFERENCE, 1, "",
+				of(new Recipe(2, ingredients)));
+	}
+
+	public static Ingredient getIngredient1() {
+		return new Ingredient("Test1", IngredientType.FRESH_FRUIT,
+				Measure.GRAM);
+	}
+
+	public static Ingredient getIngredient2() {
+		return new Ingredient("Test2", IngredientType.BAKING_GOODS,
+				Measure.MILLILITRE);
 	}
 
 	public static Settings getSettings1() {

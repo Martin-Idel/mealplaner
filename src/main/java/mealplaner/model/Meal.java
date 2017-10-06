@@ -1,12 +1,17 @@
 package mealplaner.model;
 
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static mealplaner.io.XMLHelpers.createTextNode;
 import static mealplaner.io.XMLHelpers.readEnum;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import mealplaner.errorhandling.Logger;
 import mealplaner.errorhandling.MealException;
@@ -15,6 +20,7 @@ import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
 import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.Sidedish;
+import mealplaner.recepies.model.Recipe;
 
 // TODO: investigate better toString method
 public class Meal implements Comparable<Meal> {
@@ -25,10 +31,11 @@ public class Meal implements Comparable<Meal> {
 	private CookingPreference cookingPreference;
 	private int daysPassed;
 	private String comment;
+	private Optional<Recipe> recipe;
 
 	public Meal(String name, CookingTime cookingTime, Sidedish sideDish,
 			ObligatoryUtensil obligatoryUtensil, CookingPreference cookingPreference,
-			int daysPassed, String comment)
+			int daysPassed, String comment, Optional<Recipe> recipe)
 			throws MealException {
 		setName(name);
 		this.cookingTime = cookingTime;
@@ -37,6 +44,7 @@ public class Meal implements Comparable<Meal> {
 		this.cookingPreference = cookingPreference;
 		setDaysPassed(daysPassed);
 		this.setComment(comment);
+		this.setRecipe(recipe);
 	}
 
 	public Meal(Meal meal) {
@@ -47,6 +55,7 @@ public class Meal implements Comparable<Meal> {
 		this.cookingPreference = meal.getCookingPreference();
 		setDaysPassed(meal.getDaysPassed());
 		this.setComment(meal.getComment());
+		this.setRecipe(empty());
 	}
 
 	@Override
@@ -122,6 +131,14 @@ public class Meal implements Comparable<Meal> {
 		this.comment = comment;
 	}
 
+	public Optional<Recipe> getRecipe() {
+		return recipe;
+	}
+
+	public void setRecipe(Optional<Recipe> recipe) {
+		this.recipe = recipe;
+	}
+
 	@Override
 	public String toString() {
 		return name;
@@ -147,6 +164,10 @@ public class Meal implements Comparable<Meal> {
 		mealNode.appendChild(createTextNode(saveFileContent,
 				"lastCooked",
 				() -> Integer.toString(meal.getDaysPassed())));
+		if (meal.getRecipe().isPresent()) {
+			mealNode.appendChild(
+					Recipe.generateXml(saveFileContent, meal.getRecipe().get(), "recipe"));
+		}
 		return mealNode;
 	}
 
@@ -164,8 +185,16 @@ public class Meal implements Comparable<Meal> {
 		CookingPreference cookingPreference = readEnum(CookingPreference.NO_PREFERENCE,
 				CookingPreference::valueOf, currentMeal, "preference");
 		int daysLastCooked = parseInteger(currentMeal);
+		NodeList recipeNodeList = currentMeal.getElementsByTagName("recipe");
+		Optional<Recipe> recipeOptional = empty();
+		if (recipeNodeList.getLength() != 0) {
+			Recipe recipe = recipeNodeList.item(0).getNodeType() == Node.ELEMENT_NODE
+					? Recipe.loadFromXml((Element) recipeNodeList.item(0))
+					: XMLHelpers.logFailedXmlRetrieval(new Recipe(), "recipe", currentMeal);
+			recipeOptional = of(recipe);
+		}
 		return new Meal(name, cookingTime, sidedish, obligatoryUtensil,
-				cookingPreference, daysLastCooked, comment);
+				cookingPreference, daysLastCooked, comment, recipeOptional);
 	}
 
 	private static int parseInteger(Element currentMeal) {
