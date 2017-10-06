@@ -52,6 +52,30 @@ public class XMLHelpers {
 		return enumType;
 	}
 
+	public static int readInt(int defaultType, Element currentNode, String tagName) {
+		int enumType = defaultType;
+		try {
+			enumType = Integer.parseInt(currentNode.getElementsByTagName(tagName).item(0)
+					.getTextContent());
+		} catch (NullPointerException | IllegalArgumentException exception) {
+			Logger.logParsingError(
+					String.format("The %s of element " + currentNode.toString()
+							+ " could not be read or contains an invalid Enum.", tagName));
+		}
+		return enumType;
+	}
+
+	public static String readString(String defaultType, Element currentNode, String tagName) {
+		String name = defaultType;
+		try {
+			name = currentNode.getElementsByTagName(tagName).item(0).getTextContent();
+		} catch (NullPointerException exception) {
+			Logger.logParsingError(String.format(
+					"The %s of element " + currentNode.toString() + " could not be read", tagName));
+		}
+		return name;
+	}
+
 	public static Element saveCalendarToXml(Document saveDocument, Calendar calendar) {
 		Element calNode = saveDocument.createElement("calendar");
 		calNode.appendChild(

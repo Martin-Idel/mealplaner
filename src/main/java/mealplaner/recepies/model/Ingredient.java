@@ -1,0 +1,88 @@
+package mealplaner.recepies.model;
+
+import static mealplaner.io.XMLHelpers.createTextNode;
+import static mealplaner.io.XMLHelpers.readEnum;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import mealplaner.io.XMLHelpers;
+
+public class Ingredient {
+	private final String name;
+	private final IngredientType type;
+	private final Measure measure;
+
+	public Ingredient() {
+		this("no name", IngredientType.OTHER, Measure.NONE);
+	}
+
+	public Ingredient(String name, IngredientType type, Measure measure) {
+		this.name = name;
+		this.type = type;
+		this.measure = measure;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public IngredientType getType() {
+		return type;
+	}
+
+	public Measure getMeasure() {
+		return measure;
+	}
+
+	public static Element generateXml(Document saveFileContent, Ingredient ingredient,
+			String elementName) {
+		Element ingredientNode = saveFileContent.createElement(elementName);
+
+		ingredientNode
+				.appendChild(createTextNode(saveFileContent, "name", () -> ingredient.getName()));
+		ingredientNode.appendChild(
+				createTextNode(saveFileContent, "type", () -> ingredient.getType().toString()));
+		ingredientNode.appendChild(createTextNode(saveFileContent, "measure",
+				() -> ingredient.getMeasure().toString()));
+		return ingredientNode;
+	}
+
+	public static Ingredient loadFromXml(Element currentIngredient) {
+		String name = XMLHelpers.readString("Something", currentIngredient, "name");
+		IngredientType type = readEnum(IngredientType.OTHER,
+				IngredientType::valueOf, currentIngredient, "type");
+		Measure measure = readEnum(Measure.NONE,
+				Measure::valueOf, currentIngredient, "measure");
+		return new Ingredient(name, type, measure);
+	}
+
+	@Override
+	public String toString() {
+		return "Ingredient [name=" + name + ", type=" + type + ", measure=" + measure + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((measure == null) ? 0 : measure.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		} else if (obj == null || getClass() != obj.getClass()) {
+			return false;
+		}
+		Ingredient other = (Ingredient) obj;
+		if (measure != other.measure || !name.equals(other.name) || type != other.type) {
+			return false;
+		}
+		return true;
+	}
+}

@@ -10,6 +10,7 @@ import org.w3c.dom.Element;
 
 import mealplaner.errorhandling.Logger;
 import mealplaner.errorhandling.MealException;
+import mealplaner.io.XMLHelpers;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
 import mealplaner.model.enums.ObligatoryUtensil;
@@ -154,10 +155,7 @@ public class Meal implements Comparable<Meal> {
 				() -> currentMeal.getAttributes().getNamedItem("name").getTextContent(),
 				currentMeal,
 				"name");
-		String comment = readString("",
-				() -> currentMeal.getElementsByTagName("comment").item(0).getTextContent(),
-				currentMeal,
-				"comment");
+		String comment = XMLHelpers.readString("", currentMeal, "comment");
 		CookingTime cookingTime = readEnum(CookingTime.VERY_SHORT,
 				CookingTime::valueOf, currentMeal, "cookingTime");
 		Sidedish sidedish = readEnum(Sidedish.NONE, Sidedish::valueOf, currentMeal, "sidedish");
