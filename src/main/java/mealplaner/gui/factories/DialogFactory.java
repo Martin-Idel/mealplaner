@@ -10,6 +10,7 @@ import mealplaner.gui.dialogs.proposaloutput.ProposalOutput;
 import mealplaner.gui.dialogs.proposaloutput.ProposalTableFactory;
 import mealplaner.gui.dialogs.settingsinput.DefaultSettingsInput;
 import mealplaner.gui.dialogs.settingsinput.ProposalSettingsInput;
+import mealplaner.recepies.gui.dialogs.ingredients.IngredientsInput;
 
 public class DialogFactory {
 	private JFrame frame;
@@ -46,5 +47,9 @@ public class DialogFactory {
 
 	public ProposalTableFactory createProposalTableFactory() {
 		return new ProposalTableFactory(bundles);
+	}
+
+	public IngredientsInput createIngredientsInput() {
+		return new IngredientsInput(frame, bundles);
 	}
 }

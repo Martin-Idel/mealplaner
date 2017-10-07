@@ -5,7 +5,7 @@ import static testcommons.CommonFunctions.allEnumValuesHaveACorrespondingStringR
 
 import org.junit.Test;
 
-public class CassseroleSettingsTest {
+public class CasseroleSettingsTest {
 
 	@Test
 	public void allCasseroleSettingsHaveACorrespondingStringRepresentation() {

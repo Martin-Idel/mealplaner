@@ -3,11 +3,17 @@ package mealplaner.recepies.model;
 import static mealplaner.io.XMLHelpers.createTextNode;
 import static mealplaner.io.XMLHelpers.readEnum;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import mealplaner.io.XMLHelpers;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Ingredient {
 	private final String name;
 	private final IngredientType type;

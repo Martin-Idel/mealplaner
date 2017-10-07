@@ -47,6 +47,14 @@ public class MenuBarBuilder {
 		return this;
 	}
 
+	public MenuBarBuilder createIngredientsMenu(ActionListener listener) {
+		fileMenu.add(new JMenuBuilder().addLabelText(bundles.message("ingredientInsertMenu"))
+				.addMnemonic(bundles.message("ingredientInsertMenuMnemonic"))
+				.addActionListener(listener)
+				.build());
+		return this;
+	}
+
 	public MenuBarBuilder createMealMenu(ActionListener listener) {
 		fileMenu.add(new JMenuBuilder().addLabelText(bundles.message("menuDataCreateMenu"))
 				.addMnemonic(bundles.message("menuDataCreateMenuMnemonic"))

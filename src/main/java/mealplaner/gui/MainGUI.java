@@ -24,15 +24,18 @@ import mealplaner.gui.databaseedit.DatabaseEdit;
 import mealplaner.gui.dialogs.proposaloutput.TablePrinter;
 import mealplaner.gui.factories.DialogFactory;
 import mealplaner.io.FileIOGui;
+import mealplaner.io.IngredientIO;
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
 import mealplaner.model.settings.ProposalOutline;
 import mealplaner.model.settings.Settings;
+import mealplaner.recepies.provider.IngredientProvider;
 
 public class MainGUI {
 	private JFrame frame;
 	private DialogFactory dialogs;
 
+	private IngredientProvider ingredients;
 	private MealplanerData mealPlan;
 	private DatabaseEdit dbaseEdit;
 	private ProposalSummary proposalSummary;
@@ -41,11 +44,12 @@ public class MainGUI {
 	private FileIOGui fileIOGui;
 
 	public MainGUI(JFrame mainFrame, MealplanerData mealPlan, DialogFactory dialogFactory,
-			BundleStore bundles) {
+			BundleStore bundles, IngredientProvider ingredientProvider) {
 		this.frame = mainFrame;
 		this.mealPlan = mealPlan;
 		this.dialogs = dialogFactory;
 		this.bundles = bundles;
+		this.ingredients = ingredientProvider;
 
 		fileIOGui = new FileIOGui(bundles, frame);
 		this.mealPlan = fileIOGui.loadDatabase();
@@ -65,6 +69,13 @@ public class MainGUI {
 	public JMenuBar createMenuBar() {
 		MenuBarBuilder builder = new MenuBarBuilder(frame, bundles)
 				.setupFileMenu()
+				.createIngredientsMenu(action -> {
+					dialogs.createIngredientsInput()
+							.showDialog()
+							.forEach(ingredients::add);
+					System.out.println("Me is here");
+					IngredientIO.saveXml(ingredients);
+				})
 				.createMealMenu(action -> {
 					dialogs.createMultipleMealInputDialog()
 							.showDialog()
