@@ -1,0 +1,120 @@
+package mealplaner.recepies.gui.dialogs.recepies;
+
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
+import javax.swing.table.AbstractTableModel;
+
+import mealplaner.BundleStore;
+import mealplaner.recepies.model.Ingredient;
+import mealplaner.recepies.model.IngredientType;
+import mealplaner.recepies.model.Measure;
+import mealplaner.recepies.model.Recipe;
+
+public class RecipeTableModel extends AbstractTableModel {
+	private static final long serialVersionUID = 1L;
+	private String[] columnNames;
+	private Map<Ingredient, Integer> recipe;
+	private BundleStore bundles;
+
+	public RecipeTableModel(BundleStore bundles, Optional<Recipe> recipe) {
+		this.bundles = bundles;
+		this.recipe = recipe.isPresent()
+				? recipe.get().getRecipeFor(recipe.get().getNumberOfPortions())
+				: new HashMap<>();
+		this.columnNames = getColumnNames();
+	}
+
+	@Override
+	public int getColumnCount() {
+		return columnNames.length;
+	}
+
+	@Override
+	public int getRowCount() {
+		return recipe.size() + 1;
+	}
+
+	@Override
+	public String getColumnName(int col) {
+		return columnNames[col];
+	}
+
+	@Override
+	public Class<?> getColumnClass(int col) {
+		switch (col) {
+		case 0:
+			return Ingredient.class;
+		case 1:
+			return Integer.class;
+		case 2:
+			return Measure.class;
+		default:
+			return String.class;
+		}
+	}
+
+	@Override
+	public boolean isCellEditable(int row, int column) {
+		return row != getRowCount() - 1 && (column == 0 || column == 1) || column == 0;
+	}
+
+	@Override
+	public void setValueAt(Object value, int row, int col) {
+		if (row == getRowCount() - 1) {
+			recipe.put((Ingredient) value, 0);
+		}
+		Ingredient ingredientAtRow = (Ingredient) getValueAt(row, col);
+		switch (col) {
+		case 0:
+			if (value instanceof Ingredient.EmptyIngredient) {
+				recipe.remove(ingredientAtRow);
+			} else {
+				recipe.put((Ingredient) value, (Integer) getValueAt(row, 1));
+				recipe.remove(ingredientAtRow);
+				setValueAt(((Ingredient) value).getMeasure(), row, 2);
+			}
+			break;
+		case 1:
+			recipe.replace((Ingredient) getValueAt(row, 0), (Integer) value);
+			break;
+		}
+	}
+
+	@Override
+	public Object getValueAt(int row, int column) {
+		switch (column) {
+		case 0:
+			if (row == getRowCount() - 1) {
+				return new Ingredient("", IngredientType.OTHER, Measure.NONE);
+			}
+			Ingredient[] ingredients = new Ingredient[recipe.size()];
+			return recipe.keySet().toArray(ingredients)[row];
+		case 1:
+			return recipe.get(getValueAt(row, 0));
+		case 2:
+			return ((Ingredient) getValueAt(row, 0)).getMeasure();
+		default:
+			return "";
+		}
+	}
+
+	private String[] getColumnNames() {
+		String[] columnNames = { bundles.message("ingredientNameColumn"),
+				bundles.message("ingredientAmountColumn"),
+				bundles.message("ingredientMeasureColumn") };
+		return columnNames;
+	}
+
+	public Optional<Recipe> getRecipe(int numberOfPortions) {
+		if (getColumnCount() == 1) {
+			return empty();
+		} else {
+			return of(new Recipe(numberOfPortions, recipe));
+		}
+	}
+}

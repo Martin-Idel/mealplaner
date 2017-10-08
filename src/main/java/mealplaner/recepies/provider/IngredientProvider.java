@@ -42,4 +42,8 @@ public class IngredientProvider {
 			ingredients.add(newIngredient);
 		}
 	}
+
+	public int size() {
+		return ingredients.size();
+	}
 }

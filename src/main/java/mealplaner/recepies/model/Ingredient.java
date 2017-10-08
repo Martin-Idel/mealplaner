@@ -91,4 +91,10 @@ public class Ingredient {
 		}
 		return true;
 	}
+
+	public static class EmptyIngredient extends Ingredient {
+		public EmptyIngredient() {
+			super("", IngredientType.OTHER, Measure.NONE);
+		}
+	}
 }
