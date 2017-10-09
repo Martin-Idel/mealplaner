@@ -1,5 +1,6 @@
 package mealplaner.recepies.gui.dialogs.recepies;
 
+import static mealplaner.recepies.model.Ingredient.emptyIngredient;
 import static mealplaner.recepies.model.Measure.getMeasureStrings;
 
 import java.util.List;
@@ -46,7 +47,7 @@ public class RecipeTable {
 		for (int i = 0; i < ingredients.size(); i++) {
 			ingredientsArray[i] = ingredients.get(i);
 		}
-		ingredientsArray[ingredientsArray.length - 1] = new Ingredient.EmptyIngredient();
+		ingredientsArray[ingredientsArray.length - 1] = emptyIngredient();
 		JComboBox<Ingredient> autoCompleteBox = new JComboBox<>(ingredientsArray);
 		AutoCompleteDecorator.decorate(autoCompleteBox);
 		table.getColumnModel().getColumn(0).setCellEditor(new ComboBoxCellEditor(autoCompleteBox));

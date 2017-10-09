@@ -21,6 +21,7 @@ import mealplaner.gui.commons.ButtonPanelBuilder;
 import mealplaner.gui.dialogs.mealinput.SingleMealInput;
 import mealplaner.gui.dialogs.proposaloutput.TablePrinter;
 import mealplaner.model.Meal;
+import mealplaner.recepies.provider.IngredientProvider;
 
 // TODO: When entering meals but having entered unsaved meals, maybe we want to just add new (saved) meals and not delete the rest?
 public class DatabaseEdit implements DataStoreListener {
@@ -45,8 +46,8 @@ public class DatabaseEdit implements DataStoreListener {
 		bundles = bundleStore;
 	}
 
-	public void setupPane(Consumer<List<Meal>> setMeals) {
-		buttonPanel = createButtonPanelWithEnabling(setMeals);
+	public void setupPane(Consumer<List<Meal>> setMeals, IngredientProvider ingredientProvider) {
+		buttonPanel = createButtonPanelWithEnabling(setMeals, ingredientProvider);
 		buttonPanel.disableButtons();
 
 		tableModel = new DataBaseTableModel(mealplanerData.getMeals(), buttonPanel, bundles);
@@ -57,12 +58,14 @@ public class DatabaseEdit implements DataStoreListener {
 		dataPanel.add(buttonPanel.getPanel(), BorderLayout.SOUTH);
 	}
 
-	private ButtonPanelEnabling createButtonPanelWithEnabling(Consumer<List<Meal>> setData) {
+	private ButtonPanelEnabling createButtonPanelWithEnabling(Consumer<List<Meal>> setData,
+			IngredientProvider ingredientProvider) {
 		return new ButtonPanelBuilder(bundles)
 				.addButton(bundles.message("addButton"),
 						bundles.message("addButtonMnemonic"),
 						action -> {
-							Meal newMeal = new SingleMealInput(dataFrame, bundles).showDialog();
+							Meal newMeal = new SingleMealInput(dataFrame, bundles,
+									ingredientProvider).showDialog();
 							insertItem(Optional.of(newMeal));
 						})
 				.addButton(bundles.message("removeSelectedButton"),

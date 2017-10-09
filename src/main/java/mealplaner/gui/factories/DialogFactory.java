@@ -11,6 +11,7 @@ import mealplaner.gui.dialogs.proposaloutput.ProposalTableFactory;
 import mealplaner.gui.dialogs.settingsinput.DefaultSettingsInput;
 import mealplaner.gui.dialogs.settingsinput.ProposalSettingsInput;
 import mealplaner.recepies.gui.dialogs.ingredients.IngredientsInput;
+import mealplaner.recepies.provider.IngredientProvider;
 
 public class DialogFactory {
 	private JFrame frame;
@@ -21,12 +22,12 @@ public class DialogFactory {
 		this.bundles = bundles;
 	}
 
-	public MultipleMealInput createMultipleMealInputDialog() {
-		return new MultipleMealInput(frame, bundles);
+	public MultipleMealInput createMultipleMealInputDialog(IngredientProvider ingredientProvider) {
+		return new MultipleMealInput(frame, bundles, ingredientProvider);
 	}
 
-	public SingleMealInput createSingleMealInputDialog() {
-		return new SingleMealInput(frame, bundles);
+	public SingleMealInput createSingleMealInputDialog(IngredientProvider ingredientProvider) {
+		return new SingleMealInput(frame, bundles, ingredientProvider);
 	}
 
 	public UpdatePastMeals createUpdatePastMealDialog() {

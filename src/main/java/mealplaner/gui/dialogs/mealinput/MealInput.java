@@ -21,6 +21,7 @@ import javax.swing.WindowConstants;
 
 import mealplaner.BundleStore;
 import mealplaner.commons.NonnegativeInteger;
+import mealplaner.gui.commons.ButtonInputField;
 import mealplaner.gui.commons.ButtonPanelBuilder;
 import mealplaner.gui.commons.ComboBoxInputField;
 import mealplaner.gui.commons.InputField;
@@ -32,6 +33,9 @@ import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
 import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.Sidedish;
+import mealplaner.recepies.gui.dialogs.recepies.RecipeInput;
+import mealplaner.recepies.model.Recipe;
+import mealplaner.recepies.provider.IngredientProvider;
 
 public abstract class MealInput extends JDialog {
 	private static final long serialVersionUID = 1L;
@@ -46,10 +50,11 @@ public abstract class MealInput extends JDialog {
 	private InputField<NonnegativeInteger> daysPassedField;
 	private InputField<CookingPreference> preferenceField;
 	private InputField<String> commentField;
+	private InputField<Optional<Recipe>> recipeInputField;
 
 	private BundleStore bundles;
 
-	public MealInput(JFrame parent, BundleStore bundles) {
+	public MealInput(JFrame parent, BundleStore bundles, IngredientProvider ingredientProvider) {
 		super(parent, bundles.message("mealInputDialogTitle"), true);
 		this.parentFrame = parent;
 		this.bundles = bundles;
@@ -79,6 +84,19 @@ public abstract class MealInput extends JDialog {
 				getCookingPreferenceStrings(bundles),
 				CookingPreference.NO_PREFERENCE);
 		commentField = new TextField(bundles.message("insertMealComment"));
+		recipeInputField = new ButtonInputField<Optional<Recipe>>(
+				bundles.message("createRecipeLabel"),
+				bundles.message("editRecipeButtonLabel"),
+				bundles.message("createRecipeButtonLabel"),
+				of(new Recipe()), () -> {
+					return createRecipeDialog(ingredientProvider);
+				});
+	}
+
+	private Optional<Recipe> createRecipeDialog(IngredientProvider ingredientProvider) {
+		RecipeInput recipeInput = new RecipeInput(parentFrame,
+				bundles.message("recipeInputDialogTitle"));
+		return recipeInput.showDialog(of(new Recipe()), bundles, ingredientProvider);
 	}
 
 	protected void display(ActionListener saveListener) {
@@ -123,7 +141,7 @@ public abstract class MealInput extends JDialog {
 
 	private Stream<InputField<?>> allFields() {
 		return Arrays.asList(nameField, cookingTimeField, sidedishField, obligatoryUtensilField,
-				daysPassedField, preferenceField, commentField).stream();
+				daysPassedField, preferenceField, commentField, recipeInputField).stream();
 	}
 
 	private Optional<Meal> getMealFromUserInput() {
@@ -135,7 +153,7 @@ public abstract class MealInput extends JDialog {
 				preferenceField.getUserInput(),
 				daysPassedField.getUserInput().value,
 				commentField.getUserInput(),
-				Optional.empty()))
+				recipeInputField.getUserInput()))
 				: Optional.empty();
 	}
 }

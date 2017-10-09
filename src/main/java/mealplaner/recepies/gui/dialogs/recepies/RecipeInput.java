@@ -30,6 +30,7 @@ public class RecipeInput extends JDialog {
 		this.parentFrame = parentFrame;
 		this.dataPanel = new JPanel();
 		this.dataPanel.setLayout(new BorderLayout());
+		recipeTable = new RecipeTable();
 	}
 
 	public Optional<Recipe> showDialog(Optional<Recipe> recipe,

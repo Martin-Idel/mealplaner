@@ -29,6 +29,10 @@ public class Ingredient {
 		this.measure = measure;
 	}
 
+	public static Ingredient emptyIngredient() {
+		return new Ingredient("", IngredientType.OTHER, Measure.NONE);
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -65,8 +69,14 @@ public class Ingredient {
 
 	@Override
 	public String toString() {
-		return "Ingredient [name=" + name + ", type=" + type + ", measure=" + measure + "]";
+		return name;
 	}
+
+	// @Override
+	// public String toString() {
+	// return "Ingredient [name=" + name + ", type=" + type + ", measure=" + measure
+	// + "]";
+	// }
 
 	@Override
 	public int hashCode() {
@@ -90,11 +100,5 @@ public class Ingredient {
 			return false;
 		}
 		return true;
-	}
-
-	public static class EmptyIngredient extends Ingredient {
-		public EmptyIngredient() {
-			super("", IngredientType.OTHER, Measure.NONE);
-		}
 	}
 }

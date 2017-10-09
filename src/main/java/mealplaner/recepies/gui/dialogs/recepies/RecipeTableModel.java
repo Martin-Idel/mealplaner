@@ -2,6 +2,7 @@ package mealplaner.recepies.gui.dialogs.recepies;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
+import static mealplaner.recepies.model.Ingredient.emptyIngredient;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +12,6 @@ import javax.swing.table.AbstractTableModel;
 
 import mealplaner.BundleStore;
 import mealplaner.recepies.model.Ingredient;
-import mealplaner.recepies.model.IngredientType;
 import mealplaner.recepies.model.Measure;
 import mealplaner.recepies.model.Recipe;
 
@@ -65,24 +65,30 @@ public class RecipeTableModel extends AbstractTableModel {
 
 	@Override
 	public void setValueAt(Object value, int row, int col) {
-		if (row == getRowCount() - 1) {
-			recipe.put((Ingredient) value, 0);
-		}
-		Ingredient ingredientAtRow = (Ingredient) getValueAt(row, col);
+		Ingredient ingredientAtRow = (row != getRowCount() - 1)
+				? (Ingredient) getValueAt(row, 0)
+				: emptyIngredient();
 		switch (col) {
 		case 0:
-			if (value instanceof Ingredient.EmptyIngredient) {
+			Ingredient newIngredient = (Ingredient) value;
+			if (newIngredient.getName().equals("")) {
 				recipe.remove(ingredientAtRow);
-			} else {
-				recipe.put((Ingredient) value, (Integer) getValueAt(row, 1));
+				fireTableRowsDeleted(row, row);
+			} else if (ingredientAtRow.getName().equals("")) {
+				recipe.put(newIngredient, 0);
+				setValueAt(newIngredient.getMeasure(), row, 2);
+				fireTableRowsInserted(getRowCount() - 1, getRowCount() - 1);
+			} else if (!recipe.containsKey(value)) {
+				recipe.put(newIngredient, (Integer) getValueAt(row, 1));
 				recipe.remove(ingredientAtRow);
-				setValueAt(((Ingredient) value).getMeasure(), row, 2);
+				setValueAt(newIngredient.getMeasure(), row, 2);
 			}
 			break;
 		case 1:
-			recipe.replace((Ingredient) getValueAt(row, 0), (Integer) value);
+			recipe.replace((Ingredient) getValueAt(row, 0), Integer.parseInt((String) value));
 			break;
 		}
+		fireTableCellUpdated(row, col);
 	}
 
 	@Override
@@ -90,12 +96,12 @@ public class RecipeTableModel extends AbstractTableModel {
 		switch (column) {
 		case 0:
 			if (row == getRowCount() - 1) {
-				return new Ingredient("", IngredientType.OTHER, Measure.NONE);
+				return emptyIngredient();
 			}
 			Ingredient[] ingredients = new Ingredient[recipe.size()];
 			return recipe.keySet().toArray(ingredients)[row];
 		case 1:
-			return recipe.get(getValueAt(row, 0));
+			return row == getRowCount() - 1 ? 0 : recipe.get(getValueAt(row, 0));
 		case 2:
 			return ((Ingredient) getValueAt(row, 0)).getMeasure();
 		default:
@@ -111,7 +117,7 @@ public class RecipeTableModel extends AbstractTableModel {
 	}
 
 	public Optional<Recipe> getRecipe(int numberOfPortions) {
-		if (getColumnCount() == 1) {
+		if (recipe.isEmpty()) {
 			return empty();
 		} else {
 			return of(new Recipe(numberOfPortions, recipe));

@@ -77,7 +77,7 @@ public class MainGUI {
 					IngredientIO.saveXml(ingredients);
 				})
 				.createMealMenu(action -> {
-					dialogs.createMultipleMealInputDialog()
+					dialogs.createMultipleMealInputDialog(ingredients)
 							.showDialog()
 							.forEach(meal -> mealPlan.addMeal(meal));
 					dbaseEdit.updateTable();
@@ -126,7 +126,7 @@ public class MainGUI {
 	private JPanel setupDatabasePanel() {
 		JPanel databasePanel = new JPanel();
 		dbaseEdit = new DatabaseEdit(this.mealPlan, frame, databasePanel, bundles);
-		dbaseEdit.setupPane((meals) -> mealPlan.setMeals(meals));
+		dbaseEdit.setupPane((meals) -> mealPlan.setMeals(meals), ingredients);
 		return databasePanel;
 	}
 

@@ -8,13 +8,15 @@ import javax.swing.JFrame;
 
 import mealplaner.BundleStore;
 import mealplaner.model.Meal;
+import mealplaner.recepies.provider.IngredientProvider;
 
 public class MultipleMealInput extends MealInput {
 	private static final long serialVersionUID = 1L;
 	private List<Meal> newMeals;
 
-	public MultipleMealInput(JFrame parent, BundleStore bundles) {
-		super(parent, bundles);
+	public MultipleMealInput(JFrame parent, BundleStore bundles,
+			IngredientProvider ingredientProvider) {
+		super(parent, bundles, ingredientProvider);
 		newMeals = new ArrayList<>();
 	}
 
