@@ -2,29 +2,34 @@ package mealplaner.gui.databaseedit;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.swing.table.AbstractTableModel;
 
 import mealplaner.BundleStore;
 import mealplaner.gui.ButtonPanelEnabling;
-import mealplaner.gui.model.StringArrayCollection;
 import mealplaner.model.Meal;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
 import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.Sidedish;
+import mealplaner.recepies.model.Recipe;
 
 public class DataBaseTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	private String[] columnNames;
 	private List<Meal> workingCopy;
 	private ButtonPanelEnabling onlyActiveOnChangedButtons;
+	private String editString;
+	private String createString;
 
 	DataBaseTableModel(List<Meal> mealListData, ButtonPanelEnabling onlyActiveOnChangedButtons,
 			BundleStore messages) {
 		this.onlyActiveOnChangedButtons = onlyActiveOnChangedButtons;
-		columnNames = StringArrayCollection.getDatabaseColumnNames(messages);
+		columnNames = getDatabaseColumnNames(messages);
 		workingCopy = createWorkingCopy(mealListData);
+		createString = messages.message("createRecipeButtonLabel");
+		editString = messages.message("editRecipeButtonLabel");
 	}
 
 	@Override
@@ -59,6 +64,8 @@ public class DataBaseTableModel extends AbstractTableModel {
 			return workingCopy.get(row).getCookingPreference();
 		case 6:
 			return workingCopy.get(row).getComment();
+		case 7:
+			return workingCopy.get(row).getRecipe().isPresent() ? editString : createString;
 		default:
 			return "";
 		}
@@ -80,6 +87,8 @@ public class DataBaseTableModel extends AbstractTableModel {
 		case 5:
 			return CookingPreference.class;
 		case 6:
+			return String.class;
+		case 7:
 			return String.class;
 		default:
 			return String.class;
@@ -104,7 +113,7 @@ public class DataBaseTableModel extends AbstractTableModel {
 
 	@Override
 	public boolean isCellEditable(int row, int col) {
-		return true;
+		return col != 7;
 	}
 
 	@Override
@@ -155,5 +164,23 @@ public class DataBaseTableModel extends AbstractTableModel {
 			workingCopy.add(copy);
 		});
 		return workingCopy;
+	}
+
+	private String[] getDatabaseColumnNames(BundleStore bundles) {
+		String[] columnNames = { bundles.message("mealNameColumn"),
+				bundles.message("cookingLengthColumn"),
+				bundles.message("sidedishColumn"),
+				bundles.message("utensilColumn"),
+				bundles.message("cookedLastTimeColumn"),
+				bundles.message("popularityColumn"),
+				bundles.message("commentInsertColumn"),
+				bundles.message("recipeEditColum") };
+		return columnNames;
+	}
+
+	public void addRecipe(Optional<Recipe> editedRecipe, int row) {
+		workingCopy.get(row).setRecipe(editedRecipe);
+		fireTableCellUpdated(row, 7);
+		onlyActiveOnChangedButtons.enableButtons();
 	}
 }

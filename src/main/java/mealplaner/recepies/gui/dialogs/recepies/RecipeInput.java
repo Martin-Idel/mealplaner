@@ -1,6 +1,7 @@
 package mealplaner.recepies.gui.dialogs.recepies;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.util.Optional;
 
@@ -48,7 +49,10 @@ public class RecipeInput extends JDialog {
 		JScrollPane tablescroll = new JScrollPane(
 				recipeTable.setupTable(recipe, bundles, ingredients));
 		JPanel buttonPanel = displayButtons(bundles);
-		nonnegativeIntegerInputField.addToPanel(dataPanel);
+		JPanel inputFieldPanel = new JPanel();
+		inputFieldPanel.setLayout(new GridLayout(0, 2));
+		nonnegativeIntegerInputField.addToPanel(inputFieldPanel);
+		dataPanel.add(inputFieldPanel, BorderLayout.NORTH);
 		dataPanel.add(tablescroll, BorderLayout.CENTER);
 		dataPanel.add(buttonPanel, BorderLayout.SOUTH);
 		getContentPane().add(dataPanel);

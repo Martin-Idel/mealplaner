@@ -1,6 +1,8 @@
 package mealplaner.gui.databaseedit;
 
 import java.awt.BorderLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.List;
@@ -21,6 +23,8 @@ import mealplaner.gui.commons.ButtonPanelBuilder;
 import mealplaner.gui.dialogs.mealinput.SingleMealInput;
 import mealplaner.gui.dialogs.proposaloutput.TablePrinter;
 import mealplaner.model.Meal;
+import mealplaner.recepies.gui.dialogs.recepies.RecipeInput;
+import mealplaner.recepies.model.Recipe;
 import mealplaner.recepies.provider.IngredientProvider;
 
 // TODO: When entering meals but having entered unsaved meals, maybe we want to just add new (saved) meals and not delete the rest?
@@ -52,10 +56,31 @@ public class DatabaseEdit implements DataStoreListener {
 
 		tableModel = new DataBaseTableModel(mealplanerData.getMeals(), buttonPanel, bundles);
 		table = new DataBaseTableFactory(bundles).createTable(tableModel);
+		table.addMouseListener(constructEditRecipeListener(ingredientProvider));
 		JScrollPane tablescroll = new JScrollPane(table);
 
 		dataPanel.add(tablescroll, BorderLayout.CENTER);
 		dataPanel.add(buttonPanel.getPanel(), BorderLayout.SOUTH);
+	}
+
+	private MouseAdapter constructEditRecipeListener(IngredientProvider ingredientProvider) {
+		return new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent event) {
+				JTable tableSource = (JTable) event.getSource();
+				int row = tableSource.getSelectedRow();
+				int column = tableSource.getSelectedColumn();
+				if (column == 7) {
+					Optional<Recipe> recipe = tableModel.returnContent().get(row).getRecipe();
+					Optional<Recipe> editedRecipe = new RecipeInput(dataFrame,
+							bundles.message("recipeInputDialogTitle"))
+									.showDialog(recipe, bundles, ingredientProvider);
+					if (editedRecipe != null) {
+						tableModel.addRecipe(editedRecipe, row);
+					}
+				}
+			}
+		};
 	}
 
 	private ButtonPanelEnabling createButtonPanelWithEnabling(Consumer<List<Meal>> setData,
@@ -78,8 +103,16 @@ public class DatabaseEdit implements DataStoreListener {
 									.forEachRemaining(number -> tableModel.removeRow(number));
 						})
 				.addSaveButton(action -> {
+					System.out.println("----- all meals");
+					tableModel.returnContent().stream()
+							.forEach(meal -> System.out.println(meal.getRecipe()));
+					System.out.println("-----");
+
 					// Override database. Not efficient but presently enough.
 					setData.accept(tableModel.returnContent());
+					tableModel.returnContent().stream()
+							.forEach(meal -> System.out.println(meal.getRecipe()));
+					System.out.println("-----");
 					buttonPanel.disableButtons();
 				})
 				.makeLastButtonEnabling()

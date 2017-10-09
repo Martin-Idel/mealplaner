@@ -55,7 +55,7 @@ public class Meal implements Comparable<Meal> {
 		this.cookingPreference = meal.getCookingPreference();
 		setDaysPassed(meal.getDaysPassed());
 		this.setComment(meal.getComment());
-		this.setRecipe(empty());
+		this.setRecipe(meal.getRecipe());
 	}
 
 	@Override

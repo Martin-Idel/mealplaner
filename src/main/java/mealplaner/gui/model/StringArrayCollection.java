@@ -5,17 +5,6 @@ import mealplaner.BundleStore;
 // TODO: Move to TableModel and write tests to make sure we have the correct number of array elements.
 public class StringArrayCollection {
 
-	public static String[] getDatabaseColumnNames(BundleStore bundles) {
-		String[] columnNames = { bundles.message("mealNameColumn"),
-				bundles.message("cookingLengthColumn"),
-				bundles.message("sidedishColumn"),
-				bundles.message("utensilColumn"),
-				bundles.message("cookedLastTimeColumn"),
-				bundles.message("popularityColumn"),
-				bundles.message("commentInsertColumn") };
-		return columnNames;
-	}
-
 	public static String[] getWeekDays(BundleStore bundles) {
 		String[] weekDays = { bundles.message("sunday"),
 				bundles.message("monday"),
