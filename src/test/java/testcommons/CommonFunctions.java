@@ -28,10 +28,10 @@ import mealplaner.model.enums.PreferenceSettings;
 import mealplaner.model.enums.Sidedish;
 import mealplaner.model.settings.CookingTimeSetting;
 import mealplaner.model.settings.Settings;
-import mealplaner.recepies.model.Ingredient;
-import mealplaner.recepies.model.IngredientType;
-import mealplaner.recepies.model.Measure;
-import mealplaner.recepies.model.Recipe;
+import mealplaner.recipes.model.Ingredient;
+import mealplaner.recipes.model.IngredientType;
+import mealplaner.recipes.model.Measure;
+import mealplaner.recipes.model.Recipe;
 
 public class CommonFunctions {
 	public static <T extends Enum<T>> void allEnumValuesHaveACorrespondingStringRepresentation(

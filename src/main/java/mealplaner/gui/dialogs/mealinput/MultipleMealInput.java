@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 
 import mealplaner.BundleStore;
 import mealplaner.model.Meal;
-import mealplaner.recepies.provider.IngredientProvider;
+import mealplaner.recipes.provider.IngredientProvider;
 
 public class MultipleMealInput extends MealInput {
 	private static final long serialVersionUID = 1L;

@@ -1,8 +1,8 @@
-package mealplaner.recepies.gui.dialogs.recepies;
+package mealplaner.recipes.gui.dialogs.recepies;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
-import static mealplaner.recepies.model.Ingredient.emptyIngredient;
+import static mealplaner.recipes.model.Ingredient.emptyIngredient;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,9 +11,9 @@ import java.util.Optional;
 import javax.swing.table.AbstractTableModel;
 
 import mealplaner.BundleStore;
-import mealplaner.recepies.model.Ingredient;
-import mealplaner.recepies.model.Measure;
-import mealplaner.recepies.model.Recipe;
+import mealplaner.recipes.model.Ingredient;
+import mealplaner.recipes.model.Measure;
+import mealplaner.recipes.model.Recipe;
 
 public class RecipeTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;

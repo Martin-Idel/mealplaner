@@ -1,4 +1,4 @@
-package mealplaner.recepies.gui.dialogs.ingredients;
+package mealplaner.recipes.gui.dialogs.ingredients;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -19,9 +19,9 @@ import mealplaner.gui.commons.ButtonPanelBuilder;
 import mealplaner.gui.commons.ComboBoxInputField;
 import mealplaner.gui.commons.InputField;
 import mealplaner.gui.commons.NonEmptyTextInputField;
-import mealplaner.recepies.model.Ingredient;
-import mealplaner.recepies.model.IngredientType;
-import mealplaner.recepies.model.Measure;
+import mealplaner.recipes.model.Ingredient;
+import mealplaner.recipes.model.IngredientType;
+import mealplaner.recipes.model.Measure;
 
 public class IngredientsInput extends JDialog {
 	private static final long serialVersionUID = 1L;

@@ -23,9 +23,9 @@ import mealplaner.gui.commons.ButtonPanelBuilder;
 import mealplaner.gui.dialogs.mealinput.SingleMealInput;
 import mealplaner.gui.dialogs.proposaloutput.TablePrinter;
 import mealplaner.model.Meal;
-import mealplaner.recepies.gui.dialogs.recepies.RecipeInput;
-import mealplaner.recepies.model.Recipe;
-import mealplaner.recepies.provider.IngredientProvider;
+import mealplaner.recipes.gui.dialogs.recepies.RecipeInput;
+import mealplaner.recipes.model.Recipe;
+import mealplaner.recipes.provider.IngredientProvider;
 
 // TODO: When entering meals but having entered unsaved meals, maybe we want to just add new (saved) meals and not delete the rest?
 public class DatabaseEdit implements DataStoreListener {

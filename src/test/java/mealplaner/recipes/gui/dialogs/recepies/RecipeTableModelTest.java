@@ -1,8 +1,8 @@
-package mealplaner.recepies.gui.dialogs.recepies;
+package mealplaner.recipes.gui.dialogs.recepies;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
-import static mealplaner.recepies.model.Ingredient.emptyIngredient;
+import static mealplaner.recipes.model.Ingredient.emptyIngredient;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -17,9 +17,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import mealplaner.BundleStore;
-import mealplaner.recepies.model.Ingredient;
-import mealplaner.recepies.model.Measure;
-import mealplaner.recepies.model.Recipe;
+import mealplaner.recipes.gui.dialogs.recepies.RecipeTableModel;
+import mealplaner.recipes.model.Ingredient;
+import mealplaner.recipes.model.Measure;
+import mealplaner.recipes.model.Recipe;
 
 public class RecipeTableModelTest {
 	private BundleStore bundleStore;

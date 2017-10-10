@@ -1,7 +1,7 @@
-package mealplaner.recepies.model;
+package mealplaner.recipes.model;
 
-import static mealplaner.recepies.model.Ingredient.generateXml;
-import static mealplaner.recepies.model.Ingredient.loadFromXml;
+import static mealplaner.recipes.model.Ingredient.generateXml;
+import static mealplaner.recipes.model.Ingredient.loadFromXml;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -9,6 +9,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.junit.Test;
 import org.w3c.dom.Document;
 
+import mealplaner.recipes.model.Ingredient;
+import mealplaner.recipes.model.IngredientType;
+import mealplaner.recipes.model.Measure;
 import testcommons.CommonFunctions;
 
 public class IngredientTest {

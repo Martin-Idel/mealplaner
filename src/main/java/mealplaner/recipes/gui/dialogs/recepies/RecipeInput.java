@@ -1,4 +1,4 @@
-package mealplaner.recepies.gui.dialogs.recepies;
+package mealplaner.recipes.gui.dialogs.recepies;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -15,8 +15,8 @@ import mealplaner.commons.NonnegativeInteger;
 import mealplaner.gui.commons.ButtonPanelBuilder;
 import mealplaner.gui.commons.InputField;
 import mealplaner.gui.commons.NonnegativeIntegerInputField;
-import mealplaner.recepies.model.Recipe;
-import mealplaner.recepies.provider.IngredientProvider;
+import mealplaner.recipes.model.Recipe;
+import mealplaner.recipes.provider.IngredientProvider;
 
 public class RecipeInput extends JDialog {
 	private static final long serialVersionUID = 1L;

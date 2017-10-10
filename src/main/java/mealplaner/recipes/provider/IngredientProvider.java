@@ -1,4 +1,4 @@
-package mealplaner.recepies.provider;
+package mealplaner.recipes.provider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import mealplaner.recepies.model.Ingredient;
+import mealplaner.recipes.model.Ingredient;
 
 @XmlRootElement
 public class IngredientProvider {

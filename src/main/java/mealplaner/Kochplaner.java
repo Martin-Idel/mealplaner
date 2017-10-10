@@ -16,7 +16,7 @@ import mealplaner.errorhandling.MealException;
 import mealplaner.gui.MainGUI;
 import mealplaner.gui.factories.DialogFactory;
 import mealplaner.io.IngredientIO;
-import mealplaner.recepies.provider.IngredientProvider;
+import mealplaner.recipes.provider.IngredientProvider;
 
 // TODO: load IngredientProvider in MainGUI or somewhere else
 // TODO: better error handling and logging

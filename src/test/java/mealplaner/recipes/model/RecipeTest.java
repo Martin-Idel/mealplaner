@@ -1,7 +1,7 @@
-package mealplaner.recepies.model;
+package mealplaner.recipes.model;
 
-import static mealplaner.recepies.model.Recipe.generateXml;
-import static mealplaner.recepies.model.Recipe.loadFromXml;
+import static mealplaner.recipes.model.Recipe.generateXml;
+import static mealplaner.recipes.model.Recipe.loadFromXml;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.HashMap;
@@ -12,6 +12,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.junit.Test;
 import org.w3c.dom.Document;
 
+import mealplaner.recipes.model.Ingredient;
+import mealplaner.recipes.model.IngredientType;
+import mealplaner.recipes.model.Measure;
+import mealplaner.recipes.model.Recipe;
 import testcommons.CommonFunctions;
 
 public class RecipeTest {

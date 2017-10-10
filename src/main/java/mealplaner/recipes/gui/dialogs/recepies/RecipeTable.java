@@ -1,7 +1,7 @@
-package mealplaner.recepies.gui.dialogs.recepies;
+package mealplaner.recipes.gui.dialogs.recepies;
 
-import static mealplaner.recepies.model.Ingredient.emptyIngredient;
-import static mealplaner.recepies.model.Measure.getMeasureStrings;
+import static mealplaner.recipes.model.Ingredient.emptyIngredient;
+import static mealplaner.recipes.model.Measure.getMeasureStrings;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,10 +16,10 @@ import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 import mealplaner.BundleStore;
 import mealplaner.gui.commons.SwingUtilityMethods;
 import mealplaner.gui.editing.PositiveIntegerCellEditor;
-import mealplaner.recepies.model.Ingredient;
-import mealplaner.recepies.model.Measure;
-import mealplaner.recepies.model.Recipe;
-import mealplaner.recepies.provider.IngredientProvider;
+import mealplaner.recipes.model.Ingredient;
+import mealplaner.recipes.model.Measure;
+import mealplaner.recipes.model.Recipe;
+import mealplaner.recipes.provider.IngredientProvider;
 
 public class RecipeTable {
 	private JTable table;

@@ -1,4 +1,4 @@
-package mealplaner.recepies.model;
+package mealplaner.recipes.model;
 
 import java.util.EnumMap;
 

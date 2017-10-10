@@ -1,4 +1,4 @@
-package mealplaner.recepies.model;
+package mealplaner.recipes.model;
 
 import static mealplaner.io.XMLHelpers.createTextNode;
 import static mealplaner.io.XMLHelpers.readEnum;

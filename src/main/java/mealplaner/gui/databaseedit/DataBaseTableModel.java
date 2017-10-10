@@ -13,7 +13,7 @@ import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
 import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.Sidedish;
-import mealplaner.recepies.model.Recipe;
+import mealplaner.recipes.model.Recipe;
 
 public class DataBaseTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;

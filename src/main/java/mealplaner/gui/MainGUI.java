@@ -29,7 +29,7 @@ import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
 import mealplaner.model.settings.ProposalOutline;
 import mealplaner.model.settings.Settings;
-import mealplaner.recepies.provider.IngredientProvider;
+import mealplaner.recipes.provider.IngredientProvider;
 
 public class MainGUI {
 	private JFrame frame;

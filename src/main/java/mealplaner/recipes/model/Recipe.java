@@ -1,4 +1,4 @@
-package mealplaner.recepies.model;
+package mealplaner.recipes.model;
 
 import static java.util.stream.Collectors.toMap;
 import static mealplaner.io.XMLHelpers.createTextNode;
