@@ -20,4 +20,21 @@ public class NonnegativeInteger {
 	public String toString() {
 		return "" + value;
 	}
+
+	@Override
+	public int hashCode() {
+		return 31 + value;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null || getClass() != obj.getClass()) {
+			return false;
+		}
+		NonnegativeInteger other = (NonnegativeInteger) obj;
+		return value == other.value;
+	}
 }

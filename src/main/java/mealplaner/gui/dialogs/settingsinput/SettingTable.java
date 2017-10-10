@@ -10,6 +10,7 @@ import javax.swing.table.TableColumn;
 
 import mealplaner.BundleStore;
 import mealplaner.gui.commons.SwingUtilityMethods;
+import mealplaner.gui.editing.PositiveIntegerCellEditor;
 import mealplaner.model.enums.CasseroleSettings;
 import mealplaner.model.enums.PreferenceSettings;
 import mealplaner.model.settings.Settings;
@@ -40,6 +41,7 @@ public class SettingTable {
 		table = new JTable(tableModel);
 		setPreferredWidthXofColumns(100, 0, 7, 8);
 		setPreferredWidthXofColumns(50, 1, 2, 3, 4, 5, 6);
+		table.setDefaultEditor(Integer.class, new PositiveIntegerCellEditor());
 		SwingUtilityMethods.setupEnumColumnRenderer(getTableColumn(7), CasseroleSettings.class,
 				getCasseroleSettingsStrings(bundles));
 		SwingUtilityMethods.setupComboBoxEditor(getTableColumn(7), CasseroleSettings.class,

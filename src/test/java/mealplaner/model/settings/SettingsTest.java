@@ -1,5 +1,6 @@
 package mealplaner.model.settings;
 
+import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.io.XMLHelpers.createTextNode;
 import static mealplaner.model.enums.CookingTime.VERY_SHORT;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -57,8 +58,7 @@ public class SettingsTest {
 
 		sut = Settings.loadFromXml(settingsNode);
 
-		Settings expectedSettings = new Settings(new CookingTimeSetting(VERY_SHORT),
-				false,
+		Settings expectedSettings = new Settings(new CookingTimeSetting(VERY_SHORT), nonNegative(2),
 				CasseroleSettings.NONE, PreferenceSettings.NORMAL);
 
 		assertThat(sut).isEqualTo(expectedSettings);

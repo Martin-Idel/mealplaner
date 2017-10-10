@@ -32,8 +32,12 @@ public class CookingUtensilSetting implements CookingSetting {
 		}
 	}
 
-	public void setManyPeople() {
-		prohibitedUtensil.add(ObligatoryUtensil.PAN);
+	public void setNumberOfPeople(int number) {
+		if (number > 3) {
+			prohibitedUtensil.add(ObligatoryUtensil.PAN);
+		} else {
+			prohibitedUtensil.remove(ObligatoryUtensil.PAN);
+		}
 	}
 
 	public void reset() {
@@ -51,10 +55,6 @@ public class CookingUtensilSetting implements CookingSetting {
 
 	public boolean contains(ObligatoryUtensil obligatoryUtensil) {
 		return prohibitedUtensil.contains(obligatoryUtensil);
-	}
-
-	public boolean containsMany() {
-		return (prohibitedUtensil.contains(ObligatoryUtensil.PAN)) ? true : false;
 	}
 
 	@Override

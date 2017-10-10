@@ -1,5 +1,7 @@
 package mealplaner.gui.dialogs.settingsinput;
 
+import static mealplaner.commons.NonnegativeInteger.nonNegative;
+
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -66,7 +68,7 @@ public class SettingTableModel extends AbstractTableModel {
 		case 5:
 			return Boolean.class;
 		case 6:
-			return Boolean.class;
+			return Integer.class;
 		case 7:
 			return CasseroleSettings.class;
 		case 8:
@@ -78,15 +80,13 @@ public class SettingTableModel extends AbstractTableModel {
 
 	@Override
 	public boolean isCellEditable(int row, int col) {
-		return !(col == 0 || col == 1
-				|| (col == 6
-						&& (CasseroleSettings) getValueAt(row, col + 1) == CasseroleSettings.ONLY));
+		return !(col == 0 || col == 1);
 	}
 
 	@Override
 	public void setValueAt(Object value, int row, int col) {
 		CookingTimeSetting newCookingTimeSetting = workingCopy[row].getCookingTime();
-		boolean newIsMany = workingCopy[row].getCookingUtensil().containsMany();
+		int numberOfPeople = workingCopy[row].getNumberOfPeople().value;
 		CasseroleSettings newCasseroleSettings = workingCopy[row].getCasserole();
 		PreferenceSettings newPreferenceSettings = workingCopy[row].getPreference();
 		switch (col) {
@@ -103,7 +103,10 @@ public class SettingTableModel extends AbstractTableModel {
 			changeStateOf(CookingTime.LONG, value, newCookingTimeSetting);
 			break;
 		case 6:
-			newIsMany = (boolean) value;
+			int nonnegativeInteger = Integer.parseInt((String) value);
+			if (nonnegativeInteger >= 0) {
+				numberOfPeople = nonnegativeInteger;
+			}
 			break;
 		case 7:
 			newCasseroleSettings = (CasseroleSettings) value;
@@ -114,8 +117,8 @@ public class SettingTableModel extends AbstractTableModel {
 		default:
 			return;
 		}
-		workingCopy[row] = new Settings(newCookingTimeSetting, newIsMany, newCasseroleSettings,
-				newPreferenceSettings);
+		workingCopy[row] = new Settings(newCookingTimeSetting, nonNegative(numberOfPeople),
+				newCasseroleSettings, newPreferenceSettings);
 		fireTableCellUpdated(row, col);
 	}
 
@@ -149,7 +152,7 @@ public class SettingTableModel extends AbstractTableModel {
 		case 5:
 			return !workingCopy[row].getCookingTime().contains(CookingTime.LONG);
 		case 6:
-			return workingCopy[row].getCookingUtensil().containsMany();
+			return workingCopy[row].getNumberOfPeople();
 		case 7:
 			return workingCopy[row].getCasserole();
 		case 8:

@@ -52,10 +52,17 @@ public class CookingUtensilSettingTest {
 	}
 
 	@Test
-	public void setManySettings() {
-		utensilSetting.setManyPeople();
+	public void setNumberOfPeopleProhibitsPanForMany() {
+		utensilSetting.setNumberOfPeople(5);
 
 		verify(prohibitedUtensil).add(ObligatoryUtensil.PAN);
+	}
+
+	@Test
+	public void setNumberOfPeopleAllowsPanForFew() {
+		utensilSetting.setNumberOfPeople(2);
+
+		verify(prohibitedUtensil).remove(ObligatoryUtensil.PAN);
 	}
 
 	@Test
@@ -76,7 +83,7 @@ public class CookingUtensilSettingTest {
 		when(meal.getObligatoryUtensil()).thenReturn(ObligatoryUtensil.POT);
 		Meal mealPan = mock(Meal.class);
 		when(mealPan.getObligatoryUtensil()).thenReturn(ObligatoryUtensil.PAN);
-		utensilSetting.setManyPeople();
+		utensilSetting.setNumberOfPeople(4);
 
 		assertFalse(utensilSetting.prohibits(meal));
 		assertTrue(utensilSetting.prohibits(mealPan));
@@ -85,7 +92,7 @@ public class CookingUtensilSettingTest {
 	@Test
 	public void isUtensilProhibited() {
 		utensilSetting = new CookingUtensilSetting();
-		utensilSetting.setManyPeople();
+		utensilSetting.setNumberOfPeople(5);
 
 		assertTrue(utensilSetting.isUtensilProhibited(ObligatoryUtensil.PAN));
 		assertFalse(utensilSetting.isUtensilProhibited(ObligatoryUtensil.POT));

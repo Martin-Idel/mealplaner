@@ -2,6 +2,7 @@ package testcommons;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
+import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -78,7 +79,7 @@ public class CommonFunctions {
 	}
 
 	public static Settings getSettings1() {
-		return new Settings(new CookingTimeSetting(CookingTime.VERY_SHORT), false,
+		return new Settings(new CookingTimeSetting(CookingTime.VERY_SHORT), nonNegative(3),
 				CasseroleSettings.NONE, PreferenceSettings.RARE_PREFERED);
 	}
 }

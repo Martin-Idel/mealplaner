@@ -1,12 +1,16 @@
 package mealplaner.model.settings;
 
+import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.io.XMLHelpers.createTextNode;
 import static mealplaner.io.XMLHelpers.readBoolean;
 import static mealplaner.io.XMLHelpers.readEnum;
+import static mealplaner.io.XMLHelpers.readInt;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import mealplaner.commons.NonnegativeInteger;
+import mealplaner.errorhandling.Logger;
 import mealplaner.model.enums.CasseroleSettings;
 import mealplaner.model.enums.CookingTime;
 import mealplaner.model.enums.ObligatoryUtensil;
@@ -18,23 +22,23 @@ public class Settings {
 	private final CookingPreferenceSetting cookingPreferences;
 	private final CookingTimeSetting cookingTime;
 	private final CookingUtensilSetting cookingUtensil;
+	private final NonnegativeInteger numberOfPeople;
 
 	public Settings() {
-		this(new CookingTimeSetting(), false, CasseroleSettings.POSSIBLE,
+		this(new CookingTimeSetting(), nonNegative(2), CasseroleSettings.POSSIBLE,
 				PreferenceSettings.NORMAL);
 	}
 
 	public Settings(CookingTimeSetting cookingTime,
-			boolean manyPeople,
+			NonnegativeInteger numberOfPeople,
 			CasseroleSettings casseroleSettings,
 			PreferenceSettings preferenceSettings) {
 
 		this.cookingPreferences = new CookingPreferenceSetting();
 		this.cookingTime = cookingTime;
 		this.cookingUtensil = new CookingUtensilSetting();
-		if (manyPeople) {
-			this.cookingUtensil.setManyPeople();
-		}
+		this.numberOfPeople = numberOfPeople;
+		this.cookingUtensil.setNumberOfPeople(numberOfPeople.value);
 		this.casseroleSettings = casseroleSettings;
 		this.cookingUtensil.setCasseroleSettings(casseroleSettings);
 
@@ -45,10 +49,15 @@ public class Settings {
 	public Settings(Settings setting) {
 		this.casseroleSettings = setting.getCasserole();
 		this.preference = setting.getPreference();
+		this.numberOfPeople = setting.getNumberOfPeople();
 		this.cookingPreferences = new CookingPreferenceSetting();
 		this.cookingPreferences.setCookingPreferences(this.preference);
 		this.cookingTime = new CookingTimeSetting(setting.getCookingTime());
 		this.cookingUtensil = new CookingUtensilSetting(setting.getCookingUtensil());
+	}
+
+	public NonnegativeInteger getNumberOfPeople() {
+		return numberOfPeople;
 	}
 
 	public CookingTimeSetting getCookingTime() {
@@ -95,9 +104,8 @@ public class Settings {
 				"preferenceSettings",
 				() -> settings.getPreference().name()));
 		settingsNode.appendChild(createTextNode(saveFileContent,
-				"manyPeople",
-				() -> Boolean.toString(
-						settings.getCookingUtensil().contains(ObligatoryUtensil.PAN))));
+				"numberOfPeople",
+				() -> Integer.toString(settings.getNumberOfPeople().value)));
 		settingsNode.appendChild(createTextNode(saveFileContent,
 				"VERY_SHORT",
 				() -> Boolean.toString(
@@ -122,7 +130,13 @@ public class Settings {
 				CasseroleSettings::valueOf, currentSetting, "casseroleSettings");
 		PreferenceSettings preferenceSetting = readEnum(PreferenceSettings.NORMAL,
 				PreferenceSettings::valueOf, currentSetting, "preferenceSettings");
-		boolean manyPeople = readBoolean(false, currentSetting, "manyPeople");
+		int numberOfPeople = readInt(2, currentSetting, "numberOfPeople");
+		if (numberOfPeople < 0) {
+			numberOfPeople = 1;
+			Logger.logParsingError(
+					String.format("The numberOfPeople of Setting " + currentSetting.toString()
+							+ " contains a negative number."));
+		}
 		CookingTimeSetting cookingTimes = new CookingTimeSetting();
 		if (readBoolean(false, currentSetting, "VERY_SHORT")) {
 			cookingTimes.prohibitCookingTime(CookingTime.VERY_SHORT);
@@ -136,7 +150,8 @@ public class Settings {
 		if (readBoolean(false, currentSetting, "LONG")) {
 			cookingTimes.prohibitCookingTime(CookingTime.LONG);
 		}
-		return new Settings(cookingTimes, manyPeople, casseroleSettings, preferenceSetting);
+		return new Settings(cookingTimes, nonNegative(numberOfPeople), casseroleSettings,
+				preferenceSetting);
 	}
 
 	@Override
@@ -149,6 +164,7 @@ public class Settings {
 		result = prime * result + ((cookingTime == null) ? 0 : cookingTime.hashCode());
 		result = prime * result + ((cookingUtensil == null) ? 0 : cookingUtensil.hashCode());
 		result = prime * result + ((preference == null) ? 0 : preference.hashCode());
+		result = prime * result * numberOfPeople.value;
 		return result;
 	}
 
@@ -165,7 +181,8 @@ public class Settings {
 				|| !cookingPreferences.equals(other.cookingPreferences)
 				|| !cookingTime.equals(other.cookingTime)
 				|| !cookingUtensil.equals(other.cookingUtensil)
-				|| preference != other.preference) {
+				|| preference != other.preference
+				|| !numberOfPeople.equals(other.numberOfPeople)) {
 			return false;
 		}
 		return true;
@@ -175,6 +192,7 @@ public class Settings {
 	public String toString() {
 		return "Settings [casseroleSettings=" + casseroleSettings + ", preference=" + preference
 				+ ", cookingPreferences=" + cookingPreferences + ", cookingTime=" + cookingTime
-				+ ", cookingUtensil=" + cookingUtensil + "]";
+				+ ", cookingUtensil=" + cookingUtensil
+				+ ", numberOfPeople=" + numberOfPeople + "]";
 	}
 }
