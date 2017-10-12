@@ -36,6 +36,7 @@ public class RecipeInput extends JDialog {
 
 	public Optional<Recipe> showDialog(Optional<Recipe> recipe,
 			BundleStore bundles, IngredientProvider ingredients) {
+		enteredRecipe = recipe;
 		display(recipe, bundles, ingredients);
 		dispose();
 		return enteredRecipe;
@@ -46,12 +47,12 @@ public class RecipeInput extends JDialog {
 		nonnegativeIntegerInputField = new NonnegativeIntegerInputField(
 				bundles.message("recipeNumberOfPortionsField"),
 				new NonnegativeInteger(4));
-		JScrollPane tablescroll = new JScrollPane(
-				recipeTable.setupTable(recipe, bundles, ingredients));
-		JPanel buttonPanel = displayButtons(bundles);
 		JPanel inputFieldPanel = new JPanel();
 		inputFieldPanel.setLayout(new GridLayout(0, 2));
 		nonnegativeIntegerInputField.addToPanel(inputFieldPanel);
+		JScrollPane tablescroll = new JScrollPane(
+				recipeTable.setupTable(recipe, bundles, ingredients));
+		JPanel buttonPanel = displayButtons(bundles);
 		dataPanel.add(inputFieldPanel, BorderLayout.NORTH);
 		dataPanel.add(tablescroll, BorderLayout.CENTER);
 		dataPanel.add(buttonPanel, BorderLayout.SOUTH);
