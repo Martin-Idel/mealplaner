@@ -8,15 +8,20 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+	runtimeLibraries
+}
+
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.22'
-    compile 'org.swinglabs.swingx:swingx-all:1.6.4'
+    compile 'org.swinglabs.swingx:swingx-all:1.6.5-1'
 
     testCompile 'org.assertj:assertj-core:3.8.0'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.10.19'
     
-    runtime 'org.swinglabs.swingx:swingx-all:1.6.4'
+    runtime 'org.swinglabs.swingx:swingx-all:1.6.5-1'
+    configurations.runtimeLibraries.extendsFrom(configurations.runtime)
 }
 
 sourceSets {
@@ -56,5 +61,11 @@ jar {
 			'Manifest-Version': '1.0',
 			'Main-Class': 'mealplaner.Kochplaner'
 		)
+	}
+	
+	from {
+		configurations.runtimeLibraries.collect {
+			it.isDirectory() ? it : zipTree(it)
+		}
 	}
 }
