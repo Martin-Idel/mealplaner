@@ -8,15 +8,20 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import mealplaner.errorhandling.Logger;
 import mealplaner.model.Meal;
 
-public class XMLHelpers {
+public final class XMLHelpers {
+	private static final Logger logger = LoggerFactory.getLogger(XMLHelpers.class);
+
+	private XMLHelpers() {
+	}
 
 	public static Element createTextNode(Document doc, String name,
 			Supplier<String> stringRepresentationOfField) {
@@ -32,9 +37,8 @@ public class XMLHelpers {
 			enumType = valueOf.apply(currentNode.getElementsByTagName(tagName).item(0)
 					.getTextContent());
 		} catch (NullPointerException | IllegalArgumentException exception) {
-			Logger.logParsingError(
-					String.format("The %s of element " + currentNode.toString()
-							+ " could not be read or contains an invalid Enum.", tagName));
+			logger.warn(String.format(
+					"The %s of element could not be read or contains an invalid Enum.", tagName));
 		}
 		return enumType;
 	}
@@ -45,9 +49,8 @@ public class XMLHelpers {
 			enumType = Boolean.valueOf(currentNode.getElementsByTagName(tagName).item(0)
 					.getTextContent());
 		} catch (NullPointerException | IllegalArgumentException exception) {
-			Logger.logParsingError(
-					String.format("The %s of element " + currentNode.toString()
-							+ " could not be read or contains an invalid Enum.", tagName));
+			logger.warn(String.format(
+					"The %s of element could not be read or contains an invalid Enum.", tagName));
 		}
 		return enumType;
 	}
@@ -58,9 +61,9 @@ public class XMLHelpers {
 			enumType = Integer.parseInt(currentNode.getElementsByTagName(tagName).item(0)
 					.getTextContent());
 		} catch (NullPointerException | IllegalArgumentException exception) {
-			Logger.logParsingError(
-					String.format("The %s of element " + currentNode.toString()
-							+ " could not be read or contains an invalid Enum.", tagName));
+			logger.warn(String.format(
+					"The %s of element could not be read or contains an invalid integer.",
+					tagName));
 		}
 		return enumType;
 	}
@@ -70,8 +73,7 @@ public class XMLHelpers {
 		try {
 			name = currentNode.getElementsByTagName(tagName).item(0).getTextContent();
 		} catch (NullPointerException exception) {
-			Logger.logParsingError(String.format(
-					"The %s of element " + currentNode.toString() + " could not be read", tagName));
+			logger.warn(String.format("The %s of element could not be read.", tagName));
 		}
 		return name;
 	}
@@ -91,8 +93,7 @@ public class XMLHelpers {
 					calendarNode.getElementsByTagName("time").item(0).getTextContent());
 			cal.setTimeInMillis(time);
 		} catch (NumberFormatException exc) {
-			Logger.logParsingError(String.format(
-					"The time of calendar " + calendarNode.toString() + " could not be read"));
+			logger.warn("The time of a calendar could not be read.");
 		}
 		return cal;
 	}
@@ -113,16 +114,15 @@ public class XMLHelpers {
 				Meal meal = Meal.loadFromXml((Element) elementsByTagName.item(i));
 				meals.add(meal);
 			} else {
-				Logger.logParsingError(
-						"A meal in " + mealListNode.toString() + " could not be read properly");
+				logger.warn("A meal in a MealList could not be read properly");
 			}
 		}
 		return meals;
 	}
 
 	public static <T> T logFailedXmlRetrieval(T fallback, String message, Element node) {
-		Logger.logParsingError(String
-				.format("Element %s not found in node " + node.toString(), message));
+		logger.error(String.format("Element %s not found. Fallback to %s", message,
+				fallback.toString()));
 		return fallback;
 	}
 }

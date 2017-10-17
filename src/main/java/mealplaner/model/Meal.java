@@ -8,22 +8,26 @@ import static mealplaner.io.XMLHelpers.readEnum;
 import java.util.Optional;
 import java.util.function.Supplier;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import mealplaner.errorhandling.Logger;
 import mealplaner.errorhandling.MealException;
 import mealplaner.io.XMLHelpers;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
 import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.Sidedish;
+import mealplaner.model.settings.Settings;
 import mealplaner.recipes.model.Recipe;
 
 // TODO: investigate better toString method
 public class Meal implements Comparable<Meal> {
+	private static final Logger logger = LoggerFactory.getLogger(Settings.class);
+
 	private String name;
 	private CookingTime cookingTime;
 	private Sidedish sidedish;
@@ -204,13 +208,12 @@ public class Meal implements Comparable<Meal> {
 					.parseInt(currentMeal.getElementsByTagName("lastCooked").item(0)
 							.getTextContent());
 		} catch (NullPointerException | NumberFormatException exception) {
-			Logger.logParsingError(
-					"The number of days passed of element " + currentMeal.toString()
-							+ " could not be read or contains an invalid number.");
+			logger.warn(
+					"The number of days passed of a meal could not be read or contains an invalid number.");
 		}
 		if (daysLastCooked < 0) {
 			daysLastCooked = 0;
-			Logger.logParsingError("The number of days must be nonnegative.");
+			logger.warn("The number of days must be nonnegative.");
 		}
 		return daysLastCooked;
 	}
@@ -221,8 +224,7 @@ public class Meal implements Comparable<Meal> {
 		try {
 			name = getElement.get();
 		} catch (NullPointerException exception) {
-			Logger.logParsingError(String.format(
-					"The %s of element " + currentMeal.toString() + " could not be read", tagName));
+			logger.warn(String.format("The %s of a meal could not be read", tagName));
 		}
 		return name;
 	}

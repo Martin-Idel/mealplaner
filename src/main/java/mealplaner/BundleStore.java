@@ -20,7 +20,7 @@ public class BundleStore {
 		return messages.getString(message);
 	}
 
-	public String error(String errorMessage) {
+	public String errorMessage(String errorMessage) {
 		MessageFormat mf = new MessageFormat(errors.getString(errorMessage));
 		return mf.format(new Object[0]);
 	}

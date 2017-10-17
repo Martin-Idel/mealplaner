@@ -7,15 +7,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import mealplaner.errorhandling.Logger;
 import mealplaner.io.XMLHelpers;
 
 public class Recipe {
+	private static final Logger logger = LoggerFactory.getLogger(Recipe.class);
+
 	private final int numberOfPortions;
 	private Map<Ingredient, Integer> ingredients;
 
@@ -116,8 +119,8 @@ public class Recipe {
 						: 0;
 				entries.put(ingredient, measure);
 			} else {
-				Logger.logParsingError(
-						"A meal in " + currentRecipe.toString() + " could not be read properly");
+				logger.warn("A recipe could not be read properly, since the node type of "
+						+ elementsByTagName.item(i).getNodeName() + "was not an Element");
 			}
 		}
 		return new Recipe(numberOfPortions, entries);

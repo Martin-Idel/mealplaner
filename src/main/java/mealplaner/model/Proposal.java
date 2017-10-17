@@ -12,13 +12,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import mealplaner.errorhandling.Logger;
-
 public class Proposal {
+	private static final Logger logger = LoggerFactory.getLogger(Proposal.class);
+
 	private List<Meal> mealList;
 	private Calendar calendar;
 	private boolean includeToday;
@@ -106,8 +108,8 @@ public class Proposal {
 		if (mealsNode.getNodeType() == Node.ELEMENT_NODE) {
 			meals = getMealListFromXml((Element) mealsNode);
 		} else {
-			Logger.logParsingError(
-					"List of meals in " + proposalNode.toString() + " could not be found");
+			logger.warn("List of meals in Proposal of" + proposalNode.toString()
+					+ " could not be found");
 		}
 		Calendar calendar = getCalendarFromXml(proposalNode);
 		boolean includesToday = readBoolean(false, proposalNode, "includesToday");

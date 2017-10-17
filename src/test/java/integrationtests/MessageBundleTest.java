@@ -27,10 +27,10 @@ public class MessageBundleTest {
 	private static final Pattern GET_STRING_WITHOUT_QUOTE_PATTERN = Pattern
 			.compile("\\.message\\([^\"]");
 
-	private static final Pattern GET_ERROR_AT_FILE_END = Pattern.compile("\\.error\\($");
-	private static final Pattern GET_ERROR_PATTERN = Pattern.compile("\\.error\\(.*?\\)");
+	private static final Pattern GET_ERROR_AT_FILE_END = Pattern.compile("\\.errorMessage\\($");
+	private static final Pattern GET_ERROR_PATTERN = Pattern.compile("\\.errorMessage\\(.*?\\)");
 	private static final Pattern GET_ERROR_WITHOUT_QUOTE_PATTERN = Pattern
-			.compile("\\.error\\([^\"]");
+			.compile("\\.errorMessage\\([^\"]");
 
 	private static final Pattern STRING_PATTERN = Pattern.compile("\".*?\"");
 
@@ -155,10 +155,10 @@ public class MessageBundleTest {
 	}
 
 	/*
-	 * This test enforces that we never have a scenario where the string of the
-	 * call to the BundleStore is matched on the new line. While I consider it
-	 * good style anyways, this is also crucial to have a more complete check
-	 * for calls to ResourceBundles, since I parse line-wise.
+	 * This test enforces that we never have a scenario where the string of the call
+	 * to the BundleStore is matched on the new line. While I consider it good style
+	 * anyways, this is also crucial to have a more complete check for calls to
+	 * ResourceBundles, since I parse line-wise.
 	 */
 	private void noCallsToResourceBundleAreLineBroken(final Pattern bundleCallAtEndOfLine) {
 		try {
@@ -174,9 +174,9 @@ public class MessageBundleTest {
 	}
 
 	/*
-	 * This test enforces that we never have a scenario where the string of a
-	 * call to the BundleStore is passed as a parameter. This is a necessary to
-	 * be able to detect all calls to the BundleStore.
+	 * This test enforces that we never have a scenario where the string of a call
+	 * to the BundleStore is passed as a parameter. This is a necessary to be able
+	 * to detect all calls to the BundleStore.
 	 */
 	private void noCallsToResourceBundleUseStringParameters(final Pattern parameterCall) {
 		try {

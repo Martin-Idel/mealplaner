@@ -6,17 +6,20 @@ import static mealplaner.io.XMLHelpers.readBoolean;
 import static mealplaner.io.XMLHelpers.readEnum;
 import static mealplaner.io.XMLHelpers.readInt;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import mealplaner.commons.NonnegativeInteger;
-import mealplaner.errorhandling.Logger;
 import mealplaner.model.enums.CasseroleSettings;
 import mealplaner.model.enums.CookingTime;
 import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.PreferenceSettings;
 
 public class Settings {
+	private static final Logger logger = LoggerFactory.getLogger(Settings.class);
+
 	private final CasseroleSettings casseroleSettings;
 	private final PreferenceSettings preference;
 	private final CookingPreferenceSetting cookingPreferences;
@@ -133,9 +136,8 @@ public class Settings {
 		int numberOfPeople = readInt(2, currentSetting, "numberOfPeople");
 		if (numberOfPeople < 0) {
 			numberOfPeople = 1;
-			Logger.logParsingError(
-					String.format("The numberOfPeople of Setting " + currentSetting.toString()
-							+ " contains a negative number."));
+			logger.warn(String.format("The numberOfPeople of Setting " + currentSetting.toString()
+					+ " contains a negative number."));
 		}
 		CookingTimeSetting cookingTimes = new CookingTimeSetting();
 		if (readBoolean(false, currentSetting, "VERY_SHORT")) {

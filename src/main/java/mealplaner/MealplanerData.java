@@ -11,12 +11,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import mealplaner.errorhandling.Logger;
 import mealplaner.errorhandling.MealException;
 import mealplaner.io.XMLHelpers;
 import mealplaner.model.Meal;
@@ -26,6 +27,8 @@ import mealplaner.model.settings.Settings;
 
 // TODO: Error handling and ResourceBundles
 public class MealplanerData implements DataStore {
+	private static final Logger logger = LoggerFactory.getLogger(Settings.class);
+
 	private List<Meal> meals;
 	private Settings[] defaultSettings;
 	private MealplanerCalendar cal;
@@ -163,13 +166,12 @@ public class MealplanerData implements DataStore {
 										settingsNode);
 			}
 		} else {
-			Logger.logParsingError("Settings node not found in " + mealPlanerNode.toString());
+			logger.warn("Settings node not found.");
 		}
 		for (int i = 0; i < defaultSettings.length; i++) {
 			if (defaultSettings[i] == null) {
 				defaultSettings[i] = new Settings();
-				Logger.logParsingError(
-						"Setting " + i + " not correctly read in " + mealPlanerNode.toString());
+				logger.warn("Setting " + i + " not correctly read in default settings");
 			}
 		}
 		return defaultSettings;
