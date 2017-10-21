@@ -1,9 +1,10 @@
 package mealplaner.gui.dialogs.settingsinput;
 
+import static java.time.format.DateTimeFormatter.ofLocalizedDate;
+import static java.time.format.FormatStyle.SHORT;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 
-import java.text.DateFormat;
-import java.util.Calendar;
+import java.time.LocalDate;
 import java.util.Locale;
 
 import javax.swing.table.AbstractTableModel;
@@ -21,15 +22,14 @@ public class SettingTableModel extends AbstractTableModel {
 	private String[] columnNames;
 	private String[] days;
 	private Settings[] workingCopy;
-	private Calendar cal;
+	private LocalDate date;
 	private Locale currentLocale;
 
-	public SettingTableModel(Settings[] settings, Calendar calendar, BundleStore bundles) {
+	public SettingTableModel(Settings[] settings, LocalDate localDate, BundleStore bundles) {
 		currentLocale = bundles.locale();
 		columnNames = StringArrayCollection.getSettingsInputColumnNames(bundles);
 		days = StringArrayCollection.getWeekDays(bundles);
-		cal = Calendar.getInstance();
-		cal.setTime(calendar.getTime());
+		date = localDate;
 		workingCopy = new Settings[settings.length];
 		for (int i = 0; i < settings.length; i++) {
 			workingCopy[i] = new Settings(settings[i]);
@@ -135,14 +135,11 @@ public class SettingTableModel extends AbstractTableModel {
 	public Object getValueAt(int row, int col) {
 		switch (col) {
 		case 0:
-			int dayofWeek = (cal.get(Calendar.DAY_OF_WEEK) - 1 + row) % 7;
+			int dayofWeek = date.plusDays(row).getDayOfWeek().getValue() % 7;
 			return days[dayofWeek];
 		case 1:
-			DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, currentLocale);
-			Calendar newCalCopy = Calendar.getInstance();
-			newCalCopy.setTime(cal.getTime());
-			newCalCopy.add(Calendar.DATE, row);
-			return dateFormat.format(newCalCopy.getTime());
+			return date.plusDays(row)
+					.format(ofLocalizedDate(SHORT).withLocale(currentLocale));
 		case 2:
 			return !workingCopy[row].getCookingTime().contains(CookingTime.VERY_SHORT);
 		case 3:

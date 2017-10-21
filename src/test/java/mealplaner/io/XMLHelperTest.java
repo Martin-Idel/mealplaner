@@ -1,16 +1,17 @@
 package mealplaner.io;
 
-import static mealplaner.io.XMLHelpers.getCalendarFromXml;
+import static mealplaner.io.XMLHelpers.generateDateXml;
 import static mealplaner.io.XMLHelpers.getMealListFromXml;
-import static mealplaner.io.XMLHelpers.saveCalendarToXml;
+import static mealplaner.io.XMLHelpers.parseDate;
 import static mealplaner.io.XMLHelpers.saveMealsToXml;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.createDocument;
 import static testcommons.CommonFunctions.getMeal1;
 import static testcommons.CommonFunctions.getMeal2;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -77,17 +78,6 @@ public class XMLHelperTest {
 	}
 
 	@Test
-	public void calendarCanBeSavedAndReadToXml() throws ParserConfigurationException {
-		Calendar expected = Calendar.getInstance();
-		expected.setTimeInMillis(5000000);
-		Document saveDocument = createDocument();
-
-		Calendar actual = getCalendarFromXml(saveCalendarToXml(saveDocument, expected));
-
-		assertThat(actual.getTimeInMillis()).isEqualTo(expected.getTimeInMillis());
-	}
-
-	@Test
 	public void getMealListFromXmlWorksCorrectly() throws ParserConfigurationException {
 		Document saveDocument = createDocument();
 		List<Meal> meals = new ArrayList<>();
@@ -98,6 +88,17 @@ public class XMLHelperTest {
 				saveMealsToXml(saveDocument, meals, "mealList"));
 
 		assertThat(meals).asList().containsAll(actualMeals);
+	}
+
+	@Test
+	public void getLocalDateFromXmlWorksCorrectly() throws ParserConfigurationException {
+		Document saveDocument = createDocument();
+		LocalDate date = LocalDate.of(2017, Month.JULY, 5);
+
+		LocalDate actualDate = parseDate(generateDateXml(saveDocument, date, "date"));
+
+		assertThat(actualDate).isAfterOrEqualTo(date);
+		assertThat(actualDate).isBeforeOrEqualTo(date);
 	}
 
 	private enum TestEnum {

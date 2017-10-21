@@ -1,15 +1,15 @@
 package mealplaner.model.settings;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class ProposalOutline {
 	private final int numberOfDays;
 	private final boolean includedToday;
 	private final boolean shallBeRandomised;
-	private final Date dateToday;
+	private final LocalDate dateToday;
 
 	public ProposalOutline(int numberOfDays, boolean includedToday, boolean shallBeRandomised,
-			Date dateToday) {
+			LocalDate dateToday) {
 		this.numberOfDays = numberOfDays;
 		this.includedToday = includedToday;
 		this.shallBeRandomised = shallBeRandomised;
@@ -28,7 +28,7 @@ public class ProposalOutline {
 		return shallBeRandomised;
 	}
 
-	public Date getDateToday() {
+	public LocalDate getDateToday() {
 		return dateToday;
 	}
 }

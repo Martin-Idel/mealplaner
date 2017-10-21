@@ -1,11 +1,12 @@
 package mealplaner.gui;
 
+import static java.time.format.DateTimeFormatter.ofLocalizedDate;
+import static java.time.format.FormatStyle.LONG;
 import static mealplaner.gui.commons.SwingUtilityMethods.createButton;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -65,10 +66,10 @@ public class ProposalSummary implements DataStoreListener {
 		return dataPanel;
 	}
 
-	private void buildDateShowField(Date lastDate) {
-		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG, bundles.locale());
-		dateShow = new JLabel(
-				bundles.message("updatedLastDate") + " " + dateFormat.format(lastDate));
+	private void buildDateShowField(LocalDate lastDate) {
+		String formattedLastDate = lastDate
+				.format(ofLocalizedDate(LONG).withLocale(bundles.locale()));
+		dateShow = new JLabel(bundles.message("updatedLastDate") + " " + formattedLastDate);
 	}
 
 	private void buildButtons(BundleStore bundles, ActionListener updateMeals,
@@ -117,9 +118,9 @@ public class ProposalSummary implements DataStoreListener {
 	}
 
 	public void update() {
-		Date lastDate = mealPlan.getTime();
-		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG, bundles.locale());
-		dateShow.setText(bundles.message("updatedLastDate") + " " + dateFormat.format(lastDate));
+		String formattedLastDate = mealPlan.getTime()
+				.format(ofLocalizedDate(LONG).withLocale(bundles.locale()));
+		dateShow.setText(bundles.message("updatedLastDate") + " " + formattedLastDate);
 		if (mealPlan.getDaysPassed() == 0) {
 			dateUpdate.setEnabled(false);
 			giveProposal.setEnabled(true);

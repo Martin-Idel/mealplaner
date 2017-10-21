@@ -1,9 +1,10 @@
 package mealplaner.gui.dialogs.settingsinput;
 
+import static java.time.LocalDate.of;
 import static mealplaner.model.enums.CasseroleSettings.getCasseroleSettingsStrings;
 import static mealplaner.model.enums.PreferenceSettings.getPreferenceSettingsStrings;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
@@ -19,22 +20,20 @@ import mealplaner.model.settings.Settings;
 public class SettingTable {
 	private JTable table;
 	private SettingTableModel tableModel;
-	private Calendar calendar;
+	private LocalDate date = of(2017, 10, 23); // A random Monday
 	private BundleStore bundles;
 
 	public SettingTable(Settings[] defaultSettings, BundleStore bundles) {
 		this.bundles = bundles;
-		calendar = Calendar.getInstance();
-		calendar.setWeekDate(2000, 1, 2);
 
-		tableModel = new SettingTableModel(defaultSettings, calendar, bundles);
+		tableModel = new SettingTableModel(defaultSettings, date, bundles);
 	}
 
-	public SettingTable(Settings[] settings, Calendar calendar, BundleStore bundles) {
-		this.calendar = calendar;
+	public SettingTable(Settings[] settings, LocalDate date, BundleStore bundles) {
+		this.date = date;
 		this.bundles = bundles;
 
-		tableModel = new SettingTableModel(settings, calendar, bundles);
+		tableModel = new SettingTableModel(settings, date, bundles);
 	}
 
 	public JTable setupTable() {
@@ -55,9 +54,9 @@ public class SettingTable {
 
 	public void useDefaultSettings(Settings[] defaultSettings) {
 		Settings[] settings = new Settings[tableModel.getRowCount()];
-		int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+		int dayOfWeek = date.getDayOfWeek().getValue();
 		for (int i = 0; i < settings.length; i++) {
-			settings[i] = new Settings(defaultSettings[(dayOfWeek - 2) % 7]);
+			settings[i] = new Settings(defaultSettings[(dayOfWeek - 1) % 7]);
 			dayOfWeek++;
 		}
 		tableModel.update(settings);

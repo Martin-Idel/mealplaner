@@ -1,10 +1,12 @@
 package mealplaner.gui.dialogs.proposaloutput;
 
+import static java.time.format.DateTimeFormatter.ofLocalizedDate;
+import static java.time.format.FormatStyle.SHORT;
 import static mealplaner.gui.model.StringArrayCollection.getProposalOutputColumnNames;
 import static mealplaner.gui.model.StringArrayCollection.getWeekDays;
 
-import java.text.DateFormat;
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.swing.JTable;
@@ -32,19 +34,18 @@ public class ProposalTableFactory {
 		String[] weekDays = getWeekDays(bundles);
 
 		List<Meal> mealList = proposal.getProposalList();
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(proposal.getCalendar().getTime());
-		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, bundles.locale());
+		DateTimeFormatter formatter = ofLocalizedDate(SHORT).withLocale(bundles.locale());
 		String[][] data = new String[mealList.size()][3];
+		LocalDate date = proposal.getTime();
 
 		if (!proposal.isToday()) {
-			cal.add(Calendar.DATE, 1);
+			date = date.plusDays(1);
 		}
 		for (int i = 0; i < data.length; i++) {
-			data[i][0] = dateFormat.format(cal.getTime());
-			data[i][1] = weekDays[cal.get(Calendar.DAY_OF_WEEK) - 1];
+			data[i][0] = date.format(formatter);
+			data[i][1] = weekDays[date.getDayOfWeek().getValue() % 7];
 			data[i][2] = mealList.get(i).getName();
-			cal.add(Calendar.DATE, 1);
+			date = date.plusDays(1);
 		}
 		return data;
 	}

@@ -1,9 +1,8 @@
 package mealplaner.gui.dialogs.settingsinput;
 
 import java.awt.BorderLayout;
+import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Optional;
 
 import javax.swing.JFrame;
@@ -35,15 +34,6 @@ public class ProposalSettingsInput extends SettingsInput {
 		return getEnteredSettings();
 	}
 
-	private Calendar createCalendarForTable(Date date, boolean today) {
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
-		if (!today) {
-			calendar.add(Calendar.DATE, 1);
-		}
-		return calendar;
-	}
-
 	private Settings[] createSettingsForTable(int numberOfDays, boolean today) {
 		Settings[] settings = new Settings[numberOfDays];
 		Arrays.fill(settings, new Settings());
@@ -53,9 +43,9 @@ public class ProposalSettingsInput extends SettingsInput {
 	protected void setup(Settings[] defaultSettings, ProposalOutline outline) {
 		Settings[] tableSettings = createSettingsForTable(outline.getNumberOfDays(),
 				outline.isIncludedToday());
-		Calendar calendar = createCalendarForTable(outline.getDateToday(),
-				outline.isIncludedToday());
-		settingTable = new SettingTable(tableSettings, calendar, bundles);
+		LocalDate date = outline.isIncludedToday() ? outline.getDateToday()
+				: outline.getDateToday().plusDays(1);
+		settingTable = new SettingTable(tableSettings, date, bundles);
 		tablescroll = new JScrollPane(settingTable.setupTable());
 
 		buttonPanel = new ButtonPanelBuilder(bundles)

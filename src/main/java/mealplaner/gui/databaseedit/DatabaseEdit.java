@@ -103,16 +103,10 @@ public class DatabaseEdit implements DataStoreListener {
 									.forEachRemaining(number -> tableModel.removeRow(number));
 						})
 				.addSaveButton(action -> {
-					System.out.println("----- all meals");
-					tableModel.returnContent().stream()
-							.forEach(meal -> System.out.println(meal.getRecipe()));
-					System.out.println("-----");
-
 					// Override database. Not efficient but presently enough.
 					setData.accept(tableModel.returnContent());
 					tableModel.returnContent().stream()
 							.forEach(meal -> System.out.println(meal.getRecipe()));
-					System.out.println("-----");
 					buttonPanel.disableButtons();
 				})
 				.makeLastButtonEnabling()

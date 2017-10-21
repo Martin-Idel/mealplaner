@@ -53,7 +53,6 @@ public class ProposalBuilder {
 		Proposal proposal = prepareProposal(firstDayIsToday);
 		setCurrentSideDishFromHistory(meals);
 		if (!meals.isEmpty()) {
-			System.out.println("Here");
 			for (int today = 0; today < settings.length; today++) {
 				Optional<Meal> nextMeal = proposeNextMeal(meals, proposal, settings[today]);
 				proposal.addItemToProposalList(nextMeal.orElse(meals.get(0)));

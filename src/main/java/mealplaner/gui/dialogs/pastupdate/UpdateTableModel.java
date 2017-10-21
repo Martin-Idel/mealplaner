@@ -1,11 +1,12 @@
 package mealplaner.gui.dialogs.pastupdate;
 
+import static java.time.format.DateTimeFormatter.ofLocalizedDate;
+import static java.time.format.FormatStyle.SHORT;
 import static mealplaner.gui.model.StringArrayCollection.getUpdatePastMealColumnNames;
 import static mealplaner.gui.model.StringArrayCollection.getWeekDays;
 
 import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Locale;
 
 import javax.swing.table.AbstractTableModel;
@@ -18,16 +19,15 @@ public class UpdateTableModel extends AbstractTableModel {
 	private String[] columnNames;
 	private Meal[] dataForDaysPassed;
 	private String[] days;
-	private Calendar cal;
+	private LocalDate date;
 	private Locale currentLocale;
 
-	public UpdateTableModel(Date proposalDate, Meal[] dataForDaysPassed, BundleStore bundles) {
+	public UpdateTableModel(LocalDate proposalDate, Meal[] dataForDaysPassed, BundleStore bundles) {
 		this.dataForDaysPassed = dataForDaysPassed;
 		this.columnNames = getUpdatePastMealColumnNames(bundles);
 		this.currentLocale = bundles.locale();
 		days = getWeekDays(bundles);
-		cal = Calendar.getInstance();
-		cal.setTime(proposalDate);
+		this.date = proposalDate;
 	}
 
 	@Override
@@ -84,13 +84,10 @@ public class UpdateTableModel extends AbstractTableModel {
 	public Object getValueAt(int row, int col) {
 		switch (col) {
 		case 0:
-			DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, currentLocale);
-			Calendar newCalCopy = Calendar.getInstance();
-			newCalCopy.setTime(cal.getTime());
-			newCalCopy.add(Calendar.DATE, row);
-			return dateFormat.format(newCalCopy.getTime());
+			return date.plusDays(row)
+					.format(ofLocalizedDate(SHORT).withLocale(currentLocale));
 		case 1:
-			int dayofWeek = (cal.get(Calendar.DAY_OF_WEEK) - 1 + row) % 7;
+			int dayofWeek = (date.getDayOfWeek().getValue() + row) % 7;
 			return days[dayofWeek];
 		case 2:
 			return dataForDaysPassed[row];

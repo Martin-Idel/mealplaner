@@ -1,10 +1,15 @@
 package mealplaner.io;
 
-import static java.lang.Long.parseLong;
+import static java.time.LocalDate.now;
+import static java.time.LocalDate.of;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -21,6 +26,16 @@ public final class XMLHelpers {
 	private static final Logger logger = LoggerFactory.getLogger(XMLHelpers.class);
 
 	private XMLHelpers() {
+	}
+
+	public static Optional<Node> getFirstNode(Element node, String tagName) {
+		NodeList list = node.getElementsByTagName(tagName);
+		if (list != null && list.getLength() > 0) {
+			return of(list.item(0));
+		} else {
+			logger.warn(String.format("The node with name %s could not be found.", tagName));
+			return empty();
+		}
 	}
 
 	public static Element createTextNode(Document doc, String name,
@@ -43,29 +58,29 @@ public final class XMLHelpers {
 		return enumType;
 	}
 
-	public static boolean readBoolean(boolean defaultType, Element currentNode, String tagName) {
-		boolean enumType = defaultType;
+	public static boolean readBoolean(boolean defaultBool, Element currentNode, String tagName) {
+		boolean bool = defaultBool;
 		try {
-			enumType = Boolean.valueOf(currentNode.getElementsByTagName(tagName).item(0)
+			bool = Boolean.valueOf(currentNode.getElementsByTagName(tagName).item(0)
 					.getTextContent());
 		} catch (NullPointerException | IllegalArgumentException exception) {
 			logger.warn(String.format(
 					"The %s of element could not be read or contains an invalid Enum.", tagName));
 		}
-		return enumType;
+		return bool;
 	}
 
-	public static int readInt(int defaultType, Element currentNode, String tagName) {
-		int enumType = defaultType;
+	public static int readInt(int defaultNumber, Element currentNode, String tagName) {
+		int number = defaultNumber;
 		try {
-			enumType = Integer.parseInt(currentNode.getElementsByTagName(tagName).item(0)
+			number = Integer.parseInt(currentNode.getElementsByTagName(tagName).item(0)
 					.getTextContent());
 		} catch (NullPointerException | IllegalArgumentException exception) {
 			logger.warn(String.format(
 					"The %s of element could not be read or contains an invalid integer.",
 					tagName));
 		}
-		return enumType;
+		return number;
 	}
 
 	public static String readString(String defaultType, Element currentNode, String tagName) {
@@ -76,26 +91,6 @@ public final class XMLHelpers {
 			logger.warn(String.format("The %s of element could not be read.", tagName));
 		}
 		return name;
-	}
-
-	public static Element saveCalendarToXml(Document saveDocument, Calendar calendar) {
-		Element calNode = saveDocument.createElement("calendar");
-		calNode.appendChild(
-				createTextNode(saveDocument, "time",
-						() -> Long.toString(calendar.getTime().getTime())));
-		return calNode;
-	}
-
-	public static Calendar getCalendarFromXml(Element calendarNode) {
-		Calendar cal = Calendar.getInstance();
-		try {
-			long time = parseLong(
-					calendarNode.getElementsByTagName("time").item(0).getTextContent());
-			cal.setTimeInMillis(time);
-		} catch (NumberFormatException exc) {
-			logger.warn("The time of a calendar could not be read.");
-		}
-		return cal;
 	}
 
 	public static Element saveMealsToXml(Document saveFileContent, List<Meal> meals,
@@ -124,5 +119,28 @@ public final class XMLHelpers {
 		logger.error(String.format("Element %s not found. Fallback to %s", message,
 				fallback.toString()));
 		return fallback;
+	}
+
+	public static LocalDate parseDate(Element calendarNode) {
+		LocalDate nowDate = now();
+		int dayOfMonth = readInt(nowDate.getDayOfMonth(), calendarNode, "dayOfMonth");
+		Month month = readEnum(nowDate.getMonth(), Month::valueOf, calendarNode, "month");
+		int year = readInt(nowDate.getYear(), calendarNode, "year");
+		return of(year, month, dayOfMonth);
+	}
+
+	public static Element generateDateXml(Document saveFileContent, LocalDate date,
+			String tagName) {
+		Element dateNode = saveFileContent.createElement(tagName);
+		dateNode.appendChild(
+				createTextNode(saveFileContent, "dayOfMonth",
+						() -> Integer.toString(date.getDayOfMonth())));
+		dateNode.appendChild(
+				createTextNode(saveFileContent, "month",
+						() -> date.getMonth().toString()));
+		dateNode.appendChild(
+				createTextNode(saveFileContent, "year",
+						() -> Integer.toString(date.getYear())));
+		return dateNode;
 	}
 }

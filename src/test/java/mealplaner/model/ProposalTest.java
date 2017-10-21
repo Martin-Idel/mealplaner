@@ -7,8 +7,8 @@ import static testcommons.CommonFunctions.createDocument;
 import static testcommons.CommonFunctions.getMeal1;
 import static testcommons.CommonFunctions.getMeal2;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -23,10 +23,8 @@ public class ProposalTest {
 		List<Meal> meals = new ArrayList<>();
 		meals.add(getMeal1());
 		meals.add(getMeal2());
-		Calendar cal = Calendar.getInstance();
-		long calTime = 1000000000;
-		cal.setTimeInMillis(calTime);
-		Proposal expected = new Proposal(meals, cal, true);
+		LocalDate date = LocalDate.of(2017, 7, 5);
+		Proposal expected = new Proposal(meals, date, true);
 		Document saveFileContent = createDocument();
 
 		Proposal actual = getFromXml(saveToXml(saveFileContent, expected, "proposal"));

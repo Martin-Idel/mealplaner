@@ -1,5 +1,6 @@
 package mealplaner;
 
+import static java.time.LocalDate.of;
 import static java.util.Optional.empty;
 import static mealplaner.DataStoreEventType.DATABASE_EDITED;
 import static mealplaner.DataStoreEventType.DATE_UPDATED;
@@ -13,8 +14,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static testcommons.MealAssert.assertThat;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -30,7 +31,6 @@ import org.w3c.dom.Document;
 
 import mealplaner.errorhandling.MealException;
 import mealplaner.model.Meal;
-import mealplaner.model.MealplanerCalendar;
 import mealplaner.model.Proposal;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
@@ -46,8 +46,7 @@ public class MealplanerDataTest {
 	private Meal meal3;
 	private Meal meal4;
 	private DataStoreListener listener;
-	@Mock
-	private MealplanerCalendar cal;
+	private LocalDate cal;
 	@Mock
 	private Proposal proposal;
 
@@ -56,7 +55,7 @@ public class MealplanerDataTest {
 	@Before
 	public void setUp() {
 		addInitializedMeals();
-		when(cal.updateCalendar()).thenReturn(10);
+		cal = of(2017, 5, 7);
 		when(proposal.getProposalList()).thenReturn(new ArrayList<>());
 		Settings[] defaultSettings = getCorrectlyFilledSettings();
 		sut = new MealplanerData(meals, cal, defaultSettings, proposal);
@@ -95,7 +94,7 @@ public class MealplanerDataTest {
 	@Test
 	public void updateMealCorrectlyAddsDaysToNonCookedMeals() {
 
-		sut.update(proposal.getProposalList());
+		sut.update(proposal.getProposalList(), cal.plusDays(10));
 
 		assertThat(meal1.getDaysPassed()).isEqualByComparingTo(60);
 		assertThat(meal2.getDaysPassed()).isEqualByComparingTo(111);
@@ -107,11 +106,10 @@ public class MealplanerDataTest {
 		List<Meal> proposalMeals = new ArrayList<>();
 		proposalMeals.add(meal1);
 		proposalMeals.add(meal4);
-		when(cal.updateCalendar()).thenReturn(2);
 		when(proposal.getProposalList()).thenReturn(proposalMeals);
 		sut = new MealplanerData(meals, cal, getCorrectlyFilledSettings(), proposal);
 
-		sut.update(proposal.getProposalList());
+		sut.update(proposal.getProposalList(), cal.plusDays(2));
 
 		assertThat(meal1.getDaysPassed()).isEqualByComparingTo(1);
 		assertThat(meal2.getDaysPassed()).isEqualByComparingTo(103);
@@ -121,7 +119,7 @@ public class MealplanerDataTest {
 	@Test
 	public void updateMealNotifiesCorrectListeners() {
 
-		sut.update(proposal.getProposalList());
+		sut.update(proposal.getProposalList(), cal.plusDays(1));
 
 		verify(listener).updateData(DATABASE_EDITED);
 		verify(listener).updateData(DATE_UPDATED);
@@ -160,7 +158,7 @@ public class MealplanerDataTest {
 	@Test
 	public void setDateNotifiesCorrectListeners() {
 
-		sut.setDate(0, 0, 0);
+		sut.setDate(1, 1, 1);
 
 		verify(listener).updateData(DATE_UPDATED);
 	}
@@ -169,14 +167,12 @@ public class MealplanerDataTest {
 	public void mealplanerXmlSaving() throws ParserConfigurationException {
 		Settings[] defaultSettings = getCorrectlyFilledSettings();
 		Proposal lastProposal = new Proposal();
-		Calendar cal = Calendar.getInstance();
-		cal.setTimeInMillis(2000000000);
-		MealplanerCalendar mealplanerCalendar = new MealplanerCalendar(cal);
+		LocalDate date = LocalDate.of(2017, 5, 17);
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = docFactory.newDocumentBuilder();
 		Document saveFileContent = documentBuilder.newDocument();
 
-		sut = new MealplanerData(meals, mealplanerCalendar, defaultSettings, lastProposal);
+		sut = new MealplanerData(meals, date, defaultSettings, lastProposal);
 
 		MealplanerData actual = readXml(generateXml(saveFileContent, sut));
 		assertThat(actual.getMeals()).asList().containsAll(sut.getMeals());

@@ -1,15 +1,14 @@
 package mealplaner.model;
 
+import static java.time.LocalDate.now;
 import static mealplaner.io.XMLHelpers.createTextNode;
-import static mealplaner.io.XMLHelpers.getCalendarFromXml;
 import static mealplaner.io.XMLHelpers.getMealListFromXml;
+import static mealplaner.io.XMLHelpers.parseDate;
 import static mealplaner.io.XMLHelpers.readBoolean;
-import static mealplaner.io.XMLHelpers.saveCalendarToXml;
 import static mealplaner.io.XMLHelpers.saveMealsToXml;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -18,29 +17,31 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import mealplaner.io.XMLHelpers;
+
 public class Proposal {
 	private static final Logger logger = LoggerFactory.getLogger(Proposal.class);
 
 	private List<Meal> mealList;
-	private Calendar calendar;
+	private LocalDate date;
 	private boolean includeToday;
 
 	public Proposal() {
-		this(new ArrayList<Meal>(), Calendar.getInstance(), false);
+		this(new ArrayList<Meal>(), now(), false);
 	}
 
-	public Proposal(Calendar calendar, boolean includeToday) {
-		this(new ArrayList<Meal>(), calendar, includeToday);
+	public Proposal(LocalDate date, boolean includeToday) {
+		this(new ArrayList<Meal>(), date, includeToday);
 	}
 
-	public Proposal(List<Meal> mealList, Calendar calendar, boolean includeToday) {
+	public Proposal(List<Meal> mealList, LocalDate date, boolean includeToday) {
 		this.mealList = mealList;
-		this.calendar = calendar;
+		this.date = date;
 		this.includeToday = includeToday;
 	}
 
 	public static Proposal prepareProposal(boolean includeToday) {
-		return new Proposal(Calendar.getInstance(), includeToday);
+		return new Proposal(now(), includeToday);
 	}
 
 	public List<Meal> getProposalList() {
@@ -67,14 +68,6 @@ public class Proposal {
 		return mealList.get(index);
 	}
 
-	public Calendar getCalendar() {
-		return calendar;
-	}
-
-	public void setCalendar(Calendar calender) {
-		this.calendar = calender;
-	}
-
 	public boolean isToday() {
 		return includeToday;
 	}
@@ -83,12 +76,12 @@ public class Proposal {
 		this.includeToday = today;
 	}
 
-	public Date getTime() {
-		return calendar.getTime();
+	public LocalDate getTime() {
+		return date;
 	}
 
-	public void setDate(Date time) {
-		calendar.setTime(time);
+	public void setDate(LocalDate date) {
+		this.date = date;
 	}
 
 	public static Element saveToXml(Document saveFileContent, Proposal proposal,
@@ -96,7 +89,8 @@ public class Proposal {
 		Element proposalNode = saveFileContent.createElement(elementName);
 		proposalNode
 				.appendChild(saveMealsToXml(saveFileContent, proposal.mealList, "proposalList"));
-		proposalNode.appendChild(saveCalendarToXml(saveFileContent, proposal.calendar));
+		proposalNode.appendChild(
+				XMLHelpers.generateDateXml(saveFileContent, proposal.date, "timeOfProposal"));
 		proposalNode.appendChild(createTextNode(saveFileContent, "includesToday",
 				() -> Boolean.toString(proposal.includeToday)));
 		return proposalNode;
@@ -111,14 +105,14 @@ public class Proposal {
 			logger.warn("List of meals in Proposal of" + proposalNode.toString()
 					+ " could not be found");
 		}
-		Calendar calendar = getCalendarFromXml(proposalNode);
+		LocalDate date = parseDate(proposalNode);
 		boolean includesToday = readBoolean(false, proposalNode, "includesToday");
-		return new Proposal(meals, calendar, includesToday);
+		return new Proposal(meals, date, includesToday);
 	}
 
 	@Override
 	public String toString() {
-		return "Proposal [mealList=" + mealList + ", calendar=" + calendar + ", includeToday="
+		return "Proposal [mealList=" + mealList + ", calendar=" + date + ", includeToday="
 				+ includeToday + "]";
 	}
 
@@ -126,7 +120,7 @@ public class Proposal {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((calendar == null) ? 0 : calendar.hashCode());
+		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		result = prime * result + (includeToday ? 1231 : 1237);
 		result = prime * result + ((mealList == null) ? 0 : mealList.hashCode());
 		return result;
@@ -141,7 +135,7 @@ public class Proposal {
 			return false;
 		}
 		Proposal other = (Proposal) obj;
-		if (!calendar.equals(other.calendar)
+		if (!date.equals(other.date)
 				|| includeToday != other.includeToday
 				|| !mealList.equals(other.mealList)) {
 			return false;

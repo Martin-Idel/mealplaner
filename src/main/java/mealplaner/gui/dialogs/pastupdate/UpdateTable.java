@@ -1,8 +1,7 @@
 package mealplaner.gui.dialogs.pastupdate;
 
+import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.JComboBox;
@@ -24,9 +23,10 @@ public class UpdateTable {
 		this.bundles = bundles;
 	}
 
-	public JTable createTable(Date date, Proposal lastProposal, Meal[] mealList, int daySince) {
+	public JTable createTable(LocalDate date, Proposal lastProposal, Meal[] mealList,
+			int daySince) {
 		Meal[] tableList = setupMealList(lastProposal, daySince);
-		Date proposalStartDate = addDayOnToday(date, lastProposal.isToday());
+		LocalDate proposalStartDate = lastProposal.isToday() ? date.plusDays(1) : date;
 		tableModel = new UpdateTableModel(proposalStartDate, tableList, bundles);
 		JTable table = new JTable(tableModel);
 
@@ -36,15 +36,6 @@ public class UpdateTable {
 
 	public List<Meal> returnContent() {
 		return Arrays.asList(tableModel.returnContent());
-	}
-
-	private Date addDayOnToday(Date date, boolean isToday) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
-		if (isToday) {
-			cal.add(Calendar.DATE, 1);
-		}
-		return cal.getTime();
 	}
 
 	private Meal[] setupMealList(Proposal proposal, int daySinceLastProposal) {

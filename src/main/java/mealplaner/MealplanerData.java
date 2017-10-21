@@ -1,15 +1,22 @@
 package mealplaner;
 
+import static java.lang.Math.toIntExact;
+import static java.time.LocalDate.now;
+import static java.time.LocalDate.of;
+import static java.time.temporal.ChronoUnit.DAYS;
 import static mealplaner.DataStoreEventType.DATABASE_EDITED;
 import static mealplaner.DataStoreEventType.DATE_UPDATED;
 import static mealplaner.DataStoreEventType.PROPOSAL_ADDED;
 import static mealplaner.DataStoreEventType.SETTINGS_CHANGED;
+import static mealplaner.io.XMLHelpers.generateDateXml;
+import static mealplaner.io.XMLHelpers.getFirstNode;
 import static mealplaner.io.XMLHelpers.logFailedXmlRetrieval;
+import static mealplaner.io.XMLHelpers.parseDate;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +28,6 @@ import org.w3c.dom.NodeList;
 import mealplaner.errorhandling.MealException;
 import mealplaner.io.XMLHelpers;
 import mealplaner.model.Meal;
-import mealplaner.model.MealplanerCalendar;
 import mealplaner.model.Proposal;
 import mealplaner.model.settings.Settings;
 
@@ -31,14 +37,14 @@ public class MealplanerData implements DataStore {
 
 	private List<Meal> meals;
 	private Settings[] defaultSettings;
-	private MealplanerCalendar cal;
+	private LocalDate date;
 	private Proposal proposal;
 
 	private List<DataStoreListener> listeners = new ArrayList<>();
 
 	public MealplanerData() {
 		meals = new ArrayList<Meal>();
-		cal = new MealplanerCalendar(Calendar.getInstance());
+		date = now();
 		defaultSettings = new Settings[7];
 		for (int i = 0; i < defaultSettings.length; i++) {
 			defaultSettings[i] = new Settings();
@@ -46,26 +52,22 @@ public class MealplanerData implements DataStore {
 		proposal = new Proposal();
 	}
 
-	public MealplanerData(List<Meal> meals, MealplanerCalendar cal,
+	public MealplanerData(List<Meal> meals, LocalDate date,
 			Settings[] defaultSettings, Proposal proposal) throws MealException {
 		this.meals = meals;
-		this.cal = cal;
+		this.date = date;
 		setDefaultSettings(defaultSettings);
 		this.proposal = proposal;
 	}
 
 	@Override
 	public int getDaysPassed() {
-		return cal.getDaysPassedTo(Calendar.getInstance());
+		return toIntExact(DAYS.between(date, now()));
 	}
 
 	@Override
-	public Date getTime() {
-		return cal.getTime();
-	}
-
-	public int getToday() {
-		return cal.getToday();
+	public LocalDate getTime() {
+		return date;
 	}
 
 	@Override
@@ -95,7 +97,7 @@ public class MealplanerData implements DataStore {
 	}
 
 	public void setDate(int day, int month, int year) {
-		cal.setDate(day, month, year);
+		date = of(year, month, day);
 		listeners.forEach(listener -> listener.updateData(DATE_UPDATED));
 	}
 
@@ -118,11 +120,11 @@ public class MealplanerData implements DataStore {
 		listeners.forEach(listener -> listener.updateData(PROPOSAL_ADDED));
 	}
 
-	public void update(List<Meal> mealsCookedLast) {
-		int daysSinceLastUpdate = cal.updateCalendar();
+	public void update(List<Meal> mealsCookedLast, LocalDate now) {
+		long daysSinceLastUpdate = DAYS.between(date, now);
 		meals.forEach(meal -> meal.setDaysPassed(mealsCookedLast.contains(meal)
 				? mealsCookedLast.size() - mealsCookedLast.indexOf(meal) - 1
-				: meal.getDaysPassed() + daysSinceLastUpdate));
+				: meal.getDaysPassed() + toIntExact(daysSinceLastUpdate)));
 		listeners.forEach(listener -> listener.updateData(DATE_UPDATED));
 		listeners.forEach(listener -> listener.updateData(DATABASE_EDITED));
 	}
@@ -133,28 +135,30 @@ public class MealplanerData implements DataStore {
 	}
 
 	public static MealplanerData readXml(Element mealPlanerNode) {
-		Node mealList = mealPlanerNode.getElementsByTagName("mealList").item(0);
-		List<Meal> meals = mealList.getNodeType() == Node.ELEMENT_NODE
-				? XMLHelpers.getMealListFromXml((Element) mealList)
+		Optional<Node> mealList = getFirstNode(mealPlanerNode, "mealList");
+		List<Meal> meals = mealList.isPresent() && mealList.get().getNodeType() == Node.ELEMENT_NODE
+				? XMLHelpers.getMealListFromXml((Element) mealList.get())
 				: logFailedXmlRetrieval(new ArrayList<>(), "Proposal", mealPlanerNode);
-		Node settings = mealPlanerNode.getElementsByTagName("defaultSettings").item(0);
+		Optional<Node> settings = getFirstNode(mealPlanerNode, "defaultSettings");
 		Settings[] defaultSettings = readDefaultSettings(mealPlanerNode, settings);
-		Node calendarNode = mealPlanerNode.getElementsByTagName("calendar").item(0);
-		MealplanerCalendar cal = calendarNode.getNodeType() == Node.ELEMENT_NODE
-				? MealplanerCalendar.getMealplanerCalendarFromXml((Element) calendarNode)
-				: logFailedXmlRetrieval(new MealplanerCalendar(Calendar.getInstance()), "Proposal",
-						mealPlanerNode);
-		Node proposalNode = mealPlanerNode.getElementsByTagName("proposal").item(0);
-		Proposal proposal = proposalNode.getNodeType() == Node.ELEMENT_NODE
-				? Proposal.getFromXml((Element) proposalNode)
-				: logFailedXmlRetrieval(new Proposal(), "Proposal", mealPlanerNode);
-		return new MealplanerData(meals, cal, defaultSettings, proposal);
+		Optional<Node> calendarNode = getFirstNode(mealPlanerNode, "date");
+		LocalDate date = calendarNode.isPresent()
+				&& calendarNode.get().getNodeType() == Node.ELEMENT_NODE
+						? parseDate((Element) calendarNode.get())
+						: logFailedXmlRetrieval(now(), "Calendar",
+								mealPlanerNode);
+		Optional<Node> proposalNode = getFirstNode(mealPlanerNode, "proposal");
+		Proposal proposal = proposalNode.isPresent()
+				&& proposalNode.get().getNodeType() == Node.ELEMENT_NODE
+						? Proposal.getFromXml((Element) proposalNode.get())
+						: logFailedXmlRetrieval(new Proposal(), "Proposal", mealPlanerNode);
+		return new MealplanerData(meals, date, defaultSettings, proposal);
 	}
 
-	private static Settings[] readDefaultSettings(Element mealPlanerNode, Node settings) {
+	private static Settings[] readDefaultSettings(Element mealPlanerNode, Optional<Node> settings) {
 		Settings[] defaultSettings = new Settings[7];
-		if (settings.getNodeType() == Node.ELEMENT_NODE) {
-			Element settingsNode = (Element) settings;
+		if (settings.isPresent() && settings.get().getNodeType() == Node.ELEMENT_NODE) {
+			Element settingsNode = (Element) settings.get();
 			NodeList elementsByTagName = settingsNode.getElementsByTagName("setting");
 			for (int i = 0; i < elementsByTagName.getLength(); i++) {
 				int dayofWeek = Integer.parseInt(elementsByTagName
@@ -190,7 +194,7 @@ public class MealplanerData implements DataStore {
 		}
 		mealplanerDataNode.appendChild(defaultSettingsNode);
 		mealplanerDataNode
-				.appendChild(MealplanerCalendar.saveToXml(saveFileContent, mealplanerData.cal));
+				.appendChild(generateDateXml(saveFileContent, mealplanerData.date, "date"));
 		mealplanerDataNode
 				.appendChild(
 						Proposal.saveToXml(saveFileContent, mealplanerData.proposal, "proposal"));

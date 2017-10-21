@@ -1,5 +1,6 @@
 package mealplaner.gui;
 
+import static java.time.LocalDate.now;
 import static mealplaner.gui.commons.MessageDialog.showSaveExitDialog;
 
 import java.awt.BorderLayout;
@@ -73,7 +74,6 @@ public class MainGUI {
 					dialogs.createIngredientsInput()
 							.showDialog()
 							.forEach(ingredients::add);
-					System.out.println("Me is here");
 					IngredientIO.saveXml(ingredients);
 				})
 				.createMealMenu(action -> {
@@ -174,13 +174,13 @@ public class MainGUI {
 
 	private Settings[] setDefaultSettings(ProposalOutline outline) {
 		Settings[] settings = new Settings[outline.getNumberOfDays()];
-		int dayOfWeek = mealPlan.getToday();
+		int dayOfWeek = mealPlan.getTime().getDayOfWeek().getValue();
 		Settings[] defaultSettings = mealPlan.getDefaultSettings();
 		if (!outline.isIncludedToday()) {
 			dayOfWeek++;
 		}
 		for (int i = 0; i < settings.length; i++) {
-			settings[i] = defaultSettings[(dayOfWeek - 2) % 7];
+			settings[i] = defaultSettings[(dayOfWeek - 1) % 7];
 			dayOfWeek++;
 		}
 		return settings;
@@ -209,7 +209,7 @@ public class MainGUI {
 
 	public void updatePastMeals() {
 		List<Meal> lastCookedMealList = dialogs.createUpdatePastMealDialog().showDialog(mealPlan);
-		mealPlan.update(lastCookedMealList);
+		mealPlan.update(lastCookedMealList, now());
 		proposalSummary.update();
 	}
 
