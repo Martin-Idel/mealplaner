@@ -3,6 +3,7 @@ package mealplaner;
 import static java.lang.Math.toIntExact;
 import static java.time.LocalDate.now;
 import static java.time.temporal.ChronoUnit.DAYS;
+import static java.util.stream.Collectors.toList;
 import static mealplaner.DataStoreEventType.DATABASE_EDITED;
 import static mealplaner.DataStoreEventType.DATE_UPDATED;
 import static mealplaner.DataStoreEventType.PROPOSAL_ADDED;
@@ -12,6 +13,8 @@ import static mealplaner.io.XMLHelpers.logFailedXmlRetrieval;
 import static mealplaner.io.XMLHelpers.parseDate;
 import static mealplaner.io.XMLHelpers.saveMealsToXml;
 import static mealplaner.io.XMLHelpers.writeDate;
+import static mealplaner.model.Meal.addDaysPassed;
+import static mealplaner.model.Meal.setDaysPassed;
 import static mealplaner.model.Proposal.writeProposal;
 import static mealplaner.model.settings.DefaultSettings.defaultSettings;
 import static mealplaner.model.settings.DefaultSettings.writeDefaultSettings;
@@ -105,9 +108,10 @@ public class MealplanerData implements DataStore {
 
 	public void update(List<Meal> mealsCookedLast, LocalDate now) {
 		long daysSinceLastUpdate = DAYS.between(date, now);
-		meals.forEach(meal -> meal.setDaysPassed(mealsCookedLast.contains(meal)
-				? mealsCookedLast.size() - mealsCookedLast.indexOf(meal) - 1
-				: meal.getDaysPassed() + toIntExact(daysSinceLastUpdate)));
+		meals = meals.stream().map(meal -> mealsCookedLast.contains(meal)
+				? setDaysPassed(mealsCookedLast.size() - mealsCookedLast.indexOf(meal) - 1, meal)
+				: addDaysPassed(toIntExact(daysSinceLastUpdate), meal))
+				.collect(toList());
 		listeners.forEach(listener -> listener.updateData(DATE_UPDATED));
 		listeners.forEach(listener -> listener.updateData(DATABASE_EDITED));
 	}

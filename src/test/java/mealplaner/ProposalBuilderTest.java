@@ -2,6 +2,7 @@ package mealplaner;
 
 import static java.util.Optional.empty;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
+import static mealplaner.model.Meal.meal;
 import static mealplaner.model.enums.CookingPreference.RARE;
 import static mealplaner.model.enums.PreferenceSettings.NORMAL;
 import static mealplaner.model.settings.CookingTimeSetting.cookingTimeWithProhibited;
@@ -148,39 +149,39 @@ public class ProposalBuilderTest {
 	}
 
 	private void addMeals() throws MealException {
-		Meal meal1 = new Meal("Meal1", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.PAN,
+		Meal meal1 = meal("Meal1", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.PAN,
 				CookingPreference.NO_PREFERENCE, 50, "", empty());
 		meals.add(meal1);
-		Meal meal2 = new Meal("Meal2", CookingTime.MEDIUM, Sidedish.PASTA,
+		Meal meal2 = meal("Meal2", CookingTime.MEDIUM, Sidedish.PASTA,
 				ObligatoryUtensil.CASSEROLE, CookingPreference.RARE, 101, "", empty());
 		meals.add(meal2);
-		Meal meal3 = new Meal("Meal3", CookingTime.LONG, Sidedish.RICE, ObligatoryUtensil.POT,
+		Meal meal3 = meal("Meal3", CookingTime.LONG, Sidedish.RICE, ObligatoryUtensil.POT,
 				CookingPreference.VERY_POPULAR, 20, "", empty());
 		meals.add(meal3);
-		Meal meal4 = new Meal("Meal4", CookingTime.MEDIUM, Sidedish.POTATOES,
+		Meal meal4 = meal("Meal4", CookingTime.MEDIUM, Sidedish.POTATOES,
 				ObligatoryUtensil.CASSEROLE, CookingPreference.VERY_POPULAR, 25, "", empty());
 		meals.add(meal4);
-		Meal meal5 = new Meal("Meal5", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.POT,
+		Meal meal5 = meal("Meal5", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.POT,
 				CookingPreference.NO_PREFERENCE, 100, "", empty());
 		meals.add(meal5);
 	}
 
 	private void addMealsToTestMultipliers() throws MealException {
-		Meal meal1 = new Meal("Meal1", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.PAN,
+		Meal meal1 = meal("Meal1", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.PAN,
 				CookingPreference.NO_PREFERENCE, 0, "", empty());
 		meals.add(meal1);
-		Meal meal2 = new Meal("Meal2", CookingTime.MEDIUM, Sidedish.PASTA,
+		Meal meal2 = meal("Meal2", CookingTime.MEDIUM, Sidedish.PASTA,
 				ObligatoryUtensil.CASSEROLE,
 				CookingPreference.RARE, 10, "", empty());
 		meals.add(meal2);
-		Meal meal3 = new Meal("Meal3", CookingTime.LONG, Sidedish.RICE, ObligatoryUtensil.POT,
+		Meal meal3 = meal("Meal3", CookingTime.LONG, Sidedish.RICE, ObligatoryUtensil.POT,
 				CookingPreference.VERY_POPULAR, 20, "", empty());
 		meals.add(meal3);
-		Meal meal4 = new Meal("Meal4", CookingTime.MEDIUM, Sidedish.POTATOES,
+		Meal meal4 = meal("Meal4", CookingTime.MEDIUM, Sidedish.POTATOES,
 				ObligatoryUtensil.CASSEROLE,
 				CookingPreference.NO_PREFERENCE, 30, "", empty());
 		meals.add(meal4);
-		Meal meal5 = new Meal("Meal5", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.POT,
+		Meal meal5 = meal("Meal5", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.POT,
 				CookingPreference.NO_PREFERENCE, 70, "", empty());
 		meals.add(meal5);
 	}

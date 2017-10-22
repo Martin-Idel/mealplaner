@@ -8,6 +8,7 @@ import static mealplaner.DataStoreEventType.PROPOSAL_ADDED;
 import static mealplaner.DataStoreEventType.SETTINGS_CHANGED;
 import static mealplaner.MealplanerData.generateXml;
 import static mealplaner.MealplanerData.readXml;
+import static mealplaner.model.Meal.meal;
 import static mealplaner.model.settings.DefaultSettings.defaultSettings;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -95,9 +96,10 @@ public class MealplanerDataTest {
 
 		sut.update(proposal.getProposalList(), date.plusDays(10));
 
-		assertThat(meal1.getDaysPassed()).isEqualByComparingTo(60);
-		assertThat(meal2.getDaysPassed()).isEqualByComparingTo(111);
-		assertThat(meal4.getDaysPassed()).isEqualByComparingTo(30);
+		List<Meal> mealList = sut.getMeals();
+		assertThat(mealList.get(0).getDaysPassed()).isEqualByComparingTo(60);
+		assertThat(mealList.get(1).getDaysPassed()).isEqualByComparingTo(111);
+		assertThat(mealList.get(2).getDaysPassed()).isEqualByComparingTo(30);
 	}
 
 	@Test
@@ -110,9 +112,10 @@ public class MealplanerDataTest {
 
 		sut.update(proposal.getProposalList(), date.plusDays(2));
 
-		assertThat(meal1.getDaysPassed()).isEqualByComparingTo(1);
-		assertThat(meal2.getDaysPassed()).isEqualByComparingTo(103);
-		assertThat(meal4.getDaysPassed()).isEqualByComparingTo(0);
+		List<Meal> mealList = sut.getMeals();
+		assertThat(mealList.get(0).getDaysPassed()).isEqualByComparingTo(1);
+		assertThat(mealList.get(1).getDaysPassed()).isEqualByComparingTo(103);
+		assertThat(mealList.get(2).getDaysPassed()).isEqualByComparingTo(0);
 	}
 
 	@Test
@@ -157,19 +160,19 @@ public class MealplanerDataTest {
 	}
 
 	private void addInitializedMeals() throws MealException {
-		meal1 = new Meal("Meal1", CookingTime.SHORT, Sidedish.NONE, ObligatoryUtensil.PAN,
+		meal1 = meal("Meal1", CookingTime.SHORT, Sidedish.NONE, ObligatoryUtensil.PAN,
 				CookingPreference.NO_PREFERENCE, 50, "", empty());
 		meals.add(meal1);
-		meal2 = new Meal("Meal2", CookingTime.MEDIUM, Sidedish.PASTA,
+		meal2 = meal("Meal2", CookingTime.MEDIUM, Sidedish.PASTA,
 				ObligatoryUtensil.CASSEROLE, CookingPreference.RARE, 101, "", empty());
 		meals.add(meal2);
-		meal4 = new Meal("Meal4", CookingTime.LONG, Sidedish.RICE, ObligatoryUtensil.POT,
+		meal4 = meal("Meal4", CookingTime.LONG, Sidedish.RICE, ObligatoryUtensil.POT,
 				CookingPreference.VERY_POPULAR, 20, "", empty());
 		meals.add(meal4);
 	}
 
 	private Meal initializeNewMeal() {
-		return new Meal("Meal3", CookingTime.SHORT, Sidedish.POTATOES, ObligatoryUtensil.PAN,
+		return meal("Meal3", CookingTime.SHORT, Sidedish.POTATOES, ObligatoryUtensil.PAN,
 				CookingPreference.NO_PREFERENCE, 10, "", empty());
 	}
 }

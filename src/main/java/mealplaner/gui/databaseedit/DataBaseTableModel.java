@@ -1,5 +1,8 @@
 package mealplaner.gui.databaseedit;
 
+import static mealplaner.model.Meal.cloneMeal;
+import static mealplaner.model.Meal.meal;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -118,31 +121,42 @@ public class DataBaseTableModel extends AbstractTableModel {
 
 	@Override
 	public void setValueAt(Object value, int row, int col) {
+		Meal meal = workingCopy.get(row);
+		String name = meal.getName();
+		CookingTime cookingTime = meal.getCookingTime();
+		Sidedish sideDish = meal.getSidedish();
+		ObligatoryUtensil obligatoryUtensil = meal.getObligatoryUtensil();
+		int daysPassed = meal.getDaysPassed();
+		CookingPreference cookingPreference = meal.getCookingPreference();
+		String comment = meal.getComment();
 		switch (col) {
 		case 0:
-			workingCopy.get(row).setName((String) value);
+			name = (String) value;
 			break;
 		case 1:
-			workingCopy.get(row).setCookingTime((CookingTime) value);
+			cookingTime = (CookingTime) value;
 			break;
 		case 2:
-			workingCopy.get(row).setSidedish((Sidedish) value);
+			sideDish = (Sidedish) value;
 			break;
 		case 3:
-			workingCopy.get(row).setObligatoryUtensil((ObligatoryUtensil) value);
+			obligatoryUtensil = (ObligatoryUtensil) value;
 			break;
 		case 4:
-			workingCopy.get(row).setDaysPassed(Integer.parseInt((String) value));
+			daysPassed = Integer.parseInt((String) value);
 			break;
 		case 5:
-			workingCopy.get(row).setCookingPreference((CookingPreference) value);
+			cookingPreference = (CookingPreference) value;
 			break;
 		case 6:
-			workingCopy.get(row).setComment((String) value);
+			comment = (String) value;
 			break;
 		default:
-			return;
+			break;
 		}
+		workingCopy.set(row,
+				meal(name, cookingTime, sideDish, obligatoryUtensil,
+						cookingPreference, daysPassed, comment, meal.getRecipe()));
 		fireTableCellUpdated(row, col);
 		onlyActiveOnChangedButtons.enableButtons();
 	}
@@ -160,7 +174,7 @@ public class DataBaseTableModel extends AbstractTableModel {
 	private List<Meal> createWorkingCopy(List<Meal> meals) {
 		List<Meal> workingCopy = new ArrayList<>();
 		meals.forEach(meal -> {
-			Meal copy = new Meal(meal);
+			Meal copy = cloneMeal(meal);
 			workingCopy.add(copy);
 		});
 		return workingCopy;
@@ -179,7 +193,7 @@ public class DataBaseTableModel extends AbstractTableModel {
 	}
 
 	public void addRecipe(Optional<Recipe> editedRecipe, int row) {
-		workingCopy.get(row).setRecipe(editedRecipe);
+		workingCopy.set(row, workingCopy.get(row).addRecipe(editedRecipe));
 		fireTableCellUpdated(row, 7);
 		onlyActiveOnChangedButtons.enableButtons();
 	}

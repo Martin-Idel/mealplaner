@@ -1,6 +1,7 @@
 package mealplaner.gui.dialogs.mealinput;
 
 import static java.util.Optional.of;
+import static mealplaner.model.Meal.meal;
 import static mealplaner.model.enums.CookingPreference.getCookingPreferenceStrings;
 import static mealplaner.model.enums.CookingTime.getCookingTimeStrings;
 import static mealplaner.model.enums.ObligatoryUtensil.getObligatoryUtensilStrings;
@@ -145,15 +146,15 @@ public abstract class MealInput extends JDialog {
 	}
 
 	private Optional<Meal> getMealFromUserInput() {
-		return nameField.getUserInput().isPresent() ? of(new Meal(
-				nameField.getUserInput().get(),
-				cookingTimeField.getUserInput(),
-				sidedishField.getUserInput(),
-				obligatoryUtensilField.getUserInput(),
-				preferenceField.getUserInput(),
-				daysPassedField.getUserInput().value,
-				commentField.getUserInput(),
-				recipeInputField.getUserInput()))
+		return nameField.getUserInput().isPresent()
+				? of(meal(nameField.getUserInput().get(),
+						cookingTimeField.getUserInput(),
+						sidedishField.getUserInput(),
+						obligatoryUtensilField.getUserInput(),
+						preferenceField.getUserInput(),
+						daysPassedField.getUserInput().value,
+						commentField.getUserInput(),
+						recipeInputField.getUserInput()))
 				: Optional.empty();
 	}
 }

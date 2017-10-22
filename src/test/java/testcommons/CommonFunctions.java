@@ -3,6 +3,7 @@ package testcommons;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
+import static mealplaner.model.Meal.meal;
 import static mealplaner.model.settings.CookingTimeSetting.cookingTimeWithProhibited;
 import static mealplaner.model.settings.Settings.settings;
 import static org.junit.Assert.assertTrue;
@@ -55,7 +56,7 @@ public class CommonFunctions {
 	}
 
 	public static Meal getMeal1() {
-		return new Meal("Test1", CookingTime.SHORT, Sidedish.PASTA,
+		return meal("Test1", CookingTime.SHORT, Sidedish.PASTA,
 				ObligatoryUtensil.PAN, CookingPreference.VERY_POPULAR, 5, "no comment",
 				empty());
 	}
@@ -64,7 +65,7 @@ public class CommonFunctions {
 		Map<Ingredient, Integer> ingredients = new HashMap<>();
 		ingredients.put(getIngredient1(), 100);
 		ingredients.put(getIngredient2(), 200);
-		return new Meal("Test2", CookingTime.SHORT, Sidedish.NONE,
+		return meal("Test2", CookingTime.SHORT, Sidedish.NONE,
 				ObligatoryUtensil.POT, CookingPreference.NO_PREFERENCE, 1, "",
 				of(new Recipe(2, ingredients)));
 	}

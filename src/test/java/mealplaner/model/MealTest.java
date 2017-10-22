@@ -2,6 +2,7 @@ package mealplaner.model;
 
 import static java.util.Optional.empty;
 import static mealplaner.io.XMLHelpers.createTextNode;
+import static mealplaner.model.Meal.meal;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.createDocument;
 import static testcommons.CommonFunctions.getMeal1;
@@ -27,38 +28,28 @@ public class MealTest {
 
 	@Before
 	public void setup() throws MealException {
-		sut = new Meal("Test", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.POT,
+		sut = meal("Test", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.POT,
 				CookingPreference.NO_PREFERENCE, 5, "", empty());
 	}
 
 	@Test
-	public void setNameWithCorrectName() throws MealException {
-
-		sut.setName("New Name");
-
-		assertThat(sut.getName()).isEqualTo("New Name");
+	public void valuesWithLimitationsWorkCorrectly() throws MealException {
+		assertThat(sut.getName()).isEqualTo("Test");
+		assertThat(sut.getDaysPassed()).isEqualTo(5);
 	}
 
 	@Test(expected = MealException.class)
 	public void setNameWithOnlyWhitespace() throws MealException {
-
-		sut.setName("  ");
+		sut = meal("", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.POT,
+				CookingPreference.NO_PREFERENCE, 5, "", empty());
 
 		assertThat(sut.getName()).isEqualTo("Test");
 	}
 
-	@Test
-	public void setDaysPassedWithPositiveNumber() throws MealException {
-
-		sut.setDaysPassed(154);
-
-		assertThat(sut.getDaysPassed()).isEqualTo(154);
-	}
-
 	@Test(expected = MealException.class)
 	public void setDaysPassedWithNegativeNumber() throws MealException {
-
-		sut.setDaysPassed(-5);
+		sut = meal("Test", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.POT,
+				CookingPreference.NO_PREFERENCE, -1, "", empty());
 
 		assertThat(sut.getDaysPassed()).isEqualTo(5);
 	}
@@ -96,7 +87,7 @@ public class MealTest {
 
 		sut = Meal.loadFromXml(mealNode);
 
-		Meal expectedMeal = new Meal(meal.getName(), meal.getCookingTime(), Sidedish.NONE,
+		Meal expectedMeal = meal(meal.getName(), meal.getCookingTime(), Sidedish.NONE,
 				ObligatoryUtensil.POT, CookingPreference.NO_PREFERENCE, 0, meal.getComment(),
 				empty());
 
