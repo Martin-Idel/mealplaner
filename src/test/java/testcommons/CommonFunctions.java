@@ -3,6 +3,8 @@ package testcommons;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
+import static mealplaner.model.settings.CookingTimeSetting.cookingTimeWithProhibited;
+import static mealplaner.model.settings.Settings.settings;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -27,7 +29,6 @@ import mealplaner.model.enums.CookingTime;
 import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.PreferenceSettings;
 import mealplaner.model.enums.Sidedish;
-import mealplaner.model.settings.CookingTimeSetting;
 import mealplaner.model.settings.Settings;
 import mealplaner.recipes.model.Ingredient;
 import mealplaner.recipes.model.IngredientType;
@@ -79,7 +80,7 @@ public class CommonFunctions {
 	}
 
 	public static Settings getSettings1() {
-		return new Settings(new CookingTimeSetting(CookingTime.VERY_SHORT), nonNegative(3),
+		return settings(cookingTimeWithProhibited(CookingTime.VERY_SHORT), nonNegative(3),
 				CasseroleSettings.NONE, PreferenceSettings.RARE_PREFERED);
 	}
 }

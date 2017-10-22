@@ -4,6 +4,9 @@ import static java.util.Optional.empty;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.enums.CookingPreference.RARE;
 import static mealplaner.model.enums.PreferenceSettings.NORMAL;
+import static mealplaner.model.settings.CookingTimeSetting.cookingTimeWithProhibited;
+import static mealplaner.model.settings.CookingTimeSetting.defaultCookingTime;
+import static mealplaner.model.settings.Settings.settings;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
@@ -46,8 +49,8 @@ public class ProposalBuilderTest {
 	@Test
 	public void proposeNoShortManyPeopleRestInactive() throws MealException {
 		addMeals();
-		CookingTimeSetting cookingTimeSetting = new CookingTimeSetting(CookingTime.SHORT);
-		settings[0] = new Settings(cookingTimeSetting, nonNegative(4),
+		CookingTimeSetting cookingTimeSetting = cookingTimeWithProhibited(CookingTime.SHORT);
+		settings[0] = settings(cookingTimeSetting, nonNegative(4),
 				CasseroleSettings.POSSIBLE, PreferenceSettings.NORMAL);
 
 		Proposal proposal = proposalBuilder.propose(meals, settings);
@@ -59,8 +62,8 @@ public class ProposalBuilderTest {
 	@Test
 	public void proposeOnlyVeryPopoularNoCasserole() throws MealException {
 		addMeals();
-		CookingTimeSetting cookingTimeSetting = new CookingTimeSetting();
-		settings[0] = new Settings(cookingTimeSetting, nonNegative(2),
+		CookingTimeSetting cookingTimeSetting = defaultCookingTime();
+		settings[0] = settings(cookingTimeSetting, nonNegative(2),
 				CasseroleSettings.NONE, PreferenceSettings.VERY_POPULAR_ONLY);
 
 		Proposal proposal = proposalBuilder.propose(meals, settings);
@@ -71,8 +74,8 @@ public class ProposalBuilderTest {
 	@Test
 	public void proposeOnlyCasseroleRareNone() throws MealException {
 		addMeals();
-		CookingTimeSetting cookingTimeSetting = new CookingTimeSetting();
-		settings[0] = new Settings(cookingTimeSetting, nonNegative(2),
+		CookingTimeSetting cookingTimeSetting = defaultCookingTime();
+		settings[0] = settings(cookingTimeSetting, nonNegative(2),
 				CasseroleSettings.ONLY, PreferenceSettings.RARE_NONE);
 
 		Proposal proposal = proposalBuilder.propose(meals, settings);
@@ -83,8 +86,8 @@ public class ProposalBuilderTest {
 	@Test
 	public void proposeSideDishMultiplierTwo() throws MealException {
 		addMealsToTestMultipliers();
-		CookingTimeSetting cookingTimeSetting = new CookingTimeSetting();
-		settings[0] = new Settings(cookingTimeSetting, nonNegative(1),
+		CookingTimeSetting cookingTimeSetting = defaultCookingTime();
+		settings[0] = settings(cookingTimeSetting, nonNegative(1),
 				CasseroleSettings.POSSIBLE, PreferenceSettings.NORMAL);
 
 		Proposal proposal = proposalBuilder.propose(meals, settings);
@@ -95,8 +98,8 @@ public class ProposalBuilderTest {
 	@Test
 	public void proposePreferenceMultiplierRare() throws MealException {
 		addMeals();
-		CookingTimeSetting cookingTimeSetting = new CookingTimeSetting();
-		settings[0] = new Settings(cookingTimeSetting, nonNegative(2), CasseroleSettings.POSSIBLE,
+		CookingTimeSetting cookingTimeSetting = defaultCookingTime();
+		settings[0] = settings(cookingTimeSetting, nonNegative(2), CasseroleSettings.POSSIBLE,
 				PreferenceSettings.RARE_PREFERED);
 
 		Proposal proposal = proposalBuilder.propose(meals, settings);
@@ -107,8 +110,8 @@ public class ProposalBuilderTest {
 	@Test
 	public void proposePreferenceMultiplierNormal() throws MealException {
 		addMeals();
-		CookingTimeSetting cookingTimeSetting = new CookingTimeSetting();
-		settings[0] = new Settings(cookingTimeSetting, nonNegative(2), CasseroleSettings.POSSIBLE,
+		CookingTimeSetting cookingTimeSetting = defaultCookingTime();
+		settings[0] = settings(cookingTimeSetting, nonNegative(2), CasseroleSettings.POSSIBLE,
 				PreferenceSettings.NORMAL);
 
 		Proposal proposal = proposalBuilder.propose(meals, settings);
@@ -120,8 +123,8 @@ public class ProposalBuilderTest {
 	public void proposePreferenceMultiplierRarePreferredButCookedRecently()
 			throws MealException {
 		addMealsToTestMultipliers();
-		CookingTimeSetting cookingTimeSetting = new CookingTimeSetting();
-		settings[0] = new Settings(cookingTimeSetting, nonNegative(2), CasseroleSettings.POSSIBLE,
+		CookingTimeSetting cookingTimeSetting = defaultCookingTime();
+		settings[0] = settings(cookingTimeSetting, nonNegative(2), CasseroleSettings.POSSIBLE,
 				PreferenceSettings.RARE_PREFERED);
 
 		Proposal proposal = proposalBuilder.propose(meals, settings);
@@ -134,8 +137,8 @@ public class ProposalBuilderTest {
 		addMealsToTestMultipliers();
 		HashMap<Pair<CookingPreference, PreferenceSettings>, Integer> preferenceMap = new HashMap<>();
 		preferenceMap.put(Pair.of(RARE, NORMAL), 10);
-		CookingTimeSetting cookingTimeSetting = new CookingTimeSetting();
-		settings[0] = new Settings(cookingTimeSetting, nonNegative(2), CasseroleSettings.POSSIBLE,
+		CookingTimeSetting cookingTimeSetting = defaultCookingTime();
+		settings[0] = settings(cookingTimeSetting, nonNegative(2), CasseroleSettings.POSSIBLE,
 				PreferenceSettings.NORMAL);
 		proposalBuilder = new ProposalBuilder(preferenceMap, sideDish);
 

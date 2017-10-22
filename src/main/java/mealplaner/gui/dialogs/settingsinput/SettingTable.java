@@ -3,6 +3,7 @@ package mealplaner.gui.dialogs.settingsinput;
 import static java.time.LocalDate.of;
 import static mealplaner.model.enums.CasseroleSettings.getCasseroleSettingsStrings;
 import static mealplaner.model.enums.PreferenceSettings.getPreferenceSettingsStrings;
+import static mealplaner.model.settings.Settings.copySettings;
 
 import java.time.LocalDate;
 
@@ -56,7 +57,7 @@ public class SettingTable {
 		Settings[] settings = new Settings[tableModel.getRowCount()];
 		int dayOfWeek = date.getDayOfWeek().getValue();
 		for (int i = 0; i < settings.length; i++) {
-			settings[i] = new Settings(defaultSettings[(dayOfWeek - 1) % 7]);
+			settings[i] = copySettings(defaultSettings[(dayOfWeek - 1) % 7]);
 			dayOfWeek++;
 		}
 		tableModel.update(settings);

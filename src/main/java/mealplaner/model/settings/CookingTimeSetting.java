@@ -10,17 +10,22 @@ import mealplaner.model.enums.CookingTime;
 public class CookingTimeSetting implements CookingSetting {
 	private final Set<CookingTime> prohibitedCookingTime;
 
-	public CookingTimeSetting() {
-		this(new HashSet<CookingTime>());
-	}
-
-	public CookingTimeSetting(CookingTime... cookingTime) {
-		this(new HashSet<CookingTime>());
-		prohibitedCookingTime.addAll(Arrays.asList(cookingTime));
-	}
-
-	public CookingTimeSetting(CookingTimeSetting cookingTimeSetting) {
+	private CookingTimeSetting(CookingTimeSetting cookingTimeSetting) {
 		this(new HashSet<CookingTime>(cookingTimeSetting.prohibitedCookingTime));
+	}
+
+	public static CookingTimeSetting cookingTimeWithProhibited(CookingTime... cookingTime) {
+		HashSet<CookingTime> prohibitedCookingTime = new HashSet<CookingTime>();
+		prohibitedCookingTime.addAll(Arrays.asList(cookingTime));
+		return new CookingTimeSetting(prohibitedCookingTime);
+	}
+
+	public static CookingTimeSetting defaultCookingTime() {
+		return new CookingTimeSetting(new HashSet<>());
+	}
+
+	public static CookingTimeSetting copyCookingTimeSetting(CookingTimeSetting cookingTimeSetting) {
+		return new CookingTimeSetting(cookingTimeSetting);
 	}
 
 	public CookingTimeSetting(Set<CookingTime> prohibitedUtensil) {

@@ -8,6 +8,7 @@ import static mealplaner.DataStoreEventType.PROPOSAL_ADDED;
 import static mealplaner.DataStoreEventType.SETTINGS_CHANGED;
 import static mealplaner.MealplanerData.generateXml;
 import static mealplaner.MealplanerData.readXml;
+import static mealplaner.model.settings.Settings.defaultSetting;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -145,7 +146,7 @@ public class MealplanerDataTest {
 	public void setDefaultSettingsThrowsExceptionIfSettingsHaveWrongSize() {
 		Settings[] defaultSettings = new Settings[6];
 		for (int i = 0; i < defaultSettings.length; i++) {
-			defaultSettings[i] = new Settings();
+			defaultSettings[i] = defaultSetting();
 		}
 		sut.setDefaultSettings(defaultSettings);
 	}
@@ -153,14 +154,6 @@ public class MealplanerDataTest {
 	@Test(expected = MealException.class)
 	public void setDefaultSettingsThrowsExceptionIfSomeSettingsAreNull() {
 		sut.setDefaultSettings(new Settings[7]);
-	}
-
-	@Test
-	public void setDateNotifiesCorrectListeners() {
-
-		sut.setDate(1, 1, 1);
-
-		verify(listener).updateData(DATE_UPDATED);
 	}
 
 	@Test
@@ -200,7 +193,7 @@ public class MealplanerDataTest {
 	private Settings[] getCorrectlyFilledSettings() {
 		Settings[] defaultSettings = new Settings[7];
 		for (int i = 0; i < defaultSettings.length; i++) {
-			defaultSettings[i] = new Settings();
+			defaultSettings[i] = defaultSetting();
 		}
 		return defaultSettings;
 	}

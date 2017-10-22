@@ -5,6 +5,11 @@ import static mealplaner.io.XMLHelpers.createTextNode;
 import static mealplaner.io.XMLHelpers.readBoolean;
 import static mealplaner.io.XMLHelpers.readEnum;
 import static mealplaner.io.XMLHelpers.readInt;
+import static mealplaner.model.settings.CookingPreferenceSetting.defaultCookingPreferences;
+import static mealplaner.model.settings.CookingTimeSetting.copyCookingTimeSetting;
+import static mealplaner.model.settings.CookingTimeSetting.defaultCookingTime;
+import static mealplaner.model.settings.CookingUtensilSetting.copyUtensilSetting;
+import static mealplaner.model.settings.CookingUtensilSetting.defaultUtensilSetting;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,19 +32,14 @@ public class Settings {
 	private final CookingUtensilSetting cookingUtensil;
 	private final NonnegativeInteger numberOfPeople;
 
-	public Settings() {
-		this(new CookingTimeSetting(), nonNegative(2), CasseroleSettings.POSSIBLE,
-				PreferenceSettings.NORMAL);
-	}
-
-	public Settings(CookingTimeSetting cookingTime,
+	private Settings(CookingTimeSetting cookingTime,
 			NonnegativeInteger numberOfPeople,
 			CasseroleSettings casseroleSettings,
 			PreferenceSettings preferenceSettings) {
 
-		this.cookingPreferences = new CookingPreferenceSetting();
+		this.cookingPreferences = defaultCookingPreferences();
 		this.cookingTime = cookingTime;
-		this.cookingUtensil = new CookingUtensilSetting();
+		this.cookingUtensil = defaultUtensilSetting();
 		this.numberOfPeople = numberOfPeople;
 		this.cookingUtensil.setNumberOfPeople(numberOfPeople.value);
 		this.casseroleSettings = casseroleSettings;
@@ -49,14 +49,30 @@ public class Settings {
 		this.cookingPreferences.setCookingPreferences(preference);
 	}
 
-	public Settings(Settings setting) {
+	private Settings(Settings setting) {
 		this.casseroleSettings = setting.getCasserole();
 		this.preference = setting.getPreference();
 		this.numberOfPeople = setting.getNumberOfPeople();
-		this.cookingPreferences = new CookingPreferenceSetting();
+		this.cookingPreferences = defaultCookingPreferences();
 		this.cookingPreferences.setCookingPreferences(this.preference);
-		this.cookingTime = new CookingTimeSetting(setting.getCookingTime());
-		this.cookingUtensil = new CookingUtensilSetting(setting.getCookingUtensil());
+		this.cookingTime = copyCookingTimeSetting(setting.getCookingTime());
+		this.cookingUtensil = copyUtensilSetting(setting.getCookingUtensil());
+	}
+
+	public static Settings settings(CookingTimeSetting cookingTime,
+			NonnegativeInteger numberOfPeople,
+			CasseroleSettings casseroleSettings,
+			PreferenceSettings preferenceSettings) {
+		return new Settings(cookingTime, numberOfPeople, casseroleSettings, preferenceSettings);
+	}
+
+	public static Settings defaultSetting() {
+		return new Settings(defaultCookingTime(), nonNegative(2), CasseroleSettings.POSSIBLE,
+				PreferenceSettings.NORMAL);
+	}
+
+	public static Settings copySettings(Settings setting) {
+		return new Settings(setting);
 	}
 
 	public NonnegativeInteger getNumberOfPeople() {
@@ -139,7 +155,7 @@ public class Settings {
 			logger.warn(String.format("The numberOfPeople of Setting " + currentSetting.toString()
 					+ " contains a negative number."));
 		}
-		CookingTimeSetting cookingTimes = new CookingTimeSetting();
+		CookingTimeSetting cookingTimes = defaultCookingTime();
 		if (readBoolean(false, currentSetting, "VERY_SHORT")) {
 			cookingTimes.prohibitCookingTime(CookingTime.VERY_SHORT);
 		}

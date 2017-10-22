@@ -11,12 +11,17 @@ import mealplaner.model.enums.PreferenceSettings;
 public class CookingPreferenceSetting implements CookingSetting {
 	private final Set<CookingPreference> prohibitedCookingPreference;
 
-	public CookingPreferenceSetting() {
-		this(new HashSet<CookingPreference>());
+	private CookingPreferenceSetting(Set<CookingPreference> prohibitedCookingPreference) {
+		this.prohibitedCookingPreference = prohibitedCookingPreference;
 	}
 
-	public CookingPreferenceSetting(Set<CookingPreference> prohibitedUtensil) {
-		this.prohibitedCookingPreference = prohibitedUtensil;
+	public static CookingPreferenceSetting cookingPreferences(
+			Set<CookingPreference> prohibitedCookingPreference) {
+		return new CookingPreferenceSetting(prohibitedCookingPreference);
+	}
+
+	public static CookingPreferenceSetting defaultCookingPreferences() {
+		return new CookingPreferenceSetting(new HashSet<>());
 	}
 
 	public void setCookingPreferences(PreferenceSettings preferences) {

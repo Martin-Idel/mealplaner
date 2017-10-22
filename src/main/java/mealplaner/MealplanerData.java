@@ -2,7 +2,6 @@ package mealplaner;
 
 import static java.lang.Math.toIntExact;
 import static java.time.LocalDate.now;
-import static java.time.LocalDate.of;
 import static java.time.temporal.ChronoUnit.DAYS;
 import static mealplaner.DataStoreEventType.DATABASE_EDITED;
 import static mealplaner.DataStoreEventType.DATE_UPDATED;
@@ -12,6 +11,7 @@ import static mealplaner.io.XMLHelpers.generateDateXml;
 import static mealplaner.io.XMLHelpers.getFirstNode;
 import static mealplaner.io.XMLHelpers.logFailedXmlRetrieval;
 import static mealplaner.io.XMLHelpers.parseDate;
+import static mealplaner.model.settings.Settings.defaultSetting;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class MealplanerData implements DataStore {
 		date = now();
 		defaultSettings = new Settings[7];
 		for (int i = 0; i < defaultSettings.length; i++) {
-			defaultSettings[i] = new Settings();
+			defaultSettings[i] = defaultSetting();
 		}
 		proposal = new Proposal();
 	}
@@ -94,11 +94,6 @@ public class MealplanerData implements DataStore {
 		meals.add(neu);
 		meals.sort((meal1, meal2) -> meal1.compareTo(meal2));
 		listeners.forEach(listener -> listener.updateData(DATABASE_EDITED));
-	}
-
-	public void setDate(int day, int month, int year) {
-		date = of(year, month, day);
-		listeners.forEach(listener -> listener.updateData(DATE_UPDATED));
 	}
 
 	public void setDefaultSettings(Settings[] defaultSettings) throws MealException {
@@ -166,7 +161,7 @@ public class MealplanerData implements DataStore {
 				defaultSettings[dayofWeek] = elementsByTagName.item(i)
 						.getNodeType() == Node.ELEMENT_NODE
 								? Settings.loadFromXml((Element) elementsByTagName.item(i))
-								: logFailedXmlRetrieval(new Settings(), "Settings " + i,
+								: logFailedXmlRetrieval(defaultSetting(), "Settings " + i,
 										settingsNode);
 			}
 		} else {
@@ -174,7 +169,7 @@ public class MealplanerData implements DataStore {
 		}
 		for (int i = 0; i < defaultSettings.length; i++) {
 			if (defaultSettings[i] == null) {
-				defaultSettings[i] = new Settings();
+				defaultSettings[i] = defaultSetting();
 				logger.warn("Setting " + i + " not correctly read in default settings");
 			}
 		}

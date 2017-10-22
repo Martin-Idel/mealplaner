@@ -3,6 +3,8 @@ package mealplaner.model.settings;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.io.XMLHelpers.createTextNode;
 import static mealplaner.model.enums.CookingTime.VERY_SHORT;
+import static mealplaner.model.settings.CookingTimeSetting.cookingTimeWithProhibited;
+import static mealplaner.model.settings.Settings.settings;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.createDocument;
 import static testcommons.CommonFunctions.getSettings1;
@@ -58,7 +60,8 @@ public class SettingsTest {
 
 		sut = Settings.loadFromXml(settingsNode);
 
-		Settings expectedSettings = new Settings(new CookingTimeSetting(VERY_SHORT), nonNegative(2),
+		Settings expectedSettings = settings(cookingTimeWithProhibited(VERY_SHORT),
+				nonNegative(2),
 				CasseroleSettings.NONE, PreferenceSettings.NORMAL);
 
 		assertThat(sut).isEqualTo(expectedSettings);

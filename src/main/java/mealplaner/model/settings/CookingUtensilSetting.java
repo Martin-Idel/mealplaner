@@ -11,16 +11,22 @@ import mealplaner.model.enums.ObligatoryUtensil;
 public class CookingUtensilSetting implements CookingSetting {
 	private final Set<ObligatoryUtensil> prohibitedUtensil;
 
-	public CookingUtensilSetting() {
-		this(new HashSet<ObligatoryUtensil>());
-	}
-
-	public CookingUtensilSetting(CookingUtensilSetting prohibitedUtensil) {
-		this(new HashSet<ObligatoryUtensil>(prohibitedUtensil.prohibitedUtensil));
-	}
-
-	public CookingUtensilSetting(Set<ObligatoryUtensil> prohibitedUtensil) {
+	private CookingUtensilSetting(Set<ObligatoryUtensil> prohibitedUtensil) {
 		this.prohibitedUtensil = prohibitedUtensil;
+	}
+
+	public static CookingUtensilSetting defaultUtensilSetting() {
+		return new CookingUtensilSetting(new HashSet<>());
+	}
+
+	public static CookingUtensilSetting utensilSettingWithProhibited(
+			Set<ObligatoryUtensil> utensils) {
+		return new CookingUtensilSetting(utensils);
+	}
+
+	public static CookingUtensilSetting copyUtensilSetting(
+			CookingUtensilSetting cookingUtensilSetting) {
+		return new CookingUtensilSetting(new HashSet<>(cookingUtensilSetting.prohibitedUtensil));
 	}
 
 	public void setCasseroleSettings(CasseroleSettings casserole) {
