@@ -6,7 +6,9 @@ import static mealplaner.gui.commons.MessageDialog.showSaveExitDialog;
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.time.DayOfWeek;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.swing.JFrame;
@@ -28,6 +30,7 @@ import mealplaner.io.FileIOGui;
 import mealplaner.io.IngredientIO;
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
+import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.ProposalOutline;
 import mealplaner.model.settings.Settings;
 import mealplaner.recipes.provider.IngredientProvider;
@@ -174,14 +177,14 @@ public class MainGUI {
 
 	private Settings[] setDefaultSettings(ProposalOutline outline) {
 		Settings[] settings = new Settings[outline.getNumberOfDays()];
-		int dayOfWeek = mealPlan.getTime().getDayOfWeek().getValue();
-		Settings[] defaultSettings = mealPlan.getDefaultSettings();
-		if (!outline.isIncludedToday()) {
-			dayOfWeek++;
-		}
+		Map<DayOfWeek, Settings> defaultSettings = mealPlan.getDefaultSettings()
+				.getDefaultSettings();
+		DayOfWeek dayOfWeek = !outline.isIncludedToday()
+				? mealPlan.getTime().getDayOfWeek().plus(1)
+				: mealPlan.getTime().getDayOfWeek();
 		for (int i = 0; i < settings.length; i++) {
-			settings[i] = defaultSettings[(dayOfWeek - 1) % 7];
-			dayOfWeek++;
+			settings[i] = defaultSettings.get(dayOfWeek);
+			dayOfWeek = dayOfWeek.plus(1);
 		}
 		return settings;
 	}
@@ -201,7 +204,7 @@ public class MainGUI {
 	}
 
 	public void changeDefaultSettings() {
-		Optional<Settings[]> defaultSettings = dialogs
+		Optional<DefaultSettings> defaultSettings = dialogs
 				.createDefaultSettingsDialog()
 				.showDialog(mealPlan.getDefaultSettings());
 		defaultSettings.ifPresent(settings -> mealPlan.setDefaultSettings(settings));

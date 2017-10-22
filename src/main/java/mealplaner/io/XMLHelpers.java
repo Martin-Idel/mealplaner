@@ -121,6 +121,12 @@ public final class XMLHelpers {
 		return fallback;
 	}
 
+	public static void logEmptyOptional(Optional<?> optional, String message, Element node) {
+		if (!optional.isPresent()) {
+			logger.error(String.format("Element %s not found.", message));
+		}
+	}
+
 	public static LocalDate parseDate(Element calendarNode) {
 		LocalDate nowDate = now();
 		int dayOfMonth = readInt(nowDate.getDayOfMonth(), calendarNode, "dayOfMonth");
@@ -129,7 +135,7 @@ public final class XMLHelpers {
 		return of(year, month, dayOfMonth);
 	}
 
-	public static Element generateDateXml(Document saveFileContent, LocalDate date,
+	public static Element writeDate(Document saveFileContent, LocalDate date,
 			String tagName) {
 		Element dateNode = saveFileContent.createElement(tagName);
 		dateNode.appendChild(

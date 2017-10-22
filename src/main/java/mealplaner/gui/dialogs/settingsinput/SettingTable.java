@@ -3,9 +3,10 @@ package mealplaner.gui.dialogs.settingsinput;
 import static java.time.LocalDate.of;
 import static mealplaner.model.enums.CasseroleSettings.getCasseroleSettingsStrings;
 import static mealplaner.model.enums.PreferenceSettings.getPreferenceSettingsStrings;
-import static mealplaner.model.settings.Settings.copySettings;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.Map;
 
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
@@ -15,6 +16,7 @@ import mealplaner.gui.commons.SwingUtilityMethods;
 import mealplaner.gui.editing.PositiveIntegerCellEditor;
 import mealplaner.model.enums.CasseroleSettings;
 import mealplaner.model.enums.PreferenceSettings;
+import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
 
 // TODO: removeDateColumn should be transported to the model. This way, we don't need a crappy default calendar
@@ -24,10 +26,15 @@ public class SettingTable {
 	private LocalDate date = of(2017, 10, 23); // A random Monday
 	private BundleStore bundles;
 
-	public SettingTable(Settings[] defaultSettings, BundleStore bundles) {
+	public SettingTable(DefaultSettings defaultSettings, BundleStore bundles) {
 		this.bundles = bundles;
 
-		tableModel = new SettingTableModel(defaultSettings, date, bundles);
+		Settings[] settings = new Settings[7];
+		for (DayOfWeek dayOfWeek : DayOfWeek.values()) {
+			settings[dayOfWeek.getValue() - 1] = defaultSettings.getDefaultSettings()
+					.get(dayOfWeek);
+		}
+		tableModel = new SettingTableModel(settings, date, bundles);
 	}
 
 	public SettingTable(Settings[] settings, LocalDate date, BundleStore bundles) {
@@ -53,12 +60,13 @@ public class SettingTable {
 		return table;
 	}
 
-	public void useDefaultSettings(Settings[] defaultSettings) {
+	public void useDefaultSettings(DefaultSettings defaultSettings) {
 		Settings[] settings = new Settings[tableModel.getRowCount()];
-		int dayOfWeek = date.getDayOfWeek().getValue();
+		Map<DayOfWeek, Settings> defaults = defaultSettings.getDefaultSettings();
+		DayOfWeek dayOfWeek = date.getDayOfWeek();
 		for (int i = 0; i < settings.length; i++) {
-			settings[i] = copySettings(defaultSettings[(dayOfWeek - 1) % 7]);
-			dayOfWeek++;
+			settings[i] = defaults.get(dayOfWeek);
+			dayOfWeek = dayOfWeek.plus(1);
 		}
 		tableModel.update(settings);
 	}

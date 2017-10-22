@@ -13,6 +13,7 @@ import javax.swing.JScrollPane;
 
 import mealplaner.BundleStore;
 import mealplaner.gui.commons.ButtonPanelBuilder;
+import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.ProposalOutline;
 import mealplaner.model.settings.Settings;
 
@@ -30,7 +31,7 @@ public class ProposalSettingsInput extends SettingsInput {
 		this.bundles = bundles;
 	}
 
-	public Optional<Settings[]> showDialog(Settings[] settings, ProposalOutline outline) {
+	public Optional<Settings[]> showDialog(DefaultSettings settings, ProposalOutline outline) {
 		setup(settings, outline);
 		setVisible(true);
 		return getEnteredSettings();
@@ -42,7 +43,7 @@ public class ProposalSettingsInput extends SettingsInput {
 		return settings;
 	}
 
-	protected void setup(Settings[] defaultSettings, ProposalOutline outline) {
+	protected void setup(DefaultSettings defaultSettings, ProposalOutline outline) {
 		Settings[] tableSettings = createSettingsForTable(outline.getNumberOfDays(),
 				outline.isIncludedToday());
 		LocalDate date = outline.isIncludedToday() ? outline.getDateToday()

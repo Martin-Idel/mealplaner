@@ -7,36 +7,33 @@ import static mealplaner.DataStoreEventType.DATABASE_EDITED;
 import static mealplaner.DataStoreEventType.DATE_UPDATED;
 import static mealplaner.DataStoreEventType.PROPOSAL_ADDED;
 import static mealplaner.DataStoreEventType.SETTINGS_CHANGED;
-import static mealplaner.io.XMLHelpers.generateDateXml;
 import static mealplaner.io.XMLHelpers.getFirstNode;
 import static mealplaner.io.XMLHelpers.logFailedXmlRetrieval;
 import static mealplaner.io.XMLHelpers.parseDate;
-import static mealplaner.model.settings.Settings.defaultSetting;
+import static mealplaner.io.XMLHelpers.saveMealsToXml;
+import static mealplaner.io.XMLHelpers.writeDate;
+import static mealplaner.model.Proposal.writeProposal;
+import static mealplaner.model.settings.DefaultSettings.defaultSettings;
+import static mealplaner.model.settings.DefaultSettings.writeDefaultSettings;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
-import mealplaner.errorhandling.MealException;
 import mealplaner.io.XMLHelpers;
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
-import mealplaner.model.settings.Settings;
+import mealplaner.model.settings.DefaultSettings;
 
 // TODO: Error handling and ResourceBundles
 public class MealplanerData implements DataStore {
-	private static final Logger logger = LoggerFactory.getLogger(Settings.class);
-
 	private List<Meal> meals;
-	private Settings[] defaultSettings;
+	private DefaultSettings defaultSettings;
 	private LocalDate date;
 	private Proposal proposal;
 
@@ -45,18 +42,18 @@ public class MealplanerData implements DataStore {
 	public MealplanerData() {
 		meals = new ArrayList<Meal>();
 		date = now();
-		defaultSettings = new Settings[7];
-		for (int i = 0; i < defaultSettings.length; i++) {
-			defaultSettings[i] = defaultSetting();
-		}
+		defaultSettings = defaultSettings();
 		proposal = new Proposal();
 	}
 
-	public MealplanerData(List<Meal> meals, LocalDate date,
-			Settings[] defaultSettings, Proposal proposal) throws MealException {
+	public MealplanerData(
+			List<Meal> meals,
+			LocalDate date,
+			DefaultSettings defaultSettings,
+			Proposal proposal) {
 		this.meals = meals;
 		this.date = date;
-		setDefaultSettings(defaultSettings);
+		this.defaultSettings = defaultSettings;
 		this.proposal = proposal;
 	}
 
@@ -71,7 +68,7 @@ public class MealplanerData implements DataStore {
 	}
 
 	@Override
-	public Settings[] getDefaultSettings() {
+	public DefaultSettings getDefaultSettings() {
 		return defaultSettings;
 	}
 
@@ -96,18 +93,9 @@ public class MealplanerData implements DataStore {
 		listeners.forEach(listener -> listener.updateData(DATABASE_EDITED));
 	}
 
-	public void setDefaultSettings(Settings[] defaultSettings) throws MealException {
-		if (defaultSettings.length == 7) {
-			for (Settings setting : defaultSettings) {
-				if (setting == null) {
-					throw new MealException("One of the default settings is null");
-				}
-			}
-			this.defaultSettings = defaultSettings;
-			listeners.forEach(listener -> listener.updateData(SETTINGS_CHANGED));
-		} else {
-			throw new MealException("Default settings not of size 7");
-		}
+	public void setDefaultSettings(DefaultSettings defaultSettings) {
+		this.defaultSettings = defaultSettings;
+		listeners.forEach(listener -> listener.updateData(SETTINGS_CHANGED));
 	}
 
 	public void setLastProposal(Proposal proposal) {
@@ -135,7 +123,11 @@ public class MealplanerData implements DataStore {
 				? XMLHelpers.getMealListFromXml((Element) mealList.get())
 				: logFailedXmlRetrieval(new ArrayList<>(), "Proposal", mealPlanerNode);
 		Optional<Node> settings = getFirstNode(mealPlanerNode, "defaultSettings");
-		Settings[] defaultSettings = readDefaultSettings(mealPlanerNode, settings);
+		DefaultSettings defaultSettings = settings.isPresent()
+				&& settings.get().getNodeType() == Node.ELEMENT_NODE
+						? DefaultSettings.parseDefaultSettings((Element) settings.get())
+						: logFailedXmlRetrieval(DefaultSettings.defaultSettings(), "Calendar",
+								mealPlanerNode);
 		Optional<Node> calendarNode = getFirstNode(mealPlanerNode, "date");
 		LocalDate date = calendarNode.isPresent()
 				&& calendarNode.get().getNodeType() == Node.ELEMENT_NODE
@@ -150,49 +142,23 @@ public class MealplanerData implements DataStore {
 		return new MealplanerData(meals, date, defaultSettings, proposal);
 	}
 
-	private static Settings[] readDefaultSettings(Element mealPlanerNode, Optional<Node> settings) {
-		Settings[] defaultSettings = new Settings[7];
-		if (settings.isPresent() && settings.get().getNodeType() == Node.ELEMENT_NODE) {
-			Element settingsNode = (Element) settings.get();
-			NodeList elementsByTagName = settingsNode.getElementsByTagName("setting");
-			for (int i = 0; i < elementsByTagName.getLength(); i++) {
-				int dayofWeek = Integer.parseInt(elementsByTagName
-						.item(i).getAttributes().getNamedItem("dayOfWeek").getTextContent());
-				defaultSettings[dayofWeek] = elementsByTagName.item(i)
-						.getNodeType() == Node.ELEMENT_NODE
-								? Settings.loadFromXml((Element) elementsByTagName.item(i))
-								: logFailedXmlRetrieval(defaultSetting(), "Settings " + i,
-										settingsNode);
-			}
-		} else {
-			logger.warn("Settings node not found.");
-		}
-		for (int i = 0; i < defaultSettings.length; i++) {
-			if (defaultSettings[i] == null) {
-				defaultSettings[i] = defaultSetting();
-				logger.warn("Setting " + i + " not correctly read in default settings");
-			}
-		}
-		return defaultSettings;
-	}
-
 	public static Element generateXml(Document saveFileContent, MealplanerData mealplanerData) {
 		Element mealplanerDataNode = saveFileContent.createElement("mealplaner");
-		mealplanerDataNode
-				.appendChild(XMLHelpers.saveMealsToXml(saveFileContent, mealplanerData.meals,
-						"mealList"));
-		Element defaultSettingsNode = saveFileContent.createElement("defaultSettings");
-		for (int i = 0; i < mealplanerData.defaultSettings.length; i++) {
-			defaultSettingsNode
-					.appendChild(Settings.generateXml(saveFileContent,
-							mealplanerData.defaultSettings[i], i, "setting"));
-		}
-		mealplanerDataNode.appendChild(defaultSettingsNode);
-		mealplanerDataNode
-				.appendChild(generateDateXml(saveFileContent, mealplanerData.date, "date"));
-		mealplanerDataNode
-				.appendChild(
-						Proposal.saveToXml(saveFileContent, mealplanerData.proposal, "proposal"));
+		mealplanerDataNode.appendChild(saveMealsToXml(
+				saveFileContent,
+				mealplanerData.meals,
+				"mealList"));
+		mealplanerDataNode.appendChild(writeDefaultSettings(
+				saveFileContent,
+				mealplanerData.defaultSettings,
+				"defaultSettings"));
+		mealplanerDataNode.appendChild(writeDate(
+				saveFileContent,
+				mealplanerData.date, "date"));
+		mealplanerDataNode.appendChild(writeProposal(
+				saveFileContent,
+				mealplanerData.proposal,
+				"proposal"));
 		return mealplanerDataNode;
 	}
 }

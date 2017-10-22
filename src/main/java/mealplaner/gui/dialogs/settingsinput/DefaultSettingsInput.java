@@ -1,8 +1,15 @@
 package mealplaner.gui.dialogs.settingsinput;
 
+import static java.time.DayOfWeek.MONDAY;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static mealplaner.gui.commons.ButtonPanelBuilder.justDisposeListener;
+import static mealplaner.model.settings.DefaultSettings.fromMap;
 
 import java.awt.BorderLayout;
+import java.time.DayOfWeek;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.swing.JFrame;
@@ -11,6 +18,7 @@ import javax.swing.JScrollPane;
 
 import mealplaner.BundleStore;
 import mealplaner.gui.commons.ButtonPanelBuilder;
+import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
 
 public class DefaultSettingsInput extends SettingsInput {
@@ -27,13 +35,13 @@ public class DefaultSettingsInput extends SettingsInput {
 		this.bundles = bundles;
 	}
 
-	public Optional<Settings[]> showDialog(Settings[] settings) {
+	public Optional<DefaultSettings> showDialog(DefaultSettings settings) {
 		setup(settings);
 		setVisible(true);
-		return getEnteredSettings();
+		return transformSettingsToDefaultSettings(getEnteredSettings());
 	}
 
-	protected void setup(Settings[] defaultSettings) {
+	protected void setup(DefaultSettings defaultSettings) {
 		settingTable = new SettingTable(defaultSettings, bundles);
 		tablescroll = new JScrollPane(settingTable.setupTable());
 		settingTable.removeDateColumn();
@@ -46,5 +54,18 @@ public class DefaultSettingsInput extends SettingsInput {
 		addPanel(tablescroll, BorderLayout.CENTER);
 		addPanel(buttonPanel, BorderLayout.SOUTH);
 		adjustPanesTo(parentFrame);
+	}
+
+	private Optional<DefaultSettings> transformSettingsToDefaultSettings(
+			Optional<Settings[]> settings) {
+		if (settings.isPresent()) {
+			Map<DayOfWeek, Settings> defaultSettings = new HashMap<>();
+			for (int i = 0; i < settings.get().length; i++) {
+				defaultSettings.put(MONDAY.plus(i), settings.get()[i]);
+			}
+			return of(fromMap(defaultSettings));
+		} else {
+			return empty();
+		}
 	}
 }

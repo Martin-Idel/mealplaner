@@ -1,9 +1,14 @@
 package mealplaner.model.settings;
 
+import static java.time.DayOfWeek.MONDAY;
+import static java.time.DayOfWeek.WEDNESDAY;
+import static java.time.DayOfWeek.valueOf;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.io.XMLHelpers.createTextNode;
 import static mealplaner.model.enums.CookingTime.VERY_SHORT;
 import static mealplaner.model.settings.CookingTimeSetting.cookingTimeWithProhibited;
+import static mealplaner.model.settings.Settings.generateXml;
+import static mealplaner.model.settings.Settings.loadFromXml;
 import static mealplaner.model.settings.Settings.settings;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.createDocument;
@@ -27,7 +32,7 @@ public class SettingsTest {
 		Settings settings = getSettings1();
 		Document saveFileContent = createDocument();
 
-		sut = Settings.loadFromXml(Settings.generateXml(saveFileContent, settings, 0, "setting"));
+		sut = loadFromXml(generateXml(saveFileContent, settings, MONDAY, "setting"));
 
 		assertThat(sut).isEqualTo(settings);
 	}
@@ -37,10 +42,10 @@ public class SettingsTest {
 		Settings settings = getSettings1();
 		Document saveFileContent = createDocument();
 
-		Element testElement = Settings.generateXml(saveFileContent, settings, 3, "setting");
+		Element testElement = Settings.generateXml(saveFileContent, settings, WEDNESDAY, "setting");
 
-		assertThat("3")
-				.isEqualTo(testElement.getAttributes().getNamedItem("dayOfWeek").getTextContent());
+		assertThat(WEDNESDAY).isEqualTo(valueOf(
+				testElement.getAttributes().getNamedItem("dayOfWeek").getTextContent()));
 	}
 
 	@Test

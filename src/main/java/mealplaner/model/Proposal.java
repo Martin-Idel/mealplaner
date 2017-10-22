@@ -84,13 +84,13 @@ public class Proposal {
 		this.date = date;
 	}
 
-	public static Element saveToXml(Document saveFileContent, Proposal proposal,
+	public static Element writeProposal(Document saveFileContent, Proposal proposal,
 			String elementName) {
 		Element proposalNode = saveFileContent.createElement(elementName);
 		proposalNode
 				.appendChild(saveMealsToXml(saveFileContent, proposal.mealList, "proposalList"));
 		proposalNode.appendChild(
-				XMLHelpers.generateDateXml(saveFileContent, proposal.date, "timeOfProposal"));
+				XMLHelpers.writeDate(saveFileContent, proposal.date, "timeOfProposal"));
 		proposalNode.appendChild(createTextNode(saveFileContent, "includesToday",
 				() -> Boolean.toString(proposal.includeToday)));
 		return proposalNode;

@@ -1,6 +1,6 @@
 package mealplaner.io;
 
-import static mealplaner.io.XMLHelpers.generateDateXml;
+import static mealplaner.io.XMLHelpers.writeDate;
 import static mealplaner.io.XMLHelpers.getMealListFromXml;
 import static mealplaner.io.XMLHelpers.parseDate;
 import static mealplaner.io.XMLHelpers.saveMealsToXml;
@@ -95,7 +95,7 @@ public class XMLHelperTest {
 		Document saveDocument = createDocument();
 		LocalDate date = LocalDate.of(2017, Month.JULY, 5);
 
-		LocalDate actualDate = parseDate(generateDateXml(saveDocument, date, "date"));
+		LocalDate actualDate = parseDate(writeDate(saveDocument, date, "date"));
 
 		assertThat(actualDate).isAfterOrEqualTo(date);
 		assertThat(actualDate).isBeforeOrEqualTo(date);

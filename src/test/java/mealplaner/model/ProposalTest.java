@@ -1,7 +1,7 @@
 package mealplaner.model;
 
 import static mealplaner.model.Proposal.getFromXml;
-import static mealplaner.model.Proposal.saveToXml;
+import static mealplaner.model.Proposal.writeProposal;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.createDocument;
 import static testcommons.CommonFunctions.getMeal1;
@@ -27,7 +27,7 @@ public class ProposalTest {
 		Proposal expected = new Proposal(meals, date, true);
 		Document saveFileContent = createDocument();
 
-		Proposal actual = getFromXml(saveToXml(saveFileContent, expected, "proposal"));
+		Proposal actual = getFromXml(writeProposal(saveFileContent, expected, "proposal"));
 
 		assertThat(actual).isEqualTo(expected);
 	}

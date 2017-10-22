@@ -5,7 +5,7 @@ import java.util.List;
 
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
-import mealplaner.model.settings.Settings;
+import mealplaner.model.settings.DefaultSettings;
 
 public interface DataStore {
 	void register(DataStoreListener listener);
@@ -18,5 +18,5 @@ public interface DataStore {
 
 	List<Meal> getMeals();
 
-	Settings[] getDefaultSettings();
+	DefaultSettings getDefaultSettings();
 }

@@ -5,11 +5,15 @@ import static mealplaner.io.XMLHelpers.createTextNode;
 import static mealplaner.io.XMLHelpers.readBoolean;
 import static mealplaner.io.XMLHelpers.readEnum;
 import static mealplaner.io.XMLHelpers.readInt;
+import static mealplaner.model.enums.CasseroleSettings.POSSIBLE;
+import static mealplaner.model.enums.PreferenceSettings.NORMAL;
 import static mealplaner.model.settings.CookingPreferenceSetting.defaultCookingPreferences;
 import static mealplaner.model.settings.CookingTimeSetting.copyCookingTimeSetting;
 import static mealplaner.model.settings.CookingTimeSetting.defaultCookingTime;
 import static mealplaner.model.settings.CookingUtensilSetting.copyUtensilSetting;
 import static mealplaner.model.settings.CookingUtensilSetting.defaultUtensilSetting;
+
+import java.time.DayOfWeek;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +40,6 @@ public class Settings {
 			NonnegativeInteger numberOfPeople,
 			CasseroleSettings casseroleSettings,
 			PreferenceSettings preferenceSettings) {
-
 		this.cookingPreferences = defaultCookingPreferences();
 		this.cookingTime = cookingTime;
 		this.cookingUtensil = defaultUtensilSetting();
@@ -67,8 +70,7 @@ public class Settings {
 	}
 
 	public static Settings defaultSetting() {
-		return new Settings(defaultCookingTime(), nonNegative(2), CasseroleSettings.POSSIBLE,
-				PreferenceSettings.NORMAL);
+		return new Settings(defaultCookingTime(), nonNegative(2), POSSIBLE, NORMAL);
 	}
 
 	public static Settings copySettings(Settings setting) {
@@ -111,10 +113,12 @@ public class Settings {
 		return preference;
 	}
 
-	public static Element generateXml(Document saveFileContent, Settings settings, int dayOfWeek,
+	public static Element generateXml(Document saveFileContent,
+			Settings settings,
+			DayOfWeek dayOfWeek,
 			String elementName) {
 		Element settingsNode = saveFileContent.createElement(elementName);
-		settingsNode.setAttribute("dayOfWeek", Integer.toString(dayOfWeek));
+		settingsNode.setAttribute("dayOfWeek", dayOfWeek.toString());
 
 		settingsNode.appendChild(createTextNode(saveFileContent,
 				"casseroleSettings",
