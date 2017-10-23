@@ -1,8 +1,9 @@
 package mealplaner;
 
 import static java.lang.Integer.compare;
-import static mealplaner.model.Proposal.with;
+import static mealplaner.model.Proposal.from;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -28,6 +29,8 @@ public class ProposalBuilder {
 	private final HashMap<Pair<CookingPreference, PreferenceSettings>, Integer> preferenceMap;
 	private final Random randomIntGenerator = new Random();
 
+	private List<Meal> proposalList;
+
 	public ProposalBuilder() {
 		this(PreferenceMap.getPreferenceMap(), new SideDish());
 	}
@@ -37,6 +40,7 @@ public class ProposalBuilder {
 			SideDish sideDish) {
 		this.sideDish = sideDish;
 		this.preferenceMap = preferenceMap;
+		proposalList = new ArrayList<>();
 	}
 
 	public ProposalBuilder randomise(boolean randomise) {
@@ -50,16 +54,15 @@ public class ProposalBuilder {
 	}
 
 	public Proposal propose(List<Meal> meals, Settings[] settings) {
-		Proposal proposal = with(firstDayIsToday);
 		setCurrentSideDishFromHistory(meals);
 		if (!meals.isEmpty()) {
 			for (int today = 0; today < settings.length; today++) {
-				Optional<Meal> nextMeal = proposeNextMeal(meals, proposal, settings[today]);
-				proposal.addItemToProposalList(nextMeal.orElse(meals.get(0)));
+				Optional<Meal> nextMeal = proposeNextMeal(meals, proposalList, settings[today]);
+				proposalList.add(nextMeal.orElse(meals.get(0)));
 				updateCurrentSidedish(nextMeal.orElse(meals.get(0)));
 			}
 		}
-		return proposal;
+		return from(firstDayIsToday, proposalList);
 	}
 
 	private void setCurrentSideDishFromHistory(List<Meal> meals) {
@@ -89,13 +92,13 @@ public class ProposalBuilder {
 
 	public Optional<Meal> proposeNextMeal(
 			List<Meal> meals,
-			final Proposal proposal,
+			final List<Meal> proposalList,
 			final Settings settings) {
 
 		return meals.stream()
 				.filter(meal -> allows(meal, settings))
 				.map(meal -> Pair.of(meal, meal.getDaysPassed()))
-				.map(pair -> takeProposalIntoAccount(pair, proposal))
+				.map(pair -> takeProposalIntoAccount(pair, proposalList))
 				.map(pair -> takeSidedishIntoAccount(pair, sideDish))
 				.map(pair -> multiplyPrefs(pair, settings.getPreference()))
 				.map(pair -> randomize(pair))
@@ -105,9 +108,7 @@ public class ProposalBuilder {
 	}
 
 	private Pair<Meal, Integer> takeProposalIntoAccount(Pair<Meal, Integer> pair,
-			Proposal proposal) {
-
-		List<Meal> proposalList = proposal.getProposalList();
+			List<Meal> proposalList) {
 		return proposalList.contains(pair.left)
 				? Pair.of(pair.left, proposalList.size() - proposalList.indexOf(pair.left) - 1)
 				: pair;

@@ -23,6 +23,7 @@ import mealplaner.gui.commons.InputField;
 import mealplaner.gui.commons.NonnegativeIntegerInputField;
 import mealplaner.gui.commons.SwingUtilityMethods;
 import mealplaner.model.settings.ProposalOutline;
+import mealplaner.model.settings.ProposalOutline.ProposalOutlineBuilder;
 
 public class ProposalSummary implements DataStoreListener {
 	private DataStore mealPlan;
@@ -109,12 +110,16 @@ public class ProposalSummary implements DataStoreListener {
 	}
 
 	public ProposalOutline getProposalOutline() {
-		int numberOfDays = numberOfDaysField.getUserInput().value;
-		boolean shallBeRandomised = randomiseCheckBox.getUserInput();
-		boolean includesToday = takeTodayCheckBox.getUserInput();
+		ProposalOutlineBuilder builder = ProposalOutline.ProposalOutlineBuilder
+				.of(numberOfDaysField.getUserInput().value, mealPlan.getTime());
+		if (randomiseCheckBox.getUserInput()) {
+			builder.randomise();
+		}
+		if (takeTodayCheckBox.getUserInput()) {
+			builder.includeToday();
+		}
 
-		return new ProposalOutline(numberOfDays, includesToday, shallBeRandomised,
-				mealPlan.getTime());
+		return builder.build();
 	}
 
 	public void update() {

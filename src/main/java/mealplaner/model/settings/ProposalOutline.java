@@ -8,7 +8,7 @@ public class ProposalOutline {
 	private final boolean shallBeRandomised;
 	private final LocalDate dateToday;
 
-	public ProposalOutline(int numberOfDays, boolean includedToday, boolean shallBeRandomised,
+	private ProposalOutline(int numberOfDays, boolean includedToday, boolean shallBeRandomised,
 			LocalDate dateToday) {
 		this.numberOfDays = numberOfDays;
 		this.includedToday = includedToday;
@@ -30,5 +30,35 @@ public class ProposalOutline {
 
 	public LocalDate getDateToday() {
 		return dateToday;
+	}
+
+	public static class ProposalOutlineBuilder {
+		private final int numberOfDays;
+		private boolean includedToday = false;
+		private boolean shallBeRandomised = false;
+		private final LocalDate dateToday;
+
+		private ProposalOutlineBuilder(int numberOfDays, LocalDate dateToday) {
+			this.numberOfDays = numberOfDays;
+			this.dateToday = dateToday;
+		}
+
+		public static ProposalOutlineBuilder of(int numberOfDays, LocalDate dateToday) {
+			return new ProposalOutlineBuilder(numberOfDays, dateToday);
+		}
+
+		public ProposalOutlineBuilder includeToday() {
+			this.includedToday = true;
+			return this;
+		}
+
+		public ProposalOutlineBuilder randomise() {
+			shallBeRandomised = false;
+			return this;
+		}
+
+		public ProposalOutline build() {
+			return new ProposalOutline(numberOfDays, includedToday, shallBeRandomised, dateToday);
+		}
 	}
 }

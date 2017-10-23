@@ -15,6 +15,7 @@ import static mealplaner.io.XMLHelpers.saveMealsToXml;
 import static mealplaner.io.XMLHelpers.writeDate;
 import static mealplaner.model.Meal.addDaysPassed;
 import static mealplaner.model.Meal.setDaysPassed;
+import static mealplaner.model.Proposal.createProposal;
 import static mealplaner.model.Proposal.writeProposal;
 import static mealplaner.model.settings.DefaultSettings.createDefaultSettings;
 import static mealplaner.model.settings.DefaultSettings.writeDefaultSettings;
@@ -46,7 +47,7 @@ public class MealplanerData implements DataStore {
 		meals = new ArrayList<Meal>();
 		date = now();
 		defaultSettings = createDefaultSettings();
-		proposal = new Proposal();
+		proposal = createProposal();
 	}
 
 	public MealplanerData(
@@ -142,7 +143,7 @@ public class MealplanerData implements DataStore {
 		Proposal proposal = proposalNode.isPresent()
 				&& proposalNode.get().getNodeType() == Node.ELEMENT_NODE
 						? Proposal.getFromXml((Element) proposalNode.get())
-						: logFailedXmlRetrieval(new Proposal(), "Proposal", mealPlanerNode);
+						: logFailedXmlRetrieval(createProposal(), "Proposal", mealPlanerNode);
 		return new MealplanerData(meals, date, defaultSettings, proposal);
 	}
 

@@ -26,38 +26,30 @@ public class Proposal {
 	private LocalDate date;
 	private boolean includeToday;
 
-	public Proposal() {
-		this(new ArrayList<Meal>(), now(), false);
-	}
-
-	public Proposal(LocalDate date, boolean includeToday) {
-		this(new ArrayList<Meal>(), date, includeToday);
-	}
-
 	public Proposal(List<Meal> mealList, LocalDate date, boolean includeToday) {
 		this.mealList = mealList;
 		this.date = date;
 		this.includeToday = includeToday;
 	}
 
-	public static Proposal with(boolean includeToday) {
-		return new Proposal(now(), includeToday);
+	public static Proposal createProposal() {
+		return new Proposal(new ArrayList<>(), now(), false);
+	}
+
+	public static Proposal from(boolean includeToday) {
+		return new Proposal(new ArrayList<>(), now(), includeToday);
+	}
+
+	public static Proposal from(boolean includeToday, List<Meal> meals) {
+		return new Proposal(meals, now(), includeToday);
+	}
+
+	public static Proposal from(boolean includeToday, List<Meal> meals, LocalDate date) {
+		return new Proposal(meals, date, includeToday);
 	}
 
 	public List<Meal> getProposalList() {
 		return mealList;
-	}
-
-	public void setProposalList(ArrayList<Meal> proposal) {
-		mealList = proposal;
-	}
-
-	public void clearProposalList() {
-		mealList.clear();
-	}
-
-	public void addItemToProposalList(Meal meal) {
-		mealList.add(meal);
 	}
 
 	public int getSize() {
@@ -72,16 +64,8 @@ public class Proposal {
 		return includeToday;
 	}
 
-	public void setToday(boolean today) {
-		this.includeToday = today;
-	}
-
 	public LocalDate getTime() {
 		return date;
-	}
-
-	public void setDate(LocalDate date) {
-		this.date = date;
 	}
 
 	public static Element writeProposal(Document saveFileContent, Proposal proposal,

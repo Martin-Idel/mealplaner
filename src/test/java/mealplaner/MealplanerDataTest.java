@@ -9,6 +9,7 @@ import static mealplaner.DataStoreEventType.SETTINGS_CHANGED;
 import static mealplaner.MealplanerData.generateXml;
 import static mealplaner.MealplanerData.readXml;
 import static mealplaner.model.Meal.createMeal;
+import static mealplaner.model.Proposal.createProposal;
 import static mealplaner.model.settings.DefaultSettings.createDefaultSettings;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -145,7 +146,7 @@ public class MealplanerDataTest {
 
 	@Test
 	public void mealplanerXmlSaving() throws ParserConfigurationException {
-		Proposal lastProposal = new Proposal();
+		Proposal lastProposal = createProposal();
 		LocalDate date = LocalDate.of(2017, 5, 17);
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = docFactory.newDocumentBuilder();
