@@ -1,7 +1,7 @@
 package mealplaner;
 
 import static java.lang.Integer.compare;
-import static mealplaner.model.Proposal.prepareProposal;
+import static mealplaner.model.Proposal.with;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -50,7 +50,7 @@ public class ProposalBuilder {
 	}
 
 	public Proposal propose(List<Meal> meals, Settings[] settings) {
-		Proposal proposal = prepareProposal(firstDayIsToday);
+		Proposal proposal = with(firstDayIsToday);
 		setCurrentSideDishFromHistory(meals);
 		if (!meals.isEmpty()) {
 			for (int today = 0; today < settings.length; today++) {

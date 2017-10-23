@@ -4,7 +4,7 @@ import static java.time.DayOfWeek.MONDAY;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static mealplaner.gui.commons.ButtonPanelBuilder.justDisposeListener;
-import static mealplaner.model.settings.DefaultSettings.fromMap;
+import static mealplaner.model.settings.DefaultSettings.from;
 
 import java.awt.BorderLayout;
 import java.time.DayOfWeek;
@@ -63,7 +63,7 @@ public class DefaultSettingsInput extends SettingsInput {
 			for (int i = 0; i < settings.get().length; i++) {
 				defaultSettings.put(MONDAY.plus(i), settings.get()[i]);
 			}
-			return of(fromMap(defaultSettings));
+			return of(from(defaultSettings));
 		} else {
 			return empty();
 		}

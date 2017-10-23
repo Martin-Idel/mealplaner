@@ -56,7 +56,7 @@ public class Meal implements Comparable<Meal> {
 		this.recipe = recipe;
 	}
 
-	public static Meal meal(String name,
+	public static Meal createMeal(String name,
 			CookingTime cookingTime,
 			Sidedish sideDish,
 			ObligatoryUtensil obligatoryUtensil,
@@ -74,7 +74,7 @@ public class Meal implements Comparable<Meal> {
 				recipe);
 	}
 
-	public static Meal cloneMeal(Meal meal) {
+	public static Meal copy(Meal meal) {
 		return new Meal(meal.getName(),
 				meal.getCookingTime(),
 				meal.getSidedish(),
@@ -86,24 +86,24 @@ public class Meal implements Comparable<Meal> {
 	}
 
 	public static Meal setDaysPassed(int daysPassedSince, Meal meal) throws MealException {
-		Meal newMeal = cloneMeal(meal);
+		Meal newMeal = copy(meal);
 		newMeal.setDaysPassed(daysPassedSince);
 		return newMeal;
 	}
 
 	public static Meal addDaysPassed(int daysPassedSince, Meal meal) throws MealException {
-		Meal newMeal = cloneMeal(meal);
+		Meal newMeal = copy(meal);
 		newMeal.setDaysPassed(newMeal.daysPassed + daysPassedSince);
 		return newMeal;
 	}
 
 	public Meal addRecipe(Optional<Recipe> recipe) {
-		Meal newMeal = cloneMeal(this);
+		Meal newMeal = copy(this);
 		newMeal.recipe = recipe;
 		return newMeal;
 	}
 
-	public static EmptyMeal emptyMeal() {
+	public static EmptyMeal createEmptyMeal() {
 		return new Meal.EmptyMeal();
 	}
 

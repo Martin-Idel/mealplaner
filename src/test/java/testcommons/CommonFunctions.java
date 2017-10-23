@@ -3,9 +3,9 @@ package testcommons;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
-import static mealplaner.model.Meal.meal;
+import static mealplaner.model.Meal.createMeal;
 import static mealplaner.model.settings.CookingTimeSetting.cookingTimeWithProhibited;
-import static mealplaner.model.settings.Settings.settings;
+import static mealplaner.model.settings.Settings.from;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -56,7 +56,7 @@ public class CommonFunctions {
 	}
 
 	public static Meal getMeal1() {
-		return meal("Test1", CookingTime.SHORT, Sidedish.PASTA,
+		return createMeal("Test1", CookingTime.SHORT, Sidedish.PASTA,
 				ObligatoryUtensil.PAN, CookingPreference.VERY_POPULAR, 5, "no comment",
 				empty());
 	}
@@ -65,7 +65,7 @@ public class CommonFunctions {
 		Map<Ingredient, Integer> ingredients = new HashMap<>();
 		ingredients.put(getIngredient1(), 100);
 		ingredients.put(getIngredient2(), 200);
-		return meal("Test2", CookingTime.SHORT, Sidedish.NONE,
+		return createMeal("Test2", CookingTime.SHORT, Sidedish.NONE,
 				ObligatoryUtensil.POT, CookingPreference.NO_PREFERENCE, 1, "",
 				of(new Recipe(2, ingredients)));
 	}
@@ -81,7 +81,7 @@ public class CommonFunctions {
 	}
 
 	public static Settings getSettings1() {
-		return settings(cookingTimeWithProhibited(CookingTime.VERY_SHORT), nonNegative(3),
+		return from(cookingTimeWithProhibited(CookingTime.VERY_SHORT), nonNegative(3),
 				CasseroleSettings.NONE, PreferenceSettings.RARE_PREFERED);
 	}
 }

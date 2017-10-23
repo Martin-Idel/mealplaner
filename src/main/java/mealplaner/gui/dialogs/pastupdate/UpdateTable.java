@@ -1,6 +1,6 @@
 package mealplaner.gui.dialogs.pastupdate;
 
-import static mealplaner.model.Meal.emptyMeal;
+import static mealplaner.model.Meal.createEmptyMeal;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -45,7 +45,7 @@ public class UpdateTable {
 		Meal[] updateMeals = proposal.isToday() ? new Meal[daySinceLastProposal + 1]
 				: new Meal[daySinceLastProposal];
 		for (int i = 0; i < updateMeals.length; i++) {
-			updateMeals[i] = (i < proposalList.size()) ? proposalList.get(i) : emptyMeal();
+			updateMeals[i] = (i < proposalList.size()) ? proposalList.get(i) : createEmptyMeal();
 		}
 		return updateMeals;
 	}
@@ -55,7 +55,7 @@ public class UpdateTable {
 		for (int i = 0; i < meal.length; i++) {
 			mealAndEmptyMeal[i] = meal[i];
 		}
-		mealAndEmptyMeal[mealAndEmptyMeal.length - 1] = emptyMeal();
+		mealAndEmptyMeal[mealAndEmptyMeal.length - 1] = createEmptyMeal();
 		JComboBox<Meal> autoCompleteBox = new JComboBox<Meal>(mealAndEmptyMeal);
 		AutoCompleteDecorator.decorate(autoCompleteBox);
 		table.getColumnModel().getColumn(2).setCellEditor(new ComboBoxCellEditor(autoCompleteBox));

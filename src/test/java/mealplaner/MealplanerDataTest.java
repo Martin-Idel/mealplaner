@@ -8,8 +8,8 @@ import static mealplaner.DataStoreEventType.PROPOSAL_ADDED;
 import static mealplaner.DataStoreEventType.SETTINGS_CHANGED;
 import static mealplaner.MealplanerData.generateXml;
 import static mealplaner.MealplanerData.readXml;
-import static mealplaner.model.Meal.meal;
-import static mealplaner.model.settings.DefaultSettings.defaultSettings;
+import static mealplaner.model.Meal.createMeal;
+import static mealplaner.model.settings.DefaultSettings.createDefaultSettings;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -58,7 +58,7 @@ public class MealplanerDataTest {
 		addInitializedMeals();
 		date = of(2017, 5, 7);
 		when(proposal.getProposalList()).thenReturn(new ArrayList<>());
-		sut = new MealplanerData(meals, date, defaultSettings(), proposal);
+		sut = new MealplanerData(meals, date, createDefaultSettings(), proposal);
 
 		listener = mock(DataStoreListener.class);
 		sut.register(listener);
@@ -108,7 +108,7 @@ public class MealplanerDataTest {
 		proposalMeals.add(meal1);
 		proposalMeals.add(meal4);
 		when(proposal.getProposalList()).thenReturn(proposalMeals);
-		sut = new MealplanerData(meals, date, defaultSettings(), proposal);
+		sut = new MealplanerData(meals, date, createDefaultSettings(), proposal);
 
 		sut.update(proposal.getProposalList(), date.plusDays(2));
 
@@ -138,7 +138,7 @@ public class MealplanerDataTest {
 	@Test
 	public void setDefaultSettingsNotifiesCorrectListeners() {
 
-		sut.setDefaultSettings(defaultSettings());
+		sut.setDefaultSettings(createDefaultSettings());
 
 		verify(listener).updateData(SETTINGS_CHANGED);
 	}
@@ -151,7 +151,7 @@ public class MealplanerDataTest {
 		DocumentBuilder documentBuilder = docFactory.newDocumentBuilder();
 		Document saveFileContent = documentBuilder.newDocument();
 
-		sut = new MealplanerData(meals, date, defaultSettings(), lastProposal);
+		sut = new MealplanerData(meals, date, createDefaultSettings(), lastProposal);
 
 		MealplanerData actual = readXml(generateXml(saveFileContent, sut));
 		assertThat(actual.getMeals()).asList().containsAll(sut.getMeals());
@@ -160,19 +160,19 @@ public class MealplanerDataTest {
 	}
 
 	private void addInitializedMeals() throws MealException {
-		meal1 = meal("Meal1", CookingTime.SHORT, Sidedish.NONE, ObligatoryUtensil.PAN,
+		meal1 = createMeal("Meal1", CookingTime.SHORT, Sidedish.NONE, ObligatoryUtensil.PAN,
 				CookingPreference.NO_PREFERENCE, 50, "", empty());
 		meals.add(meal1);
-		meal2 = meal("Meal2", CookingTime.MEDIUM, Sidedish.PASTA,
+		meal2 = createMeal("Meal2", CookingTime.MEDIUM, Sidedish.PASTA,
 				ObligatoryUtensil.CASSEROLE, CookingPreference.RARE, 101, "", empty());
 		meals.add(meal2);
-		meal4 = meal("Meal4", CookingTime.LONG, Sidedish.RICE, ObligatoryUtensil.POT,
+		meal4 = createMeal("Meal4", CookingTime.LONG, Sidedish.RICE, ObligatoryUtensil.POT,
 				CookingPreference.VERY_POPULAR, 20, "", empty());
 		meals.add(meal4);
 	}
 
 	private Meal initializeNewMeal() {
-		return meal("Meal3", CookingTime.SHORT, Sidedish.POTATOES, ObligatoryUtensil.PAN,
+		return createMeal("Meal3", CookingTime.SHORT, Sidedish.POTATOES, ObligatoryUtensil.PAN,
 				CookingPreference.NO_PREFERENCE, 10, "", empty());
 	}
 }

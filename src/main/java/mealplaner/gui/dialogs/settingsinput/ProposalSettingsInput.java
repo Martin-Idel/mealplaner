@@ -1,6 +1,6 @@
 package mealplaner.gui.dialogs.settingsinput;
 
-import static mealplaner.model.settings.Settings.defaultSetting;
+import static mealplaner.model.settings.Settings.createSettings;
 
 import java.awt.BorderLayout;
 import java.time.LocalDate;
@@ -39,7 +39,7 @@ public class ProposalSettingsInput extends SettingsInput {
 
 	private Settings[] createSettingsForTable(int numberOfDays, boolean today) {
 		Settings[] settings = new Settings[numberOfDays];
-		Arrays.fill(settings, defaultSetting());
+		Arrays.fill(settings, createSettings());
 		return settings;
 	}
 

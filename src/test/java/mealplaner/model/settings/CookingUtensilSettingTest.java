@@ -1,7 +1,7 @@
 package mealplaner.model.settings;
 
-import static mealplaner.model.settings.CookingUtensilSetting.defaultUtensilSetting;
-import static mealplaner.model.settings.CookingUtensilSetting.utensilSettingWithProhibited;
+import static mealplaner.model.settings.CookingUtensilSetting.createCookingUtensilSettings;
+import static mealplaner.model.settings.CookingUtensilSetting.from;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
@@ -33,7 +33,7 @@ public class CookingUtensilSettingTest {
 
 	@Before
 	public void setup() {
-		utensilSetting = utensilSettingWithProhibited(prohibitedUtensil);
+		utensilSetting = from(prohibitedUtensil);
 	}
 
 	@Test
@@ -70,7 +70,7 @@ public class CookingUtensilSettingTest {
 	@Test
 	public void reset() {
 		Set<ObligatoryUtensil> prohibitedUtensil = new HashSet<>();
-		utensilSetting = utensilSettingWithProhibited(prohibitedUtensil);
+		utensilSetting = from(prohibitedUtensil);
 		utensilSetting.setCasseroleSettings(CasseroleSettings.NONE);
 
 		utensilSetting.reset();
@@ -80,7 +80,7 @@ public class CookingUtensilSettingTest {
 
 	@Test
 	public void prohibit() {
-		utensilSetting = defaultUtensilSetting();
+		utensilSetting = createCookingUtensilSettings();
 		Meal meal = mock(Meal.class);
 		when(meal.getObligatoryUtensil()).thenReturn(ObligatoryUtensil.POT);
 		Meal mealPan = mock(Meal.class);
@@ -93,7 +93,7 @@ public class CookingUtensilSettingTest {
 
 	@Test
 	public void isUtensilProhibited() {
-		utensilSetting = defaultUtensilSetting();
+		utensilSetting = createCookingUtensilSettings();
 		utensilSetting.setNumberOfPeople(5);
 
 		assertTrue(utensilSetting.isUtensilProhibited(ObligatoryUtensil.PAN));

@@ -7,8 +7,7 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toMap;
 import static mealplaner.io.XMLHelpers.logEmptyOptional;
 import static mealplaner.io.XMLHelpers.logFailedXmlRetrieval;
-import static mealplaner.model.settings.Settings.copySettings;
-import static mealplaner.model.settings.Settings.defaultSetting;
+import static mealplaner.model.settings.Settings.createSettings;
 
 import java.time.DayOfWeek;
 import java.util.Arrays;
@@ -29,14 +28,14 @@ public class DefaultSettings {
 	private DefaultSettings(Map<DayOfWeek, Settings> defaultSettings) {
 		this.defaultSettings = defaultSettings;
 		DAYS_OF_WEEK.stream().forEach(dayOfWeek -> this.defaultSettings
-				.computeIfAbsent(dayOfWeek, day -> defaultSetting()));
+				.computeIfAbsent(dayOfWeek, day -> createSettings()));
 	}
 
-	public static DefaultSettings fromMap(Map<DayOfWeek, Settings> defaultSettings) {
+	public static DefaultSettings from(Map<DayOfWeek, Settings> defaultSettings) {
 		return new DefaultSettings(defaultSettings);
 	}
 
-	public static DefaultSettings defaultSettings() {
+	public static DefaultSettings createDefaultSettings() {
 		return new DefaultSettings(new HashMap<>());
 	}
 
@@ -46,7 +45,7 @@ public class DefaultSettings {
 
 	private static Map<DayOfWeek, Settings> copyHashMap(Map<DayOfWeek, Settings> defaultSettings) {
 		return defaultSettings.entrySet().stream()
-				.collect(toMap(entry -> entry.getKey(), entry -> copySettings(entry.getValue())));
+				.collect(toMap(entry -> entry.getKey(), entry -> Settings.copy(entry.getValue())));
 	}
 
 	public Map<DayOfWeek, Settings> getDefaultSettings() {
@@ -65,13 +64,13 @@ public class DefaultSettings {
 				defaultSettings.put(key.get(),
 						settingsList.item(i).getNodeType() == Node.ELEMENT_NODE
 								? Settings.loadFromXml((Element) settingsList.item(i))
-								: logFailedXmlRetrieval(defaultSetting(), "Settings " + key.get(),
+								: logFailedXmlRetrieval(createSettings(), "Settings " + key.get(),
 										defaultSettingsNode));
 			} else {
 				logEmptyOptional(key, "Day of week " + i, defaultSettingsNode);
 			}
 		}
-		return fromMap(defaultSettings);
+		return from(defaultSettings);
 	}
 
 	public static Element writeDefaultSettings(Document saveFileContent,

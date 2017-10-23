@@ -40,7 +40,7 @@ public class Proposal {
 		this.includeToday = includeToday;
 	}
 
-	public static Proposal prepareProposal(boolean includeToday) {
+	public static Proposal with(boolean includeToday) {
 		return new Proposal(now(), includeToday);
 	}
 

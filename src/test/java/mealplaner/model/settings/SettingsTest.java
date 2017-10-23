@@ -9,7 +9,7 @@ import static mealplaner.model.enums.CookingTime.VERY_SHORT;
 import static mealplaner.model.settings.CookingTimeSetting.cookingTimeWithProhibited;
 import static mealplaner.model.settings.Settings.generateXml;
 import static mealplaner.model.settings.Settings.loadFromXml;
-import static mealplaner.model.settings.Settings.settings;
+import static mealplaner.model.settings.Settings.from;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.createDocument;
 import static testcommons.CommonFunctions.getSettings1;
@@ -65,7 +65,7 @@ public class SettingsTest {
 
 		sut = Settings.loadFromXml(settingsNode);
 
-		Settings expectedSettings = settings(cookingTimeWithProhibited(VERY_SHORT),
+		Settings expectedSettings = from(cookingTimeWithProhibited(VERY_SHORT),
 				nonNegative(2),
 				CasseroleSettings.NONE, PreferenceSettings.NORMAL);
 

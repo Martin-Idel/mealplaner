@@ -15,12 +15,12 @@ public class CookingPreferenceSetting implements CookingSetting {
 		this.prohibitedCookingPreference = prohibitedCookingPreference;
 	}
 
-	public static CookingPreferenceSetting cookingPreferences(
+	public static CookingPreferenceSetting from(
 			Set<CookingPreference> prohibitedCookingPreference) {
 		return new CookingPreferenceSetting(prohibitedCookingPreference);
 	}
 
-	public static CookingPreferenceSetting defaultCookingPreferences() {
+	public static CookingPreferenceSetting createCookingPreferenceSettings() {
 		return new CookingPreferenceSetting(new HashSet<>());
 	}
 

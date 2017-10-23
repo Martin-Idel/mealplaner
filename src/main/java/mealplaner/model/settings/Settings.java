@@ -7,11 +7,11 @@ import static mealplaner.io.XMLHelpers.readEnum;
 import static mealplaner.io.XMLHelpers.readInt;
 import static mealplaner.model.enums.CasseroleSettings.POSSIBLE;
 import static mealplaner.model.enums.PreferenceSettings.NORMAL;
-import static mealplaner.model.settings.CookingPreferenceSetting.defaultCookingPreferences;
+import static mealplaner.model.settings.CookingPreferenceSetting.createCookingPreferenceSettings;
 import static mealplaner.model.settings.CookingTimeSetting.copyCookingTimeSetting;
 import static mealplaner.model.settings.CookingTimeSetting.defaultCookingTime;
 import static mealplaner.model.settings.CookingUtensilSetting.copyUtensilSetting;
-import static mealplaner.model.settings.CookingUtensilSetting.defaultUtensilSetting;
+import static mealplaner.model.settings.CookingUtensilSetting.createCookingUtensilSettings;
 
 import java.time.DayOfWeek;
 
@@ -40,9 +40,9 @@ public class Settings {
 			NonnegativeInteger numberOfPeople,
 			CasseroleSettings casseroleSettings,
 			PreferenceSettings preferenceSettings) {
-		this.cookingPreferences = defaultCookingPreferences();
+		this.cookingPreferences = createCookingPreferenceSettings();
 		this.cookingTime = cookingTime;
-		this.cookingUtensil = defaultUtensilSetting();
+		this.cookingUtensil = createCookingUtensilSettings();
 		this.numberOfPeople = numberOfPeople;
 		this.cookingUtensil.setNumberOfPeople(numberOfPeople.value);
 		this.casseroleSettings = casseroleSettings;
@@ -56,24 +56,24 @@ public class Settings {
 		this.casseroleSettings = setting.getCasserole();
 		this.preference = setting.getPreference();
 		this.numberOfPeople = setting.getNumberOfPeople();
-		this.cookingPreferences = defaultCookingPreferences();
+		this.cookingPreferences = createCookingPreferenceSettings();
 		this.cookingPreferences.setCookingPreferences(this.preference);
 		this.cookingTime = copyCookingTimeSetting(setting.getCookingTime());
 		this.cookingUtensil = copyUtensilSetting(setting.getCookingUtensil());
 	}
 
-	public static Settings settings(CookingTimeSetting cookingTime,
+	public static Settings from(CookingTimeSetting cookingTime,
 			NonnegativeInteger numberOfPeople,
 			CasseroleSettings casseroleSettings,
 			PreferenceSettings preferenceSettings) {
 		return new Settings(cookingTime, numberOfPeople, casseroleSettings, preferenceSettings);
 	}
 
-	public static Settings defaultSetting() {
+	public static Settings createSettings() {
 		return new Settings(defaultCookingTime(), nonNegative(2), POSSIBLE, NORMAL);
 	}
 
-	public static Settings copySettings(Settings setting) {
+	public static Settings copy(Settings setting) {
 		return new Settings(setting);
 	}
 

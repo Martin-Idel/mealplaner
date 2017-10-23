@@ -3,8 +3,8 @@ package mealplaner.gui.dialogs.settingsinput;
 import static java.time.format.DateTimeFormatter.ofLocalizedDate;
 import static java.time.format.FormatStyle.SHORT;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
-import static mealplaner.model.settings.Settings.copySettings;
-import static mealplaner.model.settings.Settings.settings;
+import static mealplaner.model.settings.Settings.copy;
+import static mealplaner.model.settings.Settings.from;
 
 import java.time.LocalDate;
 import java.util.Locale;
@@ -34,7 +34,7 @@ public class SettingTableModel extends AbstractTableModel {
 		date = localDate;
 		workingCopy = new Settings[settings.length];
 		for (int i = 0; i < settings.length; i++) {
-			workingCopy[i] = copySettings(settings[i]);
+			workingCopy[i] = copy(settings[i]);
 		}
 		update(workingCopy);
 	}
@@ -119,7 +119,7 @@ public class SettingTableModel extends AbstractTableModel {
 		default:
 			return;
 		}
-		workingCopy[row] = settings(newCookingTimeSetting, nonNegative(numberOfPeople),
+		workingCopy[row] = from(newCookingTimeSetting, nonNegative(numberOfPeople),
 				newCasseroleSettings, newPreferenceSettings);
 		fireTableCellUpdated(row, col);
 	}

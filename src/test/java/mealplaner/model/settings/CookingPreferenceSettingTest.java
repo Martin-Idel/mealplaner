@@ -1,7 +1,7 @@
 package mealplaner.model.settings;
 
-import static mealplaner.model.settings.CookingPreferenceSetting.cookingPreferences;
-import static mealplaner.model.settings.CookingPreferenceSetting.defaultCookingPreferences;
+import static mealplaner.model.settings.CookingPreferenceSetting.createCookingPreferenceSettings;
+import static mealplaner.model.settings.CookingPreferenceSetting.from;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
@@ -33,7 +33,7 @@ public class CookingPreferenceSettingTest {
 
 	@Before
 	public void setup() {
-		utensilSetting = cookingPreferences(prohibitedpreference);
+		utensilSetting = from(prohibitedpreference);
 	}
 
 	@Test
@@ -56,7 +56,7 @@ public class CookingPreferenceSettingTest {
 	@Test
 	public void reset() {
 		Set<CookingPreference> prohibitedUtensil = new HashSet<>();
-		utensilSetting = cookingPreferences(prohibitedUtensil);
+		utensilSetting = from(prohibitedUtensil);
 		utensilSetting.setCookingPreferences(PreferenceSettings.RARE_NONE);
 
 		utensilSetting.reset();
@@ -66,7 +66,7 @@ public class CookingPreferenceSettingTest {
 
 	@Test
 	public void prohibit() {
-		utensilSetting = defaultCookingPreferences();
+		utensilSetting = createCookingPreferenceSettings();
 		Meal rareMeal = mock(Meal.class);
 		when(rareMeal.getCookingPreference()).thenReturn(CookingPreference.RARE);
 		Meal veryPopularMeal = mock(Meal.class);

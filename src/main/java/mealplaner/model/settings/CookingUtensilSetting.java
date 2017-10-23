@@ -15,11 +15,11 @@ public class CookingUtensilSetting implements CookingSetting {
 		this.prohibitedUtensil = prohibitedUtensil;
 	}
 
-	public static CookingUtensilSetting defaultUtensilSetting() {
+	public static CookingUtensilSetting createCookingUtensilSettings() {
 		return new CookingUtensilSetting(new HashSet<>());
 	}
 
-	public static CookingUtensilSetting utensilSettingWithProhibited(
+	public static CookingUtensilSetting from(
 			Set<ObligatoryUtensil> utensils) {
 		return new CookingUtensilSetting(utensils);
 	}

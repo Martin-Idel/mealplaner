@@ -1,7 +1,7 @@
 package mealplaner.gui.databaseedit;
 
-import static mealplaner.model.Meal.cloneMeal;
-import static mealplaner.model.Meal.meal;
+import static mealplaner.model.Meal.copy;
+import static mealplaner.model.Meal.createMeal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -155,7 +155,7 @@ public class DataBaseTableModel extends AbstractTableModel {
 			break;
 		}
 		workingCopy.set(row,
-				meal(name, cookingTime, sideDish, obligatoryUtensil,
+				createMeal(name, cookingTime, sideDish, obligatoryUtensil,
 						cookingPreference, daysPassed, comment, meal.getRecipe()));
 		fireTableCellUpdated(row, col);
 		onlyActiveOnChangedButtons.enableButtons();
@@ -174,7 +174,7 @@ public class DataBaseTableModel extends AbstractTableModel {
 	private List<Meal> createWorkingCopy(List<Meal> meals) {
 		List<Meal> workingCopy = new ArrayList<>();
 		meals.forEach(meal -> {
-			Meal copy = cloneMeal(meal);
+			Meal copy = copy(meal);
 			workingCopy.add(copy);
 		});
 		return workingCopy;
