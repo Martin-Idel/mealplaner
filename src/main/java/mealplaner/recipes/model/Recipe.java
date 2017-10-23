@@ -31,6 +31,10 @@ public class Recipe {
 		this.ingredients = ingredients;
 	}
 
+	public static Recipe createRecipe() {
+		return new Recipe(1, new HashMap<>());
+	}
+
 	public int getNumberOfPortions() {
 		return numberOfPortions;
 	}

@@ -6,6 +6,7 @@ import static mealplaner.model.enums.CookingPreference.getCookingPreferenceStrin
 import static mealplaner.model.enums.CookingTime.getCookingTimeStrings;
 import static mealplaner.model.enums.ObligatoryUtensil.getObligatoryUtensilStrings;
 import static mealplaner.model.enums.Sidedish.getSidedishStrings;
+import static mealplaner.recipes.model.Recipe.createRecipe;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -89,15 +90,16 @@ public abstract class MealInput extends JDialog {
 				bundles.message("createRecipeLabel"),
 				bundles.message("editRecipeButtonLabel"),
 				bundles.message("createRecipeButtonLabel"),
-				of(new Recipe()), () -> {
-					return createRecipeDialog(ingredientProvider);
+				of(createRecipe()), content -> {
+					return createRecipeDialog(ingredientProvider, content);
 				});
 	}
 
-	private Optional<Recipe> createRecipeDialog(IngredientProvider ingredientProvider) {
+	private Optional<Recipe> createRecipeDialog(IngredientProvider ingredientProvider,
+			Optional<Recipe> recipe) {
 		RecipeInput recipeInput = new RecipeInput(parentFrame,
 				bundles.message("recipeInputDialogTitle"));
-		return recipeInput.showDialog(of(new Recipe()), bundles, ingredientProvider);
+		return recipeInput.showDialog(recipe, bundles, ingredientProvider);
 	}
 
 	protected void display(ActionListener saveListener) {
