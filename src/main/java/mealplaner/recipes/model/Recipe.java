@@ -87,7 +87,7 @@ public class Recipe {
 		return true;
 	}
 
-	public static Element generateXml(Document saveFileContent, Recipe recipe,
+	public static Element writeRecipe(Document saveFileContent, Recipe recipe,
 			String elementName) {
 		Element recipeNode = saveFileContent.createElement(elementName);
 		recipeNode.appendChild(createTextNode(saveFileContent, "numberOfPortions",
@@ -104,7 +104,7 @@ public class Recipe {
 		return recipeNode;
 	}
 
-	public static Recipe loadFromXml(Element currentRecipe) {
+	public static Recipe loadRecipe(Element currentRecipe) {
 		int numberOfPortions = XMLHelpers.readInt(1, currentRecipe, "numberOfPortions");
 		NodeList elementsByTagName = currentRecipe.getElementsByTagName("recipePart");
 		Map<Ingredient, Integer> entries = new HashMap<>();

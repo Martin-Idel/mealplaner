@@ -6,8 +6,8 @@ import static mealplaner.DataStoreEventType.DATABASE_EDITED;
 import static mealplaner.DataStoreEventType.DATE_UPDATED;
 import static mealplaner.DataStoreEventType.PROPOSAL_ADDED;
 import static mealplaner.DataStoreEventType.SETTINGS_CHANGED;
-import static mealplaner.MealplanerData.generateXml;
-import static mealplaner.MealplanerData.readXml;
+import static mealplaner.MealplanerData.writeMealplanerData;
+import static mealplaner.MealplanerData.parseMealplanerData;
 import static mealplaner.model.Meal.createMeal;
 import static mealplaner.model.Proposal.createProposal;
 import static mealplaner.model.settings.DefaultSettings.createDefaultSettings;
@@ -154,7 +154,7 @@ public class MealplanerDataTest {
 
 		sut = new MealplanerData(meals, date, createDefaultSettings(), lastProposal);
 
-		MealplanerData actual = readXml(generateXml(saveFileContent, sut));
+		MealplanerData actual = parseMealplanerData(writeMealplanerData(saveFileContent, sut));
 		assertThat(actual.getMeals()).asList().containsAll(sut.getMeals());
 		assertThat(actual.getDaysPassed()).isEqualByComparingTo(sut.getDaysPassed());
 		assertThat(actual.getLastProposal()).isEqualTo(sut.getLastProposal());

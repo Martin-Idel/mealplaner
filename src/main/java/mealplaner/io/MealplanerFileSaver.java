@@ -31,7 +31,7 @@ public class MealplanerFileSaver {
 			Element root = saveFileContent.createElement("mealplaner");
 			saveFileContent.appendChild(root);
 
-			root.appendChild(MealplanerData.generateXml(saveFileContent, mealplaner));
+			root.appendChild(MealplanerData.writeMealplanerData(saveFileContent, mealplaner));
 
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();

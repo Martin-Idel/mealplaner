@@ -1,6 +1,6 @@
 package mealplaner.model;
 
-import static mealplaner.model.Proposal.getFromXml;
+import static mealplaner.model.Proposal.readProposal;
 import static mealplaner.model.Proposal.writeProposal;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.createDocument;
@@ -27,7 +27,7 @@ public class ProposalTest {
 		Proposal expected = new Proposal(meals, date, true);
 		Document saveFileContent = createDocument();
 
-		Proposal actual = getFromXml(writeProposal(saveFileContent, expected, "proposal"));
+		Proposal actual = readProposal(writeProposal(saveFileContent, expected, "proposal"));
 
 		assertThat(actual).isEqualTo(expected);
 	}

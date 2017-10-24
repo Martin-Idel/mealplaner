@@ -113,7 +113,7 @@ public class Settings {
 		return preference;
 	}
 
-	public static Element generateXml(Document saveFileContent,
+	public static Element writeSettings(Document saveFileContent,
 			Settings settings,
 			DayOfWeek dayOfWeek,
 			String elementName) {
@@ -148,7 +148,7 @@ public class Settings {
 		return settingsNode;
 	}
 
-	public static Settings loadFromXml(Element currentSetting) {
+	public static Settings parseSettings(Element currentSetting) {
 		CasseroleSettings casseroleSettings = readEnum(CasseroleSettings.POSSIBLE,
 				CasseroleSettings::valueOf, currentSetting, "casseroleSettings");
 		PreferenceSettings preferenceSetting = readEnum(PreferenceSettings.NORMAL,

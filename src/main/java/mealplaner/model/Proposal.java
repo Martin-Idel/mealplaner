@@ -2,10 +2,11 @@ package mealplaner.model;
 
 import static java.time.LocalDate.now;
 import static mealplaner.io.XMLHelpers.createTextNode;
-import static mealplaner.io.XMLHelpers.getMealListFromXml;
 import static mealplaner.io.XMLHelpers.parseDate;
+import static mealplaner.io.XMLHelpers.parseMealList;
 import static mealplaner.io.XMLHelpers.readBoolean;
-import static mealplaner.io.XMLHelpers.saveMealsToXml;
+import static mealplaner.io.XMLHelpers.writeDate;
+import static mealplaner.io.XMLHelpers.writeMealList;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,8 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-
-import mealplaner.io.XMLHelpers;
 
 public class Proposal {
 	private static final Logger logger = LoggerFactory.getLogger(Proposal.class);
@@ -72,19 +71,18 @@ public class Proposal {
 			String elementName) {
 		Element proposalNode = saveFileContent.createElement(elementName);
 		proposalNode
-				.appendChild(saveMealsToXml(saveFileContent, proposal.mealList, "proposalList"));
-		proposalNode.appendChild(
-				XMLHelpers.writeDate(saveFileContent, proposal.date, "timeOfProposal"));
+				.appendChild(writeMealList(saveFileContent, proposal.mealList, "proposalList"));
+		proposalNode.appendChild(writeDate(saveFileContent, proposal.date, "timeOfProposal"));
 		proposalNode.appendChild(createTextNode(saveFileContent, "includesToday",
 				() -> Boolean.toString(proposal.includeToday)));
 		return proposalNode;
 	}
 
-	public static Proposal getFromXml(Element proposalNode) {
+	public static Proposal readProposal(Element proposalNode) {
 		List<Meal> meals = new ArrayList<>();
 		Node mealsNode = proposalNode.getElementsByTagName("proposalList").item(0);
 		if (mealsNode.getNodeType() == Node.ELEMENT_NODE) {
-			meals = getMealListFromXml((Element) mealsNode);
+			meals = parseMealList((Element) mealsNode);
 		} else {
 			logger.warn("List of meals in Proposal of" + proposalNode.toString()
 					+ " could not be found");

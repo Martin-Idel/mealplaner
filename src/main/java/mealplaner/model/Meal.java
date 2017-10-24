@@ -149,7 +149,7 @@ public class Meal implements Comparable<Meal> {
 		return name;
 	}
 
-	public static Element generateXml(Document saveFileContent, Meal meal, String elementName) {
+	public static Element writeMeal(Document saveFileContent, Meal meal, String elementName) {
 		Element mealNode = saveFileContent.createElement(elementName);
 		mealNode.setAttribute("name", meal.getName());
 
@@ -171,12 +171,12 @@ public class Meal implements Comparable<Meal> {
 				() -> Integer.toString(meal.getDaysPassed())));
 		if (meal.getRecipe().isPresent()) {
 			mealNode.appendChild(
-					Recipe.generateXml(saveFileContent, meal.getRecipe().get(), "recipe"));
+					Recipe.writeRecipe(saveFileContent, meal.getRecipe().get(), "recipe"));
 		}
 		return mealNode;
 	}
 
-	public static Meal loadFromXml(Element currentMeal) {
+	public static Meal readMeal(Element currentMeal) {
 		String name = readString("corruptedName",
 				() -> currentMeal.getAttributes().getNamedItem("name").getTextContent(),
 				currentMeal,
@@ -194,7 +194,7 @@ public class Meal implements Comparable<Meal> {
 		Optional<Recipe> recipeOptional = empty();
 		if (recipeNodeList.getLength() != 0) {
 			Recipe recipe = recipeNodeList.item(0).getNodeType() == Node.ELEMENT_NODE
-					? Recipe.loadFromXml((Element) recipeNodeList.item(0))
+					? Recipe.loadRecipe((Element) recipeNodeList.item(0))
 					: XMLHelpers.logFailedXmlRetrieval(new Recipe(), "recipe", currentMeal);
 			recipeOptional = of(recipe);
 		}

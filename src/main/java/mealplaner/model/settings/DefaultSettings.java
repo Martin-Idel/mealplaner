@@ -8,6 +8,8 @@ import static java.util.stream.Collectors.toMap;
 import static mealplaner.io.XMLHelpers.logEmptyOptional;
 import static mealplaner.io.XMLHelpers.logFailedXmlRetrieval;
 import static mealplaner.model.settings.Settings.createSettings;
+import static mealplaner.model.settings.Settings.parseSettings;
+import static mealplaner.model.settings.Settings.writeSettings;
 
 import java.time.DayOfWeek;
 import java.util.Arrays;
@@ -63,7 +65,7 @@ public class DefaultSettings {
 			if (key.isPresent()) {
 				defaultSettings.put(key.get(),
 						settingsList.item(i).getNodeType() == Node.ELEMENT_NODE
-								? Settings.loadFromXml((Element) settingsList.item(i))
+								? parseSettings((Element) settingsList.item(i))
 								: logFailedXmlRetrieval(createSettings(), "Settings " + key.get(),
 										defaultSettingsNode));
 			} else {
@@ -77,7 +79,7 @@ public class DefaultSettings {
 			DefaultSettings defaultSettings, String nodeName) {
 		Element defaultSettingsNode = saveFileContent.createElement(nodeName);
 		for (DayOfWeek dayOfWeek : DayOfWeek.values()) {
-			defaultSettingsNode.appendChild(Settings.generateXml(saveFileContent,
+			defaultSettingsNode.appendChild(writeSettings(saveFileContent,
 					defaultSettings.defaultSettings.get(dayOfWeek), dayOfWeek, "setting"));
 		}
 		return defaultSettingsNode;

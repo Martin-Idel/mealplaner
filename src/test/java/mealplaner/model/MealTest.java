@@ -68,7 +68,7 @@ public class MealTest {
 		Meal meal = getMeal2();
 		Document saveFileContent = createDocument();
 
-		sut = Meal.loadFromXml(Meal.generateXml(saveFileContent, meal, "meal"));
+		sut = Meal.readMeal(Meal.writeMeal(saveFileContent, meal, "meal"));
 
 		assertThat(sut).isEqualTo(meal);
 	}
@@ -85,7 +85,7 @@ public class MealTest {
 				"cookingTime",
 				() -> meal.getCookingTime().name()));
 
-		sut = Meal.loadFromXml(mealNode);
+		sut = Meal.readMeal(mealNode);
 
 		Meal expectedMeal = createMeal(meal.getName(), meal.getCookingTime(), Sidedish.NONE,
 				ObligatoryUtensil.POT, CookingPreference.NO_PREFERENCE, 0, meal.getComment(),

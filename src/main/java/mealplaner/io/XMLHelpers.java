@@ -93,20 +93,20 @@ public final class XMLHelpers {
 		return name;
 	}
 
-	public static Element saveMealsToXml(Document saveFileContent, List<Meal> meals,
+	public static Element writeMealList(Document saveFileContent, List<Meal> meals,
 			String nodeName) {
 		Element mealListNode = saveFileContent.createElement(nodeName);
-		meals.stream().map(meal -> Meal.generateXml(saveFileContent, meal, "meal"))
+		meals.stream().map(meal -> Meal.writeMeal(saveFileContent, meal, "meal"))
 				.forEach(mealListNode::appendChild);
 		return mealListNode;
 	}
 
-	public static List<Meal> getMealListFromXml(Element mealListNode) {
+	public static List<Meal> parseMealList(Element mealListNode) {
 		NodeList elementsByTagName = mealListNode.getElementsByTagName("meal");
 		List<Meal> meals = new ArrayList<>();
 		for (int i = 0; i < elementsByTagName.getLength(); i++) {
 			if (elementsByTagName.item(i).getNodeType() == Node.ELEMENT_NODE) {
-				Meal meal = Meal.loadFromXml((Element) elementsByTagName.item(i));
+				Meal meal = Meal.readMeal((Element) elementsByTagName.item(i));
 				meals.add(meal);
 			} else {
 				logger.warn("A meal in a MealList could not be read properly");

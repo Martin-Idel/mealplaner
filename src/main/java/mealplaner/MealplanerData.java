@@ -11,13 +11,16 @@ import static mealplaner.DataStoreEventType.SETTINGS_CHANGED;
 import static mealplaner.io.XMLHelpers.getFirstNode;
 import static mealplaner.io.XMLHelpers.logFailedXmlRetrieval;
 import static mealplaner.io.XMLHelpers.parseDate;
-import static mealplaner.io.XMLHelpers.saveMealsToXml;
+import static mealplaner.io.XMLHelpers.parseMealList;
 import static mealplaner.io.XMLHelpers.writeDate;
+import static mealplaner.io.XMLHelpers.writeMealList;
 import static mealplaner.model.Meal.addDaysPassed;
 import static mealplaner.model.Meal.setDaysPassed;
 import static mealplaner.model.Proposal.createProposal;
+import static mealplaner.model.Proposal.readProposal;
 import static mealplaner.model.Proposal.writeProposal;
 import static mealplaner.model.settings.DefaultSettings.createDefaultSettings;
+import static mealplaner.model.settings.DefaultSettings.parseDefaultSettings;
 import static mealplaner.model.settings.DefaultSettings.writeDefaultSettings;
 
 import java.time.LocalDate;
@@ -29,7 +32,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import mealplaner.io.XMLHelpers;
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
 import mealplaner.model.settings.DefaultSettings;
@@ -122,15 +124,15 @@ public class MealplanerData implements DataStore {
 		listeners.add(listener);
 	}
 
-	public static MealplanerData readXml(Element mealPlanerNode) {
+	public static MealplanerData parseMealplanerData(Element mealPlanerNode) {
 		Optional<Node> mealList = getFirstNode(mealPlanerNode, "mealList");
 		List<Meal> meals = mealList.isPresent() && mealList.get().getNodeType() == Node.ELEMENT_NODE
-				? XMLHelpers.getMealListFromXml((Element) mealList.get())
+				? parseMealList((Element) mealList.get())
 				: logFailedXmlRetrieval(new ArrayList<>(), "Proposal", mealPlanerNode);
 		Optional<Node> settings = getFirstNode(mealPlanerNode, "defaultSettings");
 		DefaultSettings defaultSettings = settings.isPresent()
 				&& settings.get().getNodeType() == Node.ELEMENT_NODE
-						? DefaultSettings.parseDefaultSettings((Element) settings.get())
+						? parseDefaultSettings((Element) settings.get())
 						: logFailedXmlRetrieval(DefaultSettings.createDefaultSettings(), "Calendar",
 								mealPlanerNode);
 		Optional<Node> calendarNode = getFirstNode(mealPlanerNode, "date");
@@ -142,14 +144,15 @@ public class MealplanerData implements DataStore {
 		Optional<Node> proposalNode = getFirstNode(mealPlanerNode, "proposal");
 		Proposal proposal = proposalNode.isPresent()
 				&& proposalNode.get().getNodeType() == Node.ELEMENT_NODE
-						? Proposal.getFromXml((Element) proposalNode.get())
+						? readProposal((Element) proposalNode.get())
 						: logFailedXmlRetrieval(createProposal(), "Proposal", mealPlanerNode);
 		return new MealplanerData(meals, date, defaultSettings, proposal);
 	}
 
-	public static Element generateXml(Document saveFileContent, MealplanerData mealplanerData) {
+	public static Element writeMealplanerData(Document saveFileContent,
+			MealplanerData mealplanerData) {
 		Element mealplanerDataNode = saveFileContent.createElement("mealplaner");
-		mealplanerDataNode.appendChild(saveMealsToXml(
+		mealplanerDataNode.appendChild(writeMealList(
 				saveFileContent,
 				mealplanerData.meals,
 				"mealList"));

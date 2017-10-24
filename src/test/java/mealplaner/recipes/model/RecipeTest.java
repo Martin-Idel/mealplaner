@@ -1,7 +1,7 @@
 package mealplaner.recipes.model;
 
-import static mealplaner.recipes.model.Recipe.generateXml;
-import static mealplaner.recipes.model.Recipe.loadFromXml;
+import static mealplaner.recipes.model.Recipe.writeRecipe;
+import static mealplaner.recipes.model.Recipe.loadRecipe;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.HashMap;
@@ -32,7 +32,7 @@ public class RecipeTest {
 		Recipe expected = new Recipe(2, ingredients);
 		Document doc = CommonFunctions.createDocument();
 
-		Recipe actual = loadFromXml(generateXml(doc, expected, "recipe"));
+		Recipe actual = loadRecipe(writeRecipe(doc, expected, "recipe"));
 
 		assertThat(actual).isEqualTo(expected);
 	}

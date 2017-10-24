@@ -1,9 +1,9 @@
 package mealplaner.io;
 
 import static mealplaner.io.XMLHelpers.writeDate;
-import static mealplaner.io.XMLHelpers.getMealListFromXml;
+import static mealplaner.io.XMLHelpers.parseMealList;
 import static mealplaner.io.XMLHelpers.parseDate;
-import static mealplaner.io.XMLHelpers.saveMealsToXml;
+import static mealplaner.io.XMLHelpers.writeMealList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.createDocument;
 import static testcommons.CommonFunctions.getMeal1;
@@ -84,8 +84,8 @@ public class XMLHelperTest {
 		meals.add(getMeal1());
 		meals.add(getMeal2());
 
-		List<Meal> actualMeals = getMealListFromXml(
-				saveMealsToXml(saveDocument, meals, "mealList"));
+		List<Meal> actualMeals = parseMealList(
+				writeMealList(saveDocument, meals, "mealList"));
 
 		assertThat(meals).asList().containsAll(actualMeals);
 	}

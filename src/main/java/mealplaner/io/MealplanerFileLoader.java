@@ -36,7 +36,7 @@ public class MealplanerFileLoader {
 			Document parsedDocument = documentBuilder.parse(inputFile);
 			parsedDocument.getDocumentElement().normalize();
 
-			return MealplanerData.readXml((Element) parsedDocument.getDocumentElement()
+			return MealplanerData.parseMealplanerData((Element) parsedDocument.getDocumentElement()
 					.getElementsByTagName("mealplaner").item(0));
 
 		} catch (ParserConfigurationException e) {

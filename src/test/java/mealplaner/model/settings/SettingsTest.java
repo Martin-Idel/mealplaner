@@ -7,8 +7,8 @@ import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.io.XMLHelpers.createTextNode;
 import static mealplaner.model.enums.CookingTime.VERY_SHORT;
 import static mealplaner.model.settings.CookingTimeSetting.cookingTimeWithProhibited;
-import static mealplaner.model.settings.Settings.generateXml;
-import static mealplaner.model.settings.Settings.loadFromXml;
+import static mealplaner.model.settings.Settings.writeSettings;
+import static mealplaner.model.settings.Settings.parseSettings;
 import static mealplaner.model.settings.Settings.from;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.createDocument;
@@ -32,7 +32,7 @@ public class SettingsTest {
 		Settings settings = getSettings1();
 		Document saveFileContent = createDocument();
 
-		sut = loadFromXml(generateXml(saveFileContent, settings, MONDAY, "setting"));
+		sut = parseSettings(writeSettings(saveFileContent, settings, MONDAY, "setting"));
 
 		assertThat(sut).isEqualTo(settings);
 	}
@@ -42,7 +42,7 @@ public class SettingsTest {
 		Settings settings = getSettings1();
 		Document saveFileContent = createDocument();
 
-		Element testElement = Settings.generateXml(saveFileContent, settings, WEDNESDAY, "setting");
+		Element testElement = Settings.writeSettings(saveFileContent, settings, WEDNESDAY, "setting");
 
 		assertThat(WEDNESDAY).isEqualTo(valueOf(
 				testElement.getAttributes().getNamedItem("dayOfWeek").getTextContent()));
@@ -63,7 +63,7 @@ public class SettingsTest {
 				() -> Boolean.toString(
 						settings.getCookingTime().isTimeProhibited(VERY_SHORT))));
 
-		sut = Settings.loadFromXml(settingsNode);
+		sut = Settings.parseSettings(settingsNode);
 
 		Settings expectedSettings = from(cookingTimeWithProhibited(VERY_SHORT),
 				nonNegative(2),
