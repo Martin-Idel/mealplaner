@@ -4,6 +4,7 @@ import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static mealplaner.io.XMLHelpers.createTextNode;
 import static mealplaner.io.XMLHelpers.readEnum;
+import static mealplaner.recipes.model.Recipe.createRecipe;
 
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -195,7 +196,7 @@ public class Meal implements Comparable<Meal> {
 		if (recipeNodeList.getLength() != 0) {
 			Recipe recipe = recipeNodeList.item(0).getNodeType() == Node.ELEMENT_NODE
 					? Recipe.loadRecipe((Element) recipeNodeList.item(0))
-					: XMLHelpers.logFailedXmlRetrieval(new Recipe(), "recipe", currentMeal);
+					: XMLHelpers.logFailedXmlRetrieval(createRecipe(), "recipe", currentMeal);
 			recipeOptional = of(recipe);
 		}
 		return new Meal(name, cookingTime, sidedish, obligatoryUtensil,

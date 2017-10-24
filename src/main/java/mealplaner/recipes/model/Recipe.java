@@ -22,13 +22,13 @@ public class Recipe {
 	private final int numberOfPortions;
 	private Map<Ingredient, Integer> ingredients;
 
-	public Recipe() {
-		this(1, new HashMap<>());
-	}
-
-	public Recipe(int numberOfPortions, Map<Ingredient, Integer> ingredients) {
+	private Recipe(int numberOfPortions, Map<Ingredient, Integer> ingredients) {
 		this.numberOfPortions = numberOfPortions;
 		this.ingredients = ingredients;
+	}
+
+	public static Recipe from(int numberOfPortions, Map<Ingredient, Integer> ingredients) {
+		return new Recipe(numberOfPortions, ingredients);
 	}
 
 	public static Recipe createRecipe() {
@@ -37,18 +37,6 @@ public class Recipe {
 
 	public int getNumberOfPortions() {
 		return numberOfPortions;
-	}
-
-	public void put(Ingredient ingredient, int amount) {
-		ingredients.putIfAbsent(ingredient, amount);
-	}
-
-	public int remove(Ingredient ingredient) {
-		return ingredients.remove(ingredient);
-	}
-
-	public void replace(Ingredient ingredient, int amount) {
-		ingredients.replace(ingredient, amount);
 	}
 
 	public Map<Ingredient, Integer> getRecipeFor(final int numberOfPeople) {

@@ -11,13 +11,13 @@ import static testcommons.CommonFunctions.getIngredient1;
 import static testcommons.CommonFunctions.getIngredient2;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import mealplaner.BundleStore;
-import mealplaner.recipes.gui.dialogs.recepies.RecipeTableModel;
 import mealplaner.recipes.model.Ingredient;
 import mealplaner.recipes.model.Measure;
 import mealplaner.recipes.model.Recipe;
@@ -44,9 +44,10 @@ public class RecipeTableModelTest {
 
 	@Test
 	public void gettingIngredientsFromKnownRecipeWorksCorrectly() {
-		Recipe recipe = new Recipe();
-		recipe.put(getIngredient1(), 100);
-		recipe.put(getIngredient2(), 50);
+		Map<Ingredient, Integer> recipeMap = new HashMap<>();
+		recipeMap.put(getIngredient1(), 100);
+		recipeMap.put(getIngredient2(), 50);
+		Recipe recipe = Recipe.from(1, recipeMap);
 
 		recipeTableModel = new RecipeTableModel(bundleStore, of(recipe));
 
@@ -57,9 +58,10 @@ public class RecipeTableModelTest {
 
 	@Test
 	public void gettingMeasuresFromKnownRecipeWorksCorrectly() {
-		Recipe recipe = new Recipe();
-		recipe.put(getIngredient1(), 100);
-		recipe.put(getIngredient2(), 50);
+		Map<Ingredient, Integer> recipeMap = new HashMap<>();
+		recipeMap.put(getIngredient1(), 100);
+		recipeMap.put(getIngredient2(), 50);
+		Recipe recipe = Recipe.from(1, recipeMap);
 
 		recipeTableModel = new RecipeTableModel(bundleStore, of(recipe));
 
@@ -70,9 +72,10 @@ public class RecipeTableModelTest {
 
 	@Test
 	public void gettingAmountsFromKnownRecipeWorksCorrectly() {
-		Recipe recipe = new Recipe();
-		recipe.put(getIngredient1(), 100);
-		recipe.put(getIngredient2(), 50);
+		Map<Ingredient, Integer> recipeMap = new HashMap<>();
+		recipeMap.put(getIngredient1(), 100);
+		recipeMap.put(getIngredient2(), 50);
+		Recipe recipe = Recipe.from(1, recipeMap);
 
 		recipeTableModel = new RecipeTableModel(bundleStore, of(recipe));
 
@@ -212,9 +215,10 @@ public class RecipeTableModelTest {
 		recipeTableModel.setValueAt(getIngredient2(), 1, 0);
 		recipeTableModel.setValueAt(Integer.toString(50), 0, 1);
 		recipeTableModel.setValueAt(Integer.toString(100), 1, 1);
-		Recipe expectedRecipe = new Recipe(1, new HashMap<>());
-		expectedRecipe.put(getIngredient1(), 50);
-		expectedRecipe.put(getIngredient2(), 100);
+		Map<Ingredient, Integer> recipeMap = new HashMap<>();
+		recipeMap.put(getIngredient1(), 50);
+		recipeMap.put(getIngredient2(), 100);
+		Recipe expectedRecipe = Recipe.from(1, recipeMap);
 		return expectedRecipe;
 	}
 }

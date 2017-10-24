@@ -67,7 +67,7 @@ public class CommonFunctions {
 		ingredients.put(getIngredient2(), 200);
 		return createMeal("Test2", CookingTime.SHORT, Sidedish.NONE,
 				ObligatoryUtensil.POT, CookingPreference.NO_PREFERENCE, 1, "",
-				of(new Recipe(2, ingredients)));
+				of(Recipe.from(2, ingredients)));
 	}
 
 	public static Ingredient getIngredient1() {

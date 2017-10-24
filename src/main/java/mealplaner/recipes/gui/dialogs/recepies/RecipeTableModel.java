@@ -120,7 +120,7 @@ public class RecipeTableModel extends AbstractTableModel {
 		if (recipe.isEmpty()) {
 			return empty();
 		} else {
-			return of(new Recipe(numberOfPortions, recipe));
+			return of(Recipe.from(numberOfPortions, recipe));
 		}
 	}
 }
