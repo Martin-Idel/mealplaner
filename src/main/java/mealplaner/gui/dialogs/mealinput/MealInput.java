@@ -1,11 +1,8 @@
 package mealplaner.gui.dialogs.mealinput;
 
 import static java.util.Optional.of;
+import static mealplaner.BundleStore.BUNDLES;
 import static mealplaner.model.Meal.createMeal;
-import static mealplaner.model.enums.CookingPreference.getCookingPreferenceStrings;
-import static mealplaner.model.enums.CookingTime.getCookingTimeStrings;
-import static mealplaner.model.enums.ObligatoryUtensil.getObligatoryUtensilStrings;
-import static mealplaner.model.enums.Sidedish.getSidedishStrings;
 import static mealplaner.recipes.model.Recipe.createRecipe;
 
 import java.awt.BorderLayout;
@@ -21,7 +18,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import mealplaner.BundleStore;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.gui.commons.ButtonInputField;
 import mealplaner.gui.commons.ButtonPanelBuilder;
@@ -54,42 +50,35 @@ public abstract class MealInput extends JDialog {
 	private InputField<String> commentField;
 	private InputField<Optional<Recipe>> recipeInputField;
 
-	private BundleStore bundles;
-
-	public MealInput(JFrame parent, BundleStore bundles, IngredientProvider ingredientProvider) {
-		super(parent, bundles.message("mealInputDialogTitle"), true);
+	public MealInput(JFrame parent, IngredientProvider ingredientProvider) {
+		super(parent, BUNDLES.message("mealInputDialogTitle"), true);
 		this.parentFrame = parent;
-		this.bundles = bundles;
 
-		nameField = new NonEmptyTextInputField(bundles.message("insertMealName"));
+		nameField = new NonEmptyTextInputField(BUNDLES.message("insertMealName"));
 		cookingTimeField = new ComboBoxInputField<CookingTime>(
-				bundles.message("insertMealLength"),
+				BUNDLES.message("insertMealLength"),
 				CookingTime.class,
-				getCookingTimeStrings(bundles),
 				CookingTime.SHORT);
 		sidedishField = new ComboBoxInputField<Sidedish>(
-				bundles.message("insertMealSidedish"),
+				BUNDLES.message("insertMealSidedish"),
 				Sidedish.class,
-				getSidedishStrings(bundles),
 				Sidedish.NONE);
 		obligatoryUtensilField = new ComboBoxInputField<ObligatoryUtensil>(
-				bundles.message("insertMealUtensil"),
+				BUNDLES.message("insertMealUtensil"),
 				ObligatoryUtensil.class,
-				getObligatoryUtensilStrings(bundles),
 				ObligatoryUtensil.POT);
 		daysPassedField = new NonnegativeIntegerInputField(
-				bundles.message("insertMealLastCooked"),
+				BUNDLES.message("insertMealLastCooked"),
 				new NonnegativeInteger(0));
 		preferenceField = new ComboBoxInputField<CookingPreference>(
-				bundles.message("insertMealPopularity"),
+				BUNDLES.message("insertMealPopularity"),
 				CookingPreference.class,
-				getCookingPreferenceStrings(bundles),
 				CookingPreference.NO_PREFERENCE);
-		commentField = new TextField(bundles.message("insertMealComment"));
+		commentField = new TextField(BUNDLES.message("insertMealComment"));
 		recipeInputField = new ButtonInputField<Optional<Recipe>>(
-				bundles.message("createRecipeLabel"),
-				bundles.message("editRecipeButtonLabel"),
-				bundles.message("createRecipeButtonLabel"),
+				BUNDLES.message("createRecipeLabel"),
+				BUNDLES.message("editRecipeButtonLabel"),
+				BUNDLES.message("createRecipeButtonLabel"),
 				of(createRecipe()), content -> {
 					return createRecipeDialog(ingredientProvider, content);
 				});
@@ -98,8 +87,8 @@ public abstract class MealInput extends JDialog {
 	private Optional<Recipe> createRecipeDialog(IngredientProvider ingredientProvider,
 			Optional<Recipe> recipe) {
 		RecipeInput recipeInput = new RecipeInput(parentFrame,
-				bundles.message("recipeInputDialogTitle"));
-		return recipeInput.showDialog(recipe, bundles, ingredientProvider);
+				BUNDLES.message("recipeInputDialogTitle"));
+		return recipeInput.showDialog(recipe, ingredientProvider);
 	}
 
 	protected void display(ActionListener saveListener) {
@@ -108,7 +97,7 @@ public abstract class MealInput extends JDialog {
 
 		allFields().forEach(field -> field.addToPanel(mealCreationPanel));
 
-		buttonPanel = new ButtonPanelBuilder(bundles)
+		buttonPanel = new ButtonPanelBuilder()
 				.addSaveButton(saveListener)
 				.addCancelDialogButton(this)
 				.build();
@@ -136,8 +125,8 @@ public abstract class MealInput extends JDialog {
 	protected Optional<Meal> getMealAndShowDialog() {
 		Optional<Meal> mealFromInput = getMealFromUserInput();
 		if (!mealFromInput.isPresent()) {
-			JOptionPane.showMessageDialog(null, bundles.message("menuNameChoiceEmpty"),
-					bundles.message("errorHeading"), JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, BUNDLES.message("menuNameChoiceEmpty"),
+					BUNDLES.message("errorHeading"), JOptionPane.INFORMATION_MESSAGE);
 		}
 		return mealFromInput;
 	}

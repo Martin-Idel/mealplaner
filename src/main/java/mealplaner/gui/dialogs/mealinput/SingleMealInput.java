@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import javax.swing.JFrame;
 
-import mealplaner.BundleStore;
 import mealplaner.model.Meal;
 import mealplaner.recipes.provider.IngredientProvider;
 
@@ -12,9 +11,8 @@ public class SingleMealInput extends MealInput {
 	private static final long serialVersionUID = 1L;
 	private Meal newMeal;
 
-	public SingleMealInput(JFrame parent, BundleStore bundles,
-			IngredientProvider ingredientProvider) {
-		super(parent, bundles, ingredientProvider);
+	public SingleMealInput(JFrame parent, IngredientProvider ingredientProvider) {
+		super(parent, ingredientProvider);
 	}
 
 	public Meal showDialog() {

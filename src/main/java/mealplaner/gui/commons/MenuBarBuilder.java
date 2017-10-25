@@ -1,5 +1,7 @@
 package mealplaner.gui.commons;
 
+import static mealplaner.BundleStore.BUNDLES;
+
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
@@ -8,18 +10,14 @@ import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
-import mealplaner.BundleStore;
-
 // TODO: rewrite to avoid duplicate code
 public class MenuBarBuilder {
 	private JFrame frame;
-	private BundleStore bundles;
 	private JMenu fileMenu;
 	private JMenu helpMenu;
 
-	public MenuBarBuilder(JFrame frame, BundleStore bundles) {
+	public MenuBarBuilder(JFrame frame) {
 		this.frame = frame;
-		this.bundles = bundles;
 	}
 
 	public JMenuBar createMenuBar() {
@@ -30,103 +28,103 @@ public class MenuBarBuilder {
 	}
 
 	public MenuBarBuilder setupFileMenu() {
-		fileMenu = new JMenu(bundles.message("menuData"));
+		fileMenu = new JMenu(BUNDLES.message("menuData"));
 		fileMenu.setMnemonic(
-				KeyStroke.getKeyStroke(bundles.message("menuDataMnemonic")).getKeyCode());
+				KeyStroke.getKeyStroke(BUNDLES.message("menuDataMnemonic")).getKeyCode());
 		fileMenu.getAccessibleContext()
-				.setAccessibleDescription(bundles.message("menuDataDescription"));
+				.setAccessibleDescription(BUNDLES.message("menuDataDescription"));
 		return this;
 	}
 
 	public MenuBarBuilder setupHelpMenu() {
-		helpMenu = new JMenu(bundles.message("menuHelp"));
+		helpMenu = new JMenu(BUNDLES.message("menuHelp"));
 		helpMenu.setMnemonic(
-				KeyStroke.getKeyStroke(bundles.message("menuHelpMnemonic")).getKeyCode());
+				KeyStroke.getKeyStroke(BUNDLES.message("menuHelpMnemonic")).getKeyCode());
 		helpMenu.getAccessibleContext()
-				.setAccessibleDescription(bundles.message("menuHelpDescription"));
+				.setAccessibleDescription(BUNDLES.message("menuHelpDescription"));
 		return this;
 	}
 
 	public MenuBarBuilder createIngredientsMenu(ActionListener listener) {
-		fileMenu.add(new JMenuBuilder().addLabelText(bundles.message("ingredientInsertMenu"))
-				.addMnemonic(bundles.message("ingredientInsertMenuMnemonic"))
+		fileMenu.add(new JMenuBuilder().addLabelText(BUNDLES.message("ingredientInsertMenu"))
+				.addMnemonic(BUNDLES.message("ingredientInsertMenuMnemonic"))
 				.addActionListener(listener)
 				.build());
 		return this;
 	}
 
 	public MenuBarBuilder createMealMenu(ActionListener listener) {
-		fileMenu.add(new JMenuBuilder().addLabelText(bundles.message("menuDataCreateMenu"))
-				.addMnemonic(bundles.message("menuDataCreateMenuMnemonic"))
+		fileMenu.add(new JMenuBuilder().addLabelText(BUNDLES.message("menuDataCreateMenu"))
+				.addMnemonic(BUNDLES.message("menuDataCreateMenuMnemonic"))
 				.addActionListener(listener)
 				.build());
 		return this;
 	}
 
 	public MenuBarBuilder viewProposalMenu(ActionListener listener) {
-		fileMenu.add(new JMenuBuilder().addLabelText(bundles.message("menuDataLastProposal"))
-				.addMnemonic(bundles.message("menuDataLastProposalMnemonic"))
+		fileMenu.add(new JMenuBuilder().addLabelText(BUNDLES.message("menuDataLastProposal"))
+				.addMnemonic(BUNDLES.message("menuDataLastProposalMnemonic"))
 				.addActionListener(listener)
 				.build());
 		return this;
 	}
 
 	public MenuBarBuilder createBackupMenu(ActionListener listener) {
-		fileMenu.add(new JMenuBuilder().addLabelText(bundles.message("menuDataCreateBackup"))
-				.addMnemonic(bundles.message("menuDataCreateBackupMnemonic"))
+		fileMenu.add(new JMenuBuilder().addLabelText(BUNDLES.message("menuDataCreateBackup"))
+				.addMnemonic(BUNDLES.message("menuDataCreateBackupMnemonic"))
 				.addActionListener(listener)
 				.build());
 		return this;
 	}
 
 	public MenuBarBuilder loadBackupMenu(ActionListener listener) {
-		fileMenu.add(new JMenuBuilder().addLabelText(bundles.message("menuDataLoadBackup"))
-				.addMnemonic(bundles.message("menuDataLoadBackupMnemonic"))
+		fileMenu.add(new JMenuBuilder().addLabelText(BUNDLES.message("menuDataLoadBackup"))
+				.addMnemonic(BUNDLES.message("menuDataLoadBackupMnemonic"))
 				.addActionListener(listener)
 				.build());
 		return this;
 	}
 
 	public MenuBarBuilder printDatabaseMenu(ActionListener listener) {
-		fileMenu.add(new JMenuBuilder().addLabelText(bundles.message("menuDataPrintDatabase"))
-				.addMnemonic(bundles.message("menuDataPrintDatabaseMnemonic"))
+		fileMenu.add(new JMenuBuilder().addLabelText(BUNDLES.message("menuDataPrintDatabase"))
+				.addMnemonic(BUNDLES.message("menuDataPrintDatabaseMnemonic"))
 				.addActionListener(listener)
 				.build());
 		return this;
 	}
 
 	public MenuBarBuilder printProposalMenu(ActionListener listener) {
-		fileMenu.add(new JMenuBuilder().addLabelText(bundles.message("menuDataPrintProposal"))
-				.addMnemonic(bundles.message("menuDataPrintProposalMnemonic"))
+		fileMenu.add(new JMenuBuilder().addLabelText(BUNDLES.message("menuDataPrintProposal"))
+				.addMnemonic(BUNDLES.message("menuDataPrintProposalMnemonic"))
 				.addActionListener(listener)
 				.build());
 		return this;
 	}
 
 	public MenuBarBuilder exitMenu(ActionListener listener) {
-		fileMenu.add(new JMenuBuilder().addLabelText(bundles.message("menuDataExit"))
-				.addMnemonic(bundles.message("menuDataExitMnemonic"))
+		fileMenu.add(new JMenuBuilder().addLabelText(BUNDLES.message("menuDataExit"))
+				.addMnemonic(BUNDLES.message("menuDataExitMnemonic"))
 				.addActionListener(listener)
 				.build());
 		return this;
 	}
 
 	public MenuBarBuilder showDatabaseHelpMenu() {
-		helpMenu.add(new JMenuBuilder().addLabelText(bundles.message("menuHelpProposal"))
-				.addMnemonic(bundles.message("menuHelpProposalMnemonic"))
+		helpMenu.add(new JMenuBuilder().addLabelText(BUNDLES.message("menuHelpProposal"))
+				.addMnemonic(BUNDLES.message("menuHelpProposalMnemonic"))
 				.addActionListener(action -> JOptionPane.showMessageDialog(frame,
-						bundles.message("helpProposalText"),
-						bundles.message("helpProposalTitle"), JOptionPane.INFORMATION_MESSAGE))
+						BUNDLES.message("helpProposalText"),
+						BUNDLES.message("helpProposalTitle"), JOptionPane.INFORMATION_MESSAGE))
 				.build());
 		return this;
 	}
 
 	public MenuBarBuilder showHelpMenu() {
-		helpMenu.add(new JMenuBuilder().addLabelText(bundles.message("menuHelpDatabase"))
-				.addMnemonic(bundles.message("menuHelpDatabaseMnemonic"))
+		helpMenu.add(new JMenuBuilder().addLabelText(BUNDLES.message("menuHelpDatabase"))
+				.addMnemonic(BUNDLES.message("menuHelpDatabaseMnemonic"))
 				.addActionListener(action -> JOptionPane.showMessageDialog(frame,
-						bundles.message("helpDatabaseText"),
-						bundles.message("helpDatabaseTitle"), JOptionPane.INFORMATION_MESSAGE))
+						BUNDLES.message("helpDatabaseText"),
+						BUNDLES.message("helpDatabaseTitle"), JOptionPane.INFORMATION_MESSAGE))
 				.build());
 		return this;
 	}

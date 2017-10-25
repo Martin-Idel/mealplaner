@@ -1,6 +1,7 @@
 package mealplaner.gui;
 
 import static java.time.LocalDate.now;
+import static mealplaner.BundleStore.BUNDLES;
 import static mealplaner.gui.commons.MessageDialog.showSaveExitDialog;
 
 import java.awt.BorderLayout;
@@ -18,7 +19,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
 
-import mealplaner.BundleStore;
 import mealplaner.MealplanerData;
 import mealplaner.ProposalBuilder;
 import mealplaner.gui.commons.ButtonPanelBuilder;
@@ -44,18 +44,16 @@ public class MainGUI {
 	private DatabaseEdit dbaseEdit;
 	private ProposalSummary proposalSummary;
 
-	private BundleStore bundles;
 	private FileIOGui fileIOGui;
 
 	public MainGUI(JFrame mainFrame, MealplanerData mealPlan, DialogFactory dialogFactory,
-			BundleStore bundles, IngredientProvider ingredientProvider) {
+			IngredientProvider ingredientProvider) {
 		this.frame = mainFrame;
 		this.mealPlan = mealPlan;
 		this.dialogs = dialogFactory;
-		this.bundles = bundles;
 		this.ingredients = ingredientProvider;
 
-		fileIOGui = new FileIOGui(bundles, frame);
+		fileIOGui = new FileIOGui(frame);
 		this.mealPlan = fileIOGui.loadDatabase();
 
 		JMenuBar menuBar = createMenuBar();
@@ -64,14 +62,14 @@ public class MainGUI {
 		JPanel mealPanel = setupMealPanel(buttonPanel);
 		JPanel databasePanel = setupDatabasePanel();
 		JTabbedPane tabPane = new JTabbedPane();
-		tabPane.add(bundles.message("menuPanelName"), mealPanel);
-		tabPane.add(bundles.message("dataPanelName"), databasePanel);
+		tabPane.add(BUNDLES.message("menuPanelName"), mealPanel);
+		tabPane.add(BUNDLES.message("dataPanelName"), databasePanel);
 
 		setupMainFrame(tabPane, menuBar);
 	}
 
 	public JMenuBar createMenuBar() {
-		MenuBarBuilder builder = new MenuBarBuilder(frame, bundles)
+		MenuBarBuilder builder = new MenuBarBuilder(frame)
 				.setupFileMenu()
 				.createIngredientsMenu(action -> {
 					dialogs.createIngredientsInput()
@@ -102,7 +100,7 @@ public class MainGUI {
 				.createSeparatorForMenu();
 
 		builder.exitMenu(
-				action -> showSaveExitDialog(frame, bundles.message("saveYesNoQuestion"),
+				action -> showSaveExitDialog(frame, BUNDLES.message("saveYesNoQuestion"),
 						() -> fileIOGui.saveDatabase(mealPlan)));
 
 		builder.setupHelpMenu()
@@ -113,22 +111,22 @@ public class MainGUI {
 	}
 
 	private JPanel createButtonPanel() {
-		return new ButtonPanelBuilder(bundles)
-				.addButton(bundles.message("saveExitButton"),
-						bundles.message("saveExitMnemonic"),
+		return new ButtonPanelBuilder()
+				.addButton(BUNDLES.message("saveExitButton"),
+						BUNDLES.message("saveExitMnemonic"),
 						action -> {
 							fileIOGui.saveDatabase(mealPlan);
 							frame.dispose();
 						})
 				.addExitButton(
-						action -> showSaveExitDialog(frame, bundles.message("saveYesNoQuestion"),
+						action -> showSaveExitDialog(frame, BUNDLES.message("saveYesNoQuestion"),
 								() -> fileIOGui.saveDatabase(mealPlan)))
 				.build();
 	}
 
 	private JPanel setupDatabasePanel() {
 		JPanel databasePanel = new JPanel();
-		dbaseEdit = new DatabaseEdit(this.mealPlan, frame, databasePanel, bundles);
+		dbaseEdit = new DatabaseEdit(this.mealPlan, frame, databasePanel);
 		dbaseEdit.setupPane((meals) -> mealPlan.setMeals(meals), ingredients);
 		return databasePanel;
 	}
@@ -136,7 +134,7 @@ public class MainGUI {
 	private JPanel setupMealPanel(JPanel buttonPanel) {
 		JPanel mealPanel = new JPanel();
 		mealPanel.setLayout(new BorderLayout());
-		proposalSummary = new ProposalSummary(this.mealPlan, frame, bundles);
+		proposalSummary = new ProposalSummary(this.mealPlan, frame);
 		mealPanel.add(proposalSummary.buildProposalPanel(
 				action -> updatePastMeals(),
 				action -> changeDefaultSettings(),
@@ -147,7 +145,7 @@ public class MainGUI {
 	}
 
 	private void setupMainFrame(JTabbedPane tabPane, JMenuBar menuBar) {
-		frame.setTitle(bundles.message("mainFrameTitle"));
+		frame.setTitle(BUNDLES.message("mainFrameTitle"));
 		frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		frame.addWindowListener(new SaveExitWindowListener());
 		frame.setJMenuBar(menuBar);
@@ -159,7 +157,7 @@ public class MainGUI {
 	public void printProposal() {
 		JTable proposalTable = dialogs.createProposalTableFactory()
 				.createTable(mealPlan.getLastProposal());
-		TablePrinter.printTable(proposalTable, frame, bundles);
+		TablePrinter.printTable(proposalTable, frame);
 	}
 
 	public void makeProposal() {
@@ -219,7 +217,7 @@ public class MainGUI {
 	public class SaveExitWindowListener extends WindowAdapter {
 		@Override
 		public void windowClosing(WindowEvent e) {
-			showSaveExitDialog(frame, bundles.message("saveYesNoQuestion"),
+			showSaveExitDialog(frame, BUNDLES.message("saveYesNoQuestion"),
 					() -> fileIOGui.saveDatabase(mealPlan));
 		}
 	}

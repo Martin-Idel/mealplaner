@@ -1,19 +1,28 @@
 package mealplaner.model.enums;
 
+import static mealplaner.BundleStore.BUNDLES;
+
+import java.util.Arrays;
 import java.util.EnumMap;
 
-import mealplaner.BundleStore;
-
 public enum Sidedish {
-	POTATOES, PASTA, RICE, NONE;
+	POTATOES(BUNDLES.message("potatoes")), PASTA(BUNDLES.message("pasta")), RICE(
+			BUNDLES.message("rice")), NONE(BUNDLES.message("none"));
 
-	public static EnumMap<Sidedish, String> getSidedishStrings(BundleStore bundles) {
-		EnumMap<Sidedish, String> sideDishNames = new EnumMap<Sidedish, String>(Sidedish.class);
-		sideDishNames.put(Sidedish.POTATOES, bundles.message("potatoes"));
-		sideDishNames.put(Sidedish.PASTA, bundles.message("pasta"));
-		sideDishNames.put(Sidedish.RICE, bundles.message("rice"));
-		sideDishNames.put(Sidedish.NONE, bundles.message("none"));
-		return sideDishNames;
+	private String message;
+
+	Sidedish(String message) {
+		this.message = message;
 	}
 
+	@Override
+	public String toString() {
+		return message;
+	}
+
+	public static EnumMap<Sidedish, String> getSidedishStrings() {
+		EnumMap<Sidedish, String> sideDishNames = new EnumMap<Sidedish, String>(Sidedish.class);
+		Arrays.asList(Sidedish.values()).forEach(dish -> sideDishNames.put(dish, dish.toString()));
+		return sideDishNames;
+	}
 }

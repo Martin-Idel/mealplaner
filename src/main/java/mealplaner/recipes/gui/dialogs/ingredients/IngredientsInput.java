@@ -1,5 +1,7 @@
 package mealplaner.recipes.gui.dialogs.ingredients;
 
+import static mealplaner.BundleStore.BUNDLES;
+
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
@@ -14,7 +16,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import mealplaner.BundleStore;
 import mealplaner.gui.commons.ButtonPanelBuilder;
 import mealplaner.gui.commons.ComboBoxInputField;
 import mealplaner.gui.commons.InputField;
@@ -34,23 +35,19 @@ public class IngredientsInput extends JDialog {
 	private InputField<Measure> measureField;
 
 	private List<Ingredient> ingredients;
-	private BundleStore bundles;
 
-	public IngredientsInput(JFrame parent, BundleStore bundles) {
-		super(parent, bundles.message("ingredientInputDialogTitle"), true);
+	public IngredientsInput(JFrame parent) {
+		super(parent, BUNDLES.message("ingredientInputDialogTitle"), true);
 		this.parentFrame = parent;
-		this.bundles = bundles;
 
-		nameField = new NonEmptyTextInputField(bundles.message("insertIngredientName"));
+		nameField = new NonEmptyTextInputField(BUNDLES.message("insertIngredientName"));
 		typeField = new ComboBoxInputField<IngredientType>(
-				bundles.message("insertTypeLength"),
+				BUNDLES.message("insertTypeLength"),
 				IngredientType.class,
-				IngredientType.getIngredientTypeStrings(bundles),
 				IngredientType.OTHER);
 		measureField = new ComboBoxInputField<Measure>(
-				bundles.message("insertMeasure"),
+				BUNDLES.message("insertMeasure"),
 				Measure.class,
-				Measure.getMeasureStrings(bundles),
 				Measure.NONE);
 
 		ingredients = new ArrayList<>();
@@ -74,7 +71,7 @@ public class IngredientsInput extends JDialog {
 		ingredientCreationPanel.setLayout(new GridLayout(0, 2));
 
 		allFields().forEach(field -> field.addToPanel(ingredientCreationPanel));
-		buttonPanel = new ButtonPanelBuilder(bundles)
+		buttonPanel = new ButtonPanelBuilder()
 				.addSaveButton(saveListener)
 				.addCancelDialogButton(this)
 				.build();

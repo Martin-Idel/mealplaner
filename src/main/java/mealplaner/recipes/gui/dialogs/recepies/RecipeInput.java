@@ -1,5 +1,6 @@
 package mealplaner.recipes.gui.dialogs.recepies;
 
+import static mealplaner.BundleStore.BUNDLES;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 
 import java.awt.BorderLayout;
@@ -12,7 +13,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import mealplaner.BundleStore;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.gui.commons.ButtonPanelBuilder;
 import mealplaner.gui.commons.InputField;
@@ -36,18 +36,16 @@ public class RecipeInput extends JDialog {
 		recipeTable = new RecipeTable();
 	}
 
-	public Optional<Recipe> showDialog(Optional<Recipe> recipe,
-			BundleStore bundles, IngredientProvider ingredients) {
+	public Optional<Recipe> showDialog(Optional<Recipe> recipe, IngredientProvider ingredients) {
 		enteredRecipe = recipe;
-		display(recipe, bundles, ingredients);
+		display(recipe, ingredients);
 		dispose();
 		return enteredRecipe;
 	}
 
-	private void display(Optional<Recipe> recipe,
-			BundleStore bundles, IngredientProvider ingredients) {
+	private void display(Optional<Recipe> recipe, IngredientProvider ingredients) {
 		nonnegativeIntegerInputField = new NonnegativeIntegerInputField(
-				bundles.message("recipeNumberOfPortionsField"),
+				BUNDLES.message("recipeNumberOfPortionsField"),
 				recipe.isPresent()
 						? nonNegative(recipe.get().getNumberOfPortions())
 						: nonNegative(4));
@@ -55,8 +53,8 @@ public class RecipeInput extends JDialog {
 		inputFieldPanel.setLayout(new GridLayout(0, 2));
 		nonnegativeIntegerInputField.addToPanel(inputFieldPanel);
 		JScrollPane tablescroll = new JScrollPane(
-				recipeTable.setupTable(recipe, bundles, ingredients));
-		JPanel buttonPanel = displayButtons(bundles);
+				recipeTable.setupTable(recipe, ingredients));
+		JPanel buttonPanel = displayButtons();
 		dataPanel.add(inputFieldPanel, BorderLayout.NORTH);
 		dataPanel.add(tablescroll, BorderLayout.CENTER);
 		dataPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -67,8 +65,8 @@ public class RecipeInput extends JDialog {
 		setVisible(true);
 	}
 
-	private JPanel displayButtons(BundleStore bundles) {
-		return new ButtonPanelBuilder(bundles)
+	private JPanel displayButtons() {
+		return new ButtonPanelBuilder()
 				.addCancelDialogButton(this)
 				.addOkButton(getSaveListener(recipeTable))
 				.build();

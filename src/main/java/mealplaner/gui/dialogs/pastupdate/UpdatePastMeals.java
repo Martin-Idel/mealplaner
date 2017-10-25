@@ -1,5 +1,7 @@
 package mealplaner.gui.dialogs.pastupdate;
 
+import static mealplaner.BundleStore.BUNDLES;
+
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +13,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import mealplaner.BundleStore;
 import mealplaner.DataStore;
 import mealplaner.gui.commons.ButtonPanelBuilder;
 import mealplaner.model.Meal;
@@ -20,15 +21,13 @@ public class UpdatePastMeals extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private JFrame parentFrame;
 	private JPanel dataPanel;
-	private BundleStore messages;
 	private UpdateTable updateTable;
 	private List<Meal> changedMeals = new ArrayList<>();
 
-	public UpdatePastMeals(JFrame parentFrame, BundleStore bundles) {
-		super(parentFrame, bundles.message("updatePastMealsDialogTitle"), true);
+	public UpdatePastMeals(JFrame parentFrame) {
+		super(parentFrame, BUNDLES.message("updatePastMealsDialogTitle"), true);
 		this.parentFrame = parentFrame;
-		messages = bundles;
-		updateTable = new UpdateTable(bundles);
+		updateTable = new UpdateTable();
 	}
 
 	public List<Meal> showDialog(DataStore mealPlan) {
@@ -57,7 +56,7 @@ public class UpdatePastMeals extends JDialog {
 	}
 
 	private JPanel displayButtons() {
-		return new ButtonPanelBuilder(messages)
+		return new ButtonPanelBuilder()
 				.addSaveButton(new SavingListener())
 				.addCancelDialogButton(this)
 				.build();

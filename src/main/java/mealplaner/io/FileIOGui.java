@@ -3,6 +3,7 @@ package mealplaner.io;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static javax.swing.JOptionPane.showInputDialog;
+import static mealplaner.BundleStore.BUNDLES;
 import static mealplaner.gui.commons.MessageDialog.errorMessages;
 
 import java.io.FileNotFoundException;
@@ -15,17 +16,14 @@ import javax.swing.JOptionPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import mealplaner.BundleStore;
 import mealplaner.MealplanerData;
 import mealplaner.errorhandling.MealException;
 
 public class FileIOGui {
-	private BundleStore bundles;
 	private JFrame frame;
 	private static final Logger logger = LoggerFactory.getLogger(FileIOGui.class);
 
-	public FileIOGui(BundleStore bundles, JFrame frame) {
-		this.bundles = bundles;
+	public FileIOGui(JFrame frame) {
 		this.frame = frame;
 	}
 
@@ -37,32 +35,32 @@ public class FileIOGui {
 										// done when load was successful
 			mealPlan.getMeals();
 		} catch (FileNotFoundException exc) {
-			errorMessages(frame, exc, bundles.errorMessage("MSG_FILE_NOT_FOUND"), bundles);
+			errorMessages(frame, exc, BUNDLES.errorMessage("MSG_FILE_NOT_FOUND"));
 			logger.error("File not found in: ", exc);
 		} catch (IOException exc) {
-			errorMessages(frame, exc, bundles.errorMessage("MSG_IOEX"), bundles);
+			errorMessages(frame, exc, BUNDLES.errorMessage("MSG_IOEX"));
 			logger.error("I/O Exception in: ", exc);
 		} catch (MealException exc) {
-			errorMessages(frame, exc, bundles.errorMessage("MSG_CLASS_NOT_FOUND"), bundles);
+			errorMessages(frame, exc, BUNDLES.errorMessage("MSG_CLASS_NOT_FOUND"));
 			logger.error("MealException in: ", exc);
 		}
 		return mealPlan;
 	}
 
 	public Optional<MealplanerData> loadBackup() {
-		String bak = showInputDialog(frame, bundles.message("createLoadBackup"), "*.ser");
+		String bak = showInputDialog(frame, BUNDLES.message("createLoadBackup"), "*.ser");
 		if (bak != null) {
 			MealplanerData mealPlan = new MealplanerData();
 			try {
 				mealPlan = MealplanerFileLoader.load(bak);
 			} catch (FileNotFoundException exc) {
-				errorMessages(frame, exc, bundles.errorMessage("MSG_BKU_FILE_NOT_FOUND"), bundles);
+				errorMessages(frame, exc, BUNDLES.errorMessage("MSG_BKU_FILE_NOT_FOUND"));
 				logger.error("File not found in: ", exc);
 			} catch (IOException exc) {
-				errorMessages(frame, exc, bundles.errorMessage("MSG_IOEX"), bundles);
+				errorMessages(frame, exc, BUNDLES.errorMessage("MSG_IOEX"));
 				logger.error("I/O Exception in: ", exc);
 			} catch (MealException exc) {
-				errorMessages(frame, exc, bundles.errorMessage("MSG_BKU_CLASS_NOT_FOUND"), bundles);
+				errorMessages(frame, exc, BUNDLES.errorMessage("MSG_BKU_CLASS_NOT_FOUND"));
 				logger.error("MealException in: ", exc);
 			}
 			return of(mealPlan);
@@ -73,23 +71,23 @@ public class FileIOGui {
 	public void saveDatabase(MealplanerData mealPlan) {
 		try {
 			MealplanerFileSaver.save(mealPlan, "save01.ser");
-			JOptionPane.showMessageDialog(frame, bundles.message("successSave"),
-					bundles.message("successHeading"), JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(frame, BUNDLES.message("successSave"),
+					BUNDLES.message("successHeading"), JOptionPane.INFORMATION_MESSAGE);
 		} catch (IOException exc) {
-			errorMessages(frame, exc, bundles.errorMessage("MSG_IOEX"), bundles);
+			errorMessages(frame, exc, BUNDLES.errorMessage("MSG_IOEX"));
 			logger.error("I/O Exception in: ", exc);
 		}
 	}
 
 	public void createBackup(MealplanerData mealPlan) {
-		String bak = showInputDialog(frame, bundles.message("createLoadBackup"), "*.ser");
+		String bak = showInputDialog(frame, BUNDLES.message("createLoadBackup"), "*.ser");
 		if (bak != null) {
 			try {
 				MealplanerFileSaver.save(mealPlan, bak);
-				JOptionPane.showMessageDialog(frame, bundles.message("successSave"),
-						bundles.message("successHeading"), JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(frame, BUNDLES.message("successSave"),
+						BUNDLES.message("successHeading"), JOptionPane.INFORMATION_MESSAGE);
 			} catch (IOException exc) {
-				errorMessages(frame, exc, bundles.errorMessage("MSG_IOEX"), bundles);
+				errorMessages(frame, exc, BUNDLES.errorMessage("MSG_IOEX"));
 				logger.error("I/O Exception in: ", exc);
 			}
 		}

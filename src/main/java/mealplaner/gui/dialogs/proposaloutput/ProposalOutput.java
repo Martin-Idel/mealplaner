@@ -1,5 +1,6 @@
 package mealplaner.gui.dialogs.proposaloutput;
 
+import static mealplaner.BundleStore.BUNDLES;
 import static mealplaner.gui.dialogs.proposaloutput.TablePrinter.printTable;
 
 import java.awt.BorderLayout;
@@ -10,32 +11,28 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import mealplaner.BundleStore;
 import mealplaner.gui.commons.ButtonPanelBuilder;
 import mealplaner.model.Proposal;
 
 public class ProposalOutput extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private JFrame parentFrame;
-	private BundleStore bundles;
 
-	public ProposalOutput(JFrame parentFrame, BundleStore bundles) {
-		super(parentFrame, bundles.message("proposalOutputDialogTitle"), true);
+	public ProposalOutput(JFrame parentFrame) {
+		super(parentFrame, BUNDLES.message("proposalOutputDialogTitle"), true);
 		this.parentFrame = parentFrame;
-		this.bundles = bundles;
 	}
 
 	public void showDialog(Proposal lastProposal) {
 		JPanel dataPanel = setupDataPanel();
 
-		JTable proposalTable = new ProposalTableFactory(bundles)
-				.createTable(lastProposal);
+		JTable proposalTable = new ProposalTableFactory().createTable(lastProposal);
 		JScrollPane tablescroll = new JScrollPane(proposalTable);
 
-		JPanel buttonPanel = new ButtonPanelBuilder(bundles)
-				.addButton(bundles.message("printButton"),
-						bundles.message("printButtonMnemonic"),
-						action -> printTable(proposalTable, parentFrame, bundles))
+		JPanel buttonPanel = new ButtonPanelBuilder()
+				.addButton(BUNDLES.message("printButton"),
+						BUNDLES.message("printButtonMnemonic"),
+						action -> printTable(proposalTable, parentFrame))
 				.addOkButton(ButtonPanelBuilder.justDisposeListener(this))
 				.build();
 

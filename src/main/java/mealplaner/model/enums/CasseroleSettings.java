@@ -1,18 +1,20 @@
 package mealplaner.model.enums;
 
-import java.util.EnumMap;
-
-import mealplaner.BundleStore;
+import static mealplaner.BundleStore.BUNDLES;
 
 public enum CasseroleSettings {
-	POSSIBLE, ONLY, NONE;
+	POSSIBLE(BUNDLES.message("allowedCasseroles")),
+	ONLY(BUNDLES.message("onlyCasseroles")),
+	NONE(BUNDLES.message("noCasseroles"));
 
-	public static EnumMap<CasseroleSettings, String> getCasseroleSettingsStrings(BundleStore bundles) {
-		EnumMap<CasseroleSettings, String> casseroleSettings = new EnumMap<CasseroleSettings, String>(
-				CasseroleSettings.class);
-		casseroleSettings.put(CasseroleSettings.POSSIBLE, bundles.message("allowedCasseroles"));
-		casseroleSettings.put(CasseroleSettings.ONLY, bundles.message("onlyCasseroles"));
-		casseroleSettings.put(CasseroleSettings.NONE, bundles.message("noCasseroles"));
-		return casseroleSettings;
+	private String message;
+
+	CasseroleSettings(String message) {
+		this.message = message;
+	}
+
+	@Override
+	public String toString() {
+		return message;
 	}
 }

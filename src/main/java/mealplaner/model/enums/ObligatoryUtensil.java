@@ -1,19 +1,20 @@
 package mealplaner.model.enums;
 
-import java.util.EnumMap;
-
-import mealplaner.BundleStore;
+import static mealplaner.BundleStore.BUNDLES;
 
 public enum ObligatoryUtensil {
-	POT, PAN, CASSEROLE;
+	POT(BUNDLES.message("pot")),
+	PAN(BUNDLES.message("pan")),
+	CASSEROLE(BUNDLES.message("casserole"));
 
-	public static EnumMap<ObligatoryUtensil, String> getObligatoryUtensilStrings(
-			BundleStore bundles) {
-		EnumMap<ObligatoryUtensil, String> obligatoryUtensilNames = new EnumMap<ObligatoryUtensil, String>(
-				ObligatoryUtensil.class);
-		obligatoryUtensilNames.put(ObligatoryUtensil.POT, bundles.message("pot"));
-		obligatoryUtensilNames.put(ObligatoryUtensil.PAN, bundles.message("pan"));
-		obligatoryUtensilNames.put(ObligatoryUtensil.CASSEROLE, bundles.message("casserole"));
-		return obligatoryUtensilNames;
+	private String message;
+
+	ObligatoryUtensil(String message) {
+		this.message = message;
+	}
+
+	@Override
+	public String toString() {
+		return message;
 	}
 }

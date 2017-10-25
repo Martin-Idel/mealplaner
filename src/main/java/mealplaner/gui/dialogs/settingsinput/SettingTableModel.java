@@ -2,6 +2,7 @@ package mealplaner.gui.dialogs.settingsinput;
 
 import static java.time.format.DateTimeFormatter.ofLocalizedDate;
 import static java.time.format.FormatStyle.SHORT;
+import static mealplaner.BundleStore.BUNDLES;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.settings.Settings.copy;
 import static mealplaner.model.settings.Settings.from;
@@ -11,7 +12,6 @@ import java.util.Locale;
 
 import javax.swing.table.AbstractTableModel;
 
-import mealplaner.BundleStore;
 import mealplaner.gui.model.StringArrayCollection;
 import mealplaner.model.enums.CasseroleSettings;
 import mealplaner.model.enums.CookingTime;
@@ -27,10 +27,10 @@ public class SettingTableModel extends AbstractTableModel {
 	private LocalDate date;
 	private Locale currentLocale;
 
-	public SettingTableModel(Settings[] settings, LocalDate localDate, BundleStore bundles) {
-		currentLocale = bundles.locale();
-		columnNames = StringArrayCollection.getSettingsInputColumnNames(bundles);
-		days = StringArrayCollection.getWeekDays(bundles);
+	public SettingTableModel(Settings[] settings, LocalDate localDate) {
+		currentLocale = BUNDLES.locale();
+		columnNames = StringArrayCollection.getSettingsInputColumnNames();
+		days = StringArrayCollection.getWeekDays();
 		date = localDate;
 		workingCopy = new Settings[settings.length];
 		for (int i = 0; i < settings.length; i++) {

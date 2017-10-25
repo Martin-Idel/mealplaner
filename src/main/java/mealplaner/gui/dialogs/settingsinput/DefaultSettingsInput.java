@@ -3,6 +3,7 @@ package mealplaner.gui.dialogs.settingsinput;
 import static java.time.DayOfWeek.MONDAY;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
+import static mealplaner.BundleStore.BUNDLES;
 import static mealplaner.gui.commons.ButtonPanelBuilder.justDisposeListener;
 import static mealplaner.model.settings.DefaultSettings.from;
 
@@ -16,7 +17,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import mealplaner.BundleStore;
 import mealplaner.gui.commons.ButtonPanelBuilder;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
@@ -27,12 +27,10 @@ public class DefaultSettingsInput extends SettingsInput {
 	private JScrollPane tablescroll;
 	private JPanel buttonPanel;
 	private SettingTable settingTable;
-	private BundleStore bundles;
 
-	public DefaultSettingsInput(JFrame parentFrame, BundleStore bundles) {
-		super(parentFrame, bundles.message("settingsUpdateDefaultTitle"));
+	public DefaultSettingsInput(JFrame parentFrame) {
+		super(parentFrame, BUNDLES.message("settingsUpdateDefaultTitle"));
 		this.parentFrame = parentFrame;
-		this.bundles = bundles;
 	}
 
 	public Optional<DefaultSettings> showDialog(DefaultSettings settings) {
@@ -42,11 +40,11 @@ public class DefaultSettingsInput extends SettingsInput {
 	}
 
 	protected void setup(DefaultSettings defaultSettings) {
-		settingTable = new SettingTable(defaultSettings, bundles);
+		settingTable = new SettingTable(defaultSettings);
 		tablescroll = new JScrollPane(settingTable.setupTable());
 		settingTable.removeDateColumn();
 
-		buttonPanel = new ButtonPanelBuilder(bundles)
+		buttonPanel = new ButtonPanelBuilder()
 				.addSaveButton(getSaveListener(settingTable))
 				.addExitButton(justDisposeListener(this))
 				.build();

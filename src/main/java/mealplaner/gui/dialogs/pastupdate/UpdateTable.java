@@ -12,23 +12,17 @@ import javax.swing.JTable;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 
-import mealplaner.BundleStore;
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
 
 public class UpdateTable {
-	private BundleStore bundles;
 	private UpdateTableModel tableModel;
-
-	public UpdateTable(BundleStore bundles) {
-		this.bundles = bundles;
-	}
 
 	public JTable createTable(LocalDate date, Proposal lastProposal, Meal[] mealList,
 			int daySince) {
 		Meal[] tableList = setupMealList(lastProposal, daySince);
 		LocalDate proposalStartDate = lastProposal.isToday() ? date.plusDays(1) : date;
-		tableModel = new UpdateTableModel(proposalStartDate, tableList, bundles);
+		tableModel = new UpdateTableModel(proposalStartDate, tableList);
 		JTable table = new JTable(tableModel);
 
 		addAutocompletionToNameColumn(mealList, table);

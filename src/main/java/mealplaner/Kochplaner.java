@@ -1,9 +1,10 @@
 package mealplaner;
 
+import static java.util.Locale.getDefault;
 import static java.util.ResourceBundle.getBundle;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static mealplaner.BundleStore.BUNDLES;
 
-import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
@@ -28,17 +29,17 @@ public class Kochplaner {
 
 	public static void main(String args[]) {
 		try {
+			loadResourceBundle(); // Must be first line to make enum initialization possible
 			MealplanerData data = new MealplanerData();
-			BundleStore bundles = loadResourceBundle();
 			IngredientProvider ingredientProvider;
 			try {
 				ingredientProvider = IngredientIO.readXml();
 			} catch (MealException exc) {
 				MessageDialog.errorMessages(null, exc,
-						bundles.errorMessage("INGREDIENT_PROVIDER_NOT_FOUND"), bundles);
+						BUNDLES.errorMessage("INGREDIENT_PROVIDER_NOT_FOUND"));
 				ingredientProvider = new IngredientProvider();
 			}
-			SwingUtilities.invokeLater(createMainGUI(data, ingredientProvider, bundles));
+			SwingUtilities.invokeLater(createMainGUI(data, ingredientProvider));
 		} catch (MissingResourceException exc) {
 			logger.error(
 					"Fatal error: Resource bundles could not be found. No localisation possible.",
@@ -49,18 +50,19 @@ public class Kochplaner {
 	}
 
 	private static Runnable createMainGUI(MealplanerData data,
-			IngredientProvider ingredientProvider, BundleStore bundles) {
+			IngredientProvider ingredientProvider) {
 		return () -> {
 			JFrame mainFrame = new JFrame("Meal planer");
-			DialogFactory dialogFactory = new DialogFactory(mainFrame, bundles);
-			new MainGUI(mainFrame, data, dialogFactory, bundles, ingredientProvider);
+			DialogFactory dialogFactory = new DialogFactory(mainFrame);
+			new MainGUI(mainFrame, data, dialogFactory, ingredientProvider);
 		};
 	}
 
-	private static BundleStore loadResourceBundle() {
-		Locale currentLocale = Locale.getDefault();
-		ResourceBundle messages = getBundle("MessagesBundle", currentLocale);
-		ResourceBundle errors = getBundle("ErrorBundle", currentLocale);
-		return new BundleStore(messages, errors, currentLocale);
+	private static void loadResourceBundle() {
+		ResourceBundle messages = getBundle("MessagesBundle", getDefault());
+		ResourceBundle errors = getBundle("ErrorBundle", getDefault());
+		BUNDLES.setMessageBundle(messages);
+		BUNDLES.setErrorBundle(errors);
+		BUNDLES.setLocale(getDefault());
 	}
 }

@@ -2,6 +2,7 @@ package mealplaner.gui;
 
 import static java.time.format.DateTimeFormatter.ofLocalizedDate;
 import static java.time.format.FormatStyle.LONG;
+import static mealplaner.BundleStore.BUNDLES;
 import static mealplaner.gui.commons.SwingUtilityMethods.createButton;
 
 import java.awt.GridLayout;
@@ -13,7 +14,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import mealplaner.BundleStore;
 import mealplaner.DataStore;
 import mealplaner.DataStoreEventType;
 import mealplaner.DataStoreListener;
@@ -37,13 +37,10 @@ public class ProposalSummary implements DataStoreListener {
 	private JButton defaultSettings;
 	private JButton giveProposal;
 
-	private BundleStore bundles;
-
-	public ProposalSummary(DataStore mealPlan, JFrame parentFrame, BundleStore bundles) {
+	public ProposalSummary(DataStore mealPlan, JFrame parentFrame) {
 		this.mealPlan = mealPlan;
 		this.dataPanel = new JPanel();
 		this.dataPanel.setLayout(new GridLayout(0, 2));
-		this.bundles = bundles;
 
 		mealPlan.register(this);
 	}
@@ -52,7 +49,7 @@ public class ProposalSummary implements DataStoreListener {
 			ActionListener makeProposal) {
 		buildDateShowField(mealPlan.getTime());
 		buildInputFields();
-		buildButtons(bundles, updateMeals, setDefaultSettings, makeProposal);
+		buildButtons(updateMeals, setDefaultSettings, makeProposal);
 
 		adjustFieldsOnPanel();
 
@@ -69,33 +66,33 @@ public class ProposalSummary implements DataStoreListener {
 
 	private void buildDateShowField(LocalDate lastDate) {
 		String formattedLastDate = lastDate
-				.format(ofLocalizedDate(LONG).withLocale(bundles.locale()));
-		dateShow = new JLabel(bundles.message("updatedLastDate") + " " + formattedLastDate);
+				.format(ofLocalizedDate(LONG).withLocale(BUNDLES.locale()));
+		dateShow = new JLabel(BUNDLES.message("updatedLastDate") + " " + formattedLastDate);
 	}
 
-	private void buildButtons(BundleStore bundles, ActionListener updateMeals,
+	private void buildButtons(ActionListener updateMeals,
 			ActionListener setDefaultSettings, ActionListener makeProposal) {
-		dateUpdate = createButton(bundles.message("updateButton"),
-				bundles.message("updateButtonMnemonic"),
+		dateUpdate = createButton(BUNDLES.message("updateButton"),
+				BUNDLES.message("updateButtonMnemonic"),
 				action -> {
 					updateMeals.actionPerformed(action);
 					update();
 				});
 		defaultSettings = SwingUtilityMethods.createButton(
-				bundles.message("proposalChangeDefaultSettingsButton"),
-				bundles.message("proposalChangeDefaultSettingsButtonMnemonic"),
+				BUNDLES.message("proposalChangeDefaultSettingsButton"),
+				BUNDLES.message("proposalChangeDefaultSettingsButtonMnemonic"),
 				setDefaultSettings);
-		giveProposal = SwingUtilityMethods.createButton(bundles.message("proposalShowButton"),
-				bundles.message("proposalShowButtonMnemonic"), makeProposal);
+		giveProposal = SwingUtilityMethods.createButton(BUNDLES.message("proposalShowButton"),
+				BUNDLES.message("proposalShowButtonMnemonic"), makeProposal);
 	}
 
 	private void buildInputFields() {
 		numberOfDaysField = new NonnegativeIntegerInputField(
-				bundles.message("proposalNumberOfDays"), new NonnegativeInteger(7));
-		takeTodayCheckBox = new CheckboxInputField(bundles.message("proposalStartToday"));
-		randomiseCheckBox = new CheckboxInputField(bundles.message("proposalRandomize"));
+				BUNDLES.message("proposalNumberOfDays"), new NonnegativeInteger(7));
+		takeTodayCheckBox = new CheckboxInputField(BUNDLES.message("proposalStartToday"));
+		randomiseCheckBox = new CheckboxInputField(BUNDLES.message("proposalRandomize"));
 		takeDefaultCheckBox = new CheckboxInputField(
-				bundles.message("proposalApplyDefaultSettings"));
+				BUNDLES.message("proposalApplyDefaultSettings"));
 	}
 
 	private void adjustFieldsOnPanel() {
@@ -124,8 +121,8 @@ public class ProposalSummary implements DataStoreListener {
 
 	public void update() {
 		String formattedLastDate = mealPlan.getTime()
-				.format(ofLocalizedDate(LONG).withLocale(bundles.locale()));
-		dateShow.setText(bundles.message("updatedLastDate") + " " + formattedLastDate);
+				.format(ofLocalizedDate(LONG).withLocale(BUNDLES.locale()));
+		dateShow.setText(BUNDLES.message("updatedLastDate") + " " + formattedLastDate);
 		if (mealPlan.getDaysPassed() == 0) {
 			dateUpdate.setEnabled(false);
 			giveProposal.setEnabled(true);

@@ -2,6 +2,7 @@ package mealplaner.gui.dialogs.pastupdate;
 
 import static java.time.format.DateTimeFormatter.ofLocalizedDate;
 import static java.time.format.FormatStyle.SHORT;
+import static mealplaner.BundleStore.BUNDLES;
 import static mealplaner.gui.model.StringArrayCollection.getUpdatePastMealColumnNames;
 import static mealplaner.gui.model.StringArrayCollection.getWeekDays;
 
@@ -11,7 +12,6 @@ import java.util.Locale;
 
 import javax.swing.table.AbstractTableModel;
 
-import mealplaner.BundleStore;
 import mealplaner.model.Meal;
 
 public class UpdateTableModel extends AbstractTableModel {
@@ -22,11 +22,11 @@ public class UpdateTableModel extends AbstractTableModel {
 	private LocalDate date;
 	private Locale currentLocale;
 
-	public UpdateTableModel(LocalDate proposalDate, Meal[] dataForDaysPassed, BundleStore bundles) {
+	public UpdateTableModel(LocalDate proposalDate, Meal[] dataForDaysPassed) {
 		this.dataForDaysPassed = dataForDaysPassed;
-		this.columnNames = getUpdatePastMealColumnNames(bundles);
-		this.currentLocale = bundles.locale();
-		days = getWeekDays(bundles);
+		this.columnNames = getUpdatePastMealColumnNames();
+		this.currentLocale = BUNDLES.locale();
+		days = getWeekDays();
 		this.date = proposalDate;
 	}
 

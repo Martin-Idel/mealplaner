@@ -1,5 +1,6 @@
 package mealplaner.gui.databaseedit;
 
+import static mealplaner.BundleStore.BUNDLES;
 import static mealplaner.model.Meal.copy;
 import static mealplaner.model.Meal.createMeal;
 
@@ -9,7 +10,6 @@ import java.util.Optional;
 
 import javax.swing.table.AbstractTableModel;
 
-import mealplaner.BundleStore;
 import mealplaner.gui.ButtonPanelEnabling;
 import mealplaner.model.Meal;
 import mealplaner.model.enums.CookingPreference;
@@ -26,13 +26,12 @@ public class DataBaseTableModel extends AbstractTableModel {
 	private String editString;
 	private String createString;
 
-	DataBaseTableModel(List<Meal> mealListData, ButtonPanelEnabling onlyActiveOnChangedButtons,
-			BundleStore messages) {
+	DataBaseTableModel(List<Meal> mealListData, ButtonPanelEnabling onlyActiveOnChangedButtons) {
 		this.onlyActiveOnChangedButtons = onlyActiveOnChangedButtons;
-		columnNames = getDatabaseColumnNames(messages);
+		columnNames = getDatabaseColumnNames();
 		workingCopy = createWorkingCopy(mealListData);
-		createString = messages.message("createRecipeButtonLabel");
-		editString = messages.message("editRecipeButtonLabel");
+		createString = BUNDLES.message("createRecipeButtonLabel");
+		editString = BUNDLES.message("editRecipeButtonLabel");
 	}
 
 	@Override
@@ -180,15 +179,15 @@ public class DataBaseTableModel extends AbstractTableModel {
 		return workingCopy;
 	}
 
-	private String[] getDatabaseColumnNames(BundleStore bundles) {
-		String[] columnNames = { bundles.message("mealNameColumn"),
-				bundles.message("cookingLengthColumn"),
-				bundles.message("sidedishColumn"),
-				bundles.message("utensilColumn"),
-				bundles.message("cookedLastTimeColumn"),
-				bundles.message("popularityColumn"),
-				bundles.message("commentInsertColumn"),
-				bundles.message("recipeEditColum") };
+	private String[] getDatabaseColumnNames() {
+		String[] columnNames = { BUNDLES.message("mealNameColumn"),
+				BUNDLES.message("cookingLengthColumn"),
+				BUNDLES.message("sidedishColumn"),
+				BUNDLES.message("utensilColumn"),
+				BUNDLES.message("cookedLastTimeColumn"),
+				BUNDLES.message("popularityColumn"),
+				BUNDLES.message("commentInsertColumn"),
+				BUNDLES.message("recipeEditColum") };
 		return columnNames;
 	}
 

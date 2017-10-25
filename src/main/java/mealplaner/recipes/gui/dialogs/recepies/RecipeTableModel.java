@@ -2,6 +2,7 @@ package mealplaner.recipes.gui.dialogs.recepies;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
+import static mealplaner.BundleStore.BUNDLES;
 import static mealplaner.recipes.model.Ingredient.emptyIngredient;
 
 import java.util.HashMap;
@@ -10,7 +11,6 @@ import java.util.Optional;
 
 import javax.swing.table.AbstractTableModel;
 
-import mealplaner.BundleStore;
 import mealplaner.recipes.model.Ingredient;
 import mealplaner.recipes.model.Measure;
 import mealplaner.recipes.model.Recipe;
@@ -19,10 +19,8 @@ public class RecipeTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	private String[] columnNames;
 	private Map<Ingredient, Integer> recipe;
-	private BundleStore bundles;
 
-	public RecipeTableModel(BundleStore bundles, Optional<Recipe> recipe) {
-		this.bundles = bundles;
+	public RecipeTableModel(Optional<Recipe> recipe) {
 		this.recipe = recipe.isPresent()
 				? recipe.get().getRecipeFor(recipe.get().getNumberOfPortions())
 				: new HashMap<>();
@@ -110,9 +108,9 @@ public class RecipeTableModel extends AbstractTableModel {
 	}
 
 	private String[] getColumnNames() {
-		String[] columnNames = { bundles.message("ingredientNameColumn"),
-				bundles.message("ingredientAmountColumn"),
-				bundles.message("ingredientMeasureColumn") };
+		String[] columnNames = { BUNDLES.message("ingredientNameColumn"),
+				BUNDLES.message("ingredientAmountColumn"),
+				BUNDLES.message("ingredientMeasureColumn") };
 		return columnNames;
 	}
 

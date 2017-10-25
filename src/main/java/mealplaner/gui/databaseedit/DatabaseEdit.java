@@ -1,5 +1,7 @@
 package mealplaner.gui.databaseedit;
 
+import static mealplaner.BundleStore.BUNDLES;
+
 import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -14,7 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import mealplaner.BundleStore;
 import mealplaner.DataStore;
 import mealplaner.DataStoreEventType;
 import mealplaner.DataStoreListener;
@@ -32,30 +33,27 @@ public class DatabaseEdit implements DataStoreListener {
 	private JFrame dataFrame;
 	private JPanel dataPanel;
 	private JTable table;
-	private BundleStore bundles;
 
 	private DataBaseTableModel tableModel;
 	private ButtonPanelEnabling buttonPanel;
 
 	private DataStore mealplanerData;
 
-	public DatabaseEdit(DataStore mealPlan, JFrame parentFrame, JPanel parentPanel,
-			BundleStore bundleStore) {
+	public DatabaseEdit(DataStore mealPlan, JFrame parentFrame, JPanel parentPanel) {
 		this.mealplanerData = mealPlan;
 		mealplanerData.register(this);
 
 		dataFrame = parentFrame;
 		dataPanel = parentPanel;
 		dataPanel.setLayout(new BorderLayout());
-		bundles = bundleStore;
 	}
 
 	public void setupPane(Consumer<List<Meal>> setMeals, IngredientProvider ingredientProvider) {
 		buttonPanel = createButtonPanelWithEnabling(setMeals, ingredientProvider);
 		buttonPanel.disableButtons();
 
-		tableModel = new DataBaseTableModel(mealplanerData.getMeals(), buttonPanel, bundles);
-		table = new DataBaseTableFactory(bundles).createTable(tableModel);
+		tableModel = new DataBaseTableModel(mealplanerData.getMeals(), buttonPanel);
+		table = new DataBaseTableFactory().createTable(tableModel);
 		table.addMouseListener(constructEditRecipeListener(ingredientProvider));
 		JScrollPane tablescroll = new JScrollPane(table);
 
@@ -73,8 +71,8 @@ public class DatabaseEdit implements DataStoreListener {
 				if (column == 7) {
 					Optional<Recipe> recipe = tableModel.returnContent().get(row).getRecipe();
 					Optional<Recipe> editedRecipe = new RecipeInput(dataFrame,
-							bundles.message("recipeInputDialogTitle"))
-									.showDialog(recipe, bundles, ingredientProvider);
+							BUNDLES.message("recipeInputDialogTitle"))
+									.showDialog(recipe, ingredientProvider);
 					if (editedRecipe != null) {
 						tableModel.addRecipe(editedRecipe, row);
 					}
@@ -85,16 +83,16 @@ public class DatabaseEdit implements DataStoreListener {
 
 	private ButtonPanelEnabling createButtonPanelWithEnabling(Consumer<List<Meal>> setData,
 			IngredientProvider ingredientProvider) {
-		return new ButtonPanelBuilder(bundles)
-				.addButton(bundles.message("addButton"),
-						bundles.message("addButtonMnemonic"),
+		return new ButtonPanelBuilder()
+				.addButton(BUNDLES.message("addButton"),
+						BUNDLES.message("addButtonMnemonic"),
 						action -> {
-							Meal newMeal = new SingleMealInput(dataFrame, bundles,
-									ingredientProvider).showDialog();
+							Meal newMeal = new SingleMealInput(dataFrame, ingredientProvider)
+									.showDialog();
 							insertItem(Optional.of(newMeal));
 						})
-				.addButton(bundles.message("removeSelectedButton"),
-						bundles.message("removeSelectedButtonMnemonic"),
+				.addButton(BUNDLES.message("removeSelectedButton"),
+						BUNDLES.message("removeSelectedButtonMnemonic"),
 						action -> {
 							Arrays.stream(table.getSelectedRows())
 									.collect(ArrayDeque<Integer>::new, ArrayDeque<Integer>::add,
@@ -110,15 +108,15 @@ public class DatabaseEdit implements DataStoreListener {
 					buttonPanel.disableButtons();
 				})
 				.makeLastButtonEnabling()
-				.addButton(bundles.message("cancelButton"),
-						bundles.message("cancelButtonMnemonic"),
+				.addButton(BUNDLES.message("cancelButton"),
+						BUNDLES.message("cancelButtonMnemonic"),
 						action -> updateTable())
 				.makeLastButtonEnabling()
 				.buildEnablingPanel();
 	}
 
 	public void printTable() {
-		TablePrinter.printTable(table, dataFrame, bundles);
+		TablePrinter.printTable(table, dataFrame);
 	}
 
 	public void insertItem(Optional<Meal> optionalMeal) {

@@ -1,21 +1,21 @@
 package mealplaner.model.enums;
 
-import java.util.EnumMap;
-
-import mealplaner.BundleStore;
+import static mealplaner.BundleStore.BUNDLES;
 
 public enum PreferenceSettings {
-	NORMAL, VERY_POPULAR_ONLY, RARE_NONE, RARE_PREFERED;
+	NORMAL(BUNDLES.message("normalPref")),
+	VERY_POPULAR_ONLY(BUNDLES.message("veryPopularOnlyPref")),
+	RARE_NONE(BUNDLES.message("noSeldomPref")),
+	RARE_PREFERED(BUNDLES.message("seldomPref"));
 
-	public static EnumMap<PreferenceSettings, String> getPreferenceSettingsStrings(
-			BundleStore bundles) {
-		EnumMap<PreferenceSettings, String> cookingPreferenceNames = new EnumMap<PreferenceSettings, String>(
-				PreferenceSettings.class);
-		cookingPreferenceNames.put(PreferenceSettings.NORMAL, bundles.message("normalPref"));
-		cookingPreferenceNames.put(PreferenceSettings.VERY_POPULAR_ONLY,
-				bundles.message("veryPopularOnlyPref"));
-		cookingPreferenceNames.put(PreferenceSettings.RARE_NONE, bundles.message("noSeldomPref"));
-		cookingPreferenceNames.put(PreferenceSettings.RARE_PREFERED, bundles.message("seldomPref"));
-		return cookingPreferenceNames;
+	private String message;
+
+	PreferenceSettings(String message) {
+		this.message = message;
+	}
+
+	@Override
+	public String toString() {
+		return message;
 	}
 }

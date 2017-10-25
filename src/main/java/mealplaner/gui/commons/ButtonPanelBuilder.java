@@ -1,5 +1,7 @@
 package mealplaner.gui.commons;
 
+import static mealplaner.BundleStore.BUNDLES;
+
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,17 +11,14 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
-import mealplaner.BundleStore;
 import mealplaner.gui.ButtonPanelEnabling;
 
 public class ButtonPanelBuilder {
 	JPanel panel;
-	BundleStore bundles;
 	List<JButton> buttonList = new ArrayList<>();
 	List<JButton> enablingList = new ArrayList<>();
 
-	public ButtonPanelBuilder(BundleStore bundles) {
-		this.bundles = bundles;
+	public ButtonPanelBuilder() {
 		panel = new JPanel();
 	}
 
@@ -29,29 +28,29 @@ public class ButtonPanelBuilder {
 	}
 
 	public ButtonPanelBuilder addExitButton(ActionListener listener) {
-		buttonList.add(createButton(bundles.message("exitButton"),
-				bundles.message("exitButtonMnemonic"),
+		buttonList.add(createButton(BUNDLES.message("exitButton"),
+				BUNDLES.message("exitButtonMnemonic"),
 				listener));
 		return this;
 	}
 
 	public ButtonPanelBuilder addOkButton(ActionListener listener) {
-		buttonList.add(createButton(bundles.message("okButton"),
-				bundles.message("okButtonMnemonic"),
+		buttonList.add(createButton(BUNDLES.message("okButton"),
+				BUNDLES.message("okButtonMnemonic"),
 				listener));
 		return this;
 	}
 
 	public ButtonPanelBuilder addSaveButton(ActionListener listener) {
-		buttonList.add(createButton(bundles.message("saveButton"),
-				bundles.message("saveButtonMnemonic"),
+		buttonList.add(createButton(BUNDLES.message("saveButton"),
+				BUNDLES.message("saveButtonMnemonic"),
 				listener));
 		return this;
 	}
 
 	public ButtonPanelBuilder addCancelDialogButton(JDialog dialog) {
-		buttonList.add(createButton(bundles.message("cancelButton"),
-				bundles.message("cancelButtonMnemonic"),
+		buttonList.add(createButton(BUNDLES.message("cancelButton"),
+				BUNDLES.message("cancelButtonMnemonic"),
 				justDisposeListener(dialog)));
 		return this;
 	}

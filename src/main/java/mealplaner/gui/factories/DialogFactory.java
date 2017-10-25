@@ -2,7 +2,6 @@ package mealplaner.gui.factories;
 
 import javax.swing.JFrame;
 
-import mealplaner.BundleStore;
 import mealplaner.gui.dialogs.mealinput.MultipleMealInput;
 import mealplaner.gui.dialogs.mealinput.SingleMealInput;
 import mealplaner.gui.dialogs.pastupdate.UpdatePastMeals;
@@ -15,42 +14,40 @@ import mealplaner.recipes.provider.IngredientProvider;
 
 public class DialogFactory {
 	private JFrame frame;
-	private BundleStore bundles;
 
-	public DialogFactory(JFrame parentFrame, BundleStore bundles) {
+	public DialogFactory(JFrame parentFrame) {
 		this.frame = parentFrame;
-		this.bundles = bundles;
 	}
 
 	public MultipleMealInput createMultipleMealInputDialog(IngredientProvider ingredientProvider) {
-		return new MultipleMealInput(frame, bundles, ingredientProvider);
+		return new MultipleMealInput(frame, ingredientProvider);
 	}
 
 	public SingleMealInput createSingleMealInputDialog(IngredientProvider ingredientProvider) {
-		return new SingleMealInput(frame, bundles, ingredientProvider);
+		return new SingleMealInput(frame, ingredientProvider);
 	}
 
 	public UpdatePastMeals createUpdatePastMealDialog() {
-		return new UpdatePastMeals(frame, bundles);
+		return new UpdatePastMeals(frame);
 	}
 
 	public ProposalOutput createProposalOutputDialog() {
-		return new ProposalOutput(frame, bundles);
+		return new ProposalOutput(frame);
 	}
 
 	public DefaultSettingsInput createDefaultSettingsDialog() {
-		return new DefaultSettingsInput(frame, bundles);
+		return new DefaultSettingsInput(frame);
 	}
 
 	public ProposalSettingsInput createProposalSettingsDialog() {
-		return new ProposalSettingsInput(frame, bundles);
+		return new ProposalSettingsInput(frame);
 	}
 
 	public ProposalTableFactory createProposalTableFactory() {
-		return new ProposalTableFactory(bundles);
+		return new ProposalTableFactory();
 	}
 
 	public IngredientsInput createIngredientsInput() {
-		return new IngredientsInput(frame, bundles);
+		return new IngredientsInput(frame);
 	}
 }

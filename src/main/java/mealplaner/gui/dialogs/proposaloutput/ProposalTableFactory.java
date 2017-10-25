@@ -2,6 +2,7 @@ package mealplaner.gui.dialogs.proposaloutput;
 
 import static java.time.format.DateTimeFormatter.ofLocalizedDate;
 import static java.time.format.FormatStyle.SHORT;
+import static mealplaner.BundleStore.BUNDLES;
 import static mealplaner.gui.model.StringArrayCollection.getProposalOutputColumnNames;
 import static mealplaner.gui.model.StringArrayCollection.getWeekDays;
 
@@ -11,30 +12,27 @@ import java.util.List;
 
 import javax.swing.JTable;
 
-import mealplaner.BundleStore;
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
 
 public class ProposalTableFactory {
-	private BundleStore bundles;
 	private JTable table;
 
-	public ProposalTableFactory(BundleStore bundles) {
-		this.bundles = bundles;
+	public ProposalTableFactory() {
 	}
 
 	public JTable createTable(Proposal lastProposal) {
-		String[] columnNames = getProposalOutputColumnNames(bundles);
+		String[] columnNames = getProposalOutputColumnNames();
 		table = new JTable(
 				new ProposalTableModel(prepareProposalForTable(lastProposal), columnNames));
 		return table;
 	}
 
 	private String[][] prepareProposalForTable(Proposal proposal) {
-		String[] weekDays = getWeekDays(bundles);
+		String[] weekDays = getWeekDays();
 
 		List<Meal> mealList = proposal.getProposalList();
-		DateTimeFormatter formatter = ofLocalizedDate(SHORT).withLocale(bundles.locale());
+		DateTimeFormatter formatter = ofLocalizedDate(SHORT).withLocale(BUNDLES.locale());
 		String[][] data = new String[mealList.size()][3];
 		LocalDate date = proposal.getTime();
 

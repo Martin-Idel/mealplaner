@@ -1,27 +1,30 @@
 package mealplaner.recipes.model;
 
-import java.util.EnumMap;
-
-import mealplaner.BundleStore;
+import static mealplaner.BundleStore.BUNDLES;
 
 public enum IngredientType {
-	WHITE_MEAT, RED_MEAT, MEAT_PRODUCTS, MILK_EGG_PRODUCTS, FRESH_FRUIT, CANNED_FRUIT, FRESH_VEGETABLES, CANNED_VEGETABLES, SPICE, FLUID, BAKING_GOODS, DRY_GOODS, OTHER;
+	WHITE_MEAT(BUNDLES.message("WHITE_MEAT")),
+	RED_MEAT(BUNDLES.message("RED_MEAT")),
+	MEAT_PRODUCTS(BUNDLES.message("MEAT_PRODUCTS")),
+	MILK_EGG_PRODUCTS(BUNDLES.message("MILK_EGG_PRODUCTS")),
+	FRESH_FRUIT(BUNDLES.message("FRESH_FRUIT")),
+	CANNED_FRUIT(BUNDLES.message("CANNED_FRUIT")),
+	FRESH_VEGETABLES(BUNDLES.message("FRESH_VEGETABLES")),
+	CANNED_VEGETABLES(BUNDLES.message("CANNED_VEGETABLES")),
+	SPICE(BUNDLES.message("SPICE")),
+	FLUID(BUNDLES.message("FLUID")),
+	BAKING_GOODS(BUNDLES.message("BAKING_GOODS")),
+	DRY_GOODS(BUNDLES.message("DRY_GOODS")),
+	OTHER(BUNDLES.message("OTHER"));
 
-	public static EnumMap<IngredientType, String> getIngredientTypeStrings(BundleStore bundles) {
-		EnumMap<IngredientType, String> ingredientTypes = new EnumMap<>(IngredientType.class);
-		ingredientTypes.put(WHITE_MEAT, bundles.message("WHITE_MEAT"));
-		ingredientTypes.put(RED_MEAT, bundles.message("RED_MEAT"));
-		ingredientTypes.put(MEAT_PRODUCTS, bundles.message("MEAT_PRODUCTS"));
-		ingredientTypes.put(MILK_EGG_PRODUCTS, bundles.message("MILK_EGG_PRODUCTS"));
-		ingredientTypes.put(FRESH_FRUIT, bundles.message("FRESH_FRUIT"));
-		ingredientTypes.put(CANNED_FRUIT, bundles.message("CANNED_FRUIT"));
-		ingredientTypes.put(FRESH_VEGETABLES, bundles.message("FRESH_VEGETABLES"));
-		ingredientTypes.put(CANNED_VEGETABLES, bundles.message("CANNED_VEGETABLES"));
-		ingredientTypes.put(SPICE, bundles.message("SPICE"));
-		ingredientTypes.put(FLUID, bundles.message("FLUID"));
-		ingredientTypes.put(BAKING_GOODS, bundles.message("BAKING_GOODS"));
-		ingredientTypes.put(DRY_GOODS, bundles.message("DRY_GOODS"));
-		ingredientTypes.put(OTHER, bundles.message("OTHER"));
-		return ingredientTypes;
+	private String message;
+
+	IngredientType(String message) {
+		this.message = message;
+	}
+
+	@Override
+	public String toString() {
+		return message;
 	}
 }

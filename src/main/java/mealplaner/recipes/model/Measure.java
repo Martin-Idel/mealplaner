@@ -1,19 +1,22 @@
 package mealplaner.recipes.model;
 
-import java.util.EnumMap;
-
-import mealplaner.BundleStore;
+import static mealplaner.BundleStore.BUNDLES;
 
 public enum Measure {
-	GRAM, MILLILITRE, TEASPOON, TABLESPOON, NONE;
+	GRAM(BUNDLES.message("GRAM")),
+	MILLILITRE(BUNDLES.message("MILLILITRE")),
+	TEASPOON(BUNDLES.message("TEASPOON")),
+	TABLESPOON(BUNDLES.message("TABLESPOON")),
+	NONE(BUNDLES.message("NONE"));
 
-	public static EnumMap<Measure, String> getMeasureStrings(BundleStore bundles) {
-		EnumMap<Measure, String> measure = new EnumMap<>(Measure.class);
-		measure.put(GRAM, bundles.message("GRAM"));
-		measure.put(MILLILITRE, bundles.message("MILLILITRE"));
-		measure.put(TEASPOON, bundles.message("TEASPOON"));
-		measure.put(TABLESPOON, bundles.message("TABLESPOON"));
-		measure.put(NONE, bundles.message("NONE"));
-		return measure;
+	private String message;
+
+	Measure(String message) {
+		this.message = message;
+	}
+
+	@Override
+	public String toString() {
+		return message;
 	}
 }
