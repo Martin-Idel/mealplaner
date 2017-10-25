@@ -1,6 +1,7 @@
 package mealplaner.model;
 
 import static java.time.LocalDate.now;
+import static java.util.Collections.unmodifiableList;
 import static mealplaner.io.XMLHelpers.createTextNode;
 import static mealplaner.io.XMLHelpers.parseDate;
 import static mealplaner.io.XMLHelpers.parseMealList;
@@ -48,7 +49,7 @@ public class Proposal {
 	}
 
 	public List<Meal> getProposalList() {
-		return mealList;
+		return unmodifiableList(mealList);
 	}
 
 	public int getSize() {
