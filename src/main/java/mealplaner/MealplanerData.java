@@ -36,7 +36,6 @@ import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
 import mealplaner.model.settings.DefaultSettings;
 
-// TODO: Error handling and ResourceBundles
 public class MealplanerData implements DataStore {
 	private List<Meal> meals;
 	private DefaultSettings defaultSettings;

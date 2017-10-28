@@ -24,9 +24,8 @@ public class ComboBoxInputField<E extends Enum<E>> implements InputField<E> {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public E getUserInput() {
-		return (E) comboBox.getSelectedItem();
+		return comboBox.getItemAt(comboBox.getSelectedIndex());
 	}
 
 	@Override
