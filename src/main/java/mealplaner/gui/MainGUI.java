@@ -192,6 +192,7 @@ public class MainGUI {
 				outline.isShallBeRandomised());
 		mealPlan.setLastProposal(proposal);
 		dialogs.createProposalOutputDialog().showDialog(proposal);
+		dialogs.createShoppingListDialog().showDialog(proposal, ingredients);
 	}
 
 	private Proposal propose(Settings[] set, boolean today, boolean random) {

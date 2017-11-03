@@ -11,6 +11,7 @@ import mealplaner.gui.dialogs.settingsinput.DefaultSettingsInput;
 import mealplaner.gui.dialogs.settingsinput.ProposalSettingsInput;
 import mealplaner.recipes.gui.dialogs.ingredients.IngredientsInput;
 import mealplaner.recipes.provider.IngredientProvider;
+import mealplaner.shopping.ShoppingListDialog;
 
 public class DialogFactory {
 	private JFrame frame;
@@ -49,5 +50,9 @@ public class DialogFactory {
 
 	public IngredientsInput createIngredientsInput() {
 		return new IngredientsInput(frame);
+	}
+
+	public ShoppingListDialog createShoppingListDialog() {
+		return new ShoppingListDialog(frame);
 	}
 }
