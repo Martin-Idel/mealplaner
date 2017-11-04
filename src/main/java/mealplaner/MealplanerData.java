@@ -110,6 +110,7 @@ public class MealplanerData implements DataStore {
 
 	public void update(List<Meal> mealsCookedLast, LocalDate now) {
 		long daysSinceLastUpdate = DAYS.between(date, now);
+		date = now;
 		meals = meals.stream().map(meal -> mealsCookedLast.contains(meal)
 				? setDaysPassed(mealsCookedLast.size() - mealsCookedLast.indexOf(meal) - 1, meal)
 				: addDaysPassed(toIntExact(daysSinceLastUpdate), meal))
