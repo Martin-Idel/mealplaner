@@ -1,5 +1,7 @@
 package mealplaner.commons;
 
+import java.util.function.Function;
+
 public class Pair<L, R> {
 	public final R right;
 	public final L left;
@@ -11,6 +13,14 @@ public class Pair<L, R> {
 
 	public static <L, R> Pair<L, R> of(L left, R right) {
 		return new Pair<L, R>(left, right);
+	}
+
+	public <S> Pair<S, R> mapLeft(Function<L, S> function) {
+		return of(function.apply(this.left), this.right);
+	}
+
+	public <S> Pair<L, S> mapRight(Function<R, S> function) {
+		return of(this.left, function.apply(this.right));
 	}
 
 	@Override
