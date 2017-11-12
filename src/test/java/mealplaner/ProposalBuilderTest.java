@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 import mealplaner.commons.Pair;
@@ -31,8 +32,12 @@ import mealplaner.model.enums.PreferenceSettings;
 import mealplaner.model.enums.Sidedish;
 import mealplaner.model.settings.CookingTimeSetting;
 import mealplaner.model.settings.Settings;
+import testcommons.BundlesInitialization;
 
 public class ProposalBuilderTest {
+
+	@Rule
+	public final BundlesInitialization bundlesInitialization = new BundlesInitialization();
 
 	private List<Meal> meals;
 	private ProposalBuilder proposalBuilder;

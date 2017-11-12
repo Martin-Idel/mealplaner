@@ -9,12 +9,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 import mealplaner.model.Meal;
 import mealplaner.model.enums.CookingTime;
+import testcommons.BundlesInitialization;
 
 public class CookingTimeSettingTest {
+	@Rule
+	public final BundlesInitialization bundlesInitialization = new BundlesInitialization();
 
 	private Set<CookingTime> prohibitedTime;
 	private CookingTimeSetting cookingTimeSetting;

@@ -62,12 +62,16 @@ public class CommonFunctions {
 	}
 
 	public static Meal getMeal2() {
+		return createMeal("Test2", CookingTime.SHORT, Sidedish.NONE,
+				ObligatoryUtensil.POT, CookingPreference.NO_PREFERENCE, 1, "",
+				of(getRecipe()));
+	}
+
+	public static Recipe getRecipe() {
 		Map<Ingredient, Integer> ingredients = new HashMap<>();
 		ingredients.put(getIngredient1(), 100);
 		ingredients.put(getIngredient2(), 200);
-		return createMeal("Test2", CookingTime.SHORT, Sidedish.NONE,
-				ObligatoryUtensil.POT, CookingPreference.NO_PREFERENCE, 1, "",
-				of(Recipe.from(2, ingredients)));
+		return Recipe.from(2, ingredients);
 	}
 
 	public static Ingredient getIngredient1() {

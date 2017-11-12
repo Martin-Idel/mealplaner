@@ -10,12 +10,16 @@ import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.junit.Rule;
 import org.junit.Test;
 import org.w3c.dom.Document;
 
+import testcommons.BundlesInitialization;
 import testcommons.CommonFunctions;
 
 public class RecipeTest {
+	@Rule
+	public final BundlesInitialization bundlesInitialization = new BundlesInitialization();
 
 	@Test
 	public void testXMlLoadAndSave() throws ParserConfigurationException {

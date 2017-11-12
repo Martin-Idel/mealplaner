@@ -1,8 +1,8 @@
 package mealplaner.io;
 
-import static mealplaner.io.XMLHelpers.writeDate;
-import static mealplaner.io.XMLHelpers.parseMealList;
 import static mealplaner.io.XMLHelpers.parseDate;
+import static mealplaner.io.XMLHelpers.parseMealList;
+import static mealplaner.io.XMLHelpers.writeDate;
 import static mealplaner.io.XMLHelpers.writeMealList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.createDocument;
@@ -16,13 +16,17 @@ import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.junit.Rule;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import mealplaner.model.Meal;
+import testcommons.BundlesInitialization;
 
 public class XMLHelperTest {
+	@Rule
+	public final BundlesInitialization bundlesInitialization = new BundlesInitialization();
 
 	@Test
 	public void getEnumFromTextNode() throws ParserConfigurationException {

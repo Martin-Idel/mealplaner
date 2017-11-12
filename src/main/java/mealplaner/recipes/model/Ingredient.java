@@ -52,9 +52,9 @@ public class Ingredient {
 		ingredientNode
 				.appendChild(createTextNode(saveFileContent, "name", () -> ingredient.getName()));
 		ingredientNode.appendChild(
-				createTextNode(saveFileContent, "type", () -> ingredient.getType().toString()));
+				createTextNode(saveFileContent, "type", () -> ingredient.getType().name()));
 		ingredientNode.appendChild(createTextNode(saveFileContent, "measure",
-				() -> ingredient.getMeasure().toString()));
+				() -> ingredient.getMeasure().name()));
 		return ingredientNode;
 	}
 

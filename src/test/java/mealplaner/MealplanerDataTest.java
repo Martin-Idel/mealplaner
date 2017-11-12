@@ -6,8 +6,8 @@ import static mealplaner.DataStoreEventType.DATABASE_EDITED;
 import static mealplaner.DataStoreEventType.DATE_UPDATED;
 import static mealplaner.DataStoreEventType.PROPOSAL_ADDED;
 import static mealplaner.DataStoreEventType.SETTINGS_CHANGED;
-import static mealplaner.MealplanerData.writeMealplanerData;
 import static mealplaner.MealplanerData.parseMealplanerData;
+import static mealplaner.MealplanerData.writeMealplanerData;
 import static mealplaner.model.Meal.createMeal;
 import static mealplaner.model.Proposal.createProposal;
 import static mealplaner.model.settings.DefaultSettings.createDefaultSettings;
@@ -26,6 +26,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -39,9 +40,13 @@ import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
 import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.Sidedish;
+import testcommons.BundlesInitialization;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MealplanerDataTest {
+	@Rule
+	public final BundlesInitialization bundlesInitialization = new BundlesInitialization();
+
 	private List<Meal> meals = new ArrayList<>();
 	private Meal meal1;
 	private Meal meal2;

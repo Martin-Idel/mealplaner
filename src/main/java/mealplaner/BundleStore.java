@@ -14,7 +14,6 @@ public enum BundleStore {
 	private Locale currentLocale;
 
 	private BundleStore() {
-
 	}
 
 	public void setMessageBundle(ResourceBundle messages) {

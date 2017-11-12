@@ -16,13 +16,18 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 import mealplaner.recipes.model.Ingredient;
 import mealplaner.recipes.model.Measure;
 import mealplaner.recipes.model.Recipe;
+import testcommons.BundlesInitialization;
 
 public class RecipeTableModelTest {
+	@Rule
+	public final BundlesInitialization bundlesInitialization = new BundlesInitialization();
+
 	private RecipeTableModel recipeTableModel;
 
 	@Before
