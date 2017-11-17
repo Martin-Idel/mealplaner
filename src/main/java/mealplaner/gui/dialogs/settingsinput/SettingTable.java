@@ -89,26 +89,23 @@ public class SettingTable {
 		tableBuilder
 				.addColumn(withNonnegativeIntegerContent()
 						.withColumnName(BUNDLES.message("manyColumn"))
-						.getRowValueFromUnderlyingModel(
-								row -> settings.get(row).getNumberOfPeople())
-						.setRowValueToUnderlyingModel((value, row) -> settings.set(row,
-								settings.get(row).changeNumberOfPeople(value)))
+						.getValueFromOrderedList(settings, setting -> setting.getNumberOfPeople())
+						.setValueToOrderedImmutableList(settings,
+								(element, value) -> element.changeNumberOfPeople(value))
 						.isEditable()
 						.build())
 				.addColumn(newColumnWithEnumContent(CasseroleSettings.class)
 						.withColumnName(BUNDLES.message("casseroleColumn"))
-						.getRowValueFromUnderlyingModel(row -> settings.get(row).getCasserole())
-						.setRowValueToUnderlyingModel(
-								(val, row) -> settings.set(row,
-										settings.get(row).changeCasserole(val)))
+						.getValueFromOrderedList(settings, setting -> setting.getCasserole())
+						.setValueToOrderedImmutableList(settings,
+								(element, value) -> element.changeCasserole(value))
 						.isEditable()
 						.build())
 				.addColumn(newColumnWithEnumContent(PreferenceSettings.class)
 						.withColumnName(BUNDLES.message("preferenceColumn"))
-						.getRowValueFromUnderlyingModel(row -> settings.get(row).getPreference())
-						.setRowValueToUnderlyingModel(
-								(val, row) -> settings.set(row,
-										settings.get(row).changePreference(val)))
+						.getValueFromOrderedList(settings, setting -> setting.getPreference())
+						.setValueToOrderedImmutableList(settings,
+								(element, value) -> element.changePreference(value))
 						.isEditable()
 						.build());
 	}
@@ -138,11 +135,11 @@ public class SettingTable {
 			FlexibleTableBuilder tableBuilder) {
 		tableBuilder.addColumn(withBooleanContent()
 				.withColumnName(columnName)
-				.getRowValueFromUnderlyingModel(row -> !settings.get(row).getCookingTime()
-						.contains(time))
-				.setRowValueToUnderlyingModel((value, row) -> settings.set(row,
-						settings.get(row).changeCookingTime(changeStateOf(time, value,
-								copyCookingTimeSetting(settings.get(row).getCookingTime())))))
+				.getValueFromOrderedList(settings,
+						setting -> !setting.getCookingTime().contains(time))
+				.setValueToOrderedImmutableList(settings,
+						(element, value) -> element.changeCookingTime(changeStateOf(time, value,
+								copyCookingTimeSetting(element.getCookingTime()))))
 				.isEditable()
 				.build());
 	}
