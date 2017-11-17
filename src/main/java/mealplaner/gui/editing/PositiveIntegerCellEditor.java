@@ -1,5 +1,8 @@
 package mealplaner.gui.editing;
 
+import static java.lang.Integer.parseInt;
+import static mealplaner.commons.NonnegativeInteger.nonNegative;
+
 import java.awt.Color;
 import java.awt.Component;
 
@@ -42,5 +45,10 @@ public class PositiveIntegerCellEditor extends DefaultCellEditor {
 			int row, int column) {
 		textField.setBorder(black);
 		return super.getTableCellEditorComponent(table, value, isSelected, row, column);
+	}
+
+	@Override
+	public Object getCellEditorValue() {
+		return nonNegative(parseInt((String) super.getCellEditorValue()));
 	}
 }

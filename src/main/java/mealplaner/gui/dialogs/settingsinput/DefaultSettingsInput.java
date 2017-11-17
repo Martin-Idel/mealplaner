@@ -42,7 +42,6 @@ public class DefaultSettingsInput extends SettingsInput {
 	protected void setup(DefaultSettings defaultSettings) {
 		settingTable = new SettingTable(defaultSettings);
 		tablescroll = new JScrollPane(settingTable.setupTable());
-		settingTable.removeDateColumn();
 
 		buttonPanel = new ButtonPanelBuilder()
 				.addSaveButton(getSaveListener(settingTable))

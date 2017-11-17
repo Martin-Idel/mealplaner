@@ -1,78 +1,180 @@
 package mealplaner.gui.dialogs.settingsinput;
 
 import static java.time.LocalDate.of;
+import static java.time.format.DateTimeFormatter.ofLocalizedDate;
+import static java.time.format.FormatStyle.SHORT;
+import static java.util.stream.Collectors.toList;
+import static mealplaner.BundleStore.BUNDLES;
+import static mealplaner.gui.model.StringArrayCollection.getWeekDays;
+import static mealplaner.gui.tables.FlexibleTableBuilder.createNewTable;
+import static mealplaner.gui.tables.TableColumnBuilder.newColumnWithEnumContent;
+import static mealplaner.gui.tables.TableColumnBuilder.withBooleanContent;
+import static mealplaner.gui.tables.TableColumnBuilder.withContent;
+import static mealplaner.gui.tables.TableColumnBuilder.withNonnegativeIntegerContent;
+import static mealplaner.model.settings.CookingTimeSetting.copyCookingTimeSetting;
+import static mealplaner.model.settings.Settings.copy;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JTable;
-import javax.swing.table.TableColumn;
 
-import mealplaner.gui.commons.SwingUtilityMethods;
-import mealplaner.gui.editing.PositiveIntegerCellEditor;
+import mealplaner.commons.NonnegativeInteger;
+import mealplaner.gui.tables.FlexibleTableBuilder;
 import mealplaner.model.enums.CasseroleSettings;
+import mealplaner.model.enums.CookingTime;
 import mealplaner.model.enums.PreferenceSettings;
+import mealplaner.model.settings.CookingTimeSetting;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
 
-// TODO: removeDateColumn should be transported to the model. This way, we don't need a crappy default calendar
 public class SettingTable {
 	private JTable table;
-	private SettingTableModel tableModel;
-	private LocalDate date = of(2017, 10, 23); // A random Monday
+	private List<Settings> settings;
+	private String[] days = getWeekDays();
+	private LocalDate date;
 
 	public SettingTable(DefaultSettings defaultSettings) {
-		Settings[] settings = new Settings[7];
+		List<Settings> settings = new ArrayList<>(7);
 		for (DayOfWeek dayOfWeek : DayOfWeek.values()) {
-			settings[dayOfWeek.getValue() - 1] = defaultSettings.getDefaultSettings()
-					.get(dayOfWeek);
+			settings.add(defaultSettings.getDefaultSettings()
+					.get(dayOfWeek));
 		}
-		tableModel = new SettingTableModel(settings, date);
+		this.settings = settings;
 	}
 
-	public SettingTable(Settings[] settings, LocalDate date) {
+	public SettingTable(List<Settings> settings, LocalDate date) {
 		this.date = date;
-
-		tableModel = new SettingTableModel(settings, date);
-	}
-
-	public JTable setupTable() {
-		table = new JTable(tableModel);
-		setPreferredWidthXofColumns(100, 0, 7, 8);
-		setPreferredWidthXofColumns(50, 1, 2, 3, 4, 5, 6);
-		table.setDefaultEditor(Integer.class, new PositiveIntegerCellEditor());
-		SwingUtilityMethods.setupComboBoxEditor(getTableColumn(7), CasseroleSettings.class);
-		SwingUtilityMethods.setupComboBoxEditor(getTableColumn(8), PreferenceSettings.class);
-		return table;
+		this.settings = settings.stream().map(setting -> copy(setting)).collect(toList());
 	}
 
 	public void useDefaultSettings(DefaultSettings defaultSettings) {
-		Settings[] settings = new Settings[tableModel.getRowCount()];
+		List<Settings> settings = new ArrayList<>(table.getRowCount());
 		Map<DayOfWeek, Settings> defaults = defaultSettings.getDefaultSettings();
 		DayOfWeek dayOfWeek = date.getDayOfWeek();
-		for (int i = 0; i < settings.length; i++) {
-			settings[i] = defaults.get(dayOfWeek);
+		for (int i = 0; i < table.getRowCount(); i++) {
+			settings.add(defaults.get(dayOfWeek));
 			dayOfWeek = dayOfWeek.plus(1);
 		}
-		tableModel.update(settings);
+		this.settings = settings;
+		table.repaint();
+	}
+
+	public JTable setupTable() {
+		FlexibleTableBuilder tableBuilder = createNewTable();
+		addDayOfWeekColumn(tableBuilder);
+		if (date != null) {
+			addDateColumn(tableBuilder);
+		}
+		addCookingTimeColumnFor(CookingTime.VERY_SHORT, BUNDLES.message("veryShortColumn"),
+				tableBuilder);
+		addCookingTimeColumnFor(CookingTime.SHORT, BUNDLES.message("shortColumn"), tableBuilder);
+		addCookingTimeColumnFor(CookingTime.MEDIUM, BUNDLES.message("mediumColumn"), tableBuilder);
+		addCookingTimeColumnFor(CookingTime.LONG, BUNDLES.message("longColumn"), tableBuilder);
+
+		addOtherSettings(tableBuilder);
+
+		table = tableBuilder.buildTable();
+		return table;
+	}
+
+	private void addOtherSettings(FlexibleTableBuilder tableBuilder) {
+		tableBuilder
+				.addColumn(withNonnegativeIntegerContent()
+						.withColumnName(BUNDLES.message("manyColumn"))
+						.getRowValueFromUnderlyingModel(
+								row -> settings.get(row).getNumberOfPeople())
+						.setRowValueToUnderlyingModel((value, row) -> settings.set(row,
+								changeNumberOfPeople(settings.get(row), value)))
+						.isEditable()
+						.build())
+				.addColumn(newColumnWithEnumContent(CasseroleSettings.class)
+						.withColumnName(BUNDLES.message("casseroleColumn"))
+						.getRowValueFromUnderlyingModel(row -> settings.get(row).getCasserole())
+						.setRowValueToUnderlyingModel(
+								(val, row) -> settings.set(row,
+										changeCasserole(settings.get(row), val)))
+						.isEditable()
+						.build())
+				.addColumn(newColumnWithEnumContent(PreferenceSettings.class)
+						.withColumnName(BUNDLES.message("preferenceColumn"))
+						.getRowValueFromUnderlyingModel(row -> settings.get(row).getPreference())
+						.setRowValueToUnderlyingModel(
+								(val, row) -> settings.set(row,
+										changePreference(settings.get(row), val)))
+						.isEditable()
+						.build());
+	}
+
+	private void addDayOfWeekColumn(FlexibleTableBuilder tableBuilder) {
+		// If we don't have a date, take a random Monday for default settings
+		final LocalDate newDate = (date == null) ? of(2017, 10, 23) : date;
+		tableBuilder
+				.withRowCount(settings::size)
+				.addColumn(withContent(String.class)
+						.withColumnName(BUNDLES.message("weekday"))
+						.getRowValueFromUnderlyingModel(
+								row -> days[newDate.plusDays(row).getDayOfWeek().getValue() % 7])
+						.build());
+	}
+
+	private void addDateColumn(FlexibleTableBuilder tableBuilder) {
+		tableBuilder.addColumn(withContent(String.class)
+				.withColumnName(BUNDLES.message("date"))
+				.getRowValueFromUnderlyingModel(row -> date.plusDays(row)
+						.format(ofLocalizedDate(SHORT).withLocale(BUNDLES.locale())))
+				.setPreferredSize(50)
+				.build());
 	}
 
 	public Settings[] getSettings() {
-		return tableModel.returnContent();
+		Settings[] content = new Settings[settings.size()];
+		return settings.toArray(content);
 	}
 
-	public void removeDateColumn() {
-		table.removeColumn(getTableColumn(1));
+	private void addCookingTimeColumnFor(CookingTime time, String columnName,
+			FlexibleTableBuilder tableBuilder) {
+		tableBuilder.addColumn(withBooleanContent()
+				.withColumnName(columnName)
+				.getRowValueFromUnderlyingModel(row -> !settings.get(row).getCookingTime()
+						.contains(time))
+				.setRowValueToUnderlyingModel((value, row) -> settings.set(row,
+						changeCookingTime(settings.get(row), changeStateOf(time, value,
+								copyCookingTimeSetting(settings.get(row).getCookingTime())))))
+				.isEditable()
+				.build());
 	}
 
-	private void setPreferredWidthXofColumns(int preferredWidth, Integer... columns) {
-		for (int column : columns) {
-			getTableColumn(column).setPreferredWidth(preferredWidth);
+	private CookingTimeSetting changeStateOf(CookingTime cookingTime, Object value,
+			CookingTimeSetting newCookingTimeSetting) {
+		if ((Boolean) value == true) {
+			newCookingTimeSetting.allowCookingTime(cookingTime);
+		} else {
+			newCookingTimeSetting.prohibitCookingTime(cookingTime);
 		}
+		return newCookingTimeSetting;
 	}
 
-	private TableColumn getTableColumn(int index) {
-		return table.getColumnModel().getColumn(index);
+	private Settings changeCookingTime(Settings setting, CookingTimeSetting cookingTime) {
+		return Settings.from(cookingTime, setting.getNumberOfPeople(), setting.getCasserole(),
+				setting.getPreference());
+	}
+
+	private Settings changeNumberOfPeople(Settings setting, NonnegativeInteger numberOfPeople) {
+		return Settings.from(setting.getCookingTime(), numberOfPeople, setting.getCasserole(),
+				setting.getPreference());
+	}
+
+	private Settings changeCasserole(Settings setting, CasseroleSettings casseroleSettings) {
+		return Settings.from(setting.getCookingTime(), setting.getNumberOfPeople(),
+				casseroleSettings, setting.getPreference());
+	}
+
+	private Settings changePreference(Settings setting, PreferenceSettings preferenceSettings) {
+		return Settings.from(setting.getCookingTime(), setting.getNumberOfPeople(),
+				setting.getCasserole(), preferenceSettings);
 	}
 }

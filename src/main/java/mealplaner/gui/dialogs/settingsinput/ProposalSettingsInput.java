@@ -6,6 +6,7 @@ import static mealplaner.model.settings.Settings.createSettings;
 import java.awt.BorderLayout;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import javax.swing.JFrame;
@@ -35,14 +36,14 @@ public class ProposalSettingsInput extends SettingsInput {
 		return getEnteredSettings();
 	}
 
-	private Settings[] createSettingsForTable(int numberOfDays, boolean today) {
+	private List<Settings> createSettingsForTable(int numberOfDays, boolean today) {
 		Settings[] settings = new Settings[numberOfDays];
 		Arrays.fill(settings, createSettings());
-		return settings;
+		return Arrays.asList(settings);
 	}
 
 	protected void setup(DefaultSettings defaultSettings, ProposalOutline outline) {
-		Settings[] tableSettings = createSettingsForTable(outline.getNumberOfDays(),
+		List<Settings> tableSettings = createSettingsForTable(outline.getNumberOfDays(),
 				outline.isIncludedToday());
 		LocalDate date = outline.isIncludedToday() ? outline.getDateToday()
 				: outline.getDateToday().plusDays(1);
