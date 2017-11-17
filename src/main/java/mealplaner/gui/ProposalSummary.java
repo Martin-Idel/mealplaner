@@ -115,6 +115,9 @@ public class ProposalSummary implements DataStoreListener {
 		if (takeTodayCheckBox.getUserInput()) {
 			builder.includeToday();
 		}
+		if (takeDefaultCheckBox.getUserInput()) {
+			builder.takeDefaultSettings();
+		}
 
 		return builder.build();
 	}

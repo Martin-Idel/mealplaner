@@ -162,7 +162,7 @@ public class MainGUI {
 
 	public void makeProposal() {
 		ProposalOutline outline = proposalSummary.getProposalOutline();
-		if (outline.isIncludedToday()) {
+		if (outline.takeDefaultSettings()) {
 			Settings[] settings = setDefaultSettings(outline);
 			makeProposal(settings, outline);
 		} else {
