@@ -22,7 +22,6 @@ import java.util.Map;
 
 import javax.swing.JTable;
 
-import mealplaner.commons.NonnegativeInteger;
 import mealplaner.gui.tables.FlexibleTableBuilder;
 import mealplaner.model.enums.CasseroleSettings;
 import mealplaner.model.enums.CookingTime;
@@ -49,6 +48,11 @@ public class SettingTable {
 	public SettingTable(List<Settings> settings, LocalDate date) {
 		this.date = date;
 		this.settings = settings.stream().map(setting -> copy(setting)).collect(toList());
+	}
+
+	public Settings[] getSettings() {
+		Settings[] content = new Settings[settings.size()];
+		return settings.toArray(content);
 	}
 
 	public void useDefaultSettings(DefaultSettings defaultSettings) {
@@ -88,7 +92,7 @@ public class SettingTable {
 						.getRowValueFromUnderlyingModel(
 								row -> settings.get(row).getNumberOfPeople())
 						.setRowValueToUnderlyingModel((value, row) -> settings.set(row,
-								changeNumberOfPeople(settings.get(row), value)))
+								settings.get(row).changeNumberOfPeople(value)))
 						.isEditable()
 						.build())
 				.addColumn(newColumnWithEnumContent(CasseroleSettings.class)
@@ -96,7 +100,7 @@ public class SettingTable {
 						.getRowValueFromUnderlyingModel(row -> settings.get(row).getCasserole())
 						.setRowValueToUnderlyingModel(
 								(val, row) -> settings.set(row,
-										changeCasserole(settings.get(row), val)))
+										settings.get(row).changeCasserole(val)))
 						.isEditable()
 						.build())
 				.addColumn(newColumnWithEnumContent(PreferenceSettings.class)
@@ -104,7 +108,7 @@ public class SettingTable {
 						.getRowValueFromUnderlyingModel(row -> settings.get(row).getPreference())
 						.setRowValueToUnderlyingModel(
 								(val, row) -> settings.set(row,
-										changePreference(settings.get(row), val)))
+										settings.get(row).changePreference(val)))
 						.isEditable()
 						.build());
 	}
@@ -130,11 +134,6 @@ public class SettingTable {
 				.build());
 	}
 
-	public Settings[] getSettings() {
-		Settings[] content = new Settings[settings.size()];
-		return settings.toArray(content);
-	}
-
 	private void addCookingTimeColumnFor(CookingTime time, String columnName,
 			FlexibleTableBuilder tableBuilder) {
 		tableBuilder.addColumn(withBooleanContent()
@@ -142,7 +141,7 @@ public class SettingTable {
 				.getRowValueFromUnderlyingModel(row -> !settings.get(row).getCookingTime()
 						.contains(time))
 				.setRowValueToUnderlyingModel((value, row) -> settings.set(row,
-						changeCookingTime(settings.get(row), changeStateOf(time, value,
+						settings.get(row).changeCookingTime(changeStateOf(time, value,
 								copyCookingTimeSetting(settings.get(row).getCookingTime())))))
 				.isEditable()
 				.build());
@@ -156,25 +155,5 @@ public class SettingTable {
 			newCookingTimeSetting.prohibitCookingTime(cookingTime);
 		}
 		return newCookingTimeSetting;
-	}
-
-	private Settings changeCookingTime(Settings setting, CookingTimeSetting cookingTime) {
-		return Settings.from(cookingTime, setting.getNumberOfPeople(), setting.getCasserole(),
-				setting.getPreference());
-	}
-
-	private Settings changeNumberOfPeople(Settings setting, NonnegativeInteger numberOfPeople) {
-		return Settings.from(setting.getCookingTime(), numberOfPeople, setting.getCasserole(),
-				setting.getPreference());
-	}
-
-	private Settings changeCasserole(Settings setting, CasseroleSettings casseroleSettings) {
-		return Settings.from(setting.getCookingTime(), setting.getNumberOfPeople(),
-				casseroleSettings, setting.getPreference());
-	}
-
-	private Settings changePreference(Settings setting, PreferenceSettings preferenceSettings) {
-		return Settings.from(setting.getCookingTime(), setting.getNumberOfPeople(),
-				setting.getCasserole(), preferenceSettings);
 	}
 }

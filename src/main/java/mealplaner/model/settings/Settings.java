@@ -77,6 +77,22 @@ public class Settings {
 		return new Settings(setting);
 	}
 
+	public Settings changeCookingTime(CookingTimeSetting cookingTime) {
+		return Settings.from(cookingTime, numberOfPeople, casseroleSettings, preference);
+	}
+
+	public Settings changeNumberOfPeople(NonnegativeInteger numberOfPeople) {
+		return Settings.from(cookingTime, numberOfPeople, casseroleSettings, preference);
+	}
+
+	public Settings changeCasserole(CasseroleSettings casseroleSettings) {
+		return Settings.from(cookingTime, numberOfPeople, casseroleSettings, preference);
+	}
+
+	public Settings changePreference(PreferenceSettings preferenceSettings) {
+		return Settings.from(cookingTime, numberOfPeople, casseroleSettings, preference);
+	}
+
 	public NonnegativeInteger getNumberOfPeople() {
 		return numberOfPeople;
 	}
