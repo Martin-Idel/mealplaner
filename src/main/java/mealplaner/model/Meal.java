@@ -26,6 +26,7 @@ import mealplaner.model.settings.Settings;
 import mealplaner.recipes.model.Recipe;
 
 // TODO: investigate better toString method
+// TODO: There should be a nonnegative Integer in daysPassed
 public class Meal implements Comparable<Meal> {
 	private static final Logger logger = LoggerFactory.getLogger(Settings.class);
 
