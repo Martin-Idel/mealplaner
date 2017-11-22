@@ -17,6 +17,7 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import mealplaner.commons.NonnegativeInteger;
+import mealplaner.gui.ButtonPanelEnabling;
 import mealplaner.gui.editing.PositiveIntegerCellEditor;
 
 public class TableColumnBuilder<T> {
@@ -38,7 +39,7 @@ public class TableColumnBuilder<T> {
 		return new TableColumnBuilder<>(type);
 	}
 
-	public static <S extends Enum<S>> TableColumnBuilder<S> newColumnWithEnumContent(
+	public static <S extends Enum<S>> TableColumnBuilder<S> withEnumContent(
 			Class<S> type) {
 		JComboBox<S> comboBox = new JComboBox<S>(type.getEnumConstants());
 		return new TableColumnBuilder<S>(type)
@@ -91,6 +92,16 @@ public class TableColumnBuilder<T> {
 	public <S> TableColumnBuilder<T> getValueFromOrderedList(List<S> orderedList,
 			Function<S, T> getValue) {
 		this.getValue = row -> getValue.apply(orderedList.get(row));
+		return this;
+	}
+
+	public TableColumnBuilder<T> enableButtonsOnSet(ButtonPanelEnabling onSet) {
+		// Need to copy the setValue-Function, as we modify it in the lambda
+		final BiFunction<T, Integer, Optional<Integer[]>> oldSetValue = this.setValue;
+		this.setValue = (value, row) -> {
+			onSet.enableButtons();
+			return oldSetValue.apply(value, row);
+		};
 		return this;
 	}
 

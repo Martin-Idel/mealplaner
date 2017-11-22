@@ -1,9 +1,11 @@
 package mealplaner.gui.tables;
 
 import static mealplaner.gui.tables.FlexibleTableBuilder.createNewTable;
-import static mealplaner.gui.tables.TableColumnBuilder.newColumnWithEnumContent;
 import static mealplaner.gui.tables.TableColumnBuilder.withContent;
+import static mealplaner.gui.tables.TableColumnBuilder.withEnumContent;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +13,8 @@ import java.util.List;
 import javax.swing.JTable;
 
 import org.junit.Test;
+
+import mealplaner.gui.ButtonPanelEnabling;
 
 public class FlexibleTableModelTest {
 
@@ -105,6 +109,35 @@ public class FlexibleTableModelTest {
 
 		table.setValueAt("Test3", 0, 0);
 
+		assertThat(table.getValueAt(0, 0)).isEqualTo("Test3");
+		assertThat(table.getValueAt(1, 0)).isEqualTo("Test2");
+	}
+
+	@Test
+	public void enablingAButtonWorksCorrectly() {
+		ButtonPanelEnabling panel = mock(ButtonPanelEnabling.class);
+		List<TestClass> columnContent = new ArrayList<>();
+		columnContent.add(new TestClass("Test1"));
+		columnContent.add(new TestClass("Test2"));
+		JTable table = createNewTable()
+				.withRowCount(columnContent::size)
+				.addColumn(
+						withContent(String.class)
+								.withColumnName("Column")
+								.getValueFromOrderedList(columnContent, test -> test.getString())
+								.setValueToOrderedImmutableList(columnContent,
+										(element, value) -> {
+											element.setString(value);
+											return element;
+										})
+								.enableButtonsOnSet(panel)
+								.isEditable()
+								.build())
+				.buildTable();
+
+		table.setValueAt("Test3", 0, 0);
+
+		verify(panel).enableButtons();
 		assertThat(table.getValueAt(0, 0)).isEqualTo("Test3");
 		assertThat(table.getValueAt(1, 0)).isEqualTo("Test2");
 	}
@@ -225,7 +258,7 @@ public class FlexibleTableModelTest {
 						.getRowValueFromUnderlyingModel(firstColumnContent::get)
 						.isEditable()
 						.build())
-				.addColumn(newColumnWithEnumContent(TestEnum.class)
+				.addColumn(withEnumContent(TestEnum.class)
 						.withColumnName("Column2")
 						.getRowValueFromUnderlyingModel(secondColumnContent::get)
 						.setRowValueToUnderlyingModel(
@@ -252,7 +285,7 @@ public class FlexibleTableModelTest {
 						.getRowValueFromUnderlyingModel(firstColumn::get)
 						.isEditable()
 						.build())
-				.addColumn(newColumnWithEnumContent(TestEnum.class)
+				.addColumn(withEnumContent(TestEnum.class)
 						.withColumnName("Column2")
 						.getRowValueFromUnderlyingModel(secondColumn::get)
 						.setRowValueToUnderlyingModel((value, row) -> secondColumn.set(row, value))
@@ -290,6 +323,5 @@ public class FlexibleTableModelTest {
 		public void setString(String string) {
 			this.string = string;
 		}
-
 	}
 }
