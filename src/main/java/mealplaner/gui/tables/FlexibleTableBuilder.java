@@ -56,6 +56,21 @@ public class FlexibleTableBuilder {
 		return table;
 	}
 
+	public Table buildFancyTable() {
+		FlexibleTableModel tableModel = from(columns, rowCount);
+		table = new JTable(tableModel);
+		for (int i = 0; i < columns.size(); i++) {
+			TableColumn column = getTableColumn(i);
+			column.setPreferredWidth(columns.get(i).getPreferredSize());
+			columns.get(i).getTableCellEditor().ifPresent(column::setCellEditor);
+			columns.get(i).getTableCellRenderer().ifPresent(column::setCellRenderer);
+		}
+		for (MouseAdapter columnListener : columnListeners) {
+			table.addMouseListener(columnListener);
+		}
+		return Table.from(tableModel, table);
+	}
+
 	private TableColumn getTableColumn(int index) {
 		return table.getColumnModel().getColumn(index);
 	}

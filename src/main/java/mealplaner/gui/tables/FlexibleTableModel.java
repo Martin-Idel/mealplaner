@@ -63,4 +63,16 @@ public class FlexibleTableModel extends AbstractTableModel {
 	public Object getValueAt(int row, int col) {
 		return columns.get(col).getValue(row);
 	}
+
+	public void insertRows(int firstRow, int lastRow) {
+		fireTableRowsInserted(firstRow, lastRow);
+	}
+
+	public void deleteRows(int firstRow, int lastRow) {
+		fireTableRowsDeleted(firstRow, lastRow);
+	}
+
+	public void updateTable() {
+		fireTableDataChanged();
+	}
 }
