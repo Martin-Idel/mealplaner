@@ -7,7 +7,7 @@ import static java.util.stream.Collectors.toList;
 import static mealplaner.BundleStore.BUNDLES;
 import static mealplaner.gui.model.StringArrayCollection.getWeekDays;
 import static mealplaner.gui.tables.FlexibleTableBuilder.createNewTable;
-import static mealplaner.gui.tables.TableColumnBuilder.newColumnWithEnumContent;
+import static mealplaner.gui.tables.TableColumnBuilder.withEnumContent;
 import static mealplaner.gui.tables.TableColumnBuilder.withBooleanContent;
 import static mealplaner.gui.tables.TableColumnBuilder.withContent;
 import static mealplaner.gui.tables.TableColumnBuilder.withNonnegativeIntegerContent;
@@ -94,14 +94,14 @@ public class SettingTable {
 								(element, value) -> element.changeNumberOfPeople(value))
 						.isEditable()
 						.build())
-				.addColumn(newColumnWithEnumContent(CasseroleSettings.class)
+				.addColumn(withEnumContent(CasseroleSettings.class)
 						.withColumnName(BUNDLES.message("casseroleColumn"))
 						.getValueFromOrderedList(settings, setting -> setting.getCasserole())
 						.setValueToOrderedImmutableList(settings,
 								(element, value) -> element.changeCasserole(value))
 						.isEditable()
 						.build())
-				.addColumn(newColumnWithEnumContent(PreferenceSettings.class)
+				.addColumn(withEnumContent(PreferenceSettings.class)
 						.withColumnName(BUNDLES.message("preferenceColumn"))
 						.getValueFromOrderedList(settings, setting -> setting.getPreference())
 						.setValueToOrderedImmutableList(settings,
