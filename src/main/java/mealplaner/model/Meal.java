@@ -25,8 +25,8 @@ import mealplaner.model.enums.Sidedish;
 import mealplaner.model.settings.Settings;
 import mealplaner.recipes.model.Recipe;
 
-// TODO: investigate better toString method
 // TODO: There should be a nonnegative Integer in daysPassed
+// TODO: There should not be a String, but a NonEmptyString in the name field
 public class Meal implements Comparable<Meal> {
 	private static final Logger logger = LoggerFactory.getLogger(Settings.class);
 
@@ -109,11 +109,6 @@ public class Meal implements Comparable<Meal> {
 		return new Meal.EmptyMeal();
 	}
 
-	@Override
-	public int compareTo(Meal otherMeal) {
-		return this.getName().compareToIgnoreCase(otherMeal.getName());
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -147,8 +142,55 @@ public class Meal implements Comparable<Meal> {
 	}
 
 	@Override
+	public int compareTo(Meal otherMeal) {
+		return this.getName().compareToIgnoreCase(otherMeal.getName());
+	}
+
+	@Override
 	public String toString() {
-		return name;
+		return "[" + name + ", "
+				+ cookingTime + ", "
+				+ sidedish + ", "
+				+ obligatoryUtensil + ", "
+				+ cookingPreference + ", "
+				+ daysPassed + ", "
+				+ comment + ", "
+				+ recipe + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((comment == null) ? 0 : comment.hashCode());
+		result = prime * result + ((cookingPreference == null) ? 0 : cookingPreference.hashCode());
+		result = prime * result + ((cookingTime == null) ? 0 : cookingTime.hashCode());
+		result = prime * result + daysPassed;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((obligatoryUtensil == null) ? 0 : obligatoryUtensil.hashCode());
+		result = prime * result + ((sidedish == null) ? 0 : sidedish.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null || getClass() != obj.getClass()) {
+			return false;
+		}
+		Meal other = (Meal) obj;
+		if (!name.equals(other.name)
+				|| !comment.equals(other.comment)
+				|| cookingPreference != other.cookingPreference
+				|| cookingTime != other.cookingTime
+				|| obligatoryUtensil != other.obligatoryUtensil
+				|| sidedish != other.sidedish
+				|| daysPassed != other.daysPassed) {
+			return false;
+		}
+		return true;
 	}
 
 	public static Element writeMeal(Document saveFileContent, Meal meal, String elementName) {
@@ -232,41 +274,6 @@ public class Meal implements Comparable<Meal> {
 		return name;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((comment == null) ? 0 : comment.hashCode());
-		result = prime * result + ((cookingPreference == null) ? 0 : cookingPreference.hashCode());
-		result = prime * result + ((cookingTime == null) ? 0 : cookingTime.hashCode());
-		result = prime * result + daysPassed;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((obligatoryUtensil == null) ? 0 : obligatoryUtensil.hashCode());
-		result = prime * result + ((sidedish == null) ? 0 : sidedish.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null || getClass() != obj.getClass()) {
-			return false;
-		}
-		Meal other = (Meal) obj;
-		if (!name.equals(other.name)
-				|| !comment.equals(other.comment)
-				|| cookingPreference != other.cookingPreference
-				|| cookingTime != other.cookingTime
-				|| obligatoryUtensil != other.obligatoryUtensil
-				|| sidedish != other.sidedish
-				|| daysPassed != other.daysPassed) {
-			return false;
-		}
-		return true;
-	}
-
 	private void setName(String name) throws MealException {
 		if (name.trim().isEmpty()) {
 			throw new MealException("Name is empty or consists only of whitespace");
@@ -287,11 +294,6 @@ public class Meal implements Comparable<Meal> {
 		EmptyMeal() {
 			super("EMPTY", CookingTime.SHORT, Sidedish.NONE, ObligatoryUtensil.CASSEROLE,
 					CookingPreference.RARE, 0, "", empty());
-		}
-
-		@Override
-		public String toString() {
-			return "";
 		}
 	}
 }
