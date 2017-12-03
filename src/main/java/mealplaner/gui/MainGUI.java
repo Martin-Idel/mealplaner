@@ -208,8 +208,9 @@ public class MainGUI {
 	}
 
 	public void updatePastMeals() {
-		List<Meal> lastCookedMealList = dialogs.createUpdatePastMealDialog().showDialog(mealPlan);
-		mealPlan.update(lastCookedMealList, now());
+		Optional<List<Meal>> lastCookedMealList = dialogs.createUpdatePastMealDialog()
+				.showDialog(mealPlan);
+		lastCookedMealList.ifPresent(list -> mealPlan.update(list, now()));
 		proposalSummary.update();
 	}
 

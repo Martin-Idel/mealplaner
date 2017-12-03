@@ -1,10 +1,12 @@
 package mealplaner.gui.dialogs.pastupdate;
 
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static mealplaner.BundleStore.BUNDLES;
 
 import java.awt.BorderLayout;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -20,7 +22,7 @@ public class UpdatePastMeals extends JDialog {
 	private JFrame parentFrame;
 	private JPanel dataPanel;
 	private UpdateTable updateTable;
-	private List<Meal> changedMeals = new ArrayList<>();
+	private Optional<List<Meal>> changedMeals = empty();
 
 	public UpdatePastMeals(JFrame parentFrame) {
 		super(parentFrame, BUNDLES.message("updatePastMealsDialogTitle"), true);
@@ -28,7 +30,7 @@ public class UpdatePastMeals extends JDialog {
 		updateTable = new UpdateTable();
 	}
 
-	public List<Meal> showDialog(DataStore mealPlan) {
+	public Optional<List<Meal>> showDialog(DataStore mealPlan) {
 		display(mealPlan);
 		return changedMeals;
 	}
@@ -53,7 +55,7 @@ public class UpdatePastMeals extends JDialog {
 	private JPanel displayButtons() {
 		return new ButtonPanelBuilder()
 				.addSaveButton(action -> {
-					changedMeals = updateTable.returnContent();
+					changedMeals = of(updateTable.returnContent());
 					dispose();
 				})
 				.addCancelDialogButton(this)
