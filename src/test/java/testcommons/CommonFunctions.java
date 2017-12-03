@@ -57,13 +57,13 @@ public class CommonFunctions {
 
 	public static Meal getMeal1() {
 		return createMeal("Test1", CookingTime.SHORT, Sidedish.PASTA,
-				ObligatoryUtensil.PAN, CookingPreference.VERY_POPULAR, 5, "no comment",
+				ObligatoryUtensil.PAN, CookingPreference.VERY_POPULAR, nonNegative(5), "no comment",
 				empty());
 	}
 
 	public static Meal getMeal2() {
 		return createMeal("Test2", CookingTime.SHORT, Sidedish.NONE,
-				ObligatoryUtensil.POT, CookingPreference.NO_PREFERENCE, 1, "",
+				ObligatoryUtensil.POT, CookingPreference.NO_PREFERENCE, nonNegative(1), "",
 				of(getRecipe()));
 	}
 

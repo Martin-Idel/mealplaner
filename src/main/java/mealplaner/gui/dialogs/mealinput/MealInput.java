@@ -143,7 +143,7 @@ public abstract class MealInput extends JDialog {
 						sidedishField.getUserInput(),
 						obligatoryUtensilField.getUserInput(),
 						preferenceField.getUserInput(),
-						daysPassedField.getUserInput().value,
+						daysPassedField.getUserInput(),
 						commentField.getUserInput(),
 						recipeInputField.getUserInput()))
 				: Optional.empty();

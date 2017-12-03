@@ -35,7 +35,6 @@ import mealplaner.model.settings.Settings;
 import testcommons.BundlesInitialization;
 
 public class ProposalBuilderTest {
-
 	@Rule
 	public final BundlesInitialization bundlesInitialization = new BundlesInitialization();
 
@@ -155,39 +154,40 @@ public class ProposalBuilderTest {
 
 	private void addMeals() throws MealException {
 		Meal meal1 = createMeal("Meal1", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.PAN,
-				CookingPreference.NO_PREFERENCE, 50, "", empty());
+				CookingPreference.NO_PREFERENCE, nonNegative(50), "", empty());
 		meals.add(meal1);
 		Meal meal2 = createMeal("Meal2", CookingTime.MEDIUM, Sidedish.PASTA,
-				ObligatoryUtensil.CASSEROLE, CookingPreference.RARE, 101, "", empty());
+				ObligatoryUtensil.CASSEROLE, CookingPreference.RARE, nonNegative(101), "", empty());
 		meals.add(meal2);
 		Meal meal3 = createMeal("Meal3", CookingTime.LONG, Sidedish.RICE, ObligatoryUtensil.POT,
-				CookingPreference.VERY_POPULAR, 20, "", empty());
+				CookingPreference.VERY_POPULAR, nonNegative(20), "", empty());
 		meals.add(meal3);
 		Meal meal4 = createMeal("Meal4", CookingTime.MEDIUM, Sidedish.POTATOES,
-				ObligatoryUtensil.CASSEROLE, CookingPreference.VERY_POPULAR, 25, "", empty());
+				ObligatoryUtensil.CASSEROLE, CookingPreference.VERY_POPULAR, nonNegative(25), "",
+				empty());
 		meals.add(meal4);
 		Meal meal5 = createMeal("Meal5", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.POT,
-				CookingPreference.NO_PREFERENCE, 100, "", empty());
+				CookingPreference.NO_PREFERENCE, nonNegative(100), "", empty());
 		meals.add(meal5);
 	}
 
 	private void addMealsToTestMultipliers() throws MealException {
 		Meal meal1 = createMeal("Meal1", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.PAN,
-				CookingPreference.NO_PREFERENCE, 0, "", empty());
+				CookingPreference.NO_PREFERENCE, nonNegative(0), "", empty());
 		meals.add(meal1);
 		Meal meal2 = createMeal("Meal2", CookingTime.MEDIUM, Sidedish.PASTA,
 				ObligatoryUtensil.CASSEROLE,
-				CookingPreference.RARE, 10, "", empty());
+				CookingPreference.RARE, nonNegative(10), "", empty());
 		meals.add(meal2);
 		Meal meal3 = createMeal("Meal3", CookingTime.LONG, Sidedish.RICE, ObligatoryUtensil.POT,
-				CookingPreference.VERY_POPULAR, 20, "", empty());
+				CookingPreference.VERY_POPULAR, nonNegative(20), "", empty());
 		meals.add(meal3);
 		Meal meal4 = createMeal("Meal4", CookingTime.MEDIUM, Sidedish.POTATOES,
 				ObligatoryUtensil.CASSEROLE,
-				CookingPreference.NO_PREFERENCE, 30, "", empty());
+				CookingPreference.NO_PREFERENCE, nonNegative(30), "", empty());
 		meals.add(meal4);
 		Meal meal5 = createMeal("Meal5", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.POT,
-				CookingPreference.NO_PREFERENCE, 70, "", empty());
+				CookingPreference.NO_PREFERENCE, nonNegative(70), "", empty());
 		meals.add(meal5);
 	}
 

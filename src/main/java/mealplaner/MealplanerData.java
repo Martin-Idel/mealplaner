@@ -8,14 +8,14 @@ import static mealplaner.DataStoreEventType.DATABASE_EDITED;
 import static mealplaner.DataStoreEventType.DATE_UPDATED;
 import static mealplaner.DataStoreEventType.PROPOSAL_ADDED;
 import static mealplaner.DataStoreEventType.SETTINGS_CHANGED;
+import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.io.XMLHelpers.getFirstNode;
 import static mealplaner.io.XMLHelpers.logFailedXmlRetrieval;
 import static mealplaner.io.XMLHelpers.parseDate;
 import static mealplaner.io.XMLHelpers.parseMealList;
 import static mealplaner.io.XMLHelpers.writeDate;
 import static mealplaner.io.XMLHelpers.writeMealList;
-import static mealplaner.model.Meal.addDaysPassed;
-import static mealplaner.model.Meal.setDaysPassed;
+import static mealplaner.model.MealBuilder.from;
 import static mealplaner.model.Proposal.createProposal;
 import static mealplaner.model.Proposal.readProposal;
 import static mealplaner.model.Proposal.writeProposal;
@@ -32,6 +32,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import mealplaner.commons.NonnegativeInteger;
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
 import mealplaner.model.settings.DefaultSettings;
@@ -109,11 +110,14 @@ public class MealplanerData implements DataStore {
 	}
 
 	public void update(List<Meal> mealsCookedLast, LocalDate now) {
-		long daysSinceLastUpdate = DAYS.between(date, now);
+		NonnegativeInteger daysSinceLastUpdate = nonNegative(toIntExact(DAYS.between(date, now)));
 		date = now;
 		meals = meals.stream().map(meal -> mealsCookedLast.contains(meal)
-				? setDaysPassed(mealsCookedLast.size() - mealsCookedLast.indexOf(meal) - 1, meal)
-				: addDaysPassed(toIntExact(daysSinceLastUpdate), meal))
+				? from(meal)
+						.daysPassed(nonNegative(
+								mealsCookedLast.size() - mealsCookedLast.indexOf(meal) - 1))
+						.create()
+				: from(meal).addDaysPassed(daysSinceLastUpdate).create())
 				.collect(toList());
 		listeners.forEach(listener -> listener.updateData(DATE_UPDATED));
 		listeners.forEach(listener -> listener.updateData(DATABASE_EDITED));

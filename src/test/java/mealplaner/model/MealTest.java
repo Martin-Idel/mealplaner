@@ -1,6 +1,7 @@
 package mealplaner.model;
 
 import static java.util.Optional.empty;
+import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.io.XMLHelpers.createTextNode;
 import static mealplaner.model.Meal.createMeal;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,29 +34,21 @@ public class MealTest {
 	@Before
 	public void setup() throws MealException {
 		sut = createMeal("Test", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.POT,
-				CookingPreference.NO_PREFERENCE, 5, "", empty());
+				CookingPreference.NO_PREFERENCE, nonNegative(5), "", empty());
 	}
 
 	@Test
 	public void valuesWithLimitationsWorkCorrectly() throws MealException {
 		assertThat(sut.getName()).isEqualTo("Test");
-		assertThat(sut.getDaysPassed()).isEqualTo(5);
+		assertThat(sut.getDaysPassed()).isEqualTo(nonNegative(5));
 	}
 
 	@Test(expected = MealException.class)
 	public void setNameWithOnlyWhitespace() throws MealException {
 		sut = createMeal("", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.POT,
-				CookingPreference.NO_PREFERENCE, 5, "", empty());
+				CookingPreference.NO_PREFERENCE, nonNegative(5), "", empty());
 
 		assertThat(sut.getName()).isEqualTo("Test");
-	}
-
-	@Test(expected = MealException.class)
-	public void setDaysPassedWithNegativeNumber() throws MealException {
-		sut = createMeal("Test", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.POT,
-				CookingPreference.NO_PREFERENCE, -1, "", empty());
-
-		assertThat(sut.getDaysPassed()).isEqualTo(5);
 	}
 
 	@Test
@@ -73,6 +66,10 @@ public class MealTest {
 		Document saveFileContent = createDocument();
 
 		sut = Meal.readMeal(Meal.writeMeal(saveFileContent, meal, "meal"));
+
+		System.out.println(sut);
+		System.out.println(meal);
+		System.out.println(sut.equals(meal));
 
 		assertThat(sut).isEqualTo(meal);
 	}
@@ -92,8 +89,8 @@ public class MealTest {
 		sut = Meal.readMeal(mealNode);
 
 		Meal expectedMeal = createMeal(meal.getName(), meal.getCookingTime(), Sidedish.NONE,
-				ObligatoryUtensil.POT, CookingPreference.NO_PREFERENCE, 0, meal.getComment(),
-				empty());
+				ObligatoryUtensil.POT, CookingPreference.NO_PREFERENCE, nonNegative(0),
+				meal.getComment(), empty());
 
 		assertThat(sut).isEqualTo(expectedMeal);
 	}

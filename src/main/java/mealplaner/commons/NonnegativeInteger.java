@@ -1,8 +1,10 @@
 package mealplaner.commons;
 
+import static java.lang.Integer.compare;
+
 import mealplaner.errorhandling.MealException;
 
-public class NonnegativeInteger {
+public class NonnegativeInteger implements Comparable<NonnegativeInteger> {
 	public final int value;
 
 	public NonnegativeInteger(int nonnegative) {
@@ -36,5 +38,10 @@ public class NonnegativeInteger {
 		}
 		NonnegativeInteger other = (NonnegativeInteger) obj;
 		return value == other.value;
+	}
+
+	@Override
+	public int compareTo(NonnegativeInteger nonnegative) {
+		return compare(value, nonnegative.value);
 	}
 }

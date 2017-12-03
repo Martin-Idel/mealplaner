@@ -1,7 +1,10 @@
 package mealplaner.model;
 
+import static mealplaner.commons.NonnegativeInteger.nonNegative;
+
 import java.util.Optional;
 
+import mealplaner.commons.NonnegativeInteger;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
 import mealplaner.model.enums.ObligatoryUtensil;
@@ -14,7 +17,7 @@ public class MealBuilder {
 	private Sidedish sidedish = Sidedish.NONE;
 	private ObligatoryUtensil obligatoryUtensil = ObligatoryUtensil.POT;
 	private CookingPreference cookingPreference = CookingPreference.NO_PREFERENCE;
-	private int daysPassed = 0;
+	private NonnegativeInteger daysPassed = nonNegative(0);
 	private String comment = "";
 	private Optional<Recipe> recipe = Optional.empty();
 
@@ -62,8 +65,13 @@ public class MealBuilder {
 		return this;
 	}
 
-	public MealBuilder daysPassed(int daysPassed) {
+	public MealBuilder daysPassed(NonnegativeInteger daysPassed) {
 		this.daysPassed = daysPassed;
+		return this;
+	}
+
+	public MealBuilder addDaysPassed(NonnegativeInteger daysPassed) {
+		this.daysPassed = nonNegative(this.daysPassed.value + daysPassed.value);
 		return this;
 	}
 

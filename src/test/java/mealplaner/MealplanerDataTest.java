@@ -8,6 +8,7 @@ import static mealplaner.DataStoreEventType.PROPOSAL_ADDED;
 import static mealplaner.DataStoreEventType.SETTINGS_CHANGED;
 import static mealplaner.MealplanerData.parseMealplanerData;
 import static mealplaner.MealplanerData.writeMealplanerData;
+import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.Meal.createMeal;
 import static mealplaner.model.Proposal.createProposal;
 import static mealplaner.model.settings.DefaultSettings.createDefaultSettings;
@@ -103,9 +104,9 @@ public class MealplanerDataTest {
 		sut.update(proposal.getProposalList(), date.plusDays(10));
 
 		List<Meal> mealList = sut.getMeals();
-		assertThat(mealList.get(0).getDaysPassed()).isEqualByComparingTo(60);
-		assertThat(mealList.get(1).getDaysPassed()).isEqualByComparingTo(111);
-		assertThat(mealList.get(2).getDaysPassed()).isEqualByComparingTo(30);
+		assertThat(mealList.get(0).getDaysPassed()).isEqualByComparingTo(nonNegative(60));
+		assertThat(mealList.get(1).getDaysPassed()).isEqualByComparingTo(nonNegative(111));
+		assertThat(mealList.get(2).getDaysPassed()).isEqualByComparingTo(nonNegative(30));
 	}
 
 	@Test
@@ -119,9 +120,9 @@ public class MealplanerDataTest {
 		sut.update(proposal.getProposalList(), date.plusDays(2));
 
 		List<Meal> mealList = sut.getMeals();
-		assertThat(mealList.get(0).getDaysPassed()).isEqualByComparingTo(1);
-		assertThat(mealList.get(1).getDaysPassed()).isEqualByComparingTo(103);
-		assertThat(mealList.get(2).getDaysPassed()).isEqualByComparingTo(0);
+		assertThat(mealList.get(0).getDaysPassed()).isEqualByComparingTo(nonNegative(1));
+		assertThat(mealList.get(1).getDaysPassed()).isEqualByComparingTo(nonNegative(103));
+		assertThat(mealList.get(2).getDaysPassed()).isEqualByComparingTo(nonNegative(0));
 	}
 
 	@Test
@@ -167,18 +168,18 @@ public class MealplanerDataTest {
 
 	private void addInitializedMeals() throws MealException {
 		meal1 = createMeal("Meal1", CookingTime.SHORT, Sidedish.NONE, ObligatoryUtensil.PAN,
-				CookingPreference.NO_PREFERENCE, 50, "", empty());
+				CookingPreference.NO_PREFERENCE, nonNegative(50), "", empty());
 		meals.add(meal1);
 		meal2 = createMeal("Meal2", CookingTime.MEDIUM, Sidedish.PASTA,
-				ObligatoryUtensil.CASSEROLE, CookingPreference.RARE, 101, "", empty());
+				ObligatoryUtensil.CASSEROLE, CookingPreference.RARE, nonNegative(101), "", empty());
 		meals.add(meal2);
 		meal4 = createMeal("Meal4", CookingTime.LONG, Sidedish.RICE, ObligatoryUtensil.POT,
-				CookingPreference.VERY_POPULAR, 20, "", empty());
+				CookingPreference.VERY_POPULAR, nonNegative(20), "", empty());
 		meals.add(meal4);
 	}
 
 	private Meal initializeNewMeal() {
 		return createMeal("Meal3", CookingTime.SHORT, Sidedish.POTATOES, ObligatoryUtensil.PAN,
-				CookingPreference.NO_PREFERENCE, 10, "", empty());
+				CookingPreference.NO_PREFERENCE, nonNegative(10), "", empty());
 	}
 }

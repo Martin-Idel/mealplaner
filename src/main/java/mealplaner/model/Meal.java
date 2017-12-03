@@ -2,6 +2,7 @@ package mealplaner.model;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
+import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.io.XMLHelpers.createTextNode;
 import static mealplaner.io.XMLHelpers.readEnum;
 import static mealplaner.recipes.model.Recipe.createRecipe;
@@ -16,6 +17,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import mealplaner.commons.NonnegativeInteger;
 import mealplaner.errorhandling.MealException;
 import mealplaner.io.XMLHelpers;
 import mealplaner.model.enums.CookingPreference;
@@ -25,8 +27,6 @@ import mealplaner.model.enums.Sidedish;
 import mealplaner.model.settings.Settings;
 import mealplaner.recipes.model.Recipe;
 
-// TODO: There should be a nonnegative Integer in daysPassed
-// TODO: There should not be a String, but a NonEmptyString in the name field
 public class Meal implements Comparable<Meal> {
 	private static final Logger logger = LoggerFactory.getLogger(Settings.class);
 
@@ -35,7 +35,7 @@ public class Meal implements Comparable<Meal> {
 	private Sidedish sidedish;
 	private ObligatoryUtensil obligatoryUtensil;
 	private CookingPreference cookingPreference;
-	private int daysPassed;
+	private NonnegativeInteger daysPassed;
 	private String comment;
 	private Optional<Recipe> recipe;
 
@@ -44,7 +44,7 @@ public class Meal implements Comparable<Meal> {
 			Sidedish sideDish,
 			ObligatoryUtensil obligatoryUtensil,
 			CookingPreference cookingPreference,
-			int daysPassed,
+			NonnegativeInteger daysPassed,
 			String comment,
 			Optional<Recipe> recipe)
 			throws MealException {
@@ -53,7 +53,7 @@ public class Meal implements Comparable<Meal> {
 		this.sidedish = sideDish;
 		this.obligatoryUtensil = obligatoryUtensil;
 		this.cookingPreference = cookingPreference;
-		setDaysPassed(daysPassed);
+		this.daysPassed = daysPassed;
 		this.comment = comment;
 		this.recipe = recipe;
 	}
@@ -63,7 +63,7 @@ public class Meal implements Comparable<Meal> {
 			Sidedish sideDish,
 			ObligatoryUtensil obligatoryUtensil,
 			CookingPreference cookingPreference,
-			int daysPassed,
+			NonnegativeInteger daysPassed,
 			String comment,
 			Optional<Recipe> recipe) throws MealException {
 		return new Meal(name,
@@ -87,18 +87,6 @@ public class Meal implements Comparable<Meal> {
 				meal.getRecipe());
 	}
 
-	public static Meal setDaysPassed(int daysPassedSince, Meal meal) throws MealException {
-		Meal newMeal = copy(meal);
-		newMeal.setDaysPassed(daysPassedSince);
-		return newMeal;
-	}
-
-	public static Meal addDaysPassed(int daysPassedSince, Meal meal) throws MealException {
-		Meal newMeal = copy(meal);
-		newMeal.setDaysPassed(newMeal.daysPassed + daysPassedSince);
-		return newMeal;
-	}
-
 	public Meal addRecipe(Optional<Recipe> recipe) {
 		Meal newMeal = copy(this);
 		newMeal.recipe = recipe;
@@ -113,8 +101,12 @@ public class Meal implements Comparable<Meal> {
 		return name;
 	}
 
-	public int getDaysPassed() {
+	public NonnegativeInteger getDaysPassed() {
 		return daysPassed;
+	}
+
+	public int getDaysPassedAsInteger() {
+		return daysPassed.value;
 	}
 
 	public CookingTime getCookingTime() {
@@ -165,7 +157,7 @@ public class Meal implements Comparable<Meal> {
 		result = prime * result + ((comment == null) ? 0 : comment.hashCode());
 		result = prime * result + ((cookingPreference == null) ? 0 : cookingPreference.hashCode());
 		result = prime * result + ((cookingTime == null) ? 0 : cookingTime.hashCode());
-		result = prime * result + daysPassed;
+		result = prime * result + daysPassed.value;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((obligatoryUtensil == null) ? 0 : obligatoryUtensil.hashCode());
 		result = prime * result + ((sidedish == null) ? 0 : sidedish.hashCode());
@@ -187,7 +179,7 @@ public class Meal implements Comparable<Meal> {
 				|| cookingTime != other.cookingTime
 				|| obligatoryUtensil != other.obligatoryUtensil
 				|| sidedish != other.sidedish
-				|| daysPassed != other.daysPassed) {
+				|| !daysPassed.equals(other.daysPassed)) {
 			return false;
 		}
 		return true;
@@ -212,7 +204,7 @@ public class Meal implements Comparable<Meal> {
 				() -> meal.getCookingPreference().name()));
 		mealNode.appendChild(createTextNode(saveFileContent,
 				"lastCooked",
-				() -> Integer.toString(meal.getDaysPassed())));
+				() -> Integer.toString(meal.getDaysPassed().value)));
 		if (meal.getRecipe().isPresent()) {
 			mealNode.appendChild(
 					Recipe.writeRecipe(saveFileContent, meal.getRecipe().get(), "recipe"));
@@ -233,7 +225,7 @@ public class Meal implements Comparable<Meal> {
 				ObligatoryUtensil::valueOf, currentMeal, "utensil");
 		CookingPreference cookingPreference = readEnum(CookingPreference.NO_PREFERENCE,
 				CookingPreference::valueOf, currentMeal, "preference");
-		int daysLastCooked = parseInteger(currentMeal);
+		NonnegativeInteger daysLastCooked = nonNegative(parseInteger(currentMeal));
 		NodeList recipeNodeList = currentMeal.getElementsByTagName("recipe");
 		Optional<Recipe> recipeOptional = empty();
 		if (recipeNodeList.getLength() != 0) {
@@ -282,18 +274,10 @@ public class Meal implements Comparable<Meal> {
 		}
 	}
 
-	private void setDaysPassed(int daysPassed) throws MealException {
-		if (daysPassed >= 0) {
-			this.daysPassed = daysPassed;
-		} else {
-			throw new MealException("Number must be nonnegative");
-		}
-	}
-
 	public static final class EmptyMeal extends Meal {
 		EmptyMeal() {
 			super("EMPTY", CookingTime.SHORT, Sidedish.NONE, ObligatoryUtensil.CASSEROLE,
-					CookingPreference.RARE, 0, "", empty());
+					CookingPreference.RARE, nonNegative(0), "", empty());
 		}
 	}
 }

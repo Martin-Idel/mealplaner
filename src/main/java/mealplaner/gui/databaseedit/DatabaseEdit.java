@@ -2,7 +2,6 @@ package mealplaner.gui.databaseedit;
 
 import static java.util.stream.Collectors.toList;
 import static mealplaner.BundleStore.BUNDLES;
-import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.commons.Utils.not;
 import static mealplaner.gui.tables.FlexibleTableBuilder.createNewTable;
 import static mealplaner.gui.tables.TableColumnBuilder.withContent;
@@ -103,8 +102,8 @@ public class DatabaseEdit implements DataStoreListener {
 				.addColumn(withNonnegativeIntegerContent()
 						.withColumnName(BUNDLES.message("cookedLastTimeColumn"))
 						.setValueToOrderedImmutableList(meals,
-								(meal, day) -> from(meal).daysPassed(day.value).create())
-						.getValueFromOrderedList(meals, meal -> nonNegative(meal.getDaysPassed()))
+								(meal, day) -> from(meal).daysPassed(day).create())
+						.getValueFromOrderedList(meals, meal -> meal.getDaysPassed())
 						.isEditable()
 						.build())
 				.addColumn(withEnumContent(CookingPreference.class)

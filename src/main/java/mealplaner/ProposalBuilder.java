@@ -1,6 +1,5 @@
 package mealplaner;
 
-import static java.lang.Integer.compare;
 import static mealplaner.model.Proposal.from;
 
 import java.util.ArrayList;
@@ -79,7 +78,7 @@ public class ProposalBuilder {
 
 	private List<Meal> getLastCookedDishes(List<Meal> meals) {
 		return meals.stream()
-				.sorted((meal1, meal2) -> compare(meal1.getDaysPassed(), meal2.getDaysPassed()))
+				.sorted((meal1, meal2) -> meal1.getDaysPassed().compareTo(meal2.getDaysPassed()))
 				.limit(3)
 				.collect(Collectors.toList());
 	}
@@ -97,7 +96,7 @@ public class ProposalBuilder {
 
 		return meals.stream()
 				.filter(meal -> allows(meal, settings))
-				.map(meal -> Pair.of(meal, meal.getDaysPassed()))
+				.map(meal -> Pair.of(meal, meal.getDaysPassedAsInteger()))
 				.map(pair -> takeProposalIntoAccount(pair, proposalList))
 				.map(pair -> takeSidedishIntoAccount(pair, sideDish))
 				.map(pair -> multiplyPrefs(pair, settings.getPreference()))
