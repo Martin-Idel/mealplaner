@@ -1,57 +1,88 @@
 package mealplaner.gui.dialogs.pastupdate;
 
-import static mealplaner.model.Meal.createEmptyMeal;
+import static java.time.format.DateTimeFormatter.ofLocalizedDate;
+import static java.time.format.FormatStyle.SHORT;
+import static mealplaner.BundleStore.BUNDLES;
+import static mealplaner.gui.model.StringArrayCollection.getWeekDays;
+import static mealplaner.gui.tables.TableColumnBuilder.withContent;
 
 import java.time.LocalDate;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JComboBox;
-import javax.swing.JTable;
 
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 
+import mealplaner.gui.tables.FlexibleTableBuilder;
+import mealplaner.gui.tables.Table;
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
 
 public class UpdateTable {
-	private UpdateTableModel tableModel;
+	private String[] days;
+	private List<Meal> meals;
 
-	public JTable createTable(LocalDate date, Proposal lastProposal, Meal[] mealList,
-			int daySince) {
-		Meal[] tableList = setupMealList(lastProposal, daySince);
-		LocalDate proposalStartDate = lastProposal.isToday() ? date.plusDays(1) : date;
-		tableModel = new UpdateTableModel(proposalStartDate, tableList);
-		JTable table = new JTable(tableModel);
+	public Table createTable(Proposal lastProposal, List<Meal> mealList, int daySince) {
+		days = getWeekDays();
+		setupMeals(lastProposal, daySince);
+		LocalDate date = lastProposal.getDateOfFirstProposedItem();
+		return FlexibleTableBuilder.createNewTable()
+				.withRowCount(() -> lastProposal.isToday() ? daySince + 1 : daySince)
+				.addColumn(withContent(String.class)
+						.withColumnName(BUNDLES.message("date"))
+						.getRowValueFromUnderlyingModel(
+								row -> date.plusDays(row).format(ofLocalizedDate(SHORT)
+										.withLocale(BUNDLES.locale())))
+						.build())
+				.addColumn(withContent(String.class)
+						.withColumnName(BUNDLES.message("weekday"))
+						.getRowValueFromUnderlyingModel(
+								row -> days[date.plusDays(row).getDayOfWeek().getValue() % 7])
+						.build())
+				.addColumn(withContent(String.class)
+						.withColumnName(BUNDLES.message("menu"))
+						.getValueFromOrderedList(meals,
+								meal -> meal.equals(Meal.EmptyMeal.createEmptyMeal())
+										? ""
+										: meal.getName())
+						.setValueToOrderedImmutableList(meals,
+								(mealToBeReplaced, name) -> mealList.stream()
+										.filter(meal -> meal.getName().equals(name))
+										.findAny()
+										.orElse(Meal.EmptyMeal.createEmptyMeal()))
+						.isEditable()
+						.overwriteTableCellEditor(
+								new ComboBoxCellEditor(createAutoCompletion(mealList)))
+						.build())
+				.buildTable();
+	}
 
-		addAutocompletionToNameColumn(mealList, table);
-		return table;
+	private void setupMeals(Proposal lastProposal, int daySince) {
+		meals = new ArrayList<Meal>();
+		meals.addAll(lastProposal.getProposalList());
+		if (meals.size() > daySince) {
+			meals.removeAll(meals.subList(daySince, meals.size()));
+		} else if (meals.size() < daySince) {
+			for (int i = meals.size(); i <= daySince; i++) {
+				meals.add(Meal.EmptyMeal.createEmptyMeal());
+			}
+		}
 	}
 
 	public List<Meal> returnContent() {
-		return Arrays.asList(tableModel.returnContent());
+		return meals;
 	}
 
-	private Meal[] setupMealList(Proposal proposal, int daySinceLastProposal) {
-		List<Meal> proposalList = proposal.getProposalList();
-
-		Meal[] updateMeals = proposal.isToday() ? new Meal[daySinceLastProposal + 1]
-				: new Meal[daySinceLastProposal];
-		for (int i = 0; i < updateMeals.length; i++) {
-			updateMeals[i] = (i < proposalList.size()) ? proposalList.get(i) : createEmptyMeal();
+	private JComboBox<String> createAutoCompletion(List<Meal> meals) {
+		String[] mealAndEmptyMeal = new String[meals.size() + 1];
+		for (int i = 0; i < meals.size(); i++) {
+			mealAndEmptyMeal[i] = meals.get(i).getName();
 		}
-		return updateMeals;
-	}
-
-	private void addAutocompletionToNameColumn(Meal[] meal, JTable table) {
-		Meal[] mealAndEmptyMeal = new Meal[meal.length + 1];
-		for (int i = 0; i < meal.length; i++) {
-			mealAndEmptyMeal[i] = meal[i];
-		}
-		mealAndEmptyMeal[mealAndEmptyMeal.length - 1] = createEmptyMeal();
-		JComboBox<Meal> autoCompleteBox = new JComboBox<Meal>(mealAndEmptyMeal);
+		mealAndEmptyMeal[mealAndEmptyMeal.length - 1] = "";
+		JComboBox<String> autoCompleteBox = new JComboBox<String>(mealAndEmptyMeal);
 		AutoCompleteDecorator.decorate(autoCompleteBox);
-		table.getColumnModel().getColumn(2).setCellEditor(new ComboBoxCellEditor(autoCompleteBox));
+		return autoCompleteBox;
 	}
 }

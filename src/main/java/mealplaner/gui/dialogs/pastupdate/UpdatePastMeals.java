@@ -3,18 +3,16 @@ package mealplaner.gui.dialogs.pastupdate;
 import static mealplaner.BundleStore.BUNDLES;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 import mealplaner.DataStore;
 import mealplaner.gui.commons.ButtonPanelBuilder;
+import mealplaner.gui.tables.Table;
 import mealplaner.model.Meal;
 
 public class UpdatePastMeals extends JDialog {
@@ -36,15 +34,12 @@ public class UpdatePastMeals extends JDialog {
 	}
 
 	private void display(DataStore mealPlan) {
-		JScrollPane tablescroll = new JScrollPane(
-				updateTable.createTable(mealPlan.getTime(),
-						mealPlan.getLastProposal(),
-						mealPlan.getMeals().toArray(new Meal[mealPlan.getMeals().size()]),
-						mealPlan.getDaysPassed()));
+		Table table = updateTable.createTable(mealPlan.getLastProposal(),
+				mealPlan.getMeals(), mealPlan.getDaysPassed());
 		JPanel buttonPanel = displayButtons();
 		dataPanel = new JPanel();
 		dataPanel.setLayout(new BorderLayout());
-		dataPanel.add(tablescroll, BorderLayout.CENTER);
+		table.addScrollingTableToPane(dataPanel);
 		dataPanel.add(buttonPanel, BorderLayout.SOUTH);
 		getContentPane().add(dataPanel);
 
@@ -57,16 +52,11 @@ public class UpdatePastMeals extends JDialog {
 
 	private JPanel displayButtons() {
 		return new ButtonPanelBuilder()
-				.addSaveButton(new SavingListener())
+				.addSaveButton(action -> {
+					changedMeals = updateTable.returnContent();
+					dispose();
+				})
 				.addCancelDialogButton(this)
 				.build();
-	}
-
-	public class SavingListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			changedMeals = updateTable.returnContent();
-			dispose();
-		}
 	}
 }
