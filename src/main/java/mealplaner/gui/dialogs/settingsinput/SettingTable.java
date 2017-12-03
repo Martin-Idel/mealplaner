@@ -7,9 +7,9 @@ import static java.util.stream.Collectors.toList;
 import static mealplaner.BundleStore.BUNDLES;
 import static mealplaner.gui.model.StringArrayCollection.getWeekDays;
 import static mealplaner.gui.tables.FlexibleTableBuilder.createNewTable;
-import static mealplaner.gui.tables.TableColumnBuilder.withEnumContent;
 import static mealplaner.gui.tables.TableColumnBuilder.withBooleanContent;
 import static mealplaner.gui.tables.TableColumnBuilder.withContent;
+import static mealplaner.gui.tables.TableColumnBuilder.withEnumContent;
 import static mealplaner.gui.tables.TableColumnBuilder.withNonnegativeIntegerContent;
 import static mealplaner.model.settings.CookingTimeSetting.copyCookingTimeSetting;
 import static mealplaner.model.settings.Settings.copy;
@@ -20,9 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.JTable;
+import javax.swing.JPanel;
 
 import mealplaner.gui.tables.FlexibleTableBuilder;
+import mealplaner.gui.tables.Table;
 import mealplaner.model.enums.CasseroleSettings;
 import mealplaner.model.enums.CookingTime;
 import mealplaner.model.enums.PreferenceSettings;
@@ -31,7 +32,7 @@ import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
 
 public class SettingTable {
-	private JTable table;
+	private Table table;
 	private List<Settings> settings;
 	private String[] days = getWeekDays();
 	private LocalDate date;
@@ -56,18 +57,19 @@ public class SettingTable {
 	}
 
 	public void useDefaultSettings(DefaultSettings defaultSettings) {
-		List<Settings> settings = new ArrayList<>(table.getRowCount());
+		List<Settings> settings = new ArrayList<>(this.settings.size());
 		Map<DayOfWeek, Settings> defaults = defaultSettings.getDefaultSettings();
 		DayOfWeek dayOfWeek = date.getDayOfWeek();
-		for (int i = 0; i < table.getRowCount(); i++) {
+		for (int i = 0; i < this.settings.size(); i++) {
 			settings.add(defaults.get(dayOfWeek));
 			dayOfWeek = dayOfWeek.plus(1);
 		}
-		this.settings = settings;
-		table.repaint();
+		this.settings.clear();
+		this.settings.addAll(settings);
+		table.update();
 	}
 
-	public JTable setupTable() {
+	public void addJScrollTableToPane(JPanel panel) {
 		FlexibleTableBuilder tableBuilder = createNewTable();
 		addDayOfWeekColumn(tableBuilder);
 		if (date != null) {
@@ -82,7 +84,7 @@ public class SettingTable {
 		addOtherSettings(tableBuilder);
 
 		table = tableBuilder.buildTable();
-		return table;
+		table.addScrollingTableToPane(panel);
 	}
 
 	private void addOtherSettings(FlexibleTableBuilder tableBuilder) {

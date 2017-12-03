@@ -69,7 +69,7 @@ public class FlexibleTableModelTest {
 		List<TestClass> columnContent = new ArrayList<>();
 		columnContent.add(new TestClass("Test1"));
 		columnContent.add(new TestClass("Test2"));
-		JTable table = createNewTable()
+		Table abstractedTable = createNewTable()
 				.withRowCount(columnContent::size)
 				.addColumn(
 						withContent(String.class)
@@ -80,6 +80,7 @@ public class FlexibleTableModelTest {
 								.isEditable()
 								.build())
 				.buildTable();
+		JTable table = abstractedTable.getTable();
 
 		table.setValueAt("Test3", 0, 0);
 
@@ -92,7 +93,7 @@ public class FlexibleTableModelTest {
 		List<TestClass> columnContent = new ArrayList<>();
 		columnContent.add(new TestClass("Test1"));
 		columnContent.add(new TestClass("Test2"));
-		JTable table = createNewTable()
+		Table abstractedTable = createNewTable()
 				.withRowCount(columnContent::size)
 				.addColumn(
 						withContent(String.class)
@@ -106,6 +107,7 @@ public class FlexibleTableModelTest {
 								.isEditable()
 								.build())
 				.buildTable();
+		JTable table = abstractedTable.getTable();
 
 		table.setValueAt("Test3", 0, 0);
 
@@ -133,7 +135,8 @@ public class FlexibleTableModelTest {
 								.enableButtonsOnSet(panel)
 								.isEditable()
 								.build())
-				.buildTable();
+				.buildTable()
+				.getTable();
 
 		table.setValueAt("Test3", 0, 0);
 
@@ -156,7 +159,8 @@ public class FlexibleTableModelTest {
 										(value, row) -> columnContent.set(row, value))
 								.isEditable()
 								.build())
-				.buildTable();
+				.buildTable()
+				.getTable();
 
 		table.setValueAt("Test3", 0, 0);
 
@@ -229,7 +233,8 @@ public class FlexibleTableModelTest {
 						.getRowValueFromUnderlyingModel(firstColumnContent::get)
 						.isEditable()
 						.build())
-				.buildTable();
+				.buildTable()
+				.getTable();
 
 		table.setValueAt(5, 0, 0);
 
@@ -265,7 +270,8 @@ public class FlexibleTableModelTest {
 								(value, row) -> secondColumnContent.set(row, value))
 						.isEditable()
 						.build())
-				.buildTable();
+				.buildTable()
+				.getTable();
 
 		table.setValueAt("Test", 0, 0);
 
@@ -291,7 +297,8 @@ public class FlexibleTableModelTest {
 						.setRowValueToUnderlyingModel((value, row) -> secondColumn.set(row, value))
 						.isEditable()
 						.build())
-				.buildTable();
+				.buildTable()
+				.getTable();
 	}
 
 	private JTable createTableWithOneNonEditableStringColumn(List<String> tableContent) {
@@ -302,7 +309,8 @@ public class FlexibleTableModelTest {
 								.withColumnName("Column")
 								.getRowValueFromUnderlyingModel(tableContent::get)
 								.build())
-				.buildTable();
+				.buildTable()
+				.getTable();
 	}
 
 	private enum TestEnum {

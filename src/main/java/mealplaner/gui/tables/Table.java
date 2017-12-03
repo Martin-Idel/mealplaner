@@ -31,6 +31,10 @@ public class Table {
 		panel.add(scrollPanel, BorderLayout.CENTER);
 	}
 
+	public JTable getTable() {
+		return table;
+	}
+
 	public void printTable(JFrame frame) {
 		TablePrinter.printTable(table, frame);
 	}

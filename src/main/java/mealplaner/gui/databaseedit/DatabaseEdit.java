@@ -142,7 +142,7 @@ public class DatabaseEdit implements DataStoreListener {
 						buttonPanel.enableButtons();
 					}
 				})
-				.buildFancyTable();
+				.buildTable();
 	}
 
 	private ButtonPanelEnabling createButtonPanelWithEnabling(Consumer<List<Meal>> setData,

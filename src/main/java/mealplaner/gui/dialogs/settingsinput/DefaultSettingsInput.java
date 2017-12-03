@@ -15,7 +15,6 @@ import java.util.Optional;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 import mealplaner.gui.commons.ButtonPanelBuilder;
 import mealplaner.model.settings.DefaultSettings;
@@ -24,7 +23,6 @@ import mealplaner.model.settings.Settings;
 public class DefaultSettingsInput extends SettingsInput {
 	private static final long serialVersionUID = 1L;
 	private JFrame parentFrame;
-	private JScrollPane tablescroll;
 	private JPanel buttonPanel;
 	private SettingTable settingTable;
 
@@ -41,14 +39,13 @@ public class DefaultSettingsInput extends SettingsInput {
 
 	protected void setup(DefaultSettings defaultSettings) {
 		settingTable = new SettingTable(defaultSettings);
-		tablescroll = new JScrollPane(settingTable.setupTable());
 
 		buttonPanel = new ButtonPanelBuilder()
 				.addSaveButton(getSaveListener(settingTable))
 				.addExitButton(justDisposeListener(this))
 				.build();
 
-		addPanel(tablescroll, BorderLayout.CENTER);
+		settingTable.addJScrollTableToPane(dataPanel);
 		addPanel(buttonPanel, BorderLayout.SOUTH);
 		adjustPanesTo(parentFrame);
 	}
