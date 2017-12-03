@@ -16,7 +16,6 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.JTable;
 import javax.swing.WindowConstants;
 
 import mealplaner.MealplanerData;
@@ -24,7 +23,6 @@ import mealplaner.ProposalBuilder;
 import mealplaner.gui.commons.ButtonPanelBuilder;
 import mealplaner.gui.commons.MenuBarBuilder;
 import mealplaner.gui.databaseedit.DatabaseEdit;
-import mealplaner.gui.dialogs.proposaloutput.TablePrinter;
 import mealplaner.gui.factories.DialogFactory;
 import mealplaner.io.FileIOGui;
 import mealplaner.io.IngredientIO;
@@ -155,9 +153,9 @@ public class MainGUI {
 	}
 
 	public void printProposal() {
-		JTable proposalTable = dialogs.createProposalTableFactory()
-				.createTable(mealPlan.getLastProposal());
-		TablePrinter.printTable(proposalTable, frame);
+		dialogs.createProposalTableFactory()
+				.createProposalTable(mealPlan.getLastProposal())
+				.printTable(frame);
 	}
 
 	public void makeProposal() {

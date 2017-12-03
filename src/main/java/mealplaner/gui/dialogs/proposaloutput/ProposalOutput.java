@@ -1,17 +1,16 @@
 package mealplaner.gui.dialogs.proposaloutput;
 
 import static mealplaner.BundleStore.BUNDLES;
-import static mealplaner.gui.dialogs.proposaloutput.TablePrinter.printTable;
+import static mealplaner.gui.dialogs.proposaloutput.ProposalTableFactory.proposalOutput;
 
 import java.awt.BorderLayout;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 
 import mealplaner.gui.commons.ButtonPanelBuilder;
+import mealplaner.gui.tables.Table;
 import mealplaner.model.Proposal;
 
 public class ProposalOutput extends JDialog {
@@ -26,17 +25,17 @@ public class ProposalOutput extends JDialog {
 	public void showDialog(Proposal lastProposal) {
 		JPanel dataPanel = setupDataPanel();
 
-		JTable proposalTable = new ProposalTableFactory().createTable(lastProposal);
-		JScrollPane tablescroll = new JScrollPane(proposalTable);
+		Table proposalTable = proposalOutput().createProposalTable(lastProposal);
+		proposalTable.addScrollingTableToPane(dataPanel);
 
 		JPanel buttonPanel = new ButtonPanelBuilder()
 				.addButton(BUNDLES.message("printButton"),
 						BUNDLES.message("printButtonMnemonic"),
-						action -> printTable(proposalTable, parentFrame))
+						action -> proposalTable.printTable(parentFrame))
 				.addOkButton(ButtonPanelBuilder.justDisposeListener(this))
 				.build();
 
-		arrangeGui(dataPanel, parentFrame, tablescroll, buttonPanel);
+		arrangeGui(dataPanel, parentFrame, buttonPanel);
 		setVisible(true);
 	}
 
@@ -46,9 +45,7 @@ public class ProposalOutput extends JDialog {
 		return dataPanel;
 	}
 
-	private void arrangeGui(JPanel dataPanel, JFrame parentFrame, JScrollPane tablescroll,
-			JPanel buttonPanel) {
-		dataPanel.add(tablescroll, BorderLayout.CENTER);
+	private void arrangeGui(JPanel dataPanel, JFrame parentFrame, JPanel buttonPanel) {
 		dataPanel.add(buttonPanel, BorderLayout.SOUTH);
 		getContentPane().add(dataPanel);
 		setSize(300, 300);

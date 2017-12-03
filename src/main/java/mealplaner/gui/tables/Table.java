@@ -7,8 +7,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import mealplaner.gui.dialogs.proposaloutput.TablePrinter;
-
 public class Table {
 	private FlexibleTableModel tableModel;
 	private JTable table;

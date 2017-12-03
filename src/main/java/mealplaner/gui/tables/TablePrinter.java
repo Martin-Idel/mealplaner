@@ -1,4 +1,4 @@
-package mealplaner.gui.dialogs.proposaloutput;
+package mealplaner.gui.tables;
 
 import static mealplaner.BundleStore.BUNDLES;
 

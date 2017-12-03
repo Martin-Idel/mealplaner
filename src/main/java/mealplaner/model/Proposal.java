@@ -68,6 +68,10 @@ public class Proposal {
 		return date;
 	}
 
+	public LocalDate getDateOfFirstProposedItem() {
+		return includeToday ? date : date.plusDays(1);
+	}
+
 	public static Element writeProposal(Document saveFileContent, Proposal proposal,
 			String elementName) {
 		Element proposalNode = saveFileContent.createElement(elementName);
