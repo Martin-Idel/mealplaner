@@ -11,8 +11,8 @@ import javax.swing.JTable;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 
-import mealplaner.gui.dialogs.proposaloutput.TablePrinter;
 import mealplaner.gui.editing.PositiveIntegerCellEditor;
+import mealplaner.gui.tables.TablePrinter;
 import mealplaner.recipes.model.Ingredient;
 import mealplaner.recipes.provider.IngredientProvider;
 
