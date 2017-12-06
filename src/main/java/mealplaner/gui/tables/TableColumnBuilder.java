@@ -23,6 +23,7 @@ import mealplaner.gui.editing.PositiveIntegerCellEditor;
 public class TableColumnBuilder<T> {
 	private Class<T> classType;
 	private String name = "";
+	private T defaultValue = null;
 
 	private BiFunction<T, Integer, Optional<Integer[]>> setValue = (value, row) -> empty();
 	private Function<Integer, T> getValue = (integer) -> null;
@@ -31,7 +32,7 @@ public class TableColumnBuilder<T> {
 	private Optional<TableCellEditor> editor = empty();
 	private Optional<TableCellRenderer> renderer = empty();
 
-	private TableColumnBuilder(Class<T> classType) {
+	protected TableColumnBuilder(Class<T> classType) {
 		this.classType = classType;
 	}
 
@@ -145,8 +146,20 @@ public class TableColumnBuilder<T> {
 		return this;
 	}
 
+	public TableColumnBuilder<T> setDefaultValueForEmptyRow(T defaultValue) {
+		this.defaultValue = defaultValue;
+		return this;
+	}
+
 	public TableColumnData<T> build() {
-		return createTableColumn(classType, name, setValue, getValue, isEditableIf, preferredSize,
-				editor, renderer);
+		return createTableColumn(classType,
+				name,
+				defaultValue,
+				setValue,
+				getValue,
+				isEditableIf,
+				preferredSize,
+				editor,
+				renderer);
 	}
 }

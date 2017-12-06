@@ -11,6 +11,7 @@ import javax.swing.table.TableCellRenderer;
 public class TableColumnData<T> {
 	private String name;
 	private Class<T> classType;
+	private T defaultValue;
 
 	private final BiFunction<T, Integer, Optional<Integer[]>> setValue;
 	private final Function<Integer, T> getValue;
@@ -23,6 +24,7 @@ public class TableColumnData<T> {
 	private TableColumnData(
 			Class<T> classType,
 			String name,
+			T defaultValue,
 			BiFunction<T, Integer, Optional<Integer[]>> setValue,
 			Function<Integer, T> getValue,
 			Predicate<Integer> isEditableIf,
@@ -31,6 +33,7 @@ public class TableColumnData<T> {
 			Optional<TableCellRenderer> tableCellRenderer) {
 		this.classType = classType;
 		this.name = name;
+		this.defaultValue = defaultValue;
 		this.setValue = setValue;
 		this.getValue = getValue;
 		this.isEditableIf = isEditableIf;
@@ -42,13 +45,15 @@ public class TableColumnData<T> {
 	public static <S> TableColumnData<S> createTableColumn(
 			Class<S> classType,
 			String name,
+			S defaultValue,
 			BiFunction<S, Integer, Optional<Integer[]>> setValue,
 			Function<Integer, S> getValue,
 			Predicate<Integer> isEditableIf,
 			int preferredSize,
 			Optional<TableCellEditor> tableCellEditor,
 			Optional<TableCellRenderer> tableCellRenderer) {
-		return new TableColumnData<>(classType, name, setValue, getValue, isEditableIf,
+		return new TableColumnData<>(classType, name, defaultValue, setValue, getValue,
+				isEditableIf,
 				preferredSize, tableCellEditor, tableCellRenderer);
 	}
 
@@ -84,4 +89,7 @@ public class TableColumnData<T> {
 		return tableCellRenderer;
 	}
 
+	public T getDefaultValue() {
+		return defaultValue;
+	}
 }

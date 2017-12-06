@@ -16,7 +16,7 @@ import org.junit.Test;
 
 import mealplaner.gui.ButtonPanelEnabling;
 
-public class FlexibleTableModelTest {
+public class UpdateSizeTableModelTest {
 
 	@Test
 	public void oneStringColumnOnlyReturnsCorrectSize() {

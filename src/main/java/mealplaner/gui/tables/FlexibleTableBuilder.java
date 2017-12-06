@@ -1,6 +1,6 @@
 package mealplaner.gui.tables;
 
-import static mealplaner.gui.tables.FlexibleTableModel.from;
+import static mealplaner.gui.tables.UpdateSizeTableModel.from;
 
 import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
@@ -16,6 +16,8 @@ public class FlexibleTableBuilder {
 	private List<MouseAdapter> columnListeners;
 	private JTable table;
 	private Supplier<Integer> rowCount = () -> 0;
+	private Runnable addRow = () -> {
+	};
 
 	private FlexibleTableBuilder() {
 		columns = new ArrayList<>();
@@ -26,23 +28,43 @@ public class FlexibleTableBuilder {
 		return new FlexibleTableBuilder();
 	}
 
-	public <T> FlexibleTableBuilder addColumn(TableColumnData<T> column) {
+	public FlexibleTableBuilder addColumn(TableColumnData<?> column) {
 		columns.add(column);
 		return this;
 	}
 
-	public <T> FlexibleTableBuilder withRowCount(Supplier<Integer> rowCount) {
+	public FlexibleTableBuilder withRowCount(Supplier<Integer> rowCount) {
 		this.rowCount = rowCount;
 		return this;
 	}
 
-	public <T> FlexibleTableBuilder addListenerToThisColumn(Consumer<Integer> onClick) {
+	public FlexibleTableBuilder addListenerToThisColumn(Consumer<Integer> onClick) {
 		columnListeners.add(ColumnListener.createColumnListener(columns.size() - 1, onClick));
 		return this;
 	}
 
+	public FlexibleTableBuilder addDefaultRowToUnderlyingModel(Runnable addRow) {
+		this.addRow = addRow;
+		return this;
+	}
+
 	public Table buildTable() {
-		FlexibleTableModel tableModel = from(columns, rowCount);
+		UpdateSizeTableModel tableModel = from(columns, rowCount);
+		table = new JTable(tableModel);
+		for (int i = 0; i < columns.size(); i++) {
+			TableColumn column = getTableColumn(i);
+			column.setPreferredWidth(columns.get(i).getPreferredSize());
+			columns.get(i).getTableCellEditor().ifPresent(column::setCellEditor);
+			columns.get(i).getTableCellRenderer().ifPresent(column::setCellRenderer);
+		}
+		for (MouseAdapter columnListener : columnListeners) {
+			table.addMouseListener(columnListener);
+		}
+		return Table.from(tableModel, table);
+	}
+
+	public Table buildDynamicTable() {
+		DynamicSizeTableModel tableModel = DynamicSizeTableModel.from(columns, rowCount, addRow);
 		table = new JTable(tableModel);
 		for (int i = 0; i < columns.size(); i++) {
 			TableColumn column = getTableColumn(i);
