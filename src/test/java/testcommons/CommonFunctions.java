@@ -84,6 +84,11 @@ public class CommonFunctions {
 				Measure.MILLILITRE);
 	}
 
+	public static Ingredient getIngredient3() {
+		return new Ingredient("Test3", IngredientType.CANNED_FRUIT,
+				Measure.GRAM);
+	}
+
 	public static Settings getSettings1() {
 		return from(cookingTimeWithProhibited(CookingTime.VERY_SHORT), nonNegative(3),
 				CasseroleSettings.NONE, PreferenceSettings.RARE_PREFERED);
