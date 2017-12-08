@@ -1,13 +1,14 @@
 package mealplaner.shopping;
 
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.recipes.model.QuantitativeIngredientBuilder.builder;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import mealplaner.commons.Pair;
 import mealplaner.recipes.model.Ingredient;
@@ -17,17 +18,23 @@ import mealplaner.recipes.model.Recipe;
 public class ShoppingList {
 	private Map<Ingredient, Integer> shoppingList;
 
-	private ShoppingList(List<Pair<Recipe, Integer>> recipes) {
-		shoppingList = new HashMap<>();
-		recipes.forEach(pair -> addRecipeForNumberOfPeople(pair.left, pair.right));
+	private ShoppingList(Map<Ingredient, Integer> recipes) {
+		shoppingList = recipes;
 	}
 
 	public static ShoppingList from(List<Pair<Recipe, Integer>> recipes) {
-		return new ShoppingList(recipes);
+		Map<Ingredient, Integer> shoppingList = recipes.stream()
+				.map(pair -> pair.left.getIngredientsFor(pair.right))
+				.map(Map::entrySet)
+				.flatMap(Collection::stream)
+				.collect(toMap(Map.Entry::getKey,
+						Map.Entry::getValue,
+						(a, b) -> a + b));
+		return new ShoppingList(shoppingList);
 	}
 
 	public static ShoppingList emptyList() {
-		return new ShoppingList(new ArrayList<>());
+		return new ShoppingList(new HashMap<>());
 	}
 
 	public List<QuantitativeIngredient> getList() {
@@ -38,21 +45,10 @@ public class ShoppingList {
 						.build())
 				.sorted((ingredient1, ingredient2) -> ingredient1.getIngredient().getType()
 						.compareTo(ingredient2.getIngredient().getType()))
-				.collect(Collectors.toList());
+				.collect(toList());
 	}
 
-	private void addRecipeForNumberOfPeople(Recipe recipe, int numberOfPeople) {
-		recipe.getRecipeFor(numberOfPeople)
-				.forEach((ingredient, amount) -> addIngredient(ingredient, amount));
-	}
-
-	private void addIngredient(Ingredient ingredient, Integer amount) {
-		shoppingList.compute(ingredient,
-				(key, value) -> value == null ? amount : (value + amount));
-	}
-
-	@Override
-	public String toString() {
-		return shoppingList.toString();
+	public Map<Ingredient, Integer> getMap() {
+		return shoppingList;
 	}
 }

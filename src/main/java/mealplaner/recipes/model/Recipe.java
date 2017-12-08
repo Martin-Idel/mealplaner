@@ -1,9 +1,15 @@
 package mealplaner.recipes.model;
 
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.summingInt;
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
+import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.io.XMLHelpers.createTextNode;
+import static mealplaner.recipes.model.QuantitativeIngredientBuilder.builder;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -31,6 +37,13 @@ public class Recipe {
 		return new Recipe(numberOfPortions, ingredients);
 	}
 
+	public static Recipe from(int numberOfPortions, List<QuantitativeIngredient> ingredients) {
+		Map<Ingredient, Integer> ingredientMap = ingredients.stream()
+				.collect(groupingBy(QuantitativeIngredient::getIngredient,
+						summingInt(ingredient -> ingredient.getAmount().value)));
+		return new Recipe(numberOfPortions, ingredientMap);
+	}
+
 	public static Recipe createRecipe() {
 		return new Recipe(1, new HashMap<>());
 	}
@@ -39,10 +52,34 @@ public class Recipe {
 		return numberOfPortions;
 	}
 
-	public Map<Ingredient, Integer> getRecipeFor(final int numberOfPeople) {
+	public Map<Ingredient, Integer> getIngredientsFor(final int numberOfPeople) {
 		return ingredients.entrySet().stream()
 				.collect(toMap(Entry::getKey,
 						entry -> entry.getValue() * numberOfPeople / numberOfPortions));
+	}
+
+	public Map<Ingredient, Integer> getIngredientsAsIs() {
+		return ingredients;
+	}
+
+	public List<QuantitativeIngredient> getIngredientListFor(final int numberOfPeople) {
+		return getIngredientListWithMultipliedAmount((float) numberOfPeople / numberOfPortions);
+	}
+
+	public List<QuantitativeIngredient> getIngredientListAsIs() {
+		return getIngredientListWithMultipliedAmount(1);
+	}
+
+	private List<QuantitativeIngredient> getIngredientListWithMultipliedAmount(
+			final float multiplier) {
+		return ingredients.entrySet()
+				.stream()
+				.map(entry -> builder()
+						.ingredient(entry.getKey())
+						.amount(nonNegative((int) (entry.getValue() * multiplier)))
+						.forPeople(nonNegative(1))
+						.build())
+				.collect(toList());
 	}
 
 	@Override
@@ -81,7 +118,7 @@ public class Recipe {
 		recipeNode.appendChild(createTextNode(saveFileContent, "numberOfPortions",
 				() -> Integer.toString(recipe.getNumberOfPortions())));
 		for (Map.Entry<Ingredient, Integer> entry : recipe
-				.getRecipeFor(recipe.getNumberOfPortions()).entrySet()) {
+				.getIngredientsFor(recipe.getNumberOfPortions()).entrySet()) {
 			Element ingredientEntry = saveFileContent.createElement("recipePart");
 			ingredientEntry.appendChild(
 					Ingredient.generateXml(saveFileContent, entry.getKey(), "ingredient"));
