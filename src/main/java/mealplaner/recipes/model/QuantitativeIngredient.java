@@ -30,6 +30,10 @@ public class QuantitativeIngredient {
 				* ((float) numberOfPeople.value / (float) this.numberOfPeople.value)));
 	}
 
+	public NonnegativeInteger getAmount() {
+		return amount;
+	}
+
 	public NonnegativeInteger getNumberOfPeople() {
 		return numberOfPeople;
 	}
