@@ -36,6 +36,8 @@ public class ShoppingList {
 						.amount(nonNegative(entry.getValue()))
 						.forPeople(nonNegative(1))
 						.build())
+				.sorted((ingredient1, ingredient2) -> ingredient1.getIngredient().getType()
+						.compareTo(ingredient2.getIngredient().getType()))
 				.collect(Collectors.toList());
 	}
 
