@@ -64,8 +64,8 @@ public class QuantitativeIngredient {
 		}
 		QuantitativeIngredient other = (QuantitativeIngredient) obj;
 		if (!ingredient.equals(other.ingredient) ||
-				amount.equals(other.amount) ||
-				numberOfPeople.equals(other.numberOfPeople)) {
+				!amount.equals(other.amount) ||
+				!numberOfPeople.equals(other.numberOfPeople)) {
 			return false;
 		}
 		return true;
