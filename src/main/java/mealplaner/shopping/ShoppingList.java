@@ -1,17 +1,17 @@
 package mealplaner.shopping;
 
-import static java.util.stream.Collectors.toMap;
+import static mealplaner.commons.NonnegativeInteger.nonNegative;
+import static mealplaner.recipes.model.QuantitativeIngredientBuilder.builder;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import mealplaner.commons.Pair;
 import mealplaner.recipes.model.Ingredient;
-import mealplaner.recipes.model.IngredientType;
+import mealplaner.recipes.model.QuantitativeIngredient;
 import mealplaner.recipes.model.Recipe;
 
 public class ShoppingList {
@@ -30,11 +30,13 @@ public class ShoppingList {
 		return new ShoppingList(new ArrayList<>());
 	}
 
-	public Map<Ingredient, Integer> getSubsetFor(IngredientType... types) {
-		List<IngredientType> ingredientTypes = Arrays.asList(types);
+	public List<QuantitativeIngredient> getList() {
 		return shoppingList.entrySet().stream()
-				.filter(entry -> ingredientTypes.contains(entry.getKey().getType()))
-				.collect(toMap(Entry::getKey, Entry::getValue));
+				.map(entry -> builder().ingredient(entry.getKey())
+						.amount(nonNegative(entry.getValue()))
+						.forPeople(nonNegative(1))
+						.build())
+				.collect(Collectors.toList());
 	}
 
 	private void addRecipeForNumberOfPeople(Recipe recipe, int numberOfPeople) {

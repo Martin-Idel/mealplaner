@@ -12,9 +12,9 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 import mealplaner.gui.commons.ButtonPanelBuilder;
+import mealplaner.gui.tables.Table;
 import mealplaner.model.Proposal;
 import mealplaner.recipes.provider.IngredientProvider;
 
@@ -22,6 +22,7 @@ public class ShoppingListDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private JFrame frame;
 	private ShoppingTable shoppingTable;
+	private Table table;
 
 	public ShoppingListDialog(JFrame parent) {
 		super(parent, BUNDLES.message("createShoppingListDialogTitle"), true);
@@ -36,7 +37,6 @@ public class ShoppingListDialog extends JDialog {
 
 	private void createTable(Proposal proposal, IngredientProvider ingredientProvider) {
 		ShoppingList shoppingList = createShoppingList(proposal);
-		System.out.println(shoppingList);
 		display(shoppingList, ingredientProvider);
 	}
 
@@ -61,12 +61,11 @@ public class ShoppingListDialog extends JDialog {
 	}
 
 	private void display(ShoppingList shoppingList, IngredientProvider ingredientProvider) {
-		JScrollPane tablescroll = new JScrollPane(
-				shoppingTable.setupTable(shoppingList, ingredientProvider));
+		table = shoppingTable.setupTable(shoppingList, ingredientProvider);
 		JPanel buttonPanel = displayButtons();
 		JPanel dataPanel = new JPanel();
 		dataPanel.setLayout(new BorderLayout());
-		dataPanel.add(tablescroll, BorderLayout.CENTER);
+		table.addScrollingTableToPane(dataPanel);
 		dataPanel.add(buttonPanel, BorderLayout.SOUTH);
 		getContentPane().add(dataPanel);
 
@@ -79,7 +78,7 @@ public class ShoppingListDialog extends JDialog {
 		return new ButtonPanelBuilder()
 				.addButton(BUNDLES.message("printButton"),
 						BUNDLES.message("printButtonMnemonic"),
-						action -> shoppingTable.printTable(frame))
+						action -> table.printTable(frame))
 				.addOkButton(action -> dispose())
 				.build();
 	}
