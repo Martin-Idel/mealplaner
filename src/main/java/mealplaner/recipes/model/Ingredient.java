@@ -48,7 +48,6 @@ public class Ingredient {
 	public static Element generateXml(Document saveFileContent, Ingredient ingredient,
 			String elementName) {
 		Element ingredientNode = saveFileContent.createElement(elementName);
-
 		ingredientNode
 				.appendChild(createTextNode(saveFileContent, "name", () -> ingredient.getName()));
 		ingredientNode.appendChild(
@@ -69,14 +68,9 @@ public class Ingredient {
 
 	@Override
 	public String toString() {
-		return name;
+		return "Ingredient [name=" + name + ", type=" + type + ", measure=" + measure
+				+ "]";
 	}
-
-	// @Override
-	// public String toString() {
-	// return "Ingredient [name=" + name + ", type=" + type + ", measure=" + measure
-	// + "]";
-	// }
 
 	@Override
 	public int hashCode() {
