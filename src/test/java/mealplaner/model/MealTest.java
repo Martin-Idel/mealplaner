@@ -67,10 +67,6 @@ public class MealTest {
 
 		sut = Meal.readMeal(Meal.writeMeal(saveFileContent, meal, "meal"));
 
-		System.out.println(sut);
-		System.out.println(meal);
-		System.out.println(sut.equals(meal));
-
 		assertThat(sut).isEqualTo(meal);
 	}
 
