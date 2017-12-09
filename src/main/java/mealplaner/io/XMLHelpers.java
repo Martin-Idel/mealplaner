@@ -5,6 +5,7 @@ import static java.time.LocalDate.of;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import mealplaner.model.Meal;
+import mealplaner.model.settings.Settings;
 
 public final class XMLHelpers {
 	private static final Logger logger = LoggerFactory.getLogger(XMLHelpers.class);
@@ -101,6 +103,16 @@ public final class XMLHelpers {
 		return mealListNode;
 	}
 
+	public static Element writeSettingsList(Document saveFileContent, List<Settings> settings,
+			String nodeName) {
+		Element settingsListNode = saveFileContent.createElement(nodeName);
+		// DayOfWeek is irrelevant for the ProposalSetting.
+		settings.stream().map(
+				meal -> Settings.writeSettings(saveFileContent, meal, DayOfWeek.MONDAY, "settings"))
+				.forEach(settingsListNode::appendChild);
+		return settingsListNode;
+	}
+
 	public static List<Meal> parseMealList(Element mealListNode) {
 		NodeList elementsByTagName = mealListNode.getElementsByTagName("meal");
 		List<Meal> meals = new ArrayList<>();
@@ -113,6 +125,20 @@ public final class XMLHelpers {
 			}
 		}
 		return meals;
+	}
+
+	public static List<Settings> parseSettingsList(Element settingsListNode) {
+		NodeList elementsByTagName = settingsListNode.getElementsByTagName("settings");
+		List<Settings> settingsList = new ArrayList<>();
+		for (int i = 0; i < elementsByTagName.getLength(); i++) {
+			if (elementsByTagName.item(i).getNodeType() == Node.ELEMENT_NODE) {
+				Settings settings = Settings.parseSettings((Element) elementsByTagName.item(i));
+				settingsList.add(settings);
+			} else {
+				logger.warn("A setting in a SettingList could not be read properly");
+			}
+		}
+		return settingsList;
 	}
 
 	public static <T> T logFailedXmlRetrieval(T fallback, String message, Element node) {

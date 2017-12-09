@@ -1,5 +1,6 @@
 package mealplaner;
 
+import static java.util.Arrays.asList;
 import static mealplaner.model.Proposal.from;
 
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ public class ProposalBuilder {
 				updateCurrentSidedish(nextMeal.orElse(meals.get(0)));
 			}
 		}
-		return from(firstDayIsToday, proposalList);
+		return from(firstDayIsToday, proposalList, asList(settings));
 	}
 
 	private void setCurrentSideDishFromHistory(List<Meal> meals) {

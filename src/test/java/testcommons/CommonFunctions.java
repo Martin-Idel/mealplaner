@@ -94,4 +94,9 @@ public class CommonFunctions {
 		return from(cookingTimeWithProhibited(CookingTime.VERY_SHORT), nonNegative(3),
 				CasseroleSettings.NONE, PreferenceSettings.RARE_PREFERED);
 	}
+
+	public static Settings getSettings2() {
+		return from(cookingTimeWithProhibited(CookingTime.SHORT), nonNegative(4),
+				CasseroleSettings.POSSIBLE, PreferenceSettings.RARE_PREFERED);
+	}
 }

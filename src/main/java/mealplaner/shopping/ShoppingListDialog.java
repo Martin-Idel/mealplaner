@@ -2,7 +2,6 @@ package mealplaner.shopping;
 
 import static java.util.stream.Collectors.toList;
 import static mealplaner.BundleStore.BUNDLES;
-import static mealplaner.commons.NonnegativeInteger.TWO;
 import static mealplaner.commons.Pair.of;
 import static mealplaner.shopping.ShoppingList.emptyList;
 
@@ -54,8 +53,8 @@ public class ShoppingListDialog extends JDialog {
 				return emptyList();
 			}
 		}
-		return ShoppingList.from(proposal.getProposalList().stream()
-				.map(meal -> of(meal.getRecipe(), TWO)) // TODO: need settings in Proposal
+		return ShoppingList.from(proposal.getMealsAndSettings().stream()
+				.map(pair -> of(pair.left.getRecipe(), pair.right.getNumberOfPeople()))
 				.filter(pair -> pair.left.isPresent())
 				.map(pair -> pair.mapLeft(Optional::get))
 				.collect(toList()));
