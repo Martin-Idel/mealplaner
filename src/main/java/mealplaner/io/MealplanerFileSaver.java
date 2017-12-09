@@ -18,7 +18,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import mealplaner.MealplanerData;
-import mealplaner.errorhandling.MealException;
+import mealplaner.commons.errorhandling.MealException;
 
 public class MealplanerFileSaver {
 

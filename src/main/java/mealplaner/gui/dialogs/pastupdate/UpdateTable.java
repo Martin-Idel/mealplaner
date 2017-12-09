@@ -2,9 +2,9 @@ package mealplaner.gui.dialogs.pastupdate;
 
 import static java.time.format.DateTimeFormatter.ofLocalizedDate;
 import static java.time.format.FormatStyle.SHORT;
-import static mealplaner.BundleStore.BUNDLES;
-import static mealplaner.gui.model.StringArrayCollection.getWeekDays;
-import static mealplaner.gui.tables.TableColumnBuilder.withContent;
+import static mealplaner.commons.BundleStore.BUNDLES;
+import static mealplaner.commons.gui.StringArrayCollection.getWeekDays;
+import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -15,8 +15,8 @@ import javax.swing.JComboBox;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 
-import mealplaner.gui.tables.FlexibleTableBuilder;
-import mealplaner.gui.tables.Table;
+import mealplaner.commons.gui.tables.FlexibleTableBuilder;
+import mealplaner.commons.gui.tables.Table;
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
 

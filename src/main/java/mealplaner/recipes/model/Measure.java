@@ -1,6 +1,6 @@
 package mealplaner.recipes.model;
 
-import static mealplaner.BundleStore.BUNDLES;
+import static mealplaner.commons.BundleStore.BUNDLES;
 
 public enum Measure {
 	GRAM(BUNDLES.message("GRAM")),

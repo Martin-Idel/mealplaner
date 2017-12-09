@@ -1,12 +1,12 @@
 package mealplaner.gui.databaseedit;
 
 import static java.util.stream.Collectors.toList;
-import static mealplaner.BundleStore.BUNDLES;
+import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.Utils.not;
-import static mealplaner.gui.tables.FlexibleTableBuilder.createNewTable;
-import static mealplaner.gui.tables.TableColumnBuilder.withContent;
-import static mealplaner.gui.tables.TableColumnBuilder.withEnumContent;
-import static mealplaner.gui.tables.TableColumnBuilder.withNonnegativeIntegerContent;
+import static mealplaner.commons.gui.tables.FlexibleTableBuilder.createNewTable;
+import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
+import static mealplaner.commons.gui.tables.TableColumnBuilder.withEnumContent;
+import static mealplaner.commons.gui.tables.TableColumnBuilder.withNonnegativeIntegerContent;
 import static mealplaner.model.MealBuilder.from;
 
 import java.awt.BorderLayout;
@@ -22,11 +22,11 @@ import javax.swing.JPanel;
 import mealplaner.DataStore;
 import mealplaner.DataStoreEventType;
 import mealplaner.DataStoreListener;
-import mealplaner.gui.ButtonPanelEnabling;
-import mealplaner.gui.commons.ButtonPanelBuilder;
+import mealplaner.commons.gui.ButtonPanelBuilder;
+import mealplaner.commons.gui.ButtonPanelEnabling;
+import mealplaner.commons.gui.editing.NonemptyTextCellEditor;
+import mealplaner.commons.gui.tables.Table;
 import mealplaner.gui.dialogs.mealinput.SingleMealInput;
-import mealplaner.gui.editing.TextCellEditor;
-import mealplaner.gui.tables.Table;
 import mealplaner.model.Meal;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
@@ -76,7 +76,7 @@ public class DatabaseEdit implements DataStoreListener {
 								(meal, name) -> from(meal).name(name).create())
 						.getValueFromOrderedList(meals, meal -> meal.getName())
 						.isEditable()
-						.overwriteTableCellEditor(new TextCellEditor())
+						.overwriteTableCellEditor(new NonemptyTextCellEditor())
 						.build())
 				.addColumn(withEnumContent(CookingTime.class)
 						.withColumnName(BUNDLES.message("cookingLengthColumn"))
@@ -120,7 +120,7 @@ public class DatabaseEdit implements DataStoreListener {
 								(meal, comment) -> from(meal).comment(comment).create())
 						.getValueFromOrderedList(meals, meal -> meal.getComment())
 						.isEditable()
-						.overwriteTableCellEditor(new TextCellEditor())
+						.overwriteTableCellEditor(new NonemptyTextCellEditor())
 						.build())
 				.addColumn(withContent(String.class)
 						.withColumnName(BUNDLES.message("recipeEditColum"))
@@ -128,7 +128,7 @@ public class DatabaseEdit implements DataStoreListener {
 								row -> meals.get(row).getRecipe().isPresent()
 										? BUNDLES.message("editRecipeButtonLabel")
 										: BUNDLES.message("createRecipeButtonLabel"))
-						.overwriteTableCellEditor(new TextCellEditor())
+						.overwriteTableCellEditor(new NonemptyTextCellEditor())
 						.build())
 				.addListenerToThisColumn((row) -> {
 					Optional<Recipe> recipe = meals.get(row).getRecipe();

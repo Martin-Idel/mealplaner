@@ -3,8 +3,8 @@ package mealplaner.io;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static javax.swing.JOptionPane.showInputDialog;
-import static mealplaner.BundleStore.BUNDLES;
-import static mealplaner.gui.commons.MessageDialog.errorMessages;
+import static mealplaner.commons.BundleStore.BUNDLES;
+import static mealplaner.commons.gui.MessageDialog.errorMessages;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -17,7 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import mealplaner.MealplanerData;
-import mealplaner.errorhandling.MealException;
+import mealplaner.commons.errorhandling.MealException;
 
 public class FileIOGui {
 	private JFrame frame;

@@ -34,7 +34,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.w3c.dom.Document;
 
-import mealplaner.errorhandling.MealException;
+import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
 import mealplaner.model.enums.CookingPreference;

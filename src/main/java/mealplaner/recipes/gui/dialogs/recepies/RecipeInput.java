@@ -1,6 +1,6 @@
 package mealplaner.recipes.gui.dialogs.recepies;
 
-import static mealplaner.BundleStore.BUNDLES;
+import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.NonnegativeInteger.FOUR;
 import static mealplaner.recipes.model.Recipe.createRecipe;
 
@@ -14,10 +14,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import mealplaner.commons.NonnegativeInteger;
-import mealplaner.gui.commons.ButtonPanelBuilder;
-import mealplaner.gui.commons.InputField;
-import mealplaner.gui.commons.NonnegativeIntegerInputField;
-import mealplaner.gui.tables.Table;
+import mealplaner.commons.gui.ButtonPanelBuilder;
+import mealplaner.commons.gui.inputfields.InputField;
+import mealplaner.commons.gui.inputfields.NonnegativeIntegerInputField;
+import mealplaner.commons.gui.tables.Table;
 import mealplaner.recipes.model.Recipe;
 import mealplaner.recipes.provider.IngredientProvider;
 

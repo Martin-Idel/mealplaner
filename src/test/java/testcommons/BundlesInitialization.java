@@ -2,7 +2,7 @@ package testcommons;
 
 import static java.util.Locale.getDefault;
 import static java.util.ResourceBundle.getBundle;
-import static mealplaner.BundleStore.BUNDLES;
+import static mealplaner.commons.BundleStore.BUNDLES;
 
 import java.util.ResourceBundle;
 

@@ -2,7 +2,7 @@ package mealplaner.gui.dialogs.pastupdate;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
-import static mealplaner.BundleStore.BUNDLES;
+import static mealplaner.commons.BundleStore.BUNDLES;
 
 import java.awt.BorderLayout;
 import java.util.List;
@@ -13,8 +13,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import mealplaner.DataStore;
-import mealplaner.gui.commons.ButtonPanelBuilder;
-import mealplaner.gui.tables.Table;
+import mealplaner.commons.gui.ButtonPanelBuilder;
+import mealplaner.commons.gui.tables.Table;
 import mealplaner.model.Meal;
 
 public class UpdatePastMeals extends JDialog {

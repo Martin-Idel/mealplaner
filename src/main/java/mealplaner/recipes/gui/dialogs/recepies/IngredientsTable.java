@@ -1,10 +1,10 @@
 package mealplaner.recipes.gui.dialogs.recepies;
 
-import static mealplaner.BundleStore.BUNDLES;
+import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.NonnegativeInteger.ZERO;
-import static mealplaner.gui.tables.FlexibleTableBuilder.createNewTable;
-import static mealplaner.gui.tables.TableColumnBuilder.withContent;
-import static mealplaner.gui.tables.TableColumnBuilder.withNonnegativeIntegerContent;
+import static mealplaner.commons.gui.tables.FlexibleTableBuilder.createNewTable;
+import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
+import static mealplaner.commons.gui.tables.TableColumnBuilder.withNonnegativeIntegerContent;
 import static mealplaner.recipes.model.QuantitativeIngredient.create;
 
 import java.util.List;
@@ -14,8 +14,8 @@ import javax.swing.JComboBox;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 
-import mealplaner.gui.tables.Table;
-import mealplaner.gui.tables.TableColumnBuilder;
+import mealplaner.commons.gui.tables.Table;
+import mealplaner.commons.gui.tables.TableColumnBuilder;
 import mealplaner.recipes.model.Ingredient;
 import mealplaner.recipes.model.Measure;
 import mealplaner.recipes.model.QuantitativeIngredient;

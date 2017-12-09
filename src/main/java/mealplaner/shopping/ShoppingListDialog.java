@@ -1,7 +1,7 @@
 package mealplaner.shopping;
 
 import static java.util.stream.Collectors.toList;
-import static mealplaner.BundleStore.BUNDLES;
+import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.Pair.of;
 import static mealplaner.shopping.ShoppingList.emptyList;
 
@@ -13,8 +13,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import mealplaner.gui.commons.ButtonPanelBuilder;
-import mealplaner.gui.tables.Table;
+import mealplaner.commons.gui.ButtonPanelBuilder;
+import mealplaner.commons.gui.tables.Table;
 import mealplaner.model.Proposal;
 import mealplaner.recipes.provider.IngredientProvider;
 

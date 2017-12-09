@@ -19,7 +19,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import mealplaner.commons.NonnegativeInteger;
-import mealplaner.errorhandling.MealException;
+import mealplaner.commons.errorhandling.MealException;
 import mealplaner.io.XMLHelpers;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;

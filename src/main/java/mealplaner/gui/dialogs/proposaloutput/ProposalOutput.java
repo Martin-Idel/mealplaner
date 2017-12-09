@@ -1,6 +1,6 @@
 package mealplaner.gui.dialogs.proposaloutput;
 
-import static mealplaner.BundleStore.BUNDLES;
+import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.gui.dialogs.proposaloutput.ProposalTableFactory.proposalOutput;
 
 import java.awt.BorderLayout;
@@ -9,8 +9,8 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import mealplaner.gui.commons.ButtonPanelBuilder;
-import mealplaner.gui.tables.Table;
+import mealplaner.commons.gui.ButtonPanelBuilder;
+import mealplaner.commons.gui.tables.Table;
 import mealplaner.model.Proposal;
 
 public class ProposalOutput extends JDialog {

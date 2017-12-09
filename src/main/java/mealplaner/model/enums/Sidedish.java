@@ -1,6 +1,6 @@
 package mealplaner.model.enums;
 
-import static mealplaner.BundleStore.BUNDLES;
+import static mealplaner.commons.BundleStore.BUNDLES;
 
 import java.util.Arrays;
 import java.util.EnumMap;

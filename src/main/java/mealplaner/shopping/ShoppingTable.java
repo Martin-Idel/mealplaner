@@ -2,7 +2,7 @@ package mealplaner.shopping;
 
 import java.util.List;
 
-import mealplaner.gui.tables.Table;
+import mealplaner.commons.gui.tables.Table;
 import mealplaner.recipes.gui.dialogs.recepies.IngredientsTable;
 import mealplaner.recipes.model.QuantitativeIngredient;
 import mealplaner.recipes.provider.IngredientProvider;

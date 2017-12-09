@@ -1,7 +1,7 @@
 package mealplaner.gui.dialogs.mealinput;
 
 import static java.util.Optional.of;
-import static mealplaner.BundleStore.BUNDLES;
+import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.model.Meal.createMeal;
 import static mealplaner.recipes.model.Recipe.createRecipe;
 
@@ -19,13 +19,13 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import mealplaner.commons.NonnegativeInteger;
-import mealplaner.gui.commons.ButtonInputField;
-import mealplaner.gui.commons.ButtonPanelBuilder;
-import mealplaner.gui.commons.ComboBoxInputField;
-import mealplaner.gui.commons.InputField;
-import mealplaner.gui.commons.NonEmptyTextInputField;
-import mealplaner.gui.commons.NonnegativeIntegerInputField;
-import mealplaner.gui.commons.TextField;
+import mealplaner.commons.gui.ButtonPanelBuilder;
+import mealplaner.commons.gui.inputfields.ButtonInputField;
+import mealplaner.commons.gui.inputfields.ComboBoxInputField;
+import mealplaner.commons.gui.inputfields.InputField;
+import mealplaner.commons.gui.inputfields.NonEmptyTextInputField;
+import mealplaner.commons.gui.inputfields.NonnegativeIntegerInputField;
+import mealplaner.commons.gui.inputfields.TextInputField;
 import mealplaner.model.Meal;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
@@ -74,7 +74,7 @@ public abstract class MealInput extends JDialog {
 				BUNDLES.message("insertMealPopularity"),
 				CookingPreference.class,
 				CookingPreference.NO_PREFERENCE);
-		commentField = new TextField(BUNDLES.message("insertMealComment"));
+		commentField = new TextInputField(BUNDLES.message("insertMealComment"));
 		recipeInputField = new ButtonInputField<Optional<Recipe>>(
 				BUNDLES.message("createRecipeLabel"),
 				BUNDLES.message("editRecipeButtonLabel"),

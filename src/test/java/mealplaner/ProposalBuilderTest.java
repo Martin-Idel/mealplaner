@@ -19,7 +19,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import mealplaner.commons.Pair;
-import mealplaner.errorhandling.MealException;
+import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
 import mealplaner.model.SideDish;

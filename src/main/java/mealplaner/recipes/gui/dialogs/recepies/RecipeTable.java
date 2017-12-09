@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import mealplaner.commons.NonnegativeInteger;
-import mealplaner.gui.tables.Table;
+import mealplaner.commons.gui.tables.Table;
 import mealplaner.recipes.model.QuantitativeIngredient;
 import mealplaner.recipes.model.Recipe;
 import mealplaner.recipes.provider.IngredientProvider;

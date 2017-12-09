@@ -25,7 +25,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import mealplaner.commons.Pair;
-import mealplaner.errorhandling.MealException;
+import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.settings.Settings;
 
 public class Proposal {

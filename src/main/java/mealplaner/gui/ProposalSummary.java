@@ -2,8 +2,8 @@ package mealplaner.gui;
 
 import static java.time.format.DateTimeFormatter.ofLocalizedDate;
 import static java.time.format.FormatStyle.LONG;
-import static mealplaner.BundleStore.BUNDLES;
-import static mealplaner.gui.commons.SwingUtilityMethods.createButton;
+import static mealplaner.commons.BundleStore.BUNDLES;
+import static mealplaner.commons.gui.SwingUtilityMethods.createButton;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
@@ -18,10 +18,10 @@ import mealplaner.DataStore;
 import mealplaner.DataStoreEventType;
 import mealplaner.DataStoreListener;
 import mealplaner.commons.NonnegativeInteger;
-import mealplaner.gui.commons.CheckboxInputField;
-import mealplaner.gui.commons.InputField;
-import mealplaner.gui.commons.NonnegativeIntegerInputField;
-import mealplaner.gui.commons.SwingUtilityMethods;
+import mealplaner.commons.gui.SwingUtilityMethods;
+import mealplaner.commons.gui.inputfields.CheckboxInputField;
+import mealplaner.commons.gui.inputfields.InputField;
+import mealplaner.commons.gui.inputfields.NonnegativeIntegerInputField;
 import mealplaner.model.settings.ProposalOutline;
 import mealplaner.model.settings.ProposalOutline.ProposalOutlineBuilder;
 

@@ -22,7 +22,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 
-import mealplaner.BundleStore;
+import mealplaner.commons.BundleStore;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.model.Meal;
 import mealplaner.model.enums.CasseroleSettings;

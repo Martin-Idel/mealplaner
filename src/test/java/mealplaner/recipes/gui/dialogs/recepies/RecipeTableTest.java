@@ -1,6 +1,6 @@
 package mealplaner.recipes.gui.dialogs.recepies;
 
-import static mealplaner.BundleStore.BUNDLES;
+import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;

@@ -4,7 +4,7 @@ import static java.util.Locale.getDefault;
 import static java.util.ResourceBundle.getBundle;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.SwingUtilities.invokeLater;
-import static mealplaner.BundleStore.BUNDLES;
+import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.io.IngredientProviderIoGui.loadIngredientProvider;
 
 import java.util.MissingResourceException;

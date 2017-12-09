@@ -1,8 +1,8 @@
 package mealplaner.gui;
 
 import static java.time.LocalDate.now;
-import static mealplaner.BundleStore.BUNDLES;
-import static mealplaner.gui.commons.MessageDialog.showSaveExitDialog;
+import static mealplaner.commons.BundleStore.BUNDLES;
+import static mealplaner.commons.gui.MessageDialog.showSaveExitDialog;
 
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
@@ -20,8 +20,8 @@ import javax.swing.WindowConstants;
 
 import mealplaner.MealplanerData;
 import mealplaner.ProposalBuilder;
-import mealplaner.gui.commons.ButtonPanelBuilder;
-import mealplaner.gui.commons.MenuBarBuilder;
+import mealplaner.commons.gui.ButtonPanelBuilder;
+import mealplaner.commons.gui.MenuBarBuilder;
 import mealplaner.gui.databaseedit.DatabaseEdit;
 import mealplaner.gui.factories.DialogFactory;
 import mealplaner.io.FileIOGui;

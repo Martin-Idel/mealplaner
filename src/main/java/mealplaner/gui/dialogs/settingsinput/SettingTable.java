@@ -4,13 +4,13 @@ import static java.time.LocalDate.of;
 import static java.time.format.DateTimeFormatter.ofLocalizedDate;
 import static java.time.format.FormatStyle.SHORT;
 import static java.util.stream.Collectors.toList;
-import static mealplaner.BundleStore.BUNDLES;
-import static mealplaner.gui.model.StringArrayCollection.getWeekDays;
-import static mealplaner.gui.tables.FlexibleTableBuilder.createNewTable;
-import static mealplaner.gui.tables.TableColumnBuilder.withBooleanContent;
-import static mealplaner.gui.tables.TableColumnBuilder.withContent;
-import static mealplaner.gui.tables.TableColumnBuilder.withEnumContent;
-import static mealplaner.gui.tables.TableColumnBuilder.withNonnegativeIntegerContent;
+import static mealplaner.commons.BundleStore.BUNDLES;
+import static mealplaner.commons.gui.StringArrayCollection.getWeekDays;
+import static mealplaner.commons.gui.tables.FlexibleTableBuilder.createNewTable;
+import static mealplaner.commons.gui.tables.TableColumnBuilder.withBooleanContent;
+import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
+import static mealplaner.commons.gui.tables.TableColumnBuilder.withEnumContent;
+import static mealplaner.commons.gui.tables.TableColumnBuilder.withNonnegativeIntegerContent;
 import static mealplaner.model.settings.CookingTimeSetting.copyCookingTimeSetting;
 import static mealplaner.model.settings.Settings.copy;
 
@@ -22,8 +22,8 @@ import java.util.Map;
 
 import javax.swing.JPanel;
 
-import mealplaner.gui.tables.FlexibleTableBuilder;
-import mealplaner.gui.tables.Table;
+import mealplaner.commons.gui.tables.FlexibleTableBuilder;
+import mealplaner.commons.gui.tables.Table;
 import mealplaner.model.enums.CasseroleSettings;
 import mealplaner.model.enums.CookingTime;
 import mealplaner.model.enums.PreferenceSettings;

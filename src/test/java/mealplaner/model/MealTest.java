@@ -18,7 +18,7 @@ import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import mealplaner.errorhandling.MealException;
+import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
 import mealplaner.model.enums.ObligatoryUtensil;

@@ -1,6 +1,6 @@
 package mealplaner.gui.dialogs.settingsinput;
 
-import static mealplaner.BundleStore.BUNDLES;
+import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.model.settings.Settings.createSettings;
 
 import java.awt.BorderLayout;
@@ -12,7 +12,7 @@ import java.util.Optional;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import mealplaner.gui.commons.ButtonPanelBuilder;
+import mealplaner.commons.gui.ButtonPanelBuilder;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.ProposalOutline;
 import mealplaner.model.settings.Settings;

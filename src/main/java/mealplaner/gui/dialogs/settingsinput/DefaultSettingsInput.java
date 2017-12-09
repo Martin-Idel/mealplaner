@@ -3,8 +3,8 @@ package mealplaner.gui.dialogs.settingsinput;
 import static java.time.DayOfWeek.MONDAY;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
-import static mealplaner.BundleStore.BUNDLES;
-import static mealplaner.gui.commons.ButtonPanelBuilder.justDisposeListener;
+import static mealplaner.commons.BundleStore.BUNDLES;
+import static mealplaner.commons.gui.ButtonPanelBuilder.justDisposeListener;
 import static mealplaner.model.settings.DefaultSettings.from;
 
 import java.awt.BorderLayout;
@@ -16,7 +16,7 @@ import java.util.Optional;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import mealplaner.gui.commons.ButtonPanelBuilder;
+import mealplaner.commons.gui.ButtonPanelBuilder;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
 

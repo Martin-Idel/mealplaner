@@ -1,9 +1,9 @@
 package mealplaner.io;
 
-import static mealplaner.BundleStore.BUNDLES;
+import static mealplaner.commons.BundleStore.BUNDLES;
 
-import mealplaner.errorhandling.MealException;
-import mealplaner.gui.commons.MessageDialog;
+import mealplaner.commons.errorhandling.MealException;
+import mealplaner.commons.gui.MessageDialog;
 import mealplaner.recipes.provider.IngredientProvider;
 
 public class IngredientProviderIoGui {

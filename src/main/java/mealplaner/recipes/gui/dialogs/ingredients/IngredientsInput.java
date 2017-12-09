@@ -1,6 +1,6 @@
 package mealplaner.recipes.gui.dialogs.ingredients;
 
-import static mealplaner.BundleStore.BUNDLES;
+import static mealplaner.commons.BundleStore.BUNDLES;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -16,10 +16,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import mealplaner.gui.commons.ButtonPanelBuilder;
-import mealplaner.gui.commons.ComboBoxInputField;
-import mealplaner.gui.commons.InputField;
-import mealplaner.gui.commons.NonEmptyTextInputField;
+import mealplaner.commons.gui.ButtonPanelBuilder;
+import mealplaner.commons.gui.inputfields.ComboBoxInputField;
+import mealplaner.commons.gui.inputfields.InputField;
+import mealplaner.commons.gui.inputfields.NonEmptyTextInputField;
 import mealplaner.recipes.model.Ingredient;
 import mealplaner.recipes.model.IngredientType;
 import mealplaner.recipes.model.Measure;

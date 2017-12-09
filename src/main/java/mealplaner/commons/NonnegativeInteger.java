@@ -2,7 +2,7 @@ package mealplaner.commons;
 
 import static java.lang.Integer.compare;
 
-import mealplaner.errorhandling.MealException;
+import mealplaner.commons.errorhandling.MealException;
 
 public class NonnegativeInteger implements Comparable<NonnegativeInteger> {
 	public static final NonnegativeInteger ZERO = new NonnegativeInteger(0);
