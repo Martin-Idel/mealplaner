@@ -63,7 +63,7 @@ public class UpdateTable {
 		meals = new ArrayList<Meal>();
 		meals.addAll(lastProposal.getProposalList());
 		if (meals.size() > daySince) {
-			meals.removeAll(meals.subList(daySince, meals.size()));
+			meals.removeAll(meals.subList(daySince + 1, meals.size()));
 		} else if (meals.size() < daySince) {
 			for (int i = meals.size(); i <= daySince; i++) {
 				meals.add(Meal.EMPTY_MEAL);
