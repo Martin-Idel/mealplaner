@@ -1,13 +1,13 @@
 package mealplaner.recipes.model;
 
-import static mealplaner.commons.NonnegativeInteger.nonNegative;
+import static mealplaner.commons.NonnegativeInteger.ZERO;
 import static mealplaner.recipes.model.Ingredient.emptyIngredient;
 
 import mealplaner.commons.NonnegativeInteger;
 
 public class QuantitativeIngredient {
 	public static final QuantitativeIngredient DEFAULT = new QuantitativeIngredient(
-			emptyIngredient(), nonNegative(0));
+			emptyIngredient(), ZERO);
 
 	private final Ingredient ingredient;
 	private final NonnegativeInteger amount;

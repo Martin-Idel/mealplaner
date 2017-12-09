@@ -2,6 +2,7 @@ package mealplaner.model;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
+import static mealplaner.commons.NonnegativeInteger.ZERO;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.io.XMLHelpers.createTextNode;
 import static mealplaner.io.XMLHelpers.readEnum;
@@ -277,7 +278,7 @@ public class Meal implements Comparable<Meal> {
 	public static final class EmptyMeal extends Meal {
 		EmptyMeal() {
 			super("EMPTY", CookingTime.SHORT, Sidedish.NONE, ObligatoryUtensil.CASSEROLE,
-					CookingPreference.RARE, nonNegative(0), "", empty());
+					CookingPreference.RARE, ZERO, "", empty());
 		}
 	}
 }

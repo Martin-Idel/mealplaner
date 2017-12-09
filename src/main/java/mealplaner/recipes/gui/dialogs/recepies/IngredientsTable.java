@@ -1,7 +1,7 @@
 package mealplaner.recipes.gui.dialogs.recepies;
 
 import static mealplaner.BundleStore.BUNDLES;
-import static mealplaner.commons.NonnegativeInteger.nonNegative;
+import static mealplaner.commons.NonnegativeInteger.ZERO;
 import static mealplaner.gui.tables.FlexibleTableBuilder.createNewTable;
 import static mealplaner.gui.tables.TableColumnBuilder.withContent;
 import static mealplaner.gui.tables.TableColumnBuilder.withNonnegativeIntegerContent;
@@ -54,7 +54,7 @@ public class IngredientsTable {
 						.setValueToOrderedImmutableList(ingredients,
 								(ingredient, amount) -> create(ingredient.getIngredient(), amount))
 						.isEditable()
-						.setDefaultValueForEmptyRow(nonNegative(0))
+						.setDefaultValueForEmptyRow(ZERO)
 						.build())
 				.addColumn(TableColumnBuilder.withEnumContent(Measure.class)
 						.withColumnName(BUNDLES.message("ingredientMeasureColumn"))

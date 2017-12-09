@@ -1,7 +1,7 @@
 package mealplaner.recipes.gui.dialogs.recepies;
 
 import static mealplaner.BundleStore.BUNDLES;
-import static mealplaner.commons.NonnegativeInteger.nonNegative;
+import static mealplaner.commons.NonnegativeInteger.FOUR;
 import static mealplaner.recipes.model.Recipe.createRecipe;
 
 import java.awt.BorderLayout;
@@ -48,7 +48,7 @@ public class RecipeInput extends JDialog {
 				BUNDLES.message("recipeNumberOfPortionsField"),
 				recipe.isPresent()
 						? recipe.get().getNumberOfPortions()
-						: nonNegative(4));
+						: FOUR);
 		JPanel inputFieldPanel = new JPanel();
 		inputFieldPanel.setLayout(new GridLayout(0, 2));
 		nonnegativeIntegerInputField.addToPanel(inputFieldPanel);

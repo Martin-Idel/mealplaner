@@ -4,6 +4,8 @@ import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.reducing;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
+import static mealplaner.commons.NonnegativeInteger.ONE;
+import static mealplaner.commons.NonnegativeInteger.ZERO;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.io.XMLHelpers.createTextNode;
 import static mealplaner.recipes.model.QuantitativeIngredient.create;
@@ -45,14 +47,14 @@ public class Recipe {
 			List<QuantitativeIngredient> ingredients) {
 		Map<Ingredient, NonnegativeInteger> ingredientMap = ingredients.stream()
 				.collect(groupingBy(QuantitativeIngredient::getIngredient,
-						reducing(NonnegativeInteger.nonNegative(0),
+						reducing(ZERO,
 								QuantitativeIngredient::getAmount,
 								(amount1, amount2) -> amount1.add(amount2))));
 		return new Recipe(numberOfPortions, ingredientMap);
 	}
 
 	public static Recipe createRecipe() {
-		return new Recipe(nonNegative(1), new HashMap<>());
+		return new Recipe(ONE, new HashMap<>());
 	}
 
 	public NonnegativeInteger getNumberOfPortions() {

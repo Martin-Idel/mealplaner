@@ -1,5 +1,6 @@
 package mealplaner.model.settings;
 
+import static mealplaner.commons.NonnegativeInteger.TWO;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.io.XMLHelpers.createTextNode;
 import static mealplaner.io.XMLHelpers.readBoolean;
@@ -70,7 +71,7 @@ public class Settings {
 	}
 
 	public static Settings createSettings() {
-		return new Settings(defaultCookingTime(), nonNegative(2), POSSIBLE, NORMAL);
+		return new Settings(defaultCookingTime(), TWO, POSSIBLE, NORMAL);
 	}
 
 	public static Settings copy(Settings setting) {
