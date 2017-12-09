@@ -1,7 +1,6 @@
 package mealplaner.recipes.gui.dialogs.recepies;
 
 import static java.util.stream.Collectors.toList;
-import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.recipes.model.QuantitativeIngredient.create;
 
 import java.util.List;
@@ -21,7 +20,7 @@ public class RecipeTable {
 		this.ingredientProvider = ingredientProvider;
 		this.ingredients = recipe.getIngredientsFor(recipe.getNumberOfPortions()).entrySet()
 				.stream()
-				.map(entry -> create(entry.getKey(), nonNegative(entry.getValue())))
+				.map(entry -> create(entry.getKey(), entry.getValue()))
 				.sorted((ingredient1, ingredient2) -> ingredient1.getIngredient().getName()
 						.compareTo(ingredient2.getIngredient().getName()))
 				.collect(toList());
@@ -35,7 +34,7 @@ public class RecipeTable {
 		if (ingredients.isEmpty()) {
 			return Optional.empty();
 		} else {
-			return Optional.of(Recipe.from(numberOfPeople.value, ingredients));
+			return Optional.of(Recipe.from(numberOfPeople, ingredients));
 		}
 	}
 }

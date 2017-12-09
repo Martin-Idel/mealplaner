@@ -23,6 +23,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 
 import mealplaner.BundleStore;
+import mealplaner.commons.NonnegativeInteger;
 import mealplaner.model.Meal;
 import mealplaner.model.enums.CasseroleSettings;
 import mealplaner.model.enums.CookingPreference;
@@ -68,10 +69,10 @@ public class CommonFunctions {
 	}
 
 	public static Recipe getRecipe() {
-		Map<Ingredient, Integer> ingredients = new HashMap<>();
-		ingredients.put(getIngredient1(), 100);
-		ingredients.put(getIngredient2(), 200);
-		return Recipe.from(2, ingredients);
+		Map<Ingredient, NonnegativeInteger> ingredients = new HashMap<>();
+		ingredients.put(getIngredient1(), nonNegative(100));
+		ingredients.put(getIngredient2(), nonNegative(200));
+		return Recipe.from(nonNegative(2), ingredients);
 	}
 
 	public static Ingredient getIngredient1() {

@@ -18,6 +18,18 @@ public class NonnegativeInteger implements Comparable<NonnegativeInteger> {
 		return new NonnegativeInteger(nonnegative);
 	}
 
+	public NonnegativeInteger multiplyBy(NonnegativeInteger multiplier) {
+		return nonNegative(value * multiplier.value);
+	}
+
+	public NonnegativeInteger divideBy(NonnegativeInteger divisor) {
+		return nonNegative((int) ((float) value / divisor.value));
+	}
+
+	public NonnegativeInteger add(NonnegativeInteger summand) {
+		return nonNegative(value + summand.value);
+	}
+
 	@Override
 	public String toString() {
 		return "" + value;

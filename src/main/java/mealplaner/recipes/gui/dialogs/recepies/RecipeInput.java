@@ -47,7 +47,7 @@ public class RecipeInput extends JDialog {
 		nonnegativeIntegerInputField = new NonnegativeIntegerInputField(
 				BUNDLES.message("recipeNumberOfPortionsField"),
 				recipe.isPresent()
-						? nonNegative(recipe.get().getNumberOfPortions())
+						? recipe.get().getNumberOfPortions()
 						: nonNegative(4));
 		JPanel inputFieldPanel = new JPanel();
 		inputFieldPanel.setLayout(new GridLayout(0, 2));

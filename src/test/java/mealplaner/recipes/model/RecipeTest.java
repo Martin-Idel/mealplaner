@@ -19,6 +19,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.w3c.dom.Document;
 
+import mealplaner.commons.NonnegativeInteger;
 import testcommons.BundlesInitialization;
 import testcommons.CommonFunctions;
 
@@ -44,10 +45,10 @@ public class RecipeTest {
 
 	@Test
 	public void testXMlLoadAndSave() throws ParserConfigurationException {
-		Map<Ingredient, Integer> ingredients = new HashMap<>();
-		ingredients.put(anIngredient1, 100);
-		ingredients.put(anIngredient2, 300);
-		Recipe expected = from(2, ingredients);
+		Map<Ingredient, NonnegativeInteger> ingredients = new HashMap<>();
+		ingredients.put(anIngredient1, nonNegative(100));
+		ingredients.put(anIngredient2, nonNegative(300));
+		Recipe expected = from(nonNegative(2), ingredients);
 		Document doc = CommonFunctions.createDocument();
 
 		Recipe actual = loadRecipe(writeRecipe(doc, expected, "recipe"));
@@ -61,11 +62,11 @@ public class RecipeTest {
 		ingredientList.add(quantitativeIngredient1);
 		ingredientList.add(quantitativeIngredient2);
 
-		Recipe recipe = Recipe.from(1, ingredientList);
+		Recipe recipe = Recipe.from(nonNegative(1), ingredientList);
 
-		Map<Ingredient, Integer> ingredients = new HashMap<>();
-		ingredients.put(anIngredient1, 1);
-		ingredients.put(anIngredient2, 10);
+		Map<Ingredient, NonnegativeInteger> ingredients = new HashMap<>();
+		ingredients.put(anIngredient1, nonNegative(1));
+		ingredients.put(anIngredient2, nonNegative(10));
 		assertThat(recipe.getIngredientsAsIs()).containsAllEntriesOf(ingredients);
 		assertThat(ingredients).containsAllEntriesOf(recipe.getIngredientsAsIs());
 	}
@@ -76,10 +77,10 @@ public class RecipeTest {
 		ingredientList.add(quantitativeIngredient1);
 		ingredientList.add(quantitativeIngredient3);
 
-		Recipe recipe = Recipe.from(1, ingredientList);
+		Recipe recipe = Recipe.from(nonNegative(1), ingredientList);
 
-		Map<Ingredient, Integer> ingredients = new HashMap<>();
-		ingredients.put(anIngredient1, 11);
+		Map<Ingredient, NonnegativeInteger> ingredients = new HashMap<>();
+		ingredients.put(anIngredient1, nonNegative(11));
 		assertThat(recipe.getIngredientsAsIs()).containsAllEntriesOf(ingredients);
 		assertThat(ingredients).containsAllEntriesOf(recipe.getIngredientsAsIs());
 	}
@@ -91,23 +92,24 @@ public class RecipeTest {
 		ingredientList.add(quantitativeIngredient2);
 		ingredientList.add(quantitativeIngredient3);
 
-		Recipe recipe = Recipe.from(1, ingredientList);
+		Recipe recipe = Recipe.from(nonNegative(1), ingredientList);
 
-		Map<Ingredient, Integer> ingredients = new HashMap<>();
-		ingredients.put(anIngredient1, 11);
-		ingredients.put(anIngredient2, 10);
+		Map<Ingredient, NonnegativeInteger> ingredients = new HashMap<>();
+		ingredients.put(anIngredient1, nonNegative(11));
+		ingredients.put(anIngredient2, nonNegative(10));
 		assertThat(recipe.getIngredientsAsIs()).containsAllEntriesOf(ingredients);
 		assertThat(ingredients).containsAllEntriesOf(recipe.getIngredientsAsIs());
 	}
 
 	@Test
 	public void getIngredientsListReturnsDoubleAmountsForDoubleNumberOfPeople() {
-		Map<Ingredient, Integer> ingredients = new HashMap<>();
-		ingredients.put(anIngredient1, 100);
-		ingredients.put(anIngredient2, 300);
-		Recipe recipe = from(2, ingredients);
+		Map<Ingredient, NonnegativeInteger> ingredients = new HashMap<>();
+		ingredients.put(anIngredient1, nonNegative(100));
+		ingredients.put(anIngredient2, nonNegative(300));
+		Recipe recipe = from(nonNegative(2), ingredients);
 
-		List<QuantitativeIngredient> ingredientListFor = recipe.getIngredientListFor(4);
+		List<QuantitativeIngredient> ingredientListFor = recipe
+				.getIngredientListFor(nonNegative(4));
 
 		assertThat(ingredientListFor).containsExactlyInAnyOrder(
 				create(anIngredient1, nonNegative(200)),
@@ -116,12 +118,13 @@ public class RecipeTest {
 
 	@Test
 	public void getIngredientsListReturnsCorrectAmountsForHalfTheNumberOfPeople() {
-		Map<Ingredient, Integer> ingredients = new HashMap<>();
-		ingredients.put(anIngredient1, 100);
-		ingredients.put(anIngredient2, 300);
-		Recipe recipe = from(3, ingredients);
+		Map<Ingredient, NonnegativeInteger> ingredients = new HashMap<>();
+		ingredients.put(anIngredient1, nonNegative(100));
+		ingredients.put(anIngredient2, nonNegative(300));
+		Recipe recipe = from(nonNegative(3), ingredients);
 
-		List<QuantitativeIngredient> ingredientListFor = recipe.getIngredientListFor(1);
+		List<QuantitativeIngredient> ingredientListFor = recipe
+				.getIngredientListFor(nonNegative(1));
 
 		assertThat(ingredientListFor).containsExactlyInAnyOrder(
 				create(anIngredient1, nonNegative(33)),

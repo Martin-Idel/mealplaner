@@ -24,6 +24,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import mealplaner.commons.NonnegativeInteger;
 import mealplaner.recipes.model.Ingredient;
 import mealplaner.recipes.model.Measure;
 import mealplaner.recipes.model.Recipe;
@@ -92,11 +93,11 @@ public class RecipeTableTest {
 
 		table.setValueAt("Test3", 2, 0);
 
-		Map<Ingredient, Integer> recipeMap = new HashMap<>();
-		recipeMap.put(getIngredient1(), 100);
-		recipeMap.put(getIngredient2(), 50);
-		recipeMap.put(getIngredient3(), 0);
-		Recipe expectedRecipe = Recipe.from(1, recipeMap);
+		Map<Ingredient, NonnegativeInteger> recipeMap = new HashMap<>();
+		recipeMap.put(getIngredient1(), nonNegative(100));
+		recipeMap.put(getIngredient2(), nonNegative(50));
+		recipeMap.put(getIngredient3(), nonNegative(0));
+		Recipe expectedRecipe = Recipe.from(nonNegative(1), recipeMap);
 		Optional<Recipe> returned = recipeTable.getRecipe(nonNegative(1));
 		assertThat(table.getRowCount()).isEqualTo(4);
 		assertThat(returned.get()).isEqualTo(expectedRecipe);
@@ -110,10 +111,10 @@ public class RecipeTableTest {
 
 		table.setValueAt("Test3", 1, 0);
 
-		Map<Ingredient, Integer> recipeMap = new HashMap<>();
-		recipeMap.put(getIngredient1(), 100);
-		recipeMap.put(getIngredient3(), 50);
-		Recipe expectedRecipe = Recipe.from(1, recipeMap);
+		Map<Ingredient, NonnegativeInteger> recipeMap = new HashMap<>();
+		recipeMap.put(getIngredient1(), nonNegative(100));
+		recipeMap.put(getIngredient3(), nonNegative(50));
+		Recipe expectedRecipe = Recipe.from(nonNegative(1), recipeMap);
 		Optional<Recipe> returned = recipeTable.getRecipe(nonNegative(1));
 		assertThat(table.getRowCount()).isEqualTo(3);
 		assertThat(table.getValueAt(1, 2)).isEqualTo(Measure.GRAM);
@@ -129,20 +130,20 @@ public class RecipeTableTest {
 		table.setValueAt("Test2", 2, 0);
 		table.setValueAt(nonNegative(50), 2, 1);
 
-		Map<Ingredient, Integer> recipeMap = new HashMap<>();
-		recipeMap.put(getIngredient1(), 100);
-		recipeMap.put(getIngredient2(), 50 + 50);
-		Recipe expectedRecipe = Recipe.from(1, recipeMap);
+		Map<Ingredient, NonnegativeInteger> recipeMap = new HashMap<>();
+		recipeMap.put(getIngredient1(), nonNegative(100));
+		recipeMap.put(getIngredient2(), nonNegative(50 + 50));
+		Recipe expectedRecipe = Recipe.from(nonNegative(1), recipeMap);
 		Optional<Recipe> returned = recipeTable.getRecipe(nonNegative(1));
 		assertThat(table.getRowCount()).isEqualTo(4);
 		assertThat(returned.get()).isEqualTo(expectedRecipe);
 	}
 
 	private Recipe createStandardRecipe() {
-		Map<Ingredient, Integer> recipeMap = new HashMap<>();
-		recipeMap.put(getIngredient1(), 100);
-		recipeMap.put(getIngredient2(), 50);
-		Recipe expectedRecipe = Recipe.from(1, recipeMap);
+		Map<Ingredient, NonnegativeInteger> recipeMap = new HashMap<>();
+		recipeMap.put(getIngredient1(), nonNegative(100));
+		recipeMap.put(getIngredient2(), nonNegative(50));
+		Recipe expectedRecipe = Recipe.from(nonNegative(1), recipeMap);
 		return expectedRecipe;
 	}
 }

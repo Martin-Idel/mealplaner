@@ -15,6 +15,7 @@ import java.util.Map;
 import org.junit.Rule;
 import org.junit.Test;
 
+import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.Pair;
 import mealplaner.recipes.model.Ingredient;
 import mealplaner.recipes.model.Recipe;
@@ -29,21 +30,21 @@ public class ShoppingListTest {
 	public void addsRecipesTogetherFaithfully() {
 		Recipe recipe1 = CommonFunctions.getRecipe();
 
-		Map<Ingredient, Integer> ingredients = new HashMap<>();
-		ingredients.put(getIngredient1(), 100);
-		ingredients.put(getIngredient3(), 400);
-		Recipe recipe2 = Recipe.from(2, ingredients);
+		Map<Ingredient, NonnegativeInteger> ingredients = new HashMap<>();
+		ingredients.put(getIngredient1(), nonNegative(100));
+		ingredients.put(getIngredient3(), nonNegative(400));
+		Recipe recipe2 = Recipe.from(nonNegative(2), ingredients);
 
-		List<Pair<Recipe, Integer>> recipes = new ArrayList<>();
-		recipes.add(Pair.of(recipe1, 4));
-		recipes.add(Pair.of(recipe2, 2));
+		List<Pair<Recipe, NonnegativeInteger>> recipes = new ArrayList<>();
+		recipes.add(Pair.of(recipe1, nonNegative(4)));
+		recipes.add(Pair.of(recipe2, nonNegative(2)));
 
 		ShoppingList shoppingList = ShoppingList.from(recipes);
 
-		Map<Ingredient, Integer> expected = new HashMap<>();
-		expected.put(getIngredient1(), 300);
-		expected.put(getIngredient2(), 400);
-		expected.put(getIngredient3(), 400);
+		Map<Ingredient, NonnegativeInteger> expected = new HashMap<>();
+		expected.put(getIngredient1(), nonNegative(300));
+		expected.put(getIngredient2(), nonNegative(400));
+		expected.put(getIngredient3(), nonNegative(400));
 		assertThat(shoppingList.getMap()).containsAllEntriesOf(expected);
 		assertThat(expected).containsAllEntriesOf(shoppingList.getMap());
 	}
@@ -52,14 +53,14 @@ public class ShoppingListTest {
 	public void getListReturnsGoodList() {
 		Recipe recipe1 = CommonFunctions.getRecipe();
 
-		Map<Ingredient, Integer> ingredients = new HashMap<>();
-		ingredients.put(getIngredient1(), 100);
-		ingredients.put(getIngredient3(), 400);
-		Recipe recipe2 = Recipe.from(2, ingredients);
+		Map<Ingredient, NonnegativeInteger> ingredients = new HashMap<>();
+		ingredients.put(getIngredient1(), nonNegative(100));
+		ingredients.put(getIngredient3(), nonNegative(400));
+		Recipe recipe2 = Recipe.from(nonNegative(2), ingredients);
 
-		List<Pair<Recipe, Integer>> recipes = new ArrayList<>();
-		recipes.add(Pair.of(recipe1, 4));
-		recipes.add(Pair.of(recipe2, 2));
+		List<Pair<Recipe, NonnegativeInteger>> recipes = new ArrayList<>();
+		recipes.add(Pair.of(recipe1, nonNegative(4)));
+		recipes.add(Pair.of(recipe2, nonNegative(2)));
 
 		ShoppingList shoppingList = ShoppingList.from(recipes);
 
