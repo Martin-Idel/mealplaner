@@ -5,7 +5,7 @@ import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.gui.tables.FlexibleTableBuilder.createNewTable;
 import static mealplaner.gui.tables.TableColumnBuilder.withContent;
 import static mealplaner.gui.tables.TableColumnBuilder.withNonnegativeIntegerContent;
-import static mealplaner.recipes.model.QuantitativeIngredientBuilder.from;
+import static mealplaner.recipes.model.QuantitativeIngredient.create;
 
 import java.util.List;
 
@@ -38,7 +38,9 @@ public class IngredientsTable {
 											.filter(ing -> ing.getName().equals(name))
 											.findAny()
 											.orElse(Ingredient.emptyIngredient());
-									return from(ingredient).ingredient(newIngredient).build();
+									return create(newIngredient,
+											ingredient.getAmount(),
+											ingredient.getNumberOfPeople());
 								})
 						.alsoUpdatesCellsOfColumns(2)
 						.getValueFromOrderedList(ingredients,
@@ -52,7 +54,9 @@ public class IngredientsTable {
 						.getValueFromOrderedList(ingredients,
 								ingredient -> ingredient.getAmount())
 						.setValueToOrderedImmutableList(ingredients,
-								(ingredient, amount) -> from(ingredient).amount(amount).build())
+								(ingredient, amount) -> create(ingredient.getIngredient(),
+										amount,
+										ingredient.getNumberOfPeople()))
 						.isEditable()
 						.setDefaultValueForEmptyRow(nonNegative(0))
 						.build())

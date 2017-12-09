@@ -3,7 +3,7 @@ package mealplaner.shopping;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
-import static mealplaner.recipes.model.QuantitativeIngredientBuilder.builder;
+import static mealplaner.recipes.model.QuantitativeIngredient.create;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -39,10 +39,7 @@ public class ShoppingList {
 
 	public List<QuantitativeIngredient> getList() {
 		return shoppingList.entrySet().stream()
-				.map(entry -> builder().ingredient(entry.getKey())
-						.amount(nonNegative(entry.getValue()))
-						.forPeople(nonNegative(1))
-						.build())
+				.map(entry -> create(entry.getKey(), nonNegative(entry.getValue()), nonNegative(1)))
 				.sorted((ingredient1, ingredient2) -> ingredient1.getIngredient().getType()
 						.compareTo(ingredient2.getIngredient().getType()))
 				.collect(toList());

@@ -6,7 +6,7 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.io.XMLHelpers.createTextNode;
-import static mealplaner.recipes.model.QuantitativeIngredientBuilder.builder;
+import static mealplaner.recipes.model.QuantitativeIngredient.create;
 
 import java.util.HashMap;
 import java.util.List;
@@ -74,11 +74,9 @@ public class Recipe {
 			final float multiplier) {
 		return ingredients.entrySet()
 				.stream()
-				.map(entry -> builder()
-						.ingredient(entry.getKey())
-						.amount(nonNegative((int) (entry.getValue() * multiplier)))
-						.forPeople(nonNegative(1))
-						.build())
+				.map(entry -> create(entry.getKey(),
+						nonNegative((int) (entry.getValue() * multiplier)),
+						nonNegative(1)))
 				.collect(toList());
 	}
 

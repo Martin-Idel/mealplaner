@@ -1,7 +1,7 @@
 package mealplaner.shopping;
 
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
-import static mealplaner.recipes.model.QuantitativeIngredientBuilder.builder;
+import static mealplaner.recipes.model.QuantitativeIngredient.create;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.getIngredient1;
 import static testcommons.CommonFunctions.getIngredient2;
@@ -63,18 +63,10 @@ public class ShoppingListTest {
 
 		ShoppingList shoppingList = ShoppingList.from(recipes);
 
+		// Order depends on IngredientType
 		assertThat(shoppingList.getList()).containsExactly(
-				builder().ingredient(getIngredient1())
-						.amount(nonNegative(300))
-						.forPeople(nonNegative(1))
-						.build(),
-				builder().ingredient(getIngredient3())
-						.amount(nonNegative(400))
-						.forPeople(nonNegative(1))
-						.build(),
-				builder().ingredient(getIngredient2()) // Order depends on Type
-						.amount(nonNegative(400))
-						.forPeople(nonNegative(1))
-						.build());
+				create(getIngredient1(), nonNegative(300), nonNegative(1)),
+				create(getIngredient3(), nonNegative(400), nonNegative(1)),
+				create(getIngredient2(), nonNegative(400), nonNegative(1)));
 	}
 }

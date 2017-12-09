@@ -1,7 +1,7 @@
 package mealplaner.recipes.model;
 
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
-import static mealplaner.recipes.model.QuantitativeIngredientBuilder.builder;
+import static mealplaner.recipes.model.QuantitativeIngredient.create;
 import static mealplaner.recipes.model.Recipe.from;
 import static mealplaner.recipes.model.Recipe.loadRecipe;
 import static mealplaner.recipes.model.Recipe.writeRecipe;
@@ -33,11 +33,13 @@ public class RecipeTest {
 
 	@Before
 	public void setUp() {
-		ingredient1();
-		ingredient2();
-		quantitativeIngredient1();
-		quantitativeIngredient2();
-		quantitativeIngredient3();
+		anIngredient1 = new Ingredient("Test1", IngredientType.FRESH_FRUIT,
+				Measure.GRAM);
+		anIngredient2 = new Ingredient("Test2", IngredientType.BAKING_GOODS,
+				Measure.MILLILITRE);
+		quantitativeIngredient1 = create(anIngredient1, nonNegative(1), nonNegative(1));
+		quantitativeIngredient2 = create(anIngredient2, nonNegative(10), nonNegative(1));
+		quantitativeIngredient3 = create(anIngredient1, nonNegative(10), nonNegative(1));
 	}
 
 	@Test
@@ -108,14 +110,8 @@ public class RecipeTest {
 		List<QuantitativeIngredient> ingredientListFor = recipe.getIngredientListFor(4);
 
 		assertThat(ingredientListFor).containsExactlyInAnyOrder(
-				builder().ingredient(anIngredient1)
-						.amount(nonNegative(200))
-						.forPeople(nonNegative(1))
-						.build(),
-				builder().ingredient(anIngredient2)
-						.amount(nonNegative(600))
-						.forPeople(nonNegative(1))
-						.build());
+				create(anIngredient1, nonNegative(200), nonNegative(1)),
+				create(anIngredient2, nonNegative(600), nonNegative(1)));
 	}
 
 	@Test
@@ -128,44 +124,7 @@ public class RecipeTest {
 		List<QuantitativeIngredient> ingredientListFor = recipe.getIngredientListFor(1);
 
 		assertThat(ingredientListFor).containsExactlyInAnyOrder(
-				builder().ingredient(anIngredient1)
-						.amount(nonNegative(33))
-						.forPeople(nonNegative(1))
-						.build(),
-				builder().ingredient(anIngredient2)
-						.amount(nonNegative(100))
-						.forPeople(nonNegative(1))
-						.build());
-	}
-
-	private void ingredient1() {
-		anIngredient1 = new Ingredient("Test1", IngredientType.FRESH_FRUIT,
-				Measure.GRAM);
-	}
-
-	private void ingredient2() {
-		anIngredient2 = new Ingredient("Test2", IngredientType.BAKING_GOODS,
-				Measure.MILLILITRE);
-	}
-
-	private void quantitativeIngredient1() {
-		quantitativeIngredient1 = builder().ingredient(anIngredient1)
-				.amount(nonNegative(1))
-				.forPeople(nonNegative(1))
-				.build();
-	}
-
-	private void quantitativeIngredient2() {
-		quantitativeIngredient2 = builder().ingredient(anIngredient2)
-				.amount(nonNegative(10))
-				.forPeople(nonNegative(1))
-				.build();
-	}
-
-	private void quantitativeIngredient3() {
-		quantitativeIngredient3 = builder().ingredient(anIngredient1)
-				.amount(nonNegative(10))
-				.forPeople(nonNegative(1))
-				.build();
+				create(anIngredient1, nonNegative(33), nonNegative(1)),
+				create(anIngredient2, nonNegative(100), nonNegative(1)));
 	}
 }

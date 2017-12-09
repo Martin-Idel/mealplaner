@@ -21,6 +21,11 @@ public class QuantitativeIngredient {
 		this.numberOfPeople = numberOfPeople;
 	}
 
+	public static QuantitativeIngredient create(Ingredient ingredient, NonnegativeInteger amount,
+			NonnegativeInteger numberOfPeople) {
+		return new QuantitativeIngredient(ingredient, amount, numberOfPeople);
+	}
+
 	public Ingredient getIngredient() {
 		return ingredient;
 	}
