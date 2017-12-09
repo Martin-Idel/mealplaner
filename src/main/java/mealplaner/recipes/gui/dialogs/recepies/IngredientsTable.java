@@ -38,9 +38,7 @@ public class IngredientsTable {
 											.filter(ing -> ing.getName().equals(name))
 											.findAny()
 											.orElse(Ingredient.emptyIngredient());
-									return create(newIngredient,
-											ingredient.getAmount(),
-											ingredient.getNumberOfPeople());
+									return create(newIngredient, ingredient.getAmount());
 								})
 						.alsoUpdatesCellsOfColumns(2)
 						.getValueFromOrderedList(ingredients,
@@ -54,9 +52,7 @@ public class IngredientsTable {
 						.getValueFromOrderedList(ingredients,
 								ingredient -> ingredient.getAmount())
 						.setValueToOrderedImmutableList(ingredients,
-								(ingredient, amount) -> create(ingredient.getIngredient(),
-										amount,
-										ingredient.getNumberOfPeople()))
+								(ingredient, amount) -> create(ingredient.getIngredient(), amount))
 						.isEditable()
 						.setDefaultValueForEmptyRow(nonNegative(0))
 						.build())

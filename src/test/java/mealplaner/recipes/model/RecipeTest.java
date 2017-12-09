@@ -37,9 +37,9 @@ public class RecipeTest {
 				Measure.GRAM);
 		anIngredient2 = new Ingredient("Test2", IngredientType.BAKING_GOODS,
 				Measure.MILLILITRE);
-		quantitativeIngredient1 = create(anIngredient1, nonNegative(1), nonNegative(1));
-		quantitativeIngredient2 = create(anIngredient2, nonNegative(10), nonNegative(1));
-		quantitativeIngredient3 = create(anIngredient1, nonNegative(10), nonNegative(1));
+		quantitativeIngredient1 = create(anIngredient1, nonNegative(1));
+		quantitativeIngredient2 = create(anIngredient2, nonNegative(10));
+		quantitativeIngredient3 = create(anIngredient1, nonNegative(10));
 	}
 
 	@Test
@@ -110,8 +110,8 @@ public class RecipeTest {
 		List<QuantitativeIngredient> ingredientListFor = recipe.getIngredientListFor(4);
 
 		assertThat(ingredientListFor).containsExactlyInAnyOrder(
-				create(anIngredient1, nonNegative(200), nonNegative(1)),
-				create(anIngredient2, nonNegative(600), nonNegative(1)));
+				create(anIngredient1, nonNegative(200)),
+				create(anIngredient2, nonNegative(600)));
 	}
 
 	@Test
@@ -124,7 +124,7 @@ public class RecipeTest {
 		List<QuantitativeIngredient> ingredientListFor = recipe.getIngredientListFor(1);
 
 		assertThat(ingredientListFor).containsExactlyInAnyOrder(
-				create(anIngredient1, nonNegative(33), nonNegative(1)),
-				create(anIngredient2, nonNegative(100), nonNegative(1)));
+				create(anIngredient1, nonNegative(33)),
+				create(anIngredient2, nonNegative(100)));
 	}
 }

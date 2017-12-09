@@ -14,18 +14,14 @@ import mealplaner.recipes.model.Recipe;
 import mealplaner.recipes.provider.IngredientProvider;
 
 public class RecipeTable {
-	private NonnegativeInteger numberOfPortions;
 	private IngredientProvider ingredientProvider;
 	private List<QuantitativeIngredient> ingredients;
 
 	public RecipeTable(Recipe recipe, IngredientProvider ingredientProvider) {
-		this.numberOfPortions = nonNegative(recipe.getNumberOfPortions());
 		this.ingredientProvider = ingredientProvider;
 		this.ingredients = recipe.getIngredientsFor(recipe.getNumberOfPortions()).entrySet()
 				.stream()
-				.map(entry -> create(entry.getKey(),
-						nonNegative(entry.getValue()),
-						numberOfPortions))
+				.map(entry -> create(entry.getKey(), nonNegative(entry.getValue())))
 				.sorted((ingredient1, ingredient2) -> ingredient1.getIngredient().getName()
 						.compareTo(ingredient2.getIngredient().getName()))
 				.collect(toList());
@@ -36,7 +32,6 @@ public class RecipeTable {
 	}
 
 	public Optional<Recipe> getRecipe(NonnegativeInteger numberOfPeople) {
-		this.numberOfPortions = numberOfPeople;
 		if (ingredients.isEmpty()) {
 			return Optional.empty();
 		} else {

@@ -65,8 +65,8 @@ public class ShoppingListTest {
 
 		// Order depends on IngredientType
 		assertThat(shoppingList.getList()).containsExactly(
-				create(getIngredient1(), nonNegative(300), nonNegative(1)),
-				create(getIngredient3(), nonNegative(400), nonNegative(1)),
-				create(getIngredient2(), nonNegative(400), nonNegative(1)));
+				create(getIngredient1(), nonNegative(300)),
+				create(getIngredient3(), nonNegative(400)),
+				create(getIngredient2(), nonNegative(400)));
 	}
 }

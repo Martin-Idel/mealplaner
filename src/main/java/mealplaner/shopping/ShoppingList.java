@@ -39,7 +39,7 @@ public class ShoppingList {
 
 	public List<QuantitativeIngredient> getList() {
 		return shoppingList.entrySet().stream()
-				.map(entry -> create(entry.getKey(), nonNegative(entry.getValue()), nonNegative(1)))
+				.map(entry -> create(entry.getKey(), nonNegative(entry.getValue())))
 				.sorted((ingredient1, ingredient2) -> ingredient1.getIngredient().getType()
 						.compareTo(ingredient2.getIngredient().getType()))
 				.collect(toList());

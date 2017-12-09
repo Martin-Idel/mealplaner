@@ -75,8 +75,7 @@ public class Recipe {
 		return ingredients.entrySet()
 				.stream()
 				.map(entry -> create(entry.getKey(),
-						nonNegative((int) (entry.getValue() * multiplier)),
-						nonNegative(1)))
+						nonNegative((int) (entry.getValue() * multiplier))))
 				.collect(toList());
 	}
 
