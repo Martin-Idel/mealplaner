@@ -44,14 +44,14 @@ public class UpdateTable {
 				.addColumn(withContent(String.class)
 						.withColumnName(BUNDLES.message("menu"))
 						.getValueFromOrderedList(meals,
-								meal -> meal.equals(Meal.EmptyMeal.createEmptyMeal())
+								meal -> meal.equals(Meal.EMPTY_MEAL)
 										? ""
 										: meal.getName())
 						.setValueToOrderedImmutableList(meals,
 								(mealToBeReplaced, name) -> mealList.stream()
 										.filter(meal -> meal.getName().equals(name))
 										.findAny()
-										.orElse(Meal.EmptyMeal.createEmptyMeal()))
+										.orElse(Meal.EMPTY_MEAL))
 						.isEditable()
 						.overwriteTableCellEditor(
 								new ComboBoxCellEditor(createAutoCompletion(mealList)))
@@ -66,7 +66,7 @@ public class UpdateTable {
 			meals.removeAll(meals.subList(daySince, meals.size()));
 		} else if (meals.size() < daySince) {
 			for (int i = meals.size(); i <= daySince; i++) {
-				meals.add(Meal.EmptyMeal.createEmptyMeal());
+				meals.add(Meal.EMPTY_MEAL);
 			}
 		}
 	}

@@ -29,6 +29,12 @@ import mealplaner.model.settings.Settings;
 import mealplaner.recipes.model.Recipe;
 
 public class Meal implements Comparable<Meal> {
+	public static final Meal EMPTY_MEAL = new Meal("EMPTY",
+			CookingTime.SHORT,
+			Sidedish.NONE,
+			ObligatoryUtensil.CASSEROLE,
+			CookingPreference.RARE, ZERO, "", empty());
+
 	private static final Logger logger = LoggerFactory.getLogger(Settings.class);
 
 	private String name;
@@ -94,8 +100,8 @@ public class Meal implements Comparable<Meal> {
 		return newMeal;
 	}
 
-	public static EmptyMeal createEmptyMeal() {
-		return new Meal.EmptyMeal();
+	public static Meal createEmptyMeal() {
+		return EMPTY_MEAL;
 	}
 
 	public String getName() {
@@ -272,13 +278,6 @@ public class Meal implements Comparable<Meal> {
 			throw new MealException("Name is empty or consists only of whitespace");
 		} else {
 			this.name = name.trim();
-		}
-	}
-
-	public static final class EmptyMeal extends Meal {
-		EmptyMeal() {
-			super("EMPTY", CookingTime.SHORT, Sidedish.NONE, ObligatoryUtensil.CASSEROLE,
-					CookingPreference.RARE, ZERO, "", empty());
 		}
 	}
 }
