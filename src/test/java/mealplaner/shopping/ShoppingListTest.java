@@ -28,7 +28,7 @@ public class ShoppingListTest {
 
 	@Test
 	public void addsRecipesTogetherFaithfully() {
-		Recipe recipe1 = CommonFunctions.getRecipe();
+		Recipe recipe1 = CommonFunctions.getRecipe1();
 
 		Map<Ingredient, NonnegativeInteger> ingredients = new HashMap<>();
 		ingredients.put(getIngredient1(), nonNegative(100));
@@ -51,7 +51,7 @@ public class ShoppingListTest {
 
 	@Test
 	public void getListReturnsGoodList() {
-		Recipe recipe1 = CommonFunctions.getRecipe();
+		Recipe recipe1 = CommonFunctions.getRecipe1();
 
 		Map<Ingredient, NonnegativeInteger> ingredients = new HashMap<>();
 		ingredients.put(getIngredient1(), nonNegative(100));
