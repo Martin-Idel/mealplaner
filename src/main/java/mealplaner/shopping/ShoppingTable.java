@@ -8,10 +8,10 @@ import mealplaner.recipes.model.QuantitativeIngredient;
 import mealplaner.recipes.provider.IngredientProvider;
 
 public class ShoppingTable {
-	private List<QuantitativeIngredient> listContents;
+  private List<QuantitativeIngredient> listContents;
 
-	public Table setupTable(ShoppingList shoppingList, IngredientProvider ingredientProvider) {
-		listContents = shoppingList.getList();
-		return IngredientsTable.setupTable(listContents, ingredientProvider);
-	}
+  public Table setupTable(ShoppingList shoppingList, IngredientProvider ingredientProvider) {
+    listContents = shoppingList.getList();
+    return IngredientsTable.setupTable(listContents, ingredientProvider);
+  }
 }

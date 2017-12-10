@@ -8,15 +8,15 @@ import mealplaner.model.Proposal;
 import mealplaner.model.settings.DefaultSettings;
 
 public interface DataStore {
-	void register(DataStoreListener listener);
+  void register(DataStoreListener listener);
 
-	int getDaysPassed();
+  int getDaysPassed();
 
-	Proposal getLastProposal();
+  Proposal getLastProposal();
 
-	LocalDate getTime();
+  LocalDate getTime();
 
-	List<Meal> getMeals();
+  List<Meal> getMeals();
 
-	DefaultSettings getDefaultSettings();
+  DefaultSettings getDefaultSettings();
 }

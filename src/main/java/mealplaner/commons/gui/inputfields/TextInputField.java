@@ -5,28 +5,28 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class TextInputField implements InputField<String> {
-	private String label;
-	private JTextField textField;
+  private String label;
+  private JTextField textField;
 
-	public TextInputField(String label) {
-		this.label = label;
-	}
+  public TextInputField(String label) {
+    this.label = label;
+  }
 
-	@Override
-	public void addToPanel(JPanel panel) {
-		textField = new JTextField();
-		panel.add(new JLabel(label));
-		panel.add(textField);
-	}
+  @Override
+  public void addToPanel(JPanel panel) {
+    textField = new JTextField();
+    panel.add(new JLabel(label));
+    panel.add(textField);
+  }
 
-	@Override
-	public String getUserInput() {
-		String trimmedUserInput = textField.getText().trim();
-		return trimmedUserInput;
-	}
+  @Override
+  public String getUserInput() {
+    String trimmedUserInput = textField.getText().trim();
+    return trimmedUserInput;
+  }
 
-	@Override
-	public void resetField() {
-		textField.setText("");
-	}
+  @Override
+  public void resetField() {
+    textField.setText("");
+  }
 }

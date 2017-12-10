@@ -3,18 +3,18 @@ package mealplaner.model.enums;
 import static mealplaner.commons.BundleStore.BUNDLES;
 
 public enum ObligatoryUtensil {
-	POT(BUNDLES.message("pot")),
-	PAN(BUNDLES.message("pan")),
-	CASSEROLE(BUNDLES.message("casserole"));
+  POT(BUNDLES.message("pot")),
+  PAN(BUNDLES.message("pan")),
+  CASSEROLE(BUNDLES.message("casserole"));
 
-	private String message;
+  private String message;
 
-	ObligatoryUtensil(String message) {
-		this.message = message;
-	}
+  ObligatoryUtensil(String message) {
+    this.message = message;
+  }
 
-	@Override
-	public String toString() {
-		return message;
-	}
+  @Override
+  public String toString() {
+    return message;
+  }
 }

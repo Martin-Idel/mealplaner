@@ -15,38 +15,38 @@ import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
 
 public class ProposalTableFactory {
-	private List<Meal> meals;
-	private String[] days;
-	private LocalDate newDate;
+  private List<Meal> meals;
+  private String[] days;
+  private LocalDate newDate;
 
-	private ProposalTableFactory() {
-		days = getWeekDays();
-	}
+  private ProposalTableFactory() {
+    days = getWeekDays();
+  }
 
-	public static ProposalTableFactory proposalOutput() {
-		return new ProposalTableFactory();
-	}
+  public static ProposalTableFactory proposalOutput() {
+    return new ProposalTableFactory();
+  }
 
-	public Table createProposalTable(Proposal lastProposal) {
-		meals = lastProposal.getProposalList();
-		newDate = lastProposal.getDateOfFirstProposedItem();
-		return createNewTable()
-				.withRowCount(meals::size)
-				.addColumn(withContent(String.class)
-						.withColumnName(BUNDLES.message("date"))
-						.getRowValueFromUnderlyingModel(
-								row -> newDate.plusDays(row).format(ofLocalizedDate(SHORT)
-										.withLocale(BUNDLES.locale())))
-						.build())
-				.addColumn(withContent(String.class)
-						.withColumnName(BUNDLES.message("weekday"))
-						.getRowValueFromUnderlyingModel(
-								row -> days[newDate.plusDays(row).getDayOfWeek().getValue() % 7])
-						.build())
-				.addColumn(withContent(String.class)
-						.withColumnName(BUNDLES.message("menu"))
-						.getRowValueFromUnderlyingModel(row -> meals.get(row).getName())
-						.build())
-				.buildTable();
-	}
+  public Table createProposalTable(Proposal lastProposal) {
+    meals = lastProposal.getProposalList();
+    newDate = lastProposal.getDateOfFirstProposedItem();
+    return createNewTable()
+        .withRowCount(meals::size)
+        .addColumn(withContent(String.class)
+            .withColumnName(BUNDLES.message("date"))
+            .getRowValueFromUnderlyingModel(
+                row -> newDate.plusDays(row).format(ofLocalizedDate(SHORT)
+                    .withLocale(BUNDLES.locale())))
+            .build())
+        .addColumn(withContent(String.class)
+            .withColumnName(BUNDLES.message("weekday"))
+            .getRowValueFromUnderlyingModel(
+                row -> days[newDate.plusDays(row).getDayOfWeek().getValue() % 7])
+            .build())
+        .addColumn(withContent(String.class)
+            .withColumnName(BUNDLES.message("menu"))
+            .getRowValueFromUnderlyingModel(row -> meals.get(row).getName())
+            .build())
+        .buildTable();
+  }
 }

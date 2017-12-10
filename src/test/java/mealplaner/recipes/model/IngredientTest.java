@@ -14,16 +14,16 @@ import org.w3c.dom.Document;
 import testcommons.BundlesInitialization;
 
 public class IngredientTest {
-	@Rule
-	public final BundlesInitialization bundlesInitialization = new BundlesInitialization();
+  @Rule
+  public final BundlesInitialization bundlesInitialization = new BundlesInitialization();
 
-	@Test
-	public void testCorrectXMLSavingAndLoading() throws ParserConfigurationException {
-		Ingredient expected = new Ingredient("Test", IngredientType.FRESH_FRUIT, Measure.GRAM);
-		Document doc = createDocument();
+  @Test
+  public void testCorrectXmlSavingAndLoading() throws ParserConfigurationException {
+    Ingredient expected = new Ingredient("Test", IngredientType.FRESH_FRUIT, Measure.GRAM);
+    Document doc = createDocument();
 
-		Ingredient actual = loadFromXml(generateXml(doc, expected, "ingredient"));
+    Ingredient actual = loadFromXml(generateXml(doc, expected, "ingredient"));
 
-		assertThat(actual).isEqualToComparingFieldByField(expected);
-	}
+    assertThat(actual).isEqualToComparingFieldByField(expected);
+  }
 }

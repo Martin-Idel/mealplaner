@@ -27,57 +27,57 @@ import testcommons.BundlesInitialization;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CookingPreferenceSettingTest {
-	@Rule
-	public final BundlesInitialization bundlesInitialization = new BundlesInitialization();
+  @Rule
+  public final BundlesInitialization bundlesInitialization = new BundlesInitialization();
 
-	@Mock
-	private Set<CookingPreference> prohibitedpreference;
+  @Mock
+  private Set<CookingPreference> prohibitedpreference;
 
-	private CookingPreferenceSetting utensilSetting;
+  private CookingPreferenceSetting utensilSetting;
 
-	@Before
-	public void setup() {
-		utensilSetting = from(prohibitedpreference);
-	}
+  @Before
+  public void setup() {
+    utensilSetting = from(prohibitedpreference);
+  }
 
-	@Test
-	public void setCookingPreference() {
-		utensilSetting.setCookingPreferences(PreferenceSettings.RARE_NONE);
+  @Test
+  public void setCookingPreference() {
+    utensilSetting.setCookingPreferences(PreferenceSettings.RARE_NONE);
 
-		verify(prohibitedpreference).add(CookingPreference.RARE);
-		verify(prohibitedpreference, never()).add(CookingPreference.NO_PREFERENCE);
-		verify(prohibitedpreference, never()).add(CookingPreference.VERY_POPULAR);
-	}
+    verify(prohibitedpreference).add(CookingPreference.RARE);
+    verify(prohibitedpreference, never()).add(CookingPreference.NO_PREFERENCE);
+    verify(prohibitedpreference, never()).add(CookingPreference.VERY_POPULAR);
+  }
 
-	@Test
-	public void setCasseroleSettingsOnly() {
-		utensilSetting.setCookingPreferences(PreferenceSettings.VERY_POPULAR_ONLY);
+  @Test
+  public void setCasseroleSettingsOnly() {
+    utensilSetting.setCookingPreferences(PreferenceSettings.VERY_POPULAR_ONLY);
 
-		verify(prohibitedpreference).addAll(any());
-		verify(prohibitedpreference).remove(CookingPreference.VERY_POPULAR);
-	}
+    verify(prohibitedpreference).addAll(any());
+    verify(prohibitedpreference).remove(CookingPreference.VERY_POPULAR);
+  }
 
-	@Test
-	public void reset() {
-		Set<CookingPreference> prohibitedUtensil = new HashSet<>();
-		utensilSetting = from(prohibitedUtensil);
-		utensilSetting.setCookingPreferences(PreferenceSettings.RARE_NONE);
+  @Test
+  public void reset() {
+    Set<CookingPreference> prohibitedUtensil = new HashSet<>();
+    utensilSetting = from(prohibitedUtensil);
+    utensilSetting.setCookingPreferences(PreferenceSettings.RARE_NONE);
 
-		utensilSetting.reset();
+    utensilSetting.reset();
 
-		assertTrue(prohibitedUtensil.isEmpty());
-	}
+    assertTrue(prohibitedUtensil.isEmpty());
+  }
 
-	@Test
-	public void prohibit() {
-		utensilSetting = createCookingPreferenceSettings();
-		Meal rareMeal = mock(Meal.class);
-		when(rareMeal.getCookingPreference()).thenReturn(CookingPreference.RARE);
-		Meal veryPopularMeal = mock(Meal.class);
-		when(veryPopularMeal.getCookingPreference()).thenReturn(CookingPreference.VERY_POPULAR);
-		utensilSetting.setCookingPreferences(PreferenceSettings.RARE_NONE);
+  @Test
+  public void prohibit() {
+    utensilSetting = createCookingPreferenceSettings();
+    Meal rareMeal = mock(Meal.class);
+    when(rareMeal.getCookingPreference()).thenReturn(CookingPreference.RARE);
+    Meal veryPopularMeal = mock(Meal.class);
+    when(veryPopularMeal.getCookingPreference()).thenReturn(CookingPreference.VERY_POPULAR);
+    utensilSetting.setCookingPreferences(PreferenceSettings.RARE_NONE);
 
-		assertTrue(utensilSetting.prohibits(rareMeal));
-		assertFalse(utensilSetting.prohibits(veryPopularMeal));
-	}
+    assertTrue(utensilSetting.prohibits(rareMeal));
+    assertFalse(utensilSetting.prohibits(veryPopularMeal));
+  }
 }

@@ -12,18 +12,18 @@ import org.junit.runners.model.Statement;
 
 public class BundlesInitialization extends ExternalResource {
 
-	@Override
-	public Statement apply(final Statement base, final Description description) {
-		return new Statement() {
-			@Override
-			public void evaluate() throws Throwable {
-				ResourceBundle messages = getBundle("MessagesBundle", getDefault());
-				ResourceBundle errors = getBundle("ErrorBundle", getDefault());
-				BUNDLES.setMessageBundle(messages);
-				BUNDLES.setErrorBundle(errors);
-				BUNDLES.setLocale(getDefault());
-				base.evaluate();
-			}
-		};
-	}
+  @Override
+  public Statement apply(final Statement base, final Description description) {
+    return new Statement() {
+      @Override
+      public void evaluate() throws Throwable {
+        ResourceBundle messages = getBundle("MessagesBundle", getDefault());
+        ResourceBundle errors = getBundle("ErrorBundle", getDefault());
+        BUNDLES.setMessageBundle(messages);
+        BUNDLES.setErrorBundle(errors);
+        BUNDLES.setLocale(getDefault());
+        base.evaluate();
+      }
+    };
+  }
 }

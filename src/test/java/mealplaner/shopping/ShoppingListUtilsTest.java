@@ -25,45 +25,45 @@ import mealplaner.recipes.model.Recipe;
 import testcommons.BundlesInitialization;
 
 public class ShoppingListUtilsTest {
-	@Rule
-	public final BundlesInitialization bundlesInitialization = new BundlesInitialization();
+  @Rule
+  public final BundlesInitialization bundlesInitialization = new BundlesInitialization();
 
-	@Test
-	public void missingRecipesForCompleteListFindsMissingRecipe() {
-		Proposal testProposal = proposal1();
+  @Test
+  public void missingRecipesForCompleteListFindsMissingRecipe() {
+    Proposal testProposal = proposal1();
 
-		assertThat(missingRecipesForCompleteList(testProposal)).isTrue();
-	}
+    assertThat(missingRecipesForCompleteList(testProposal)).isTrue();
+  }
 
-	@Test
-	public void missingRecipesForCompleteListOkIfAllRecipesArePresent() {
-		Proposal testProposal = proposal2();
+  @Test
+  public void missingRecipesForCompleteListOkIfAllRecipesArePresent() {
+    Proposal testProposal = proposal2();
 
-		assertThat(missingRecipesForCompleteList(testProposal)).isFalse();
-	}
+    assertThat(missingRecipesForCompleteList(testProposal)).isFalse();
+  }
 
-	@Test
-	public void correctlyAvoidsMissingRecipesWhenPrinting() {
-		Proposal testProposal = proposal1();
-		List<Pair<Recipe, NonnegativeInteger>> listInProposal = new ArrayList<>();
-		listInProposal.add(of(getRecipe1(), FOUR));
+  @Test
+  public void correctlyAvoidsMissingRecipesWhenPrinting() {
+    Proposal testProposal = proposal1();
+    List<Pair<Recipe, NonnegativeInteger>> listInProposal = new ArrayList<>();
+    listInProposal.add(of(getRecipe1(), FOUR));
 
-		ShoppingList shoppingList = createShoppingList(testProposal);
+    ShoppingList shoppingList = createShoppingList(testProposal);
 
-		assertThat(shoppingList.getMap()).containsAllEntriesOf(from(listInProposal).getMap());
-		assertThat(from(listInProposal).getMap()).containsAllEntriesOf(shoppingList.getMap());
-	}
+    assertThat(shoppingList.getMap()).containsAllEntriesOf(from(listInProposal).getMap());
+    assertThat(from(listInProposal).getMap()).containsAllEntriesOf(shoppingList.getMap());
+  }
 
-	@Test
-	public void correctlyAccumulatesRecipes() {
-		Proposal testProposal = proposal2();
-		List<Pair<Recipe, NonnegativeInteger>> listInProposal = new ArrayList<>();
-		listInProposal.add(of(getRecipe1(), THREE));
-		listInProposal.add(of(getRecipe2(), FOUR));
+  @Test
+  public void correctlyAccumulatesRecipes() {
+    Proposal testProposal = proposal2();
+    List<Pair<Recipe, NonnegativeInteger>> listInProposal = new ArrayList<>();
+    listInProposal.add(of(getRecipe1(), THREE));
+    listInProposal.add(of(getRecipe2(), FOUR));
 
-		ShoppingList shoppingList = createShoppingList(testProposal);
+    ShoppingList shoppingList = createShoppingList(testProposal);
 
-		assertThat(shoppingList.getMap()).containsAllEntriesOf(from(listInProposal).getMap());
-		assertThat(from(listInProposal).getMap()).containsAllEntriesOf(shoppingList.getMap());
-	}
+    assertThat(shoppingList.getMap()).containsAllEntriesOf(from(listInProposal).getMap());
+    assertThat(from(listInProposal).getMap()).containsAllEntriesOf(shoppingList.getMap());
+  }
 }

@@ -8,24 +8,24 @@ import mealplaner.model.Meal;
 import mealplaner.recipes.provider.IngredientProvider;
 
 public class SingleMealInput extends MealInput {
-	private static final long serialVersionUID = 1L;
-	private Meal newMeal;
+  private static final long serialVersionUID = 1L;
+  private Meal newMeal;
 
-	public SingleMealInput(JFrame parent, IngredientProvider ingredientProvider) {
-		super(parent, ingredientProvider);
-	}
+  public SingleMealInput(JFrame parent, IngredientProvider ingredientProvider) {
+    super(parent, ingredientProvider);
+  }
 
-	public Meal showDialog() {
-		display(action -> saveMeal());
-		return newMeal;
-	}
+  public Meal showDialog() {
+    display(action -> saveMeal());
+    return newMeal;
+  }
 
-	private void saveMeal() {
-		Optional<Meal> mealFromInput = getMealAndShowDialog();
-		mealFromInput.ifPresent(meal -> {
-			newMeal = meal;
-			setVisible(false);
-			dispose();
-		});
-	}
+  private void saveMeal() {
+    Optional<Meal> mealFromInput = getMealAndShowDialog();
+    mealFromInput.ifPresent(meal -> {
+      newMeal = meal;
+      setVisible(false);
+      dispose();
+    });
+  }
 }

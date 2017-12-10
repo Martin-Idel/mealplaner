@@ -22,35 +22,35 @@ import mealplaner.commons.errorhandling.MealException;
 
 public class MealplanerFileSaver {
 
-	public static void save(MealplanerData mealplaner, String name) throws IOException {
-		try {
-			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder documentBuilder = docFactory.newDocumentBuilder();
+  public static void save(MealplanerData mealplaner, String name) throws IOException {
+    try {
+      DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+      DocumentBuilder documentBuilder = docFactory.newDocumentBuilder();
 
-			Document saveFileContent = documentBuilder.newDocument();
-			Element root = saveFileContent.createElement("mealplaner");
-			saveFileContent.appendChild(root);
+      Document saveFileContent = documentBuilder.newDocument();
+      Element root = saveFileContent.createElement("mealplaner");
+      saveFileContent.appendChild(root);
 
-			root.appendChild(MealplanerData.writeMealplanerData(saveFileContent, mealplaner));
+      root.appendChild(MealplanerData.writeMealplanerData(saveFileContent, mealplaner));
 
-			TransformerFactory transformerFactory = TransformerFactory.newInstance();
-			Transformer transformer = transformerFactory.newTransformer();
-			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+      TransformerFactory transformerFactory = TransformerFactory.newInstance();
+      Transformer transformer = transformerFactory.newTransformer();
+      transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+      transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 
-			DOMSource source = new DOMSource(saveFileContent);
-			StreamResult result = new StreamResult(new File("save.xml"));
+      DOMSource source = new DOMSource(saveFileContent);
+      StreamResult result = new StreamResult(new File("save.xml"));
 
-			transformer.transform(source, result);
-		} catch (ParserConfigurationException exception) {
-			throw new MealException(
-					"Internal Error: Something went wrong when creating an XML document.");
-		} catch (TransformerConfigurationException e) {
-			throw new MealException(
-					"Internal Error: Something went wrong when creating an XML document.");
-		} catch (TransformerException e) {
-			throw new MealException(
-					"Internal Error: Something went wrong when creating an XML document.");
-		}
-	}
+      transformer.transform(source, result);
+    } catch (ParserConfigurationException exception) {
+      throw new MealException(
+          "Internal Error: Something went wrong when creating an XML document.");
+    } catch (TransformerConfigurationException e) {
+      throw new MealException(
+          "Internal Error: Something went wrong when creating an XML document.");
+    } catch (TransformerException e) {
+      throw new MealException(
+          "Internal Error: Something went wrong when creating an XML document.");
+    }
+  }
 }

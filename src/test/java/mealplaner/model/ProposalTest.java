@@ -15,16 +15,16 @@ import org.w3c.dom.Document;
 import testcommons.BundlesInitialization;
 
 public class ProposalTest {
-	@Rule
-	public final BundlesInitialization bundlesInitialization = new BundlesInitialization();
+  @Rule
+  public final BundlesInitialization bundlesInitialization = new BundlesInitialization();
 
-	@Test
-	public void test() throws ParserConfigurationException {
-		Proposal expected = proposal1();
-		Document saveFileContent = createDocument();
+  @Test
+  public void test() throws ParserConfigurationException {
+    Proposal expected = proposal1();
+    Document saveFileContent = createDocument();
 
-		Proposal actual = readProposal(writeProposal(saveFileContent, expected, "proposal"));
+    Proposal actual = readProposal(writeProposal(saveFileContent, expected, "proposal"));
 
-		assertThat(actual).isEqualTo(expected);
-	}
+    assertThat(actual).isEqualTo(expected);
+  }
 }

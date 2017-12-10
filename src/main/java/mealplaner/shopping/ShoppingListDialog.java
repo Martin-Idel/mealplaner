@@ -17,58 +17,58 @@ import mealplaner.model.Proposal;
 import mealplaner.recipes.provider.IngredientProvider;
 
 public class ShoppingListDialog extends JDialog {
-	private static final long serialVersionUID = 1L;
-	private JFrame frame;
-	private ShoppingTable shoppingTable;
-	private Table table;
+  private static final long serialVersionUID = 1L;
+  private JFrame frame;
+  private ShoppingTable shoppingTable;
+  private Table table;
 
-	public ShoppingListDialog(JFrame parent) {
-		super(parent, BUNDLES.message("createShoppingListDialogTitle"), true);
-		frame = parent;
-		shoppingTable = new ShoppingTable();
-	}
+  public ShoppingListDialog(JFrame parent) {
+    super(parent, BUNDLES.message("createShoppingListDialogTitle"), true);
+    frame = parent;
+    shoppingTable = new ShoppingTable();
+  }
 
-	public void showDialog(Proposal proposal, IngredientProvider ingredientProvider) {
-		createTable(proposal, ingredientProvider);
-		dispose();
-	}
+  public void showDialog(Proposal proposal, IngredientProvider ingredientProvider) {
+    createTable(proposal, ingredientProvider);
+    dispose();
+  }
 
-	private void createTable(Proposal proposal, IngredientProvider ingredientProvider) {
-		if (missingRecipesForCompleteList(proposal)) {
-			disposeIfUserWantsTo();
-		}
-		ShoppingList shoppingList = createShoppingList(proposal);
-		display(shoppingList, ingredientProvider);
-	}
+  private void createTable(Proposal proposal, IngredientProvider ingredientProvider) {
+    if (missingRecipesForCompleteList(proposal)) {
+      disposeIfUserWantsTo();
+    }
+    ShoppingList shoppingList = createShoppingList(proposal);
+    display(shoppingList, ingredientProvider);
+  }
 
-	private void disposeIfUserWantsTo() {
-		int result = JOptionPane.showConfirmDialog(frame,
-				BUNDLES.message("notAllRecipesExist"));
-		if (result == JOptionPane.NO_OPTION) {
-			dispose();
-		}
-	}
+  private void disposeIfUserWantsTo() {
+    int result = JOptionPane.showConfirmDialog(frame,
+        BUNDLES.message("notAllRecipesExist"));
+    if (result == JOptionPane.NO_OPTION) {
+      dispose();
+    }
+  }
 
-	private void display(ShoppingList shoppingList, IngredientProvider ingredientProvider) {
-		table = shoppingTable.setupTable(shoppingList, ingredientProvider);
-		JPanel buttonPanel = displayButtons();
-		JPanel dataPanel = new JPanel();
-		dataPanel.setLayout(new BorderLayout());
-		table.addScrollingTableToPane(dataPanel);
-		dataPanel.add(buttonPanel, BorderLayout.SOUTH);
+  private void display(ShoppingList shoppingList, IngredientProvider ingredientProvider) {
+    table = shoppingTable.setupTable(shoppingList, ingredientProvider);
+    JPanel buttonPanel = displayButtons();
+    JPanel dataPanel = new JPanel();
+    dataPanel.setLayout(new BorderLayout());
+    table.addScrollingTableToPane(dataPanel);
+    dataPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-		getContentPane().add(dataPanel);
-		setSize(300, 300);
-		setLocationRelativeTo(frame);
-		setVisible(true);
-	}
+    getContentPane().add(dataPanel);
+    setSize(300, 300);
+    setLocationRelativeTo(frame);
+    setVisible(true);
+  }
 
-	private JPanel displayButtons() {
-		return new ButtonPanelBuilder()
-				.addButton(BUNDLES.message("printButton"),
-						BUNDLES.message("printButtonMnemonic"),
-						action -> table.printTable(frame))
-				.addOkButton(action -> dispose())
-				.build();
-	}
+  private JPanel displayButtons() {
+    return new ButtonPanelBuilder()
+        .addButton(BUNDLES.message("printButton"),
+            BUNDLES.message("printButtonMnemonic"),
+            action -> table.printTable(frame))
+        .addOkButton(action -> dispose())
+        .build();
+  }
 }

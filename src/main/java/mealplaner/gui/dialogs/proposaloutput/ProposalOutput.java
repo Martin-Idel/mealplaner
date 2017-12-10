@@ -14,41 +14,41 @@ import mealplaner.commons.gui.tables.Table;
 import mealplaner.model.Proposal;
 
 public class ProposalOutput extends JDialog {
-	private static final long serialVersionUID = 1L;
-	private JFrame parentFrame;
+  private static final long serialVersionUID = 1L;
+  private JFrame parentFrame;
 
-	public ProposalOutput(JFrame parentFrame) {
-		super(parentFrame, BUNDLES.message("proposalOutputDialogTitle"), true);
-		this.parentFrame = parentFrame;
-	}
+  public ProposalOutput(JFrame parentFrame) {
+    super(parentFrame, BUNDLES.message("proposalOutputDialogTitle"), true);
+    this.parentFrame = parentFrame;
+  }
 
-	public void showDialog(Proposal lastProposal) {
-		JPanel dataPanel = setupDataPanel();
+  public void showDialog(Proposal lastProposal) {
+    JPanel dataPanel = setupDataPanel();
 
-		Table proposalTable = proposalOutput().createProposalTable(lastProposal);
-		proposalTable.addScrollingTableToPane(dataPanel);
+    Table proposalTable = proposalOutput().createProposalTable(lastProposal);
+    proposalTable.addScrollingTableToPane(dataPanel);
 
-		JPanel buttonPanel = new ButtonPanelBuilder()
-				.addButton(BUNDLES.message("printButton"),
-						BUNDLES.message("printButtonMnemonic"),
-						action -> proposalTable.printTable(parentFrame))
-				.addOkButton(ButtonPanelBuilder.justDisposeListener(this))
-				.build();
+    JPanel buttonPanel = new ButtonPanelBuilder()
+        .addButton(BUNDLES.message("printButton"),
+            BUNDLES.message("printButtonMnemonic"),
+            action -> proposalTable.printTable(parentFrame))
+        .addOkButton(ButtonPanelBuilder.justDisposeListener(this))
+        .build();
 
-		arrangeGui(dataPanel, parentFrame, buttonPanel);
-		setVisible(true);
-	}
+    arrangeGui(dataPanel, parentFrame, buttonPanel);
+    setVisible(true);
+  }
 
-	private JPanel setupDataPanel() {
-		JPanel dataPanel = new JPanel();
-		dataPanel.setLayout(new BorderLayout());
-		return dataPanel;
-	}
+  private JPanel setupDataPanel() {
+    JPanel dataPanel = new JPanel();
+    dataPanel.setLayout(new BorderLayout());
+    return dataPanel;
+  }
 
-	private void arrangeGui(JPanel dataPanel, JFrame parentFrame, JPanel buttonPanel) {
-		dataPanel.add(buttonPanel, BorderLayout.SOUTH);
-		getContentPane().add(dataPanel);
-		setSize(300, 300);
-		setLocationRelativeTo(parentFrame);
-	}
+  private void arrangeGui(JPanel dataPanel, JFrame parentFrame, JPanel buttonPanel) {
+    dataPanel.add(buttonPanel, BorderLayout.SOUTH);
+    getContentPane().add(dataPanel);
+    setSize(300, 300);
+    setLocationRelativeTo(parentFrame);
+  }
 }

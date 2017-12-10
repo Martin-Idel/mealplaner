@@ -13,28 +13,28 @@ import mealplaner.recipes.model.Recipe;
 import mealplaner.recipes.provider.IngredientProvider;
 
 public class RecipeTable {
-	private IngredientProvider ingredientProvider;
-	private List<QuantitativeIngredient> ingredients;
+  private IngredientProvider ingredientProvider;
+  private List<QuantitativeIngredient> ingredients;
 
-	public RecipeTable(Recipe recipe, IngredientProvider ingredientProvider) {
-		this.ingredientProvider = ingredientProvider;
-		this.ingredients = recipe.getIngredientsFor(recipe.getNumberOfPortions()).entrySet()
-				.stream()
-				.map(entry -> create(entry.getKey(), entry.getValue()))
-				.sorted((ingredient1, ingredient2) -> ingredient1.getIngredient().getName()
-						.compareTo(ingredient2.getIngredient().getName()))
-				.collect(toList());
-	}
+  public RecipeTable(Recipe recipe, IngredientProvider ingredientProvider) {
+    this.ingredientProvider = ingredientProvider;
+    this.ingredients = recipe.getIngredientsFor(recipe.getNumberOfPortions()).entrySet()
+        .stream()
+        .map(entry -> create(entry.getKey(), entry.getValue()))
+        .sorted((ingredient1, ingredient2) -> ingredient1.getIngredient().getName()
+            .compareTo(ingredient2.getIngredient().getName()))
+        .collect(toList());
+  }
 
-	public Table setupTable() {
-		return IngredientsTable.setupTable(ingredients, ingredientProvider);
-	}
+  public Table setupTable() {
+    return IngredientsTable.setupTable(ingredients, ingredientProvider);
+  }
 
-	public Optional<Recipe> getRecipe(NonnegativeInteger numberOfPeople) {
-		if (ingredients.isEmpty()) {
-			return Optional.empty();
-		} else {
-			return Optional.of(Recipe.from(numberOfPeople, ingredients));
-		}
-	}
+  public Optional<Recipe> getRecipe(NonnegativeInteger numberOfPeople) {
+    if (ingredients.isEmpty()) {
+      return Optional.empty();
+    } else {
+      return Optional.of(Recipe.from(numberOfPeople, ingredients));
+    }
+  }
 }

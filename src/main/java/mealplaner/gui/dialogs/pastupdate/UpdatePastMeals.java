@@ -18,47 +18,47 @@ import mealplaner.commons.gui.tables.Table;
 import mealplaner.model.Meal;
 
 public class UpdatePastMeals extends JDialog {
-	private static final long serialVersionUID = 1L;
-	private JFrame parentFrame;
-	private JPanel dataPanel;
-	private UpdateTable updateTable;
-	private Optional<List<Meal>> changedMeals = empty();
+  private static final long serialVersionUID = 1L;
+  private JFrame parentFrame;
+  private JPanel dataPanel;
+  private UpdateTable updateTable;
+  private Optional<List<Meal>> changedMeals = empty();
 
-	public UpdatePastMeals(JFrame parentFrame) {
-		super(parentFrame, BUNDLES.message("updatePastMealsDialogTitle"), true);
-		this.parentFrame = parentFrame;
-		updateTable = new UpdateTable();
-	}
+  public UpdatePastMeals(JFrame parentFrame) {
+    super(parentFrame, BUNDLES.message("updatePastMealsDialogTitle"), true);
+    this.parentFrame = parentFrame;
+    updateTable = new UpdateTable();
+  }
 
-	public Optional<List<Meal>> showDialog(DataStore mealPlan) {
-		display(mealPlan);
-		return changedMeals;
-	}
+  public Optional<List<Meal>> showDialog(DataStore mealPlan) {
+    display(mealPlan);
+    return changedMeals;
+  }
 
-	private void display(DataStore mealPlan) {
-		Table table = updateTable.createTable(mealPlan.getLastProposal(),
-				mealPlan.getMeals(), mealPlan.getDaysPassed());
-		JPanel buttonPanel = displayButtons();
-		dataPanel = new JPanel();
-		dataPanel.setLayout(new BorderLayout());
-		table.addScrollingTableToPane(dataPanel);
-		dataPanel.add(buttonPanel, BorderLayout.SOUTH);
-		getContentPane().add(dataPanel);
+  private void display(DataStore mealPlan) {
+    Table table = updateTable.createTable(mealPlan.getLastProposal(),
+        mealPlan.getMeals(), mealPlan.getDaysPassed());
+    dataPanel = new JPanel();
+    dataPanel.setLayout(new BorderLayout());
+    table.addScrollingTableToPane(dataPanel);
+    JPanel buttonPanel = displayButtons();
+    dataPanel.add(buttonPanel, BorderLayout.SOUTH);
+    getContentPane().add(dataPanel);
 
-		if (mealPlan.getDaysPassed() != 0) {
-			setSize(300, 300);
-			setLocationRelativeTo(parentFrame);
-			setVisible(true);
-		}
-	}
+    if (mealPlan.getDaysPassed() != 0) {
+      setSize(300, 300);
+      setLocationRelativeTo(parentFrame);
+      setVisible(true);
+    }
+  }
 
-	private JPanel displayButtons() {
-		return new ButtonPanelBuilder()
-				.addSaveButton(action -> {
-					changedMeals = of(updateTable.returnContent());
-					dispose();
-				})
-				.addCancelDialogButton(this)
-				.build();
-	}
+  private JPanel displayButtons() {
+    return new ButtonPanelBuilder()
+        .addSaveButton(action -> {
+          changedMeals = of(updateTable.returnContent());
+          dispose();
+        })
+        .addCancelDialogButton(this)
+        .build();
+  }
 }

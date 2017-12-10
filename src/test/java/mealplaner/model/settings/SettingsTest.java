@@ -4,7 +4,7 @@ import static java.time.DayOfWeek.MONDAY;
 import static java.time.DayOfWeek.WEDNESDAY;
 import static java.time.DayOfWeek.valueOf;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
-import static mealplaner.io.XMLHelpers.createTextNode;
+import static mealplaner.io.XmlHelpers.createTextNode;
 import static mealplaner.model.enums.CookingTime.VERY_SHORT;
 import static mealplaner.model.settings.CookingTimeSetting.cookingTimeWithProhibited;
 import static mealplaner.model.settings.Settings.from;
@@ -26,54 +26,54 @@ import mealplaner.model.enums.PreferenceSettings;
 import testcommons.BundlesInitialization;
 
 public class SettingsTest {
-	@Rule
-	public final BundlesInitialization bundlesInitialization = new BundlesInitialization();
+  @Rule
+  public final BundlesInitialization bundlesInitialization = new BundlesInitialization();
 
-	private Settings sut;
+  private Settings sut;
 
-	@Test
-	public void saveAndReadFromXmlNode() throws ParserConfigurationException {
-		Settings settings = getSettings1();
-		Document saveFileContent = createDocument();
+  @Test
+  public void saveAndReadFromXmlNode() throws ParserConfigurationException {
+    Settings settings = getSettings1();
+    Document saveFileContent = createDocument();
 
-		sut = parseSettings(writeSettings(saveFileContent, settings, MONDAY, "setting"));
+    sut = parseSettings(writeSettings(saveFileContent, settings, MONDAY, "setting"));
 
-		assertThat(sut).isEqualTo(settings);
-	}
+    assertThat(sut).isEqualTo(settings);
+  }
 
-	@Test
-	public void canReadDayOfWeekFromAttributes() throws ParserConfigurationException {
-		Settings settings = getSettings1();
-		Document saveFileContent = createDocument();
+  @Test
+  public void canReadDayOfWeekFromAttributes() throws ParserConfigurationException {
+    Settings settings = getSettings1();
+    Document saveFileContent = createDocument();
 
-		Element testElement = Settings.writeSettings(saveFileContent, settings, WEDNESDAY,
-				"setting");
+    Element testElement = Settings.writeSettings(saveFileContent, settings, WEDNESDAY,
+        "setting");
 
-		assertThat(WEDNESDAY).isEqualTo(valueOf(
-				testElement.getAttributes().getNamedItem("dayOfWeek").getTextContent()));
-	}
+    assertThat(WEDNESDAY).isEqualTo(valueOf(
+        testElement.getAttributes().getNamedItem("dayOfWeek").getTextContent()));
+  }
 
-	@Test
-	public void readFromXmlNode() throws ParserConfigurationException {
-		Settings settings = getSettings1();
-		Document saveFileContent = createDocument();
+  @Test
+  public void readFromXmlNode() throws ParserConfigurationException {
+    Settings settings = getSettings1();
+    Document saveFileContent = createDocument();
 
-		Element settingsNode = saveFileContent.createElement("setting");
-		settingsNode.setAttribute("dayOfWeek", Integer.toString(1));
-		settingsNode.appendChild(createTextNode(saveFileContent,
-				"casseroleSettings",
-				() -> settings.getCasserole().name()));
-		settingsNode.appendChild(createTextNode(saveFileContent,
-				"VERY_SHORT",
-				() -> Boolean.toString(
-						settings.getCookingTime().isTimeProhibited(VERY_SHORT))));
+    Element settingsNode = saveFileContent.createElement("setting");
+    settingsNode.setAttribute("dayOfWeek", Integer.toString(1));
+    settingsNode.appendChild(createTextNode(saveFileContent,
+        "casseroleSettings",
+        () -> settings.getCasserole().name()));
+    settingsNode.appendChild(createTextNode(saveFileContent,
+        "VERY_SHORT",
+        () -> Boolean.toString(
+            settings.getCookingTime().isTimeProhibited(VERY_SHORT))));
 
-		sut = Settings.parseSettings(settingsNode);
+    sut = Settings.parseSettings(settingsNode);
 
-		Settings expectedSettings = from(cookingTimeWithProhibited(VERY_SHORT),
-				nonNegative(2),
-				CasseroleSettings.NONE, PreferenceSettings.NORMAL);
+    Settings expectedSettings = from(cookingTimeWithProhibited(VERY_SHORT),
+        nonNegative(2),
+        CasseroleSettings.NONE, PreferenceSettings.NORMAL);
 
-		assertThat(sut).isEqualTo(expectedSettings);
-	}
+    assertThat(sut).isEqualTo(expectedSettings);
+  }
 }

@@ -3,6 +3,8 @@ apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'eclipse'
 
+apply plugin: 'checkstyle'
+
 repositories {
     jcenter()
     mavenCentral()
@@ -54,6 +56,11 @@ sourceSets {
         	println "Test results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
 		}
 	}
+}
+
+checkstyle {
+    toolVersion "8.5"
+    ignoreFailures = false
 }
 
 mainClassName = 'mealplaner.Kochplaner'

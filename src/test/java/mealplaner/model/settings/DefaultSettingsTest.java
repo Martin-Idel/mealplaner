@@ -28,36 +28,36 @@ import org.w3c.dom.Document;
 import testcommons.BundlesInitialization;
 
 public class DefaultSettingsTest {
-	@Rule
-	public final BundlesInitialization bundlesInitialization = new BundlesInitialization();
+  @Rule
+  public final BundlesInitialization bundlesInitialization = new BundlesInitialization();
 
-	private DefaultSettings sut;
+  private DefaultSettings sut;
 
-	@Test
-	public void saveAndReadFromXmlNode() throws ParserConfigurationException {
-		Map<DayOfWeek, Settings> defaultSetting = new HashMap<>();
-		defaultSetting.put(TUESDAY, getSettings1());
-		defaultSetting.put(SATURDAY,
-				from(cookingTimeWithProhibited(LONG), nonNegative(3), ONLY, RARE_PREFERED));
-		DefaultSettings settings = from(defaultSetting);
-		Document saveFileContent = createDocument();
+  @Test
+  public void saveAndReadFromXmlNode() throws ParserConfigurationException {
+    Map<DayOfWeek, Settings> defaultSetting = new HashMap<>();
+    defaultSetting.put(TUESDAY, getSettings1());
+    defaultSetting.put(SATURDAY,
+        from(cookingTimeWithProhibited(LONG), nonNegative(3), ONLY, RARE_PREFERED));
+    DefaultSettings settings = from(defaultSetting);
+    Document saveFileContent = createDocument();
 
-		sut = parseDefaultSettings(
-				writeDefaultSettings(saveFileContent, settings, "defaultSettings"));
+    sut = parseDefaultSettings(
+        writeDefaultSettings(saveFileContent, settings, "defaultSettings"));
 
-		assertThat(sut).isEqualTo(settings);
-	}
+    assertThat(sut).isEqualTo(settings);
+  }
 
-	@Test
-	public void constructingFromMapAndGettingAMapCopyWorks() {
-		Map<DayOfWeek, Settings> defaultSettings = new HashMap<>();
-		defaultSettings.put(TUESDAY, getSettings1());
-		defaultSettings.put(SATURDAY,
-				from(cookingTimeWithProhibited(LONG), nonNegative(3), ONLY, RARE_PREFERED));
+  @Test
+  public void constructingFromMapAndGettingAMapCopyWorks() {
+    Map<DayOfWeek, Settings> defaultSettings = new HashMap<>();
+    defaultSettings.put(TUESDAY, getSettings1());
+    defaultSettings.put(SATURDAY,
+        from(cookingTimeWithProhibited(LONG), nonNegative(3), ONLY, RARE_PREFERED));
 
-		Map<DayOfWeek, Settings> defaultSettingsActual = from(defaultSettings)
-				.getDefaultSettings();
+    Map<DayOfWeek, Settings> defaultSettingsActual = from(defaultSettings)
+        .getDefaultSettings();
 
-		assertThat(defaultSettingsActual).isEqualTo(defaultSettings);
-	}
+    assertThat(defaultSettingsActual).isEqualTo(defaultSettings);
+  }
 }

@@ -17,34 +17,34 @@ import mealplaner.commons.errorhandling.MealException;
 
 public class MealplanerFileLoader {
 
-	public static MealplanerData load(String name)
-			throws FileNotFoundException, IOException, MealException {
-		try {
-			return readXml();
-		} catch (ClassCastException exc) {
-			throw new MealException("Corrupted Save File - some classes were not saved correctly");
-		} catch (MealException exc) {
-			throw new MealException("Corrupted Save File");
-		}
-	}
+  public static MealplanerData load(String name)
+      throws FileNotFoundException, IOException, MealException {
+    try {
+      return readXml();
+    } catch (ClassCastException exc) {
+      throw new MealException("Corrupted Save File - some classes were not saved correctly");
+    } catch (MealException exc) {
+      throw new MealException("Corrupted Save File");
+    }
+  }
 
-	private static MealplanerData readXml() throws IOException {
-		try {
-			File inputFile = new File("save.xml");
-			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder documentBuilder = docFactory.newDocumentBuilder();
-			Document parsedDocument = documentBuilder.parse(inputFile);
-			parsedDocument.getDocumentElement().normalize();
+  private static MealplanerData readXml() throws IOException {
+    try {
+      File inputFile = new File("save.xml");
+      DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+      DocumentBuilder documentBuilder = docFactory.newDocumentBuilder();
+      Document parsedDocument = documentBuilder.parse(inputFile);
+      parsedDocument.getDocumentElement().normalize();
 
-			return MealplanerData.parseMealplanerData((Element) parsedDocument.getDocumentElement()
-					.getElementsByTagName("mealplaner").item(0));
+      return MealplanerData.parseMealplanerData((Element) parsedDocument.getDocumentElement()
+          .getElementsByTagName("mealplaner").item(0));
 
-		} catch (ParserConfigurationException e) {
-			throw new MealException(
-					"Internal Error: Something went wrong when creating an XML document.");
-		} catch (SAXException e) {
-			throw new MealException(
-					"Internal Error: Something went wrong when creating an XML document.");
-		}
-	}
+    } catch (ParserConfigurationException e) {
+      throw new MealException(
+          "Internal Error: Something went wrong when creating an XML document.");
+    } catch (SAXException e) {
+      throw new MealException(
+          "Internal Error: Something went wrong when creating an XML document.");
+    }
+  }
 }
