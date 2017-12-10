@@ -2,6 +2,7 @@ package mealplaner.gui.dialogs.mealinput;
 
 import static java.util.Optional.of;
 import static mealplaner.commons.BundleStore.BUNDLES;
+import static mealplaner.commons.NonnegativeInteger.ZERO;
 import static mealplaner.model.Meal.createMeal;
 import static mealplaner.recipes.model.Recipe.createRecipe;
 
@@ -69,7 +70,7 @@ public abstract class MealInput extends JDialog {
 				ObligatoryUtensil.POT);
 		daysPassedField = new NonnegativeIntegerInputField(
 				BUNDLES.message("insertMealLastCooked"),
-				new NonnegativeInteger(0));
+				ZERO);
 		preferenceField = new ComboBoxInputField<CookingPreference>(
 				BUNDLES.message("insertMealPopularity"),
 				CookingPreference.class,

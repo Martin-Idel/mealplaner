@@ -1,5 +1,8 @@
 package mealplaner.commons.gui.inputfields;
 
+import static java.lang.Integer.parseInt;
+import static mealplaner.commons.NonnegativeInteger.nonNegative;
+
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
@@ -42,7 +45,7 @@ public class NonnegativeIntegerInputField implements InputField<NonnegativeInteg
 
 	@Override
 	public NonnegativeInteger getUserInput() {
-		return new NonnegativeInteger(Integer.parseInt(nonnegativeIntegerTextField.getText()));
+		return nonNegative(parseInt(nonnegativeIntegerTextField.getText()));
 	}
 
 	@Override

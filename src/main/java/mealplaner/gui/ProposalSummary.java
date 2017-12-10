@@ -3,6 +3,7 @@ package mealplaner.gui;
 import static java.time.format.DateTimeFormatter.ofLocalizedDate;
 import static java.time.format.FormatStyle.LONG;
 import static mealplaner.commons.BundleStore.BUNDLES;
+import static mealplaner.commons.NonnegativeInteger.SEVEN;
 import static mealplaner.commons.gui.SwingUtilityMethods.createButton;
 
 import java.awt.GridLayout;
@@ -88,7 +89,7 @@ public class ProposalSummary implements DataStoreListener {
 
 	private void buildInputFields() {
 		numberOfDaysField = new NonnegativeIntegerInputField(
-				BUNDLES.message("proposalNumberOfDays"), new NonnegativeInteger(7));
+				BUNDLES.message("proposalNumberOfDays"), SEVEN);
 		takeTodayCheckBox = new CheckboxInputField(BUNDLES.message("proposalStartToday"));
 		randomiseCheckBox = new CheckboxInputField(BUNDLES.message("proposalRandomize"));
 		takeDefaultCheckBox = new CheckboxInputField(

@@ -10,10 +10,13 @@ public class NonnegativeInteger implements Comparable<NonnegativeInteger> {
 	public static final NonnegativeInteger TWO = new NonnegativeInteger(2);
 	public static final NonnegativeInteger THREE = new NonnegativeInteger(3);
 	public static final NonnegativeInteger FOUR = new NonnegativeInteger(4);
+	public static final NonnegativeInteger FIVE = new NonnegativeInteger(5);
+	public static final NonnegativeInteger SIX = new NonnegativeInteger(6);
+	public static final NonnegativeInteger SEVEN = new NonnegativeInteger(7);
 
 	public final int value;
 
-	public NonnegativeInteger(int nonnegative) {
+	private NonnegativeInteger(int nonnegative) {
 		if (nonnegative < 0) {
 			throw new MealException("Integer must be nonnegative");
 		}
