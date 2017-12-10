@@ -222,7 +222,6 @@ public class Meal implements Comparable<Meal> {
   public static Meal readMeal(Element currentMeal) {
     String name = readString("corruptedName",
         () -> currentMeal.getAttributes().getNamedItem("name").getTextContent(),
-        currentMeal,
         "name");
     String comment = XmlHelpers.readString("", currentMeal, "comment");
     CookingTime cookingTime = readEnum(CookingTime.VERY_SHORT,
@@ -263,7 +262,7 @@ public class Meal implements Comparable<Meal> {
   }
 
   private static String readString(String defaultType, Supplier<String> getElement,
-      Element currentMeal, String tagName) {
+      String tagName) {
     String name = defaultType;
     try {
       name = getElement.get();

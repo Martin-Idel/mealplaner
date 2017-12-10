@@ -103,8 +103,8 @@ public class Recipe {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((ingredients == null) ? 0 : ingredients.hashCode());
-    result = prime * result + (numberOfPortions.value);
+    result = prime * result + (ingredients == null ? 0 : ingredients.hashCode());
+    result = prime * result + numberOfPortions.value;
     return result;
   }
 

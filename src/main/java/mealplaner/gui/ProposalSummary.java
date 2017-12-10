@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -38,7 +37,7 @@ public class ProposalSummary implements DataStoreListener {
   private JButton defaultSettings;
   private JButton giveProposal;
 
-  public ProposalSummary(DataStore mealPlan, JFrame parentFrame) {
+  public ProposalSummary(DataStore mealPlan) {
     this.mealPlan = mealPlan;
     this.dataPanel = new JPanel();
     this.dataPanel.setLayout(new GridLayout(0, 2));

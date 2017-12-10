@@ -132,7 +132,7 @@ public class MainGui {
   private JPanel setupMealPanel(JPanel buttonPanel) {
     JPanel mealPanel = new JPanel();
     mealPanel.setLayout(new BorderLayout());
-    proposalSummary = new ProposalSummary(this.mealPlan, frame);
+    proposalSummary = new ProposalSummary(this.mealPlan);
     mealPanel.add(proposalSummary.buildProposalPanel(
         action -> updatePastMeals(),
         action -> changeDefaultSettings(),

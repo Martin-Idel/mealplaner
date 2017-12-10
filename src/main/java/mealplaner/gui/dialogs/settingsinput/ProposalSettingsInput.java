@@ -34,15 +34,14 @@ public class ProposalSettingsInput extends SettingsInput {
     return getEnteredSettings();
   }
 
-  private List<Settings> createSettingsForTable(int numberOfDays, boolean today) {
+  private List<Settings> createSettingsForTable(int numberOfDays) {
     Settings[] settings = new Settings[numberOfDays];
     Arrays.fill(settings, createSettings());
     return Arrays.asList(settings);
   }
 
   protected void setup(DefaultSettings defaultSettings, ProposalOutline outline) {
-    List<Settings> tableSettings = createSettingsForTable(outline.getNumberOfDays(),
-        outline.isIncludedToday());
+    List<Settings> tableSettings = createSettingsForTable(outline.getNumberOfDays());
     LocalDate date = outline.isIncludedToday() ? outline.getDateToday()
         : outline.getDateToday().plusDays(1);
     settingTable = new SettingTable(tableSettings, date);

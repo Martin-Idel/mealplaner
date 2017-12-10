@@ -4,9 +4,9 @@ import static java.util.Arrays.asList;
 import static mealplaner.model.Proposal.from;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -26,7 +26,7 @@ public class ProposalBuilder {
   private boolean firstDayIsToday;
   private boolean random;
 
-  private final HashMap<Pair<CookingPreference, PreferenceSettings>, Integer> preferenceMap;
+  private final Map<Pair<CookingPreference, PreferenceSettings>, Integer> preferenceMap;
   private final Random randomIntGenerator = new Random();
 
   private List<Meal> proposalList;
@@ -36,7 +36,7 @@ public class ProposalBuilder {
   }
 
   public ProposalBuilder(
-      HashMap<Pair<CookingPreference, PreferenceSettings>, Integer> preferenceMap,
+      Map<Pair<CookingPreference, PreferenceSettings>, Integer> preferenceMap,
       SideDish sideDish) {
     this.sideDish = sideDish;
     this.preferenceMap = preferenceMap;

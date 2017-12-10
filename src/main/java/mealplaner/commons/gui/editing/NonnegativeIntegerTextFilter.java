@@ -50,7 +50,7 @@ public class NonnegativeIntegerTextFilter extends DocumentFilter {
 
   public boolean isNonnegativeInteger(String text) {
     try {
-      return (Integer.parseInt(text) >= 0) ? true : false;
+      return Integer.parseInt(text) >= 0 ? true : false;
     } catch (NumberFormatException e) {
       return false;
     }
