@@ -5,6 +5,7 @@ apply plugin: "eclipse"
 
 apply plugin: "checkstyle"
 apply plugin: "pmd"
+apply plugin: "findbugs"
 
 repositories {
     jcenter()
@@ -86,6 +87,12 @@ pmd {
         // "java-design",     
         // "java-codesize",
 		]
+}
+
+findbugs {
+  toolVersion = "3.0.1"
+  ignoreFailures = false
+  effort = "max"
 }
 
 mainClassName = "mealplaner.Kochplaner"
