@@ -1,6 +1,5 @@
 package mealplaner.recipes.gui.dialogs.recepies;
 
-import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -10,18 +9,14 @@ import static testcommons.CommonFunctions.getIngredient2;
 import static testcommons.CommonFunctions.getIngredient3;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 import javax.swing.JTable;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 import mealplaner.commons.NonnegativeInteger;
@@ -29,30 +24,14 @@ import mealplaner.recipes.model.Ingredient;
 import mealplaner.recipes.model.Measure;
 import mealplaner.recipes.model.Recipe;
 import mealplaner.recipes.provider.IngredientProvider;
-import testcommons.BundlesInitialization;
 
 public class RecipeTableTest {
-  @Rule
-  public final BundlesInitialization bundlesInitialization = new BundlesInitialization();
   private IngredientProvider provider;
 
   private RecipeTable recipeTable;
 
   @Before
   public void setUp() {
-    ResourceBundle messages = new ResourceBundle() {
-      @Override
-      protected Object handleGetObject(String key) {
-        return "fake_translated_value";
-      }
-
-      @Override
-      public Enumeration<String> getKeys() {
-        return Collections.emptyEnumeration();
-      }
-    };
-    BUNDLES.setMessageBundle(messages);
-
     provider = mock(IngredientProvider.class);
     List<Ingredient> ingredients = Arrays.asList(getIngredient1(), getIngredient2(),
         getIngredient3());

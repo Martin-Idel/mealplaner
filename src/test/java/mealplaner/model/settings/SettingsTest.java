@@ -16,18 +16,14 @@ import static testcommons.CommonFunctions.getSettings1;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.junit.Rule;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import mealplaner.model.enums.CasseroleSettings;
 import mealplaner.model.enums.PreferenceSettings;
-import testcommons.BundlesInitialization;
 
 public class SettingsTest {
-  @Rule
-  public final BundlesInitialization bundlesInitialization = new BundlesInitialization();
 
   private Settings sut;
 

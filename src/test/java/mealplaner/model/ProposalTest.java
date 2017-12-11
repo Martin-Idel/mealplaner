@@ -8,15 +8,10 @@ import static testcommons.CommonFunctions.proposal1;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.junit.Rule;
 import org.junit.Test;
 import org.w3c.dom.Document;
 
-import testcommons.BundlesInitialization;
-
 public class ProposalTest {
-  @Rule
-  public final BundlesInitialization bundlesInitialization = new BundlesInitialization();
 
   @Test
   public void test() throws ParserConfigurationException {

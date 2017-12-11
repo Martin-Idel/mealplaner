@@ -15,18 +15,14 @@ import static testcommons.CommonFunctions.proposal2;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Rule;
 import org.junit.Test;
 
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.Pair;
 import mealplaner.model.Proposal;
 import mealplaner.recipes.model.Recipe;
-import testcommons.BundlesInitialization;
 
 public class ShoppingListUtilsTest {
-  @Rule
-  public final BundlesInitialization bundlesInitialization = new BundlesInitialization();
 
   @Test
   public void missingRecipesForCompleteListFindsMissingRecipe() {

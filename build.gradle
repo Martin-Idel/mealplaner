@@ -72,17 +72,17 @@ pmd {
 	ruleSets = [
         "java-basic",
         "java-braces",
-        "java-clone",
-        "java-unusedcode",
-// TODO: Use once XML is switched to JAXB
-        // "java-strictexception",
-        "java-typeresolution",
-        "java-unnecessary",
-        "java-sunsecure",        
-        "java-empty",
-        "java-finalizers",
 // TODO: Reenable once XML is switched to JAXB
         // "java-coupling",        
+        "java-clone",
+        "java-empty",
+        "java-finalizers",
+// TODO: Use once XML is switched to JAXB
+        // "java-strictexception",
+        "java-sunsecure",        
+        "java-typeresolution",
+        "java-unnecessary",
+        "java-unusedcode",
 // TODO: Fix warnings and reenable        
         // "java-design",     
         // "java-codesize",
@@ -90,9 +90,9 @@ pmd {
 }
 
 findbugs {
-  toolVersion = "3.0.1"
-  ignoreFailures = false
-  effort = "max"
+	toolVersion = "3.0.1"
+	ignoreFailures = false
+	effort = "max"
 }
 
 mainClassName = "mealplaner.Kochplaner"

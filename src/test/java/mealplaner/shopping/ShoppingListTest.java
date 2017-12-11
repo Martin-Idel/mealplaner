@@ -12,19 +12,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Rule;
 import org.junit.Test;
 
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.Pair;
 import mealplaner.recipes.model.Ingredient;
 import mealplaner.recipes.model.Recipe;
-import testcommons.BundlesInitialization;
 import testcommons.CommonFunctions;
 
 public class ShoppingListTest {
-  @Rule
-  public final BundlesInitialization bundlesInitialization = new BundlesInitialization();
 
   @Test
   public void addsRecipesTogetherFaithfully() {

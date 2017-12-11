@@ -7,15 +7,10 @@ import static testcommons.CommonFunctions.createDocument;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.junit.Rule;
 import org.junit.Test;
 import org.w3c.dom.Document;
 
-import testcommons.BundlesInitialization;
-
 public class IngredientTest {
-  @Rule
-  public final BundlesInitialization bundlesInitialization = new BundlesInitialization();
 
   @Test
   public void testCorrectXmlSavingAndLoading() throws ParserConfigurationException {

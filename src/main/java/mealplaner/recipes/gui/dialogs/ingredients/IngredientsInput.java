@@ -30,11 +30,11 @@ public class IngredientsInput extends JDialog {
   private JPanel ingredientCreationPanel;
   private JPanel buttonPanel;
 
-  private InputField<Optional<String>> nameField;
-  private InputField<IngredientType> typeField;
-  private InputField<Measure> measureField;
+  private transient InputField<Optional<String>> nameField;
+  private transient InputField<IngredientType> typeField;
+  private transient InputField<Measure> measureField;
 
-  private List<Ingredient> ingredients;
+  private transient List<Ingredient> ingredients;
 
   public IngredientsInput(JFrame parent) {
     super(parent, BUNDLES.message("ingredientInputDialogTitle"), true);

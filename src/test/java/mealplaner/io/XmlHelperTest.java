@@ -16,17 +16,13 @@ import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.junit.Rule;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import mealplaner.model.Meal;
-import testcommons.BundlesInitialization;
 
 public class XmlHelperTest {
-  @Rule
-  public final BundlesInitialization bundlesInitialization = new BundlesInitialization();
 
   @Test
   public void getEnumFromTextNode() throws ParserConfigurationException {

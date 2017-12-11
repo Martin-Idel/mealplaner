@@ -27,7 +27,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -41,12 +40,9 @@ import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
 import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.Sidedish;
-import testcommons.BundlesInitialization;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MealplanerDataTest {
-  @Rule
-  public final BundlesInitialization bundlesInitialization = new BundlesInitialization();
 
   private List<Meal> meals = new ArrayList<>();
   private Meal meal1;

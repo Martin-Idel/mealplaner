@@ -13,7 +13,6 @@ import static testcommons.MealAssert.assertThat;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -23,11 +22,8 @@ import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
 import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.Sidedish;
-import testcommons.BundlesInitialization;
 
 public class MealTest {
-  @Rule
-  public final BundlesInitialization bundlesInitialization = new BundlesInitialization();
 
   private Meal sut;
 

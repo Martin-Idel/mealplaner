@@ -28,7 +28,7 @@ public class NonnegativeIntegerCellEditor extends DefaultCellEditor {
   @Override
   public boolean stopCellEditing() {
     try {
-      int v = Integer.valueOf(textField.getText());
+      int v = Integer.parseInt(textField.getText());
       if (v < 0) {
         textField.setBorder(red);
         return false;

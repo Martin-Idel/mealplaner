@@ -1,14 +1,11 @@
 package mealplaner;
 
-import static java.util.Locale.getDefault;
-import static java.util.ResourceBundle.getBundle;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.SwingUtilities.invokeLater;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.io.IngredientProviderIoGui.loadIngredientProvider;
 
 import java.util.MissingResourceException;
-import java.util.ResourceBundle;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -25,7 +22,6 @@ public class Kochplaner {
 
   public static void main(String[] args) {
     try {
-      loadResourceBundle(); // Must be first line to make Enum initialization possible
       MealplanerData data = new MealplanerData();
       IngredientProvider ingredientProvider = loadIngredientProvider();
       invokeLater(createMainGui(data, ingredientProvider));
@@ -45,13 +41,5 @@ public class Kochplaner {
       DialogFactory dialogFactory = new DialogFactory(mainFrame);
       new MainGui(mainFrame, data, dialogFactory, ingredientProvider);
     };
-  }
-
-  private static void loadResourceBundle() {
-    ResourceBundle messages = getBundle("MessagesBundle", getDefault());
-    ResourceBundle errors = getBundle("ErrorBundle", getDefault());
-    BUNDLES.setMessageBundle(messages);
-    BUNDLES.setErrorBundle(errors);
-    BUNDLES.setLocale(getDefault());
   }
 }

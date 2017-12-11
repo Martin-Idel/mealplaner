@@ -15,17 +15,13 @@ import java.util.Map;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.w3c.dom.Document;
 
 import mealplaner.commons.NonnegativeInteger;
-import testcommons.BundlesInitialization;
 import testcommons.CommonFunctions;
 
 public class RecipeTest {
-  @Rule
-  public final BundlesInitialization bundlesInitialization = new BundlesInitialization();
   private Ingredient anIngredient1;
   private Ingredient anIngredient2;
   private QuantitativeIngredient quantitativeIngredient1;

@@ -15,7 +15,6 @@ import javax.swing.JTable;
 import org.junit.Test;
 
 import mealplaner.commons.gui.ButtonPanelEnabling;
-import mealplaner.commons.gui.tables.Table;
 
 public class UpdateSizeTableModelTest {
 
@@ -318,7 +317,7 @@ public class UpdateSizeTableModelTest {
     TEST1, TEST2, TEST3
   }
 
-  private class TestClass {
+  private static class TestClass {
     private String string;
 
     public TestClass(String string) {

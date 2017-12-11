@@ -25,9 +25,9 @@ public class RecipeInput extends JDialog {
   private static final long serialVersionUID = 1L;
   private JFrame parentFrame;
   private JPanel dataPanel;
-  private RecipeTable recipeTable;
-  private InputField<NonnegativeInteger> nonnegativeIntegerInputField;
-  private Optional<Recipe> enteredRecipe;
+  private transient RecipeTable recipeTable;
+  private transient InputField<NonnegativeInteger> nonnegativeIntegerInputField;
+  private transient Optional<Recipe> enteredRecipe;
 
   public RecipeInput(JFrame parentFrame, String label) {
     super(parentFrame, label, true);

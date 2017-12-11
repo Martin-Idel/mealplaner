@@ -30,9 +30,7 @@ public class FileIoGui {
   public MealplanerData loadDatabase() {
     MealplanerData mealPlan = new MealplanerData();
     try {
-      MealplanerData mealPlanLoaded = MealplanerFileLoader.load("save01.ser");
-      mealPlan = mealPlanLoaded; // do not inline: This will only be done when load was successful
-      mealPlan.getMeals();
+      mealPlan = MealplanerFileLoader.load("save01.ser");
     } catch (FileNotFoundException exc) {
       errorMessages(frame, exc, BUNDLES.errorMessage("MSG_FILE_NOT_FOUND"));
       logger.error("File not found in: ", exc);

@@ -14,7 +14,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -23,12 +22,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 import mealplaner.model.Meal;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.PreferenceSettings;
-import testcommons.BundlesInitialization;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CookingPreferenceSettingTest {
-  @Rule
-  public final BundlesInitialization bundlesInitialization = new BundlesInitialization();
 
   @Mock
   private Set<CookingPreference> prohibitedpreference;
