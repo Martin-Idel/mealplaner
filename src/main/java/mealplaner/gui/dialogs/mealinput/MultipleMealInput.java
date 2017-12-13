@@ -11,7 +11,7 @@ import mealplaner.recipes.provider.IngredientProvider;
 
 public class MultipleMealInput extends MealInput {
   private static final long serialVersionUID = 1L;
-  private List<Meal> newMeals;
+  private final List<Meal> newMeals;
 
   public MultipleMealInput(JFrame parent, IngredientProvider ingredientProvider) {
     super(parent, ingredientProvider);

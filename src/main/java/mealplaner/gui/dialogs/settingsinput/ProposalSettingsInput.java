@@ -19,8 +19,7 @@ import mealplaner.model.settings.Settings;
 
 public class ProposalSettingsInput extends SettingsInput {
   private static final long serialVersionUID = 1L;
-  private JFrame parentFrame;
-  private JPanel buttonPanel;
+  private final JFrame parentFrame;
   private SettingTable settingTable;
 
   public ProposalSettingsInput(JFrame parentFrame) {
@@ -46,7 +45,7 @@ public class ProposalSettingsInput extends SettingsInput {
         : outline.getDateToday().plusDays(1);
     settingTable = new SettingTable(tableSettings, date);
 
-    buttonPanel = new ButtonPanelBuilder()
+    JPanel buttonPanel = new ButtonPanelBuilder()
         .addButton(BUNDLES.message("useDefaultButton"),
             BUNDLES.message("useDefaultButtonMnemonic"),
             action -> settingTable.useDefaultSettings(defaultSettings))

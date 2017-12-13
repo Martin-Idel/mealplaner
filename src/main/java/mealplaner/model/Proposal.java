@@ -28,13 +28,13 @@ import mealplaner.commons.Pair;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.settings.Settings;
 
-public class Proposal {
+public final class Proposal {
   private static final Logger logger = LoggerFactory.getLogger(Proposal.class);
 
-  private List<Meal> mealList;
-  private List<Settings> settingsList;
-  private LocalDate date;
-  private boolean includeToday;
+  private final List<Meal> mealList;
+  private final List<Settings> settingsList;
+  private final LocalDate date;
+  private final boolean includeToday;
 
   private Proposal(List<Meal> mealList, List<Settings> settingsList, LocalDate date,
       boolean includeToday) {
@@ -122,13 +122,10 @@ public class Proposal {
       return false;
     }
     Proposal other = (Proposal) obj;
-    if (!date.equals(other.date)
-        || includeToday != other.includeToday
-        || !mealList.equals(other.mealList)
-        || !settingsList.equals(other.settingsList)) {
-      return false;
-    }
-    return true;
+    return date.equals(other.date)
+        && includeToday == other.includeToday
+        && mealList.equals(other.mealList)
+        && settingsList.equals(other.settingsList);
   }
 
   public static Element writeProposal(Document saveFileContent, Proposal proposal,

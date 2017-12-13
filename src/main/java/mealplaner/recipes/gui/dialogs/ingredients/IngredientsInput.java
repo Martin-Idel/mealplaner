@@ -26,15 +26,15 @@ import mealplaner.recipes.model.Measure;
 
 public class IngredientsInput extends JDialog {
   private static final long serialVersionUID = 1L;
-  private JFrame parentFrame;
+  private final JFrame parentFrame;
   private JPanel ingredientCreationPanel;
   private JPanel buttonPanel;
 
-  private transient InputField<Optional<String>> nameField;
-  private transient InputField<IngredientType> typeField;
-  private transient InputField<Measure> measureField;
+  private final transient InputField<Optional<String>> nameField;
+  private final transient InputField<IngredientType> typeField;
+  private final transient InputField<Measure> measureField;
 
-  private transient List<Ingredient> ingredients;
+  private final transient List<Ingredient> ingredients;
 
   public IngredientsInput(JFrame parent) {
     super(parent, BUNDLES.message("ingredientInputDialogTitle"), true);

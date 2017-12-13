@@ -12,17 +12,12 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 public class ButtonPanelBuilder {
-  JPanel panel;
-  List<JButton> buttonList = new ArrayList<>();
-  List<JButton> enablingList = new ArrayList<>();
+  private final JPanel panel;
+  private final List<JButton> buttonList = new ArrayList<>();
+  private final List<JButton> enablingList = new ArrayList<>();
 
   public ButtonPanelBuilder() {
     panel = new JPanel();
-  }
-
-  public ButtonPanelBuilder addPanel(JPanel buttonPanel) {
-    this.panel = buttonPanel;
-    return this;
   }
 
   public ButtonPanelBuilder addExitButton(ActionListener listener) {

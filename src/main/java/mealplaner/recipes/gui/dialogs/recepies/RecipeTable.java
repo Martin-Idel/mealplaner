@@ -13,8 +13,8 @@ import mealplaner.recipes.model.Recipe;
 import mealplaner.recipes.provider.IngredientProvider;
 
 public class RecipeTable {
-  private IngredientProvider ingredientProvider;
-  private List<QuantitativeIngredient> ingredients;
+  private final IngredientProvider ingredientProvider;
+  private final List<QuantitativeIngredient> ingredients;
 
   public RecipeTable(Recipe recipe, IngredientProvider ingredientProvider) {
     this.ingredientProvider = ingredientProvider;

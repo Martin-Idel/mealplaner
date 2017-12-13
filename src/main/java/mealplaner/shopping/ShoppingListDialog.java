@@ -18,8 +18,8 @@ import mealplaner.recipes.provider.IngredientProvider;
 
 public class ShoppingListDialog extends JDialog {
   private static final long serialVersionUID = 1L;
-  private JFrame frame;
-  private ShoppingTable shoppingTable;
+  private final JFrame frame;
+  private final ShoppingTable shoppingTable;
   private Table table;
 
   public ShoppingListDialog(JFrame parent) {

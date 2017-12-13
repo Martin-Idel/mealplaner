@@ -28,7 +28,7 @@ import mealplaner.model.enums.Sidedish;
 import mealplaner.model.settings.Settings;
 import mealplaner.recipes.model.Recipe;
 
-public class Meal implements Comparable<Meal> {
+public final class Meal implements Comparable<Meal> {
   public static final Meal EMPTY_MEAL = new Meal("EMPTY",
       CookingTime.SHORT,
       Sidedish.NONE,
@@ -38,12 +38,12 @@ public class Meal implements Comparable<Meal> {
   private static final Logger logger = LoggerFactory.getLogger(Settings.class);
 
   private String name;
-  private CookingTime cookingTime;
-  private Sidedish sidedish;
-  private ObligatoryUtensil obligatoryUtensil;
-  private CookingPreference cookingPreference;
-  private NonnegativeInteger daysPassed;
-  private String comment;
+  private final CookingTime cookingTime;
+  private final Sidedish sidedish;
+  private final ObligatoryUtensil obligatoryUtensil;
+  private final CookingPreference cookingPreference;
+  private final NonnegativeInteger daysPassed;
+  private final String comment;
   private Optional<Recipe> recipe;
 
   private Meal(String name,
@@ -180,16 +180,13 @@ public class Meal implements Comparable<Meal> {
       return false;
     }
     Meal other = (Meal) obj;
-    if (!name.equals(other.name)
-        || !comment.equals(other.comment)
-        || cookingPreference != other.cookingPreference
-        || cookingTime != other.cookingTime
-        || obligatoryUtensil != other.obligatoryUtensil
-        || sidedish != other.sidedish
-        || !daysPassed.equals(other.daysPassed)) {
-      return false;
-    }
-    return true;
+    return name.equals(other.name)
+        && comment.equals(other.comment)
+        && cookingPreference == other.cookingPreference
+        && cookingTime == other.cookingTime
+        && obligatoryUtensil == other.obligatoryUtensil
+        && sidedish == other.sidedish
+        && daysPassed.equals(other.daysPassed);
   }
 
   public static Element writeMeal(Document saveFileContent, Meal meal, String elementName) {

@@ -23,8 +23,8 @@ import mealplaner.recipes.provider.IngredientProvider;
 
 public class RecipeInput extends JDialog {
   private static final long serialVersionUID = 1L;
-  private JFrame parentFrame;
-  private JPanel dataPanel;
+  private final JFrame parentFrame;
+  private final JPanel dataPanel;
   private transient RecipeTable recipeTable;
   private transient InputField<NonnegativeInteger> nonnegativeIntegerInputField;
   private transient Optional<Recipe> enteredRecipe;

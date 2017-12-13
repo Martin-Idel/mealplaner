@@ -21,7 +21,9 @@ import mealplaner.recipes.model.Measure;
 import mealplaner.recipes.model.QuantitativeIngredient;
 import mealplaner.recipes.provider.IngredientProvider;
 
-public class IngredientsTable {
+public final class IngredientsTable {
+  private IngredientsTable() {
+  }
 
   public static Table setupTable(List<QuantitativeIngredient> ingredients,
       IngredientProvider ingredientProvider) {

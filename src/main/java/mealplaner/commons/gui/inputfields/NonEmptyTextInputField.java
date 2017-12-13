@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class NonEmptyTextInputField implements InputField<Optional<String>> {
-  private String label;
+  private final String label;
   private JTextField nonEmptyTextField;
 
   public NonEmptyTextInputField(String label) {

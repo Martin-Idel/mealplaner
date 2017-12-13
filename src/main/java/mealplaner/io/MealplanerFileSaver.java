@@ -20,7 +20,9 @@ import org.w3c.dom.Element;
 import mealplaner.MealplanerData;
 import mealplaner.commons.errorhandling.MealException;
 
-public class MealplanerFileSaver {
+public final class MealplanerFileSaver {
+  private MealplanerFileSaver() {
+  }
 
   public static void save(MealplanerData mealplaner, String name) throws IOException {
     try {
@@ -42,15 +44,15 @@ public class MealplanerFileSaver {
       StreamResult result = new StreamResult(new File("save.xml"));
 
       transformer.transform(source, result);
-    } catch (ParserConfigurationException exception) {
+    } catch (ParserConfigurationException e) {
       throw new MealException(
-          "Internal Error: Something went wrong when creating an XML document.");
+          "Internal Error: Something went wrong when creating an XML document.", e);
     } catch (TransformerConfigurationException e) {
       throw new MealException(
-          "Internal Error: Something went wrong when creating an XML document.");
+          "Internal Error: Something went wrong when creating an XML document.", e);
     } catch (TransformerException e) {
       throw new MealException(
-          "Internal Error: Something went wrong when creating an XML document.");
+          "Internal Error: Something went wrong when creating an XML document.", e);
     }
   }
 }

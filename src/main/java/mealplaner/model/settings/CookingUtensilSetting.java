@@ -8,7 +8,7 @@ import mealplaner.model.Meal;
 import mealplaner.model.enums.CasseroleSettings;
 import mealplaner.model.enums.ObligatoryUtensil;
 
-public class CookingUtensilSetting implements CookingSetting {
+public final class CookingUtensilSetting implements CookingSetting {
   private final Set<ObligatoryUtensil> prohibitedUtensil;
 
   private CookingUtensilSetting(Set<ObligatoryUtensil> prohibitedUtensil) {
@@ -82,9 +82,6 @@ public class CookingUtensilSetting implements CookingSetting {
       return false;
     }
     CookingUtensilSetting other = (CookingUtensilSetting) obj;
-    if (!prohibitedUtensil.equals(other.prohibitedUtensil)) {
-      return false;
-    }
-    return true;
+    return prohibitedUtensil.equals(other.prohibitedUtensil);
   }
 }

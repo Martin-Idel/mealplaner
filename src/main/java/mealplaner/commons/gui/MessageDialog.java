@@ -6,7 +6,9 @@ import static mealplaner.commons.BundleStore.BUNDLES;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-public class MessageDialog {
+public final class MessageDialog {
+  private MessageDialog() {
+  }
 
   public static void errorMessages(JFrame frame, Exception exc, String errorMessage) {
     JOptionPane.showMessageDialog(frame, errorMessage,

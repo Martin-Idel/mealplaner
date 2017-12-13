@@ -13,7 +13,7 @@ public class NonemptyTextCellEditor extends DefaultCellEditor {
   private static final long serialVersionUID = 1L;
   private static final Border red = new LineBorder(Color.RED);
   private static final Border black = new LineBorder(Color.BLACK);
-  private JTextField textField;
+  private final JTextField textField;
 
   public NonemptyTextCellEditor() {
     super(new JTextField());

@@ -19,9 +19,8 @@ import mealplaner.model.Meal;
 
 public class UpdatePastMeals extends JDialog {
   private static final long serialVersionUID = 1L;
-  private JFrame parentFrame;
-  private JPanel dataPanel;
-  private UpdateTable updateTable;
+  private final JFrame parentFrame;
+  private final UpdateTable updateTable;
   private Optional<List<Meal>> changedMeals = empty();
 
   public UpdatePastMeals(JFrame parentFrame) {
@@ -38,7 +37,7 @@ public class UpdatePastMeals extends JDialog {
   private void display(DataStore mealPlan) {
     Table table = updateTable.createTable(mealPlan.getLastProposal(),
         mealPlan.getMeals(), mealPlan.getDaysPassed());
-    dataPanel = new JPanel();
+    JPanel dataPanel = new JPanel();
     dataPanel.setLayout(new BorderLayout());
     table.addScrollingTableToPane(dataPanel);
     JPanel buttonPanel = displayButtons();

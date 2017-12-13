@@ -7,7 +7,7 @@ import java.util.Set;
 import mealplaner.model.Meal;
 import mealplaner.model.enums.CookingTime;
 
-public class CookingTimeSetting implements CookingSetting {
+public final class CookingTimeSetting implements CookingSetting {
   private final Set<CookingTime> prohibitedCookingTime;
 
   private CookingTimeSetting(CookingTimeSetting cookingTimeSetting) {
@@ -64,7 +64,7 @@ public class CookingTimeSetting implements CookingSetting {
 
   @Override
   public int hashCode() {
-    return 31 + ((prohibitedCookingTime == null) ? 0 : prohibitedCookingTime.hashCode());
+    return 31 + (prohibitedCookingTime == null ? 0 : prohibitedCookingTime.hashCode());
   }
 
   @Override
@@ -76,9 +76,6 @@ public class CookingTimeSetting implements CookingSetting {
       return false;
     }
     CookingTimeSetting other = (CookingTimeSetting) obj;
-    if (!prohibitedCookingTime.equals(other.prohibitedCookingTime)) {
-      return false;
-    }
-    return true;
+    return prohibitedCookingTime.equals(other.prohibitedCookingTime);
   }
 }

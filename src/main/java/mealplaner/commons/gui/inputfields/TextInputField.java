@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class TextInputField implements InputField<String> {
-  private String label;
+  private final String label;
   private JTextField textField;
 
   public TextInputField(String label) {
@@ -21,8 +21,7 @@ public class TextInputField implements InputField<String> {
 
   @Override
   public String getUserInput() {
-    String trimmedUserInput = textField.getText().trim();
-    return trimmedUserInput;
+    return textField.getText().trim();
   }
 
   @Override

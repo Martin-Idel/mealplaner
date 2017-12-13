@@ -13,7 +13,7 @@ import mealplaner.recipes.model.Ingredient;
 public class IngredientProvider {
   @XmlElementWrapper(name = "ingredients")
   @XmlElement(name = "ingredient")
-  private List<Ingredient> ingredients;
+  private final List<Ingredient> ingredients;
 
   public IngredientProvider() {
     this(new ArrayList<>());

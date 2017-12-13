@@ -39,14 +39,14 @@ import mealplaner.recipes.provider.IngredientProvider;
 // TODO: When entering meals but having entered unsaved meals, maybe we want to just add 
 // new (saved) meals and not delete the rest?
 public class DatabaseEdit implements DataStoreListener {
-  private JFrame dataFrame;
-  private JPanel dataPanel;
+  private final JFrame dataFrame;
+  private final JPanel dataPanel;
   private Table table;
 
   private ButtonPanelEnabling buttonPanel;
 
-  private DataStore mealplanerData;
-  private List<Meal> meals;
+  private final DataStore mealplanerData;
+  private final List<Meal> meals;
 
   public DatabaseEdit(DataStore mealPlan, JFrame parentFrame, JPanel parentPanel) {
     this.mealplanerData = mealPlan;

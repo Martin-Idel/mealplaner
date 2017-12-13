@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
 public class MenuBarBuilder {
-  private JFrame frame;
+  private final JFrame frame;
   private JMenu fileMenu;
   private JMenu helpMenu;
 

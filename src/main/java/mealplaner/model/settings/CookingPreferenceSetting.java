@@ -8,7 +8,7 @@ import mealplaner.model.Meal;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.PreferenceSettings;
 
-public class CookingPreferenceSetting implements CookingSetting {
+public final class CookingPreferenceSetting implements CookingSetting {
   private final Set<CookingPreference> prohibitedCookingPreference;
 
   private CookingPreferenceSetting(Set<CookingPreference> prohibitedCookingPreference) {
@@ -57,10 +57,7 @@ public class CookingPreferenceSetting implements CookingSetting {
       return false;
     }
     CookingPreferenceSetting other = (CookingPreferenceSetting) obj;
-    if (!prohibitedCookingPreference.equals(other.prohibitedCookingPreference)) {
-      return false;
-    }
-    return true;
+    return prohibitedCookingPreference.equals(other.prohibitedCookingPreference);
   }
 
   @Override

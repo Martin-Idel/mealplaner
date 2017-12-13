@@ -13,7 +13,7 @@ import mealplaner.model.settings.Settings;
 
 public abstract class SettingsInput extends JDialog {
   private static final long serialVersionUID = 1L;
-  protected JPanel dataPanel;
+  protected final JPanel dataPanel;
   private Optional<Settings[]> enteredSettings = Optional.empty();
 
   public SettingsInput(JFrame parentFrame, String label) {

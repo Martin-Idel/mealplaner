@@ -9,9 +9,9 @@ import javax.swing.JTable;
 
 import mealplaner.commons.gui.tables.models.FlexibleTableModel;
 
-public class Table {
-  private FlexibleTableModel tableModel;
-  private JTable table;
+public final class Table {
+  private final FlexibleTableModel tableModel;
+  private final JTable table;
 
   private Table(FlexibleTableModel tableModel, JTable table) {
     this.tableModel = tableModel;

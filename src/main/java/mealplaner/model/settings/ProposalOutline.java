@@ -2,7 +2,7 @@ package mealplaner.model.settings;
 
 import java.time.LocalDate;
 
-public class ProposalOutline {
+public final class ProposalOutline {
   private final int numberOfDays;
   private final boolean includedToday;
   private final boolean shallBeRandomised;
@@ -16,6 +16,12 @@ public class ProposalOutline {
     this.shallBeRandomised = shallBeRandomised;
     this.takeDefaultSettings = takeDefaultSettings;
     this.dateToday = dateToday;
+  }
+
+  static ProposalOutline outline(int numberOfDays, boolean includedToday, boolean shallBeRandomised,
+      boolean takeDefaultSettings, LocalDate dateToday) {
+    return new ProposalOutline(numberOfDays, includedToday, shallBeRandomised, takeDefaultSettings,
+        dateToday);
   }
 
   public int getNumberOfDays() {
@@ -70,8 +76,8 @@ public class ProposalOutline {
     }
 
     public ProposalOutline build() {
-      return new ProposalOutline(numberOfDays, includedToday, shallBeRandomised,
-          takeDefaultSettings, dateToday);
+      return outline(numberOfDays, includedToday, shallBeRandomised, takeDefaultSettings,
+          dateToday);
     }
   }
 }

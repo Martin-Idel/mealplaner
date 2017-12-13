@@ -5,14 +5,14 @@ import static mealplaner.recipes.model.Ingredient.emptyIngredient;
 
 import mealplaner.commons.NonnegativeInteger;
 
-public class QuantitativeIngredient {
+public final class QuantitativeIngredient {
   public static final QuantitativeIngredient DEFAULT = new QuantitativeIngredient(
       emptyIngredient(), ZERO);
 
   private final Ingredient ingredient;
   private final NonnegativeInteger amount;
 
-  QuantitativeIngredient(Ingredient ingredient,
+  private QuantitativeIngredient(Ingredient ingredient,
       NonnegativeInteger amount) {
     this.ingredient = ingredient;
     this.amount = amount;
@@ -53,10 +53,7 @@ public class QuantitativeIngredient {
       return false;
     }
     QuantitativeIngredient other = (QuantitativeIngredient) obj;
-    if (!ingredient.equals(other.ingredient)
-        || !amount.equals(other.amount)) {
-      return false;
-    }
-    return true;
+    return ingredient.equals(other.ingredient)
+        && amount.equals(other.amount);
   }
 }

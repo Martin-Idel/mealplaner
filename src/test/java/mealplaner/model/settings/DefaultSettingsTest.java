@@ -26,8 +26,6 @@ import org.w3c.dom.Document;
 
 public class DefaultSettingsTest {
 
-  private DefaultSettings sut;
-
   @Test
   public void saveAndReadFromXmlNode() throws ParserConfigurationException {
     Map<DayOfWeek, Settings> defaultSetting = new HashMap<>();
@@ -37,10 +35,10 @@ public class DefaultSettingsTest {
     DefaultSettings settings = from(defaultSetting);
     Document saveFileContent = createDocument();
 
-    sut = parseDefaultSettings(
+    DefaultSettings expected = parseDefaultSettings(
         writeDefaultSettings(saveFileContent, settings, "defaultSettings"));
 
-    assertThat(sut).isEqualTo(settings);
+    assertThat(expected).isEqualTo(settings);
   }
 
   @Test

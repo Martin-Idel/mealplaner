@@ -122,7 +122,6 @@ public class RecipeTableTest {
     Map<Ingredient, NonnegativeInteger> recipeMap = new HashMap<>();
     recipeMap.put(getIngredient1(), nonNegative(100));
     recipeMap.put(getIngredient2(), nonNegative(50));
-    Recipe expectedRecipe = Recipe.from(nonNegative(1), recipeMap);
-    return expectedRecipe;
+    return Recipe.from(nonNegative(1), recipeMap);
   }
 }

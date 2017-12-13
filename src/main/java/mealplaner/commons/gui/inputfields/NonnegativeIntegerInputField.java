@@ -15,9 +15,9 @@ import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.gui.editing.NonnegativeIntegerTextFilter;
 
 public class NonnegativeIntegerInputField implements InputField<NonnegativeInteger> {
-  private String label;
+  private final String label;
   private JTextField nonnegativeIntegerTextField;
-  private NonnegativeInteger defaultValue;
+  private final NonnegativeInteger defaultValue;
 
   public NonnegativeIntegerInputField(String label, NonnegativeInteger defaultValue) {
     this.label = label;
@@ -32,11 +32,12 @@ public class NonnegativeIntegerInputField implements InputField<NonnegativeInteg
     nonnegativeIntegerTextField.addFocusListener(new FocusListener() {
       @Override
       public void focusGained(FocusEvent ev) {
-        nonnegativeIntegerTextField.selectAll();
+        selectAll();
       }
 
       @Override
       public void focusLost(FocusEvent ev) {
+        // Do nothing.
       }
     });
     panel.add(new JLabel(label));
@@ -51,5 +52,9 @@ public class NonnegativeIntegerInputField implements InputField<NonnegativeInteg
   @Override
   public void resetField() {
     nonnegativeIntegerTextField.setText(defaultValue.toString());
+  }
+
+  void selectAll() {
+    nonnegativeIntegerTextField.selectAll();
   }
 }

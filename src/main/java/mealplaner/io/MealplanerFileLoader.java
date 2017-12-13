@@ -15,16 +15,18 @@ import org.xml.sax.SAXException;
 import mealplaner.MealplanerData;
 import mealplaner.commons.errorhandling.MealException;
 
-public class MealplanerFileLoader {
+public final class MealplanerFileLoader {
+  private MealplanerFileLoader() {
+  }
 
   public static MealplanerData load(String name)
       throws FileNotFoundException, IOException, MealException {
     try {
       return readXml();
     } catch (ClassCastException exc) {
-      throw new MealException("Corrupted Save File - some classes were not saved correctly");
+      throw new MealException("Corrupted Save File - some classes were not saved correctly", exc);
     } catch (MealException exc) {
-      throw new MealException("Corrupted Save File");
+      throw new MealException("Corrupted Save File", exc);
     }
   }
 
@@ -41,10 +43,10 @@ public class MealplanerFileLoader {
 
     } catch (ParserConfigurationException e) {
       throw new MealException(
-          "Internal Error: Something went wrong when creating an XML document.");
+          "Internal Error: Something went wrong when creating an XML document.", e);
     } catch (SAXException e) {
       throw new MealException(
-          "Internal Error: Something went wrong when creating an XML document.");
+          "Internal Error: Something went wrong when creating an XML document.", e);
     }
   }
 }

@@ -9,7 +9,8 @@ import java.util.function.Supplier;
 public class UpdateSizeTableModel extends FlexibleTableModel {
   private static final long serialVersionUID = 1L;
 
-  private UpdateSizeTableModel(List<TableColumnData<?>> tableColumns, Supplier<Integer> rowCount) {
+  protected UpdateSizeTableModel(List<TableColumnData<?>> tableColumns,
+      Supplier<Integer> rowCount) {
     super(tableColumns, rowCount);
   }
 

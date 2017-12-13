@@ -26,8 +26,8 @@ import mealplaner.model.settings.ProposalOutline;
 import mealplaner.model.settings.ProposalOutline.ProposalOutlineBuilder;
 
 public class ProposalSummary implements DataStoreListener {
-  private DataStore mealPlan;
-  private JPanel dataPanel;
+  private final DataStore mealPlan;
+  private final JPanel dataPanel;
   private JLabel dateShow;
   private JButton dateUpdate;
   private InputField<NonnegativeInteger> numberOfDaysField;

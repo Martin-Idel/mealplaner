@@ -26,11 +26,11 @@ import org.w3c.dom.NodeList;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.io.XmlHelpers;
 
-public class Recipe {
+public final class Recipe {
   private static final Logger logger = LoggerFactory.getLogger(Recipe.class);
 
   private final NonnegativeInteger numberOfPortions;
-  private Map<Ingredient, NonnegativeInteger> ingredients;
+  private final Map<Ingredient, NonnegativeInteger> ingredients;
 
   private Recipe(NonnegativeInteger numberOfPortions,
       Map<Ingredient, NonnegativeInteger> ingredients) {
@@ -116,11 +116,8 @@ public class Recipe {
       return false;
     }
     Recipe other = (Recipe) obj;
-    if (!ingredients.equals(other.ingredients)
-        || !numberOfPortions.equals(other.numberOfPortions)) {
-      return false;
-    }
-    return true;
+    return ingredients.equals(other.ingredients)
+        && numberOfPortions.equals(other.numberOfPortions);
   }
 
   public static Element writeRecipe(Document saveFileContent, Recipe recipe,

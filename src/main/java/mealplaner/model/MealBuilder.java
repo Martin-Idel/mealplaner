@@ -11,7 +11,7 @@ import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.Sidedish;
 import mealplaner.recipes.model.Recipe;
 
-public class MealBuilder {
+public final class MealBuilder {
   private String name = "";
   private CookingTime cookingTime = CookingTime.SHORT;
   private Sidedish sidedish = Sidedish.NONE;

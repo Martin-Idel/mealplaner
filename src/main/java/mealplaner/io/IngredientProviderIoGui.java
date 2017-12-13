@@ -6,7 +6,9 @@ import mealplaner.commons.errorhandling.MealException;
 import mealplaner.commons.gui.MessageDialog;
 import mealplaner.recipes.provider.IngredientProvider;
 
-public class IngredientProviderIoGui {
+public final class IngredientProviderIoGui {
+  private IngredientProviderIoGui() {
+  }
 
   public static IngredientProvider loadIngredientProvider() {
     IngredientProvider ingredientProvider;

@@ -21,7 +21,6 @@ import mealplaner.model.enums.PreferenceSettings;
 import mealplaner.model.settings.Settings;
 
 public class ProposalBuilder {
-
   private SideDish sideDish;
   private boolean firstDayIsToday;
   private boolean random;
@@ -53,7 +52,7 @@ public class ProposalBuilder {
     return this;
   }
 
-  public Proposal propose(List<Meal> meals, Settings[] settings) {
+  public Proposal propose(Settings[] settings, List<Meal> meals) {
     setCurrentSideDishFromHistory(meals);
     if (!meals.isEmpty()) {
       for (int today = 0; today < settings.length; today++) {

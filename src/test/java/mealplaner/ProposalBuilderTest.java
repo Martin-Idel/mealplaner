@@ -54,7 +54,7 @@ public class ProposalBuilderTest {
     settings[0] = from(cookingTimeSetting, nonNegative(4),
         CasseroleSettings.POSSIBLE, PreferenceSettings.NORMAL);
 
-    Proposal proposal = proposalBuilder.propose(meals, settings);
+    Proposal proposal = proposalBuilder.propose(settings, meals);
 
     assertEquals(1, proposal.getProposalList().size());
     assertMealsEquals(meals.get(1), proposal.getItem(0));
@@ -67,7 +67,7 @@ public class ProposalBuilderTest {
     settings[0] = from(cookingTimeSetting, nonNegative(2),
         CasseroleSettings.NONE, PreferenceSettings.VERY_POPULAR_ONLY);
 
-    Proposal proposal = proposalBuilder.propose(meals, settings);
+    Proposal proposal = proposalBuilder.propose(settings, meals);
 
     assertMealsEquals(meals.get(2), proposal.getItem(0));
   }
@@ -79,7 +79,7 @@ public class ProposalBuilderTest {
     settings[0] = from(cookingTimeSetting, nonNegative(2),
         CasseroleSettings.ONLY, PreferenceSettings.RARE_NONE);
 
-    Proposal proposal = proposalBuilder.propose(meals, settings);
+    Proposal proposal = proposalBuilder.propose(settings, meals);
 
     assertMealsEquals(meals.get(3), proposal.getItem(0));
   }
@@ -91,7 +91,7 @@ public class ProposalBuilderTest {
     settings[0] = from(cookingTimeSetting, nonNegative(1),
         CasseroleSettings.POSSIBLE, PreferenceSettings.NORMAL);
 
-    Proposal proposal = proposalBuilder.propose(meals, settings);
+    Proposal proposal = proposalBuilder.propose(settings, meals);
 
     assertMealsEquals(meals.get(2), proposal.getItem(0));
   }
@@ -103,7 +103,7 @@ public class ProposalBuilderTest {
     settings[0] = from(cookingTimeSetting, nonNegative(2), CasseroleSettings.POSSIBLE,
         PreferenceSettings.RARE_PREFERED);
 
-    Proposal proposal = proposalBuilder.propose(meals, settings);
+    Proposal proposal = proposalBuilder.propose(settings, meals);
 
     assertMealsEquals(meals.get(1), proposal.getItem(0));
   }
@@ -115,7 +115,7 @@ public class ProposalBuilderTest {
     settings[0] = from(cookingTimeSetting, nonNegative(2), CasseroleSettings.POSSIBLE,
         PreferenceSettings.NORMAL);
 
-    Proposal proposal = proposalBuilder.propose(meals, settings);
+    Proposal proposal = proposalBuilder.propose(settings, meals);
 
     assertMealsEquals(meals.get(4), proposal.getItem(0));
   }
@@ -128,7 +128,7 @@ public class ProposalBuilderTest {
     settings[0] = from(cookingTimeSetting, nonNegative(2), CasseroleSettings.POSSIBLE,
         PreferenceSettings.RARE_PREFERED);
 
-    Proposal proposal = proposalBuilder.propose(meals, settings);
+    Proposal proposal = proposalBuilder.propose(settings, meals);
 
     assertMealsEquals(meals.get(4), proposal.getItem(0));
   }
@@ -143,7 +143,7 @@ public class ProposalBuilderTest {
         PreferenceSettings.NORMAL);
     proposalBuilder = new ProposalBuilder(preferenceMap, sideDish);
 
-    Proposal proposal = proposalBuilder.propose(meals, settings);
+    Proposal proposal = proposalBuilder.propose(settings, meals);
 
     assertMealsEquals(meals.get(1), proposal.getItem(0));
   }

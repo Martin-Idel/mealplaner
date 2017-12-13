@@ -23,7 +23,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class DefaultSettings {
+public final class DefaultSettings {
   private static final List<DayOfWeek> DAYS_OF_WEEK = Arrays.asList(DayOfWeek.values());
   private final Map<DayOfWeek, Settings> defaultSettings;
 
@@ -59,9 +59,9 @@ public class DefaultSettings {
     Map<DayOfWeek, Settings> defaultSettings = new HashMap<>();
     for (int i = 0; i < settingsList.getLength(); i++) {
       Node dayOfWeekNode = settingsList.item(i).getAttributes().getNamedItem("dayOfWeek");
-      Optional<DayOfWeek> key = dayOfWeekNode != null
-          ? of(valueOf(dayOfWeekNode.getTextContent()))
-          : empty();
+      Optional<DayOfWeek> key = dayOfWeekNode == null
+          ? empty()
+          : of(valueOf(dayOfWeekNode.getTextContent()));
       if (key.isPresent()) {
         defaultSettings.put(key.get(),
             settingsList.item(i).getNodeType() == Node.ELEMENT_NODE
@@ -106,9 +106,6 @@ public class DefaultSettings {
       return false;
     }
     DefaultSettings other = (DefaultSettings) obj;
-    if (!other.defaultSettings.equals(defaultSettings)) {
-      return false;
-    }
-    return true;
+    return other.defaultSettings.equals(defaultSettings);
   }
 }

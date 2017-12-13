@@ -14,9 +14,9 @@ import mealplaner.commons.gui.tables.Table;
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
 
-public class ProposalTableFactory {
+public final class ProposalTableFactory {
   private List<Meal> meals;
-  private String[] days;
+  private final String[] days;
   private LocalDate newDate;
 
   private ProposalTableFactory() {

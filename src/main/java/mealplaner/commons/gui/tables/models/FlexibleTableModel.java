@@ -1,6 +1,5 @@
 package mealplaner.commons.gui.tables.models;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -9,7 +8,7 @@ import javax.swing.table.AbstractTableModel;
 public abstract class FlexibleTableModel extends AbstractTableModel {
   private static final long serialVersionUID = 1L;
 
-  protected List<TableColumnData<?>> columns = new ArrayList<>();
+  protected final List<TableColumnData<?>> columns;
 
   protected Supplier<Integer> rowCount;
 

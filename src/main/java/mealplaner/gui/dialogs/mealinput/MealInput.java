@@ -38,18 +38,18 @@ import mealplaner.recipes.provider.IngredientProvider;
 
 public abstract class MealInput extends JDialog {
   private static final long serialVersionUID = 1L;
-  private JFrame parentFrame;
+  private final JFrame parentFrame;
   private JPanel mealCreationPanel;
   private JPanel buttonPanel;
 
-  private InputField<Optional<String>> nameField;
-  private InputField<CookingTime> cookingTimeField;
-  private InputField<Sidedish> sidedishField;
-  private InputField<ObligatoryUtensil> obligatoryUtensilField;
-  private InputField<NonnegativeInteger> daysPassedField;
-  private InputField<CookingPreference> preferenceField;
-  private InputField<String> commentField;
-  private InputField<Optional<Recipe>> recipeInputField;
+  private final InputField<Optional<String>> nameField;
+  private final InputField<CookingTime> cookingTimeField;
+  private final InputField<Sidedish> sidedishField;
+  private final InputField<ObligatoryUtensil> obligatoryUtensilField;
+  private final InputField<NonnegativeInteger> daysPassedField;
+  private final InputField<CookingPreference> preferenceField;
+  private final InputField<String> commentField;
+  private final InputField<Optional<Recipe>> recipeInputField;
 
   public MealInput(JFrame parent, IngredientProvider ingredientProvider) {
     super(parent, BUNDLES.message("mealInputDialogTitle"), true);

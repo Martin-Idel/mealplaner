@@ -16,7 +16,7 @@ import mealplaner.recipes.provider.IngredientProvider;
 import mealplaner.shopping.ShoppingListDialog;
 
 public class DialogFactory {
-  private JFrame frame;
+  private final JFrame frame;
 
   public DialogFactory(JFrame parentFrame) {
     this.frame = parentFrame;

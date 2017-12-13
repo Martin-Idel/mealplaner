@@ -15,7 +15,7 @@ import mealplaner.model.Proposal;
 
 public class ProposalOutput extends JDialog {
   private static final long serialVersionUID = 1L;
-  private JFrame parentFrame;
+  private final JFrame parentFrame;
 
   public ProposalOutput(JFrame parentFrame) {
     super(parentFrame, BUNDLES.message("proposalOutputDialogTitle"), true);

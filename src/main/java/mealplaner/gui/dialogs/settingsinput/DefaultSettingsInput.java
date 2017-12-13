@@ -22,9 +22,7 @@ import mealplaner.model.settings.Settings;
 
 public class DefaultSettingsInput extends SettingsInput {
   private static final long serialVersionUID = 1L;
-  private JFrame parentFrame;
-  private JPanel buttonPanel;
-  private SettingTable settingTable;
+  private final JFrame parentFrame;
 
   public DefaultSettingsInput(JFrame parentFrame) {
     super(parentFrame, BUNDLES.message("settingsUpdateDefaultTitle"));
@@ -38,9 +36,9 @@ public class DefaultSettingsInput extends SettingsInput {
   }
 
   protected void setup(DefaultSettings defaultSettings) {
-    settingTable = new SettingTable(defaultSettings);
+    SettingTable settingTable = new SettingTable(defaultSettings);
 
-    buttonPanel = new ButtonPanelBuilder()
+    JPanel buttonPanel = new ButtonPanelBuilder()
         .addSaveButton(getSaveListener(settingTable))
         .addExitButton(justDisposeListener(this))
         .build();

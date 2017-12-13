@@ -90,9 +90,6 @@ public class Ingredient {
       return false;
     }
     Ingredient other = (Ingredient) obj;
-    if (measure != other.measure || !name.equals(other.name) || type != other.type) {
-      return false;
-    }
-    return true;
+    return measure == other.measure && name.equals(other.name) && type == other.type;
   }
 }

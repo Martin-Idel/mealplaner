@@ -6,8 +6,7 @@ import java.util.function.Consumer;
 
 import javax.swing.JTable;
 
-public class ColumnListener extends MouseAdapter {
-
+public final class ColumnListener extends MouseAdapter {
   private final int columnNumber;
   private final Consumer<Integer> onClick;
 

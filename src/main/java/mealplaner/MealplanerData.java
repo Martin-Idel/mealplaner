@@ -43,7 +43,7 @@ public class MealplanerData implements DataStore {
   private LocalDate date;
   private Proposal proposal;
 
-  private List<DataStoreListener> listeners = new ArrayList<>();
+  private final List<DataStoreListener> listeners = new ArrayList<>();
 
   public MealplanerData() {
     meals = new ArrayList<Meal>();

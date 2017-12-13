@@ -5,10 +5,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class ComboBoxInputField<E extends Enum<E>> implements InputField<E> {
-  private String label;
-  private Class<E> enumType;
+  private final String label;
+  private final Class<E> enumType;
   private JComboBox<E> comboBox;
-  private E defaultValue;
+  private final E defaultValue;
 
   public ComboBoxInputField(String label, Class<E> enumType, E defaultValue) {
     this.label = label;

@@ -58,7 +58,7 @@ public enum BundleStore {
           exc);
       JOptionPane.showMessageDialog(null, "Fatal error: Resource Bundles not found", "Error",
           ERROR_MESSAGE);
-      throw new MealException("Fatal error: Resource Bundles not found");
+      throw new MealException("Fatal error: Resource Bundles not found", exc);
     }
     return bundle;
   }

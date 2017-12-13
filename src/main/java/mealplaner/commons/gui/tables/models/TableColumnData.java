@@ -8,10 +8,10 @@ import java.util.function.Predicate;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-public class TableColumnData<T> {
-  private String name;
-  private Class<T> classType;
-  private T defaultValue;
+public final class TableColumnData<T> {
+  private final String name;
+  private final Class<T> classType;
+  private final T defaultValue;
 
   private final BiFunction<T, Integer, Optional<Integer[]>> setValue;
   private final Function<Integer, T> getValue;

@@ -42,7 +42,10 @@ import mealplaner.recipes.model.IngredientType;
 import mealplaner.recipes.model.Measure;
 import mealplaner.recipes.model.Recipe;
 
-public class CommonFunctions {
+public final class CommonFunctions {
+  private CommonFunctions() {
+  }
+
   public static <T extends Enum<T>> void allEnumValuesHaveACorrespondingStringRepresentation(
       T[] enumValues,
       Function<BundleStore, EnumMap<T, String>> getEnumStrings) {
@@ -126,8 +129,7 @@ public class CommonFunctions {
     settings.add(getSettings1());
     settings.add(getSettings2());
     LocalDate date = LocalDate.of(2017, 7, 5);
-    Proposal expected = from(true, meals, settings, date);
-    return expected;
+    return from(true, meals, settings, date);
   }
 
   public static Proposal proposal2() {
@@ -138,7 +140,6 @@ public class CommonFunctions {
     settings.add(getSettings1());
     settings.add(getSettings2());
     LocalDate date = LocalDate.of(2017, 7, 5);
-    Proposal expected = from(true, meals, settings, date);
-    return expected;
+    return from(true, meals, settings, date);
   }
 }

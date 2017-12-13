@@ -33,8 +33,8 @@ import mealplaner.model.settings.Settings;
 
 public class SettingTable {
   private Table table;
-  private List<Settings> settings;
-  private String[] days = getWeekDays();
+  private final List<Settings> settings;
+  private final String[] days = getWeekDays();
   private LocalDate date;
 
   public SettingTable(DefaultSettings defaultSettings) {
@@ -148,7 +148,7 @@ public class SettingTable {
 
   private CookingTimeSetting changeStateOf(CookingTime cookingTime, Object value,
       CookingTimeSetting newCookingTimeSetting) {
-    if ((Boolean) value == true) {
+    if ((Boolean) value) {
       newCookingTimeSetting.allowCookingTime(cookingTime);
     } else {
       newCookingTimeSetting.prohibitCookingTime(cookingTime);

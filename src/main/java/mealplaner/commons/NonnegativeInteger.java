@@ -4,7 +4,7 @@ import static java.lang.Integer.compare;
 
 import mealplaner.commons.errorhandling.MealException;
 
-public class NonnegativeInteger implements Comparable<NonnegativeInteger> {
+public final class NonnegativeInteger implements Comparable<NonnegativeInteger> {
   public static final NonnegativeInteger ZERO = new NonnegativeInteger(0);
   public static final NonnegativeInteger ONE = new NonnegativeInteger(1);
   public static final NonnegativeInteger TWO = new NonnegativeInteger(2);

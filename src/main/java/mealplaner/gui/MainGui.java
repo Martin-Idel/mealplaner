@@ -34,15 +34,15 @@ import mealplaner.model.settings.Settings;
 import mealplaner.recipes.provider.IngredientProvider;
 
 public class MainGui {
-  private JFrame frame;
-  private DialogFactory dialogs;
+  private final JFrame frame;
+  private final DialogFactory dialogs;
 
-  private IngredientProvider ingredients;
+  private final IngredientProvider ingredients;
   private MealplanerData mealPlan;
   private DatabaseEdit dbaseEdit;
   private ProposalSummary proposalSummary;
 
-  private FileIoGui fileIoGui;
+  private final FileIoGui fileIoGui;
 
   public MainGui(JFrame mainFrame, MealplanerData mealPlan, DialogFactory dialogFactory,
       IngredientProvider ingredientProvider) {
@@ -66,7 +66,7 @@ public class MainGui {
     setupMainFrame(tabPane, menuBar);
   }
 
-  public JMenuBar createMenuBar() {
+  private JMenuBar createMenuBar() {
     MenuBarBuilder builder = new MenuBarBuilder(frame)
         .setupFileMenu()
         .createIngredientsMenu(action -> {
@@ -175,9 +175,9 @@ public class MainGui {
     Settings[] settings = new Settings[outline.getNumberOfDays()];
     Map<DayOfWeek, Settings> defaultSettings = mealPlan.getDefaultSettings()
         .getDefaultSettings();
-    DayOfWeek dayOfWeek = !outline.isIncludedToday()
-        ? mealPlan.getTime().getDayOfWeek().plus(1)
-        : mealPlan.getTime().getDayOfWeek();
+    DayOfWeek dayOfWeek = outline.isIncludedToday()
+        ? mealPlan.getTime().getDayOfWeek()
+        : mealPlan.getTime().getDayOfWeek().plus(1);
     for (int i = 0; i < settings.length; i++) {
       settings[i] = defaultSettings.get(dayOfWeek);
       dayOfWeek = dayOfWeek.plus(1);
@@ -197,7 +197,7 @@ public class MainGui {
     return new ProposalBuilder()
         .firstProposal(today)
         .randomise(random)
-        .propose(mealPlan.getMeals(), set);
+        .propose(set, mealPlan.getMeals());
   }
 
   public void changeDefaultSettings() {
@@ -214,11 +214,19 @@ public class MainGui {
     proposalSummary.update();
   }
 
+  JFrame getFrame() {
+    return frame;
+  }
+
+  void saveDataBase() {
+    fileIoGui.saveDatabase(mealPlan);
+  }
+
   public class SaveExitWindowListener extends WindowAdapter {
     @Override
     public void windowClosing(WindowEvent e) {
-      showSaveExitDialog(frame, BUNDLES.message("saveYesNoQuestion"),
-          () -> fileIoGui.saveDatabase(mealPlan));
+      showSaveExitDialog(getFrame(), BUNDLES.message("saveYesNoQuestion"),
+          () -> saveDataBase());
     }
   }
 }

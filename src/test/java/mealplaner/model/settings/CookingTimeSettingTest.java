@@ -1,9 +1,10 @@
 package mealplaner.model.settings;
 
+import static mealplaner.model.MealBuilder.meal;
+import static mealplaner.model.enums.CookingTime.LONG;
+import static mealplaner.model.enums.CookingTime.SHORT;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -27,12 +28,10 @@ public class CookingTimeSettingTest {
 
   @Test
   public void prohibitCookingTime() {
-    Meal mealLong = mock(Meal.class);
-    when(mealLong.getCookingTime()).thenReturn(CookingTime.LONG);
-    Meal mealShort = mock(Meal.class);
-    when(mealShort.getCookingTime()).thenReturn(CookingTime.SHORT);
+    Meal mealLong = meal().name("test").cookingTime(LONG).create();
+    Meal mealShort = meal().name("test").cookingTime(SHORT).create();
 
-    cookingTimeSetting.prohibitCookingTime(CookingTime.SHORT);
+    cookingTimeSetting.prohibitCookingTime(SHORT);
 
     assertTrue(cookingTimeSetting.prohibits(mealShort));
     assertFalse(cookingTimeSetting.prohibits(mealLong));

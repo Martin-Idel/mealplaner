@@ -5,8 +5,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class CheckboxInputField implements InputField<Boolean> {
+  private final String name;
   private JCheckBox checkBox;
-  private String name;
 
   public CheckboxInputField(String name) {
     this.name = name;

@@ -2,7 +2,7 @@ package mealplaner.commons;
 
 import java.util.function.Function;
 
-public class Pair<L, R> {
+public final class Pair<L, R> {
   public final R right;
   public final L left;
 

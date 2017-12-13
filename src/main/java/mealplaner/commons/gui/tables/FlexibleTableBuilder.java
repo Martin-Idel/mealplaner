@@ -25,9 +25,9 @@ import mealplaner.commons.gui.tables.models.FlexibleTableModel;
 import mealplaner.commons.gui.tables.models.TableColumnData;
 import mealplaner.commons.gui.tables.models.UpdateSizeTableModel;
 
-public class FlexibleTableBuilder {
-  private List<TableColumnData<?>> columns;
-  private List<MouseAdapter> columnListeners;
+public final class FlexibleTableBuilder {
+  private final List<TableColumnData<?>> columns;
+  private final List<MouseAdapter> columnListeners;
   private JTable table;
   private Supplier<Integer> rowCount = () -> 0;
   private Runnable addRow = () -> {
@@ -107,19 +107,23 @@ public class FlexibleTableBuilder {
     InputMap inputMap = table.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
     ActionMap actionMap = table.getActionMap();
     inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), "deleteRow");
-    actionMap.put("deleteRow", new DeleteAction(tableModel));
+    actionMap.put("deleteRow", new DeleteAction(tableModel, table, deleteRow));
   }
 
   private TableColumn getTableColumn(int index) {
     return table.getColumnModel().getColumn(index);
   }
 
-  class DeleteAction extends AbstractAction {
+  static class DeleteAction extends AbstractAction {
     private static final long serialVersionUID = 1L;
-    private FlexibleTableModel tableModel;
+    private final FlexibleTableModel tableModel;
+    private final JTable table;
+    private final Consumer<Integer> deleteRow;
 
-    DeleteAction(FlexibleTableModel tableModel) {
+    DeleteAction(FlexibleTableModel tableModel, JTable table, Consumer<Integer> deleteRow) {
       this.tableModel = tableModel;
+      this.table = table;
+      this.deleteRow = deleteRow;
     }
 
     @Override

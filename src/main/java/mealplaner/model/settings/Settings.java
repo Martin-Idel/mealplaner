@@ -27,7 +27,7 @@ import mealplaner.model.enums.CookingTime;
 import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.PreferenceSettings;
 
-public class Settings {
+public final class Settings {
   private static final Logger logger = LoggerFactory.getLogger(Settings.class);
 
   private final CasseroleSettings casseroleSettings;
@@ -216,15 +216,12 @@ public class Settings {
       return false;
     }
     Settings other = (Settings) obj;
-    if (casseroleSettings != other.casseroleSettings
-        || !cookingPreferences.equals(other.cookingPreferences)
-        || !cookingTime.equals(other.cookingTime)
-        || !cookingUtensil.equals(other.cookingUtensil)
-        || preference != other.preference
-        || !numberOfPeople.equals(other.numberOfPeople)) {
-      return false;
-    }
-    return true;
+    return casseroleSettings == other.casseroleSettings
+        && cookingPreferences.equals(other.cookingPreferences)
+        && cookingTime.equals(other.cookingTime)
+        && cookingUtensil.equals(other.cookingUtensil)
+        && preference.equals(other.preference)
+        && numberOfPeople.equals(other.numberOfPeople);
   }
 
   @Override

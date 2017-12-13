@@ -9,8 +9,8 @@ import javax.swing.JPanel;
 
 public class ButtonPanelEnabling extends Component {
   private static final long serialVersionUID = 1L;
-  private JPanel buttonPanel = new JPanel();
-  private List<JButton> buttonList = new ArrayList<>();
+  private final JPanel buttonPanel = new JPanel();
+  private final List<JButton> buttonList = new ArrayList<>();
 
   public JPanel getPanel() {
     return buttonPanel;

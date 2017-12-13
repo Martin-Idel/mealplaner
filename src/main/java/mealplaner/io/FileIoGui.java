@@ -20,7 +20,7 @@ import mealplaner.MealplanerData;
 import mealplaner.commons.errorhandling.MealException;
 
 public class FileIoGui {
-  private JFrame frame;
+  private final JFrame frame;
   private static final Logger logger = LoggerFactory.getLogger(FileIoGui.class);
 
   public FileIoGui(JFrame frame) {

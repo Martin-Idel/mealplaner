@@ -83,9 +83,7 @@ pmd {
         "java-typeresolution",
         "java-unnecessary",
         "java-unusedcode",
-// TODO: Fix warnings and reenable        
-        // "java-design",     
-        // "java-codesize",
+        "java-design",     
 		]
 }
 

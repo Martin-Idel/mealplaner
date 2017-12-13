@@ -21,8 +21,8 @@ import mealplaner.commons.gui.ButtonPanelEnabling;
 import mealplaner.commons.gui.editing.NonnegativeIntegerCellEditor;
 import mealplaner.commons.gui.tables.models.TableColumnData;
 
-public class TableColumnBuilder<T> {
-  private Class<T> classType;
+public final class TableColumnBuilder<T> {
+  private final Class<T> classType;
   private String name = "";
   private T defaultValue = null;
 
@@ -33,7 +33,7 @@ public class TableColumnBuilder<T> {
   private Optional<TableCellEditor> editor = empty();
   private Optional<TableCellRenderer> renderer = empty();
 
-  protected TableColumnBuilder(Class<T> classType) {
+  private TableColumnBuilder(Class<T> classType) {
     this.classType = classType;
   }
 

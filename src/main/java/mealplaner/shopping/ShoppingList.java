@@ -15,8 +15,8 @@ import mealplaner.recipes.model.Ingredient;
 import mealplaner.recipes.model.QuantitativeIngredient;
 import mealplaner.recipes.model.Recipe;
 
-public class ShoppingList {
-  private Map<Ingredient, NonnegativeInteger> shoppingList;
+public final class ShoppingList {
+  private final Map<Ingredient, NonnegativeInteger> shoppingList;
 
   private ShoppingList(Map<Ingredient, NonnegativeInteger> recipes) {
     shoppingList = recipes;
