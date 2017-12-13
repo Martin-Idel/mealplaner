@@ -35,18 +35,18 @@ public class ShoppingListDialog extends JDialog {
 
   private void createTable(Proposal proposal, IngredientProvider ingredientProvider) {
     if (missingRecipesForCompleteList(proposal)) {
-      disposeIfUserWantsTo();
+      if (disposeIfUserWantsTo()) {
+        return;
+      }
     }
     ShoppingList shoppingList = createShoppingList(proposal);
     display(shoppingList, ingredientProvider);
   }
 
-  private void disposeIfUserWantsTo() {
+  private boolean disposeIfUserWantsTo() {
     int result = JOptionPane.showConfirmDialog(frame,
         BUNDLES.message("notAllRecipesExist"));
-    if (result == JOptionPane.NO_OPTION) {
-      dispose();
-    }
+    return result == JOptionPane.NO_OPTION;
   }
 
   private void display(ShoppingList shoppingList, IngredientProvider ingredientProvider) {

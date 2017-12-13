@@ -23,6 +23,7 @@ import mealplaner.ProposalBuilder;
 import mealplaner.commons.gui.ButtonPanelBuilder;
 import mealplaner.commons.gui.MenuBarBuilder;
 import mealplaner.gui.databaseedit.DatabaseEdit;
+import mealplaner.gui.dialogs.proposaloutput.ProposalTable;
 import mealplaner.gui.factories.DialogFactory;
 import mealplaner.io.FileIoGui;
 import mealplaner.io.IngredientIo;
@@ -82,7 +83,7 @@ public class MainGui {
           dbaseEdit.updateTable();
         })
         .viewProposalMenu(action -> dialogs.createProposalOutputDialog()
-            .showDialog(mealPlan.getLastProposal()))
+            .showDialog(mealPlan.getMeals(), mealPlan.getLastProposal()))
         .createSeparatorForMenu();
 
     builder.createBackupMenu(action -> fileIoGui.createBackup(mealPlan))
@@ -153,9 +154,9 @@ public class MainGui {
   }
 
   public void printProposal() {
-    dialogs.createProposalTableFactory()
-        .createProposalTable(mealPlan.getLastProposal())
-        .printTable(frame);
+    ProposalTable proposalTable = dialogs.createProposalTableFactory();
+    proposalTable.createProposalTable(mealPlan.getLastProposal());
+    proposalTable.printTable(frame);
   }
 
   public void makeProposal() {
@@ -189,8 +190,10 @@ public class MainGui {
     Proposal proposal = propose(settings, outline.isIncludedToday(),
         outline.isShallBeRandomised());
     mealPlan.setLastProposal(proposal);
-    dialogs.createProposalOutputDialog().showDialog(proposal);
-    dialogs.createShoppingListDialog().showDialog(proposal, ingredients);
+    Proposal updatedProposal = dialogs.createProposalOutputDialog()
+        .showDialog(mealPlan.getMeals(), proposal);
+    mealPlan.setLastProposal(updatedProposal);
+    dialogs.createShoppingListDialog().showDialog(updatedProposal, ingredients);
   }
 
   private Proposal propose(Settings[] set, boolean today, boolean random) {

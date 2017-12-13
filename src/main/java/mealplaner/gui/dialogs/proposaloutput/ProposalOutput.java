@@ -1,16 +1,17 @@
 package mealplaner.gui.dialogs.proposaloutput;
 
 import static mealplaner.commons.BundleStore.BUNDLES;
-import static mealplaner.gui.dialogs.proposaloutput.ProposalTableFactory.proposalOutput;
+import static mealplaner.gui.dialogs.proposaloutput.ProposalTable.proposalOutput;
 
 import java.awt.BorderLayout;
+import java.util.List;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import mealplaner.commons.gui.ButtonPanelBuilder;
-import mealplaner.commons.gui.tables.Table;
+import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
 
 public class ProposalOutput extends JDialog {
@@ -22,11 +23,12 @@ public class ProposalOutput extends JDialog {
     this.parentFrame = parentFrame;
   }
 
-  public void showDialog(Proposal lastProposal) {
+  public Proposal showDialog(List<Meal> meals, Proposal lastProposal) {
     JPanel dataPanel = setupDataPanel();
 
-    Table proposalTable = proposalOutput().createProposalTable(lastProposal);
-    proposalTable.addScrollingTableToPane(dataPanel);
+    ProposalTable proposalTable = proposalOutput(meals);
+    proposalTable.createProposalTable(lastProposal);
+    proposalTable.addToScrollingPane(dataPanel);
 
     JPanel buttonPanel = new ButtonPanelBuilder()
         .addButton(BUNDLES.message("printButton"),
@@ -37,6 +39,7 @@ public class ProposalOutput extends JDialog {
 
     arrangeGui(dataPanel, parentFrame, buttonPanel);
     setVisible(true);
+    return proposalTable.getProposal();
   }
 
   private JPanel setupDataPanel() {

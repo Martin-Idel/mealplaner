@@ -1,6 +1,8 @@
 package mealplaner.gui.factories;
 
-import static mealplaner.gui.dialogs.proposaloutput.ProposalTableFactory.proposalOutput;
+import static mealplaner.gui.dialogs.proposaloutput.ProposalTable.proposalOutput;
+
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
@@ -8,7 +10,7 @@ import mealplaner.gui.dialogs.mealinput.MultipleMealInput;
 import mealplaner.gui.dialogs.mealinput.SingleMealInput;
 import mealplaner.gui.dialogs.pastupdate.UpdatePastMeals;
 import mealplaner.gui.dialogs.proposaloutput.ProposalOutput;
-import mealplaner.gui.dialogs.proposaloutput.ProposalTableFactory;
+import mealplaner.gui.dialogs.proposaloutput.ProposalTable;
 import mealplaner.gui.dialogs.settingsinput.DefaultSettingsInput;
 import mealplaner.gui.dialogs.settingsinput.ProposalSettingsInput;
 import mealplaner.recipes.gui.dialogs.ingredients.IngredientsInput;
@@ -46,8 +48,8 @@ public class DialogFactory {
     return new ProposalSettingsInput(frame);
   }
 
-  public ProposalTableFactory createProposalTableFactory() {
-    return proposalOutput();
+  public ProposalTable createProposalTableFactory() {
+    return proposalOutput(new ArrayList<>());
   }
 
   public IngredientsInput createIngredientsInput() {
