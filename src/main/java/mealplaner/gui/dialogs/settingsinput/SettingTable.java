@@ -3,7 +3,6 @@ package mealplaner.gui.dialogs.settingsinput;
 import static java.time.LocalDate.of;
 import static java.time.format.DateTimeFormatter.ofLocalizedDate;
 import static java.time.format.FormatStyle.SHORT;
-import static java.util.stream.Collectors.toList;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.StringArrayCollection.getWeekDays;
 import static mealplaner.commons.gui.tables.FlexibleTableBuilder.createNewTable;
@@ -12,7 +11,6 @@ import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withEnumContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withNonnegativeIntegerContent;
 import static mealplaner.model.settings.CookingTimeSetting.copyCookingTimeSetting;
-import static mealplaner.model.settings.Settings.copy;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -20,8 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.JPanel;
-
+import mealplaner.commons.gui.dialogs.DialogWindow;
 import mealplaner.commons.gui.tables.FlexibleTableBuilder;
 import mealplaner.commons.gui.tables.Table;
 import mealplaner.model.enums.CasseroleSettings;
@@ -48,7 +45,7 @@ public class SettingTable {
 
   public SettingTable(List<Settings> settings, LocalDate date) {
     this.date = date;
-    this.settings = settings.stream().map(setting -> copy(setting)).collect(toList());
+    this.settings = new ArrayList<>(settings);
   }
 
   public Settings[] getSettings() {
@@ -69,7 +66,7 @@ public class SettingTable {
     table.update();
   }
 
-  public void addJScrollTableToPane(JPanel panel) {
+  public void addJScrollTableToDialogCentre(DialogWindow window) {
     FlexibleTableBuilder tableBuilder = createNewTable();
     addDayOfWeekColumn(tableBuilder);
     if (date != null) {
@@ -84,7 +81,7 @@ public class SettingTable {
     addOtherSettings(tableBuilder);
 
     table = tableBuilder.buildTable();
-    table.addScrollingTableToPane(panel);
+    window.addCentral(table.getTableInScrollPane());
   }
 
   private void addOtherSettings(FlexibleTableBuilder tableBuilder) {

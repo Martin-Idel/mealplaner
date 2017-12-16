@@ -7,7 +7,6 @@ import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.ButtonPanelBuilder.justDisposeListener;
 import static mealplaner.model.settings.DefaultSettings.from;
 
-import java.awt.BorderLayout;
 import java.time.DayOfWeek;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +20,6 @@ import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
 
 public class DefaultSettingsInput extends SettingsInput {
-  private static final long serialVersionUID = 1L;
   private final JFrame parentFrame;
 
   public DefaultSettingsInput(JFrame parentFrame) {
@@ -31,33 +29,33 @@ public class DefaultSettingsInput extends SettingsInput {
 
   public Optional<DefaultSettings> showDialog(DefaultSettings settings) {
     setup(settings);
-    setVisible(true);
-    return transformSettingsToDefaultSettings(getEnteredSettings());
+    dialogWindow.setVisible();
+    Optional<Settings[]> changedSettings = getEnteredSettings();
+    return changedSettings.isPresent() ? transformToDefault(changedSettings.get()) : empty();
   }
 
-  protected void setup(DefaultSettings defaultSettings) {
+  private void setup(DefaultSettings defaultSettings) {
     SettingTable settingTable = new SettingTable(defaultSettings);
 
-    JPanel buttonPanel = new ButtonPanelBuilder()
-        .addSaveButton(getSaveListener(settingTable))
-        .addExitButton(justDisposeListener(this))
-        .build();
+    JPanel buttonPanel = createButtonPanel(settingTable);
 
-    settingTable.addJScrollTableToPane(dataPanel);
-    addPanel(buttonPanel, BorderLayout.SOUTH);
+    settingTable.addJScrollTableToDialogCentre(dialogWindow);
+    dialogWindow.addSouth(buttonPanel);
     adjustPanesTo(parentFrame);
   }
 
-  private Optional<DefaultSettings> transformSettingsToDefaultSettings(
-      Optional<Settings[]> settings) {
-    if (settings.isPresent()) {
-      Map<DayOfWeek, Settings> defaultSettings = new HashMap<>();
-      for (int i = 0; i < settings.get().length; i++) {
-        defaultSettings.put(MONDAY.plus(i), settings.get()[i]);
-      }
-      return of(from(defaultSettings));
-    } else {
-      return empty();
+  private JPanel createButtonPanel(SettingTable settingTable) {
+    return new ButtonPanelBuilder()
+        .addSaveButton(getSaveListener(settingTable))
+        .addExitButton(justDisposeListener(dialogWindow))
+        .build();
+  }
+
+  private Optional<DefaultSettings> transformToDefault(Settings... settings) {
+    Map<DayOfWeek, Settings> defaultSettings = new HashMap<>();
+    for (int i = 0; i < settings.length; i++) {
+      defaultSettings.put(MONDAY.plus(i), settings[i]);
     }
+    return of(from(defaultSettings));
   }
 }

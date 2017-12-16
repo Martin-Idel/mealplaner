@@ -3,7 +3,6 @@ package mealplaner.gui.dialogs.settingsinput;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.model.settings.Settings.createSettings;
 
-import java.awt.BorderLayout;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -18,7 +17,6 @@ import mealplaner.model.settings.ProposalOutline;
 import mealplaner.model.settings.Settings;
 
 public class ProposalSettingsInput extends SettingsInput {
-  private static final long serialVersionUID = 1L;
   private final JFrame parentFrame;
   private SettingTable settingTable;
 
@@ -29,7 +27,7 @@ public class ProposalSettingsInput extends SettingsInput {
 
   public Optional<Settings[]> showDialog(DefaultSettings settings, ProposalOutline outline) {
     setup(settings, outline);
-    setVisible(true);
+    dialogWindow.setVisible();
     return getEnteredSettings();
   }
 
@@ -39,22 +37,26 @@ public class ProposalSettingsInput extends SettingsInput {
     return Arrays.asList(settings);
   }
 
-  protected void setup(DefaultSettings defaultSettings, ProposalOutline outline) {
+  private void setup(DefaultSettings defaultSettings, ProposalOutline outline) {
     List<Settings> tableSettings = createSettingsForTable(outline.getNumberOfDays());
     LocalDate date = outline.isIncludedToday() ? outline.getDateToday()
         : outline.getDateToday().plusDays(1);
     settingTable = new SettingTable(tableSettings, date);
 
-    JPanel buttonPanel = new ButtonPanelBuilder()
+    JPanel buttonPanel = createButtonPanel(defaultSettings);
+
+    settingTable.addJScrollTableToDialogCentre(dialogWindow);
+    dialogWindow.addSouth(buttonPanel);
+    adjustPanesTo(parentFrame);
+  }
+
+  private JPanel createButtonPanel(DefaultSettings defaultSettings) {
+    return new ButtonPanelBuilder()
         .addButton(BUNDLES.message("useDefaultButton"),
             BUNDLES.message("useDefaultButtonMnemonic"),
             action -> settingTable.useDefaultSettings(defaultSettings))
-        .addCancelDialogButton(this)
+        .addCancelDialogButton(dialogWindow)
         .addOkButton(getSaveListener(settingTable))
         .build();
-
-    settingTable.addJScrollTableToPane(dataPanel);
-    addPanel(buttonPanel, BorderLayout.SOUTH);
-    adjustPanesTo(parentFrame);
   }
 }

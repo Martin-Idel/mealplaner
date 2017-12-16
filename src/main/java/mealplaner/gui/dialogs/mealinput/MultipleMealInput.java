@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import mealplaner.model.Meal;
 import mealplaner.recipes.provider.IngredientProvider;
 
-public class MultipleMealInput extends MealInput {
+public class MultipleMealInput extends MealInput<List<Meal>> {
   private final List<Meal> newMeals;
 
   public MultipleMealInput(JFrame parent) {
@@ -17,6 +17,7 @@ public class MultipleMealInput extends MealInput {
     newMeals = new ArrayList<>();
   }
 
+  @Override
   public List<Meal> showDialog(IngredientProvider ingredientProvider) {
     display(ingredientProvider, action -> saveMeal());
     dispose();

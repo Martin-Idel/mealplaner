@@ -35,7 +35,7 @@ import mealplaner.recipes.gui.dialogs.recepies.RecipeInput;
 import mealplaner.recipes.model.Recipe;
 import mealplaner.recipes.provider.IngredientProvider;
 
-public abstract class MealInput {
+public abstract class MealInput<T> {
   private final JFrame parentFrame;
   private final DialogWindow dialogWindow;
 
@@ -52,6 +52,8 @@ public abstract class MealInput {
     dialogWindow = DialogWindow.window(parent, BUNDLES.message("mealInputDialogTitle"));
     this.parentFrame = parent;
   }
+
+  public abstract T showDialog(IngredientProvider ingredientProvider);
 
   protected void display(IngredientProvider ingredientProvider, ActionListener saveListener) {
     GridPanel mealCreationPanel = gridPanel(0, 2);
