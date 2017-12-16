@@ -14,7 +14,6 @@ import mealplaner.gui.dialogs.proposaloutput.ProposalTable;
 import mealplaner.gui.dialogs.settingsinput.DefaultSettingsInput;
 import mealplaner.gui.dialogs.settingsinput.ProposalSettingsInput;
 import mealplaner.recipes.gui.dialogs.ingredients.IngredientsInput;
-import mealplaner.recipes.provider.IngredientProvider;
 import mealplaner.shopping.ShoppingListDialog;
 
 public class DialogFactory {
@@ -24,12 +23,12 @@ public class DialogFactory {
     this.frame = parentFrame;
   }
 
-  public MultipleMealInput createMultipleMealInputDialog(IngredientProvider ingredientProvider) {
-    return new MultipleMealInput(frame, ingredientProvider);
+  public MultipleMealInput createMultipleMealInputDialog() {
+    return new MultipleMealInput(frame);
   }
 
-  public SingleMealInput createSingleMealInputDialog(IngredientProvider ingredientProvider) {
-    return new SingleMealInput(frame, ingredientProvider);
+  public SingleMealInput createSingleMealInputDialog() {
+    return new SingleMealInput(frame);
   }
 
   public UpdatePastMeals createUpdatePastMealDialog() {

@@ -151,8 +151,8 @@ public class DatabaseEdit implements DataStoreListener {
         .addButton(BUNDLES.message("addButton"),
             BUNDLES.message("addButtonMnemonic"),
             action -> {
-              Meal newMeal = new SingleMealInput(dataFrame, ingredientProvider)
-                  .showDialog();
+              Meal newMeal = new SingleMealInput(dataFrame)
+                  .showDialog(ingredientProvider);
               insertItem(Optional.of(newMeal));
             })
         .addButton(BUNDLES.message("removeSelectedButton"),

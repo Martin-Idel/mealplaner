@@ -5,26 +5,26 @@ import static java.time.format.FormatStyle.SHORT;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.StringArrayCollection.getWeekDays;
 import static mealplaner.commons.gui.SwingUtilityMethods.autoCompleteCellEditor;
+import static mealplaner.commons.gui.tables.FlexibleTableBuilder.createNewTable;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import mealplaner.commons.gui.tables.FlexibleTableBuilder;
 import mealplaner.commons.gui.tables.Table;
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
 
 public class UpdateTable {
-  private String[] days;
   private List<Meal> meals;
+  private Table updateTable;
 
-  public Table createTable(Proposal lastProposal, List<Meal> mealList, int daySince) {
-    days = getWeekDays();
+  public void createTable(Proposal lastProposal, List<Meal> mealList, int daySince) {
+    String[] days = getWeekDays();
     setupMeals(lastProposal, daySince);
     LocalDate date = lastProposal.getDateOfFirstProposedItem();
-    return FlexibleTableBuilder.createNewTable()
+    updateTable = createNewTable()
         .withRowCount(() -> lastProposal.isToday() ? daySince + 1 : daySince)
         .addColumn(withContent(String.class)
             .withColumnName(BUNDLES.message("date"))
@@ -54,6 +54,14 @@ public class UpdateTable {
         .buildTable();
   }
 
+  public Table getTable() {
+    return updateTable;
+  }
+
+  public List<Meal> returnContent() {
+    return meals;
+  }
+
   private void setupMeals(Proposal lastProposal, int daySince) {
     meals = new ArrayList<Meal>();
     meals.addAll(lastProposal.getProposalList());
@@ -64,9 +72,5 @@ public class UpdateTable {
         meals.add(Meal.EMPTY_MEAL);
       }
     }
-  }
-
-  public List<Meal> returnContent() {
-    return meals;
   }
 }

@@ -3,24 +3,23 @@ package mealplaner.gui.dialogs.mealinput;
 import static java.util.Optional.of;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.NonnegativeInteger.ZERO;
+import static mealplaner.commons.gui.GridPanel.gridPanel;
 import static mealplaner.model.Meal.createMeal;
 import static mealplaner.recipes.model.Recipe.createRecipe;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.WindowConstants;
 
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.gui.ButtonPanelBuilder;
+import mealplaner.commons.gui.GridPanel;
+import mealplaner.commons.gui.dialogs.DialogWindow;
 import mealplaner.commons.gui.inputfields.ButtonInputField;
 import mealplaner.commons.gui.inputfields.ComboBoxInputField;
 import mealplaner.commons.gui.inputfields.InputField;
@@ -36,25 +35,42 @@ import mealplaner.recipes.gui.dialogs.recepies.RecipeInput;
 import mealplaner.recipes.model.Recipe;
 import mealplaner.recipes.provider.IngredientProvider;
 
-public abstract class MealInput extends JDialog {
-  private static final long serialVersionUID = 1L;
+public abstract class MealInput {
   private final JFrame parentFrame;
-  private JPanel mealCreationPanel;
-  private JPanel buttonPanel;
+  private final DialogWindow dialogWindow;
 
-  private final InputField<Optional<String>> nameField;
-  private final InputField<CookingTime> cookingTimeField;
-  private final InputField<Sidedish> sidedishField;
-  private final InputField<ObligatoryUtensil> obligatoryUtensilField;
-  private final InputField<NonnegativeInteger> daysPassedField;
-  private final InputField<CookingPreference> preferenceField;
-  private final InputField<String> commentField;
-  private final InputField<Optional<Recipe>> recipeInputField;
+  private InputField<Optional<String>> nameField;
+  private InputField<CookingTime> cookingTimeField;
+  private InputField<Sidedish> sidedishField;
+  private InputField<ObligatoryUtensil> obligatoryUtensilField;
+  private InputField<NonnegativeInteger> daysPassedField;
+  private InputField<CookingPreference> preferenceField;
+  private InputField<String> commentField;
+  private InputField<Optional<Recipe>> recipeInputField;
 
-  public MealInput(JFrame parent, IngredientProvider ingredientProvider) {
-    super(parent, BUNDLES.message("mealInputDialogTitle"), true);
+  public MealInput(JFrame parent) {
+    dialogWindow = DialogWindow.window(parent, BUNDLES.message("mealInputDialogTitle"));
     this.parentFrame = parent;
+  }
 
+  protected void display(IngredientProvider ingredientProvider, ActionListener saveListener) {
+    GridPanel mealCreationPanel = gridPanel(0, 2);
+    initialiseInputFields(ingredientProvider);
+
+    allFields().forEach(field -> field.addToPanel(mealCreationPanel.getPanel()));
+
+    JPanel buttonPanel = new ButtonPanelBuilder()
+        .addSaveButton(saveListener)
+        .addCancelDialogButton(dialogWindow)
+        .build();
+
+    dialogWindow.addCentral(mealCreationPanel.getPanel());
+    dialogWindow.addSouth(buttonPanel);
+    dialogWindow.arrangeWithSize(300, 400);
+    dialogWindow.setVisible();
+  }
+
+  private void initialiseInputFields(IngredientProvider ingredientProvider) {
     nameField = new NonEmptyTextInputField(BUNDLES.message("insertMealName"));
     cookingTimeField = new ComboBoxInputField<CookingTime>(
         BUNDLES.message("insertMealLength"),
@@ -90,41 +106,18 @@ public abstract class MealInput extends JDialog {
     return recipeInput.showDialog(recipe, ingredientProvider);
   }
 
-  protected void display(ActionListener saveListener) {
-    mealCreationPanel = new JPanel();
-    mealCreationPanel.setLayout(new GridLayout(0, 2));
-
-    allFields().forEach(field -> field.addToPanel(mealCreationPanel));
-
-    buttonPanel = new ButtonPanelBuilder()
-        .addSaveButton(saveListener)
-        .addCancelDialogButton(this)
-        .build();
-
-    setupPanelsInDialogFrame();
-    setVisible(true);
-  }
-
-  private void setupPanelsInDialogFrame() {
-    JPanel dialogPanel = new JPanel();
-    dialogPanel.setLayout(new BorderLayout());
-    dialogPanel.add(mealCreationPanel, BorderLayout.CENTER);
-    dialogPanel.add(buttonPanel, BorderLayout.SOUTH);
-
-    getContentPane().add(dialogPanel);
-    pack();
-    setLocationRelativeTo(parentFrame);
-    setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-  }
-
   protected void resetFields() {
     allFields().forEach(InputField::resetField);
+  }
+
+  protected void dispose() {
+    dialogWindow.dispose();
   }
 
   protected Optional<Meal> getMealAndShowDialog() {
     Optional<Meal> mealFromInput = getMealFromUserInput();
     if (!mealFromInput.isPresent()) {
-      JOptionPane.showMessageDialog(null, BUNDLES.message("menuNameChoiceEmpty"),
+      JOptionPane.showMessageDialog(parentFrame, BUNDLES.message("menuNameChoiceEmpty"),
           BUNDLES.message("errorHeading"), JOptionPane.INFORMATION_MESSAGE);
     }
     return mealFromInput;

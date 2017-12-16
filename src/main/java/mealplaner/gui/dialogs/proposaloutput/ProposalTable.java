@@ -21,14 +21,12 @@ import mealplaner.model.Proposal;
 public final class ProposalTable {
   private final List<Meal> proposalMeals = new ArrayList<>();
   private final List<Meal> meals;
-  private final String[] days;
   private LocalDate newDate;
   private Proposal lastProposal;
   private Table proposalTable;
 
   private ProposalTable(List<Meal> meals) {
     this.meals = meals;
-    days = getWeekDays();
   }
 
   public static ProposalTable proposalOutput(List<Meal> meals) {
@@ -37,6 +35,8 @@ public final class ProposalTable {
 
   public void setupProposalTable(Proposal lastProposal) {
     this.lastProposal = lastProposal;
+    String[] days = getWeekDays();
+
     lastProposal.getProposalList().forEach(proposalMeals::add);
     newDate = lastProposal.getDateOfFirstProposedItem();
     proposalTable = createNewTable()

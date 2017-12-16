@@ -10,16 +10,15 @@ import mealplaner.model.Meal;
 import mealplaner.recipes.provider.IngredientProvider;
 
 public class MultipleMealInput extends MealInput {
-  private static final long serialVersionUID = 1L;
   private final List<Meal> newMeals;
 
-  public MultipleMealInput(JFrame parent, IngredientProvider ingredientProvider) {
-    super(parent, ingredientProvider);
+  public MultipleMealInput(JFrame parent) {
+    super(parent);
     newMeals = new ArrayList<>();
   }
 
-  public List<Meal> showDialog() {
-    display(action -> saveMeal());
+  public List<Meal> showDialog(IngredientProvider ingredientProvider) {
+    display(ingredientProvider, action -> saveMeal());
     dispose();
     return newMeals;
   }

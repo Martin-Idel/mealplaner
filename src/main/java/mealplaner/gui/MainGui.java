@@ -77,8 +77,8 @@ public class MainGui {
           IngredientIo.saveXml(ingredients);
         })
         .createMealMenu(action -> {
-          dialogs.createMultipleMealInputDialog(ingredients)
-              .showDialog()
+          dialogs.createMultipleMealInputDialog()
+              .showDialog(ingredients)
               .forEach(meal -> mealPlan.addMeal(meal));
           dbaseEdit.updateTable();
         })
