@@ -20,6 +20,10 @@ public class ButtonPanelBuilder {
     panel = new JPanel();
   }
 
+  public static ButtonPanelBuilder builder() {
+    return new ButtonPanelBuilder();
+  }
+
   public ButtonPanelBuilder addExitButton(ActionListener listener) {
     buttonList.add(createButton(BUNDLES.message("exitButton"),
         BUNDLES.message("exitButtonMnemonic"),

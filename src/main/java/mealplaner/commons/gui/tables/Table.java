@@ -26,6 +26,10 @@ public final class Table {
     panel.add(table, BorderLayout.CENTER);
   }
 
+  public JScrollPane getTableInScrollPane() {
+    return new JScrollPane(table);
+  }
+
   public void addScrollingTableToPane(JPanel panel) {
     JScrollPane scrollPanel = new JScrollPane(table);
     panel.add(scrollPanel, BorderLayout.CENTER);
