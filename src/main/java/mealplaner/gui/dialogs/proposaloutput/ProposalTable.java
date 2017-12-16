@@ -14,15 +14,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
 import mealplaner.commons.gui.tables.Table;
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
 
-// TODO: Clean up, this is a bit messy
-// TODO: Make row non-editable if this is called from JMenu or else persist state.
 public final class ProposalTable {
   private final List<Meal> proposalMeals = new ArrayList<>();
   private final List<Meal> meals;
@@ -40,7 +35,7 @@ public final class ProposalTable {
     return new ProposalTable(meals);
   }
 
-  public void createProposalTable(Proposal lastProposal) {
+  public void setupProposalTable(Proposal lastProposal) {
     this.lastProposal = lastProposal;
     lastProposal.getProposalList().forEach(proposalMeals::add);
     newDate = lastProposal.getDateOfFirstProposedItem();
@@ -68,12 +63,8 @@ public final class ProposalTable {
         .buildTable();
   }
 
-  public void addToScrollingPane(JPanel panel) {
-    proposalTable.addScrollingTableToPane(panel);
-  }
-
-  public void printTable(JFrame frame) {
-    proposalTable.printTable(frame);
+  public Table getTable() {
+    return proposalTable;
   }
 
   public Proposal getProposal() {

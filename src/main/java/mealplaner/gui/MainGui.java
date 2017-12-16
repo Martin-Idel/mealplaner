@@ -155,8 +155,8 @@ public class MainGui {
 
   public void printProposal() {
     ProposalTable proposalTable = dialogs.createProposalTableFactory();
-    proposalTable.createProposalTable(mealPlan.getLastProposal());
-    proposalTable.printTable(frame);
+    proposalTable.setupProposalTable(mealPlan.getLastProposal());
+    proposalTable.getTable().printTable(frame);
   }
 
   public void makeProposal() {
