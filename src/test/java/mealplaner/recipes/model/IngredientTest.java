@@ -1,6 +1,7 @@
 package mealplaner.recipes.model;
 
 import static mealplaner.recipes.model.Ingredient.generateXml;
+import static mealplaner.recipes.model.Ingredient.ingredient;
 import static mealplaner.recipes.model.Ingredient.loadFromXml;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.createDocument;
@@ -14,7 +15,7 @@ public class IngredientTest {
 
   @Test
   public void testCorrectXmlSavingAndLoading() throws ParserConfigurationException {
-    Ingredient expected = new Ingredient("Test", IngredientType.FRESH_FRUIT, Measure.GRAM);
+    Ingredient expected = ingredient("Test", IngredientType.FRESH_FRUIT, Measure.GRAM);
     Document doc = createDocument();
 
     Ingredient actual = loadFromXml(generateXml(doc, expected, "ingredient"));

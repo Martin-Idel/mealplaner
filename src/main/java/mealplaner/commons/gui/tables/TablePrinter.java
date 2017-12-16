@@ -2,9 +2,9 @@ package mealplaner.commons.gui.tables;
 
 import static mealplaner.commons.BundleStore.BUNDLES;
 
+import java.awt.Component;
 import java.awt.print.PrinterException;
 
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
@@ -17,7 +17,7 @@ public final class TablePrinter {
   private TablePrinter() {
   }
 
-  public static void printTable(JTable table, JFrame frame) {
+  public static void printTable(JTable table, Component frame) {
     try {
       table.print();
     } catch (PrinterException exc) {

@@ -1,6 +1,7 @@
 package mealplaner.recipes.model;
 
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
+import static mealplaner.recipes.model.Ingredient.ingredient;
 import static mealplaner.recipes.model.QuantitativeIngredient.create;
 import static mealplaner.recipes.model.Recipe.from;
 import static mealplaner.recipes.model.Recipe.loadRecipe;
@@ -30,10 +31,8 @@ public class RecipeTest {
 
   @Before
   public void setUp() {
-    anIngredient1 = new Ingredient("Test1", IngredientType.FRESH_FRUIT,
-        Measure.GRAM);
-    anIngredient2 = new Ingredient("Test2", IngredientType.BAKING_GOODS,
-        Measure.MILLILITRE);
+    anIngredient1 = ingredient("Test1", IngredientType.FRESH_FRUIT, Measure.GRAM);
+    anIngredient2 = ingredient("Test2", IngredientType.BAKING_GOODS, Measure.MILLILITRE);
     quantitativeIngredient1 = create(anIngredient1, nonNegative(1));
     quantitativeIngredient2 = create(anIngredient2, nonNegative(10));
     quantitativeIngredient3 = create(anIngredient1, nonNegative(10));

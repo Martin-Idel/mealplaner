@@ -1,8 +1,8 @@
 package mealplaner.commons.gui.tables;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -39,7 +39,7 @@ public final class Table {
     return table;
   }
 
-  public void printTable(JFrame frame) {
+  public void printTable(Component frame) {
     TablePrinter.printTable(table, frame);
   }
 

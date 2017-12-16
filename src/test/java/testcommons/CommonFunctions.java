@@ -7,6 +7,7 @@ import static mealplaner.model.Meal.createMeal;
 import static mealplaner.model.Proposal.from;
 import static mealplaner.model.settings.CookingTimeSetting.cookingTimeWithProhibited;
 import static mealplaner.model.settings.Settings.from;
+import static mealplaner.recipes.model.Ingredient.ingredient;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -97,18 +98,15 @@ public final class CommonFunctions {
   }
 
   public static Ingredient getIngredient1() {
-    return new Ingredient("Test1", IngredientType.FRESH_FRUIT,
-        Measure.GRAM);
+    return ingredient("Test1", IngredientType.FRESH_FRUIT, Measure.GRAM);
   }
 
   public static Ingredient getIngredient2() {
-    return new Ingredient("Test2", IngredientType.BAKING_GOODS,
-        Measure.MILLILITRE);
+    return ingredient("Test2", IngredientType.BAKING_GOODS, Measure.MILLILITRE);
   }
 
   public static Ingredient getIngredient3() {
-    return new Ingredient("Test3", IngredientType.CANNED_FRUIT,
-        Measure.GRAM);
+    return ingredient("Test3", IngredientType.CANNED_FRUIT, Measure.GRAM);
   }
 
   public static Settings getSettings1() {

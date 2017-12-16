@@ -23,10 +23,14 @@ public class Ingredient {
     this("no name", IngredientType.OTHER, Measure.NONE);
   }
 
-  public Ingredient(String name, IngredientType type, Measure measure) {
+  private Ingredient(String name, IngredientType type, Measure measure) {
     this.name = name;
     this.type = type;
     this.measure = measure;
+  }
+
+  public static Ingredient ingredient(String name, IngredientType type, Measure measure) {
+    return new Ingredient(name, type, measure);
   }
 
   public static Ingredient emptyIngredient() {
