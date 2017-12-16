@@ -4,16 +4,12 @@ import static java.time.format.DateTimeFormatter.ofLocalizedDate;
 import static java.time.format.FormatStyle.SHORT;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.StringArrayCollection.getWeekDays;
+import static mealplaner.commons.gui.SwingUtilityMethods.autoCompleteCellEditor;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.JComboBox;
-
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
-import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 
 import mealplaner.commons.gui.tables.FlexibleTableBuilder;
 import mealplaner.commons.gui.tables.Table;
@@ -53,8 +49,7 @@ public class UpdateTable {
                     .findAny()
                     .orElse(Meal.EMPTY_MEAL))
             .isEditable()
-            .overwriteTableCellEditor(
-                new ComboBoxCellEditor(createAutoCompletion(mealList)))
+            .overwriteTableCellEditor(autoCompleteCellEditor(mealList, Meal::getName))
             .build())
         .buildTable();
   }
@@ -73,16 +68,5 @@ public class UpdateTable {
 
   public List<Meal> returnContent() {
     return meals;
-  }
-
-  private JComboBox<String> createAutoCompletion(List<Meal> meals) {
-    String[] mealAndEmptyMeal = new String[meals.size() + 1];
-    for (int i = 0; i < meals.size(); i++) {
-      mealAndEmptyMeal[i] = meals.get(i).getName();
-    }
-    mealAndEmptyMeal[mealAndEmptyMeal.length - 1] = "";
-    JComboBox<String> autoCompleteBox = new JComboBox<String>(mealAndEmptyMeal);
-    AutoCompleteDecorator.decorate(autoCompleteBox);
-    return autoCompleteBox;
   }
 }

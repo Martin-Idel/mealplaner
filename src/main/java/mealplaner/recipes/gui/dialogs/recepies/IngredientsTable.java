@@ -2,17 +2,13 @@ package mealplaner.recipes.gui.dialogs.recepies;
 
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.NonnegativeInteger.ZERO;
+import static mealplaner.commons.gui.SwingUtilityMethods.autoCompleteCellEditor;
 import static mealplaner.commons.gui.tables.FlexibleTableBuilder.createNewTable;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withNonnegativeIntegerContent;
 import static mealplaner.recipes.model.QuantitativeIngredient.create;
 
 import java.util.List;
-
-import javax.swing.JComboBox;
-
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
-import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 
 import mealplaner.commons.gui.tables.Table;
 import mealplaner.commons.gui.tables.TableColumnBuilder;
@@ -27,7 +23,6 @@ public final class IngredientsTable {
 
   public static Table setupTable(List<QuantitativeIngredient> ingredients,
       IngredientProvider ingredientProvider) {
-    JComboBox<String> autoCompleteBox = setupIngredientsAutoCompleteBox(ingredientProvider);
     return createNewTable()
         .withRowCount(ingredients::size)
         .addColumn(withContent(String.class)
@@ -47,7 +42,8 @@ public final class IngredientsTable {
                 ingredient -> ingredient.getIngredient().getName())
             .isEditable()
             .setDefaultValueForEmptyRow("")
-            .overwriteTableCellEditor(new ComboBoxCellEditor(autoCompleteBox))
+            .overwriteTableCellEditor(
+                autoCompleteCellEditor(ingredientProvider.getIngredients(), Ingredient::getName))
             .build())
         .addColumn(withNonnegativeIntegerContent()
             .withColumnName(BUNDLES.message("ingredientAmountColumn"))
@@ -69,18 +65,5 @@ public final class IngredientsTable {
         })
         .deleteRowsOnDelete(row -> ingredients.remove((int) row))
         .buildDynamicTable();
-  }
-
-  private static JComboBox<String> setupIngredientsAutoCompleteBox(
-      IngredientProvider ingredientProvider) {
-    List<Ingredient> ingredients = ingredientProvider.getIngredients();
-    String[] ingredientsArray = new String[ingredientProvider.size() + 1];
-    for (int i = 0; i < ingredients.size(); i++) {
-      ingredientsArray[i] = ingredients.get(i).getName();
-    }
-    ingredientsArray[ingredientsArray.length - 1] = "";
-    JComboBox<String> autoCompleteBox = new JComboBox<>(ingredientsArray);
-    AutoCompleteDecorator.decorate(autoCompleteBox);
-    return autoCompleteBox;
   }
 }

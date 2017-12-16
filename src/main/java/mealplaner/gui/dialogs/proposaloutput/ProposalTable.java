@@ -4,6 +4,7 @@ import static java.time.format.DateTimeFormatter.ofLocalizedDate;
 import static java.time.format.FormatStyle.SHORT;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.StringArrayCollection.getWeekDays;
+import static mealplaner.commons.gui.SwingUtilityMethods.autoCompleteCellEditor;
 import static mealplaner.commons.gui.tables.FlexibleTableBuilder.createNewTable;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
 import static mealplaner.model.Meal.EMPTY_MEAL;
@@ -13,12 +14,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
-import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 
 import mealplaner.commons.gui.tables.Table;
 import mealplaner.model.Meal;
@@ -47,7 +44,6 @@ public final class ProposalTable {
     this.lastProposal = lastProposal;
     lastProposal.getProposalList().forEach(proposalMeals::add);
     newDate = lastProposal.getDateOfFirstProposedItem();
-    JComboBox<String> autoCompleteComboBox = createAutoCompletion(meals);
     proposalTable = createNewTable()
         .withRowCount(proposalMeals::size)
         .addColumn(withContent(String.class)
@@ -67,7 +63,7 @@ public final class ProposalTable {
                 meal -> meal.equals(Meal.EMPTY_MEAL) ? "" : meal.getName())
             .setRowValueToUnderlyingModel((name, row) -> proposalMeals.set(row, findMeal(name)))
             .isEditable()
-            .overwriteTableCellEditor(new ComboBoxCellEditor(autoCompleteComboBox))
+            .overwriteTableCellEditor(autoCompleteCellEditor(meals, Meal::getName))
             .build())
         .buildTable();
   }
@@ -89,16 +85,5 @@ public final class ProposalTable {
         .filter(meal -> meal.getName().equals(name))
         .findFirst()
         .orElse(EMPTY_MEAL);
-  }
-
-  private JComboBox<String> createAutoCompletion(List<Meal> meals) {
-    String[] mealAndEmptyMeal = new String[meals.size() + 1];
-    for (int i = 0; i < meals.size(); i++) {
-      mealAndEmptyMeal[i] = meals.get(i).getName();
-    }
-    mealAndEmptyMeal[mealAndEmptyMeal.length - 1] = "";
-    JComboBox<String> autoCompleteBox = new JComboBox<String>(mealAndEmptyMeal);
-    AutoCompleteDecorator.decorate(autoCompleteBox);
-    return autoCompleteBox;
   }
 }
