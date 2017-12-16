@@ -34,10 +34,8 @@ public class ShoppingListDialog extends JDialog {
   }
 
   private void createTable(Proposal proposal, IngredientProvider ingredientProvider) {
-    if (missingRecipesForCompleteList(proposal)) {
-      if (disposeIfUserWantsTo()) {
-        return;
-      }
+    if (missingRecipesForCompleteList(proposal) && disposeIfUserWantsTo()) {
+      return;
     }
     ShoppingList shoppingList = createShoppingList(proposal);
     display(shoppingList, ingredientProvider);
