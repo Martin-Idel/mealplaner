@@ -14,7 +14,7 @@ import javax.swing.JTable;
 
 import org.junit.Test;
 
-import mealplaner.commons.gui.ButtonPanelEnabling;
+import mealplaner.commons.gui.buttonpanel.ButtonPanelEnabling;
 
 public class UpdateSizeTableModelTest {
 

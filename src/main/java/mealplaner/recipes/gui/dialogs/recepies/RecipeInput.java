@@ -3,17 +3,17 @@ package mealplaner.recipes.gui.dialogs.recepies;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.NonnegativeInteger.FOUR;
 import static mealplaner.commons.gui.GridPanel.gridPanel;
+import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
 import static mealplaner.recipes.model.Recipe.createRecipe;
 
 import java.awt.event.ActionListener;
 import java.util.Optional;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import mealplaner.commons.NonnegativeInteger;
-import mealplaner.commons.gui.ButtonPanelBuilder;
 import mealplaner.commons.gui.GridPanel;
+import mealplaner.commons.gui.buttonpanel.ButtonPanel;
 import mealplaner.commons.gui.dialogs.DialogWindow;
 import mealplaner.commons.gui.inputfields.InputField;
 import mealplaner.commons.gui.inputfields.NonnegativeIntegerInputField;
@@ -41,15 +41,15 @@ public class RecipeInput {
   private void display(Optional<Recipe> recipe, IngredientProvider ingredients) {
     nonnegativeIntegerInputField = setupInputField(recipe);
     GridPanel inputFieldPanel = gridPanel(0, 2);
-    nonnegativeIntegerInputField.addToPanel(inputFieldPanel.getPanel());
+    nonnegativeIntegerInputField.addToPanel(inputFieldPanel.getComponent());
 
     recipeTable = new RecipeTable(recipe.orElse(createRecipe()), ingredients);
     Table table = recipeTable.setupTable();
 
-    JPanel buttonPanel = displayButtons();
+    ButtonPanel buttonPanel = displayButtons();
 
-    dialogWindow.addNorth(inputFieldPanel.getPanel());
-    dialogWindow.addCentral(table.getTableInScrollPane());
+    dialogWindow.addNorth(inputFieldPanel);
+    dialogWindow.addCentral(table);
     dialogWindow.addSouth(buttonPanel);
     dialogWindow.arrangeWithSize(300, 300);
     dialogWindow.setVisible();
@@ -63,8 +63,8 @@ public class RecipeInput {
             : FOUR);
   }
 
-  private JPanel displayButtons() {
-    return new ButtonPanelBuilder()
+  private ButtonPanel displayButtons() {
+    return builder()
         .addCancelDialogButton(dialogWindow)
         .addOkButton(getSaveListener(recipeTable))
         .build();

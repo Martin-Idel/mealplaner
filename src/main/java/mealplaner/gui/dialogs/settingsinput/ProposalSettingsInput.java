@@ -1,6 +1,7 @@
 package mealplaner.gui.dialogs.settingsinput;
 
 import static mealplaner.commons.BundleStore.BUNDLES;
+import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
 import static mealplaner.model.settings.Settings.createSettings;
 
 import java.time.LocalDate;
@@ -9,9 +10,8 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
-import mealplaner.commons.gui.ButtonPanelBuilder;
+import mealplaner.commons.gui.buttonpanel.ButtonPanel;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.ProposalOutline;
 import mealplaner.model.settings.Settings;
@@ -43,15 +43,15 @@ public class ProposalSettingsInput extends SettingsInput {
         : outline.getDateToday().plusDays(1);
     settingTable = new SettingTable(tableSettings, date);
 
-    JPanel buttonPanel = createButtonPanel(defaultSettings);
+    ButtonPanel buttonPanel = createButtonPanel(defaultSettings);
 
     settingTable.addJScrollTableToDialogCentre(dialogWindow);
     dialogWindow.addSouth(buttonPanel);
     adjustPanesTo(parentFrame);
   }
 
-  private JPanel createButtonPanel(DefaultSettings defaultSettings) {
-    return new ButtonPanelBuilder()
+  private ButtonPanel createButtonPanel(DefaultSettings defaultSettings) {
+    return builder()
         .addButton(BUNDLES.message("useDefaultButton"),
             BUNDLES.message("useDefaultButtonMnemonic"),
             action -> settingTable.useDefaultSettings(defaultSettings))

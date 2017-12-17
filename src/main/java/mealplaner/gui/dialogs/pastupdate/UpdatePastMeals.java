@@ -3,16 +3,16 @@ package mealplaner.gui.dialogs.pastupdate;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static mealplaner.commons.BundleStore.BUNDLES;
+import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
 import static mealplaner.commons.gui.dialogs.DialogWindow.window;
 
 import java.util.List;
 import java.util.Optional;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import mealplaner.DataStore;
-import mealplaner.commons.gui.ButtonPanelBuilder;
+import mealplaner.commons.gui.buttonpanel.ButtonPanel;
 import mealplaner.commons.gui.dialogs.DialogWindow;
 import mealplaner.model.Meal;
 
@@ -35,9 +35,9 @@ public class UpdatePastMeals {
     updateTable.createTable(mealPlan.getLastProposal(),
         mealPlan.getMeals(), mealPlan.getDaysPassed());
 
-    JPanel buttonPanel = displayButtons();
+    ButtonPanel buttonPanel = displayButtons();
 
-    dialogWindow.addCentral(updateTable.getTable().getTableInScrollPane());
+    dialogWindow.addCentral(updateTable.getTable());
     dialogWindow.addSouth(buttonPanel);
     dialogWindow.arrangeWithSize(300, 300);
     if (mealPlan.getDaysPassed() != 0) {
@@ -45,8 +45,8 @@ public class UpdatePastMeals {
     }
   }
 
-  private JPanel displayButtons() {
-    return new ButtonPanelBuilder()
+  private ButtonPanel displayButtons() {
+    return builder()
         .addSaveButton(action -> {
           changedMeals = of(updateTable.returnContent());
           dialogWindow.dispose();

@@ -17,7 +17,7 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import mealplaner.commons.NonnegativeInteger;
-import mealplaner.commons.gui.ButtonPanelEnabling;
+import mealplaner.commons.gui.buttonpanel.ButtonPanelEnabling;
 import mealplaner.commons.gui.editing.NonnegativeIntegerCellEditor;
 import mealplaner.commons.gui.tables.models.TableColumnData;
 

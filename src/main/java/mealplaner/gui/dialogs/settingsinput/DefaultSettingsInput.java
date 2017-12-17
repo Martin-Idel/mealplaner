@@ -4,7 +4,8 @@ import static java.time.DayOfWeek.MONDAY;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static mealplaner.commons.BundleStore.BUNDLES;
-import static mealplaner.commons.gui.ButtonPanelBuilder.justDisposeListener;
+import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
+import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.justDisposeListener;
 import static mealplaner.model.settings.DefaultSettings.from;
 
 import java.time.DayOfWeek;
@@ -13,9 +14,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
-import mealplaner.commons.gui.ButtonPanelBuilder;
+import mealplaner.commons.gui.buttonpanel.ButtonPanel;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
 
@@ -37,15 +37,15 @@ public class DefaultSettingsInput extends SettingsInput {
   private void setup(DefaultSettings defaultSettings) {
     SettingTable settingTable = new SettingTable(defaultSettings);
 
-    JPanel buttonPanel = createButtonPanel(settingTable);
+    ButtonPanel buttonPanel = createButtonPanel(settingTable);
 
     settingTable.addJScrollTableToDialogCentre(dialogWindow);
     dialogWindow.addSouth(buttonPanel);
     adjustPanesTo(parentFrame);
   }
 
-  private JPanel createButtonPanel(SettingTable settingTable) {
-    return new ButtonPanelBuilder()
+  private ButtonPanel createButtonPanel(SettingTable settingTable) {
+    return builder()
         .addSaveButton(getSaveListener(settingTable))
         .addExitButton(justDisposeListener(dialogWindow))
         .build();

@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 import javax.swing.JPanel;
 
-public final class GridPanel implements Serializable {
+public final class GridPanel implements Serializable, GuiComponent {
   private static final long serialVersionUID = 1L;
 
   private final JPanel gridPanel;
@@ -19,7 +19,8 @@ public final class GridPanel implements Serializable {
     return new GridPanel(rows, columns);
   }
 
-  public JPanel getPanel() {
+  @Override
+  public JPanel getComponent() {
     return gridPanel;
   }
 }

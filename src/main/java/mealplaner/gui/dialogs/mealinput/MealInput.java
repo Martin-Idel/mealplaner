@@ -4,6 +4,7 @@ import static java.util.Optional.of;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.NonnegativeInteger.ZERO;
 import static mealplaner.commons.gui.GridPanel.gridPanel;
+import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
 import static mealplaner.model.Meal.createMeal;
 import static mealplaner.recipes.model.Recipe.createRecipe;
 
@@ -14,11 +15,10 @@ import java.util.stream.Stream;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 import mealplaner.commons.NonnegativeInteger;
-import mealplaner.commons.gui.ButtonPanelBuilder;
 import mealplaner.commons.gui.GridPanel;
+import mealplaner.commons.gui.buttonpanel.ButtonPanel;
 import mealplaner.commons.gui.dialogs.DialogWindow;
 import mealplaner.commons.gui.inputfields.ButtonInputField;
 import mealplaner.commons.gui.inputfields.ComboBoxInputField;
@@ -59,14 +59,11 @@ public abstract class MealInput<T> {
     GridPanel mealCreationPanel = gridPanel(0, 2);
     initialiseInputFields(ingredientProvider);
 
-    allFields().forEach(field -> field.addToPanel(mealCreationPanel.getPanel()));
+    allFields().forEach(field -> field.addToPanel(mealCreationPanel.getComponent()));
 
-    JPanel buttonPanel = new ButtonPanelBuilder()
-        .addSaveButton(saveListener)
-        .addCancelDialogButton(dialogWindow)
-        .build();
+    ButtonPanel buttonPanel = buildButtonPanel(saveListener);
 
-    dialogWindow.addCentral(mealCreationPanel.getPanel());
+    dialogWindow.addCentral(mealCreationPanel);
     dialogWindow.addSouth(buttonPanel);
     dialogWindow.arrangeWithSize(300, 400);
     dialogWindow.setVisible();
@@ -99,6 +96,13 @@ public abstract class MealInput<T> {
         BUNDLES.message("editRecipeButtonLabel"),
         BUNDLES.message("createRecipeButtonLabel"),
         of(createRecipe()), content -> createRecipeDialog(ingredientProvider, content));
+  }
+
+  private ButtonPanel buildButtonPanel(ActionListener saveListener) {
+    return builder()
+        .addSaveButton(saveListener)
+        .addCancelDialogButton(dialogWindow)
+        .build();
   }
 
   private Optional<Recipe> createRecipeDialog(IngredientProvider ingredientProvider,

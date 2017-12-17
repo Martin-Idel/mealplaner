@@ -3,6 +3,7 @@ package mealplaner.gui.databaseedit;
 import static java.util.stream.Collectors.toList;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.Utils.not;
+import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
 import static mealplaner.commons.gui.tables.FlexibleTableBuilder.createNewTable;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withEnumContent;
@@ -22,8 +23,7 @@ import javax.swing.JPanel;
 import mealplaner.DataStore;
 import mealplaner.DataStoreEventType;
 import mealplaner.DataStoreListener;
-import mealplaner.commons.gui.ButtonPanelBuilder;
-import mealplaner.commons.gui.ButtonPanelEnabling;
+import mealplaner.commons.gui.buttonpanel.ButtonPanelEnabling;
 import mealplaner.commons.gui.editing.NonemptyTextCellEditor;
 import mealplaner.commons.gui.tables.Table;
 import mealplaner.gui.dialogs.mealinput.SingleMealInput;
@@ -63,8 +63,8 @@ public class DatabaseEdit implements DataStoreListener {
     buttonPanel.disableButtons();
 
     table = createTable(ingredientProvider);
-    table.addScrollingTableToPane(dataPanel);
 
+    dataPanel.add(table.getComponent(), BorderLayout.CENTER);
     dataPanel.add(buttonPanel.getPanel(), BorderLayout.SOUTH);
   }
 
@@ -147,7 +147,7 @@ public class DatabaseEdit implements DataStoreListener {
 
   private ButtonPanelEnabling createButtonPanelWithEnabling(Consumer<List<Meal>> setData,
       IngredientProvider ingredientProvider) {
-    return new ButtonPanelBuilder()
+    return builder()
         .addButton(BUNDLES.message("addButton"),
             BUNDLES.message("addButtonMnemonic"),
             action -> {

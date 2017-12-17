@@ -3,8 +3,10 @@ package mealplaner.gui;
 import static java.time.LocalDate.now;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.MessageDialog.showSaveExitDialog;
+import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.DayOfWeek;
@@ -20,8 +22,8 @@ import javax.swing.WindowConstants;
 
 import mealplaner.MealplanerData;
 import mealplaner.ProposalBuilder;
-import mealplaner.commons.gui.ButtonPanelBuilder;
 import mealplaner.commons.gui.MenuBarBuilder;
+import mealplaner.commons.gui.buttonpanel.ButtonPanel;
 import mealplaner.gui.databaseedit.DatabaseEdit;
 import mealplaner.gui.dialogs.proposaloutput.ProposalTable;
 import mealplaner.gui.factories.DialogFactory;
@@ -57,8 +59,8 @@ public class MainGui {
 
     JMenuBar menuBar = createMenuBar();
 
-    JPanel buttonPanel = createButtonPanel();
-    JPanel mealPanel = setupMealPanel(buttonPanel);
+    ButtonPanel buttonPanel = createButtonPanel();
+    JPanel mealPanel = setupMealPanel(buttonPanel.getComponent());
     JPanel databasePanel = setupDatabasePanel();
     JTabbedPane tabPane = new JTabbedPane();
     tabPane.add(BUNDLES.message("menuPanelName"), mealPanel);
@@ -109,8 +111,8 @@ public class MainGui {
     return builder.createMenuBar();
   }
 
-  private JPanel createButtonPanel() {
-    return new ButtonPanelBuilder()
+  private ButtonPanel createButtonPanel() {
+    return builder()
         .addButton(BUNDLES.message("saveExitButton"),
             BUNDLES.message("saveExitMnemonic"),
             action -> {
@@ -130,7 +132,7 @@ public class MainGui {
     return databasePanel;
   }
 
-  private JPanel setupMealPanel(JPanel buttonPanel) {
+  private JPanel setupMealPanel(Component buttonPanel) {
     JPanel mealPanel = new JPanel();
     mealPanel.setLayout(new BorderLayout());
     proposalSummary = new ProposalSummary(this.mealPlan);

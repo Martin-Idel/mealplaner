@@ -1,11 +1,12 @@
 package mealplaner.commons.gui.dialogs;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import mealplaner.commons.gui.GuiComponent;
 
 public class DialogWindow extends JDialog {
   private static final long serialVersionUID = 1L;
@@ -31,24 +32,24 @@ public class DialogWindow extends JDialog {
     setVisible(false);
   }
 
-  public void addCentral(Component panel) {
-    mainPanel.add(panel, BorderLayout.CENTER);
+  public void addCentral(GuiComponent panel) {
+    mainPanel.add(panel.getComponent(), BorderLayout.CENTER);
   }
 
-  public void addNorth(Component panel) {
-    mainPanel.add(panel, BorderLayout.NORTH);
+  public void addNorth(GuiComponent panel) {
+    mainPanel.add(panel.getComponent(), BorderLayout.NORTH);
   }
 
-  public void addSouth(Component panel) {
-    mainPanel.add(panel, BorderLayout.SOUTH);
+  public void addSouth(GuiComponent panel) {
+    mainPanel.add(panel.getComponent(), BorderLayout.SOUTH);
   }
 
-  public void addEast(Component panel) {
-    mainPanel.add(panel, BorderLayout.EAST);
+  public void addEast(GuiComponent panel) {
+    mainPanel.add(panel.getComponent(), BorderLayout.EAST);
   }
 
-  public void addWest(Component panel) {
-    mainPanel.add(panel, BorderLayout.WEST);
+  public void addWest(GuiComponent panel) {
+    mainPanel.add(panel.getComponent(), BorderLayout.WEST);
   }
 
   public void arrangeWithSize(int width, int height) {

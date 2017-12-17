@@ -2,6 +2,7 @@ package mealplaner.shopping;
 
 import static javax.swing.JOptionPane.showConfirmDialog;
 import static mealplaner.commons.BundleStore.BUNDLES;
+import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
 import static mealplaner.commons.gui.dialogs.DialogWindow.window;
 import static mealplaner.recipes.gui.dialogs.recepies.IngredientsTable.setupTable;
 import static mealplaner.shopping.ShoppingListUtils.createShoppingList;
@@ -9,9 +10,8 @@ import static mealplaner.shopping.ShoppingListUtils.missingRecipesForCompleteLis
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
-import mealplaner.commons.gui.ButtonPanelBuilder;
+import mealplaner.commons.gui.buttonpanel.ButtonPanel;
 import mealplaner.commons.gui.dialogs.DialogWindow;
 import mealplaner.commons.gui.tables.Table;
 import mealplaner.model.Proposal;
@@ -46,16 +46,16 @@ public class ShoppingListDialog {
   private void display(ShoppingList shoppingList, IngredientProvider ingredientProvider) {
     table = setupTable(shoppingList.getList(), ingredientProvider);
 
-    JPanel buttonPanel = displayButtons();
+    ButtonPanel buttonPanel = displayButtons();
 
-    dialogWindow.addCentral(table.getTableInScrollPane());
+    dialogWindow.addCentral(table);
     dialogWindow.addSouth(buttonPanel);
     dialogWindow.arrangeWithSize(300, 300);
     dialogWindow.setVisible();
   }
 
-  private JPanel displayButtons() {
-    return new ButtonPanelBuilder()
+  private ButtonPanel displayButtons() {
+    return builder()
         .addButton(BUNDLES.message("printButton"),
             BUNDLES.message("printButtonMnemonic"),
             action -> table.printTable(dialogWindow.getParent()))

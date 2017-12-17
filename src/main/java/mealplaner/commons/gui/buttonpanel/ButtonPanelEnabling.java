@@ -1,4 +1,4 @@
-package mealplaner.commons.gui;
+package mealplaner.commons.gui.buttonpanel;
 
 import java.awt.Component;
 import java.util.ArrayList;

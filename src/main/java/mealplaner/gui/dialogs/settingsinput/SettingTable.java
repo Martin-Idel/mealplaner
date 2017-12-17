@@ -81,7 +81,7 @@ public class SettingTable {
     addOtherSettings(tableBuilder);
 
     table = tableBuilder.buildTable();
-    window.addCentral(table.getTableInScrollPane());
+    window.addCentral(table);
   }
 
   private void addOtherSettings(FlexibleTableBuilder tableBuilder) {

@@ -1,15 +1,14 @@
 package mealplaner.commons.gui.tables;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import mealplaner.commons.gui.GuiComponent;
 import mealplaner.commons.gui.tables.models.FlexibleTableModel;
 
-public final class Table {
+public final class Table implements GuiComponent {
   private final FlexibleTableModel tableModel;
   private final JTable table;
 
@@ -22,17 +21,9 @@ public final class Table {
     return new Table(tableModel, table);
   }
 
-  public void addToPane(JPanel panel) {
-    panel.add(table, BorderLayout.CENTER);
-  }
-
-  public JScrollPane getTableInScrollPane() {
+  @Override
+  public JScrollPane getComponent() {
     return new JScrollPane(table);
-  }
-
-  public void addScrollingTableToPane(JPanel panel) {
-    JScrollPane scrollPanel = new JScrollPane(table);
-    panel.add(scrollPanel, BorderLayout.CENTER);
   }
 
   public JTable getTable() {

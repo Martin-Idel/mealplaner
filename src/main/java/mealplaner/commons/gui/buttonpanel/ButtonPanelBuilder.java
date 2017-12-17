@@ -1,4 +1,4 @@
-package mealplaner.commons.gui;
+package mealplaner.commons.gui.buttonpanel;
 
 import static mealplaner.commons.BundleStore.BUNDLES;
 
@@ -11,12 +11,12 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
-public class ButtonPanelBuilder {
+public final class ButtonPanelBuilder {
   private final JPanel panel;
   private final List<JButton> buttonList = new ArrayList<>();
   private final List<JButton> enablingList = new ArrayList<>();
 
-  public ButtonPanelBuilder() {
+  private ButtonPanelBuilder() {
     panel = new JPanel();
   }
 
@@ -62,11 +62,11 @@ public class ButtonPanelBuilder {
     return this;
   }
 
-  public JPanel build() {
+  public ButtonPanel build() {
     for (JButton button : buttonList) {
       panel.add(button);
     }
-    return panel;
+    return new ButtonPanel(panel);
   }
 
   public ButtonPanelEnabling buildEnablingPanel() {

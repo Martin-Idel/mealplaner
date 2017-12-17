@@ -2,6 +2,7 @@ package mealplaner.recipes.gui.dialogs.ingredients;
 
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.GridPanel.gridPanel;
+import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
 import static mealplaner.recipes.model.Ingredient.ingredient;
 
 import java.awt.event.ActionListener;
@@ -12,10 +13,9 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
-import mealplaner.commons.gui.ButtonPanelBuilder;
 import mealplaner.commons.gui.GridPanel;
+import mealplaner.commons.gui.buttonpanel.ButtonPanel;
 import mealplaner.commons.gui.dialogs.DialogWindow;
 import mealplaner.commons.gui.inputfields.ComboBoxInputField;
 import mealplaner.commons.gui.inputfields.InputField;
@@ -54,11 +54,11 @@ public class IngredientsInput {
   private void setupDialog(ActionListener saveListener) {
     setupInputFields();
     GridPanel ingredientCreationPanel = gridPanel(0, 2);
-    allFields().forEach(field -> field.addToPanel(ingredientCreationPanel.getPanel()));
+    allFields().forEach(field -> field.addToPanel(ingredientCreationPanel.getComponent()));
 
-    JPanel buttonPanel = setupButtonPanel(saveListener);
+    ButtonPanel buttonPanel = setupButtonPanel(saveListener);
 
-    dialogWindow.addCentral(ingredientCreationPanel.getPanel());
+    dialogWindow.addCentral(ingredientCreationPanel);
     dialogWindow.addSouth(buttonPanel);
     dialogWindow.arrangeWithSize(300, 300);
     resetFields();
@@ -77,8 +77,8 @@ public class IngredientsInput {
         Measure.NONE);
   }
 
-  private JPanel setupButtonPanel(ActionListener saveListener) {
-    return new ButtonPanelBuilder()
+  private ButtonPanel setupButtonPanel(ActionListener saveListener) {
+    return builder()
         .addSaveButton(saveListener)
         .addCancelDialogButton(dialogWindow)
         .build();
