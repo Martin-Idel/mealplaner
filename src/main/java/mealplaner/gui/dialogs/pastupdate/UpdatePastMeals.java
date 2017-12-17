@@ -35,7 +35,7 @@ public class UpdatePastMeals {
     updateTable.createTable(mealPlan.getLastProposal(),
         mealPlan.getMeals(), mealPlan.getDaysPassed());
 
-    ButtonPanel buttonPanel = displayButtons();
+    ButtonPanel buttonPanel = createButtonPanel();
 
     dialogWindow.addCentral(updateTable.getTable());
     dialogWindow.addSouth(buttonPanel);
@@ -45,7 +45,7 @@ public class UpdatePastMeals {
     }
   }
 
-  private ButtonPanel displayButtons() {
+  private ButtonPanel createButtonPanel() {
     return builder()
         .addSaveButton(action -> {
           changedMeals = of(updateTable.returnContent());

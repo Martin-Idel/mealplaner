@@ -15,6 +15,11 @@ public final class MessageDialog {
         BUNDLES.errorMessage("ERR_HEADING"), ERROR_MESSAGE);
   }
 
+  public static void userErrorMessage(JFrame frame, String informationMessage) {
+    JOptionPane.showMessageDialog(frame, informationMessage,
+        BUNDLES.message("errorHeading"), JOptionPane.INFORMATION_MESSAGE);
+  }
+
   public static void showSaveExitDialog(JFrame frame, String saveMessage, Runnable saveAction) {
     int result = JOptionPane.showConfirmDialog(frame, saveMessage);
     if (result == JOptionPane.YES_OPTION) {
