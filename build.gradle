@@ -1,4 +1,3 @@
-
 apply plugin: "java"
 apply plugin: "application"
 apply plugin: "eclipse"
@@ -34,6 +33,11 @@ dependencies {
 task copyRuntimeLibs(type: Copy) {
     into "build/libs/lib"
     from configurations.runtimeLibraries
+}
+
+task copyLicenses(type: Copy) {
+	into "build/libs/licenses/"
+	from "licenses/"
 }
 
 sourceSets {
@@ -110,7 +114,7 @@ jar {
 	}
 }
 
-task createApplication(dependsOn: ["jar", "copyRuntimeLibs"]) {
+task createApplication(dependsOn: ["jar", "copyRuntimeLibs", "copyLicenses"]) {
 	doLast {
 		println "Assembled and distributed"
 	}
