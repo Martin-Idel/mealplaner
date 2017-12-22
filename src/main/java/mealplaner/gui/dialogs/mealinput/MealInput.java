@@ -20,7 +20,7 @@ public abstract class MealInput<T> {
   private final JFrame parentFrame;
   private final DialogWindow dialogWindow;
 
-  private MealInputGrid inputGrid;
+  private final MealInputGrid inputGrid;
 
   public MealInput(JFrame parent) {
     dialogWindow = DialogWindow.window(parent, BUNDLES.message("mealInputDialogTitle"));

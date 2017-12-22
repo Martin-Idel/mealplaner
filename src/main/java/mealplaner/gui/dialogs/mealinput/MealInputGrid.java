@@ -40,7 +40,7 @@ public final class MealInputGrid {
   private InputField<String> commentField;
   private InputField<Optional<Recipe>> recipeInputField;
 
-  private JFrame parentFrame;
+  private final JFrame parentFrame;
 
   private MealInputGrid(JFrame parentFrame) {
     this.parentFrame = parentFrame;
