@@ -1,4 +1,4 @@
-package mealplaner.gui.databaseedit;
+package mealplaner.gui.tabbedpanes.databaseedit;
 
 import static java.util.stream.Collectors.toList;
 import static mealplaner.commons.BundleStore.BUNDLES;
@@ -12,6 +12,7 @@ import static mealplaner.model.MealBuilder.from;
 
 import java.awt.BorderLayout;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -50,7 +51,7 @@ public class DatabaseEdit implements DataStoreListener {
 
   public DatabaseEdit(DataStore mealPlan, JFrame parentFrame, JPanel parentPanel) {
     this.mealplanerData = mealPlan;
-    this.meals = mealPlan.getMeals().stream().map(Meal::copy).collect(toList());
+    this.meals = new ArrayList<>(mealPlan.getMeals());
     mealplanerData.register(this);
 
     dataFrame = parentFrame;

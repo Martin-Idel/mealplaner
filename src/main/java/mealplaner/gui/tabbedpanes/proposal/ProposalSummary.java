@@ -1,4 +1,4 @@
-package mealplaner.gui;
+package mealplaner.gui.tabbedpanes.proposal;
 
 import static java.time.format.DateTimeFormatter.ofLocalizedDate;
 import static java.time.format.FormatStyle.LONG;
@@ -18,7 +18,6 @@ import mealplaner.DataStore;
 import mealplaner.DataStoreEventType;
 import mealplaner.DataStoreListener;
 import mealplaner.commons.NonnegativeInteger;
-import mealplaner.commons.gui.SwingUtilityMethods;
 import mealplaner.commons.gui.inputfields.CheckboxInputField;
 import mealplaner.commons.gui.inputfields.InputField;
 import mealplaner.commons.gui.inputfields.NonnegativeIntegerInputField;
@@ -53,13 +52,9 @@ public class ProposalSummary implements DataStoreListener {
 
     adjustFieldsOnPanel();
 
-    if (mealPlan.getDaysPassed() == 0) {
-      dateUpdate.setEnabled(false);
-      giveProposal.setEnabled(true);
-    } else {
-      dateUpdate.setEnabled(true);
-      giveProposal.setEnabled(false);
-    }
+    boolean lastDayWasToday = mealPlan.getDaysPassed() == 0;
+    dateUpdate.setEnabled(!lastDayWasToday);
+    giveProposal.setEnabled(lastDayWasToday);
 
     return dataPanel;
   }
@@ -78,11 +73,11 @@ public class ProposalSummary implements DataStoreListener {
           updateMeals.actionPerformed(action);
           update();
         });
-    defaultSettings = SwingUtilityMethods.createButton(
+    defaultSettings = createButton(
         BUNDLES.message("proposalChangeDefaultSettingsButton"),
         BUNDLES.message("proposalChangeDefaultSettingsButtonMnemonic"),
         setDefaultSettings);
-    giveProposal = SwingUtilityMethods.createButton(BUNDLES.message("proposalShowButton"),
+    giveProposal = createButton(BUNDLES.message("proposalShowButton"),
         BUNDLES.message("proposalShowButtonMnemonic"), makeProposal);
   }
 
@@ -126,10 +121,10 @@ public class ProposalSummary implements DataStoreListener {
     String formattedLastDate = mealPlan.getTime()
         .format(ofLocalizedDate(LONG).withLocale(BUNDLES.locale()));
     dateShow.setText(BUNDLES.message("updatedLastDate") + " " + formattedLastDate);
-    if (mealPlan.getDaysPassed() == 0) {
-      dateUpdate.setEnabled(false);
-      giveProposal.setEnabled(true);
-    }
+
+    boolean lastDayWasToday = mealPlan.getDaysPassed() == 0;
+    dateUpdate.setEnabled(!lastDayWasToday);
+    giveProposal.setEnabled(lastDayWasToday);
   }
 
   @Override
