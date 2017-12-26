@@ -31,6 +31,11 @@ dependencies {
     configurations.runtimeLibraries.extendsFrom(configurations.runtime)
 }
 
+task copyRuntimeLibs(type: Copy) {
+    into "build/libs/lib"
+    from configurations.runtimeLibraries
+}
+
 sourceSets {
     main {
         java {
@@ -99,13 +104,14 @@ jar {
 	manifest {
 		attributes(
 			"Manifest-Version": "1.0",
-			"Main-Class": "mealplaner.Kochplaner"
+			"Main-Class": "mealplaner.Kochplaner",
+			"Class-Path": "lib/swingx-all-1.6.5-1.jar lib/slf4j-api-1.7.25.jar lib/log4j-slf4j-impl-2.9.1.jar lib/log4j-core-2.9.1.jar lib/log4j-api-2.9.1.jar"
 		)
 	}
-	
-	from {
-		configurations.runtimeLibraries.collect {
-			it.isDirectory() ? it : zipTree(it)
-		}
+}
+
+task createApplication(dependsOn: ["jar", "copyRuntimeLibs"]) {
+	doLast {
+		println "Assembled and distributed"
 	}
 }
