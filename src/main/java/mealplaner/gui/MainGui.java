@@ -4,6 +4,7 @@ import static java.time.LocalDate.now;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.MessageDialog.showSaveExitDialog;
 import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
+import static mealplaner.gui.HelpMenu.createHelpMenu;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -15,10 +16,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import javax.swing.JFrame;
-import javax.swing.JMenuBar;
+import javax.swing.JMenu;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.WindowConstants;
 
 import mealplaner.MealplanerData;
 import mealplaner.ProposalBuilder;
@@ -40,6 +39,7 @@ import mealplaner.recipes.provider.IngredientProvider;
 public class MainGui {
   private final JFrame frame;
   private final DialogFactory dialogs;
+  private final MainContainer container;
 
   private final IngredientProvider ingredients;
   private MealplanerData mealPlan;
@@ -57,20 +57,21 @@ public class MainGui {
 
     fileIoGui = new FileIoGui(frame);
     this.mealPlan = fileIoGui.loadDatabase();
+    this.container = new MainContainer(frame);
 
-    JMenuBar menuBar = createMenuBar();
+    container.addMenu(createFileMenu());
+    container.addMenu(createHelpMenu(frame));
 
     ButtonPanel buttonPanel = createButtonPanel();
     JPanel mealPanel = setupMealPanel(buttonPanel.getComponent());
     JPanel databasePanel = setupDatabasePanel();
-    JTabbedPane tabPane = new JTabbedPane();
-    tabPane.add(BUNDLES.message("menuPanelName"), mealPanel);
-    tabPane.add(BUNDLES.message("dataPanelName"), databasePanel);
+    container.addTabbedPane(BUNDLES.message("menuPanelName"), mealPanel);
+    container.addTabbedPane(BUNDLES.message("dataPanelName"), databasePanel);
 
-    setupMainFrame(tabPane, menuBar);
+    container.setupMainFrame(new SaveExitWindowListener());
   }
 
-  private JMenuBar createMenuBar() {
+  private JMenu createFileMenu() {
     MenuBarBuilder builder = new MenuBarBuilder(frame)
         .setupFileMenu()
         .createIngredientsMenu(action -> {
@@ -83,12 +84,15 @@ public class MainGui {
           dialogs.createMultipleMealInputDialog()
               .showDialog(ingredients)
               .forEach(meal -> mealPlan.addMeal(meal));
+          // TODO: this should be unnecessary
           dbaseEdit.updateTable();
         })
         .viewProposalMenu(action -> dialogs.createProposalOutputDialog()
             .showDialog(mealPlan.getMeals(), mealPlan.getLastProposal()))
         .createSeparatorForMenu();
 
+    // TODO: Database backup loading can't work that way. We need to keep the
+    // mealPlan or reload the complete GUI
     builder.createBackupMenu(action -> fileIoGui.createBackup(mealPlan))
         .loadBackupMenu(action -> {
           fileIoGui.loadBackup()
@@ -104,10 +108,6 @@ public class MainGui {
     builder.exitMenu(
         action -> showSaveExitDialog(frame, BUNDLES.message("saveYesNoQuestion"),
             () -> fileIoGui.saveDatabase(mealPlan)));
-
-    builder.setupHelpMenu()
-        .showDatabaseHelpMenu()
-        .showHelpMenu();
 
     return builder.createMenuBar();
   }
@@ -144,16 +144,6 @@ public class MainGui {
         BorderLayout.CENTER);
     mealPanel.add(buttonPanel, BorderLayout.SOUTH);
     return mealPanel;
-  }
-
-  private void setupMainFrame(JTabbedPane tabPane, JMenuBar menuBar) {
-    frame.setTitle(BUNDLES.message("mainFrameTitle"));
-    frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-    frame.addWindowListener(new SaveExitWindowListener());
-    frame.setJMenuBar(menuBar);
-    frame.add(tabPane, BorderLayout.CENTER);
-    frame.setSize(550, 350);
-    frame.setVisible(true);
   }
 
   public void printProposal() {

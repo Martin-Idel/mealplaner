@@ -6,24 +6,16 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
 public class MenuBarBuilder {
-  private final JFrame frame;
   private JMenu fileMenu;
-  private JMenu helpMenu;
 
   public MenuBarBuilder(JFrame frame) {
-    this.frame = frame;
   }
 
-  public JMenuBar createMenuBar() {
-    JMenuBar menuBar = new JMenuBar();
-    menuBar.add(fileMenu);
-    menuBar.add(helpMenu);
-    return menuBar;
+  public JMenu createMenuBar() {
+    return fileMenu;
   }
 
   public MenuBarBuilder setupFileMenu() {
@@ -32,15 +24,6 @@ public class MenuBarBuilder {
         KeyStroke.getKeyStroke(BUNDLES.message("menuDataMnemonic")).getKeyCode());
     fileMenu.getAccessibleContext()
         .setAccessibleDescription(BUNDLES.message("menuDataDescription"));
-    return this;
-  }
-
-  public MenuBarBuilder setupHelpMenu() {
-    helpMenu = new JMenu(BUNDLES.message("menuHelp"));
-    helpMenu.setMnemonic(
-        KeyStroke.getKeyStroke(BUNDLES.message("menuHelpMnemonic")).getKeyCode());
-    helpMenu.getAccessibleContext()
-        .setAccessibleDescription(BUNDLES.message("menuHelpDescription"));
     return this;
   }
 
@@ -104,26 +87,6 @@ public class MenuBarBuilder {
     fileMenu.add(new JMenuBuilder().addLabelText(BUNDLES.message("menuDataExit"))
         .addMnemonic(BUNDLES.message("menuDataExitMnemonic"))
         .addActionListener(listener)
-        .build());
-    return this;
-  }
-
-  public MenuBarBuilder showDatabaseHelpMenu() {
-    helpMenu.add(new JMenuBuilder().addLabelText(BUNDLES.message("menuHelpProposal"))
-        .addMnemonic(BUNDLES.message("menuHelpProposalMnemonic"))
-        .addActionListener(action -> JOptionPane.showMessageDialog(frame,
-            BUNDLES.message("helpProposalText"),
-            BUNDLES.message("helpProposalTitle"), JOptionPane.INFORMATION_MESSAGE))
-        .build());
-    return this;
-  }
-
-  public MenuBarBuilder showHelpMenu() {
-    helpMenu.add(new JMenuBuilder().addLabelText(BUNDLES.message("menuHelpDatabase"))
-        .addMnemonic(BUNDLES.message("menuHelpDatabaseMnemonic"))
-        .addActionListener(action -> JOptionPane.showMessageDialog(frame,
-            BUNDLES.message("helpDatabaseText"),
-            BUNDLES.message("helpDatabaseTitle"), JOptionPane.INFORMATION_MESSAGE))
         .build());
     return this;
   }
