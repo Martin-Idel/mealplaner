@@ -1,8 +1,9 @@
 package mealplaner.commons.gui.inputfields;
 
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import mealplaner.commons.gui.GuiPanel;
 
 public class TextInputField implements InputField<String> {
   private final String label;
@@ -13,10 +14,10 @@ public class TextInputField implements InputField<String> {
   }
 
   @Override
-  public void addToPanel(JPanel panel) {
+  public void addToPanel(GuiPanel panel) {
     textField = new JTextField();
-    panel.add(new JLabel(label));
-    panel.add(textField);
+    panel.getComponent().add(new JLabel(label));
+    panel.getComponent().add(textField);
   }
 
   @Override

@@ -130,7 +130,6 @@ public class DatabaseEdit implements DataStoreListener {
                 row -> meals.get(row).getRecipe().isPresent()
                     ? BUNDLES.message("editRecipeButtonLabel")
                     : BUNDLES.message("createRecipeButtonLabel"))
-            .overwriteTableCellEditor(new NonemptyTextCellEditor())
             .build())
         .addListenerToThisColumn((row) -> {
           Optional<Recipe> recipe = meals.get(row).getRecipe();

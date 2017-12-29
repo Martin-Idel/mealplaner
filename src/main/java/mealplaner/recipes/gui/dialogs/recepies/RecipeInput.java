@@ -41,7 +41,7 @@ public class RecipeInput {
   private void display(Optional<Recipe> recipe, IngredientProvider ingredients) {
     nonnegativeIntegerInputField = setupInputField(recipe);
     GridPanel inputFieldPanel = gridPanel(0, 2);
-    nonnegativeIntegerInputField.addToPanel(inputFieldPanel.getComponent());
+    nonnegativeIntegerInputField.addToPanel(inputFieldPanel);
 
     recipeTable = new RecipeTable(recipe.orElse(createRecipe()), ingredients);
     Table table = recipeTable.setupTable();

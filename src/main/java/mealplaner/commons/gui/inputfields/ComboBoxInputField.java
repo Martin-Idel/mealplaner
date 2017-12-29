@@ -2,7 +2,8 @@ package mealplaner.commons.gui.inputfields;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+
+import mealplaner.commons.gui.GuiPanel;
 
 public class ComboBoxInputField<E extends Enum<E>> implements InputField<E> {
   private final String label;
@@ -17,10 +18,10 @@ public class ComboBoxInputField<E extends Enum<E>> implements InputField<E> {
   }
 
   @Override
-  public void addToPanel(JPanel panel) {
+  public void addToPanel(GuiPanel panel) {
     comboBox = new JComboBox<E>(enumType.getEnumConstants());
-    panel.add(new JLabel(label));
-    panel.add(comboBox);
+    panel.getComponent().add(new JLabel(label));
+    panel.getComponent().add(comboBox);
   }
 
   @Override

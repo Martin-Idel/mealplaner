@@ -4,7 +4,8 @@ import java.util.function.Function;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+
+import mealplaner.commons.gui.GuiPanel;
 
 public class ButtonInputField<T> implements InputField<T> {
   private JButton button;
@@ -26,7 +27,7 @@ public class ButtonInputField<T> implements InputField<T> {
   }
 
   @Override
-  public void addToPanel(JPanel panel) {
+  public void addToPanel(GuiPanel component) {
     button = new JButton(
         content.equals(defaultContent) ? buttonLabelForDefaultContent : buttonLabel);
     button.addActionListener(action -> {
@@ -35,8 +36,8 @@ public class ButtonInputField<T> implements InputField<T> {
           ? buttonLabelForDefaultContent
           : buttonLabel);
     });
-    panel.add(new JLabel(label));
-    panel.add(button);
+    component.getComponent().add(new JLabel(label));
+    component.getComponent().add(button);
   }
 
   @Override

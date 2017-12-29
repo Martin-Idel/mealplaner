@@ -140,7 +140,7 @@ public class MainGui {
     mealPanel.add(proposalSummary.buildProposalPanel(
         action -> updatePastMeals(),
         action -> changeDefaultSettings(),
-        action -> makeProposal()),
+        action -> makeProposal()).getComponent(),
         BorderLayout.CENTER);
     mealPanel.add(buttonPanel, BorderLayout.SOUTH);
     return mealPanel;

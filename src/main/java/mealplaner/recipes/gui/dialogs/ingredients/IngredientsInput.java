@@ -54,7 +54,7 @@ public class IngredientsInput {
   private void setupDialog(ActionListener saveListener) {
     setupInputFields();
     GridPanel ingredientCreationPanel = gridPanel(0, 2);
-    allFields().forEach(field -> field.addToPanel(ingredientCreationPanel.getComponent()));
+    allFields().forEach(field -> field.addToPanel(ingredientCreationPanel));
 
     ButtonPanel buttonPanel = setupButtonPanel(saveListener);
 

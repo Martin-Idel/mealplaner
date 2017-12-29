@@ -4,20 +4,20 @@ import static java.time.format.DateTimeFormatter.ofLocalizedDate;
 import static java.time.format.FormatStyle.LONG;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.NonnegativeInteger.SEVEN;
+import static mealplaner.commons.gui.GridPanel.gridPanel;
 import static mealplaner.commons.gui.SwingUtilityMethods.createButton;
 
-import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 import mealplaner.DataStore;
 import mealplaner.DataStoreEventType;
 import mealplaner.DataStoreListener;
 import mealplaner.commons.NonnegativeInteger;
+import mealplaner.commons.gui.GridPanel;
 import mealplaner.commons.gui.inputfields.CheckboxInputField;
 import mealplaner.commons.gui.inputfields.InputField;
 import mealplaner.commons.gui.inputfields.NonnegativeIntegerInputField;
@@ -26,7 +26,7 @@ import mealplaner.model.settings.ProposalOutline.ProposalOutlineBuilder;
 
 public class ProposalSummary implements DataStoreListener {
   private final DataStore mealPlan;
-  private final JPanel dataPanel;
+  private final GridPanel dataPanel;
   private JLabel dateShow;
   private JButton dateUpdate;
   private InputField<NonnegativeInteger> numberOfDaysField;
@@ -38,13 +38,12 @@ public class ProposalSummary implements DataStoreListener {
 
   public ProposalSummary(DataStore mealPlan) {
     this.mealPlan = mealPlan;
-    this.dataPanel = new JPanel();
-    this.dataPanel.setLayout(new GridLayout(0, 2));
+    this.dataPanel = gridPanel(0, 2);
 
     mealPlan.register(this);
   }
 
-  public JPanel buildProposalPanel(ActionListener updateMeals, ActionListener setDefaultSettings,
+  public GridPanel buildProposalPanel(ActionListener updateMeals, ActionListener setDefaultSettings,
       ActionListener makeProposal) {
     buildDateShowField(mealPlan.getTime());
     buildInputFields();

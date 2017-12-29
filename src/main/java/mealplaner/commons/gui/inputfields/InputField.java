@@ -1,9 +1,9 @@
 package mealplaner.commons.gui.inputfields;
 
-import javax.swing.JPanel;
+import mealplaner.commons.gui.GuiPanel;
 
 public interface InputField<T> {
-  void addToPanel(JPanel panel);
+  void addToPanel(GuiPanel panel);
 
   T getUserInput();
 

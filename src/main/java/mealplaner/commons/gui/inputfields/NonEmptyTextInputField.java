@@ -6,8 +6,9 @@ import static java.util.Optional.of;
 import java.util.Optional;
 
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import mealplaner.commons.gui.GuiPanel;
 
 public class NonEmptyTextInputField implements InputField<Optional<String>> {
   private final String label;
@@ -18,10 +19,10 @@ public class NonEmptyTextInputField implements InputField<Optional<String>> {
   }
 
   @Override
-  public void addToPanel(JPanel panel) {
+  public void addToPanel(GuiPanel panel) {
     nonEmptyTextField = new JTextField();
-    panel.add(new JLabel(label));
-    panel.add(nonEmptyTextField);
+    panel.getComponent().add(new JLabel(label));
+    panel.getComponent().add(nonEmptyTextField);
   }
 
   @Override

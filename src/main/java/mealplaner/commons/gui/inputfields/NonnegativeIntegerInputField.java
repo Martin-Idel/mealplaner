@@ -7,11 +7,11 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.text.PlainDocument;
 
 import mealplaner.commons.NonnegativeInteger;
+import mealplaner.commons.gui.GuiPanel;
 import mealplaner.commons.gui.editing.NonnegativeIntegerTextFilter;
 
 public class NonnegativeIntegerInputField implements InputField<NonnegativeInteger> {
@@ -25,7 +25,7 @@ public class NonnegativeIntegerInputField implements InputField<NonnegativeInteg
   }
 
   @Override
-  public void addToPanel(JPanel panel) {
+  public void addToPanel(GuiPanel panel) {
     nonnegativeIntegerTextField = new JTextField(defaultValue.toString());
     PlainDocument doc = (PlainDocument) nonnegativeIntegerTextField.getDocument();
     doc.setDocumentFilter(new NonnegativeIntegerTextFilter());
@@ -40,8 +40,8 @@ public class NonnegativeIntegerInputField implements InputField<NonnegativeInteg
         // Do nothing.
       }
     });
-    panel.add(new JLabel(label));
-    panel.add(nonnegativeIntegerTextField);
+    panel.getComponent().add(new JLabel(label));
+    panel.getComponent().add(nonnegativeIntegerTextField);
   }
 
   @Override

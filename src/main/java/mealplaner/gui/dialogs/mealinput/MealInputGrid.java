@@ -79,7 +79,7 @@ public final class MealInputGrid {
         of(createRecipe()), content -> createRecipeDialog(ingredientProvider, content));
 
     GridPanel mealCreationPanel = gridPanel(0, 2);
-    allFields().forEach(field -> field.addToPanel(mealCreationPanel.getComponent()));
+    allFields().forEach(field -> field.addToPanel(mealCreationPanel));
     return mealCreationPanel;
   }
 

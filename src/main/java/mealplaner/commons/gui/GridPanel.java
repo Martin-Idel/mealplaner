@@ -1,11 +1,12 @@
 package mealplaner.commons.gui;
 
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.io.Serializable;
 
 import javax.swing.JPanel;
 
-public final class GridPanel implements Serializable, GuiComponent {
+public final class GridPanel implements Serializable, GuiPanel {
   private static final long serialVersionUID = 1L;
 
   private final JPanel gridPanel;
@@ -22,5 +23,9 @@ public final class GridPanel implements Serializable, GuiComponent {
   @Override
   public JPanel getComponent() {
     return gridPanel;
+  }
+
+  public void add(Component panel) {
+    gridPanel.add(panel);
   }
 }
