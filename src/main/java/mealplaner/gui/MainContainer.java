@@ -9,16 +9,24 @@ import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.KeyStroke;
 
 public class MainContainer {
   private final JFrame frame;
-  private JTabbedPane tabPane;
-  private JMenuBar menuBar;
+  private final JTabbedPane tabPane;
+  private final JMenuBar menuBar;
+  private JMenu fileMenu;
+  private JMenu helpMenu;
 
   public MainContainer(JFrame mainFrame) {
     this.frame = mainFrame;
+    this.tabPane = new JTabbedPane();
+    this.menuBar = new JMenuBar();
+    setupFileMenu();
+    setupHelpMenu();
   }
 
   public void addTabbedPane(String name, JPanel pane) {
@@ -29,6 +37,22 @@ public class MainContainer {
     menuBar.add(menu);
   }
 
+  public void addToFileMenu(JMenuItem menuItem) {
+    fileMenu.add(menuItem);
+  }
+
+  public void addSeparatorToFileMenu() {
+    fileMenu.addSeparator();
+  }
+
+  public void addToHelpMenu(JMenuItem menuItem) {
+    helpMenu.add(menuItem);
+  }
+
+  public void addSeparatorToHelpMenu() {
+    helpMenu.addSeparator();
+  }
+
   public void setupMainFrame(WindowListener saveExitAction) {
     frame.setTitle(BUNDLES.message("mainFrameTitle"));
     frame.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -37,5 +61,23 @@ public class MainContainer {
     frame.add(tabPane, CENTER);
     frame.setSize(550, 350);
     frame.setVisible(true);
+  }
+
+  private void setupFileMenu() {
+    fileMenu = new JMenu(BUNDLES.message("menuData"));
+    fileMenu.setMnemonic(
+        KeyStroke.getKeyStroke(BUNDLES.message("menuDataMnemonic")).getKeyCode());
+    fileMenu.getAccessibleContext()
+        .setAccessibleDescription(BUNDLES.message("menuDataDescription"));
+    menuBar.add(fileMenu);
+  }
+
+  private void setupHelpMenu() {
+    helpMenu = new JMenu(BUNDLES.message("menuHelp"));
+    helpMenu.setMnemonic(
+        KeyStroke.getKeyStroke(BUNDLES.message("menuHelpMnemonic")).getKeyCode());
+    helpMenu.getAccessibleContext()
+        .setAccessibleDescription(BUNDLES.message("menuHelpDescription"));
+    menuBar.add(helpMenu);
   }
 }

@@ -6,32 +6,63 @@ import static mealplaner.commons.gui.MessageDialog.showSaveExitDialog;
 import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
+import java.awt.event.ActionListener;
 import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.swing.JFrame;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import mealplaner.MealplanerData;
 import mealplaner.ProposalBuilder;
+import mealplaner.commons.gui.JMenuBuilder;
 import mealplaner.commons.gui.buttonpanel.ButtonPanel;
+import mealplaner.gui.MainContainer;
+import mealplaner.gui.dialogs.proposaloutput.ProposalTable;
 import mealplaner.gui.factories.DialogFactory;
+import mealplaner.io.IngredientIo;
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.ProposalOutline;
 import mealplaner.model.settings.Settings;
+import mealplaner.recipes.provider.IngredientProvider;
 
 public class ProposalSummaryPanel {
+  private final MealplanerData mealPlan;
+  private final DialogFactory dialogs;
+  private final JFrame frame;
+  private final IngredientProvider ingredients;
 
   private ProposalSummary proposalSummary;
-  private MealplanerData mealPlan;
-  private DialogFactory dialogs;
+  private JPanel mealPanel;
 
-  private JPanel setupMealPanel(Component buttonPanel) {
-    JPanel mealPanel = new JPanel();
+  public ProposalSummaryPanel(
+      MealplanerData mealPlan,
+      DialogFactory dialogs,
+      JFrame frame,
+      IngredientProvider ingredients) {
+    this.mealPlan = mealPlan;
+    this.dialogs = dialogs;
+    this.frame = frame;
+    this.ingredients = ingredients;
+  }
+
+  public void setupPanel(ActionListener saveExitListener, Runnable saveAction) {
+    setupMealPanel(saveExitListener, saveAction);
+  }
+
+  public void addElements(MainContainer container) {
+    container.addTabbedPane(BUNDLES.message("menuPanelName"), mealPanel);
+    addToFileMenu(container);
+  }
+
+  private void setupMealPanel(ActionListener saveExitListener, Runnable saveAction) {
+    ButtonPanel buttonPanel = createButtonPanel(saveExitListener, saveAction);
+    mealPanel = new JPanel();
     mealPanel.setLayout(new BorderLayout());
     proposalSummary = new ProposalSummary(this.mealPlan);
     mealPanel.add(proposalSummary.buildProposalPanel(
@@ -39,8 +70,7 @@ public class ProposalSummaryPanel {
         action -> changeDefaultSettings(),
         action -> makeProposal()).getComponent(),
         BorderLayout.CENTER);
-    mealPanel.add(buttonPanel, BorderLayout.SOUTH);
-    return mealPanel;
+    mealPanel.add(buttonPanel.getComponent(), BorderLayout.SOUTH);
   }
 
   public void makeProposal() {
@@ -101,18 +131,70 @@ public class ProposalSummaryPanel {
     defaultSettings.ifPresent(settings -> mealPlan.setDefaultSettings(settings));
   }
 
-  private ButtonPanel createButtonPanel() {
+  private ButtonPanel createButtonPanel(ActionListener saveExitListener,
+      Runnable saveAction) {
     return builder()
         .addButton(BUNDLES.message("saveExitButton"),
             BUNDLES.message("saveExitMnemonic"),
-            action -> {
-              fileIoGui.saveDatabase(mealPlan);
-              frame.dispose();
-            })
+            saveExitListener)
         .addExitButton(
             action -> showSaveExitDialog(frame, BUNDLES.message("saveYesNoQuestion"),
-                () -> fileIoGui.saveDatabase(mealPlan)))
+                saveAction))
         .build();
   }
 
+  private void addToFileMenu(MainContainer container) {
+    container.addToFileMenu(createIngredientsMenu(action -> {
+      dialogs.createIngredientsInput()
+          .showDialog()
+          .forEach(ingredients::add);
+      IngredientIo.saveXml(ingredients);
+    }));
+    container.addToFileMenu(createMealMenu(action -> {
+      dialogs.createMultipleMealInputDialog()
+          .showDialog(ingredients)
+          .forEach(meal -> mealPlan.addMeal(meal));
+    }));
+    container.addToFileMenu(viewProposalMenu(action -> dialogs
+        .createProposalOutputDialog()
+        .showDialog(mealPlan.getMeals(), mealPlan.getLastProposal())));
+    container.addSeparatorToFileMenu();
+
+    container.addToFileMenu(printProposalMenu(action -> printProposal()));
+    container.addSeparatorToFileMenu();
+  }
+
+  private void printProposal() {
+    ProposalTable proposalTable = dialogs.createProposalTableFactory();
+    proposalTable.setupProposalTable(mealPlan.getLastProposal());
+    proposalTable.getTable().printTable(frame);
+  }
+
+  private JMenuItem printProposalMenu(ActionListener listener) {
+    return new JMenuBuilder().addLabelText(BUNDLES.message("menuDataPrintProposal"))
+        .addMnemonic(BUNDLES.message("menuDataPrintProposalMnemonic"))
+        .addActionListener(listener)
+        .build();
+  }
+
+  private JMenuItem createIngredientsMenu(ActionListener listener) {
+    return new JMenuBuilder().addLabelText(BUNDLES.message("ingredientInsertMenu"))
+        .addMnemonic(BUNDLES.message("ingredientInsertMenuMnemonic"))
+        .addActionListener(listener)
+        .build();
+  }
+
+  private JMenuItem createMealMenu(ActionListener listener) {
+    return new JMenuBuilder().addLabelText(BUNDLES.message("menuDataCreateMenu"))
+        .addMnemonic(BUNDLES.message("menuDataCreateMenuMnemonic"))
+        .addActionListener(listener)
+        .build();
+  }
+
+  private JMenuItem viewProposalMenu(ActionListener listener) {
+    return new JMenuBuilder().addLabelText(BUNDLES.message("menuDataLastProposal"))
+        .addMnemonic(BUNDLES.message("menuDataLastProposalMnemonic"))
+        .addActionListener(listener)
+        .build();
+  }
 }

@@ -24,6 +24,7 @@ import mealplaner.commons.gui.inputfields.NonnegativeIntegerInputField;
 import mealplaner.model.settings.ProposalOutline;
 import mealplaner.model.settings.ProposalOutline.ProposalOutlineBuilder;
 
+// TODO: Refactoring with ProposalsummaryPanel
 public class ProposalSummary implements DataStoreListener {
   private final DataStore mealPlan;
   private final GridPanel dataPanel;
