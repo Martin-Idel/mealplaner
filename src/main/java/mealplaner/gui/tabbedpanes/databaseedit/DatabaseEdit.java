@@ -208,6 +208,10 @@ public class DatabaseEdit implements DataStoreListener {
     buttonPanel.disableButtons();
   }
 
+  public List<Meal> getMeals() {
+    return meals;
+  }
+
   @Override
   public void updateData(DataStoreEventType event) {
     if (event == DataStoreEventType.DATABASE_EDITED) {

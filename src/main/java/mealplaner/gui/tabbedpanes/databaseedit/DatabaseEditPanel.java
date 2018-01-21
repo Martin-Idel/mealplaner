@@ -3,6 +3,7 @@ package mealplaner.gui.tabbedpanes.databaseedit;
 import static mealplaner.commons.BundleStore.BUNDLES;
 
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
@@ -12,6 +13,7 @@ import javax.swing.JPanel;
 import mealplaner.MealplanerData;
 import mealplaner.commons.gui.JMenuBuilder;
 import mealplaner.gui.MainContainer;
+import mealplaner.model.Meal;
 import mealplaner.recipes.provider.IngredientProvider;
 
 public class DatabaseEditPanel {
@@ -56,5 +58,20 @@ public class DatabaseEditPanel {
     dbaseEdit = new DatabaseEdit(this.mealPlan, frame, databasePanel);
     dbaseEdit.setupPane((meals) -> mealPlan.setMeals(meals), ingredients);
     return databasePanel;
+  }
+
+  public void saveDatabase() {
+    if (unsavedChanges()) {
+      mealPlan.setMeals(dbaseEdit.getMeals());
+    }
+  }
+
+  private boolean unsavedChanges() {
+    List<Meal> meals = dbaseEdit.getMeals();
+    List<Meal> savedMeals = mealPlan.getMeals();
+    return !meals.stream()
+        .allMatch(meal -> savedMeals.stream().anyMatch(savedMeal -> savedMeal.equals(meal)))
+        || !savedMeals.stream()
+            .allMatch(savedMeal -> meals.stream().anyMatch(meal -> meal.equals(savedMeal)));
   }
 }

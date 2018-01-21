@@ -25,6 +25,7 @@ public class MainGui {
   private MealplanerData mealPlan;
 
   private final FileIoGui fileIoGui;
+  private final DatabaseEditPanel dbaseEditPanel;
 
   public MainGui(JFrame mainFrame, MealplanerData mealPlan, DialogFactory dialogFactory,
       IngredientProvider ingredientProvider) {
@@ -39,13 +40,13 @@ public class MainGui {
         ingredientProvider);
     mealPanel.setupPanel(
         action -> {
-          fileIoGui.saveDatabase(mealPlan);
+          saveDataBase();
           frame.dispose();
         },
-        () -> fileIoGui.saveDatabase(mealPlan));
+        () -> saveDataBase());
     mealPanel.addElements(container);
 
-    DatabaseEditPanel dbaseEditPanel = new DatabaseEditPanel(this.mealPlan, frame,
+    dbaseEditPanel = new DatabaseEditPanel(this.mealPlan, frame,
         ingredientProvider);
     dbaseEditPanel.addElements(container);
 
@@ -103,6 +104,7 @@ public class MainGui {
   }
 
   void saveDataBase() {
+    dbaseEditPanel.saveDatabase();
     fileIoGui.saveDatabase(mealPlan);
   }
 
