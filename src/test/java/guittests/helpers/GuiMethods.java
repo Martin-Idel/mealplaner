@@ -1,67 +1,30 @@
-package guittests;
+package guittests.helpers;
 
+import static guittests.helpers.TabbedPanes.DATABASE_EDIT;
 import static mealplaner.commons.BundleStore.BUNDLES;
-import static mealplaner.commons.NonnegativeInteger.nonNegative;
-import static mealplaner.io.IngredientProviderIoGui.loadIngredientProvider;
-import static mealplaner.model.Meal.createMeal;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import javax.swing.JFrame;
-
-import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.DialogFixture;
 import org.assertj.swing.fixture.FrameFixture;
 import org.assertj.swing.fixture.JTableFixture;
-import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
-import org.junit.Test;
 
-import mealplaner.MealplanerData;
-import mealplaner.gui.MainGui;
-import mealplaner.gui.factories.DialogFactory;
 import mealplaner.model.Meal;
-import mealplaner.model.enums.CookingPreference;
-import mealplaner.model.enums.CookingTime;
-import mealplaner.model.enums.ObligatoryUtensil;
-import mealplaner.model.enums.Sidedish;
-import mealplaner.recipes.provider.IngredientProvider;
 
-public class SaveAndLoadTests extends AssertJSwingJUnitTestCase {
+public class GuiMethods {
   private static final int NUMBER_OF_DATA_COLUMNS = 8;
-  private static final int DATABASE_PANE = 1; // into enum
 
-  private FrameFixture window;
+  private final FrameFixture window;
 
-  @Override
-  protected void onSetUp() {
-    MainGui frame = GuiActionRunner.execute(() -> createMainApplication());
-    window = new FrameFixture(robot(), frame.getFrame());
-    window.show();
+  private GuiMethods(FrameFixture window) {
+    this.window = window;
   }
 
-  private MainGui createMainApplication() {
-    MealplanerData data = new MealplanerData();
-    IngredientProvider ingredientProvider = loadIngredientProvider();
-    JFrame mainFrame = new JFrame(BUNDLES.message("mainFrameTitle"));
-    DialogFactory dialogFactory = new DialogFactory(mainFrame);
-    return new MainGui(mainFrame, data, dialogFactory, ingredientProvider);
+  public static GuiMethods create(FrameFixture window) {
+    return new GuiMethods(window);
   }
 
-  @Test
-  public void pressExitButton() {
-    window.tabbedPane().selectTab(DATABASE_PANE).click();
-    Meal meal1 = createMeal("Bla", CookingTime.LONG, Sidedish.PASTA, ObligatoryUtensil.CASSEROLE,
-        CookingPreference.RARE, nonNegative(2), "No comment", Optional.empty());
-    enterMeal(meal1);
-    List<Meal> meals = new ArrayList<>();
-    meals.add(meal1);
-    compareTable(meals);
-    window.close();
-  }
-
-  private void enterMeal(Meal meal) {
+  public void enterMealFromMenu(Meal meal) {
     window.menuItem("MenuFile").click();
     window.menuItem("MenuItemCreateMeal").click();
     DialogFixture mealInputDialog = window.dialog();
@@ -84,8 +47,8 @@ public class SaveAndLoadTests extends AssertJSwingJUnitTestCase {
     mealInputDialog.button("ButtonPanelMealInput1").click();
   }
 
-  private void compareTable(List<Meal> meals) {
-    window.tabbedPane().selectTab(DATABASE_PANE).click();
+  public void compareDatabaseInTable(List<Meal> meals) {
+    window.tabbedPane().selectTab(DATABASE_EDIT.number()).click();
     JTableFixture databaseTable = window.table().requireColumnCount(NUMBER_OF_DATA_COLUMNS)
         .requireRowCount(meals.size());
     databaseTable.requireContents(mealsToTableContent(meals));
