@@ -58,13 +58,14 @@ public class RecipeInput {
   private NonnegativeIntegerInputField setupInputField(Optional<Recipe> recipe) {
     return new NonnegativeIntegerInputField(
         BUNDLES.message("recipeNumberOfPortionsField"),
+        "RecipePortions",
         recipe.isPresent()
             ? recipe.get().getNumberOfPortions()
             : FOUR);
   }
 
   private ButtonPanel displayButtons() {
-    return builder()
+    return builder("RecipeInput")
         .addCancelDialogButton(dialogWindow)
         .addOkButton(getSaveListener(recipeTable))
         .build();

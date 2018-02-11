@@ -10,15 +10,18 @@ import mealplaner.commons.gui.GuiPanel;
 public class ButtonInputField<T> implements InputField<T> {
   private JButton button;
   private final String label;
+  private final String name;
   private final String buttonLabel;
   private final String buttonLabelForDefaultContent;
   private final T defaultContent;
   private final Function<T, T> changeContent;
   private T content;
 
-  public ButtonInputField(String label, String buttonLabel, String buttonLabelForDefaultContent,
+  public ButtonInputField(String label, String name, String buttonLabel,
+      String buttonLabelForDefaultContent,
       T defaultContent, Function<T, T> changeContent) {
     this.label = label;
+    this.name = name;
     this.buttonLabel = buttonLabel;
     this.buttonLabelForDefaultContent = buttonLabelForDefaultContent;
     this.content = defaultContent;
@@ -30,6 +33,7 @@ public class ButtonInputField<T> implements InputField<T> {
   public void addToPanel(GuiPanel component) {
     button = new JButton(
         content.equals(defaultContent) ? buttonLabelForDefaultContent : buttonLabel);
+    button.setName("ButtonInputField" + name);
     button.addActionListener(action -> {
       content = changeContent.apply(content);
       button.setText(content.equals(defaultContent)

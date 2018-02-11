@@ -55,7 +55,7 @@ public class ShoppingListDialog {
   }
 
   private ButtonPanel displayButtons() {
-    return builder()
+    return builder("ShoppingListDialog")
         .addButton(BUNDLES.message("printButton"),
             BUNDLES.message("printButtonMnemonic"),
             action -> table.printTable(dialogWindow.getParent()))

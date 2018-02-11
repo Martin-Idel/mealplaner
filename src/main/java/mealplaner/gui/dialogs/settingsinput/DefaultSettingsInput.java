@@ -45,7 +45,7 @@ public class DefaultSettingsInput extends SettingsInput {
   }
 
   private ButtonPanel createButtonPanel(SettingTable settingTable) {
-    return builder()
+    return builder("DefaultSettingsInput")
         .addSaveButton(getSaveListener(settingTable))
         .addExitButton(justDisposeListener(dialogWindow))
         .build();

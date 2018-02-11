@@ -46,7 +46,7 @@ public class UpdatePastMeals {
   }
 
   private ButtonPanel createButtonPanel() {
-    return builder()
+    return builder("UpdatePastMeals")
         .addSaveButton(action -> {
           changedMeals = of(updateTable.returnContent());
           dialogWindow.dispose();

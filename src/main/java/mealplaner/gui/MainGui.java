@@ -1,6 +1,7 @@
 package mealplaner.gui;
 
 import static mealplaner.commons.BundleStore.BUNDLES;
+import static mealplaner.commons.gui.JMenuBuilder.builder;
 import static mealplaner.commons.gui.MessageDialog.showSaveExitDialog;
 
 import java.awt.event.WindowAdapter;
@@ -11,7 +12,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import mealplaner.MealplanerData;
-import mealplaner.commons.gui.JMenuBuilder;
 import mealplaner.gui.factories.DialogFactory;
 import mealplaner.gui.tabbedpanes.databaseedit.DatabaseEditPanel;
 import mealplaner.gui.tabbedpanes.proposal.ProposalSummaryPanel;
@@ -64,16 +64,16 @@ public class MainGui {
   }
 
   private JMenuItem overallHelpMenu() {
-    return new JMenuBuilder().addLabelText(BUNDLES.message("menuHelpDatabase"))
-        .addMnemonic(BUNDLES.message("menuHelpDatabaseMnemonic"))
+    return builder("HelpProposal").addLabelText(BUNDLES.message("menuHelpProposal"))
+        .addMnemonic(BUNDLES.message("menuHelpProposalMnemonic"))
         .addActionListener(action -> JOptionPane.showMessageDialog(frame,
-            BUNDLES.message("helpDatabaseText"),
-            BUNDLES.message("helpDatabaseTitle"), JOptionPane.INFORMATION_MESSAGE))
+            BUNDLES.message("helpProposalText"),
+            BUNDLES.message("helpProposalTitle"), JOptionPane.INFORMATION_MESSAGE))
         .build();
   }
 
   private JMenuItem createBackupMenu() {
-    return new JMenuBuilder().addLabelText(BUNDLES.message("menuDataCreateBackup"))
+    return builder("CreateBackup").addLabelText(BUNDLES.message("menuDataCreateBackup"))
         .addMnemonic(BUNDLES.message("menuDataCreateBackupMnemonic"))
         .addActionListener(action -> fileIoGui.createBackup(mealPlan))
         .build();
@@ -81,7 +81,7 @@ public class MainGui {
 
   // TODO: This can't work just yet. Need to reload application
   private JMenuItem loadBackupMenu() {
-    return new JMenuBuilder().addLabelText(BUNDLES.message("menuDataLoadBackup"))
+    return builder("LoadBackup").addLabelText(BUNDLES.message("menuDataLoadBackup"))
         .addMnemonic(BUNDLES.message("menuDataLoadBackupMnemonic"))
         .addActionListener(action -> {
           fileIoGui.loadBackup()
@@ -91,7 +91,7 @@ public class MainGui {
   }
 
   private JMenuItem exitMenu() {
-    return new JMenuBuilder()
+    return builder("Exit")
         .addLabelText(BUNDLES.message("menuDataExit"))
         .addMnemonic(BUNDLES.message("menuDataExitMnemonic"))
         .addActionListener(action -> showSaveExitDialog(frame, BUNDLES.message("saveYesNoQuestion"),
@@ -99,7 +99,7 @@ public class MainGui {
         .build();
   }
 
-  JFrame getFrame() {
+  public JFrame getFrame() {
     return frame;
   }
 

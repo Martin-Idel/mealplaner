@@ -15,13 +15,15 @@ public final class ButtonPanelBuilder {
   private final JPanel panel;
   private final List<JButton> buttonList = new ArrayList<>();
   private final List<JButton> enablingList = new ArrayList<>();
+  private final String name;
 
-  private ButtonPanelBuilder() {
+  private ButtonPanelBuilder(String name) {
     panel = new JPanel();
+    this.name = name;
   }
 
-  public static ButtonPanelBuilder builder() {
-    return new ButtonPanelBuilder();
+  public static ButtonPanelBuilder builder(String name) {
+    return new ButtonPanelBuilder(name);
   }
 
   public ButtonPanelBuilder addExitButton(ActionListener listener) {
@@ -90,6 +92,7 @@ public final class ButtonPanelBuilder {
 
   private JButton createButton(String label, String mnemonic, ActionListener listener) {
     JButton button = new JButton(label);
+    button.setName("ButtonPanel" + name + buttonList.size());
     button.setMnemonic(KeyStroke.getKeyStroke(mnemonic).getKeyCode());
     button.addActionListener(listener);
     return button;

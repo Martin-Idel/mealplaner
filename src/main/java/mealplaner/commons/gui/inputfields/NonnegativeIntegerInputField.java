@@ -16,17 +16,20 @@ import mealplaner.commons.gui.editing.NonnegativeIntegerTextFilter;
 
 public class NonnegativeIntegerInputField implements InputField<NonnegativeInteger> {
   private final String label;
+  private final String name;
   private JTextField nonnegativeIntegerTextField;
   private final NonnegativeInteger defaultValue;
 
-  public NonnegativeIntegerInputField(String label, NonnegativeInteger defaultValue) {
+  public NonnegativeIntegerInputField(String label, String name, NonnegativeInteger defaultValue) {
     this.label = label;
+    this.name = name;
     this.defaultValue = defaultValue;
   }
 
   @Override
   public void addToPanel(GuiPanel panel) {
     nonnegativeIntegerTextField = new JTextField(defaultValue.toString());
+    nonnegativeIntegerTextField.setName("InputFieldNonnegativeInteger" + name);
     PlainDocument doc = (PlainDocument) nonnegativeIntegerTextField.getDocument();
     doc.setDocumentFilter(new NonnegativeIntegerTextFilter());
     nonnegativeIntegerTextField.addFocusListener(new FocusListener() {

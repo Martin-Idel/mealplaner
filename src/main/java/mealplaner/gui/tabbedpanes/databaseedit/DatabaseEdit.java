@@ -147,7 +147,7 @@ public class DatabaseEdit implements DataStoreListener {
 
   private ButtonPanelEnabling createButtonPanelWithEnabling(Consumer<List<Meal>> setData,
       IngredientProvider ingredientProvider) {
-    return builder()
+    return builder("DatabaseEdit")
         .addButton(BUNDLES.message("addButton"),
             BUNDLES.message("addButtonMnemonic"),
             action -> {

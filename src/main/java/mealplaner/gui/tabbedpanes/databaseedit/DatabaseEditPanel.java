@@ -1,6 +1,7 @@
 package mealplaner.gui.tabbedpanes.databaseedit;
 
 import static mealplaner.commons.BundleStore.BUNDLES;
+import static mealplaner.commons.gui.JMenuBuilder.builder;
 
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -11,7 +12,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import mealplaner.MealplanerData;
-import mealplaner.commons.gui.JMenuBuilder;
 import mealplaner.gui.MainContainer;
 import mealplaner.model.Meal;
 import mealplaner.recipes.provider.IngredientProvider;
@@ -38,16 +38,17 @@ public class DatabaseEditPanel {
   }
 
   private JMenuItem helpDatabaseMenu() {
-    return new JMenuBuilder().addLabelText(BUNDLES.message("menuHelpProposal"))
-        .addMnemonic(BUNDLES.message("menuHelpProposalMnemonic"))
+    return builder("HelpDataBase").addLabelText(BUNDLES.message("menuHelpDatabase"))
+        .addMnemonic(BUNDLES.message("menuHelpDatabaseMnemonic"))
         .addActionListener(action -> JOptionPane.showMessageDialog(frame,
-            BUNDLES.message("helpProposalText"),
-            BUNDLES.message("helpProposalTitle"), JOptionPane.INFORMATION_MESSAGE))
+            BUNDLES.message("helpDatabaseText"),
+            BUNDLES.message("helpDatabaseTitle"), JOptionPane.INFORMATION_MESSAGE))
         .build();
   }
 
   private JMenuItem printDatabaseMenu(ActionListener listener) {
-    return new JMenuBuilder().addLabelText(BUNDLES.message("menuDataPrintDatabase"))
+
+    return builder("PrintDatabase").addLabelText(BUNDLES.message("menuDataPrintDatabase"))
         .addMnemonic(BUNDLES.message("menuDataPrintDatabaseMnemonic"))
         .addActionListener(listener)
         .build();

@@ -65,6 +65,7 @@ public class MainContainer {
 
   private void setupFileMenu() {
     fileMenu = new JMenu(BUNDLES.message("menuData"));
+    fileMenu.setName("MenuFile");
     fileMenu.setMnemonic(
         KeyStroke.getKeyStroke(BUNDLES.message("menuDataMnemonic")).getKeyCode());
     fileMenu.getAccessibleContext()
@@ -74,6 +75,7 @@ public class MainContainer {
 
   private void setupHelpMenu() {
     helpMenu = new JMenu(BUNDLES.message("menuHelp"));
+    helpMenu.setName("MenuHelp");
     helpMenu.setMnemonic(
         KeyStroke.getKeyStroke(BUNDLES.message("menuHelpMnemonic")).getKeyCode());
     helpMenu.getAccessibleContext()

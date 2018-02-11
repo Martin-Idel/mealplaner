@@ -7,12 +7,14 @@ import mealplaner.commons.gui.GuiPanel;
 
 public class ComboBoxInputField<E extends Enum<E>> implements InputField<E> {
   private final String label;
+  private final String name;
   private final Class<E> enumType;
   private JComboBox<E> comboBox;
   private final E defaultValue;
 
-  public ComboBoxInputField(String label, Class<E> enumType, E defaultValue) {
+  public ComboBoxInputField(String label, String name, Class<E> enumType, E defaultValue) {
     this.label = label;
+    this.name = name;
     this.enumType = enumType;
     this.defaultValue = defaultValue;
   }
@@ -20,6 +22,7 @@ public class ComboBoxInputField<E extends Enum<E>> implements InputField<E> {
   @Override
   public void addToPanel(GuiPanel panel) {
     comboBox = new JComboBox<E>(enumType.getEnumConstants());
+    comboBox.setName("InputFieldComboBox" + name);
     panel.getComponent().add(new JLabel(label));
     panel.getComponent().add(comboBox);
   }

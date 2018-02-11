@@ -37,7 +37,7 @@ public class ProposalOutput {
   }
 
   private ButtonPanel createButtonPanel(ProposalTable proposalTable) {
-    return builder()
+    return builder("ProposalOutput")
         .addButton(BUNDLES.message("printButton"),
             BUNDLES.message("printButtonMnemonic"),
             action -> proposalTable.getTable().printTable(parentFrame))

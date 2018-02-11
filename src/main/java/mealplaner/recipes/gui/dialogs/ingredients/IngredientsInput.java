@@ -66,19 +66,23 @@ public class IngredientsInput {
   }
 
   private void setupInputFields() {
-    nameField = new NonEmptyTextInputField(BUNDLES.message("insertIngredientName"));
+    nameField = new NonEmptyTextInputField(
+        BUNDLES.message("insertIngredientName"),
+        "IngredientName");
     typeField = new ComboBoxInputField<IngredientType>(
         BUNDLES.message("insertTypeLength"),
+        "IngredientType",
         IngredientType.class,
         IngredientType.OTHER);
     measureField = new ComboBoxInputField<Measure>(
         BUNDLES.message("insertMeasure"),
+        "IngredientMeasure",
         Measure.class,
         Measure.NONE);
   }
 
   private ButtonPanel setupButtonPanel(ActionListener saveListener) {
-    return builder()
+    return builder("IngredientsInput")
         .addSaveButton(saveListener)
         .addCancelDialogButton(dialogWindow)
         .build();

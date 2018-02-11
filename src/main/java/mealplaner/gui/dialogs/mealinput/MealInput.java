@@ -42,7 +42,7 @@ public abstract class MealInput<T> {
   }
 
   private ButtonPanel buildButtonPanel(ActionListener saveListener) {
-    return builder()
+    return builder("MealInput")
         .addSaveButton(saveListener)
         .addCancelDialogButton(dialogWindow)
         .build();

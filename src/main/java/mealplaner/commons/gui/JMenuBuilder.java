@@ -1,14 +1,24 @@
 package mealplaner.commons.gui;
 
+import static javax.swing.KeyStroke.getKeyStroke;
+
 import java.awt.event.ActionListener;
 
 import javax.swing.JMenuItem;
-import javax.swing.KeyStroke;
 
 public class JMenuBuilder {
+  private final String name;
   String labelText;
   String mnemonic;
   ActionListener actionListener;
+
+  private JMenuBuilder(String name) {
+    this.name = name;
+  }
+
+  public static JMenuBuilder builder(String name) {
+    return new JMenuBuilder(name);
+  }
 
   public JMenuBuilder addLabelText(String labelText) {
     this.labelText = labelText;
@@ -27,7 +37,8 @@ public class JMenuBuilder {
 
   public JMenuItem build() {
     JMenuItem menuItem = new JMenuItem(labelText);
-    menuItem.setMnemonic(KeyStroke.getKeyStroke(mnemonic).getKeyCode());
+    menuItem.setName("MenuItem" + name);
+    menuItem.setMnemonic(getKeyStroke(mnemonic).getKeyCode());
     menuItem.addActionListener(actionListener);
     return menuItem;
   }

@@ -51,7 +51,7 @@ public class ProposalSettingsInput extends SettingsInput {
   }
 
   private ButtonPanel createButtonPanel(DefaultSettings defaultSettings) {
-    return builder()
+    return builder("ProposalSettingsInput")
         .addButton(BUNDLES.message("useDefaultButton"),
             BUNDLES.message("useDefaultButtonMnemonic"),
             action -> settingTable.useDefaultSettings(defaultSettings))

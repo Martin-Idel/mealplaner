@@ -133,7 +133,7 @@ public class ProposalSummaryPanel {
 
   private ButtonPanel createButtonPanel(ActionListener saveExitListener,
       Runnable saveAction) {
-    return builder()
+    return builder("ProposalSummary")
         .addButton(BUNDLES.message("saveExitButton"),
             BUNDLES.message("saveExitMnemonic"),
             saveExitListener)
@@ -171,28 +171,32 @@ public class ProposalSummaryPanel {
   }
 
   private JMenuItem printProposalMenu(ActionListener listener) {
-    return new JMenuBuilder().addLabelText(BUNDLES.message("menuDataPrintProposal"))
+    return JMenuBuilder.builder("PrintProposal")
+        .addLabelText(BUNDLES.message("menuDataPrintProposal"))
         .addMnemonic(BUNDLES.message("menuDataPrintProposalMnemonic"))
         .addActionListener(listener)
         .build();
   }
 
   private JMenuItem createIngredientsMenu(ActionListener listener) {
-    return new JMenuBuilder().addLabelText(BUNDLES.message("ingredientInsertMenu"))
+    return JMenuBuilder.builder("InsertIngredients")
+        .addLabelText(BUNDLES.message("ingredientInsertMenu"))
         .addMnemonic(BUNDLES.message("ingredientInsertMenuMnemonic"))
         .addActionListener(listener)
         .build();
   }
 
   private JMenuItem createMealMenu(ActionListener listener) {
-    return new JMenuBuilder().addLabelText(BUNDLES.message("menuDataCreateMenu"))
+    return JMenuBuilder.builder("CreateMeal")
+        .addLabelText(BUNDLES.message("menuDataCreateMenu"))
         .addMnemonic(BUNDLES.message("menuDataCreateMenuMnemonic"))
         .addActionListener(listener)
         .build();
   }
 
   private JMenuItem viewProposalMenu(ActionListener listener) {
-    return new JMenuBuilder().addLabelText(BUNDLES.message("menuDataLastProposal"))
+    return JMenuBuilder.builder("LastProposal")
+        .addLabelText(BUNDLES.message("menuDataLastProposal"))
         .addMnemonic(BUNDLES.message("menuDataLastProposalMnemonic"))
         .addActionListener(listener)
         .build();

@@ -6,17 +6,20 @@ import javax.swing.JLabel;
 import mealplaner.commons.gui.GuiPanel;
 
 public class CheckboxInputField implements InputField<Boolean> {
+  private final String label;
   private final String name;
   private JCheckBox checkBox;
 
-  public CheckboxInputField(String name) {
+  public CheckboxInputField(String label, String name) {
+    this.label = label;
     this.name = name;
   }
 
   @Override
   public void addToPanel(GuiPanel panel) {
     checkBox = new JCheckBox();
-    panel.getComponent().add(new JLabel(name));
+    checkBox.setText("InputFieldCheckBox" + name);
+    panel.getComponent().add(new JLabel(label));
     panel.getComponent().add(checkBox);
   }
 

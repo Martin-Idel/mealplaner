@@ -51,29 +51,35 @@ public final class MealInputGrid {
   }
 
   public GridPanel initialiseInputFields(IngredientProvider ingredientProvider) {
-    nameField = new NonEmptyTextInputField(BUNDLES.message("insertMealName"));
+    nameField = new NonEmptyTextInputField(BUNDLES.message("insertMealName"), "Name");
     cookingTimeField = new ComboBoxInputField<CookingTime>(
         BUNDLES.message("insertMealLength"),
+        "CookingTime",
         CookingTime.class,
         CookingTime.SHORT);
     sidedishField = new ComboBoxInputField<Sidedish>(
         BUNDLES.message("insertMealSidedish"),
+        "Sidedish",
         Sidedish.class,
         Sidedish.NONE);
     obligatoryUtensilField = new ComboBoxInputField<ObligatoryUtensil>(
         BUNDLES.message("insertMealUtensil"),
+        "ObligatoryUtensil",
         ObligatoryUtensil.class,
         ObligatoryUtensil.POT);
     daysPassedField = new NonnegativeIntegerInputField(
         BUNDLES.message("insertMealLastCooked"),
+        "DaysPassed",
         ZERO);
     preferenceField = new ComboBoxInputField<CookingPreference>(
         BUNDLES.message("insertMealPopularity"),
+        "CookingPreference",
         CookingPreference.class,
         CookingPreference.NO_PREFERENCE);
-    commentField = new TextInputField(BUNDLES.message("insertMealComment"));
+    commentField = new TextInputField(BUNDLES.message("insertMealComment"), "Comment");
     recipeInputField = new ButtonInputField<Optional<Recipe>>(
         BUNDLES.message("createRecipeLabel"),
+        "Recipe",
         BUNDLES.message("editRecipeButtonLabel"),
         BUNDLES.message("createRecipeButtonLabel"),
         of(createRecipe()), content -> createRecipeDialog(ingredientProvider, content));
