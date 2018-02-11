@@ -52,7 +52,7 @@ public class DatabaseEdit implements DataStoreListener {
   public DatabaseEdit(DataStore mealPlan, JFrame parentFrame, JPanel parentPanel) {
     this.mealplanerData = mealPlan;
     this.meals = new ArrayList<>(mealPlan.getMeals());
-    mealplanerData.register(this);
+    mealPlan.register(this);
 
     dataFrame = parentFrame;
     dataPanel = parentPanel;

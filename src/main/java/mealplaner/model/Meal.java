@@ -7,12 +7,12 @@ import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.io.XmlHelpers.createTextNode;
 import static mealplaner.io.XmlHelpers.readEnum;
 import static mealplaner.recipes.model.Recipe.createRecipe;
+import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.Optional;
 import java.util.function.Supplier;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -35,7 +35,7 @@ public final class Meal implements Comparable<Meal> {
       ObligatoryUtensil.CASSEROLE,
       CookingPreference.RARE, ZERO, "", empty());
 
-  private static final Logger logger = LoggerFactory.getLogger(Settings.class);
+  private static final Logger logger = getLogger(Settings.class);
 
   private String name;
   private final CookingTime cookingTime;

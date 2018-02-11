@@ -1,11 +1,11 @@
 package mealplaner.gui.dialogs.mealinput;
 
+import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.NonnegativeInteger.ZERO;
 import static mealplaner.commons.gui.GridPanel.gridPanel;
 import static mealplaner.model.Meal.createMeal;
-import static mealplaner.recipes.model.Recipe.createRecipe;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -82,7 +82,7 @@ public final class MealInputGrid {
         "Recipe",
         BUNDLES.message("editRecipeButtonLabel"),
         BUNDLES.message("createRecipeButtonLabel"),
-        of(createRecipe()), content -> createRecipeDialog(ingredientProvider, content));
+        empty(), content -> createRecipeDialog(ingredientProvider, content));
 
     GridPanel mealCreationPanel = gridPanel(0, 2);
     allFields().forEach(field -> field.addToPanel(mealCreationPanel));

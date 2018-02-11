@@ -27,6 +27,7 @@ public class MainGui {
   private final FileIoGui fileIoGui;
   private final DatabaseEditPanel dbaseEditPanel;
 
+  // TODO: This is bad, don't reload mealPlan in constructor
   public MainGui(JFrame mainFrame, MealplanerData mealPlan, DialogFactory dialogFactory,
       IngredientProvider ingredientProvider) {
     this.frame = mainFrame;
@@ -36,8 +37,8 @@ public class MainGui {
     this.mealPlan = fileIoGui.loadDatabase();
     this.container = new MainContainer(frame);
 
-    ProposalSummaryPanel mealPanel = new ProposalSummaryPanel(mealPlan, dialogFactory, mainFrame,
-        ingredientProvider);
+    ProposalSummaryPanel mealPanel = new ProposalSummaryPanel(this.mealPlan, dialogFactory,
+        mainFrame, ingredientProvider);
     mealPanel.setupPanel(
         action -> {
           saveDataBase();
@@ -46,8 +47,7 @@ public class MainGui {
         () -> saveDataBase());
     mealPanel.addElements(container);
 
-    dbaseEditPanel = new DatabaseEditPanel(this.mealPlan, frame,
-        ingredientProvider);
+    dbaseEditPanel = new DatabaseEditPanel(this.mealPlan, frame, ingredientProvider);
     dbaseEditPanel.addElements(container);
 
     addToFileMenu();
