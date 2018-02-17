@@ -11,10 +11,9 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import javax.swing.JFrame;
-
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.gui.GridPanel;
+import mealplaner.commons.gui.dialogs.DialogWindow;
 import mealplaner.commons.gui.inputfields.ButtonInputField;
 import mealplaner.commons.gui.inputfields.ComboBoxInputField;
 import mealplaner.commons.gui.inputfields.InputField;
@@ -40,14 +39,14 @@ public final class MealInputGrid {
   private InputField<String> commentField;
   private InputField<Optional<Recipe>> recipeInputField;
 
-  private final JFrame parentFrame;
+  private final DialogWindow dialogWindow;
 
-  private MealInputGrid(JFrame parentFrame) {
-    this.parentFrame = parentFrame;
+  private MealInputGrid(DialogWindow dialogWindow) {
+    this.dialogWindow = dialogWindow;
   }
 
-  public static MealInputGrid inputGrid(JFrame parentFrame) {
-    return new MealInputGrid(parentFrame);
+  public static MealInputGrid inputGrid(DialogWindow dialog) {
+    return new MealInputGrid(dialog);
   }
 
   public GridPanel initialiseInputFields(IngredientProvider ingredientProvider) {
@@ -91,7 +90,7 @@ public final class MealInputGrid {
 
   private Optional<Recipe> createRecipeDialog(IngredientProvider ingredientProvider,
       Optional<Recipe> recipe) {
-    RecipeInput recipeInput = new RecipeInput(parentFrame,
+    RecipeInput recipeInput = new RecipeInput(dialogWindow,
         BUNDLES.message("recipeInputDialogTitle"));
     return recipeInput.showDialog(recipe, ingredientProvider);
   }

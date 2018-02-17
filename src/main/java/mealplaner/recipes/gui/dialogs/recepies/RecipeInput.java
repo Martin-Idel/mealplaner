@@ -4,11 +4,13 @@ import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.NonnegativeInteger.FOUR;
 import static mealplaner.commons.gui.GridPanel.gridPanel;
 import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
+import static mealplaner.commons.gui.dialogs.DialogWindow.window;
 import static mealplaner.recipes.model.Recipe.createRecipe;
 
 import java.awt.event.ActionListener;
 import java.util.Optional;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 
 import mealplaner.commons.NonnegativeInteger;
@@ -28,7 +30,11 @@ public class RecipeInput {
   private Optional<Recipe> enteredRecipe;
 
   public RecipeInput(JFrame parentFrame, String label) {
-    dialogWindow = DialogWindow.window(parentFrame, label);
+    dialogWindow = window(parentFrame, label);
+  }
+
+  public RecipeInput(JDialog parentDialog, String label) {
+    dialogWindow = window(parentDialog, label);
   }
 
   public Optional<Recipe> showDialog(Optional<Recipe> recipe, IngredientProvider ingredients) {

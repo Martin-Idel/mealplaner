@@ -1,6 +1,7 @@
 package mealplaner.commons.gui.dialogs;
 
 import java.awt.BorderLayout;
+import java.awt.Window;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -10,18 +11,29 @@ import mealplaner.commons.gui.GuiComponent;
 
 public class DialogWindow extends JDialog {
   private static final long serialVersionUID = 1L;
-  private final JFrame frame;
+  private final Window window;
   private final JPanel mainPanel;
 
   protected DialogWindow(JFrame frame, String name) {
     super(frame, name, true);
-    this.frame = frame;
+    this.window = frame;
+    mainPanel = new JPanel();
+    mainPanel.setLayout(new BorderLayout());
+  }
+
+  protected DialogWindow(JDialog dialog, String name) {
+    super(dialog, name, true);
+    this.window = dialog;
     mainPanel = new JPanel();
     mainPanel.setLayout(new BorderLayout());
   }
 
   public static DialogWindow window(JFrame frame, String name) {
     return new DialogWindow(frame, name);
+  }
+
+  public static DialogWindow window(JDialog dialog, String name) {
+    return new DialogWindow(dialog, name);
   }
 
   public void setVisible() {
@@ -55,6 +67,6 @@ public class DialogWindow extends JDialog {
   public void arrangeWithSize(int width, int height) {
     getContentPane().add(mainPanel);
     setSize(width, height);
-    setLocationRelativeTo(frame);
+    setLocationRelativeTo(window);
   }
 }

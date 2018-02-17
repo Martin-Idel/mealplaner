@@ -33,7 +33,7 @@ public class ButtonInputField<T> implements InputField<T> {
   public void addToPanel(GuiPanel component) {
     button = new JButton(
         content.equals(defaultContent) ? buttonLabelForDefaultContent : buttonLabel);
-    button.setName("ButtonInputField" + name);
+    button.setName("InputFieldButton" + name);
     button.addActionListener(action -> {
       content = changeContent.apply(content);
       button.setText(content.equals(defaultContent)

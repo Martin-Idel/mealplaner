@@ -25,7 +25,7 @@ public abstract class MealInput<T> {
   public MealInput(JFrame parent) {
     dialogWindow = DialogWindow.window(parent, BUNDLES.message("mealInputDialogTitle"));
     this.parentFrame = parent;
-    inputGrid = inputGrid(parentFrame);
+    inputGrid = inputGrid(dialogWindow);
   }
 
   public abstract T showDialog(IngredientProvider ingredientProvider);
