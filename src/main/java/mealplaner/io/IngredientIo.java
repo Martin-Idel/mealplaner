@@ -15,24 +15,24 @@ import mealplaner.commons.errorhandling.MealException;
 import mealplaner.recipes.provider.IngredientProvider;
 
 public final class IngredientIo {
-  public static final String INGREDIENTS_FILE = "ingredients.xml";
-
   private IngredientIo() {
   }
 
-  public static IngredientProvider readXml() {
+  public static IngredientProvider readXml(String savePath) {
     try {
       JAXBContext jc = JAXBContext.newInstance(IngredientProvider.class);
       Unmarshaller unmarshaller = jc.createUnmarshaller();
-      File xml = new File(INGREDIENTS_FILE);
-      return (IngredientProvider) unmarshaller.unmarshal(xml);
+      File xml = new File(savePath);
+      IngredientProvider provider = (IngredientProvider) unmarshaller.unmarshal(xml);
+      provider.setSavePath(savePath);
+      return provider;
     } catch (JAXBException e) {
       throw new MealException("Provider for ingredients could not be loaded.", e);
     }
   }
 
   public static void saveXml(IngredientProvider ingredients) {
-    try (OutputStream outputStream = new FileOutputStream(INGREDIENTS_FILE)) {
+    try (OutputStream outputStream = new FileOutputStream(ingredients.getSavePath())) {
       JAXBContext jc = JAXBContext.newInstance(IngredientProvider.class);
       Marshaller marshaller = jc.createMarshaller();
       marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -40,9 +40,9 @@ public final class IngredientIo {
     } catch (JAXBException e) {
       throw new MealException("Provider for ingredients could not be loaded.", e);
     } catch (FileNotFoundException e) {
-      throw new MealException("File" + INGREDIENTS_FILE + "was not be found.", e);
+      throw new MealException("File" + ingredients.getSavePath() + "was not be found.", e);
     } catch (IOException e) {
-      throw new MealException("File" + INGREDIENTS_FILE + "could not be loaded.", e);
+      throw new MealException("File" + ingredients.getSavePath() + "could not be loaded.", e);
     }
   }
 }

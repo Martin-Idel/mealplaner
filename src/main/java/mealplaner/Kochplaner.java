@@ -16,7 +16,7 @@ public final class Kochplaner {
 
   public static void main(String[] args) {
     MealplanerData data = new MealplanerData();
-    IngredientProvider ingredientProvider = loadIngredientProvider();
+    IngredientProvider ingredientProvider = loadIngredientProvider("ingredients.xml");
     invokeLater(createMainGui(data, ingredientProvider));
   }
 

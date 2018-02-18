@@ -27,18 +27,18 @@ public class FileIoGui {
     this.frame = frame;
   }
 
-  public MealplanerData loadDatabase() {
+  public static MealplanerData loadDatabase() {
     MealplanerData mealPlan = new MealplanerData();
     try {
       mealPlan = MealplanerFileLoader.load("save01.ser");
     } catch (FileNotFoundException exc) {
-      errorMessages(frame, exc, BUNDLES.errorMessage("MSG_FILE_NOT_FOUND"));
+      errorMessages(null, exc, BUNDLES.errorMessage("MSG_FILE_NOT_FOUND"));
       logger.error("File not found in: ", exc);
     } catch (IOException exc) {
-      errorMessages(frame, exc, BUNDLES.errorMessage("MSG_IOEX"));
+      errorMessages(null, exc, BUNDLES.errorMessage("MSG_IOEX"));
       logger.error("I/O Exception in: ", exc);
     } catch (MealException exc) {
-      errorMessages(frame, exc, BUNDLES.errorMessage("MSG_CLASS_NOT_FOUND"));
+      errorMessages(null, exc, BUNDLES.errorMessage("MSG_CLASS_NOT_FOUND"));
       logger.error("MealException in: ", exc);
     }
     return mealPlan;

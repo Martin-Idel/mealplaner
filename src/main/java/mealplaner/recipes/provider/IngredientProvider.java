@@ -14,13 +14,23 @@ public class IngredientProvider {
   @XmlElementWrapper(name = "ingredients")
   @XmlElement(name = "ingredient")
   private final List<Ingredient> ingredients;
+  private String savePath;
 
   public IngredientProvider() {
-    this(new ArrayList<>());
+    this(new ArrayList<>(), "");
   }
 
-  public IngredientProvider(List<Ingredient> ingredients) {
+  public IngredientProvider(List<Ingredient> ingredients, String relativeSavePath) {
     this.ingredients = ingredients;
+    this.savePath = relativeSavePath;
+  }
+
+  public void setSavePath(String savePath) {
+    this.savePath = savePath;
+  }
+
+  public String getSavePath() {
+    return savePath;
   }
 
   public List<Ingredient> getIngredients() {
