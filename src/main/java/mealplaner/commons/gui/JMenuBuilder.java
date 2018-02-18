@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JMenuItem;
 
-public class JMenuBuilder {
+public final class JMenuBuilder {
   private final String name;
   String labelText;
   String mnemonic;

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mealplaner>
+  <mealplaner>
+    <mealList/>
+    <defaultSettings>
+      <setting dayOfWeek="MONDAY">
+        <casseroleSettings>POSSIBLE</casseroleSettings>
+        <preferenceSettings>NORMAL</preferenceSettings>
+        <numberOfPeople>2</numberOfPeople>
+        <VERY_SHORT>false</VERY_SHORT>
+        <SHORT>false</SHORT>
+        <MEDIUM>false</MEDIUM>
+        <LONG>false</LONG>
+      </setting>
+      <setting dayOfWeek="TUESDAY">
+        <casseroleSettings>POSSIBLE</casseroleSettings>
+        <preferenceSettings>NORMAL</preferenceSettings>
+        <numberOfPeople>2</numberOfPeople>
+        <VERY_SHORT>false</VERY_SHORT>
+        <SHORT>false</SHORT>
+        <MEDIUM>false</MEDIUM>
+        <LONG>false</LONG>
+      </setting>
+      <setting dayOfWeek="WEDNESDAY">
+        <casseroleSettings>POSSIBLE</casseroleSettings>
+        <preferenceSettings>NORMAL</preferenceSettings>
+        <numberOfPeople>2</numberOfPeople>
+        <VERY_SHORT>false</VERY_SHORT>
+        <SHORT>false</SHORT>
+        <MEDIUM>false</MEDIUM>
+        <LONG>false</LONG>
+      </setting>
+      <setting dayOfWeek="THURSDAY">
+        <casseroleSettings>POSSIBLE</casseroleSettings>
+        <preferenceSettings>NORMAL</preferenceSettings>
+        <numberOfPeople>2</numberOfPeople>
+        <VERY_SHORT>false</VERY_SHORT>
+        <SHORT>false</SHORT>
+        <MEDIUM>false</MEDIUM>
+        <LONG>false</LONG>
+      </setting>
+      <setting dayOfWeek="FRIDAY">
+        <casseroleSettings>POSSIBLE</casseroleSettings>
+        <preferenceSettings>NORMAL</preferenceSettings>
+        <numberOfPeople>2</numberOfPeople>
+        <VERY_SHORT>false</VERY_SHORT>
+        <SHORT>false</SHORT>
+        <MEDIUM>false</MEDIUM>
+        <LONG>false</LONG>
+      </setting>
+      <setting dayOfWeek="SATURDAY">
+        <casseroleSettings>POSSIBLE</casseroleSettings>
+        <preferenceSettings>NORMAL</preferenceSettings>
+        <numberOfPeople>2</numberOfPeople>
+        <VERY_SHORT>false</VERY_SHORT>
+        <SHORT>false</SHORT>
+        <MEDIUM>false</MEDIUM>
+        <LONG>false</LONG>
+      </setting>
+      <setting dayOfWeek="SUNDAY">
+        <casseroleSettings>POSSIBLE</casseroleSettings>
+        <preferenceSettings>NORMAL</preferenceSettings>
+        <numberOfPeople>2</numberOfPeople>
+        <VERY_SHORT>false</VERY_SHORT>
+        <SHORT>false</SHORT>
+        <MEDIUM>false</MEDIUM>
+        <LONG>false</LONG>
+      </setting>
+    </defaultSettings>
+    <date>
+      <dayOfMonth>11</dayOfMonth>
+      <month>FEBRUARY</month>
+      <year>2018</year>
+    </date>
+    <proposal>
+      <proposalList/>
+      <settingsList/>
+      <timeOfProposal>
+        <dayOfMonth>11</dayOfMonth>
+        <month>FEBRUARY</month>
+        <year>2018</year>
+      </timeOfProposal>
+      <includesToday>false</includesToday>
+    </proposal>
+  </mealplaner>
+</mealplaner>

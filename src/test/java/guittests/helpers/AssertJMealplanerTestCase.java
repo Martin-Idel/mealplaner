@@ -13,6 +13,7 @@ import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
 import mealplaner.MealplanerData;
 import mealplaner.gui.MainGui;
 import mealplaner.gui.factories.DialogFactory;
+import mealplaner.io.FileIoGui;
 import mealplaner.recipes.provider.IngredientProvider;
 
 public class AssertJMealplanerTestCase extends AssertJSwingJUnitTestCase {
@@ -28,11 +29,12 @@ public class AssertJMealplanerTestCase extends AssertJSwingJUnitTestCase {
   }
 
   private MainGui createMainApplication() {
-    MealplanerData data = new MealplanerData();
-    IngredientProvider ingredientProvider = loadIngredientProvider();
+    IngredientProvider ingredientProvider = loadIngredientProvider(
+        "src/test/resources/ingredients.xml");
     JFrame mainFrame = new JFrame(BUNDLES.message("mainFrameTitle"));
+    FileIoGui fileIoGui = new FileIoGui(mainFrame, "src/test/resources/save.xml");
+    MealplanerData data = new MealplanerData();
     DialogFactory dialogFactory = new DialogFactory(mainFrame);
-    return new MainGui(mainFrame, data, dialogFactory, ingredientProvider);
+    return new MainGui(mainFrame, data, ingredientProvider, dialogFactory, fileIoGui);
   }
-
 }

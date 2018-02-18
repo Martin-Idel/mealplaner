@@ -15,7 +15,7 @@ import mealplaner.model.Meal;
 import mealplaner.recipes.model.QuantitativeIngredient;
 import mealplaner.recipes.model.Recipe;
 
-public class GuiMethods {
+public final class GuiMethods {
   private static final int NUMBER_OF_DATA_COLUMNS = 8;
   private static final int RECIPE_COLUMN_IN_DATA_BASE = NUMBER_OF_DATA_COLUMNS - 1;
   private static final int NUMBER_OF_INGREDIENT_COLUMNS = 3;
@@ -87,21 +87,25 @@ public class GuiMethods {
             .isEqualTo(recipe.getNumberOfPortions().toString());
         JTableFixture recipeTable = recipeDialog.table();
         recipeTable.requireColumnCount(NUMBER_OF_INGREDIENT_COLUMNS)
-            .requireRowCount(recipe.getIngredientListAsIs().size());
+            .requireRowCount(recipe.getIngredientListAsIs().size() + 1);
         recipeTable.requireContents(recipeToTableContent(recipe));
+        recipeDialog.button("ButtonPanelRecipeInput1").click();
       }
     }
   }
 
   private String[][] recipeToTableContent(Recipe recipe) {
     List<QuantitativeIngredient> ingredients = recipe.getIngredientListAsIs();
-    String[][] content = new String[ingredients.size()][NUMBER_OF_INGREDIENT_COLUMNS];
+    String[][] content = new String[ingredients.size() + 1][NUMBER_OF_INGREDIENT_COLUMNS];
     for (int i = 0; i < ingredients.size(); i++) {
       QuantitativeIngredient ingredient = ingredients.get(i);
       content[i][0] = ingredient.getIngredient().getName();
       content[i][1] = ingredient.getAmount().toString();
       content[i][2] = ingredient.getIngredient().getMeasure().toString();
     }
+    content[ingredients.size()][0] = "";
+    content[ingredients.size()][1] = "0";
+    content[ingredients.size()][2] = "-";
     return content;
   }
 
