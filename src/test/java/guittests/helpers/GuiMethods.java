@@ -33,6 +33,38 @@ public final class GuiMethods {
   public void enterMealFromMenu(Meal meal) {
     window.menuItem("MenuFile").click();
     window.menuItem("MenuItemCreateMeal").click();
+    DialogFixture mealInputDialog = addMeal(meal);
+    mealInputDialog.button("ButtonPanelMealInput1").click();
+  }
+
+  public void enterRecipe(Recipe recipe, DialogFixture dialog) {
+    dialog.textBox("InputFieldNonnegativeIntegerRecipePortions")
+        .enterText(recipe.getNumberOfPortions().toString());
+    JTableFixture ingredientsTable = dialog.table();
+    List<QuantitativeIngredient> ingredientsAsIs = recipe.getIngredientListAsIs();
+    for (int i = 0; i < ingredientsAsIs.size(); i++) {
+      QuantitativeIngredient ingredient = ingredientsAsIs.get(i);
+      ingredientsTable.enterValue(row(i).column(0), ingredient.getIngredient().getName());
+      ingredientsTable.enterValue(row(i).column(1), ingredient.getAmount().toString());
+    }
+    dialog.button("ButtonPanelRecipeInput1").click();
+  }
+
+  public void addMealFromDatabase(Meal meal) {
+    window.tabbedPane().selectTab(DATABASE_EDIT.number()).click();
+    window.button("ButtonPanelDatabaseEdit0").click();
+    addMeal(meal);
+  }
+
+  public void compareDatabaseInTable(List<Meal> meals) {
+    window.tabbedPane().selectTab(DATABASE_EDIT.number()).click();
+    JTableFixture databaseTable = window.table().requireColumnCount(NUMBER_OF_DATA_COLUMNS)
+        .requireRowCount(meals.size());
+    databaseTable.requireContents(mealsToTableContent(meals));
+    assertCorrectRecipes(meals, databaseTable);
+  }
+
+  private DialogFixture addMeal(Meal meal) {
     DialogFixture mealInputDialog = window.dialog();
     mealInputDialog.textBox("InputFieldNonemptyTextName")
         .enterText(meal.getName());
@@ -53,28 +85,7 @@ public final class GuiMethods {
       enterRecipe(meal.getRecipe().get(), mealInputDialog);
     }
     mealInputDialog.button("ButtonPanelMealInput0").click();
-    mealInputDialog.button("ButtonPanelMealInput1").click();
-  }
-
-  private void enterRecipe(Recipe recipe, DialogFixture dialog) {
-    dialog.textBox("InputFieldNonnegativeIntegerRecipePortions")
-        .enterText(recipe.getNumberOfPortions().toString());
-    JTableFixture ingredientsTable = dialog.table();
-    List<QuantitativeIngredient> ingredientsAsIs = recipe.getIngredientListAsIs();
-    for (int i = 0; i < ingredientsAsIs.size(); i++) {
-      QuantitativeIngredient ingredient = ingredientsAsIs.get(i);
-      ingredientsTable.enterValue(row(i).column(0), ingredient.getIngredient().getName());
-      ingredientsTable.enterValue(row(i).column(1), ingredient.getAmount().toString());
-    }
-    dialog.button("ButtonPanelRecipeInput1").click();
-  }
-
-  public void compareDatabaseInTable(List<Meal> meals) {
-    window.tabbedPane().selectTab(DATABASE_EDIT.number()).click();
-    JTableFixture databaseTable = window.table().requireColumnCount(NUMBER_OF_DATA_COLUMNS)
-        .requireRowCount(meals.size());
-    databaseTable.requireContents(mealsToTableContent(meals));
-    assertCorrectRecipes(meals, databaseTable);
+    return mealInputDialog;
   }
 
   private void assertCorrectRecipes(List<Meal> meals, JTableFixture databaseTable) {
@@ -82,20 +93,27 @@ public final class GuiMethods {
       if (meals.get(i).getRecipe().isPresent()) {
         Recipe recipe = meals.get(i).getRecipe().get();
         databaseTable.cell(row(i).column(RECIPE_COLUMN_IN_DATA_BASE)).click();
-        DialogFixture recipeDialog = window.dialog();
-        assertThat(recipeDialog.textBox("InputFieldNonnegativeIntegerRecipePortions").text())
-            .isEqualTo(recipe.getNumberOfPortions().toString());
-        JTableFixture recipeTable = recipeDialog.table();
-        recipeTable.requireColumnCount(NUMBER_OF_INGREDIENT_COLUMNS)
-            .requireRowCount(recipe.getIngredientListAsIs().size() + 1);
-        recipeTable.requireContents(recipeToTableContent(recipe));
-        recipeDialog.button("ButtonPanelRecipeInput1").click();
+        compareRecipeInTable(recipe);
       }
     }
   }
 
+  private void compareRecipeInTable(Recipe recipe) {
+    DialogFixture recipeDialog = window.dialog();
+    assertThat(recipeDialog.textBox("InputFieldNonnegativeIntegerRecipePortions").text())
+        .isEqualTo(recipe.getNumberOfPortions().toString());
+    JTableFixture recipeTable = recipeDialog.table();
+    recipeTable.requireColumnCount(NUMBER_OF_INGREDIENT_COLUMNS)
+        .requireRowCount(recipe.getIngredientListAsIs().size() + 1);
+    recipeTable.requireContents(recipeToTableContent(recipe));
+    recipeDialog.button("ButtonPanelRecipeInput0").click();
+  }
+
   private String[][] recipeToTableContent(Recipe recipe) {
-    List<QuantitativeIngredient> ingredients = recipe.getIngredientListAsIs();
+    List<QuantitativeIngredient> ingredients = recipe
+        .getIngredientListAsIs();
+    ingredients.sort((ingredient1, ingredient2) -> ingredient1.getIngredient().getName()
+        .compareTo(ingredient2.getIngredient().getName()));
     String[][] content = new String[ingredients.size() + 1][NUMBER_OF_INGREDIENT_COLUMNS];
     for (int i = 0; i < ingredients.size(); i++) {
       QuantitativeIngredient ingredient = ingredients.get(i);

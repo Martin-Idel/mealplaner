@@ -11,5 +11,10 @@
             <type>BAKING_GOODS</type>
             <measure>MILLILITRE</measure>
         </ingredient>
+        <ingredient>
+            <name>Test3</name>
+            <type>CANNED_FRUIT</type>
+            <measure>GRAM</measure>
+        </ingredient>
     </ingredients>
 </ingredientProvider>
