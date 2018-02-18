@@ -27,14 +27,12 @@ public class MainGui {
   private final FileIoGui fileIoGui;
   private final DatabaseEditPanel dbaseEditPanel;
 
-  // TODO: This is bad, don't reload mealPlan in constructor
-  public MainGui(JFrame mainFrame, MealplanerData mealPlan, DialogFactory dialogFactory,
-      IngredientProvider ingredientProvider) {
+  public MainGui(JFrame mainFrame, MealplanerData mealPlan,
+      IngredientProvider ingredientProvider, DialogFactory dialogFactory, FileIoGui fileIoGui) {
     this.frame = mainFrame;
     this.mealPlan = mealPlan;
+    this.fileIoGui = fileIoGui;
 
-    fileIoGui = new FileIoGui(frame);
-    this.mealPlan = fileIoGui.loadDatabase();
     this.container = new MainContainer(frame);
 
     ProposalSummaryPanel mealPanel = new ProposalSummaryPanel(this.mealPlan, dialogFactory,

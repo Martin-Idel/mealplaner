@@ -41,7 +41,7 @@ public final class MealplanerFileSaver {
       transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 
       DOMSource source = new DOMSource(saveFileContent);
-      StreamResult result = new StreamResult(new File("save.xml"));
+      StreamResult result = new StreamResult(new File(name));
 
       transformer.transform(source, result);
     } catch (ParserConfigurationException e) {

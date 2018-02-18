@@ -21,31 +21,33 @@ import mealplaner.commons.errorhandling.MealException;
 
 public class FileIoGui {
   private final JFrame frame;
+  private final String savePath;
   private static final Logger logger = LoggerFactory.getLogger(FileIoGui.class);
 
-  public FileIoGui(JFrame frame) {
+  public FileIoGui(JFrame frame, String savePath) {
     this.frame = frame;
+    this.savePath = savePath;
   }
 
-  public static MealplanerData loadDatabase() {
+  public MealplanerData loadDatabase() {
     MealplanerData mealPlan = new MealplanerData();
     try {
-      mealPlan = MealplanerFileLoader.load("save01.ser");
+      mealPlan = MealplanerFileLoader.load(savePath);
     } catch (FileNotFoundException exc) {
-      errorMessages(null, exc, BUNDLES.errorMessage("MSG_FILE_NOT_FOUND"));
+      errorMessages(frame, exc, BUNDLES.errorMessage("MSG_FILE_NOT_FOUND"));
       logger.error("File not found in: ", exc);
     } catch (IOException exc) {
-      errorMessages(null, exc, BUNDLES.errorMessage("MSG_IOEX"));
+      errorMessages(frame, exc, BUNDLES.errorMessage("MSG_IOEX"));
       logger.error("I/O Exception in: ", exc);
     } catch (MealException exc) {
-      errorMessages(null, exc, BUNDLES.errorMessage("MSG_CLASS_NOT_FOUND"));
+      errorMessages(frame, exc, BUNDLES.errorMessage("MSG_CLASS_NOT_FOUND"));
       logger.error("MealException in: ", exc);
     }
     return mealPlan;
   }
 
   public Optional<MealplanerData> loadBackup() {
-    String bak = showInputDialog(frame, BUNDLES.message("createLoadBackup"), "*.ser");
+    String bak = showInputDialog(frame, BUNDLES.message("createLoadBackup"), "*.xml");
     if (bak != null) {
       MealplanerData mealPlan = new MealplanerData();
       try {
@@ -67,7 +69,7 @@ public class FileIoGui {
 
   public void saveDatabase(MealplanerData mealPlan) {
     try {
-      MealplanerFileSaver.save(mealPlan, "save01.ser");
+      MealplanerFileSaver.save(mealPlan, savePath);
       JOptionPane.showMessageDialog(frame, BUNDLES.message("successSave"),
           BUNDLES.message("successHeading"), JOptionPane.INFORMATION_MESSAGE);
     } catch (IOException exc) {
@@ -77,7 +79,7 @@ public class FileIoGui {
   }
 
   public void createBackup(MealplanerData mealPlan) {
-    String bak = showInputDialog(frame, BUNDLES.message("createLoadBackup"), "*.ser");
+    String bak = showInputDialog(frame, BUNDLES.message("createLoadBackup"), "*.xml");
     if (bak != null) {
       try {
         MealplanerFileSaver.save(mealPlan, bak);

@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 
 import mealplaner.gui.MainGui;
 import mealplaner.gui.factories.DialogFactory;
+import mealplaner.io.FileIoGui;
 import mealplaner.recipes.provider.IngredientProvider;
 
 public final class Kochplaner {
@@ -15,17 +16,17 @@ public final class Kochplaner {
   }
 
   public static void main(String[] args) {
-    MealplanerData data = new MealplanerData();
     IngredientProvider ingredientProvider = loadIngredientProvider("ingredients.xml");
-    invokeLater(createMainGui(data, ingredientProvider));
+    invokeLater(createMainGui(ingredientProvider));
   }
 
-  private static Runnable createMainGui(MealplanerData data,
-      IngredientProvider ingredientProvider) {
+  private static Runnable createMainGui(IngredientProvider ingredientProvider) {
     return () -> {
       JFrame mainFrame = new JFrame(BUNDLES.message("mainFrameTitle"));
+      FileIoGui fileIoGui = new FileIoGui(mainFrame, "save.xml");
+      MealplanerData data = fileIoGui.loadDatabase();
       DialogFactory dialogFactory = new DialogFactory(mainFrame);
-      new MainGui(mainFrame, data, dialogFactory, ingredientProvider);
+      new MainGui(mainFrame, data, ingredientProvider, dialogFactory, fileIoGui);
     };
   }
 }

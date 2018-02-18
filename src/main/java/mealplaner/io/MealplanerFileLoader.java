@@ -22,7 +22,7 @@ public final class MealplanerFileLoader {
   public static MealplanerData load(String name)
       throws FileNotFoundException, IOException, MealException {
     try {
-      return readXml();
+      return readXml(name);
     } catch (ClassCastException exc) {
       throw new MealException("Corrupted Save File - some classes were not saved correctly", exc);
     } catch (MealException exc) {
@@ -30,9 +30,9 @@ public final class MealplanerFileLoader {
     }
   }
 
-  private static MealplanerData readXml() throws IOException {
+  private static MealplanerData readXml(String name) throws IOException {
     try {
-      File inputFile = new File("save.xml");
+      File inputFile = new File(name);
       DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
       DocumentBuilder documentBuilder = docFactory.newDocumentBuilder();
       Document parsedDocument = documentBuilder.parse(inputFile);
