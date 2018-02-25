@@ -18,7 +18,7 @@ public class CheckboxInputField implements InputField<Boolean> {
   @Override
   public void addToPanel(GuiPanel panel) {
     checkBox = new JCheckBox();
-    checkBox.setText("InputFieldCheckBox" + name);
+    checkBox.setName("InputFieldCheckBox" + name);
     panel.getComponent().add(new JLabel(label));
     panel.getComponent().add(checkBox);
   }

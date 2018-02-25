@@ -67,17 +67,19 @@ public class ProposalSummary implements DataStoreListener {
 
   private void buildButtons(ActionListener updateMeals,
       ActionListener setDefaultSettings, ActionListener makeProposal) {
-    dateUpdate = createButton(BUNDLES.message("updateButton"),
+    dateUpdate = createButton("ButtonProposalSummaryUpdate",
+        BUNDLES.message("updateButton"),
         BUNDLES.message("updateButtonMnemonic"),
         action -> {
           updateMeals.actionPerformed(action);
           update();
         });
-    defaultSettings = createButton(
+    defaultSettings = createButton("ButtonProposalSummaryDefaultSettings",
         BUNDLES.message("proposalChangeDefaultSettingsButton"),
         BUNDLES.message("proposalChangeDefaultSettingsButtonMnemonic"),
         setDefaultSettings);
-    giveProposal = createButton(BUNDLES.message("proposalShowButton"),
+    giveProposal = createButton("ButtonProposalSummaryMakeProposal",
+        BUNDLES.message("proposalShowButton"),
         BUNDLES.message("proposalShowButtonMnemonic"), makeProposal);
   }
 
