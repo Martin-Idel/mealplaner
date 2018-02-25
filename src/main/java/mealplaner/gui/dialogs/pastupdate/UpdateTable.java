@@ -2,8 +2,8 @@ package mealplaner.gui.dialogs.pastupdate;
 
 import static java.time.format.DateTimeFormatter.ofLocalizedDate;
 import static java.time.format.FormatStyle.SHORT;
+import static java.time.format.TextStyle.FULL;
 import static mealplaner.commons.BundleStore.BUNDLES;
-import static mealplaner.commons.gui.StringArrayCollection.getWeekDays;
 import static mealplaner.commons.gui.SwingUtilityMethods.autoCompleteCellEditor;
 import static mealplaner.commons.gui.tables.FlexibleTableBuilder.createNewTable;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
@@ -21,7 +21,6 @@ public class UpdateTable {
   private Table updateTable;
 
   public void createTable(Proposal lastProposal, List<Meal> mealList, int daySince) {
-    String[] days = getWeekDays();
     setupMeals(lastProposal, daySince);
     LocalDate date = lastProposal.getDateOfFirstProposedItem();
     updateTable = createNewTable()
@@ -35,7 +34,9 @@ public class UpdateTable {
         .addColumn(withContent(String.class)
             .withColumnName(BUNDLES.message("weekday"))
             .getRowValueFromUnderlyingModel(
-                row -> days[date.plusDays(row).getDayOfWeek().getValue() % 7])
+                row -> date.plusDays(row)
+                    .getDayOfWeek()
+                    .getDisplayName(FULL, BUNDLES.locale()))
             .build())
         .addColumn(withContent(String.class)
             .withColumnName(BUNDLES.message("menu"))

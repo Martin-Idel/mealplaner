@@ -2,8 +2,8 @@ package mealplaner.gui.dialogs.proposaloutput;
 
 import static java.time.format.DateTimeFormatter.ofLocalizedDate;
 import static java.time.format.FormatStyle.SHORT;
+import static java.time.format.TextStyle.FULL;
 import static mealplaner.commons.BundleStore.BUNDLES;
-import static mealplaner.commons.gui.StringArrayCollection.getWeekDays;
 import static mealplaner.commons.gui.SwingUtilityMethods.autoCompleteCellEditor;
 import static mealplaner.commons.gui.tables.FlexibleTableBuilder.createNewTable;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
@@ -35,7 +35,6 @@ public final class ProposalTable {
 
   public void setupProposalTable(Proposal lastProposal) {
     this.lastProposal = lastProposal;
-    String[] days = getWeekDays();
 
     lastProposal.getProposalList().forEach(proposalMeals::add);
     newDate = lastProposal.getDateOfFirstProposedItem();
@@ -44,13 +43,15 @@ public final class ProposalTable {
         .addColumn(withContent(String.class)
             .withColumnName(BUNDLES.message("date"))
             .getRowValueFromUnderlyingModel(
-                row -> newDate.plusDays(row).format(ofLocalizedDate(SHORT)
-                    .withLocale(BUNDLES.locale())))
+                row -> newDate.plusDays(row)
+                    .format(ofLocalizedDate(SHORT).withLocale(BUNDLES.locale())))
             .build())
         .addColumn(withContent(String.class)
             .withColumnName(BUNDLES.message("weekday"))
             .getRowValueFromUnderlyingModel(
-                row -> days[newDate.plusDays(row).getDayOfWeek().getValue() % 7])
+                row -> newDate.plusDays(row)
+                    .getDayOfWeek()
+                    .getDisplayName(FULL, BUNDLES.locale()))
             .build())
         .addColumn(withContent(String.class)
             .withColumnName(BUNDLES.message("menu"))

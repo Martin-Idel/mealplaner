@@ -3,8 +3,8 @@ package mealplaner.gui.dialogs.settingsinput;
 import static java.time.LocalDate.of;
 import static java.time.format.DateTimeFormatter.ofLocalizedDate;
 import static java.time.format.FormatStyle.SHORT;
+import static java.time.format.TextStyle.FULL;
 import static mealplaner.commons.BundleStore.BUNDLES;
-import static mealplaner.commons.gui.StringArrayCollection.getWeekDays;
 import static mealplaner.commons.gui.tables.FlexibleTableBuilder.createNewTable;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withBooleanContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
@@ -31,7 +31,6 @@ import mealplaner.model.settings.Settings;
 public class SettingTable {
   private Table table;
   private final List<Settings> settings;
-  private final String[] days = getWeekDays();
   private LocalDate date;
 
   public SettingTable(DefaultSettings defaultSettings) {
@@ -117,7 +116,9 @@ public class SettingTable {
         .addColumn(withContent(String.class)
             .withColumnName(BUNDLES.message("weekday"))
             .getRowValueFromUnderlyingModel(
-                row -> days[newDate.plusDays(row).getDayOfWeek().getValue() % 7])
+                row -> newDate.plusDays(row)
+                    .getDayOfWeek()
+                    .getDisplayName(FULL, BUNDLES.locale()))
             .build());
   }
 
