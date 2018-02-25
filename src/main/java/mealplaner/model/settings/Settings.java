@@ -91,7 +91,7 @@ public final class Settings {
   }
 
   public Settings changePreference(PreferenceSettings preferenceSettings) {
-    return Settings.from(cookingTime, numberOfPeople, casseroleSettings, preference);
+    return Settings.from(cookingTime, numberOfPeople, casseroleSettings, preferenceSettings);
   }
 
   public NonnegativeInteger getNumberOfPeople() {
