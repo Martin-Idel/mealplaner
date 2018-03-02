@@ -30,8 +30,8 @@ public class DatabaseEditTest extends AssertJMealplanerTestCase {
     windowHelpers.addMealFromDatabase(meal2);
     windowHelpers.addMealFromDatabase(meal1);
     windowHelpers.compareDatabaseInTable(meals);
-    window.button("ButtonPanelDatabaseEdit2").isEnabled();
-    window.button("ButtonPanelDatabaseEdit3").isEnabled();
+    window.button("ButtonPanelDatabaseEdit2").requireEnabled();
+    window.button("ButtonPanelDatabaseEdit3").requireEnabled();
     window.close();
   }
 
@@ -43,11 +43,14 @@ public class DatabaseEditTest extends AssertJMealplanerTestCase {
     windowHelpers.addMealFromDatabase(getMeal1());
     windowHelpers.addMealFromDatabase(getMeal2());
     windowHelpers.addMealFromDatabase(meal3);
+    window.button("ButtonPanelDatabaseEdit3").requireEnabled();
+    window.button("ButtonPanelDatabaseEdit2").requireEnabled();
+    window.button("ButtonPanelDatabaseEdit2").click();
     window.table().selectRows(0, 1);
     window.button("ButtonPanelDatabaseEdit1").click();
     windowHelpers.compareDatabaseInTable(meals);
-    window.button("ButtonPanelDatabaseEdit2").isEnabled();
-    window.button("ButtonPanelDatabaseEdit3").isEnabled();
+    window.button("ButtonPanelDatabaseEdit2").requireEnabled();
+    window.button("ButtonPanelDatabaseEdit3").requireEnabled();
     window.close();
   }
 
@@ -74,6 +77,22 @@ public class DatabaseEditTest extends AssertJMealplanerTestCase {
 
   @Test
   public void changingSavingNotSavingOfFieldsWorksCorrectl() {
-    // implement me.
+    windowHelpers.addMealFromDatabase(getMeal1());
+    window.button("ButtonPanelDatabaseEdit2").click();
+    window.button("ButtonPanelDatabaseEdit3").requireDisabled();
+    window.button("ButtonPanelDatabaseEdit2").requireDisabled();
+    JTableFixture table = window.table();
+    table.cell(row(0).column(1)).enterValue(SHORT.toString());
+    checkDisabilityAndAbort();
+    table.cell(row(0).column(6)).enterValue("New comment");
+    checkDisabilityAndAbort();
+  }
+
+  private void checkDisabilityAndAbort() {
+    window.button("ButtonPanelDatabaseEdit3").requireEnabled();
+    window.button("ButtonPanelDatabaseEdit2").requireEnabled();
+    window.button("ButtonPanelDatabaseEdit3").click();
+    window.button("ButtonPanelDatabaseEdit3").requireDisabled();
+    window.button("ButtonPanelDatabaseEdit2").requireDisabled();
   }
 }
