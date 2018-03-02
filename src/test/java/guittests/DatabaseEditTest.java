@@ -71,4 +71,9 @@ public class DatabaseEditTest extends AssertJMealplanerTestCase {
     windowHelpers.compareDatabaseInTable(meals);
     window.close();
   }
+
+  @Test
+  public void changingSavingNotSavingOfFieldsWorksCorrectl() {
+    // implement me.
+  }
 }

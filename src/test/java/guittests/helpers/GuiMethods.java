@@ -16,11 +16,13 @@ import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Map;
 
+import org.assertj.swing.data.TableCell;
 import org.assertj.swing.fixture.DialogFixture;
 import org.assertj.swing.fixture.FrameFixture;
 import org.assertj.swing.fixture.JTableFixture;
 
 import mealplaner.model.Meal;
+import mealplaner.model.enums.CookingTime;
 import mealplaner.model.settings.CookingTimeSetting;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
@@ -81,9 +83,11 @@ public final class GuiMethods {
     window.button("ButtonProposalSummaryDefaultSettings").click();
     DialogFixture settingsDialog = window.dialog();
     JTableFixture settingsTable = settingsDialog.table();
+    settingsTable.requireRowCount(7);
+    settingsTable.requireColumnCount(8);
     Map<DayOfWeek, Settings> settings = defaultSettings.getDefaultSettings();
     for (DayOfWeek day : DayOfWeek.values()) {
-      enterSetting(settingsTable, settings.get(day), day.getValue() - 1);
+      enterSetting(settingsTable, settings.get(day), day.getValue() - 1, false);
     }
     settingsDialog.button("ButtonPanelDefaultSettingsInput1");
   }
@@ -99,26 +103,56 @@ public final class GuiMethods {
     settingsDialog.button("ButtonPanelDefaultSettingsInput1");
   }
 
-  private void enterSetting(JTableFixture settingsTable, Settings defaultSetting, int dayNumber) {
-    settingsTable.requireRowCount(7);
-    settingsTable.requireColumnCount(8);
-    CookingTimeSetting timeSetting = defaultSetting.getCookingTime();
-    if (timeSetting.contains(VERY_SHORT)) {
-      settingsTable.click(row(dayNumber).column(1), LEFT_BUTTON);
+  public void enterSetting(JTableFixture settingsTable, Settings setting, int dayNumber) {
+    enterSetting(settingsTable, setting, dayNumber, true);
+  }
+
+  public void updateToToday() {
+    window.tabbedPane().selectTab(PROPOSAL_SUMMARY.number());
+    window.button("ButtonProposalSummaryUpdate").click();
+    DialogFixture dialog = window.dialog();
+    dialog.button("ButtonPanelUpdatePastMeals1").click();
+  }
+
+  private void enterSetting(JTableFixture settingsTable, Settings setting, int dayNumber,
+      boolean proposal) {
+    int firstColumn = proposal ? 2 : 1;
+    CookingTimeSetting timeSetting = setting.getCookingTime();
+    updateCheckBox(settingsTable, row(dayNumber).column(firstColumn++), timeSetting, VERY_SHORT);
+    updateCheckBox(settingsTable, row(dayNumber).column(firstColumn++), timeSetting, SHORT);
+    updateCheckBox(settingsTable, row(dayNumber).column(firstColumn++), timeSetting, MEDIUM);
+    updateCheckBox(settingsTable, row(dayNumber).column(firstColumn++), timeSetting, LONG);
+    updateComboBox(settingsTable, row(dayNumber).column(firstColumn++),
+        setting.getNumberOfPeople().toString());
+    updateComboBox(settingsTable, row(dayNumber).column(firstColumn++),
+        setting.getCasserole().toString());
+    updateComboBox(settingsTable, row(dayNumber).column(firstColumn++),
+        setting.getPreference().toString());
+  }
+
+  private void updateCheckBox(JTableFixture settingsTable,
+      TableCell checkbox,
+      CookingTimeSetting cookingTime,
+      CookingTime time) {
+    if (checkBoxNeedsUpdate(settingsTable, checkbox, cookingTime, time)) {
+      settingsTable.click(checkbox, LEFT_BUTTON);
     }
-    if (timeSetting.contains(SHORT)) {
-      settingsTable.click(row(dayNumber).column(2), LEFT_BUTTON);
+  }
+
+  private void updateComboBox(JTableFixture settingsTable,
+      TableCell cell,
+      String value) {
+    if (!settingsTable.cell(cell).value().equals(value)) {
+      settingsTable.enterValue(cell, value);
     }
-    if (timeSetting.contains(MEDIUM)) {
-      settingsTable.click(row(dayNumber).column(3), LEFT_BUTTON);
-    }
-    if (timeSetting.contains(LONG)) {
-      settingsTable.click(row(dayNumber).column(4), LEFT_BUTTON);
-    }
-    settingsTable.enterValue(row(dayNumber).column(5),
-        defaultSetting.getNumberOfPeople().toString());
-    settingsTable.enterValue(row(dayNumber).column(6), defaultSetting.getCasserole().toString());
-    settingsTable.enterValue(row(dayNumber).column(7), defaultSetting.getPreference().toString());
+  }
+
+  private boolean checkBoxNeedsUpdate(JTableFixture settingsTable,
+      TableCell checkbox,
+      CookingTimeSetting cookingTime,
+      CookingTime time) {
+    return cookingTime.contains(time) != settingsTable.valueAt(checkbox)
+        .equals(Boolean.toString(true));
   }
 
   private String[][] defaultSettingsTableEntries(DefaultSettings defaultSettings) {
@@ -128,10 +162,10 @@ public final class GuiMethods {
       Settings setting = settings.get(day);
       int row = day.getValue() - 1;
       content[row][0] = day.getDisplayName(FULL, BUNDLES.locale());
-      content[row][1] = Boolean.toString(!setting.getCookingTime().contains(VERY_SHORT));
-      content[row][2] = Boolean.toString(!setting.getCookingTime().contains(SHORT));
-      content[row][3] = Boolean.toString(!setting.getCookingTime().contains(MEDIUM));
-      content[row][4] = Boolean.toString(!setting.getCookingTime().contains(LONG));
+      content[row][1] = Boolean.toString(setting.getCookingTime().contains(VERY_SHORT));
+      content[row][2] = Boolean.toString(setting.getCookingTime().contains(SHORT));
+      content[row][3] = Boolean.toString(setting.getCookingTime().contains(MEDIUM));
+      content[row][4] = Boolean.toString(setting.getCookingTime().contains(LONG));
       content[row][5] = setting.getNumberOfPeople().toString();
       content[row][6] = setting.getCasserole().toString();
       content[row][7] = setting.getPreference().toString();
