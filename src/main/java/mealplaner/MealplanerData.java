@@ -89,7 +89,7 @@ public class MealplanerData implements DataStore {
   }
 
   public void setMeals(List<Meal> meals) {
-    this.meals = meals;
+    this.meals = new ArrayList<>(meals); // defensive copy
     listeners.forEach(listener -> listener.updateData(DATABASE_EDITED));
   }
 

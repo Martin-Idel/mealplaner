@@ -1,7 +1,9 @@
 package guittests;
 
 import static mealplaner.model.MealBuilder.from;
+import static mealplaner.model.enums.CookingTime.MEDIUM;
 import static mealplaner.model.enums.CookingTime.SHORT;
+import static mealplaner.model.enums.Sidedish.RICE;
 import static org.assertj.swing.data.TableCell.row;
 import static testcommons.CommonFunctions.getMeal1;
 import static testcommons.CommonFunctions.getMeal2;
@@ -76,16 +78,23 @@ public class DatabaseEditTest extends AssertJMealplanerTestCase {
   }
 
   @Test
-  public void changingSavingNotSavingOfFieldsWorksCorrectl() {
+  public void changingSavingNotSavingOfFieldsWorksCorrectly() {
+    List<Meal> meals = new ArrayList<>();
+    meals.add(getMeal1());
     windowHelpers.addMealFromDatabase(getMeal1());
     window.button("ButtonPanelDatabaseEdit2").click();
     window.button("ButtonPanelDatabaseEdit3").requireDisabled();
     window.button("ButtonPanelDatabaseEdit2").requireDisabled();
+
     JTableFixture table = window.table();
-    table.cell(row(0).column(1)).enterValue(SHORT.toString());
+    table.cell(row(0).column(1)).enterValue(MEDIUM.toString());
+    checkDisabilityAndAbort();
+    table.cell(row(0).column(2)).enterValue(RICE.toString());
     checkDisabilityAndAbort();
     table.cell(row(0).column(6)).enterValue("New comment");
     checkDisabilityAndAbort();
+
+    windowHelpers.compareDatabaseInTable(meals);
   }
 
   private void checkDisabilityAndAbort() {
