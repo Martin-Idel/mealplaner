@@ -5,6 +5,7 @@ import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withEnumContent;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
@@ -279,6 +280,94 @@ public class UpdateSizeTableModelTest {
     assertThat(table.getValueAt(0, 1)).isEqualTo(TestEnum.TEST3);
     assertThat(table.getValueAt(1, 0)).isEqualTo(firstColumnContent.get(1));
     assertThat(table.getValueAt(1, 1)).isEqualTo(secondColumnContent.get(1));
+  }
+
+  @Test
+  public void runningCommandAfterSetValueRuns() {
+    Runnable forTesting = mock(Runnable.class);
+
+    List<String> firstColumnContent = new ArrayList<>();
+    firstColumnContent.add("Test1");
+    firstColumnContent.add("Test2");
+    JTable table = createNewTable()
+        .withRowCount(firstColumnContent::size)
+        .addColumn(withContent(String.class)
+            .withColumnName("Column1")
+            .setRowValueToUnderlyingModel((value, row) -> firstColumnContent.set(row, value))
+            .getRowValueFromUnderlyingModel(firstColumnContent::get)
+            .onChange(forTesting)
+            .isEditable()
+            .build())
+        .buildTable()
+        .getTable();
+
+    table.setValueAt("Test", 0, 0);
+
+    verify(forTesting).run();
+    assertThat(table.getValueAt(0, 0)).isEqualTo("Test");
+    assertThat(table.getValueAt(1, 0)).isEqualTo(firstColumnContent.get(1));
+  }
+
+  @Test
+  public void runningCommandAfterSetValueDoesNotRunOnEqualInput() {
+    Runnable forTesting = mock(Runnable.class);
+
+    List<String> firstColumnContent = new ArrayList<>();
+    firstColumnContent.add("Test1");
+    firstColumnContent.add("Test2");
+    JTable table = createNewTable()
+        .withRowCount(firstColumnContent::size)
+        .addColumn(withContent(String.class)
+            .withColumnName("Column1")
+            .setRowValueToUnderlyingModel((value, row) -> firstColumnContent.set(row, value))
+            .getRowValueFromUnderlyingModel(firstColumnContent::get)
+            .onChange(forTesting)
+            .isEditable()
+            .build())
+        .buildTable()
+        .getTable();
+
+    table.setValueAt("Test1", 0, 0);
+
+    verify(forTesting, never()).run();
+    assertThat(table.getValueAt(0, 0)).isEqualTo(firstColumnContent.get(0));
+    assertThat(table.getValueAt(1, 0)).isEqualTo(firstColumnContent.get(1));
+  }
+
+  @Test
+  public void runningCommandAfterSetValueWorksWithImmutableListConvenienceMethods() {
+    Runnable forTesting = mock(Runnable.class);
+    List<TestClass> columnContent = new ArrayList<>();
+    columnContent.add(new TestClass("Test1"));
+    columnContent.add(new TestClass("Test2"));
+    Table abstractedTable = createNewTable()
+        .withRowCount(columnContent::size)
+        .addColumn(
+            withContent(String.class)
+                .withColumnName("Column")
+                .getValueFromOrderedList(columnContent, test -> test.getString())
+                .setValueToOrderedImmutableList(columnContent,
+                    (element, value) -> {
+                      element.setString(value);
+                      return element;
+                    })
+                .onChange(forTesting)
+                .isEditable()
+                .build())
+        .buildTable();
+    JTable table = abstractedTable.getTable();
+
+    table.setValueAt("Test1", 0, 0);
+
+    verify(forTesting, never()).run();
+    assertThat(table.getValueAt(0, 0)).isEqualTo("Test1");
+    assertThat(table.getValueAt(1, 0)).isEqualTo("Test2");
+
+    table.setValueAt("Test3", 0, 0);
+
+    verify(forTesting).run();
+    assertThat(table.getValueAt(0, 0)).isEqualTo("Test3");
+    assertThat(table.getValueAt(1, 0)).isEqualTo("Test2");
   }
 
   private JTable createTableWithTwoEditableColumns(List<String> firstColumn,

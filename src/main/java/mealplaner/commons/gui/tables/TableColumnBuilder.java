@@ -152,6 +152,18 @@ public final class TableColumnBuilder<T> {
     return this;
   }
 
+  public TableColumnBuilder<T> onChange(Runnable changeAction) {
+    final BiFunction<T, Integer, Optional<Integer[]>> oldSetValue = this.setValue;
+    this.setValue = (value, row) -> {
+      if (!this.getValue.apply(row).equals(value)) {
+        changeAction.run();
+        return oldSetValue.apply(value, row);
+      }
+      return Optional.empty();
+    };
+    return this;
+  }
+
   public TableColumnData<T> build() {
     return createTableColumn(classType,
         name,

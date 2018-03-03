@@ -78,6 +78,7 @@ public class DatabaseEdit implements DataStoreListener {
                 (meal, name) -> from(meal).name(name).create())
             .getValueFromOrderedList(meals, meal -> meal.getName())
             .isEditable()
+            .onChange(() -> buttonPanel.enableButtons())
             .overwriteTableCellEditor(new NonemptyTextCellEditor())
             .build())
         .addColumn(withEnumContent(CookingTime.class)
@@ -86,6 +87,7 @@ public class DatabaseEdit implements DataStoreListener {
                 (meal, cookingTime) -> from(meal).cookingTime(cookingTime).create())
             .getValueFromOrderedList(meals, meal -> meal.getCookingTime())
             .isEditable()
+            .onChange(() -> buttonPanel.enableButtons())
             .build())
         .addColumn(withEnumContent(Sidedish.class)
             .withColumnName(BUNDLES.message("sidedishColumn"))
@@ -93,6 +95,7 @@ public class DatabaseEdit implements DataStoreListener {
                 (meal, sidedish) -> from(meal).sidedish(sidedish).create())
             .getValueFromOrderedList(meals, meal -> meal.getSidedish())
             .isEditable()
+            .onChange(() -> buttonPanel.enableButtons())
             .build())
         .addColumn(withEnumContent(ObligatoryUtensil.class)
             .withColumnName(BUNDLES.message("utensilColumn"))
@@ -100,6 +103,7 @@ public class DatabaseEdit implements DataStoreListener {
                 (meal, utensil) -> from(meal).obligatoryUtensil(utensil).create())
             .getValueFromOrderedList(meals, meal -> meal.getObligatoryUtensil())
             .isEditable()
+            .onChange(() -> buttonPanel.enableButtons())
             .build())
         .addColumn(withNonnegativeIntegerContent()
             .withColumnName(BUNDLES.message("cookedLastTimeColumn"))
@@ -107,6 +111,7 @@ public class DatabaseEdit implements DataStoreListener {
                 (meal, day) -> from(meal).daysPassed(day).create())
             .getValueFromOrderedList(meals, meal -> meal.getDaysPassed())
             .isEditable()
+            .onChange(() -> buttonPanel.enableButtons())
             .build())
         .addColumn(withEnumContent(CookingPreference.class)
             .withColumnName(BUNDLES.message("popularityColumn"))
@@ -115,6 +120,7 @@ public class DatabaseEdit implements DataStoreListener {
                     .create())
             .getValueFromOrderedList(meals, meal -> meal.getCookingPreference())
             .isEditable()
+            .onChange(() -> buttonPanel.enableButtons())
             .build())
         .addColumn(withContent(String.class)
             .withColumnName(BUNDLES.message("commentInsertColumn"))
@@ -123,6 +129,7 @@ public class DatabaseEdit implements DataStoreListener {
             .getValueFromOrderedList(meals, meal -> meal.getComment())
             .isEditable()
             .overwriteTableCellEditor(new NonemptyTextCellEditor())
+            .onChange(() -> buttonPanel.enableButtons())
             .build())
         .addColumn(withContent(String.class)
             .withColumnName(BUNDLES.message("recipeEditColum"))
@@ -204,6 +211,7 @@ public class DatabaseEdit implements DataStoreListener {
     List<Meal> newMeals = mealplanerData.getMeals();
     meals.removeAll(meals.stream().filter(not(newMeals::contains)).collect(toList()));
     newMeals.stream().filter(not(meals::contains)).map(Meal::copy).forEach(meals::add);
+    meals.sort((meal1, meal2) -> meal1.compareTo(meal2));
     table.update();
     buttonPanel.disableButtons();
   }
