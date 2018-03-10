@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <MealData>
     <meals>
+        <version>5</version>
         <meal>
             <name>Test1</name>
             <cookingTime>SHORT</cookingTime>
@@ -11,5 +12,4 @@
             <comment>no comment</comment>
         </meal>
     </meals>
-    <version>5</version>
 </MealData>

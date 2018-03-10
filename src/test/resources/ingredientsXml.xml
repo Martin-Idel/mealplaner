@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<IngredientData>
+	<version>1</version>
+    <ingredients>
+        <ingredient>
+            <name>Test1</name>
+            <type>FRESH_FRUIT</type>
+            <measure>GRAM</measure>
+        </ingredient>
+        <ingredient>
+            <name>Test2</name>
+            <type>BAKING_GOODS</type>
+            <measure>MILLILITRE</measure>
+        </ingredient>
+        <ingredient>
+            <name>Test3</name>
+            <type>CANNED_FRUIT</type>
+            <measure>GRAM</measure>
+        </ingredient>
+    </ingredients>
+</IngredientData>
