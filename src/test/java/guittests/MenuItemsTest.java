@@ -1,6 +1,6 @@
 package guittests;
 
-import static java.nio.file.Files.readAllBytes;
+import static java.nio.file.Files.readAllLines;
 import static java.util.Optional.of;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.Meal.createMeal;
@@ -55,7 +55,8 @@ public class MenuItemsTest extends AssertJMealplanerTestCase {
     enterIngredientDialog.button("ButtonPanelIngredientsInput0").click();
     enterIngredientDialog.button("ButtonPanelIngredientsInput1").click();
 
-    assertThat(new String(readAllBytes(Paths.get(DESTINATION_INGREDIENT_FILE_PATH))))
-        .isEqualTo(new String(readAllBytes(Paths.get("src/test/resources/ingredientsAdded.xml"))));
+    assertThat(readAllLines(Paths.get(DESTINATION_INGREDIENT_FILE_PATH)))
+        .containsExactlyElementsOf(
+            readAllLines(Paths.get("src/test/resources/ingredientsAdded.xml")));
   }
 }
