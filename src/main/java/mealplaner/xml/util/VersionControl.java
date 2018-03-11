@@ -1,4 +1,4 @@
-package mealplaner.xml;
+package mealplaner.xml.util;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +14,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import mealplaner.xml.MealsReader;
 
 public final class VersionControl {
   private static final Logger logger = LoggerFactory.getLogger(MealsReader.class);

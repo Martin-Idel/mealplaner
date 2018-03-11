@@ -1,5 +1,6 @@
 package mealplaner.xml.model;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -13,7 +14,7 @@ public class RecipeXml {
   public Map<IngredientXml, Integer> ingredients;
 
   public RecipeXml() {
-    // Constructor for JAXB
+    this(1, new HashMap<>());
   }
 
   public RecipeXml(Integer numberOfPortions,

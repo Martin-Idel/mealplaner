@@ -1,4 +1,4 @@
-package mealplaner.xml;
+package mealplaner.xml.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;

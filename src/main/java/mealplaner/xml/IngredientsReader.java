@@ -1,16 +1,17 @@
 package mealplaner.xml;
 
 import static java.util.stream.Collectors.toList;
-import static mealplaner.xml.JaxHelper.read;
+import static mealplaner.xml.adapters.IngredientAdapter.convertIngredientFromXml;
+import static mealplaner.xml.util.JaxHelper.read;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import mealplaner.recipes.model.Ingredient;
-import mealplaner.xml.model.IngredientXml;
 import mealplaner.xml.model.IngredientdatabaseXml;
+import mealplaner.xml.util.VersionControl;
 
-public class IngredientsReader {
+public final class IngredientsReader {
   private IngredientsReader() {
   }
 
@@ -31,9 +32,5 @@ public class IngredientsReader {
       // return new ArrayList<>();
       // }
     }
-  }
-
-  public static Ingredient convertIngredientFromXml(IngredientXml ingredient) {
-    return Ingredient.ingredient(ingredient.name, ingredient.type, ingredient.measure);
   }
 }

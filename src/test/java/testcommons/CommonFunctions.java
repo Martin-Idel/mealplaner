@@ -8,18 +8,12 @@ import static mealplaner.model.Proposal.from;
 import static mealplaner.model.settings.CookingTimeSetting.cookingTimeWithProhibited;
 import static mealplaner.model.settings.Settings.from;
 import static mealplaner.recipes.model.Ingredient.ingredient;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -27,7 +21,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 
-import mealplaner.commons.BundleStore;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
@@ -45,18 +38,6 @@ import mealplaner.recipes.model.Recipe;
 
 public final class CommonFunctions {
   private CommonFunctions() {
-  }
-
-  public static <T extends Enum<T>> void allEnumValuesHaveACorrespondingStringRepresentation(
-      T[] enumValues,
-      Function<BundleStore, EnumMap<T, String>> getEnumStrings) {
-    BundleStore bundles = mock(BundleStore.class);
-    when(bundles.message(anyString())).thenReturn("");
-
-    EnumMap<T, String> enumMap = getEnumStrings.apply(bundles);
-    for (T setting : enumValues) {
-      assertTrue(enumMap.containsKey(setting));
-    }
   }
 
   public static Document createDocument() throws ParserConfigurationException {
@@ -119,7 +100,7 @@ public final class CommonFunctions {
         CasseroleSettings.POSSIBLE, PreferenceSettings.RARE_PREFERED);
   }
 
-  public static Proposal proposal1() {
+  public static Proposal getProposal1() {
     List<Meal> meals = new ArrayList<>();
     meals.add(getMeal1());
     meals.add(getMeal2());
@@ -130,7 +111,7 @@ public final class CommonFunctions {
     return from(true, meals, settings, date);
   }
 
-  public static Proposal proposal2() {
+  public static Proposal getProposal2() {
     List<Meal> meals = new ArrayList<>();
     meals.add(getMeal2());
     meals.add(getMeal3());

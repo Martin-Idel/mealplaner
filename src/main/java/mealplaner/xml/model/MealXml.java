@@ -1,5 +1,11 @@
 package mealplaner.xml.model;
 
+import static mealplaner.commons.NonnegativeInteger.ZERO;
+import static mealplaner.model.enums.CookingPreference.NO_PREFERENCE;
+import static mealplaner.model.enums.CookingTime.VERY_SHORT;
+import static mealplaner.model.enums.ObligatoryUtensil.POT;
+import static mealplaner.model.enums.Sidedish.NONE;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -24,7 +30,7 @@ public class MealXml {
   public RecipeXml recipe;
 
   public MealXml() {
-    // Constructor for JAXB
+    this("no name", VERY_SHORT, NONE, POT, NO_PREFERENCE, ZERO, "no comment", null);
   }
 
   public MealXml(String name,

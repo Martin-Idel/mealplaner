@@ -9,8 +9,8 @@ import static mealplaner.shopping.ShoppingListUtils.missingRecipesForCompleteLis
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.getRecipe1;
 import static testcommons.CommonFunctions.getRecipe2;
-import static testcommons.CommonFunctions.proposal1;
-import static testcommons.CommonFunctions.proposal2;
+import static testcommons.CommonFunctions.getProposal1;
+import static testcommons.CommonFunctions.getProposal2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,21 +26,21 @@ public class ShoppingListUtilsTest {
 
   @Test
   public void missingRecipesForCompleteListFindsMissingRecipe() {
-    Proposal testProposal = proposal1();
+    Proposal testProposal = getProposal1();
 
     assertThat(missingRecipesForCompleteList(testProposal)).isTrue();
   }
 
   @Test
   public void missingRecipesForCompleteListOkIfAllRecipesArePresent() {
-    Proposal testProposal = proposal2();
+    Proposal testProposal = getProposal2();
 
     assertThat(missingRecipesForCompleteList(testProposal)).isFalse();
   }
 
   @Test
   public void correctlyAvoidsMissingRecipesWhenPrinting() {
-    Proposal testProposal = proposal1();
+    Proposal testProposal = getProposal1();
     List<Pair<Recipe, NonnegativeInteger>> listInProposal = new ArrayList<>();
     listInProposal.add(of(getRecipe1(), FOUR));
 
@@ -52,7 +52,7 @@ public class ShoppingListUtilsTest {
 
   @Test
   public void correctlyAccumulatesRecipes() {
-    Proposal testProposal = proposal2();
+    Proposal testProposal = getProposal2();
     List<Pair<Recipe, NonnegativeInteger>> listInProposal = new ArrayList<>();
     listInProposal.add(of(getRecipe1(), THREE));
     listInProposal.add(of(getRecipe2(), FOUR));

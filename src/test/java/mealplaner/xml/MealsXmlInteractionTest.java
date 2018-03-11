@@ -20,7 +20,7 @@ import org.junit.Test;
 
 import mealplaner.model.Meal;
 
-public class MealsXmlInteractiveTest {
+public class MealsXmlInteractionTest {
   private static final String DESTINATION_FILE_PATH = "src/test/resources/saveTemp.xml";
   private static final String RESOURCE_FILE_WITH_THREE_MEALS = "src/test/resources/correctXml.xml";
 

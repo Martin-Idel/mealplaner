@@ -1,4 +1,4 @@
-package mealplaner.xml;
+package mealplaner.xml.util;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,7 +11,7 @@ import java.nio.file.Files;
 import org.junit.After;
 import org.junit.Test;
 
-import mealplaner.xml.VersionControl;
+import mealplaner.xml.util.VersionControl;
 
 public class VersionControlTest {
   private static final String DESTINATION_FILE_PATH = "src/test/resources/saveTemp.xml";
