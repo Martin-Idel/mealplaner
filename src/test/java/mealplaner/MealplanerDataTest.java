@@ -6,11 +6,8 @@ import static mealplaner.DataStoreEventType.DATABASE_EDITED;
 import static mealplaner.DataStoreEventType.DATE_UPDATED;
 import static mealplaner.DataStoreEventType.PROPOSAL_ADDED;
 import static mealplaner.DataStoreEventType.SETTINGS_CHANGED;
-import static mealplaner.MealplanerData.parseMealplanerData;
-import static mealplaner.MealplanerData.writeMealplanerData;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.Meal.createMeal;
-import static mealplaner.model.Proposal.createProposal;
 import static mealplaner.model.Proposal.from;
 import static mealplaner.model.settings.DefaultSettings.createDefaultSettings;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,15 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.w3c.dom.Document;
 
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.Meal;
@@ -143,22 +135,6 @@ public class MealplanerDataTest {
     sut.setDefaultSettings(createDefaultSettings());
 
     verify(listener).updateData(SETTINGS_CHANGED);
-  }
-
-  @Test
-  public void mealplanerXmlSaving() throws ParserConfigurationException {
-    Proposal lastProposal = createProposal();
-    LocalDate date = LocalDate.of(2017, 5, 17);
-    DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder documentBuilder = docFactory.newDocumentBuilder();
-    Document saveFileContent = documentBuilder.newDocument();
-
-    sut = new MealplanerData(meals, date, createDefaultSettings(), lastProposal);
-
-    MealplanerData actual = parseMealplanerData(writeMealplanerData(saveFileContent, sut));
-    assertThat(actual.getMeals()).asList().containsAll(sut.getMeals());
-    assertThat(actual.getDaysPassed()).isEqualByComparingTo(sut.getDaysPassed());
-    assertThat(actual.getLastProposal()).isEqualTo(sut.getLastProposal());
   }
 
   private void addInitializedMeals() throws MealException {

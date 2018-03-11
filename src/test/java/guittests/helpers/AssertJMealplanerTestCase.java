@@ -25,17 +25,26 @@ import mealplaner.recipes.provider.IngredientProvider;
 public class AssertJMealplanerTestCase extends AssertJSwingJUnitTestCase {
   protected FrameFixture window;
   protected GuiMethods windowHelpers;
-  protected static final String DESTINATION_FILE_PATH = "src/test/resources/saveTemp.xml";
-  protected static final String DESTINATION_INGREDIENT_FILE_PATH = "src/test/resources/ingredientsTemp.xml";
-  private String originFilePath;
+  protected static final String WORKING_DIRECTORY = "src/test/resources";
+  protected static final String DESTINATION_MEALS_FILE_PATH = WORKING_DIRECTORY + "mealsTemp.xml";
+  protected static final String DESTINATION_MEALPLANER_FILE_PATH = WORKING_DIRECTORY
+      + "saveTemp.xml";
+  protected static final String DESTINATION_INGREDIENT_FILE_PATH = WORKING_DIRECTORY
+      + "ingredientsTemp.xml";
+  private String originMealsFilePath;
+  private String originMealplanerFilePath;
   private String originIngredientFilePath;
 
   public AssertJMealplanerTestCase() {
-    this("src/test/resources/save.xml", "src/test/resources/ingredients.xml");
+    this("src/test/resources/meals.xml",
+        "src/test/resources/save.xml",
+        "src/test/resources/ingredients.xml");
   }
 
-  public AssertJMealplanerTestCase(String originFilePath, String originIngredientFilePath) {
-    this.originFilePath = originFilePath;
+  public AssertJMealplanerTestCase(String originMealFilePath, String originMealplanerFilePath,
+      String originIngredientFilePath) {
+    this.originMealsFilePath = originMealFilePath;
+    this.originMealplanerFilePath = originMealplanerFilePath;
     this.originIngredientFilePath = originIngredientFilePath;
   }
 
@@ -50,10 +59,12 @@ public class AssertJMealplanerTestCase extends AssertJSwingJUnitTestCase {
   @Override
   protected void onTearDown() {
     try {
+      File mealsFile = new File(DESTINATION_MEALS_FILE_PATH);
+      Files.delete(mealsFile.toPath());
+      File saveFile = new File(DESTINATION_MEALPLANER_FILE_PATH);
+      Files.delete(saveFile.toPath());
       File ingredientFile = new File(DESTINATION_INGREDIENT_FILE_PATH);
       Files.delete(ingredientFile.toPath());
-      File file = new File(DESTINATION_FILE_PATH);
-      Files.delete(file.toPath());
     } catch (IOException ioex) {
       Assert.fail("One of the files used as save files does not exist");
     }
@@ -78,7 +89,9 @@ public class AssertJMealplanerTestCase extends AssertJSwingJUnitTestCase {
   }
 
   protected String useFilePath() throws IOException {
-    return copyFile(originFilePath, DESTINATION_FILE_PATH);
+    copyFile(originMealsFilePath, DESTINATION_MEALS_FILE_PATH);
+    copyFile(originMealplanerFilePath, DESTINATION_MEALPLANER_FILE_PATH);
+    return new File(WORKING_DIRECTORY).getPath();
   }
 
   private String copyFile(String filename, String destinationPath) throws IOException {

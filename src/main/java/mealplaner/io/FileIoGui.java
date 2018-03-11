@@ -1,13 +1,9 @@
 package mealplaner.io;
 
 import static java.util.Optional.empty;
-import static java.util.Optional.of;
-import static javax.swing.JOptionPane.showInputDialog;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.MessageDialog.errorMessages;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,23 +46,24 @@ public class FileIoGui {
 
   // TODO: Implement correct backup loading
   public Optional<MealplanerData> loadBackup() {
-    String bak = showInputDialog(frame, BUNDLES.message("createLoadBackup"), "*.xml");
-    if (bak != null) {
-      MealplanerData mealPlan = new MealplanerData();
-      try {
-        mealPlan = MealplanerFileLoader.load(bak);
-      } catch (FileNotFoundException exc) {
-        errorMessages(frame, exc, BUNDLES.errorMessage("MSG_BKU_FILE_NOT_FOUND"));
-        logger.error("File not found in: ", exc);
-      } catch (IOException exc) {
-        errorMessages(frame, exc, BUNDLES.errorMessage("MSG_IOEX"));
-        logger.error("I/O Exception in: ", exc);
-      } catch (MealException exc) {
-        errorMessages(frame, exc, BUNDLES.errorMessage("MSG_BKU_CLASS_NOT_FOUND"));
-        logger.error("MealException in: ", exc);
-      }
-      return of(mealPlan);
-    }
+    // String bak = showInputDialog(frame, BUNDLES.message("createLoadBackup"),
+    // "*.xml");
+    // if (bak != null) {
+    // MealplanerData mealPlan = new MealplanerData();
+    // try {
+    // mealPlan = MealplanerFileLoader.load(bak);
+    // } catch (FileNotFoundException exc) {
+    // errorMessages(frame, exc, BUNDLES.errorMessage("MSG_BKU_FILE_NOT_FOUND"));
+    // logger.error("File not found in: ", exc);
+    // } catch (IOException exc) {
+    // errorMessages(frame, exc, BUNDLES.errorMessage("MSG_IOEX"));
+    // logger.error("I/O Exception in: ", exc);
+    // } catch (MealException exc) {
+    // errorMessages(frame, exc, BUNDLES.errorMessage("MSG_BKU_CLASS_NOT_FOUND"));
+    // logger.error("MealException in: ", exc);
+    // }
+    // return of(mealPlan);
+    // }
     return empty();
   }
 
@@ -80,16 +77,17 @@ public class FileIoGui {
 
   // TODO: Correct backup creation
   public void createBackup(MealplanerData mealPlan) {
-    String bak = showInputDialog(frame, BUNDLES.message("createLoadBackup"), "*.xml");
-    if (bak != null) {
-      try {
-        MealplanerFileSaver.save(mealPlan, bak);
-        JOptionPane.showMessageDialog(frame, BUNDLES.message("successSave"),
-            BUNDLES.message("successHeading"), JOptionPane.INFORMATION_MESSAGE);
-      } catch (IOException exc) {
-        errorMessages(frame, exc, BUNDLES.errorMessage("MSG_IOEX"));
-        logger.error("I/O Exception in: ", exc);
-      }
-    }
+    // String bak = showInputDialog(frame, BUNDLES.message("createLoadBackup"),
+    // "*.xml");
+    // if (bak != null) {
+    // try {
+    // MealplanerFileSaver.save(mealPlan, bak);
+    // JOptionPane.showMessageDialog(frame, BUNDLES.message("successSave"),
+    // BUNDLES.message("successHeading"), JOptionPane.INFORMATION_MESSAGE);
+    // } catch (IOException exc) {
+    // errorMessages(frame, exc, BUNDLES.errorMessage("MSG_IOEX"));
+    // logger.error("I/O Exception in: ", exc);
+    // }
+    // }
   }
 }

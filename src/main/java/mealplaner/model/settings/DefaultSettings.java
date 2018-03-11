@@ -1,27 +1,14 @@
 package mealplaner.model.settings;
 
-import static java.time.DayOfWeek.valueOf;
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toMap;
-import static mealplaner.io.XmlHelpers.logEmptyOptional;
-import static mealplaner.io.XmlHelpers.logFailedXmlRetrieval;
 import static mealplaner.model.settings.Settings.createSettings;
-import static mealplaner.model.settings.Settings.parseSettings;
-import static mealplaner.model.settings.Settings.writeSettings;
 
 import java.time.DayOfWeek;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 public final class DefaultSettings {
   private static final List<DayOfWeek> DAYS_OF_WEEK = Arrays.asList(DayOfWeek.values());
@@ -52,37 +39,6 @@ public final class DefaultSettings {
 
   public Map<DayOfWeek, Settings> getDefaultSettings() {
     return copyHashMap(defaultSettings);
-  }
-
-  public static DefaultSettings parseDefaultSettings(Element defaultSettingsNode) {
-    NodeList settingsList = defaultSettingsNode.getElementsByTagName("setting");
-    Map<DayOfWeek, Settings> defaultSettings = new HashMap<>();
-    for (int i = 0; i < settingsList.getLength(); i++) {
-      Node dayOfWeekNode = settingsList.item(i).getAttributes().getNamedItem("dayOfWeek");
-      Optional<DayOfWeek> key = dayOfWeekNode == null
-          ? empty()
-          : of(valueOf(dayOfWeekNode.getTextContent()));
-      if (key.isPresent()) {
-        defaultSettings.put(key.get(),
-            settingsList.item(i).getNodeType() == Node.ELEMENT_NODE
-                ? parseSettings((Element) settingsList.item(i))
-                : logFailedXmlRetrieval(createSettings(), "Settings " + key.get(),
-                    defaultSettingsNode));
-      } else {
-        logEmptyOptional(key, "Day of week " + i, defaultSettingsNode);
-      }
-    }
-    return from(defaultSettings);
-  }
-
-  public static Element writeDefaultSettings(Document saveFileContent,
-      DefaultSettings defaultSettings, String nodeName) {
-    Element defaultSettingsNode = saveFileContent.createElement(nodeName);
-    for (DayOfWeek dayOfWeek : DayOfWeek.values()) {
-      defaultSettingsNode.appendChild(writeSettings(saveFileContent,
-          defaultSettings.defaultSettings.get(dayOfWeek), dayOfWeek, "setting"));
-    }
-    return defaultSettingsNode;
   }
 
   @Override

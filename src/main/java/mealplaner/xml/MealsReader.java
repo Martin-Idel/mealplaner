@@ -3,12 +3,9 @@ package mealplaner.xml;
 import static mealplaner.xml.adapters.MealAdapter.convertMealFromXml;
 import static mealplaner.xml.util.JaxHelper.read;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import mealplaner.commons.errorhandling.MealException;
-import mealplaner.io.MealplanerFileLoader;
 import mealplaner.model.Meal;
 import mealplaner.xml.model.MealdatabaseXml;
 import mealplaner.xml.util.VersionControl;
@@ -23,12 +20,7 @@ public final class MealsReader {
       MealdatabaseXml database = read(filePath, MealdatabaseXml.class);
       return convertDataBaseFromXml(database);
     } else {
-      // TODO: Delete once saves have been ported
-      try {
-        return MealplanerFileLoader.load(filePath).getMeals();
-      } catch (MealException | IOException e) {
-        return new ArrayList<>();
-      }
+      return new ArrayList<>();
     }
   }
 

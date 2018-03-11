@@ -6,12 +6,9 @@ import static mealplaner.xml.adapters.SettingsAdapter.convertSettingsFromXml;
 import static mealplaner.xml.util.JaxHelper.read;
 import static mealplaner.xml.util.VersionControl.getVersion;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import mealplaner.MealplanerData;
-import mealplaner.commons.errorhandling.MealException;
-import mealplaner.io.MealplanerFileLoader;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.xml.model.MealplanerdataXml;
 
@@ -25,12 +22,7 @@ public final class MealplanerDataReader {
       MealplanerdataXml database = read(filePath, MealplanerdataXml.class);
       return convertToMealplanerData(database);
     } else {
-      // TODO: Delete once saves have been ported
-      try {
-        return MealplanerFileLoader.load(filePath);
-      } catch (MealException | IOException e) {
-        return new MealplanerData();
-      }
+      return new MealplanerData();
     }
   }
 

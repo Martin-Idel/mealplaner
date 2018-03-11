@@ -1,11 +1,6 @@
 package mealplaner.model.settings;
 
 import static mealplaner.commons.NonnegativeInteger.TWO;
-import static mealplaner.commons.NonnegativeInteger.nonNegative;
-import static mealplaner.io.XmlHelpers.createTextNode;
-import static mealplaner.io.XmlHelpers.readBoolean;
-import static mealplaner.io.XmlHelpers.readEnum;
-import static mealplaner.io.XmlHelpers.readInt;
 import static mealplaner.model.enums.CasseroleSettings.POSSIBLE;
 import static mealplaner.model.enums.PreferenceSettings.NORMAL;
 import static mealplaner.model.settings.CookingPreferenceSetting.createCookingPreferenceSettings;
@@ -14,13 +9,6 @@ import static mealplaner.model.settings.CookingTimeSetting.defaultCookingTime;
 import static mealplaner.model.settings.CookingUtensilSetting.copyUtensilSetting;
 import static mealplaner.model.settings.CookingUtensilSetting.createCookingUtensilSettings;
 
-import java.time.DayOfWeek;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.model.enums.CasseroleSettings;
 import mealplaner.model.enums.CookingTime;
@@ -28,8 +16,6 @@ import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.PreferenceSettings;
 
 public final class Settings {
-  private static final Logger logger = LoggerFactory.getLogger(Settings.class);
-
   private final CasseroleSettings casseroleSettings;
   private final PreferenceSettings preference;
   private final CookingPreferenceSetting cookingPreferences;
@@ -128,69 +114,6 @@ public final class Settings {
 
   public PreferenceSettings getPreference() {
     return preference;
-  }
-
-  public static Element writeSettings(Document saveFileContent,
-      Settings settings,
-      DayOfWeek dayOfWeek,
-      String elementName) {
-    Element settingsNode = saveFileContent.createElement(elementName);
-    settingsNode.setAttribute("dayOfWeek", dayOfWeek.toString());
-
-    settingsNode.appendChild(createTextNode(saveFileContent,
-        "casseroleSettings",
-        () -> settings.getCasserole().name()));
-    settingsNode.appendChild(createTextNode(saveFileContent,
-        "preferenceSettings",
-        () -> settings.getPreference().name()));
-    settingsNode.appendChild(createTextNode(saveFileContent,
-        "numberOfPeople",
-        () -> Integer.toString(settings.getNumberOfPeople().value)));
-    settingsNode.appendChild(createTextNode(saveFileContent,
-        "VERY_SHORT",
-        () -> Boolean.toString(
-            settings.getCookingTime().isTimeProhibited(CookingTime.VERY_SHORT))));
-    settingsNode.appendChild(createTextNode(saveFileContent,
-        "SHORT",
-        () -> Boolean.toString(
-            settings.getCookingTime().isTimeProhibited(CookingTime.SHORT))));
-    settingsNode.appendChild(createTextNode(saveFileContent,
-        "MEDIUM",
-        () -> Boolean.toString(
-            settings.getCookingTime().isTimeProhibited(CookingTime.MEDIUM))));
-    settingsNode.appendChild(createTextNode(saveFileContent,
-        "LONG",
-        () -> Boolean.toString(
-            settings.getCookingTime().isTimeProhibited(CookingTime.LONG))));
-    return settingsNode;
-  }
-
-  public static Settings parseSettings(Element currentSetting) {
-    final CasseroleSettings casseroleSettings = readEnum(CasseroleSettings.POSSIBLE,
-        CasseroleSettings::valueOf, currentSetting, "casseroleSettings");
-    final PreferenceSettings preferenceSetting = readEnum(PreferenceSettings.NORMAL,
-        PreferenceSettings::valueOf, currentSetting, "preferenceSettings");
-    int numberOfPeople = readInt(2, currentSetting, "numberOfPeople");
-    if (numberOfPeople < 0) {
-      numberOfPeople = 1;
-      logger.warn(String.format("The numberOfPeople of Setting " + currentSetting.toString()
-          + " contains a negative number."));
-    }
-    CookingTimeSetting cookingTimes = defaultCookingTime();
-    if (readBoolean(false, currentSetting, "VERY_SHORT")) {
-      cookingTimes.prohibitCookingTime(CookingTime.VERY_SHORT);
-    }
-    if (readBoolean(false, currentSetting, "SHORT")) {
-      cookingTimes.prohibitCookingTime(CookingTime.SHORT);
-    }
-    if (readBoolean(false, currentSetting, "MEDIUM")) {
-      cookingTimes.prohibitCookingTime(CookingTime.MEDIUM);
-    }
-    if (readBoolean(false, currentSetting, "LONG")) {
-      cookingTimes.prohibitCookingTime(CookingTime.LONG);
-    }
-    return new Settings(cookingTimes, nonNegative(numberOfPeople), casseroleSettings,
-        preferenceSetting);
   }
 
   @Override

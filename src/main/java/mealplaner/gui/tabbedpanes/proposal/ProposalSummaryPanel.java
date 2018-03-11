@@ -23,13 +23,13 @@ import mealplaner.commons.gui.buttonpanel.ButtonPanel;
 import mealplaner.gui.MainContainer;
 import mealplaner.gui.dialogs.proposaloutput.ProposalTable;
 import mealplaner.gui.factories.DialogFactory;
-import mealplaner.io.IngredientIo;
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.ProposalOutline;
 import mealplaner.model.settings.Settings;
 import mealplaner.recipes.provider.IngredientProvider;
+import mealplaner.xml.IngredientsWriter;
 
 public class ProposalSummaryPanel {
   private final MealplanerData mealPlan;
@@ -148,7 +148,7 @@ public class ProposalSummaryPanel {
       dialogs.createIngredientsInput()
           .showDialog()
           .forEach(ingredients::add);
-      IngredientIo.saveXml(ingredients);
+      IngredientsWriter.saveXml(ingredients.getIngredients(), ingredients.getSavePath());
     }));
     container.addToFileMenu(createMealMenu(action -> {
       dialogs.createMultipleMealInputDialog()

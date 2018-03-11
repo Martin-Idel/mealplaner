@@ -7,8 +7,6 @@ import static mealplaner.xml.util.JaxHelper.read;
 import java.util.ArrayList;
 import java.util.List;
 
-import mealplaner.commons.errorhandling.MealException;
-import mealplaner.io.IngredientIo;
 import mealplaner.recipes.model.Ingredient;
 import mealplaner.xml.model.IngredientdatabaseXml;
 import mealplaner.xml.util.VersionControl;
@@ -25,12 +23,7 @@ public final class IngredientsReader {
           .map(ingredient -> convertIngredientFromXml(ingredient))
           .collect(toList());
     } else {
-      // TODO: Delete once saves have been ported
-      try {
-        return IngredientIo.readXml(filePath).getIngredients();
-      } catch (MealException e) {
-        return new ArrayList<>();
-      }
+      return new ArrayList<>();
     }
   }
 }

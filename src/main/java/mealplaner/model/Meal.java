@@ -1,31 +1,16 @@
 package mealplaner.model;
 
 import static java.util.Optional.empty;
-import static java.util.Optional.of;
 import static mealplaner.commons.NonnegativeInteger.ZERO;
-import static mealplaner.commons.NonnegativeInteger.nonNegative;
-import static mealplaner.io.XmlHelpers.createTextNode;
-import static mealplaner.io.XmlHelpers.readEnum;
-import static mealplaner.recipes.model.Recipe.createRecipe;
-import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.Optional;
-import java.util.function.Supplier;
-
-import org.slf4j.Logger;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.errorhandling.MealException;
-import mealplaner.io.XmlHelpers;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
 import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.Sidedish;
-import mealplaner.model.settings.Settings;
 import mealplaner.recipes.model.Recipe;
 
 public final class Meal implements Comparable<Meal> {
@@ -34,8 +19,6 @@ public final class Meal implements Comparable<Meal> {
       Sidedish.NONE,
       ObligatoryUtensil.CASSEROLE,
       CookingPreference.RARE, ZERO, "", empty());
-
-  private static final Logger logger = getLogger(Settings.class);
 
   private String name;
   private final CookingTime cookingTime;
@@ -187,86 +170,6 @@ public final class Meal implements Comparable<Meal> {
         && obligatoryUtensil == other.obligatoryUtensil
         && sidedish == other.sidedish
         && daysPassed.equals(other.daysPassed);
-  }
-
-  public static Element writeMeal(Document saveFileContent, Meal meal, String elementName) {
-    Element mealNode = saveFileContent.createElement(elementName);
-    mealNode.setAttribute("name", meal.getName());
-
-    mealNode.appendChild(createTextNode(saveFileContent, "comment", () -> meal.getComment()));
-    mealNode.appendChild(createTextNode(saveFileContent,
-        "cookingTime",
-        () -> meal.getCookingTime().name()));
-    mealNode.appendChild(createTextNode(saveFileContent,
-        "sidedish",
-        () -> meal.getSidedish().name()));
-    mealNode.appendChild(createTextNode(saveFileContent,
-        "utensil",
-        () -> meal.getObligatoryUtensil().name()));
-    mealNode.appendChild(createTextNode(saveFileContent,
-        "preference",
-        () -> meal.getCookingPreference().name()));
-    mealNode.appendChild(createTextNode(saveFileContent,
-        "lastCooked",
-        () -> Integer.toString(meal.getDaysPassed().value)));
-    if (meal.getRecipe().isPresent()) {
-      mealNode.appendChild(
-          Recipe.writeRecipe(saveFileContent, meal.getRecipe().get(), "recipe"));
-    }
-    return mealNode;
-  }
-
-  public static Meal readMeal(Element currentMeal) {
-    String name = readString("corruptedName",
-        () -> currentMeal.getAttributes().getNamedItem("name").getTextContent(),
-        "name");
-    String comment = XmlHelpers.readString("", currentMeal, "comment");
-    CookingTime cookingTime = readEnum(CookingTime.VERY_SHORT,
-        CookingTime::valueOf, currentMeal, "cookingTime");
-    Sidedish sidedish = readEnum(Sidedish.NONE, Sidedish::valueOf, currentMeal, "sidedish");
-    ObligatoryUtensil obligatoryUtensil = readEnum(ObligatoryUtensil.POT,
-        ObligatoryUtensil::valueOf, currentMeal, "utensil");
-    CookingPreference cookingPreference = readEnum(CookingPreference.NO_PREFERENCE,
-        CookingPreference::valueOf, currentMeal, "preference");
-    NonnegativeInteger daysLastCooked = nonNegative(parseInteger(currentMeal));
-    NodeList recipeNodeList = currentMeal.getElementsByTagName("recipe");
-    Optional<Recipe> recipeOptional = empty();
-    if (recipeNodeList.getLength() != 0) {
-      Recipe recipe = recipeNodeList.item(0).getNodeType() == Node.ELEMENT_NODE
-          ? Recipe.loadRecipe((Element) recipeNodeList.item(0))
-          : XmlHelpers.logFailedXmlRetrieval(createRecipe(), "recipe", currentMeal);
-      recipeOptional = of(recipe);
-    }
-    return new Meal(name, cookingTime, sidedish, obligatoryUtensil,
-        cookingPreference, daysLastCooked, comment, recipeOptional);
-  }
-
-  private static int parseInteger(Element currentMeal) {
-    int daysLastCooked = 0;
-    try {
-      daysLastCooked = Integer
-          .parseInt(currentMeal.getElementsByTagName("lastCooked").item(0)
-              .getTextContent());
-    } catch (NullPointerException | NumberFormatException exception) {
-      logger.warn(
-          "The number of days passed of a meal could not be read or contains an invalid number.");
-    }
-    if (daysLastCooked < 0) {
-      daysLastCooked = 0;
-      logger.warn("The number of days must be nonnegative.");
-    }
-    return daysLastCooked;
-  }
-
-  private static String readString(String defaultType, Supplier<String> getElement,
-      String tagName) {
-    String name = defaultType;
-    try {
-      name = getElement.get();
-    } catch (NullPointerException exception) {
-      logger.warn(String.format("The %s of a meal could not be read", tagName));
-    }
-    return name;
   }
 
   private void setName(String name) throws MealException {

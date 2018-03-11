@@ -1,20 +1,5 @@
 package mealplaner.recipes.model;
 
-import static mealplaner.io.XmlHelpers.createTextNode;
-import static mealplaner.io.XmlHelpers.readEnum;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-import mealplaner.io.XmlHelpers;
-
-// TODO: Remove public constructor and XML stuff
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Ingredient {
   private final String name;
   private final IngredientType type;
@@ -48,27 +33,6 @@ public class Ingredient {
 
   public Measure getMeasure() {
     return measure;
-  }
-
-  public static Element generateXml(Document saveFileContent, Ingredient ingredient,
-      String elementName) {
-    Element ingredientNode = saveFileContent.createElement(elementName);
-    ingredientNode
-        .appendChild(createTextNode(saveFileContent, "name", () -> ingredient.getName()));
-    ingredientNode.appendChild(
-        createTextNode(saveFileContent, "type", () -> ingredient.getType().name()));
-    ingredientNode.appendChild(createTextNode(saveFileContent, "measure",
-        () -> ingredient.getMeasure().name()));
-    return ingredientNode;
-  }
-
-  public static Ingredient loadFromXml(Element currentIngredient) {
-    String name = XmlHelpers.readString("Something", currentIngredient, "name");
-    IngredientType type = readEnum(IngredientType.OTHER,
-        IngredientType::valueOf, currentIngredient, "type");
-    Measure measure = readEnum(Measure.NONE,
-        Measure::valueOf, currentIngredient, "measure");
-    return new Ingredient(name, type, measure);
   }
 
   @Override

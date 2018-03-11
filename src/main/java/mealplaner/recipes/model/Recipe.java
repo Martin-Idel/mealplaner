@@ -6,8 +6,6 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static mealplaner.commons.NonnegativeInteger.ONE;
 import static mealplaner.commons.NonnegativeInteger.ZERO;
-import static mealplaner.commons.NonnegativeInteger.nonNegative;
-import static mealplaner.io.XmlHelpers.createTextNode;
 import static mealplaner.recipes.model.QuantitativeIngredient.create;
 
 import java.util.HashMap;
@@ -16,19 +14,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Function;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import mealplaner.commons.NonnegativeInteger;
-import mealplaner.io.XmlHelpers;
 
 public final class Recipe {
-  private static final Logger logger = LoggerFactory.getLogger(Recipe.class);
-
   private final NonnegativeInteger numberOfPortions;
   private final Map<Ingredient, NonnegativeInteger> ingredients;
 
@@ -118,49 +106,5 @@ public final class Recipe {
     Recipe other = (Recipe) obj;
     return ingredients.equals(other.ingredients)
         && numberOfPortions.equals(other.numberOfPortions);
-  }
-
-  public static Element writeRecipe(Document saveFileContent, Recipe recipe,
-      String elementName) {
-    Element recipeNode = saveFileContent.createElement(elementName);
-    recipeNode.appendChild(createTextNode(saveFileContent, "numberOfPortions",
-        () -> Integer.toString(recipe.getNumberOfPortions().value)));
-    for (Map.Entry<Ingredient, NonnegativeInteger> entry : recipe
-        .getIngredientsFor(recipe.getNumberOfPortions()).entrySet()) {
-      Element ingredientEntry = saveFileContent.createElement("recipePart");
-      ingredientEntry.appendChild(
-          Ingredient.generateXml(saveFileContent, entry.getKey(), "ingredient"));
-      ingredientEntry.appendChild(createTextNode(saveFileContent,
-          "amount", () -> Integer.toString(entry.getValue().value)));
-      recipeNode.appendChild(ingredientEntry);
-    }
-    return recipeNode;
-  }
-
-  public static Recipe loadRecipe(Element currentRecipe) {
-    NonnegativeInteger numberOfPortions = nonNegative(
-        XmlHelpers.readInt(1, currentRecipe, "numberOfPortions"));
-    NodeList elementsByTagName = currentRecipe.getElementsByTagName("recipePart");
-    Map<Ingredient, NonnegativeInteger> entries = new HashMap<>();
-    for (int i = 0; i < elementsByTagName.getLength(); i++) {
-      if (elementsByTagName.item(i).getNodeType() == Node.ELEMENT_NODE) {
-        Element recipePart = (Element) elementsByTagName.item(i);
-        Node ingredientsNode = recipePart.getElementsByTagName("ingredient").item(0);
-        Ingredient ingredient = ingredientsNode.getNodeType() == Node.ELEMENT_NODE
-            ? Ingredient.loadFromXml((Element) ingredientsNode)
-            : XmlHelpers.logFailedXmlRetrieval(new Ingredient(),
-                currentRecipe.toString(),
-                currentRecipe);
-        Node measureNode = recipePart.getElementsByTagName("amount").item(0);
-        int measure = measureNode.getNodeType() == Node.ELEMENT_NODE
-            ? Integer.parseInt(((Element) measureNode).getTextContent())
-            : 0;
-        entries.put(ingredient, nonNegative(measure));
-      } else {
-        logger.warn("A recipe could not be read properly, since the node type of "
-            + elementsByTagName.item(i).getNodeName() + "was not an Element");
-      }
-    }
-    return new Recipe(numberOfPortions, entries);
   }
 }
