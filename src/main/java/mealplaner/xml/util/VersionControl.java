@@ -15,10 +15,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import mealplaner.xml.MealsReader;
-
 public final class VersionControl {
-  private static final Logger logger = LoggerFactory.getLogger(MealsReader.class);
+  private static final Logger logger = LoggerFactory.getLogger(VersionControl.class);
 
   private VersionControl() {
   }

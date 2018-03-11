@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<ingredientProvider>
+<IngredientData>
+    <version>1</version>
     <ingredients>
         <ingredient>
             <name>Test1</name>
@@ -22,5 +23,4 @@
             <measure>NONE</measure>
         </ingredient>
     </ingredients>
-    <savePath>src/test/resources/ingredientsTemp.xml</savePath>
-</ingredientProvider>
+</IngredientData>

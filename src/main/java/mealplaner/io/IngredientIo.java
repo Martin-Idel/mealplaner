@@ -1,18 +1,14 @@
 package mealplaner.io;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.recipes.provider.IngredientProvider;
+import mealplaner.xml.IngredientsWriter;
 
 public final class IngredientIo {
   private IngredientIo() {
@@ -32,17 +28,6 @@ public final class IngredientIo {
   }
 
   public static void saveXml(IngredientProvider ingredients) {
-    try (OutputStream outputStream = new FileOutputStream(ingredients.getSavePath())) {
-      JAXBContext jc = JAXBContext.newInstance(IngredientProvider.class);
-      Marshaller marshaller = jc.createMarshaller();
-      marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-      marshaller.marshal(ingredients, outputStream);
-    } catch (JAXBException e) {
-      throw new MealException("Provider for ingredients could not be loaded.", e);
-    } catch (FileNotFoundException e) {
-      throw new MealException("File" + ingredients.getSavePath() + "was not be found.", e);
-    } catch (IOException e) {
-      throw new MealException("File" + ingredients.getSavePath() + "could not be loaded.", e);
-    }
+    IngredientsWriter.saveXml(ingredients.getIngredients(), ingredients.getSavePath());
   }
 }

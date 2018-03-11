@@ -8,6 +8,7 @@ import static mealplaner.commons.gui.MessageDialog.errorMessages;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 import javax.swing.JFrame;
@@ -18,6 +19,11 @@ import org.slf4j.LoggerFactory;
 
 import mealplaner.MealplanerData;
 import mealplaner.commons.errorhandling.MealException;
+import mealplaner.model.Meal;
+import mealplaner.xml.MealplanerDataReader;
+import mealplaner.xml.MealplanerDataWriter;
+import mealplaner.xml.MealsReader;
+import mealplaner.xml.MealsWriter;
 
 public class FileIoGui {
   private final JFrame frame;
@@ -32,20 +38,17 @@ public class FileIoGui {
   public MealplanerData loadDatabase() {
     MealplanerData mealPlan = new MealplanerData();
     try {
-      mealPlan = MealplanerFileLoader.load(savePath);
-    } catch (FileNotFoundException exc) {
-      errorMessages(frame, exc, BUNDLES.errorMessage("MSG_FILE_NOT_FOUND"));
-      logger.error("File not found in: ", exc);
-    } catch (IOException exc) {
-      errorMessages(frame, exc, BUNDLES.errorMessage("MSG_IOEX"));
-      logger.error("I/O Exception in: ", exc);
+      mealPlan = MealplanerDataReader.loadXml(savePath + "save.xml");
+      List<Meal> meals = MealsReader.loadXml(savePath + "meals.xml");
+      mealPlan.setMeals(meals);
     } catch (MealException exc) {
       errorMessages(frame, exc, BUNDLES.errorMessage("MSG_CLASS_NOT_FOUND"));
-      logger.error("MealException in: ", exc);
+      logger.error("Something went wrong when loading meals and mealplaner data in: ", exc);
     }
     return mealPlan;
   }
 
+  // TODO: Implement correct backup loading
   public Optional<MealplanerData> loadBackup() {
     String bak = showInputDialog(frame, BUNDLES.message("createLoadBackup"), "*.xml");
     if (bak != null) {
@@ -67,17 +70,15 @@ public class FileIoGui {
     return empty();
   }
 
+  // TODO: Catch exceptions only here
   public void saveDatabase(MealplanerData mealPlan) {
-    try {
-      MealplanerFileSaver.save(mealPlan, savePath);
-      JOptionPane.showMessageDialog(frame, BUNDLES.message("successSave"),
-          BUNDLES.message("successHeading"), JOptionPane.INFORMATION_MESSAGE);
-    } catch (IOException exc) {
-      errorMessages(frame, exc, BUNDLES.errorMessage("MSG_IOEX"));
-      logger.error("I/O Exception in: ", exc);
-    }
+    MealplanerDataWriter.saveXml(mealPlan, savePath + "save.xml");
+    MealsWriter.saveXml(mealPlan.getMeals(), savePath + "meals.xml");
+    JOptionPane.showMessageDialog(frame, BUNDLES.message("successSave"),
+        BUNDLES.message("successHeading"), JOptionPane.INFORMATION_MESSAGE);
   }
 
+  // TODO: Correct backup creation
   public void createBackup(MealplanerData mealPlan) {
     String bak = showInputDialog(frame, BUNDLES.message("createLoadBackup"), "*.xml");
     if (bak != null) {

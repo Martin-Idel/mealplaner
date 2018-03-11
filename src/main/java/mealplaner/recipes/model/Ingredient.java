@@ -12,6 +12,7 @@ import org.w3c.dom.Element;
 
 import mealplaner.io.XmlHelpers;
 
+// TODO: Remove public constructor and XML stuff
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Ingredient {

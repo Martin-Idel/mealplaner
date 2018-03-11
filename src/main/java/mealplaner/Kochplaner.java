@@ -16,14 +16,14 @@ public final class Kochplaner {
   }
 
   public static void main(String[] args) {
-    IngredientProvider ingredientProvider = loadIngredientProvider("ingredients.xml");
+    IngredientProvider ingredientProvider = loadIngredientProvider("savefiles/ingredients.xml");
     invokeLater(createMainGui(ingredientProvider));
   }
 
   private static Runnable createMainGui(IngredientProvider ingredientProvider) {
     return () -> {
       JFrame mainFrame = new JFrame(BUNDLES.message("mainFrameTitle"));
-      FileIoGui fileIoGui = new FileIoGui(mainFrame, "save.xml");
+      FileIoGui fileIoGui = new FileIoGui(mainFrame, "savefiles/");
       MealplanerData data = fileIoGui.loadDatabase();
       DialogFactory dialogFactory = new DialogFactory(mainFrame);
       new MainGui(mainFrame, data, ingredientProvider, dialogFactory, fileIoGui);
