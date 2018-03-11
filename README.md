@@ -1,6 +1,6 @@
 This is a small project for a mealplaner. Based on your settings and your database (simple list with various options), it makes proposition on what next to eat. 
 
-## Features (v0.2.0)
+## Features (v0.3.0)
 
 - Internationalization: English and German currently available
 - Can propose one meal per day
@@ -12,7 +12,7 @@ This is a small project for a mealplaner. Based on your settings and your databa
 
 ## The future
 
-- The project is under heavy refactoring. The current XML model was implemented such that the backbone can be refactored without losing the database. 
+- The project is under heavy refactoring.
 - The goal is to have a more plugin based model that lets you use only those features you really need.
 
 ## Installation procedure
@@ -22,3 +22,13 @@ This is a small project for a mealplaner. Based on your settings and your databa
 - On a command line, run "gradle createApplication" and wait
 - A complete version is now available under "build/libs". It contains the executable "Mealplaner.jar".
 - The project uses log4j (Apache 2.0), slf4j (MIT) for logging and swingx (LGPL3) for autocompletion. The libraries will be downloaded into "build/libs/lib". If you want to provide your own versions of these libraries, you need to adapt the classpath in the manifest.MF in "Mealplaner.jar" or copy your versions into the "lib" folder.
+
+## Update procedure
+
+If you have a database from v0.2.0, you need the following steps to use it with the new version:
+- Create a backup of your savefiles outside of the git repository
+- Move your ingredients.xml and your save.xml file to a new subfolder called "savefiles"
+- Copy your save.xml file to a new file "meals.xml"
+- Run the installation procedure again to get the latest version
+- Run the application, add a new ingredient (this updates the ingredients.xml savefile)
+- Run the application and save (this updates both the save.xml and the meals.xml savefiles)
