@@ -35,6 +35,7 @@ public final class MealplanerDataReader {
                 entry -> convertSettingsFromXml(entry.getValue()))));
 
     return new MealplanerData(new ArrayList<>(),
+        new ArrayList<>(),
         data.date,
         defaultSettings,
         convertProposalFromXml(data.proposal));

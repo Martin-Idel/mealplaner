@@ -8,6 +8,7 @@ import static mealplaner.commons.gui.dialogs.DialogWindow.window;
 import static mealplaner.recipes.model.Recipe.createRecipe;
 
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Optional;
 
 import javax.swing.JDialog;
@@ -20,8 +21,8 @@ import mealplaner.commons.gui.dialogs.DialogWindow;
 import mealplaner.commons.gui.inputfields.InputField;
 import mealplaner.commons.gui.inputfields.NonnegativeIntegerInputField;
 import mealplaner.commons.gui.tables.Table;
+import mealplaner.recipes.model.Ingredient;
 import mealplaner.recipes.model.Recipe;
-import mealplaner.recipes.provider.IngredientProvider;
 
 public class RecipeInput {
   private final DialogWindow dialogWindow;
@@ -37,14 +38,14 @@ public class RecipeInput {
     dialogWindow = window(parentDialog, label);
   }
 
-  public Optional<Recipe> showDialog(Optional<Recipe> recipe, IngredientProvider ingredients) {
+  public Optional<Recipe> showDialog(Optional<Recipe> recipe, List<Ingredient> ingredients) {
     enteredRecipe = recipe;
     display(recipe, ingredients);
     dialogWindow.dispose();
     return enteredRecipe;
   }
 
-  private void display(Optional<Recipe> recipe, IngredientProvider ingredients) {
+  private void display(Optional<Recipe> recipe, List<Ingredient> ingredients) {
     nonnegativeIntegerInputField = setupInputField(recipe);
     GridPanel inputFieldPanel = gridPanel(0, 2);
     nonnegativeIntegerInputField.addToPanel(inputFieldPanel);

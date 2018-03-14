@@ -4,6 +4,7 @@ import static java.time.LocalDate.now;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.MessageDialog.showSaveExitDialog;
 import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
+import static mealplaner.io.DataParts.INGREDIENTS;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
@@ -23,19 +24,18 @@ import mealplaner.commons.gui.buttonpanel.ButtonPanel;
 import mealplaner.gui.MainContainer;
 import mealplaner.gui.dialogs.proposaloutput.ProposalTable;
 import mealplaner.gui.factories.DialogFactory;
+import mealplaner.io.FileIoGui;
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.ProposalOutline;
 import mealplaner.model.settings.Settings;
-import mealplaner.recipes.provider.IngredientProvider;
-import mealplaner.xml.IngredientsWriter;
 
 public class ProposalSummaryPanel {
   private final MealplanerData mealPlan;
   private final DialogFactory dialogs;
   private final JFrame frame;
-  private final IngredientProvider ingredients;
+  private final FileIoGui fileIoGui;
 
   private ProposalSummary proposalSummary;
   private JPanel mealPanel;
@@ -44,24 +44,15 @@ public class ProposalSummaryPanel {
       MealplanerData mealPlan,
       DialogFactory dialogs,
       JFrame frame,
-      IngredientProvider ingredients) {
+      FileIoGui fileIoGui) {
     this.mealPlan = mealPlan;
     this.dialogs = dialogs;
     this.frame = frame;
-    this.ingredients = ingredients;
+    this.fileIoGui = fileIoGui;
   }
 
-  public void setupPanel(ActionListener saveExitListener, Runnable saveAction) {
-    setupMealPanel(saveExitListener, saveAction);
-  }
-
-  public void addElements(MainContainer container) {
-    container.addTabbedPane(BUNDLES.message("menuPanelName"), mealPanel);
-    addToFileMenu(container);
-  }
-
-  private void setupMealPanel(ActionListener saveExitListener, Runnable saveAction) {
-    ButtonPanel buttonPanel = createButtonPanel(saveExitListener, saveAction);
+  public void setupPanel() {
+    ButtonPanel buttonPanel = createButtonPanel();
     mealPanel = new JPanel();
     mealPanel.setLayout(new BorderLayout());
     proposalSummary = new ProposalSummary(this.mealPlan);
@@ -71,6 +62,11 @@ public class ProposalSummaryPanel {
         action -> makeProposal()).getComponent(),
         BorderLayout.CENTER);
     mealPanel.add(buttonPanel.getComponent(), BorderLayout.SOUTH);
+  }
+
+  public void addElements(MainContainer container) {
+    container.addTabbedPane(BUNDLES.message("menuPanelName"), mealPanel);
+    addToFileMenu(container);
   }
 
   public void makeProposal() {
@@ -107,7 +103,7 @@ public class ProposalSummaryPanel {
     Proposal updatedProposal = dialogs.createProposalOutputDialog()
         .showDialog(mealPlan.getMeals(), proposal);
     mealPlan.setLastProposal(updatedProposal);
-    dialogs.createShoppingListDialog().showDialog(updatedProposal, ingredients);
+    dialogs.createShoppingListDialog().showDialog(updatedProposal, mealPlan.getIngredients());
   }
 
   public void updatePastMeals() {
@@ -131,15 +127,17 @@ public class ProposalSummaryPanel {
     defaultSettings.ifPresent(settings -> mealPlan.setDefaultSettings(settings));
   }
 
-  private ButtonPanel createButtonPanel(ActionListener saveExitListener,
-      Runnable saveAction) {
+  private ButtonPanel createButtonPanel() {
     return builder("ProposalSummary")
         .addButton(BUNDLES.message("saveExitButton"),
             BUNDLES.message("saveExitMnemonic"),
-            saveExitListener)
+            action -> {
+              fileIoGui.saveDatabase(mealPlan);
+              frame.dispose();
+            })
         .addExitButton(
             action -> showSaveExitDialog(frame, BUNDLES.message("saveYesNoQuestion"),
-                saveAction))
+                () -> fileIoGui.saveDatabase(mealPlan)))
         .build();
   }
 
@@ -147,12 +145,12 @@ public class ProposalSummaryPanel {
     container.addToFileMenu(createIngredientsMenu(action -> {
       dialogs.createIngredientsInput()
           .showDialog()
-          .forEach(ingredients::add);
-      IngredientsWriter.saveXml(ingredients.getIngredients(), ingredients.getSavePath());
+          .forEach(mealPlan::addIngredient);
+      fileIoGui.savePart(mealPlan, INGREDIENTS);
     }));
     container.addToFileMenu(createMealMenu(action -> {
       dialogs.createMultipleMealInputDialog()
-          .showDialog(ingredients)
+          .showDialog(mealPlan.getIngredients())
           .forEach(meal -> mealPlan.addMeal(meal));
     }));
     container.addToFileMenu(viewProposalMenu(action -> dialogs

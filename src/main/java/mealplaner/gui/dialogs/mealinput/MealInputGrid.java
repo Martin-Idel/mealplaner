@@ -8,6 +8,7 @@ import static mealplaner.commons.gui.GridPanel.gridPanel;
 import static mealplaner.model.Meal.createMeal;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -26,8 +27,8 @@ import mealplaner.model.enums.CookingTime;
 import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.Sidedish;
 import mealplaner.recipes.gui.dialogs.recepies.RecipeInput;
+import mealplaner.recipes.model.Ingredient;
 import mealplaner.recipes.model.Recipe;
-import mealplaner.recipes.provider.IngredientProvider;
 
 public final class MealInputGrid {
   private InputField<Optional<String>> nameField;
@@ -49,7 +50,7 @@ public final class MealInputGrid {
     return new MealInputGrid(dialog);
   }
 
-  public GridPanel initialiseInputFields(IngredientProvider ingredientProvider) {
+  public GridPanel initialiseInputFields(List<Ingredient> ingredients) {
     nameField = new NonEmptyTextInputField(BUNDLES.message("insertMealName"), "Name");
     cookingTimeField = new ComboBoxInputField<CookingTime>(
         BUNDLES.message("insertMealLength"),
@@ -81,18 +82,18 @@ public final class MealInputGrid {
         "Recipe",
         BUNDLES.message("editRecipeButtonLabel"),
         BUNDLES.message("createRecipeButtonLabel"),
-        empty(), content -> createRecipeDialog(ingredientProvider, content));
+        empty(), content -> createRecipeDialog(ingredients, content));
 
     GridPanel mealCreationPanel = gridPanel(0, 2);
     allFields().forEach(field -> field.addToPanel(mealCreationPanel));
     return mealCreationPanel;
   }
 
-  private Optional<Recipe> createRecipeDialog(IngredientProvider ingredientProvider,
+  private Optional<Recipe> createRecipeDialog(List<Ingredient> ingredients,
       Optional<Recipe> recipe) {
     RecipeInput recipeInput = new RecipeInput(dialogWindow,
         BUNDLES.message("recipeInputDialogTitle"));
-    return recipeInput.showDialog(recipe, ingredientProvider);
+    return recipeInput.showDialog(recipe, ingredients);
   }
 
   public void resetFields() {

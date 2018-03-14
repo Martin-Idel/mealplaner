@@ -1,11 +1,12 @@
 package mealplaner.gui.dialogs.mealinput;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.swing.JFrame;
 
 import mealplaner.model.Meal;
-import mealplaner.recipes.provider.IngredientProvider;
+import mealplaner.recipes.model.Ingredient;
 
 public class SingleMealInput extends MealInput<Meal> {
   private Meal newMeal;
@@ -15,8 +16,8 @@ public class SingleMealInput extends MealInput<Meal> {
   }
 
   @Override
-  public Meal showDialog(IngredientProvider ingredientProvider) {
-    display(ingredientProvider, action -> saveMeal());
+  public Meal showDialog(List<Ingredient> ingredients) {
+    display(ingredients, action -> saveMeal());
     return newMeal;
   }
 

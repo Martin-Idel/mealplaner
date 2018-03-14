@@ -79,6 +79,7 @@ public class MealplanerDataXmlInteractionTest {
     LocalDate time = LocalDate.of(2017, 5, 3);
 
     MealplanerData data = new MealplanerData(new ArrayList<>(),
+        new ArrayList<>(),
         time,
         DefaultSettings.from(defaultSettings),
         proposal);

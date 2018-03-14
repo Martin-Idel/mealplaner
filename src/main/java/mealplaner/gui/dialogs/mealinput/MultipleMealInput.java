@@ -7,7 +7,7 @@ import java.util.Optional;
 import javax.swing.JFrame;
 
 import mealplaner.model.Meal;
-import mealplaner.recipes.provider.IngredientProvider;
+import mealplaner.recipes.model.Ingredient;
 
 public class MultipleMealInput extends MealInput<List<Meal>> {
   private final List<Meal> newMeals;
@@ -18,8 +18,8 @@ public class MultipleMealInput extends MealInput<List<Meal>> {
   }
 
   @Override
-  public List<Meal> showDialog(IngredientProvider ingredientProvider) {
-    display(ingredientProvider, action -> saveMeal());
+  public List<Meal> showDialog(List<Ingredient> ingredients) {
+    display(ingredients, action -> saveMeal());
     dispose();
     return newMeals;
   }

@@ -15,14 +15,13 @@ import mealplaner.commons.gui.tables.TableColumnBuilder;
 import mealplaner.recipes.model.Ingredient;
 import mealplaner.recipes.model.Measure;
 import mealplaner.recipes.model.QuantitativeIngredient;
-import mealplaner.recipes.provider.IngredientProvider;
 
 public final class IngredientsTable {
   private IngredientsTable() {
   }
 
   public static Table setupTable(List<QuantitativeIngredient> ingredients,
-      IngredientProvider ingredientProvider) {
+      List<Ingredient> ingredientList) {
     return createNewTable()
         .withRowCount(ingredients::size)
         .addColumn(withContent(String.class)
@@ -30,7 +29,7 @@ public final class IngredientsTable {
             .withColumnName(BUNDLES.message("ingredientNameColumn"))
             .setValueToOrderedImmutableList(ingredients,
                 (ingredient, name) -> {
-                  Ingredient newIngredient = ingredientProvider.getIngredients()
+                  Ingredient newIngredient = ingredientList
                       .stream()
                       .filter(ing -> ing.getName().equals(name))
                       .findAny()
@@ -43,7 +42,7 @@ public final class IngredientsTable {
             .isEditable()
             .setDefaultValueForEmptyRow("")
             .overwriteTableCellEditor(
-                autoCompleteCellEditor(ingredientProvider.getIngredients(), Ingredient::getName))
+                autoCompleteCellEditor(ingredientList, Ingredient::getName))
             .build())
         .addColumn(withNonnegativeIntegerContent()
             .withColumnName(BUNDLES.message("ingredientAmountColumn"))

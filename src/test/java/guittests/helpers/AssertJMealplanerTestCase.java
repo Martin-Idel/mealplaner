@@ -3,7 +3,6 @@ package guittests.helpers;
 import static guittests.helpers.GuiMethods.create;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static mealplaner.commons.BundleStore.BUNDLES;
-import static mealplaner.io.IngredientProviderIoGui.loadIngredientProvider;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +19,6 @@ import mealplaner.MealplanerData;
 import mealplaner.gui.MainGui;
 import mealplaner.gui.factories.DialogFactory;
 import mealplaner.io.FileIoGui;
-import mealplaner.recipes.provider.IngredientProvider;
 
 public class AssertJMealplanerTestCase extends AssertJSwingJUnitTestCase {
   protected FrameFixture window;
@@ -72,12 +70,11 @@ public class AssertJMealplanerTestCase extends AssertJSwingJUnitTestCase {
 
   private MainGui createMainApplication() {
     try {
-      IngredientProvider ingredientProvider = loadIngredientProvider(getIngredientsPath());
       JFrame mainFrame = new JFrame(BUNDLES.message("mainFrameTitle"));
       FileIoGui fileIoGui = new FileIoGui(mainFrame, useFilePath());
       MealplanerData data = new MealplanerData();
       DialogFactory dialogFactory = new DialogFactory(mainFrame);
-      return new MainGui(mainFrame, data, ingredientProvider, dialogFactory, fileIoGui);
+      return new MainGui(mainFrame, data, dialogFactory, fileIoGui);
     } catch (IOException exception) {
       Assert.fail("One of the files to use as save files does not exist");
       return null;

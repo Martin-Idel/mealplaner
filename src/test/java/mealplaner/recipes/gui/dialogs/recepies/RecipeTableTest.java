@@ -2,8 +2,6 @@ package mealplaner.recipes.gui.dialogs.recepies;
 
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static testcommons.CommonFunctions.getIngredient1;
 import static testcommons.CommonFunctions.getIngredient2;
 import static testcommons.CommonFunctions.getIngredient3;
@@ -23,26 +21,21 @@ import mealplaner.commons.NonnegativeInteger;
 import mealplaner.recipes.model.Ingredient;
 import mealplaner.recipes.model.Measure;
 import mealplaner.recipes.model.Recipe;
-import mealplaner.recipes.provider.IngredientProvider;
 
 public class RecipeTableTest {
-  private IngredientProvider provider;
-
   private RecipeTable recipeTable;
+  private List<Ingredient> ingredients;
 
   @Before
   public void setUp() {
-    provider = mock(IngredientProvider.class);
-    List<Ingredient> ingredients = Arrays.asList(getIngredient1(), getIngredient2(),
+    ingredients = Arrays.asList(getIngredient1(), getIngredient2(),
         getIngredient3());
-    when(provider.getIngredients()).thenReturn(ingredients);
-    when(provider.size()).thenReturn(3);
   }
 
   @Test
   public void recipeGetsDisplayedCorrectly() {
     Recipe recipe = createStandardRecipe();
-    recipeTable = new RecipeTable(recipe, provider);
+    recipeTable = new RecipeTable(recipe, ingredients);
 
     JTable table = recipeTable.setupTable().getTable();
 
@@ -56,7 +49,7 @@ public class RecipeTableTest {
   @Test
   public void recipeGetsReturnedCorrectly() {
     Recipe recipe = createStandardRecipe();
-    recipeTable = new RecipeTable(recipe, provider);
+    recipeTable = new RecipeTable(recipe, ingredients);
     recipeTable.setupTable();
 
     Optional<Recipe> returned = recipeTable.getRecipe(nonNegative(1));
@@ -67,7 +60,7 @@ public class RecipeTableTest {
   @Test
   public void addingAnIngredientWorksCorrectly() {
     Recipe recipe = createStandardRecipe();
-    recipeTable = new RecipeTable(recipe, provider);
+    recipeTable = new RecipeTable(recipe, ingredients);
     JTable table = recipeTable.setupTable().getTable();
 
     table.setValueAt("Test3", 2, 0);
@@ -85,7 +78,7 @@ public class RecipeTableTest {
   @Test
   public void changingAnIngredientWorksCorrectly() {
     Recipe recipe = createStandardRecipe();
-    recipeTable = new RecipeTable(recipe, provider);
+    recipeTable = new RecipeTable(recipe, ingredients);
     JTable table = recipeTable.setupTable().getTable();
 
     table.setValueAt("Test3", 1, 0);
@@ -103,7 +96,7 @@ public class RecipeTableTest {
   @Test
   public void addingAnIngredientTwiceAddsAmounts() {
     Recipe recipe = createStandardRecipe();
-    recipeTable = new RecipeTable(recipe, provider);
+    recipeTable = new RecipeTable(recipe, ingredients);
     JTable table = recipeTable.setupTable().getTable();
 
     table.setValueAt("Test2", 2, 0);

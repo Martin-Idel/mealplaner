@@ -16,6 +16,9 @@ import org.slf4j.LoggerFactory;
 import mealplaner.MealplanerData;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.Meal;
+import mealplaner.recipes.model.Ingredient;
+import mealplaner.xml.IngredientsReader;
+import mealplaner.xml.IngredientsWriter;
 import mealplaner.xml.MealplanerDataReader;
 import mealplaner.xml.MealplanerDataWriter;
 import mealplaner.xml.MealsReader;
@@ -36,7 +39,9 @@ public class FileIoGui {
     try {
       mealPlan = MealplanerDataReader.loadXml(savePath + "save.xml");
       List<Meal> meals = MealsReader.loadXml(savePath + "meals.xml");
+      List<Ingredient> ingredients = IngredientsReader.loadXml(savePath + "ingredients.xml");
       mealPlan.setMeals(meals);
+      mealPlan.setIngredients(ingredients);
     } catch (MealException exc) {
       errorMessages(frame, exc, BUNDLES.errorMessage("MSG_CLASS_NOT_FOUND"));
       logger.error("Something went wrong when loading meals and mealplaner data in: ", exc);
@@ -44,7 +49,7 @@ public class FileIoGui {
     return mealPlan;
   }
 
-  // TODO: Implement correct backup loading
+  @Deprecated
   public Optional<MealplanerData> loadBackup() {
     // String bak = showInputDialog(frame, BUNDLES.message("createLoadBackup"),
     // "*.xml");
@@ -67,15 +72,30 @@ public class FileIoGui {
     return empty();
   }
 
-  // TODO: Catch exceptions only here
   public void saveDatabase(MealplanerData mealPlan) {
     MealplanerDataWriter.saveXml(mealPlan, savePath + "save.xml");
     MealsWriter.saveXml(mealPlan.getMeals(), savePath + "meals.xml");
+    IngredientsWriter.saveXml(mealPlan.getIngredients(), savePath + "ingredients.xml");
     JOptionPane.showMessageDialog(frame, BUNDLES.message("successSave"),
         BUNDLES.message("successHeading"), JOptionPane.INFORMATION_MESSAGE);
   }
 
-  // TODO: Correct backup creation
+  public void savePart(MealplanerData mealPlan, DataParts part) {
+    switch (part) {
+    case INGREDIENTS:
+      IngredientsWriter.saveXml(mealPlan.getIngredients(), savePath + "ingredients.xml");
+    case MEALS:
+      MealsWriter.saveXml(mealPlan.getMeals(), savePath + "meals.xml");
+    case PROPOSAL:
+      MealplanerDataWriter.saveXml(mealPlan, savePath + "save.xml");
+    }
+  }
+
+  public void saveMeals(List<Meal> meals) {
+    MealsWriter.saveXml(meals, savePath + "meals.xml");
+  }
+
+  @Deprecated
   public void createBackup(MealplanerData mealPlan) {
     // String bak = showInputDialog(frame, BUNDLES.message("createLoadBackup"),
     // "*.xml");

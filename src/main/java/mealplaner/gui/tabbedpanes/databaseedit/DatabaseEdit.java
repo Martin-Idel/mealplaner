@@ -28,6 +28,7 @@ import mealplaner.commons.gui.buttonpanel.ButtonPanelEnabling;
 import mealplaner.commons.gui.editing.NonemptyTextCellEditor;
 import mealplaner.commons.gui.tables.Table;
 import mealplaner.gui.dialogs.mealinput.SingleMealInput;
+import mealplaner.io.FileIoGui;
 import mealplaner.model.Meal;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
@@ -35,7 +36,6 @@ import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.Sidedish;
 import mealplaner.recipes.gui.dialogs.recepies.RecipeInput;
 import mealplaner.recipes.model.Recipe;
-import mealplaner.recipes.provider.IngredientProvider;
 
 // TODO: When entering meals but having entered unsaved meals, maybe we want to just add 
 // new (saved) meals and not delete the rest?
@@ -45,12 +45,15 @@ public class DatabaseEdit implements DataStoreListener {
   private Table table;
 
   private ButtonPanelEnabling buttonPanel;
+  private final FileIoGui fileIoGui;
 
   private final DataStore mealplanerData;
   private final List<Meal> meals;
 
-  public DatabaseEdit(DataStore mealPlan, JFrame parentFrame, JPanel parentPanel) {
+  public DatabaseEdit(DataStore mealPlan, JFrame parentFrame, JPanel parentPanel,
+      FileIoGui fileIoGui) {
     this.mealplanerData = mealPlan;
+    this.fileIoGui = fileIoGui;
     this.meals = new ArrayList<>(mealPlan.getMeals());
     mealPlan.register(this);
 
@@ -59,17 +62,17 @@ public class DatabaseEdit implements DataStoreListener {
     dataPanel.setLayout(new BorderLayout());
   }
 
-  public void setupPane(Consumer<List<Meal>> setMeals, IngredientProvider ingredientProvider) {
-    buttonPanel = createButtonPanelWithEnabling(setMeals, ingredientProvider);
+  public void setupPane(Consumer<List<Meal>> setMeals) {
+    buttonPanel = createButtonPanelWithEnabling(setMeals);
     buttonPanel.disableButtons();
 
-    table = createTable(ingredientProvider);
+    table = createTable();
 
     dataPanel.add(table.getComponent(), BorderLayout.CENTER);
     dataPanel.add(buttonPanel.getPanel(), BorderLayout.SOUTH);
   }
 
-  private Table createTable(IngredientProvider ingredientProvider) {
+  private Table createTable() {
     return createNewTable()
         .withRowCount(meals::size)
         .addColumn(withContent(String.class)
@@ -142,7 +145,7 @@ public class DatabaseEdit implements DataStoreListener {
           Optional<Recipe> recipe = meals.get(row).getRecipe();
           Optional<Recipe> editedRecipe = new RecipeInput(
               dataFrame, BUNDLES.message("recipeInputDialogTitle"))
-                  .showDialog(recipe, ingredientProvider);
+                  .showDialog(recipe, mealplanerData.getIngredients());
           if (editedRecipe != null) {
             Meal newMeal = from(meals.get(row)).optionalRecipe(editedRecipe).create();
             meals.set(row, newMeal);
@@ -152,14 +155,13 @@ public class DatabaseEdit implements DataStoreListener {
         .buildTable();
   }
 
-  private ButtonPanelEnabling createButtonPanelWithEnabling(Consumer<List<Meal>> setData,
-      IngredientProvider ingredientProvider) {
+  private ButtonPanelEnabling createButtonPanelWithEnabling(Consumer<List<Meal>> setData) {
     return builder("DatabaseEdit")
         .addButton(BUNDLES.message("addButton"),
             BUNDLES.message("addButtonMnemonic"),
             action -> {
               Meal newMeal = new SingleMealInput(dataFrame)
-                  .showDialog(ingredientProvider);
+                  .showDialog(mealplanerData.getIngredients());
               insertItem(Optional.of(newMeal));
             })
         .addButton(BUNDLES.message("removeSelectedButton"),
@@ -177,6 +179,7 @@ public class DatabaseEdit implements DataStoreListener {
             })
         .addSaveButton(action -> {
           setData.accept(meals);
+          fileIoGui.saveMeals(meals);
           buttonPanel.disableButtons();
         })
         .makeLastButtonEnabling()

@@ -21,8 +21,10 @@ import mealplaner.commons.NonnegativeInteger;
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
 import mealplaner.model.settings.DefaultSettings;
+import mealplaner.recipes.model.Ingredient;
 
 public class MealplanerData implements DataStore {
+  private List<Ingredient> ingredients;
   private List<Meal> meals;
   private DefaultSettings defaultSettings;
   private LocalDate date;
@@ -31,6 +33,7 @@ public class MealplanerData implements DataStore {
   private final List<DataStoreListener> listeners = new ArrayList<>();
 
   public MealplanerData() {
+    ingredients = new ArrayList<Ingredient>();
     meals = new ArrayList<Meal>();
     date = now();
     defaultSettings = createDefaultSettings();
@@ -38,10 +41,12 @@ public class MealplanerData implements DataStore {
   }
 
   public MealplanerData(
+      List<Ingredient> ingredients,
       List<Meal> meals,
       LocalDate date,
       DefaultSettings defaultSettings,
       Proposal proposal) {
+    this.ingredients = ingredients;
     this.meals = meals;
     this.date = date;
     this.defaultSettings = defaultSettings;
@@ -69,8 +74,23 @@ public class MealplanerData implements DataStore {
   }
 
   @Override
+  public List<Ingredient> getIngredients() {
+    ingredients.sort((ingredient1, ingredient2) -> ingredient1.getName()
+        .compareTo(ingredient2.getName()));
+    return new ArrayList<>(ingredients); // defensive copy
+  }
+
+  public void addIngredient(Ingredient ingredient) {
+    ingredients.add(ingredient);
+  }
+
+  public void setIngredients(List<Ingredient> ingredients) {
+    this.ingredients = new ArrayList<>(ingredients);
+  }
+
+  @Override
   public List<Meal> getMeals() {
-    return meals;
+    return new ArrayList<>(meals); // defensive copy
   }
 
   public void setMeals(List<Meal> meals) {

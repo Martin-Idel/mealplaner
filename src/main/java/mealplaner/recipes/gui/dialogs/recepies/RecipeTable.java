@@ -8,16 +8,16 @@ import java.util.Optional;
 
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.gui.tables.Table;
+import mealplaner.recipes.model.Ingredient;
 import mealplaner.recipes.model.QuantitativeIngredient;
 import mealplaner.recipes.model.Recipe;
-import mealplaner.recipes.provider.IngredientProvider;
 
 public class RecipeTable {
-  private final IngredientProvider ingredientProvider;
+  private final List<Ingredient> ingredientList;
   private final List<QuantitativeIngredient> ingredients;
 
-  public RecipeTable(Recipe recipe, IngredientProvider ingredientProvider) {
-    this.ingredientProvider = ingredientProvider;
+  public RecipeTable(Recipe recipe, List<Ingredient> ingredientList) {
+    this.ingredientList = ingredientList;
     this.ingredients = recipe.getIngredientsFor(recipe.getNumberOfPortions()).entrySet()
         .stream()
         .map(entry -> create(entry.getKey(), entry.getValue()))
@@ -27,7 +27,7 @@ public class RecipeTable {
   }
 
   public Table setupTable() {
-    return IngredientsTable.setupTable(ingredients, ingredientProvider);
+    return IngredientsTable.setupTable(ingredients, ingredientList);
   }
 
   public Optional<Recipe> getRecipe(NonnegativeInteger numberOfPeople) {

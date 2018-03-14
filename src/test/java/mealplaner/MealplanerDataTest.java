@@ -52,7 +52,7 @@ public class MealplanerDataTest {
     addInitializedMeals();
     date = of(2017, 5, 7);
     proposal = from(true, new ArrayList<>(), new ArrayList<>());
-    sut = new MealplanerData(meals, date, createDefaultSettings(), proposal);
+    sut = new MealplanerData(new ArrayList<>(), meals, date, createDefaultSettings(), proposal);
 
     listener = mock(DataStoreListener.class);
     sut.register(listener);
@@ -102,7 +102,7 @@ public class MealplanerDataTest {
     proposalMeals.add(meal1);
     proposalMeals.add(meal4);
     proposal = from(true, proposalMeals, createEmptySettingsList(2));
-    sut = new MealplanerData(meals, date, createDefaultSettings(), proposal);
+    sut = new MealplanerData(new ArrayList<>(), meals, date, createDefaultSettings(), proposal);
 
     sut.update(proposal.getProposalList(), date.plusDays(2));
 

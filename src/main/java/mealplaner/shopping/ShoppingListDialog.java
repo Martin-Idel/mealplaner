@@ -8,6 +8,8 @@ import static mealplaner.recipes.gui.dialogs.recepies.IngredientsTable.setupTabl
 import static mealplaner.shopping.ShoppingListUtils.createShoppingList;
 import static mealplaner.shopping.ShoppingListUtils.missingRecipesForCompleteList;
 
+import java.util.List;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -15,7 +17,7 @@ import mealplaner.commons.gui.buttonpanel.ButtonPanel;
 import mealplaner.commons.gui.dialogs.DialogWindow;
 import mealplaner.commons.gui.tables.Table;
 import mealplaner.model.Proposal;
-import mealplaner.recipes.provider.IngredientProvider;
+import mealplaner.recipes.model.Ingredient;
 
 public class ShoppingListDialog {
   private final DialogWindow dialogWindow;
@@ -25,17 +27,17 @@ public class ShoppingListDialog {
     dialogWindow = window(parent, BUNDLES.message("createShoppingListDialogTitle"));
   }
 
-  public void showDialog(Proposal proposal, IngredientProvider ingredientProvider) {
+  public void showDialog(Proposal proposal, List<Ingredient> ingredientProvider) {
     createTable(proposal, ingredientProvider);
     dialogWindow.dispose();
   }
 
-  private void createTable(Proposal proposal, IngredientProvider ingredientProvider) {
+  private void createTable(Proposal proposal, List<Ingredient> ingredients) {
     if (missingRecipesForCompleteList(proposal) && disposeIfUserWantsTo()) {
       return;
     }
     ShoppingList shoppingList = createShoppingList(proposal);
-    display(shoppingList, ingredientProvider);
+    display(shoppingList, ingredients);
   }
 
   private boolean disposeIfUserWantsTo() {
@@ -43,8 +45,8 @@ public class ShoppingListDialog {
     return result == JOptionPane.NO_OPTION;
   }
 
-  private void display(ShoppingList shoppingList, IngredientProvider ingredientProvider) {
-    table = setupTable(shoppingList.getList(), ingredientProvider);
+  private void display(ShoppingList shoppingList, List<Ingredient> ingredients) {
+    table = setupTable(shoppingList.getList(), ingredients);
 
     ButtonPanel buttonPanel = displayButtons();
 

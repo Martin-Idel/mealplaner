@@ -16,7 +16,6 @@ import mealplaner.gui.factories.DialogFactory;
 import mealplaner.gui.tabbedpanes.databaseedit.DatabaseEditPanel;
 import mealplaner.gui.tabbedpanes.proposal.ProposalSummaryPanel;
 import mealplaner.io.FileIoGui;
-import mealplaner.recipes.provider.IngredientProvider;
 
 public class MainGui {
   private final JFrame frame;
@@ -27,8 +26,8 @@ public class MainGui {
   private final FileIoGui fileIoGui;
   private final DatabaseEditPanel dbaseEditPanel;
 
-  public MainGui(JFrame mainFrame, MealplanerData mealPlan,
-      IngredientProvider ingredientProvider, DialogFactory dialogFactory, FileIoGui fileIoGui) {
+  public MainGui(JFrame mainFrame, MealplanerData mealPlan, DialogFactory dialogFactory,
+      FileIoGui fileIoGui) {
     this.frame = mainFrame;
     this.mealPlan = mealPlan;
     this.fileIoGui = fileIoGui;
@@ -36,16 +35,11 @@ public class MainGui {
     this.container = new MainContainer(frame);
 
     ProposalSummaryPanel mealPanel = new ProposalSummaryPanel(this.mealPlan, dialogFactory,
-        mainFrame, ingredientProvider);
-    mealPanel.setupPanel(
-        action -> {
-          saveDataBase();
-          frame.dispose();
-        },
-        () -> saveDataBase());
+        mainFrame, fileIoGui);
+    mealPanel.setupPanel();
     mealPanel.addElements(container);
 
-    dbaseEditPanel = new DatabaseEditPanel(this.mealPlan, frame, ingredientProvider);
+    dbaseEditPanel = new DatabaseEditPanel(this.mealPlan, frame, fileIoGui);
     dbaseEditPanel.addElements(container);
 
     addToFileMenu();

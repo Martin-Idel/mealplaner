@@ -13,21 +13,20 @@ import javax.swing.JPanel;
 
 import mealplaner.MealplanerData;
 import mealplaner.gui.MainContainer;
+import mealplaner.io.FileIoGui;
 import mealplaner.model.Meal;
-import mealplaner.recipes.provider.IngredientProvider;
 
 public class DatabaseEditPanel {
   private final MealplanerData mealPlan;
   private final JFrame frame;
-  private final IngredientProvider ingredients;
   private DatabaseEdit dbaseEdit;
+  private FileIoGui fileIoGui;
 
   public DatabaseEditPanel(MealplanerData mealPlan,
-      JFrame frame,
-      IngredientProvider ingredients) {
+      JFrame frame, FileIoGui fileIoGui) {
     this.mealPlan = mealPlan;
     this.frame = frame;
-    this.ingredients = ingredients;
+    this.fileIoGui = fileIoGui;
   }
 
   public void addElements(MainContainer container) {
@@ -56,8 +55,8 @@ public class DatabaseEditPanel {
 
   private JPanel setupDatabasePanel() {
     JPanel databasePanel = new JPanel();
-    dbaseEdit = new DatabaseEdit(this.mealPlan, frame, databasePanel);
-    dbaseEdit.setupPane((meals) -> mealPlan.setMeals(meals), ingredients);
+    dbaseEdit = new DatabaseEdit(this.mealPlan, frame, databasePanel, fileIoGui);
+    dbaseEdit.setupPane((meals) -> mealPlan.setMeals(meals));
     return databasePanel;
   }
 
