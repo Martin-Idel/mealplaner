@@ -1,13 +1,17 @@
 package mealplaner.xml.adapters;
 
+import static java.util.stream.Collectors.toMap;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import mealplaner.model.enums.CookingTime;
 import mealplaner.model.settings.CookingTimeSetting;
+import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
 import mealplaner.xml.model.SettingsXml;
 
@@ -36,5 +40,24 @@ public final class SettingsAdapter {
         nonNegative(setting.numberOfPeople),
         setting.casseroleSettings,
         setting.preference);
+  }
+
+  public static Map<DayOfWeek, SettingsXml> convertDefaultSettingsToXml(
+      DefaultSettings defaultSettings) {
+    return defaultSettings.getDefaultSettings()
+        .entrySet()
+        .stream()
+        .collect(toMap(entry -> entry.getKey(),
+            entry -> convertSettingsToXml(entry.getValue())));
+  }
+
+  public static DefaultSettings convertDefaultSettingsFromXml(
+      Map<DayOfWeek, SettingsXml> settings) {
+    return DefaultSettings.from(
+        settings.entrySet()
+            .stream()
+            .collect(toMap(
+                entry -> entry.getKey(),
+                entry -> convertSettingsFromXml(entry.getValue()))));
   }
 }

@@ -1,9 +1,9 @@
 package mealplaner.xml;
 
+import static java.util.stream.Collectors.toList;
 import static mealplaner.xml.adapters.IngredientAdapter.convertIngredientToXml;
 import static mealplaner.xml.util.JaxHelper.save;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import mealplaner.recipes.model.Ingredient;
@@ -20,10 +20,9 @@ public final class IngredientsWriter {
   }
 
   private static IngredientdatabaseXml convertDataBaseToXml(List<Ingredient> data) {
-    List<IngredientXml> ingredientsXml = new ArrayList<>();
-    data.stream()
+    List<IngredientXml> ingredientsXml = data.stream()
         .map(ingredient -> convertIngredientToXml(ingredient))
-        .forEach(ingredientXml -> ingredientsXml.add(ingredientXml));
+        .collect(toList());
     return new IngredientdatabaseXml(ingredientsXml, 1);
   }
 }

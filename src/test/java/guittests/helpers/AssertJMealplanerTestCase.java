@@ -3,6 +3,7 @@ package guittests.helpers;
 import static guittests.helpers.GuiMethods.create;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static mealplaner.commons.BundleStore.BUNDLES;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,12 +24,12 @@ import mealplaner.io.FileIoGui;
 public class AssertJMealplanerTestCase extends AssertJSwingJUnitTestCase {
   protected FrameFixture window;
   protected GuiMethods windowHelpers;
-  protected static final String WORKING_DIRECTORY = "src/test/resources";
-  protected static final String DESTINATION_MEALS_FILE_PATH = WORKING_DIRECTORY + "mealsTemp.xml";
+  protected static final String WORKING_DIRECTORY = "src/test/resources/temp/";
+  protected static final String DESTINATION_MEALS_FILE_PATH = WORKING_DIRECTORY + "meals.xml";
   protected static final String DESTINATION_MEALPLANER_FILE_PATH = WORKING_DIRECTORY
-      + "saveTemp.xml";
+      + "save.xml";
   protected static final String DESTINATION_INGREDIENT_FILE_PATH = WORKING_DIRECTORY
-      + "ingredientsTemp.xml";
+      + "ingredients.xml";
   private String originMealsFilePath;
   private String originMealplanerFilePath;
   private String originIngredientFilePath;
@@ -72,29 +73,29 @@ public class AssertJMealplanerTestCase extends AssertJSwingJUnitTestCase {
     try {
       JFrame mainFrame = new JFrame(BUNDLES.message("mainFrameTitle"));
       FileIoGui fileIoGui = new FileIoGui(mainFrame, useFilePath());
-      MealplanerData data = new MealplanerData();
+      MealplanerData data = fileIoGui.loadDatabase();
       DialogFactory dialogFactory = new DialogFactory(mainFrame);
       return new MainGui(mainFrame, data, dialogFactory, fileIoGui);
     } catch (IOException exception) {
-      Assert.fail("One of the files to use as save files does not exist");
+      fail("One of the files to use as save files does not exist");
       return null;
     }
-  }
-
-  protected String getIngredientsPath() throws IOException {
-    return copyFile(originIngredientFilePath, DESTINATION_INGREDIENT_FILE_PATH);
   }
 
   protected String useFilePath() throws IOException {
     copyFile(originMealsFilePath, DESTINATION_MEALS_FILE_PATH);
     copyFile(originMealplanerFilePath, DESTINATION_MEALPLANER_FILE_PATH);
-    return new File(WORKING_DIRECTORY).getPath();
+    copyFile(originIngredientFilePath, DESTINATION_INGREDIENT_FILE_PATH);
+    return new File(WORKING_DIRECTORY).getPath() + "/";
   }
 
-  private String copyFile(String filename, String destinationPath) throws IOException {
+  private void copyFile(String filename, String destinationPath) throws IOException {
     File originalFile = new File(filename);
     File temporaryFile = new File(destinationPath);
+    boolean directoriesCreated = temporaryFile.getParentFile().mkdirs();
     Files.copy(originalFile.toPath(), temporaryFile.toPath(), REPLACE_EXISTING);
-    return temporaryFile.toPath().toString();
+    if (directoriesCreated) {
+      // ignore. This is just a findbugs problem
+    }
   }
 }

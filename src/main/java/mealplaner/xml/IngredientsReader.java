@@ -19,11 +19,15 @@ public final class IngredientsReader {
     int versionNumber = VersionControl.getVersion(filePath);
     if (versionNumber == 1) {
       IngredientdatabaseXml database = read(filePath, IngredientdatabaseXml.class);
-      return database.ingredients.stream()
-          .map(ingredient -> convertIngredientFromXml(ingredient))
-          .collect(toList());
+      return convertToIngredients(database);
     } else {
       return new ArrayList<>();
     }
+  }
+
+  private static List<Ingredient> convertToIngredients(IngredientdatabaseXml database) {
+    return database.ingredients.stream()
+        .map(ingredient -> convertIngredientFromXml(ingredient))
+        .collect(toList());
   }
 }

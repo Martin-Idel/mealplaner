@@ -1,9 +1,9 @@
 package mealplaner.xml;
 
+import static java.util.stream.Collectors.toList;
 import static mealplaner.xml.adapters.MealAdapter.convertMealToXml;
 import static mealplaner.xml.util.JaxHelper.save;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import mealplaner.model.Meal;
@@ -20,10 +20,9 @@ public final class MealsWriter {
   }
 
   private static MealdatabaseXml convertDataBaseToXml(List<Meal> data) {
-    List<MealXml> mealXmls = new ArrayList<>();
-    data.stream()
+    List<MealXml> mealXmls = data.stream()
         .map(meal -> convertMealToXml(meal))
-        .forEach(mealXml -> mealXmls.add(mealXml));
+        .collect(toList());
     return new MealdatabaseXml(mealXmls, 1);
   }
 }

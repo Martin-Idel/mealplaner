@@ -19,8 +19,8 @@ import mealplaner.model.Meal;
 public class DatabaseEditPanel {
   private final MealplanerData mealPlan;
   private final JFrame frame;
+  private final FileIoGui fileIoGui;
   private DatabaseEdit dbaseEdit;
-  private FileIoGui fileIoGui;
 
   public DatabaseEditPanel(MealplanerData mealPlan,
       JFrame frame, FileIoGui fileIoGui) {

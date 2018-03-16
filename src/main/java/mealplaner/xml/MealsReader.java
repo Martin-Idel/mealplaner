@@ -18,13 +18,13 @@ public final class MealsReader {
     int versionNumber = VersionControl.getVersion(filePath);
     if (versionNumber == 1) {
       MealdatabaseXml database = read(filePath, MealdatabaseXml.class);
-      return convertDataBaseFromXml(database);
+      return convertToMeals(database);
     } else {
       return new ArrayList<>();
     }
   }
 
-  private static List<Meal> convertDataBaseFromXml(MealdatabaseXml data) {
+  private static List<Meal> convertToMeals(MealdatabaseXml data) {
     List<Meal> modelMeals = new ArrayList<>();
     data.meals.stream()
         .map(meal -> convertMealFromXml(meal))

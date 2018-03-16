@@ -22,7 +22,7 @@ import mealplaner.recipes.model.Ingredient;
 
 public class IngredientsXmlInteractionTest {
   private static final String DESTINATION_FILE_PATH = "src/test/resources/saveTemp.xml";
-  private static final String RESOURCE_FILE_WITH_THREE_MEALS = "src/test/resources/ingredientsXml.xml";
+  private static final String RESOURCE_FILE_WITH_THREE_INGREDIENTS = "src/test/resources/ingredientsXml.xml";
 
   @After
   public void tearDown() {
@@ -43,7 +43,7 @@ public class IngredientsXmlInteractionTest {
     ingredients.add(getIngredient2());
     ingredients.add(getIngredient3());
 
-    File originalFile = new File(RESOURCE_FILE_WITH_THREE_MEALS);
+    File originalFile = new File(RESOURCE_FILE_WITH_THREE_INGREDIENTS);
     File temporaryFile = new File(DESTINATION_FILE_PATH);
     try {
       Files.copy(originalFile.toPath(), temporaryFile.toPath(), REPLACE_EXISTING);

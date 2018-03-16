@@ -37,8 +37,6 @@ import mealplaner.model.enums.Sidedish;
 import mealplaner.recipes.gui.dialogs.recepies.RecipeInput;
 import mealplaner.recipes.model.Recipe;
 
-// TODO: When entering meals but having entered unsaved meals, maybe we want to just add 
-// new (saved) meals and not delete the rest?
 public class DatabaseEdit implements DataStoreListener {
   private final JFrame dataFrame;
   private final JPanel dataPanel;

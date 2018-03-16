@@ -24,7 +24,7 @@ import mealplaner.model.Proposal;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
 
-public class MealplanerDataXmlInteractionTest {
+public class ProposalSummaryDataXmlInteractionTest {
   private static final String DESTINATION_FILE_PATH = "src/test/resources/saveTemp.xml";
   private static final String RESOURCE_FILE_WITH_THREE_MEALS = "src/test/resources/mealplanerDataCorrectXml.xml";
 
@@ -57,7 +57,7 @@ public class MealplanerDataXmlInteractionTest {
       fail("Could not load file");
     }
 
-    MealplanerData loadedMealplaner = MealplanerDataReader.loadXml(DESTINATION_FILE_PATH);
+    MealplanerData loadedMealplaner = ProposalSummaryDataReader.loadXml(DESTINATION_FILE_PATH);
 
     assertThat(loadedMealplaner.getLastProposal()).isEqualTo(proposal);
     assertThat(loadedMealplaner.getTime()).isEqualTo(time);
@@ -84,8 +84,8 @@ public class MealplanerDataXmlInteractionTest {
         DefaultSettings.from(defaultSettings),
         proposal);
 
-    MealplanerDataWriter.saveXml(data, DESTINATION_FILE_PATH);
-    MealplanerData roundTripMealplaner = MealplanerDataReader.loadXml(DESTINATION_FILE_PATH);
+    ProposalSummaryDataWriter.saveXml(data, DESTINATION_FILE_PATH);
+    MealplanerData roundTripMealplaner = ProposalSummaryDataReader.loadXml(DESTINATION_FILE_PATH);
 
     assertThat(roundTripMealplaner.getLastProposal()).isEqualTo(proposal);
     assertThat(roundTripMealplaner.getTime()).isEqualTo(time);
