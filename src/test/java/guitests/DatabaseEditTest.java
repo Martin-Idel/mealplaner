@@ -1,4 +1,4 @@
-package guittests;
+package guitests;
 
 import static mealplaner.model.MealBuilder.from;
 import static mealplaner.model.enums.CookingTime.MEDIUM;
@@ -16,7 +16,7 @@ import java.util.List;
 import org.assertj.swing.fixture.JTableFixture;
 import org.junit.Test;
 
-import guittests.helpers.AssertJMealplanerTestCase;
+import guitests.helpers.AssertJMealplanerTestCase;
 import mealplaner.model.Meal;
 import mealplaner.recipes.model.Recipe;
 

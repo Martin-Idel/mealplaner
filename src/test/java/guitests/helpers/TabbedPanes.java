@@ -1,4 +1,4 @@
-package guittests.helpers;
+package guitests.helpers;
 
 public enum TabbedPanes {
   PROPOSAL_SUMMARY(0), DATABASE_EDIT(1);

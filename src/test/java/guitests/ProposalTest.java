@@ -1,6 +1,6 @@
-package guittests;
+package guitests;
 
-import static guittests.helpers.TabbedPanes.PROPOSAL_SUMMARY;
+import static guitests.helpers.TabbedPanes.PROPOSAL_SUMMARY;
 import static java.time.DayOfWeek.TUESDAY;
 import static java.time.DayOfWeek.WEDNESDAY;
 import static java.time.LocalDate.now;
@@ -26,7 +26,7 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import guittests.helpers.AssertJMealplanerTestCase;
+import guitests.helpers.AssertJMealplanerTestCase;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.Pair;
 import mealplaner.model.Meal;

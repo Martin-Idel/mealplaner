@@ -238,7 +238,7 @@ public class MessageBundleTest {
   private List<String> readAllLines(Path path) {
     try {
       return Files.readAllLines(path);
-    } catch (Exception e) {
+    } catch (Exception e) { // NOPMD
       fail("Parsing of file " + path + " failed");
       return new ArrayList<>();
     }

@@ -1,7 +1,7 @@
-package guittests.helpers;
+package guitests.helpers;
 
-import static guittests.helpers.TabbedPanes.DATABASE_EDIT;
-import static guittests.helpers.TabbedPanes.PROPOSAL_SUMMARY;
+import static guitests.helpers.TabbedPanes.DATABASE_EDIT;
+import static guitests.helpers.TabbedPanes.PROPOSAL_SUMMARY;
 import static java.time.format.TextStyle.FULL;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.model.enums.CookingTime.LONG;

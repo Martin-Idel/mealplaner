@@ -82,13 +82,10 @@ pmd {
 	ruleSets = [
         "java-basic",
         "java-braces",
-// TODO: Reenable once XML is switched to JAXB
-        // "java-coupling",        
         "java-clone",
         "java-empty",
         "java-finalizers",
-// TODO: Use once XML is switched to JAXB
-        // "java-strictexception",
+        "java-strictexception",
         "java-sunsecure",        
         "java-typeresolution",
         "java-unnecessary",
@@ -101,6 +98,7 @@ findbugs {
 	toolVersion = "3.0.1"
 	ignoreFailures = false
 	effort = "max"
+	excludeFilter = file("config/findbugs/exclude.xml")
 }
 
 mainClassName = "mealplaner.Kochplaner"

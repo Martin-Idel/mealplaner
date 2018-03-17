@@ -1,6 +1,6 @@
-package guittests.helpers;
+package guitests.helpers;
 
-import static guittests.helpers.GuiMethods.create;
+import static guitests.helpers.GuiMethods.create;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static org.junit.Assert.fail;
@@ -92,10 +92,7 @@ public class AssertJMealplanerTestCase extends AssertJSwingJUnitTestCase {
   private void copyFile(String filename, String destinationPath) throws IOException {
     File originalFile = new File(filename);
     File temporaryFile = new File(destinationPath);
-    boolean directoriesCreated = temporaryFile.getParentFile().mkdirs();
+    temporaryFile.getParentFile().mkdirs();
     Files.copy(originalFile.toPath(), temporaryFile.toPath(), REPLACE_EXISTING);
-    if (directoriesCreated) {
-      // ignore. This is just a findbugs problem
-    }
   }
 }

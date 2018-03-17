@@ -1,4 +1,4 @@
-package guittests;
+package guitests;
 
 import static java.nio.file.Files.readAllLines;
 import static java.util.Optional.of;
@@ -18,7 +18,7 @@ import java.util.List;
 import org.assertj.swing.fixture.DialogFixture;
 import org.junit.Test;
 
-import guittests.helpers.AssertJMealplanerTestCase;
+import guitests.helpers.AssertJMealplanerTestCase;
 import mealplaner.model.Meal;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
