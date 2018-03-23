@@ -15,11 +15,14 @@ import java.util.Optional;
 
 import javax.swing.JFrame;
 
+import mealplaner.DataStore;
 import mealplaner.commons.gui.buttonpanel.ButtonPanel;
+import mealplaner.commons.gui.dialogs.DialogCreating;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
 
-public class DefaultSettingsInput extends SettingsInput {
+public class DefaultSettingsInput extends SettingsInput
+    implements DialogCreating<Optional<DefaultSettings>> {
   private final JFrame parentFrame;
 
   public DefaultSettingsInput(JFrame parentFrame) {
@@ -27,8 +30,9 @@ public class DefaultSettingsInput extends SettingsInput {
     this.parentFrame = parentFrame;
   }
 
-  public Optional<DefaultSettings> showDialog(DefaultSettings settings) {
-    setup(settings);
+  @Override
+  public Optional<DefaultSettings> showDialog(DataStore store) {
+    setup(store.getDefaultSettings());
     dialogWindow.setVisible();
     Optional<Settings[]> changedSettings = getEnteredSettings();
     return changedSettings.isPresent() ? transformToDefault(changedSettings.get()) : empty();

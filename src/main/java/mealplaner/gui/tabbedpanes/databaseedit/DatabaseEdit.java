@@ -143,12 +143,10 @@ public class DatabaseEdit implements DataStoreListener {
           Optional<Recipe> recipe = meals.get(row).getRecipe();
           Optional<Recipe> editedRecipe = new RecipeInput(
               dataFrame, BUNDLES.message("recipeInputDialogTitle"))
-                  .showDialog(recipe, mealplanerData.getIngredients());
-          if (editedRecipe != null) {
-            Meal newMeal = from(meals.get(row)).optionalRecipe(editedRecipe).create();
-            meals.set(row, newMeal);
-            buttonPanel.enableButtons();
-          }
+                  .showDialog(recipe, mealplanerData);
+          Meal newMeal = from(meals.get(row)).optionalRecipe(editedRecipe).create();
+          meals.set(row, newMeal);
+          buttonPanel.enableButtons();
         })
         .buildTable();
   }
@@ -159,7 +157,7 @@ public class DatabaseEdit implements DataStoreListener {
             BUNDLES.message("addButtonMnemonic"),
             action -> {
               Meal newMeal = new SingleMealInput(dataFrame)
-                  .showDialog(mealplanerData.getIngredients());
+                  .showDialog(mealplanerData);
               insertItem(Optional.of(newMeal));
             })
         .addButton(BUNDLES.message("removeSelectedButton"),

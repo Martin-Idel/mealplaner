@@ -5,16 +5,15 @@ import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
 import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.justDisposeListener;
 import static mealplaner.gui.dialogs.proposaloutput.ProposalTable.proposalOutput;
 
-import java.util.List;
-
 import javax.swing.JFrame;
 
+import mealplaner.DataStore;
 import mealplaner.commons.gui.buttonpanel.ButtonPanel;
+import mealplaner.commons.gui.dialogs.DialogCreating;
 import mealplaner.commons.gui.dialogs.DialogWindow;
-import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
 
-public class ProposalOutput {
+public class ProposalOutput implements DialogCreating<Proposal> {
   private final JFrame parentFrame;
   private final DialogWindow dialogWindow;
 
@@ -23,9 +22,10 @@ public class ProposalOutput {
     this.parentFrame = parentFrame;
   }
 
-  public Proposal showDialog(List<Meal> meals, Proposal lastProposal) {
-    ProposalTable proposalTable = proposalOutput(meals);
-    proposalTable.setupProposalTable(lastProposal);
+  @Override
+  public Proposal showDialog(DataStore store) {
+    ProposalTable proposalTable = proposalOutput(store.getMeals());
+    proposalTable.setupProposalTable(store.getLastProposal());
 
     ButtonPanel buttonPanel = createButtonPanel(proposalTable);
 

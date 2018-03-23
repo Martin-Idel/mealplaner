@@ -6,6 +6,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 import static java.util.stream.Collectors.toList;
 import static mealplaner.DataStoreEventType.DATABASE_EDITED;
 import static mealplaner.DataStoreEventType.DATE_UPDATED;
+import static mealplaner.DataStoreEventType.INGREDIENTS_CHANGED;
 import static mealplaner.DataStoreEventType.PROPOSAL_ADDED;
 import static mealplaner.DataStoreEventType.SETTINGS_CHANGED;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
@@ -23,6 +24,7 @@ import mealplaner.model.Proposal;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.recipes.model.Ingredient;
 
+// TODO: Make singleton?
 public class MealplanerData implements DataStore {
   private List<Ingredient> ingredients;
   private List<Meal> meals;
@@ -82,10 +84,12 @@ public class MealplanerData implements DataStore {
 
   public void addIngredient(Ingredient ingredient) {
     ingredients.add(ingredient);
+    listeners.forEach(listener -> listener.updateData(INGREDIENTS_CHANGED));
   }
 
   public void setIngredients(List<Ingredient> ingredients) {
-    this.ingredients = new ArrayList<>(ingredients);
+    this.ingredients = new ArrayList<>(ingredients); // defensive copy
+    listeners.forEach(listener -> listener.updateData(INGREDIENTS_CHANGED));
   }
 
   @Override
@@ -131,5 +135,9 @@ public class MealplanerData implements DataStore {
   @Override
   public void register(DataStoreListener listener) {
     listeners.add(listener);
+  }
+
+  public void setTime(LocalDate time) {
+    this.date = time;
   }
 }

@@ -13,6 +13,9 @@ import static mealplaner.model.settings.DefaultSettings.createDefaultSettings;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static testcommons.CommonFunctions.getIngredient1;
+import static testcommons.CommonFunctions.getIngredient2;
+import static testcommons.CommonFunctions.getIngredient3;
 import static testcommons.MealAssert.assertThat;
 
 import java.time.LocalDate;
@@ -33,6 +36,7 @@ import mealplaner.model.enums.CookingTime;
 import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.Sidedish;
 import mealplaner.model.settings.Settings;
+import mealplaner.recipes.model.Ingredient;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MealplanerDataTest {
@@ -41,6 +45,7 @@ public class MealplanerDataTest {
   private Meal meal1;
   private Meal meal3;
   private Meal meal4;
+  private final List<Ingredient> ingredients = new ArrayList<>();
   private DataStoreListener listener;
   private LocalDate date;
 
@@ -52,7 +57,8 @@ public class MealplanerDataTest {
     addInitializedMeals();
     date = of(2017, 5, 7);
     proposal = from(true, new ArrayList<>(), new ArrayList<>());
-    sut = new MealplanerData(new ArrayList<>(), meals, date, createDefaultSettings(), proposal);
+    ingredients.addAll(createIngredientsList());
+    sut = new MealplanerData(ingredients, meals, date, createDefaultSettings(), proposal);
 
     listener = mock(DataStoreListener.class);
     sut.register(listener);
@@ -137,6 +143,55 @@ public class MealplanerDataTest {
     verify(listener).updateData(SETTINGS_CHANGED);
   }
 
+  @Test
+  public void setIngredientsProhibitsAddingFurtherIngredients() {
+    List<Ingredient> testAgainst = createIngredientsList();
+
+    sut.setIngredients(testAgainst);
+
+    testAgainst.add(getIngredient3());
+
+    assertThat(testAgainst).hasSize(4);
+    assertThat(sut.getIngredients()).hasSize(3);
+    assertThat(testAgainst).containsAll(sut.getIngredients());
+  }
+
+  @Test
+  public void getIngredientsGuardsAgainstChangesFromOutside() {
+    List<Ingredient> testAgainst = sut.getIngredients();
+
+    testAgainst.add(getIngredient3());
+
+    assertThat(testAgainst).hasSize(4);
+    assertThat(sut.getIngredients()).hasSize(3);
+    assertThat(testAgainst).containsAll(sut.getIngredients());
+  }
+
+  @Test
+  public void setMealsProhibitsAddingFurtherIngredients() {
+    List<Meal> testAgainst = new ArrayList<>();
+    testAgainst.add(meal1);
+
+    sut.setMeals(testAgainst);
+
+    testAgainst.add(meal4);
+
+    assertThat(testAgainst).hasSize(2);
+    assertThat(sut.getMeals()).hasSize(1);
+    assertThat(testAgainst).containsAll(sut.getMeals());
+  }
+
+  @Test
+  public void getMealsGuardsAgainstChangesFromOutside() {
+    List<Meal> testAgainst = sut.getMeals();
+
+    testAgainst.add(meal4);
+
+    assertThat(testAgainst).hasSize(4);
+    assertThat(sut.getMeals()).hasSize(3);
+    assertThat(testAgainst).containsAll(sut.getMeals());
+  }
+
   private void addInitializedMeals() throws MealException {
     meal1 = createMeal("Meal1", CookingTime.SHORT, Sidedish.NONE, ObligatoryUtensil.PAN,
         CookingPreference.NO_PREFERENCE, nonNegative(50), "", empty());
@@ -152,6 +207,14 @@ public class MealplanerDataTest {
   private Meal initializeNewMeal() {
     return createMeal("Meal3", CookingTime.SHORT, Sidedish.POTATOES, ObligatoryUtensil.PAN,
         CookingPreference.NO_PREFERENCE, nonNegative(10), "", empty());
+  }
+
+  private List<Ingredient> createIngredientsList() {
+    List<Ingredient> ingredientList = new ArrayList<>();
+    ingredientList.add(getIngredient1());
+    ingredientList.add(getIngredient2());
+    ingredientList.add(getIngredient3());
+    return ingredientList;
   }
 
   private List<Settings> createEmptySettingsList(int i) {

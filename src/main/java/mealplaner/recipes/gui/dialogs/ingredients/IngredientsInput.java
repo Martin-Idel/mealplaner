@@ -14,8 +14,10 @@ import java.util.stream.Stream;
 
 import javax.swing.JFrame;
 
+import mealplaner.DataStore;
 import mealplaner.commons.gui.GridPanel;
 import mealplaner.commons.gui.buttonpanel.ButtonPanel;
+import mealplaner.commons.gui.dialogs.DialogCreating;
 import mealplaner.commons.gui.dialogs.DialogWindow;
 import mealplaner.commons.gui.inputfields.ComboBoxInputField;
 import mealplaner.commons.gui.inputfields.InputField;
@@ -24,7 +26,7 @@ import mealplaner.recipes.model.Ingredient;
 import mealplaner.recipes.model.IngredientType;
 import mealplaner.recipes.model.Measure;
 
-public class IngredientsInput {
+public class IngredientsInput implements DialogCreating<List<Ingredient>> {
   private final DialogWindow dialogWindow;
 
   private InputField<Optional<String>> nameField;
@@ -38,7 +40,8 @@ public class IngredientsInput {
     ingredients = new ArrayList<>();
   }
 
-  public List<Ingredient> showDialog() {
+  @Override
+  public List<Ingredient> showDialog(DataStore store) {
     setupDialog(action -> {
       if (nameField.getUserInput().isPresent()) {
         ingredients.add(ingredient(nameField.getUserInput().get(),

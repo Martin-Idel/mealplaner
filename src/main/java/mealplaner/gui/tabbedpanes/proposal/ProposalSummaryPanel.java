@@ -77,7 +77,7 @@ public class ProposalSummaryPanel {
     } else {
       Optional<Settings[]> settingsInput = dialogs
           .createProposalSettingsDialog()
-          .showDialog(mealPlan.getDefaultSettings(), outline);
+          .showDialog(outline, mealPlan);
       settingsInput.ifPresent(settings -> createProposal(settings, outline));
     }
   }
@@ -101,7 +101,7 @@ public class ProposalSummaryPanel {
         outline.isShallBeRandomised());
     mealPlan.setLastProposal(proposal);
     Proposal updatedProposal = dialogs.createProposalOutputDialog()
-        .showDialog(mealPlan.getMeals(), proposal);
+        .showDialog(mealPlan);
     mealPlan.setLastProposal(updatedProposal);
     dialogs.createShoppingListDialog().showDialog(updatedProposal, mealPlan.getIngredients());
   }
@@ -123,7 +123,7 @@ public class ProposalSummaryPanel {
   public void changeDefaultSettings() {
     Optional<DefaultSettings> defaultSettings = dialogs
         .createDefaultSettingsDialog()
-        .showDialog(mealPlan.getDefaultSettings());
+        .showDialog(mealPlan);
     defaultSettings.ifPresent(settings -> mealPlan.setDefaultSettings(settings));
   }
 
@@ -144,18 +144,18 @@ public class ProposalSummaryPanel {
   private void addToFileMenu(MainContainer container) {
     container.addToFileMenu(createIngredientsMenu(action -> {
       dialogs.createIngredientsInput()
-          .showDialog()
+          .showDialog(mealPlan)
           .forEach(mealPlan::addIngredient);
       fileIoGui.savePart(mealPlan, INGREDIENTS);
     }));
     container.addToFileMenu(createMealMenu(action -> {
       dialogs.createMultipleMealInputDialog()
-          .showDialog(mealPlan.getIngredients())
+          .showDialog(mealPlan)
           .forEach(meal -> mealPlan.addMeal(meal));
     }));
     container.addToFileMenu(viewProposalMenu(action -> dialogs
         .createProposalOutputDialog()
-        .showDialog(mealPlan.getMeals(), mealPlan.getLastProposal())));
+        .showDialog(mealPlan)));
     container.addSeparatorToFileMenu();
 
     container.addToFileMenu(printProposalMenu(action -> printProposal()));

@@ -8,10 +8,10 @@ import static mealplaner.commons.gui.GridPanel.gridPanel;
 import static mealplaner.model.Meal.createMeal;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import mealplaner.DataStore;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.gui.GridPanel;
 import mealplaner.commons.gui.dialogs.DialogWindow;
@@ -27,7 +27,6 @@ import mealplaner.model.enums.CookingTime;
 import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.Sidedish;
 import mealplaner.recipes.gui.dialogs.recepies.RecipeInput;
-import mealplaner.recipes.model.Ingredient;
 import mealplaner.recipes.model.Recipe;
 
 public final class MealInputGrid {
@@ -50,7 +49,7 @@ public final class MealInputGrid {
     return new MealInputGrid(dialog);
   }
 
-  public GridPanel initialiseInputFields(List<Ingredient> ingredients) {
+  public GridPanel initialiseInputFields(DataStore mealPlan) {
     nameField = new NonEmptyTextInputField(BUNDLES.message("insertMealName"), "Name");
     cookingTimeField = new ComboBoxInputField<CookingTime>(
         BUNDLES.message("insertMealLength"),
@@ -82,18 +81,17 @@ public final class MealInputGrid {
         "Recipe",
         BUNDLES.message("editRecipeButtonLabel"),
         BUNDLES.message("createRecipeButtonLabel"),
-        empty(), content -> createRecipeDialog(ingredients, content));
+        empty(), content -> createRecipeDialog(mealPlan, content));
 
     GridPanel mealCreationPanel = gridPanel(0, 2);
     allFields().forEach(field -> field.addToPanel(mealCreationPanel));
     return mealCreationPanel;
   }
 
-  private Optional<Recipe> createRecipeDialog(List<Ingredient> ingredients,
-      Optional<Recipe> recipe) {
+  private Optional<Recipe> createRecipeDialog(DataStore mealPlan, Optional<Recipe> recipe) {
     RecipeInput recipeInput = new RecipeInput(dialogWindow,
         BUNDLES.message("recipeInputDialogTitle"));
-    return recipeInput.showDialog(recipe, ingredients);
+    return recipeInput.showDialog(recipe, mealPlan);
   }
 
   public void resetFields() {

@@ -13,10 +13,11 @@ import javax.swing.JFrame;
 
 import mealplaner.DataStore;
 import mealplaner.commons.gui.buttonpanel.ButtonPanel;
+import mealplaner.commons.gui.dialogs.DialogCreating;
 import mealplaner.commons.gui.dialogs.DialogWindow;
 import mealplaner.model.Meal;
 
-public class UpdatePastMeals {
+public class UpdatePastMeals implements DialogCreating<Optional<List<Meal>>> {
   private final DialogWindow dialogWindow;
   private final UpdateTable updateTable;
   private Optional<List<Meal>> changedMeals = empty();
@@ -26,6 +27,7 @@ public class UpdatePastMeals {
     updateTable = new UpdateTable();
   }
 
+  @Override
   public Optional<List<Meal>> showDialog(DataStore mealPlan) {
     display(mealPlan);
     return changedMeals;

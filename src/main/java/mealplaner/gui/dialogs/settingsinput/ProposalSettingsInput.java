@@ -11,12 +11,15 @@ import java.util.Optional;
 
 import javax.swing.JFrame;
 
+import mealplaner.DataStore;
 import mealplaner.commons.gui.buttonpanel.ButtonPanel;
+import mealplaner.commons.gui.dialogs.DialogCreatingWithAdditional;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.ProposalOutline;
 import mealplaner.model.settings.Settings;
 
-public class ProposalSettingsInput extends SettingsInput {
+public class ProposalSettingsInput extends SettingsInput
+    implements DialogCreatingWithAdditional<ProposalOutline, Optional<Settings[]>> {
   private final JFrame parentFrame;
   private SettingTable settingTable;
 
@@ -25,8 +28,9 @@ public class ProposalSettingsInput extends SettingsInput {
     this.parentFrame = parentFrame;
   }
 
-  public Optional<Settings[]> showDialog(DefaultSettings settings, ProposalOutline outline) {
-    setup(settings, outline);
+  @Override
+  public Optional<Settings[]> showDialog(ProposalOutline outline, DataStore dataStore) {
+    setup(dataStore.getDefaultSettings(), outline);
     dialogWindow.setVisible();
     return getEnteredSettings();
   }

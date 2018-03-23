@@ -14,9 +14,11 @@ import java.util.Optional;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
+import mealplaner.DataStore;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.gui.GridPanel;
 import mealplaner.commons.gui.buttonpanel.ButtonPanel;
+import mealplaner.commons.gui.dialogs.DialogEditing;
 import mealplaner.commons.gui.dialogs.DialogWindow;
 import mealplaner.commons.gui.inputfields.InputField;
 import mealplaner.commons.gui.inputfields.NonnegativeIntegerInputField;
@@ -24,7 +26,7 @@ import mealplaner.commons.gui.tables.Table;
 import mealplaner.recipes.model.Ingredient;
 import mealplaner.recipes.model.Recipe;
 
-public class RecipeInput {
+public class RecipeInput implements DialogEditing<Optional<Recipe>> {
   private final DialogWindow dialogWindow;
   private RecipeTable recipeTable;
   private InputField<NonnegativeInteger> nonnegativeIntegerInputField;
@@ -38,9 +40,10 @@ public class RecipeInput {
     dialogWindow = window(parentDialog, label);
   }
 
-  public Optional<Recipe> showDialog(Optional<Recipe> recipe, List<Ingredient> ingredients) {
+  @Override
+  public Optional<Recipe> showDialog(Optional<Recipe> recipe, DataStore store) {
     enteredRecipe = recipe;
-    display(recipe, ingredients);
+    display(recipe, store.getIngredients());
     dialogWindow.dispose();
     return enteredRecipe;
   }

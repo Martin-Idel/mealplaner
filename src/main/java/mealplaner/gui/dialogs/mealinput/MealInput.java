@@ -5,19 +5,19 @@ import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
 import static mealplaner.gui.dialogs.mealinput.MealInputGrid.inputGrid;
 
 import java.awt.event.ActionListener;
-import java.util.List;
 import java.util.Optional;
 
 import javax.swing.JFrame;
 
+import mealplaner.DataStore;
 import mealplaner.commons.gui.GridPanel;
 import mealplaner.commons.gui.MessageDialog;
 import mealplaner.commons.gui.buttonpanel.ButtonPanel;
+import mealplaner.commons.gui.dialogs.DialogCreating;
 import mealplaner.commons.gui.dialogs.DialogWindow;
 import mealplaner.model.Meal;
-import mealplaner.recipes.model.Ingredient;
 
-public abstract class MealInput<T> {
+public abstract class MealInput<T> implements DialogCreating<T> {
   private final JFrame parentFrame;
   private final DialogWindow dialogWindow;
 
@@ -29,10 +29,11 @@ public abstract class MealInput<T> {
     inputGrid = inputGrid(dialogWindow);
   }
 
-  public abstract T showDialog(List<Ingredient> ingredients);
+  @Override
+  public abstract T showDialog(DataStore store);
 
-  protected void display(List<Ingredient> ingredients, ActionListener saveListener) {
-    GridPanel mealCreationPanel = inputGrid.initialiseInputFields(ingredients);
+  protected void display(DataStore mealPlan, ActionListener saveListener) {
+    GridPanel mealCreationPanel = inputGrid.initialiseInputFields(mealPlan);
 
     ButtonPanel buttonPanel = buildButtonPanel(saveListener);
 
