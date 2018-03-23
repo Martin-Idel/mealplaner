@@ -39,7 +39,7 @@ public class FileIoGui {
   }
 
   public MealplanerData loadDatabase() {
-    MealplanerData mealPlan = new MealplanerData();
+    MealplanerData mealPlan = MealplanerData.getInstance();
     try {
       mealPlan = ProposalSummaryDataReader.loadXml(savePath + "save.xml");
       List<Meal> meals = MealsReader.loadXml(savePath + "meals.xml");
@@ -57,7 +57,7 @@ public class FileIoGui {
     String bak = JOptionPane.showInputDialog(frame, BUNDLES.message("createLoadBackup"),
         "*.xml");
     if (bak != null) {
-      MealplanerData mealPlan = new MealplanerData();
+      MealplanerData mealPlan = MealplanerData.getInstance();
       try {
         mealPlan = MealplanerDataReader.loadXml(bak);
       } catch (MealException exc) {

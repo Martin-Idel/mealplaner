@@ -58,7 +58,12 @@ public class MealplanerDataTest {
     date = of(2017, 5, 7);
     proposal = from(true, new ArrayList<>(), new ArrayList<>());
     ingredients.addAll(createIngredientsList());
-    sut = new MealplanerData(ingredients, meals, date, createDefaultSettings(), proposal);
+    sut = MealplanerData.getInstance();
+    sut.setIngredients(ingredients);
+    sut.setMeals(meals);
+    sut.setTime(date);
+    sut.setDefaultSettings(createDefaultSettings());
+    sut.setLastProposal(proposal);
 
     listener = mock(DataStoreListener.class);
     sut.register(listener);
@@ -71,8 +76,8 @@ public class MealplanerDataTest {
 
     sut.addMeal(meal3);
 
-    assertThat(meals).asList().hasSize(4);
-    assertThat(meals.get(2)).isEqualTo(meal3);
+    assertThat(sut.getMeals()).asList().hasSize(4);
+    assertThat(sut.getMeals().get(2)).isEqualTo(meal3);
   }
 
   @Test
@@ -108,7 +113,9 @@ public class MealplanerDataTest {
     proposalMeals.add(meal1);
     proposalMeals.add(meal4);
     proposal = from(true, proposalMeals, createEmptySettingsList(2));
-    sut = new MealplanerData(new ArrayList<>(), meals, date, createDefaultSettings(), proposal);
+    sut.setMeals(meals);
+    sut.setTime(date);
+    sut.setLastProposal(proposal);
 
     sut.update(proposal.getProposalList(), date.plusDays(2));
 

@@ -24,8 +24,7 @@ import mealplaner.model.Proposal;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.recipes.model.Ingredient;
 
-// TODO: Make singleton?
-public class MealplanerData implements DataStore {
+public final class MealplanerData implements DataStore {
   private List<Ingredient> ingredients;
   private List<Meal> meals;
   private DefaultSettings defaultSettings;
@@ -34,7 +33,15 @@ public class MealplanerData implements DataStore {
 
   private final List<DataStoreListener> listeners = new ArrayList<>();
 
-  public MealplanerData() {
+  private static class MealplanerDataHolder {
+    private static final MealplanerData INSTANCE = new MealplanerData(); // NOPMD
+  }
+
+  public static MealplanerData getInstance() {
+    return MealplanerDataHolder.INSTANCE;
+  }
+
+  private MealplanerData() {
     ingredients = new ArrayList<Ingredient>();
     meals = new ArrayList<Meal>();
     date = now();
@@ -42,17 +49,12 @@ public class MealplanerData implements DataStore {
     proposal = createProposal();
   }
 
-  public MealplanerData(
-      List<Ingredient> ingredients,
-      List<Meal> meals,
-      LocalDate date,
-      DefaultSettings defaultSettings,
-      Proposal proposal) {
-    this.ingredients = ingredients;
-    this.meals = meals;
-    this.date = date;
-    this.defaultSettings = defaultSettings;
-    this.proposal = proposal;
+  public void clear() {
+    ingredients = new ArrayList<Ingredient>();
+    meals = new ArrayList<Meal>();
+    date = now();
+    defaultSettings = createDefaultSettings();
+    proposal = createProposal();
   }
 
   @Override

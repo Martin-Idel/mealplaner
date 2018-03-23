@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,6 +55,7 @@ public class ProposalSummaryDataXmlInteractionTest {
     } catch (IOException exc) {
       fail("Could not load file");
     }
+    MealplanerData.getInstance().clear();
 
     MealplanerData loadedMealplaner = ProposalSummaryDataReader.loadXml(DESTINATION_FILE_PATH);
 
@@ -78,11 +78,11 @@ public class ProposalSummaryDataXmlInteractionTest {
 
     LocalDate time = LocalDate.of(2017, 5, 3);
 
-    MealplanerData data = new MealplanerData(new ArrayList<>(),
-        new ArrayList<>(),
-        time,
-        DefaultSettings.from(defaultSettings),
-        proposal);
+    MealplanerData.getInstance().clear();
+    MealplanerData data = MealplanerData.getInstance();
+    data.setTime(time);
+    data.setDefaultSettings(DefaultSettings.from(defaultSettings));
+    data.setLastProposal(proposal);
 
     ProposalSummaryDataWriter.saveXml(data, DESTINATION_FILE_PATH);
     MealplanerData roundTripMealplaner = ProposalSummaryDataReader.loadXml(DESTINATION_FILE_PATH);

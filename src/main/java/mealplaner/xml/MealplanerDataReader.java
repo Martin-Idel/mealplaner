@@ -26,7 +26,9 @@ public final class MealplanerDataReader {
       MealplanerDataXml database = read(filePath, MealplanerDataXml.class);
       return convertToData(database);
     } else {
-      return new MealplanerData();
+      MealplanerData data = MealplanerData.getInstance();
+      data.clear();
+      return data;
     }
   }
 
@@ -39,10 +41,12 @@ public final class MealplanerDataReader {
         .map(ingredient -> convertIngredientFromXml(ingredient))
         .collect(toList());
 
-    return new MealplanerData(ingredients,
-        modelMeals,
-        database.date,
-        defaultSettings,
-        convertProposalFromXml(database.proposal));
+    MealplanerData data = MealplanerData.getInstance();
+    data.setIngredients(ingredients);
+    data.setMeals(modelMeals);
+    data.setTime(database.date);
+    data.setDefaultSettings(defaultSettings);
+    data.setLastProposal(convertProposalFromXml(database.proposal));
+    return data;
   }
 }

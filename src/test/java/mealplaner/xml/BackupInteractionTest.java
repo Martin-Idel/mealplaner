@@ -70,8 +70,12 @@ public class BackupInteractionTest {
 
     LocalDate time = LocalDate.of(2017, 5, 3);
 
-    MealplanerData data = new MealplanerData(
-        ingredients, meals, time, DefaultSettings.from(defaultSettings), proposal);
+    MealplanerData data = MealplanerData.getInstance();
+    data.setIngredients(ingredients);
+    data.setMeals(meals);
+    data.setTime(time);
+    data.setDefaultSettings(DefaultSettings.from(defaultSettings));
+    data.setLastProposal(proposal);
 
     MealplanerDataWriter.saveXml(data, DESTINATION_FILE_PATH);
     MealplanerData roundtripData = loadXml(DESTINATION_FILE_PATH);

@@ -5,8 +5,6 @@ import static mealplaner.xml.adapters.SettingsAdapter.convertDefaultSettingsFrom
 import static mealplaner.xml.util.JaxHelper.read;
 import static mealplaner.xml.util.VersionControl.getVersion;
 
-import java.util.ArrayList;
-
 import mealplaner.MealplanerData;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.xml.model.ProposalSummaryDataXml;
@@ -21,17 +19,19 @@ public final class ProposalSummaryDataReader {
       ProposalSummaryDataXml database = read(filePath, ProposalSummaryDataXml.class);
       return convertToMealplanerData(database);
     } else {
-      return new MealplanerData();
+      MealplanerData data = MealplanerData.getInstance();
+      data.clear();
+      return data;
     }
   }
 
   static MealplanerData convertToMealplanerData(ProposalSummaryDataXml data) {
     DefaultSettings defaultSettings = convertDefaultSettingsFromXml(data.defaultSettings);
 
-    return new MealplanerData(new ArrayList<>(),
-        new ArrayList<>(),
-        data.date,
-        defaultSettings,
-        convertProposalFromXml(data.proposal));
+    MealplanerData mealplanerData = MealplanerData.getInstance();
+    mealplanerData.setTime(data.date);
+    mealplanerData.setDefaultSettings(defaultSettings);
+    mealplanerData.setLastProposal(convertProposalFromXml(data.proposal));
+    return mealplanerData;
   }
 }
