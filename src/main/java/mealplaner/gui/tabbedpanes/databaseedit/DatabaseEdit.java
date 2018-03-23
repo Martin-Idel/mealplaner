@@ -129,7 +129,6 @@ public class DatabaseEdit implements DataStoreListener {
                 (meal, comment) -> from(meal).comment(comment).create())
             .getValueFromOrderedList(meals, meal -> meal.getComment())
             .isEditable()
-            .overwriteTableCellEditor(new NonemptyTextCellEditor())
             .onChange(() -> buttonPanel.enableButtons())
             .build())
         .addColumn(withContent(String.class)
