@@ -7,8 +7,8 @@ import static mealplaner.xml.util.JaxHelper.save;
 import java.util.List;
 
 import mealplaner.model.Meal;
-import mealplaner.xml.model.MealXml;
-import mealplaner.xml.model.MealdatabaseXml;
+import mealplaner.xml.model.v2.MealXml;
+import mealplaner.xml.model.v2.MealdatabaseXml;
 
 public final class MealsWriter {
   private MealsWriter() {

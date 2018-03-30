@@ -1,4 +1,4 @@
-package mealplaner.xml.model;
+package mealplaner.xml.model.v2;
 
 import static mealplaner.commons.NonnegativeInteger.ZERO;
 import static mealplaner.model.enums.CookingPreference.NO_PREFERENCE;

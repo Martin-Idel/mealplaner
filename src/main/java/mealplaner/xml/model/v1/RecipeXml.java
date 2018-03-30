@@ -1,4 +1,4 @@
-package mealplaner.xml.model;
+package mealplaner.xml.model.v1;
 
 import java.util.HashMap;
 import java.util.Map;

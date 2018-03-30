@@ -10,9 +10,9 @@ import static mealplaner.xml.util.JaxHelper.save;
 import java.util.List;
 
 import mealplaner.MealplanerData;
-import mealplaner.xml.model.IngredientXml;
-import mealplaner.xml.model.MealXml;
-import mealplaner.xml.model.MealplanerDataXml;
+import mealplaner.xml.model.v2.IngredientXml;
+import mealplaner.xml.model.v2.MealXml;
+import mealplaner.xml.model.v2.MealplanerDataXml;
 
 public final class MealplanerDataWriter {
   private MealplanerDataWriter() {

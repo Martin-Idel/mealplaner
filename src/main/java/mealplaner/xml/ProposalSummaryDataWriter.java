@@ -7,7 +7,7 @@ import static mealplaner.xml.util.JaxHelper.save;
 import mealplaner.MealplanerData;
 import mealplaner.model.Proposal;
 import mealplaner.model.settings.DefaultSettings;
-import mealplaner.xml.model.ProposalSummaryDataXml;
+import mealplaner.xml.model.v2.ProposalSummaryDataXml;
 
 public final class ProposalSummaryDataWriter {
   private ProposalSummaryDataWriter() {

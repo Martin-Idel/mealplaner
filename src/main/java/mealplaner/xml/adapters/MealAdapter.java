@@ -6,7 +6,7 @@ import static mealplaner.xml.adapters.RecipeAdapter.convertRecipeFromXml;
 import static mealplaner.xml.adapters.RecipeAdapter.convertRecipeToXml;
 
 import mealplaner.model.Meal;
-import mealplaner.xml.model.MealXml;
+import mealplaner.xml.model.v2.MealXml;
 
 public final class MealAdapter {
   private MealAdapter() {
@@ -25,6 +25,18 @@ public final class MealAdapter {
   }
 
   public static Meal convertMealFromXml(MealXml meal) {
+    return createMeal(
+        meal.name,
+        meal.cookingTime,
+        meal.sidedish,
+        meal.obligatoryUtensil,
+        meal.cookingPreference,
+        nonNegative(meal.daysPassed),
+        meal.comment,
+        convertRecipeFromXml(meal.recipe));
+  }
+
+  public static Meal convertMealFromXml(mealplaner.xml.model.v1.MealXml meal) {
     return createMeal(
         meal.name,
         meal.cookingTime,

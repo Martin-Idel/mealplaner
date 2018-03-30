@@ -9,9 +9,9 @@ import static mealplaner.xml.adapters.SettingsAdapter.convertSettingsToXml;
 import java.util.List;
 
 import mealplaner.model.Proposal;
-import mealplaner.xml.model.MealXml;
-import mealplaner.xml.model.ProposalXml;
-import mealplaner.xml.model.SettingsXml;
+import mealplaner.xml.model.v2.MealXml;
+import mealplaner.xml.model.v2.ProposalXml;
+import mealplaner.xml.model.v2.SettingsXml;
 
 public final class ProposalAdapter {
   private ProposalAdapter() {
@@ -35,6 +35,20 @@ public final class ProposalAdapter {
   }
 
   public static Proposal convertProposalFromXml(ProposalXml proposalData) {
+    return Proposal.from(proposalData.includeToday,
+        proposalData.mealList
+            .stream()
+            .map(meal -> convertMealFromXml(meal))
+            .collect(toList()),
+        proposalData.settingsList
+            .stream()
+            .map(setting -> convertSettingsFromXml(setting))
+            .collect(toList()),
+        proposalData.date);
+  }
+
+  public static Proposal convertProposalFromXml(
+      mealplaner.xml.model.v1.ProposalXml proposalData) {
     return Proposal.from(proposalData.includeToday,
         proposalData.mealList
             .stream()

@@ -1,4 +1,4 @@
-package mealplaner.xml.model;
+package mealplaner.xml.model.v2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ public class MealdatabaseXml {
   public final List<MealXml> meals;
 
   public MealdatabaseXml() {
-    this(new ArrayList<>(), 1);
+    this(new ArrayList<>(), 2);
   }
 
   public MealdatabaseXml(List<MealXml> meals, int version) {

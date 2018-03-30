@@ -1,5 +1,6 @@
 package mealplaner.recipes.gui.dialogs.ingredients;
 
+import static java.util.Arrays.asList;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.GridPanel.gridPanel;
 import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
@@ -7,7 +8,6 @@ import static mealplaner.recipes.model.Ingredient.ingredient;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -92,10 +92,10 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
   }
 
   private void resetFields() {
-    Arrays.asList(nameField, typeField, measureField).forEach(InputField::resetField);
+    asList(nameField, typeField, measureField).forEach(InputField::resetField);
   }
 
   private Stream<InputField<?>> allFields() {
-    return Arrays.asList(nameField, typeField, measureField).stream();
+    return asList(nameField, typeField, measureField).stream();
   }
 }

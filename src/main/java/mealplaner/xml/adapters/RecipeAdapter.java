@@ -14,8 +14,8 @@ import java.util.Optional;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.recipes.model.Ingredient;
 import mealplaner.recipes.model.Recipe;
-import mealplaner.xml.model.IngredientXml;
-import mealplaner.xml.model.RecipeXml;
+import mealplaner.xml.model.v2.IngredientXml;
+import mealplaner.xml.model.v2.RecipeXml;
 
 public final class RecipeAdapter {
   private RecipeAdapter() {
@@ -35,6 +35,17 @@ public final class RecipeAdapter {
   }
 
   public static Optional<Recipe> convertRecipeFromXml(RecipeXml recipe) {
+    if (recipe == null) {
+      return empty();
+    }
+    Map<Ingredient, NonnegativeInteger> nonnegativeIntegerMap = recipe.ingredients
+        .entrySet()
+        .stream()
+        .collect(toMap(e -> convertIngredientFromXml(e.getKey()), e -> nonNegative(e.getValue())));
+    return of(from(nonNegative(recipe.numberOfPortions), nonnegativeIntegerMap));
+  }
+
+  public static Optional<Recipe> convertRecipeFromXml(mealplaner.xml.model.v1.RecipeXml recipe) {
     if (recipe == null) {
       return empty();
     }

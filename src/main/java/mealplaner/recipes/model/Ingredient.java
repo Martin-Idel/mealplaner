@@ -1,26 +1,43 @@
 package mealplaner.recipes.model;
 
+import static java.nio.charset.Charset.forName;
+import static java.util.UUID.nameUUIDFromBytes;
+
+import java.util.UUID;
+
 public class Ingredient {
+  private final UUID uuid;
   private final String name;
   private final IngredientType type;
   private final Measure measure;
 
   public Ingredient() {
-    this("no name", IngredientType.OTHER, Measure.NONE);
+    this(UUID.randomUUID(), "no name", IngredientType.OTHER, Measure.NONE);
   }
 
-  private Ingredient(String name, IngredientType type, Measure measure) {
+  private Ingredient(UUID uuid, String name, IngredientType type, Measure measure) {
+    this.uuid = uuid;
     this.name = name;
     this.type = type;
     this.measure = measure;
   }
 
   public static Ingredient ingredient(String name, IngredientType type, Measure measure) {
-    return new Ingredient(name, type, measure);
+    return new Ingredient(UUID.randomUUID(), name, type, measure);
+  }
+
+  public static Ingredient ingredientWithUuid(UUID uuid, String name, IngredientType type,
+      Measure measure) {
+    return new Ingredient(uuid, name, type, measure);
   }
 
   public static Ingredient emptyIngredient() {
-    return new Ingredient("", IngredientType.OTHER, Measure.NONE);
+    return new Ingredient(nameUUIDFromBytes("".getBytes(forName("UTF-8"))), "",
+        IngredientType.OTHER, Measure.NONE);
+  }
+
+  public UUID getId() {
+    return uuid;
   }
 
   public String getName() {
@@ -37,17 +54,18 @@ public class Ingredient {
 
   @Override
   public String toString() {
-    return "Ingredient [name=" + name + ", type=" + type + ", measure=" + measure
-        + "]";
+    return "Ingredient [uuid=" + uuid.toString() + ", name=" + name + ", type=" + type
+        + ", measure=" + measure + "]";
   }
 
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((measure == null) ? 0 : measure.hashCode());
-    result = prime * result + ((name == null) ? 0 : name.hashCode());
-    result = prime * result + ((type == null) ? 0 : type.hashCode());
+    result = prime * result + uuid.hashCode();
+    result = prime * result + measure.hashCode();
+    result = prime * result + name.hashCode();
+    result = prime * result + type.hashCode();
     return result;
   }
 
@@ -59,6 +77,9 @@ public class Ingredient {
       return false;
     }
     Ingredient other = (Ingredient) obj;
-    return measure == other.measure && name.equals(other.name) && type == other.type;
+    return uuid.equals(other.uuid)
+        && measure == other.measure
+        && name.equals(other.name)
+        && type == other.type;
   }
 }

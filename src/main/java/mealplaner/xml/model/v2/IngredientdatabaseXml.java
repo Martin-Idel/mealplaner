@@ -1,4 +1,4 @@
-package mealplaner.xml.model;
+package mealplaner.xml.model.v2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,17 +9,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "IngredientData")
 public class IngredientdatabaseXml {
-  public int version;
+  public int version = 2;
   @XmlElementWrapper(name = "ingredients")
   @XmlElement(name = "ingredient")
   public final List<IngredientXml> ingredients;
 
   public IngredientdatabaseXml() {
-    this(new ArrayList<>(), 1);
+    this(new ArrayList<>());
   }
 
-  public IngredientdatabaseXml(List<IngredientXml> ingredients, int version) {
+  public IngredientdatabaseXml(List<IngredientXml> ingredients) {
     this.ingredients = ingredients;
-    this.version = version;
   }
 }

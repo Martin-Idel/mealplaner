@@ -1,4 +1,4 @@
-package mealplaner.xml.model;
+package mealplaner.xml.model.v1;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -11,6 +11,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import mealplaner.xml.util.LocalDataAdapter;
 
 @XmlRootElement(name = "MealplanerData")
 @XmlAccessorType(XmlAccessType.FIELD)

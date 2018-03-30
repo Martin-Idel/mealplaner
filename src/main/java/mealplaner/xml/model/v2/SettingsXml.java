@@ -1,4 +1,4 @@
-package mealplaner.xml.model;
+package mealplaner.xml.model.v2;
 
 import java.util.ArrayList;
 import java.util.List;
