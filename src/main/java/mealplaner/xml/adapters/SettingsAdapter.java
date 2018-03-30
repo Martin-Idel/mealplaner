@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import mealplaner.model.enums.CookingTime;
+import mealplaner.model.enums.CourseSettings;
 import mealplaner.model.settings.CookingTimeSetting;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
@@ -30,7 +31,8 @@ public final class SettingsAdapter {
     return new SettingsXml(prohibitedTimes,
         setting.getNumberOfPeople().value,
         setting.getCasserole(),
-        setting.getPreference());
+        setting.getPreference(),
+        setting.getCourseSettings());
   }
 
   public static Settings convertSettingsFromXml(SettingsXml setting) {
@@ -39,7 +41,8 @@ public final class SettingsAdapter {
     return Settings.from(times,
         nonNegative(setting.numberOfPeople),
         setting.casseroleSettings,
-        setting.preference);
+        setting.preferenceSettings,
+        setting.courseSettings);
   }
 
   public static Settings convertSettingsFromXml(mealplaner.xml.model.v1.SettingsXml setting) {
@@ -48,7 +51,8 @@ public final class SettingsAdapter {
     return Settings.from(times,
         nonNegative(setting.numberOfPeople),
         setting.casseroleSettings,
-        setting.preference);
+        setting.preference,
+        CourseSettings.ONLY_MAIN);
   }
 
   public static Map<DayOfWeek, SettingsXml> convertDefaultSettingsToXml(

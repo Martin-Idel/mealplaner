@@ -1,6 +1,7 @@
 package mealplaner;
 
 import static java.util.Optional.empty;
+import static java.util.UUID.randomUUID;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.Meal.createMeal;
 import static mealplaner.model.enums.CookingPreference.RARE;
@@ -26,6 +27,8 @@ import mealplaner.model.configuration.PreferenceMap;
 import mealplaner.model.enums.CasseroleSettings;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
+import mealplaner.model.enums.CourseSettings;
+import mealplaner.model.enums.CourseType;
 import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.PreferenceSettings;
 import mealplaner.model.enums.Sidedish;
@@ -52,7 +55,7 @@ public class ProposalBuilderTest {
     addMeals();
     CookingTimeSetting cookingTimeSetting = cookingTimeWithProhibited(CookingTime.SHORT);
     settings[0] = from(cookingTimeSetting, nonNegative(4),
-        CasseroleSettings.POSSIBLE, PreferenceSettings.NORMAL);
+        CasseroleSettings.POSSIBLE, PreferenceSettings.NORMAL, CourseSettings.ONLY_MAIN);
 
     Proposal proposal = proposalBuilder.propose(settings, meals);
 
@@ -65,7 +68,7 @@ public class ProposalBuilderTest {
     addMeals();
     CookingTimeSetting cookingTimeSetting = defaultCookingTime();
     settings[0] = from(cookingTimeSetting, nonNegative(2),
-        CasseroleSettings.NONE, PreferenceSettings.VERY_POPULAR_ONLY);
+        CasseroleSettings.NONE, PreferenceSettings.VERY_POPULAR_ONLY, CourseSettings.ONLY_MAIN);
 
     Proposal proposal = proposalBuilder.propose(settings, meals);
 
@@ -77,7 +80,7 @@ public class ProposalBuilderTest {
     addMeals();
     CookingTimeSetting cookingTimeSetting = defaultCookingTime();
     settings[0] = from(cookingTimeSetting, nonNegative(2),
-        CasseroleSettings.ONLY, PreferenceSettings.RARE_NONE);
+        CasseroleSettings.ONLY, PreferenceSettings.RARE_NONE, CourseSettings.ONLY_MAIN);
 
     Proposal proposal = proposalBuilder.propose(settings, meals);
 
@@ -89,7 +92,7 @@ public class ProposalBuilderTest {
     addMealsToTestMultipliers();
     CookingTimeSetting cookingTimeSetting = defaultCookingTime();
     settings[0] = from(cookingTimeSetting, nonNegative(1),
-        CasseroleSettings.POSSIBLE, PreferenceSettings.NORMAL);
+        CasseroleSettings.POSSIBLE, PreferenceSettings.NORMAL, CourseSettings.ONLY_MAIN);
 
     Proposal proposal = proposalBuilder.propose(settings, meals);
 
@@ -101,7 +104,7 @@ public class ProposalBuilderTest {
     addMeals();
     CookingTimeSetting cookingTimeSetting = defaultCookingTime();
     settings[0] = from(cookingTimeSetting, nonNegative(2), CasseroleSettings.POSSIBLE,
-        PreferenceSettings.RARE_PREFERED);
+        PreferenceSettings.RARE_PREFERED, CourseSettings.ONLY_MAIN);
 
     Proposal proposal = proposalBuilder.propose(settings, meals);
 
@@ -113,7 +116,7 @@ public class ProposalBuilderTest {
     addMeals();
     CookingTimeSetting cookingTimeSetting = defaultCookingTime();
     settings[0] = from(cookingTimeSetting, nonNegative(2), CasseroleSettings.POSSIBLE,
-        PreferenceSettings.NORMAL);
+        PreferenceSettings.NORMAL, CourseSettings.ONLY_MAIN);
 
     Proposal proposal = proposalBuilder.propose(settings, meals);
 
@@ -126,7 +129,7 @@ public class ProposalBuilderTest {
     addMealsToTestMultipliers();
     CookingTimeSetting cookingTimeSetting = defaultCookingTime();
     settings[0] = from(cookingTimeSetting, nonNegative(2), CasseroleSettings.POSSIBLE,
-        PreferenceSettings.RARE_PREFERED);
+        PreferenceSettings.RARE_PREFERED, CourseSettings.ONLY_MAIN);
 
     Proposal proposal = proposalBuilder.propose(settings, meals);
 
@@ -140,7 +143,7 @@ public class ProposalBuilderTest {
     preferenceMap.put(Pair.of(RARE, NORMAL), 10);
     CookingTimeSetting cookingTimeSetting = defaultCookingTime();
     settings[0] = from(cookingTimeSetting, nonNegative(2), CasseroleSettings.POSSIBLE,
-        PreferenceSettings.NORMAL);
+        PreferenceSettings.NORMAL, CourseSettings.ONLY_MAIN);
     proposalBuilder = new ProposalBuilder(preferenceMap, sideDish);
 
     Proposal proposal = proposalBuilder.propose(settings, meals);
@@ -149,41 +152,48 @@ public class ProposalBuilderTest {
   }
 
   private void addMeals() throws MealException {
-    Meal meal1 = createMeal("Meal1", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.PAN,
-        CookingPreference.NO_PREFERENCE, nonNegative(50), "", empty());
+    Meal meal1 = createMeal(randomUUID(), "Meal1", CookingTime.SHORT, Sidedish.PASTA,
+        ObligatoryUtensil.PAN, CookingPreference.NO_PREFERENCE, CourseType.MAIN, nonNegative(50),
+        "", empty());
     meals.add(meal1);
-    Meal meal2 = createMeal("Meal2", CookingTime.MEDIUM, Sidedish.PASTA,
-        ObligatoryUtensil.CASSEROLE, CookingPreference.RARE, nonNegative(101), "", empty());
-    meals.add(meal2);
-    Meal meal3 = createMeal("Meal3", CookingTime.LONG, Sidedish.RICE, ObligatoryUtensil.POT,
-        CookingPreference.VERY_POPULAR, nonNegative(20), "", empty());
-    meals.add(meal3);
-    Meal meal4 = createMeal("Meal4", CookingTime.MEDIUM, Sidedish.POTATOES,
-        ObligatoryUtensil.CASSEROLE, CookingPreference.VERY_POPULAR, nonNegative(25), "",
+    Meal meal2 = createMeal(randomUUID(), "Meal2", CookingTime.MEDIUM, Sidedish.PASTA,
+        ObligatoryUtensil.CASSEROLE, CookingPreference.RARE, CourseType.MAIN, nonNegative(101), "",
         empty());
+    meals.add(meal2);
+    Meal meal3 = createMeal(randomUUID(), "Meal3", CookingTime.LONG, Sidedish.RICE,
+        ObligatoryUtensil.POT, CookingPreference.VERY_POPULAR, CourseType.MAIN, nonNegative(20), "",
+        empty());
+    meals.add(meal3);
+    Meal meal4 = createMeal(randomUUID(), "Meal4", CookingTime.MEDIUM, Sidedish.POTATOES,
+        ObligatoryUtensil.CASSEROLE, CookingPreference.VERY_POPULAR, CourseType.MAIN,
+        nonNegative(25), "", empty());
     meals.add(meal4);
-    Meal meal5 = createMeal("Meal5", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.POT,
-        CookingPreference.NO_PREFERENCE, nonNegative(100), "", empty());
+    Meal meal5 = createMeal(randomUUID(), "Meal5", CookingTime.SHORT, Sidedish.PASTA,
+        ObligatoryUtensil.POT,
+        CookingPreference.NO_PREFERENCE, CourseType.MAIN, nonNegative(100), "", empty());
     meals.add(meal5);
   }
 
   private void addMealsToTestMultipliers() throws MealException {
-    Meal meal1 = createMeal("Meal1", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.PAN,
-        CookingPreference.NO_PREFERENCE, nonNegative(0), "", empty());
+    Meal meal1 = createMeal(randomUUID(), "Meal1", CookingTime.SHORT, Sidedish.PASTA,
+        ObligatoryUtensil.PAN,
+        CookingPreference.NO_PREFERENCE, CourseType.MAIN, nonNegative(0), "", empty());
     meals.add(meal1);
-    Meal meal2 = createMeal("Meal2", CookingTime.MEDIUM, Sidedish.PASTA,
+    Meal meal2 = createMeal(randomUUID(), "Meal2", CookingTime.MEDIUM, Sidedish.PASTA,
         ObligatoryUtensil.CASSEROLE,
-        CookingPreference.RARE, nonNegative(10), "", empty());
+        CookingPreference.RARE, CourseType.MAIN, nonNegative(10), "", empty());
     meals.add(meal2);
-    Meal meal3 = createMeal("Meal3", CookingTime.LONG, Sidedish.RICE, ObligatoryUtensil.POT,
-        CookingPreference.VERY_POPULAR, nonNegative(20), "", empty());
+    Meal meal3 = createMeal(randomUUID(), "Meal3", CookingTime.LONG, Sidedish.RICE,
+        ObligatoryUtensil.POT,
+        CookingPreference.VERY_POPULAR, CourseType.MAIN, nonNegative(20), "", empty());
     meals.add(meal3);
-    Meal meal4 = createMeal("Meal4", CookingTime.MEDIUM, Sidedish.POTATOES,
+    Meal meal4 = createMeal(randomUUID(), "Meal4", CookingTime.MEDIUM, Sidedish.POTATOES,
         ObligatoryUtensil.CASSEROLE,
-        CookingPreference.NO_PREFERENCE, nonNegative(30), "", empty());
+        CookingPreference.NO_PREFERENCE, CourseType.MAIN, nonNegative(30), "", empty());
     meals.add(meal4);
-    Meal meal5 = createMeal("Meal5", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.POT,
-        CookingPreference.NO_PREFERENCE, nonNegative(70), "", empty());
+    Meal meal5 = createMeal(randomUUID(), "Meal5", CookingTime.SHORT, Sidedish.PASTA,
+        ObligatoryUtensil.POT,
+        CookingPreference.NO_PREFERENCE, CourseType.MAIN, nonNegative(70), "", empty());
     meals.add(meal5);
   }
 

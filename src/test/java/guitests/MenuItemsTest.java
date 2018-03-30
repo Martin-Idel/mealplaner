@@ -2,6 +2,7 @@ package guitests;
 
 import static java.nio.file.Files.readAllLines;
 import static java.util.Optional.of;
+import static java.util.UUID.randomUUID;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.Meal.createMeal;
 import static mealplaner.recipes.model.Ingredient.ingredient;
@@ -22,6 +23,7 @@ import guitests.helpers.AssertJMealplanerTestCase;
 import mealplaner.model.Meal;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
+import mealplaner.model.enums.CourseType;
 import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.Sidedish;
 import mealplaner.recipes.model.Ingredient;
@@ -30,8 +32,9 @@ public class MenuItemsTest extends AssertJMealplanerTestCase {
 
   @Test
   public void createMenu() {
-    Meal meal1 = createMeal("Bla", CookingTime.LONG, Sidedish.PASTA, ObligatoryUtensil.CASSEROLE,
-        CookingPreference.RARE, nonNegative(2), "No comment", of(getRecipe1()));
+    Meal meal1 = createMeal(randomUUID(), "Bla", CookingTime.LONG, Sidedish.PASTA,
+        ObligatoryUtensil.CASSEROLE, CookingPreference.RARE, CourseType.ENTRY, nonNegative(2),
+        "No comment", of(getRecipe1()));
     windowHelpers.enterMealFromMenu(meal1);
     List<Meal> meals = new ArrayList<>();
     meals.add(meal1);

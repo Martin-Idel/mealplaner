@@ -2,6 +2,7 @@ package mealplaner.gui.dialogs.mealinput;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
+import static java.util.UUID.randomUUID;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.NonnegativeInteger.ZERO;
 import static mealplaner.commons.gui.GridPanel.gridPanel;
@@ -24,6 +25,7 @@ import mealplaner.commons.gui.inputfields.TextInputField;
 import mealplaner.model.Meal;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
+import mealplaner.model.enums.CourseType;
 import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.Sidedish;
 import mealplaner.recipes.gui.dialogs.recepies.RecipeInput;
@@ -34,6 +36,7 @@ public final class MealInputGrid {
   private InputField<CookingTime> cookingTimeField;
   private InputField<Sidedish> sidedishField;
   private InputField<ObligatoryUtensil> obligatoryUtensilField;
+  private InputField<CourseType> courseTypeField;
   private InputField<NonnegativeInteger> daysPassedField;
   private InputField<CookingPreference> preferenceField;
   private InputField<String> commentField;
@@ -66,6 +69,11 @@ public final class MealInputGrid {
         "ObligatoryUtensil",
         ObligatoryUtensil.class,
         ObligatoryUtensil.POT);
+    courseTypeField = new ComboBoxInputField<CourseType>(
+        BUNDLES.message("insertMealCourseType"),
+        "CourseType",
+        CourseType.class,
+        CourseType.MAIN);
     daysPassedField = new NonnegativeIntegerInputField(
         BUNDLES.message("insertMealLastCooked"),
         "DaysPassed",
@@ -105,11 +113,13 @@ public final class MealInputGrid {
 
   public Optional<Meal> getMealFromUserInput() {
     return nameField.getUserInput().isPresent()
-        ? of(createMeal(nameField.getUserInput().get(),
+        ? of(createMeal(randomUUID(),
+            nameField.getUserInput().get(),
             cookingTimeField.getUserInput(),
             sidedishField.getUserInput(),
             obligatoryUtensilField.getUserInput(),
             preferenceField.getUserInput(),
+            courseTypeField.getUserInput(),
             daysPassedField.getUserInput(),
             commentField.getUserInput(),
             recipeInputField.getUserInput()))

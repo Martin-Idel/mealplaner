@@ -2,6 +2,7 @@ package testcommons;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
+import static java.util.UUID.randomUUID;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.Meal.createMeal;
 import static mealplaner.model.Proposal.from;
@@ -27,6 +28,8 @@ import mealplaner.model.Proposal;
 import mealplaner.model.enums.CasseroleSettings;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
+import mealplaner.model.enums.CourseSettings;
+import mealplaner.model.enums.CourseType;
 import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.PreferenceSettings;
 import mealplaner.model.enums.Sidedish;
@@ -47,20 +50,41 @@ public final class CommonFunctions {
   }
 
   public static Meal getMeal1() {
-    return createMeal("Test1", CookingTime.SHORT, Sidedish.PASTA,
-        ObligatoryUtensil.PAN, CookingPreference.VERY_POPULAR, nonNegative(5), "no comment",
+    return createMeal(randomUUID(),
+        "Test1",
+        CookingTime.SHORT,
+        Sidedish.PASTA,
+        ObligatoryUtensil.PAN,
+        CookingPreference.VERY_POPULAR,
+        CourseType.MAIN,
+        nonNegative(5),
+        "no comment",
         empty());
   }
 
   public static Meal getMeal2() {
-    return createMeal("Test2", CookingTime.SHORT, Sidedish.NONE,
-        ObligatoryUtensil.POT, CookingPreference.NO_PREFERENCE, nonNegative(1), "",
+    return createMeal(randomUUID(),
+        "Test2",
+        CookingTime.SHORT,
+        Sidedish.NONE,
+        ObligatoryUtensil.POT,
+        CookingPreference.NO_PREFERENCE,
+        CourseType.MAIN,
+        nonNegative(1),
+        "",
         of(getRecipe1()));
   }
 
   public static Meal getMeal3() {
-    return createMeal("Test3", CookingTime.MEDIUM, Sidedish.RICE,
-        ObligatoryUtensil.POT, CookingPreference.NO_PREFERENCE, nonNegative(2), "",
+    return createMeal(randomUUID(),
+        "Test3",
+        CookingTime.MEDIUM,
+        Sidedish.RICE,
+        ObligatoryUtensil.POT,
+        CookingPreference.NO_PREFERENCE,
+        CourseType.MAIN,
+        nonNegative(2),
+        "",
         of(getRecipe2()));
   }
 
@@ -92,12 +116,12 @@ public final class CommonFunctions {
 
   public static Settings getSettings1() {
     return from(cookingTimeWithProhibited(CookingTime.VERY_SHORT), nonNegative(3),
-        CasseroleSettings.NONE, PreferenceSettings.RARE_PREFERED);
+        CasseroleSettings.NONE, PreferenceSettings.RARE_PREFERED, CourseSettings.ONLY_MAIN);
   }
 
   public static Settings getSettings2() {
     return from(cookingTimeWithProhibited(CookingTime.SHORT), nonNegative(4),
-        CasseroleSettings.POSSIBLE, PreferenceSettings.RARE_PREFERED);
+        CasseroleSettings.POSSIBLE, PreferenceSettings.RARE_PREFERED, CourseSettings.ONLY_MAIN);
   }
 
   public static Proposal getProposal1() {

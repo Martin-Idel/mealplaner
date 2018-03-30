@@ -2,6 +2,7 @@ package mealplaner;
 
 import static java.time.LocalDate.of;
 import static java.util.Optional.empty;
+import static java.util.UUID.randomUUID;
 import static mealplaner.DataStoreEventType.DATABASE_EDITED;
 import static mealplaner.DataStoreEventType.DATE_UPDATED;
 import static mealplaner.DataStoreEventType.PROPOSAL_ADDED;
@@ -33,6 +34,7 @@ import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
+import mealplaner.model.enums.CourseType;
 import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.Sidedish;
 import mealplaner.model.settings.Settings;
@@ -200,20 +202,24 @@ public class MealplanerDataTest {
   }
 
   private void addInitializedMeals() throws MealException {
-    meal1 = createMeal("Meal1", CookingTime.SHORT, Sidedish.NONE, ObligatoryUtensil.PAN,
-        CookingPreference.NO_PREFERENCE, nonNegative(50), "", empty());
+    meal1 = createMeal(randomUUID(), "Meal1", CookingTime.SHORT, Sidedish.NONE,
+        ObligatoryUtensil.PAN, CookingPreference.NO_PREFERENCE, CourseType.MAIN, nonNegative(50),
+        "", empty());
     meals.add(meal1);
-    Meal meal2 = createMeal("Meal2", CookingTime.MEDIUM, Sidedish.PASTA,
-        ObligatoryUtensil.CASSEROLE, CookingPreference.RARE, nonNegative(101), "", empty());
+    Meal meal2 = createMeal(randomUUID(), "Meal2", CookingTime.MEDIUM, Sidedish.PASTA,
+        ObligatoryUtensil.CASSEROLE, CookingPreference.RARE, CourseType.MAIN, nonNegative(101), "",
+        empty());
     meals.add(meal2);
-    meal4 = createMeal("Meal4", CookingTime.LONG, Sidedish.RICE, ObligatoryUtensil.POT,
-        CookingPreference.VERY_POPULAR, nonNegative(20), "", empty());
+    meal4 = createMeal(randomUUID(), "Meal4", CookingTime.LONG, Sidedish.RICE,
+        ObligatoryUtensil.POT, CookingPreference.VERY_POPULAR, CourseType.MAIN, nonNegative(20), "",
+        empty());
     meals.add(meal4);
   }
 
   private Meal initializeNewMeal() {
-    return createMeal("Meal3", CookingTime.SHORT, Sidedish.POTATOES, ObligatoryUtensil.PAN,
-        CookingPreference.NO_PREFERENCE, nonNegative(10), "", empty());
+    return createMeal(randomUUID(), "Meal3", CookingTime.SHORT, Sidedish.POTATOES,
+        ObligatoryUtensil.PAN, CookingPreference.NO_PREFERENCE, CourseType.MAIN, nonNegative(10),
+        "", empty());
   }
 
   private List<Ingredient> createIngredientsList() {

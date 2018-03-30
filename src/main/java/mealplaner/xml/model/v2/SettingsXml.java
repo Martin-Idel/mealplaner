@@ -11,29 +11,34 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import mealplaner.model.enums.CasseroleSettings;
 import mealplaner.model.enums.CookingTime;
+import mealplaner.model.enums.CourseSettings;
 import mealplaner.model.enums.PreferenceSettings;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SettingsXml {
   public CasseroleSettings casseroleSettings;
-  public PreferenceSettings preference;
+  public PreferenceSettings preferenceSettings;
+  public CourseSettings courseSettings;
   @XmlElementWrapper(name = "cookingTimes")
   @XmlElement(name = "cookingTime")
   public List<CookingTime> cookingTime;
   public int numberOfPeople;
 
   public SettingsXml() {
-    this(new ArrayList<>(), 1, CasseroleSettings.POSSIBLE, PreferenceSettings.NORMAL);
+    this(new ArrayList<>(), 1, CasseroleSettings.POSSIBLE, PreferenceSettings.NORMAL,
+        CourseSettings.ONLY_MAIN);
   }
 
   public SettingsXml(List<CookingTime> cookingTime,
       int numberOfPeople,
       CasseroleSettings casseroleSettings,
-      PreferenceSettings preferenceSettings) {
+      PreferenceSettings preferenceSettings,
+      CourseSettings courseSettings) {
     this.cookingTime = cookingTime;
     this.numberOfPeople = numberOfPeople;
     this.casseroleSettings = casseroleSettings;
-    this.preference = preferenceSettings;
+    this.preferenceSettings = preferenceSettings;
+    this.courseSettings = courseSettings;
   }
 }

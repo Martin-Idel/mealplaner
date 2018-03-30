@@ -6,6 +6,12 @@ import static java.util.UUID.nameUUIDFromBytes;
 import java.util.UUID;
 
 public class Ingredient {
+  private static final Ingredient EMPTY_INGREDIENT = new Ingredient(
+      nameUUIDFromBytes("".getBytes(forName("UTF-8"))),
+      "",
+      IngredientType.OTHER,
+      Measure.NONE);
+
   private final UUID uuid;
   private final String name;
   private final IngredientType type;
@@ -32,8 +38,7 @@ public class Ingredient {
   }
 
   public static Ingredient emptyIngredient() {
-    return new Ingredient(nameUUIDFromBytes("".getBytes(forName("UTF-8"))), "",
-        IngredientType.OTHER, Measure.NONE);
+    return EMPTY_INGREDIENT;
   }
 
   public UUID getId() {

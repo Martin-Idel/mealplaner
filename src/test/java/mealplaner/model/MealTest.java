@@ -1,6 +1,7 @@
 package mealplaner.model;
 
 import static java.util.Optional.empty;
+import static java.util.UUID.randomUUID;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.Meal.createMeal;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -12,17 +13,25 @@ import org.junit.Test;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
+import mealplaner.model.enums.CourseType;
 import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.Sidedish;
 
 public class MealTest {
-
   private Meal sut;
 
   @Before
   public void setup() throws MealException {
-    sut = createMeal("Test", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.POT,
-        CookingPreference.NO_PREFERENCE, nonNegative(5), "", empty());
+    sut = createMeal(randomUUID(),
+        "Test",
+        CookingTime.SHORT,
+        Sidedish.PASTA,
+        ObligatoryUtensil.POT,
+        CookingPreference.NO_PREFERENCE,
+        CourseType.MAIN,
+        nonNegative(5),
+        "",
+        empty());
   }
 
   @Test
@@ -33,8 +42,16 @@ public class MealTest {
 
   @Test(expected = MealException.class)
   public void setNameWithOnlyWhitespace() throws MealException {
-    sut = createMeal("", CookingTime.SHORT, Sidedish.PASTA, ObligatoryUtensil.POT,
-        CookingPreference.NO_PREFERENCE, nonNegative(5), "", empty());
+    sut = createMeal(randomUUID(),
+        "",
+        CookingTime.SHORT,
+        Sidedish.PASTA,
+        ObligatoryUtensil.POT,
+        CookingPreference.NO_PREFERENCE,
+        CourseType.MAIN,
+        nonNegative(5),
+        "",
+        empty());
 
     assertThat(sut.getName()).isEqualTo("Test");
   }

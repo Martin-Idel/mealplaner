@@ -2,6 +2,7 @@ package mealplaner.model.settings;
 
 import static mealplaner.commons.NonnegativeInteger.TWO;
 import static mealplaner.model.enums.CasseroleSettings.POSSIBLE;
+import static mealplaner.model.enums.CourseSettings.ONLY_MAIN;
 import static mealplaner.model.enums.PreferenceSettings.NORMAL;
 import static mealplaner.model.settings.CookingPreferenceSetting.createCookingPreferenceSettings;
 import static mealplaner.model.settings.CookingTimeSetting.copyCookingTimeSetting;
@@ -12,6 +13,7 @@ import static mealplaner.model.settings.CookingUtensilSetting.createCookingUtens
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.model.enums.CasseroleSettings;
 import mealplaner.model.enums.CookingTime;
+import mealplaner.model.enums.CourseSettings;
 import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.PreferenceSettings;
 
@@ -22,11 +24,13 @@ public final class Settings {
   private final CookingTimeSetting cookingTime;
   private final CookingUtensilSetting cookingUtensil;
   private final NonnegativeInteger numberOfPeople;
+  private final CourseSettings courseSettings;
 
   private Settings(CookingTimeSetting cookingTime,
       NonnegativeInteger numberOfPeople,
       CasseroleSettings casseroleSettings,
-      PreferenceSettings preferenceSettings) {
+      PreferenceSettings preferenceSettings,
+      CourseSettings courseSettings) {
     this.cookingPreferences = createCookingPreferenceSettings();
     this.cookingTime = cookingTime;
     this.cookingUtensil = createCookingUtensilSettings();
@@ -34,9 +38,9 @@ public final class Settings {
     this.cookingUtensil.setNumberOfPeople(numberOfPeople.value);
     this.casseroleSettings = casseroleSettings;
     this.cookingUtensil.setCasseroleSettings(casseroleSettings);
-
     this.preference = preferenceSettings;
     this.cookingPreferences.setCookingPreferences(preference);
+    this.courseSettings = courseSettings;
   }
 
   private Settings(Settings setting) {
@@ -47,17 +51,23 @@ public final class Settings {
     this.cookingPreferences.setCookingPreferences(this.preference);
     this.cookingTime = copyCookingTimeSetting(setting.getCookingTime());
     this.cookingUtensil = copyUtensilSetting(setting.getCookingUtensil());
+    this.courseSettings = setting.getCourseSettings();
   }
 
   public static Settings from(CookingTimeSetting cookingTime,
       NonnegativeInteger numberOfPeople,
       CasseroleSettings casseroleSettings,
-      PreferenceSettings preferenceSettings) {
-    return new Settings(cookingTime, numberOfPeople, casseroleSettings, preferenceSettings);
+      PreferenceSettings preferenceSettings,
+      CourseSettings courseSettings) {
+    return new Settings(cookingTime,
+        numberOfPeople,
+        casseroleSettings,
+        preferenceSettings,
+        courseSettings);
   }
 
   public static Settings createSettings() {
-    return new Settings(defaultCookingTime(), TWO, POSSIBLE, NORMAL);
+    return new Settings(defaultCookingTime(), TWO, POSSIBLE, NORMAL, ONLY_MAIN);
   }
 
   public static Settings copy(Settings setting) {
@@ -65,19 +75,28 @@ public final class Settings {
   }
 
   public Settings changeCookingTime(CookingTimeSetting cookingTime) {
-    return Settings.from(cookingTime, numberOfPeople, casseroleSettings, preference);
+    return Settings.from(cookingTime, numberOfPeople, casseroleSettings, preference,
+        courseSettings);
   }
 
   public Settings changeNumberOfPeople(NonnegativeInteger numberOfPeople) {
-    return Settings.from(cookingTime, numberOfPeople, casseroleSettings, preference);
+    return Settings.from(cookingTime, numberOfPeople, casseroleSettings, preference,
+        courseSettings);
   }
 
   public Settings changeCasserole(CasseroleSettings casseroleSettings) {
-    return Settings.from(cookingTime, numberOfPeople, casseroleSettings, preference);
+    return Settings.from(cookingTime, numberOfPeople, casseroleSettings, preference,
+        courseSettings);
   }
 
   public Settings changePreference(PreferenceSettings preferenceSettings) {
-    return Settings.from(cookingTime, numberOfPeople, casseroleSettings, preferenceSettings);
+    return Settings.from(cookingTime, numberOfPeople, casseroleSettings, preferenceSettings,
+        courseSettings);
+  }
+
+  public Settings changeCourseSettings(CourseSettings courseSettings) {
+    return Settings.from(cookingTime, numberOfPeople, casseroleSettings, preference,
+        courseSettings);
   }
 
   public NonnegativeInteger getNumberOfPeople() {
@@ -116,16 +135,20 @@ public final class Settings {
     return preference;
   }
 
+  public CourseSettings getCourseSettings() {
+    return courseSettings;
+  }
+
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((casseroleSettings == null) ? 0 : casseroleSettings.hashCode());
-    result = prime * result
-        + ((cookingPreferences == null) ? 0 : cookingPreferences.hashCode());
-    result = prime * result + ((cookingTime == null) ? 0 : cookingTime.hashCode());
-    result = prime * result + ((cookingUtensil == null) ? 0 : cookingUtensil.hashCode());
-    result = prime * result + ((preference == null) ? 0 : preference.hashCode());
+    result = prime * result + casseroleSettings.hashCode();
+    result = prime * result + cookingPreferences.hashCode();
+    result = prime * result + cookingTime.hashCode();
+    result = prime * result + cookingUtensil.hashCode();
+    result = prime * result + preference.hashCode();
+    result = prime * result + courseSettings.hashCode();
     result = prime * result * numberOfPeople.value;
     return result;
   }
@@ -144,6 +167,7 @@ public final class Settings {
         && cookingTime.equals(other.cookingTime)
         && cookingUtensil.equals(other.cookingUtensil)
         && preference.equals(other.preference)
+        && courseSettings.equals(other.courseSettings)
         && numberOfPeople.equals(other.numberOfPeople);
   }
 
@@ -151,7 +175,7 @@ public final class Settings {
   public String toString() {
     return "Settings [casseroleSettings=" + casseroleSettings + ", preference=" + preference
         + ", cookingPreferences=" + cookingPreferences + ", cookingTime=" + cookingTime
-        + ", cookingUtensil=" + cookingUtensil
+        + ", cookingUtensil=" + cookingUtensil + ", courseSettings=" + courseSettings
         + ", numberOfPeople=" + numberOfPeople + "]";
   }
 }

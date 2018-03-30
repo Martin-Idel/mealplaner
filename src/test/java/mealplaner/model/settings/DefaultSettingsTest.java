@@ -18,13 +18,19 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import mealplaner.model.enums.CourseSettings;
+
 public class DefaultSettingsTest {
   @Test
   public void constructingFromMapAndGettingAMapCopyWorks() {
     Map<DayOfWeek, Settings> defaultSettings = new HashMap<>();
     defaultSettings.put(TUESDAY, getSettings1());
     defaultSettings.put(SATURDAY,
-        from(cookingTimeWithProhibited(LONG), nonNegative(3), ONLY, RARE_PREFERED));
+        from(cookingTimeWithProhibited(LONG),
+            nonNegative(3),
+            ONLY,
+            RARE_PREFERED,
+            CourseSettings.ONLY_MAIN));
 
     Map<DayOfWeek, Settings> defaultSettingsActual = from(defaultSettings)
         .getDefaultSettings();
