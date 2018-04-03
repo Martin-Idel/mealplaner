@@ -11,6 +11,8 @@ import mealplaner.recipes.model.Ingredient;
 public interface DataStore {
   void register(DataStoreListener listener);
 
+  void deregister(DataStoreListener listener);
+
   int getDaysPassed();
 
   Proposal getLastProposal();

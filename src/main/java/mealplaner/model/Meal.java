@@ -4,6 +4,7 @@ import static java.nio.charset.Charset.forName;
 import static java.util.Optional.empty;
 import static java.util.UUID.nameUUIDFromBytes;
 import static mealplaner.commons.NonnegativeInteger.ZERO;
+import static mealplaner.model.MealMetaData.createMealMetaData;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -20,46 +21,30 @@ import mealplaner.recipes.model.Recipe;
 public final class Meal implements Comparable<Meal> {
   public static final Meal EMPTY_MEAL = new Meal(
       nameUUIDFromBytes("EMPTY".getBytes(forName("UTF-8"))),
-      "EMPTY",
-      CookingTime.SHORT,
-      Sidedish.NONE,
-      ObligatoryUtensil.CASSEROLE,
-      CookingPreference.RARE,
-      CourseType.MAIN,
-      ZERO, "", empty());
+      MealMetaData.createEmptyMealMetaData(),
+      ZERO,
+      empty());
 
   private final UUID uuid;
-  private String name;
-  private final CookingTime cookingTime;
-  private final Sidedish sidedish;
-  private final ObligatoryUtensil obligatoryUtensil;
-  private final CookingPreference cookingPreference;
-  private final CourseType courseType;
+  private final MealMetaData metadata;
   private final NonnegativeInteger daysPassed;
-  private final String comment;
   private Optional<Recipe> recipe;
 
   private Meal(UUID uuid,
-      String name,
-      CookingTime cookingTime,
-      Sidedish sideDish,
-      ObligatoryUtensil obligatoryUtensil,
-      CookingPreference cookingPreference,
-      CourseType courseType,
+      MealMetaData metadata,
       NonnegativeInteger daysPassed,
-      String comment,
-      Optional<Recipe> recipe)
-      throws MealException {
+      Optional<Recipe> recipe) {
     this.uuid = uuid;
-    setName(name);
-    this.cookingTime = cookingTime;
-    this.sidedish = sideDish;
-    this.obligatoryUtensil = obligatoryUtensil;
-    this.cookingPreference = cookingPreference;
-    this.courseType = courseType;
+    this.metadata = metadata;
     this.daysPassed = daysPassed;
-    this.comment = comment;
     this.recipe = recipe;
+  }
+
+  public static Meal createMeal(UUID uuid,
+      MealMetaData metadata,
+      NonnegativeInteger daysPassed,
+      Optional<Recipe> recipe) {
+    return new Meal(uuid, metadata, daysPassed, recipe);
   }
 
   public static Meal createMeal(UUID uuid,
@@ -73,28 +58,26 @@ public final class Meal implements Comparable<Meal> {
       String comment,
       Optional<Recipe> recipe) throws MealException {
     return new Meal(uuid,
-        name,
-        cookingTime,
-        sideDish,
-        obligatoryUtensil,
-        cookingPreference,
-        courseType,
+        createMealMetaData(name,
+            cookingTime,
+            sideDish,
+            obligatoryUtensil,
+            cookingPreference,
+            courseType,
+            comment),
         daysPassed,
-        comment,
         recipe);
   }
 
   public static Meal copy(Meal meal) {
     return new Meal(meal.getId(),
-        meal.getName(),
-        meal.getCookingTime(),
-        meal.getSidedish(),
-        meal.getObligatoryUtensil(),
-        meal.getCookingPreference(),
-        meal.getCourseType(),
+        MealMetaData.copy(meal.getMetaData()),
         meal.getDaysPassed(),
-        meal.getComment(),
         meal.getRecipe());
+  }
+
+  MealMetaData getMetaData() {
+    return metadata;
   }
 
   public static Meal createEmptyMeal() {
@@ -112,7 +95,7 @@ public final class Meal implements Comparable<Meal> {
   }
 
   public String getName() {
-    return name;
+    return metadata.getName();
   }
 
   public NonnegativeInteger getDaysPassed() {
@@ -124,27 +107,27 @@ public final class Meal implements Comparable<Meal> {
   }
 
   public CookingTime getCookingTime() {
-    return cookingTime;
+    return metadata.getCookingTime();
   }
 
   public Sidedish getSidedish() {
-    return sidedish;
+    return metadata.getSidedish();
   }
 
   public ObligatoryUtensil getObligatoryUtensil() {
-    return obligatoryUtensil;
+    return metadata.getObligatoryUtensil();
   }
 
   public CookingPreference getCookingPreference() {
-    return cookingPreference;
+    return metadata.getCookingPreference();
   }
 
   public CourseType getCourseType() {
-    return courseType;
+    return metadata.getCourseType();
   }
 
   public String getComment() {
-    return comment;
+    return metadata.getComment();
   }
 
   public Optional<Recipe> getRecipe() {
@@ -159,14 +142,8 @@ public final class Meal implements Comparable<Meal> {
   @Override
   public String toString() {
     return "[" + uuid + ", "
-        + name + ", "
-        + cookingTime + ", "
-        + sidedish + ", "
-        + obligatoryUtensil + ", "
-        + cookingPreference + ", "
-        + courseType + ", "
+        + metadata + ", "
         + daysPassed + ", "
-        + comment + ", "
         + recipe + "]";
   }
 
@@ -175,13 +152,8 @@ public final class Meal implements Comparable<Meal> {
     final int prime = 31;
     int result = 1;
     result = prime * result + uuid.hashCode();
-    result = prime * result + comment.hashCode();
-    result = prime * result + cookingPreference.hashCode();
-    result = prime * result + cookingTime.hashCode();
+    result = prime * result + metadata.hashCode();
     result = prime * result + daysPassed.value;
-    result = prime * result + name.hashCode();
-    result = prime * result + obligatoryUtensil.hashCode();
-    result = prime * result + sidedish.hashCode();
     return result;
   }
 
@@ -195,21 +167,8 @@ public final class Meal implements Comparable<Meal> {
     }
     Meal other = (Meal) obj;
     return uuid.equals(other.uuid)
-        && name.equals(other.name)
-        && comment.equals(other.comment)
-        && cookingPreference == other.cookingPreference
-        && cookingTime == other.cookingTime
-        && obligatoryUtensil == other.obligatoryUtensil
-        && courseType == other.courseType
-        && sidedish == other.sidedish
-        && daysPassed.equals(other.daysPassed);
-  }
-
-  private void setName(String name) throws MealException {
-    if (name.trim().isEmpty()) {
-      throw new MealException("Name is empty or consists only of whitespace");
-    } else {
-      this.name = name.trim();
-    }
+        && metadata.equals(other.metadata)
+        && daysPassed.equals(other.daysPassed)
+        && recipe.equals(other.recipe);
   }
 }
