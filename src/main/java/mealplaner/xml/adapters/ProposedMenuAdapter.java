@@ -12,9 +12,9 @@ public final class ProposedMenuAdapter {
   }
 
   public static ProposedMenuXml convertProposedMenuToXml(ProposedMenu proposedMenu) {
-    return new ProposedMenuXml(proposedMenu.entry.get(),
+    return new ProposedMenuXml(proposedMenu.entry.isPresent() ? proposedMenu.entry.get() : null,
         proposedMenu.main,
-        proposedMenu.desert.get(),
+        proposedMenu.desert.isPresent() ? proposedMenu.desert.get() : null,
         proposedMenu.numberOfPeople.value);
   }
 

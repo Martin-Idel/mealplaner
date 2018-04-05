@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import static testcommons.CommonFunctions.getProposal1;
 import static testcommons.CommonFunctions.getSettings1;
 import static testcommons.CommonFunctions.getSettings2;
+import static testcommons.CommonFunctions.setupMealplanerDataWithAllMealsAndIngredients;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +26,7 @@ import mealplaner.model.settings.Settings;
 
 public class ProposalSummaryDataXmlInteractionTest {
   private static final String DESTINATION_FILE_PATH = "src/test/resources/saveTemp.xml";
-  private static final String RESOURCE_FILE_WITH_THREE_MEALS = "src/test/resources/mealplanerDataCorrectXml.xml";
+  private static final String RESOURCE_FILE_WITH_THREE_MEALS_V1 = "src/test/resources/proposalSummaryXmlV1.xml";
 
   @After
   public void tearDown() {
@@ -40,7 +41,7 @@ public class ProposalSummaryDataXmlInteractionTest {
   }
 
   @Test
-  public void loadingMealsWorksCorrectly() {
+  public void loadingProposalSummaryWorksCorrectlyForV1() {
     Map<DayOfWeek, Settings> defaultSettings = new HashMap<>();
     defaultSettings.put(DayOfWeek.MONDAY, getSettings1());
     defaultSettings.put(DayOfWeek.WEDNESDAY, getSettings2());
@@ -48,17 +49,20 @@ public class ProposalSummaryDataXmlInteractionTest {
     Proposal proposal = getProposal1();
     LocalDate time = LocalDate.of(2017, 5, 3);
 
-    File originalFile = new File(RESOURCE_FILE_WITH_THREE_MEALS);
+    File originalFile = new File(RESOURCE_FILE_WITH_THREE_MEALS_V1);
     File temporaryFile = new File(DESTINATION_FILE_PATH);
     try {
       Files.copy(originalFile.toPath(), temporaryFile.toPath(), REPLACE_EXISTING);
     } catch (IOException exc) {
       fail("Could not load file");
     }
-    MealplanerData.getInstance().clear();
+    MealplanerData mealPlan = setupMealplanerDataWithAllMealsAndIngredients();
 
     ProposalSummaryModel loadedProposalSummaryData = ProposalSummaryDataReader
-        .loadXml(MealplanerData.getInstance(), DESTINATION_FILE_PATH);
+        .loadXml(mealPlan, DESTINATION_FILE_PATH);
+
+    System.out.println(loadedProposalSummaryData.lastProposal);
+    System.out.println(proposal);
 
     assertThat(loadedProposalSummaryData.lastProposal).isEqualTo(proposal);
     assertThat(loadedProposalSummaryData.time).isEqualTo(time);
@@ -69,7 +73,6 @@ public class ProposalSummaryDataXmlInteractionTest {
   @Test
   public void roundTripResultsInSameOutputAsInput() {
     Map<DayOfWeek, Settings> defaultSettings = new HashMap<>();
-
     defaultSettings.put(DayOfWeek.MONDAY, getSettings1());
     defaultSettings.put(DayOfWeek.WEDNESDAY, getSettings2());
     defaultSettings.put(DayOfWeek.FRIDAY, getSettings1());
@@ -78,13 +81,12 @@ public class ProposalSummaryDataXmlInteractionTest {
 
     LocalDate time = LocalDate.of(2017, 5, 3);
 
-    MealplanerData.getInstance().clear();
-    MealplanerData data = MealplanerData.getInstance();
-    data.setTime(time);
-    data.setDefaultSettings(DefaultSettings.from(defaultSettings));
-    data.setLastProposal(proposal);
+    MealplanerData mealPlan = setupMealplanerDataWithAllMealsAndIngredients();
+    mealPlan.setTime(time);
+    mealPlan.setDefaultSettings(DefaultSettings.from(defaultSettings));
+    mealPlan.setLastProposal(proposal);
 
-    ProposalSummaryDataWriter.saveXml(data, DESTINATION_FILE_PATH);
+    ProposalSummaryDataWriter.saveXml(mealPlan, DESTINATION_FILE_PATH);
     ProposalSummaryModel roundTripModel = ProposalSummaryDataReader
         .loadXml(MealplanerData.getInstance(), DESTINATION_FILE_PATH);
 

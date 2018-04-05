@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.getIngredient1;
 import static testcommons.CommonFunctions.getIngredient2;
 import static testcommons.CommonFunctions.getIngredient3;
+import static testcommons.CommonFunctions.getRecipe1;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +25,7 @@ public class ShoppingListTest {
 
   @Test
   public void addsRecipesTogetherFaithfully() {
-    Recipe recipe1 = CommonFunctions.getRecipe1();
+    Recipe recipe1 = getRecipe1();
 
     Map<Ingredient, NonnegativeInteger> ingredients = new HashMap<>();
     ingredients.put(getIngredient1(), nonNegative(100));

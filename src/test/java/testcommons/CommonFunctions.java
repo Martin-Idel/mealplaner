@@ -1,14 +1,16 @@
 package testcommons;
 
+import static java.nio.charset.Charset.forName;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
-import static java.util.UUID.randomUUID;
+import static java.util.UUID.nameUUIDFromBytes;
+import static mealplaner.MealplanerData.getInstance;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.Meal.createMeal;
 import static mealplaner.model.Proposal.from;
 import static mealplaner.model.settings.CookingTimeSetting.cookingTimeWithProhibited;
 import static mealplaner.model.settings.Settings.from;
-import static mealplaner.recipes.model.Ingredient.ingredient;
+import static mealplaner.recipes.model.Ingredient.ingredientWithUuid;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 
+import mealplaner.MealplanerData;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
@@ -50,7 +53,7 @@ public final class CommonFunctions {
   }
 
   public static Meal getMeal1() {
-    return createMeal(randomUUID(),
+    return createMeal(nameUUIDFromBytes("Test1Meal".getBytes(forName("UTF-8"))),
         "Test1",
         CookingTime.SHORT,
         Sidedish.PASTA,
@@ -63,7 +66,7 @@ public final class CommonFunctions {
   }
 
   public static Meal getMeal2() {
-    return createMeal(randomUUID(),
+    return createMeal(nameUUIDFromBytes("Test2Meal".getBytes(forName("UTF-8"))),
         "Test2",
         CookingTime.SHORT,
         Sidedish.NONE,
@@ -76,7 +79,7 @@ public final class CommonFunctions {
   }
 
   public static Meal getMeal3() {
-    return createMeal(randomUUID(),
+    return createMeal(nameUUIDFromBytes("Test3Meal".getBytes(forName("UTF-8"))),
         "Test3",
         CookingTime.MEDIUM,
         Sidedish.RICE,
@@ -103,15 +106,18 @@ public final class CommonFunctions {
   }
 
   public static Ingredient getIngredient1() {
-    return ingredient("Test1", IngredientType.FRESH_FRUIT, Measure.GRAM);
+    return ingredientWithUuid(nameUUIDFromBytes("Test1".getBytes(forName("UTF-8"))), "Test1",
+        IngredientType.FRESH_FRUIT, Measure.GRAM);
   }
 
   public static Ingredient getIngredient2() {
-    return ingredient("Test2", IngredientType.BAKING_GOODS, Measure.MILLILITRE);
+    return ingredientWithUuid(nameUUIDFromBytes("Test2".getBytes(forName("UTF-8"))), "Test2",
+        IngredientType.BAKING_GOODS, Measure.MILLILITRE);
   }
 
   public static Ingredient getIngredient3() {
-    return ingredient("Test3", IngredientType.CANNED_FRUIT, Measure.GRAM);
+    return ingredientWithUuid(nameUUIDFromBytes("Test3".getBytes(forName("UTF-8"))), "Test3",
+        IngredientType.CANNED_FRUIT, Measure.GRAM);
   }
 
   public static Settings getSettings1() {
@@ -144,5 +150,25 @@ public final class CommonFunctions {
     settings.add(getSettings2());
     LocalDate date = LocalDate.of(2017, 7, 5);
     return from(true, meals, settings, date);
+  }
+
+  public static MealplanerData setupMealplanerDataWithAllIngredients() {
+    MealplanerData mealPlan = getInstance();
+    List<Ingredient> ingredients = new ArrayList<>();
+    ingredients.add(CommonFunctions.getIngredient1());
+    ingredients.add(CommonFunctions.getIngredient2());
+    ingredients.add(CommonFunctions.getIngredient3());
+    mealPlan.setIngredients(ingredients);
+    return mealPlan;
+  }
+
+  public static MealplanerData setupMealplanerDataWithAllMealsAndIngredients() {
+    MealplanerData mealPlan = setupMealplanerDataWithAllIngredients();
+    List<Meal> meals = new ArrayList<>();
+    meals.add(getMeal1());
+    meals.add(getMeal2());
+    meals.add(getMeal3());
+    mealPlan.setMeals(meals);
+    return mealPlan;
   }
 }

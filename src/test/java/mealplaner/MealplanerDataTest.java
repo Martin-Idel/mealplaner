@@ -61,6 +61,7 @@ public class MealplanerDataTest {
     proposal = from(true, new ArrayList<>(), new ArrayList<>());
     ingredients.addAll(createIngredientsList());
     sut = MealplanerData.getInstance();
+    sut.clear();
     sut.setIngredients(ingredients);
     sut.setMeals(meals);
     sut.setTime(date);

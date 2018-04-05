@@ -22,7 +22,8 @@ import mealplaner.recipes.model.Ingredient;
 
 public class IngredientsXmlInteractionTest {
   private static final String DESTINATION_FILE_PATH = "src/test/resources/saveTemp.xml";
-  private static final String RESOURCE_FILE_WITH_THREE_INGREDIENTS = "src/test/resources/ingredientsXml.xml";
+  private static final String RESOURCE_FILE_WITH_THREE_INGREDIENTS_V1 = "src/test/resources/ingredientsXmlV1.xml";
+  private static final String RESOURCE_FILE_WITH_THREE_INGREDIENTS_V2 = "src/test/resources/ingredientsXmlV2.xml";
 
   @After
   public void tearDown() {
@@ -37,13 +38,30 @@ public class IngredientsXmlInteractionTest {
   }
 
   @Test
-  public void loadingMealsWorksCorrectly() {
+  public void loadingIngredientsWorksCorrectlyWithVersion1() {
+    File originalFile = new File(RESOURCE_FILE_WITH_THREE_INGREDIENTS_V1);
+    File temporaryFile = new File(DESTINATION_FILE_PATH);
+    try {
+      Files.copy(originalFile.toPath(), temporaryFile.toPath(), REPLACE_EXISTING);
+    } catch (IOException exc) {
+      fail("Could not load file");
+    }
+
+    List<Ingredient> database = loadXml(DESTINATION_FILE_PATH);
+
+    assertThat(database).element(0).hasFieldOrPropertyWithValue("name", getIngredient1().getName());
+    assertThat(database).element(1).hasFieldOrPropertyWithValue("name", getIngredient2().getName());
+    assertThat(database).element(2).hasFieldOrPropertyWithValue("name", getIngredient3().getName());
+  }
+
+  @Test
+  public void loadingIngredientsWorksCorrectlyWithVersion2() {
     List<Ingredient> ingredients = new ArrayList<>();
     ingredients.add(getIngredient1());
     ingredients.add(getIngredient2());
     ingredients.add(getIngredient3());
 
-    File originalFile = new File(RESOURCE_FILE_WITH_THREE_INGREDIENTS);
+    File originalFile = new File(RESOURCE_FILE_WITH_THREE_INGREDIENTS_V2);
     File temporaryFile = new File(DESTINATION_FILE_PATH);
     try {
       Files.copy(originalFile.toPath(), temporaryFile.toPath(), REPLACE_EXISTING);

@@ -42,6 +42,7 @@ public class FileIoGui {
   public MealplanerData loadDatabase() {
     MealplanerData mealPlan = MealplanerData.getInstance();
     try {
+      mealPlan.clear();
       List<Ingredient> ingredients = IngredientsReader.loadXml(savePath + "ingredients.xml");
       mealPlan.setIngredients(ingredients);
       List<Meal> meals = MealsReader.loadXml(mealPlan, savePath + "meals.xml");

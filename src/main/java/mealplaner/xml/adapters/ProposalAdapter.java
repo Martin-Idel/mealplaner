@@ -42,7 +42,8 @@ public final class ProposalAdapter {
     return Proposal.from(proposalData.includeToday,
         proposalData.mealList
             .stream()
-            .map(meal -> convertMealFromXml(data, meal))
+            .map(meal -> convertMealFromXml(data, meal)) // TODO: This is wrong, we need to actually
+                                                         // search for the correct meals
             .collect(toList()),
         proposalData.settingsList
             .stream()

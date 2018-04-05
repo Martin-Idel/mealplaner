@@ -108,7 +108,7 @@ public final class MealInputGrid {
 
   private Stream<InputField<?>> allFields() {
     return Arrays.asList(nameField, cookingTimeField, sidedishField, obligatoryUtensilField,
-        daysPassedField, preferenceField, commentField, recipeInputField).stream();
+        daysPassedField, preferenceField, courseTypeField, commentField, recipeInputField).stream();
   }
 
   public Optional<Meal> getMealFromUserInput() {

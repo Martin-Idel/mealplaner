@@ -23,6 +23,6 @@ public final class MealsWriter {
     List<MealXml> mealXmls = data.stream()
         .map(meal -> convertMealToXml(meal))
         .collect(toList());
-    return new MealdatabaseXml(mealXmls, 1);
+    return new MealdatabaseXml(mealXmls);
   }
 }

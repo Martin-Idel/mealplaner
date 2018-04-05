@@ -6,8 +6,8 @@ import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toMap;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.recipes.model.Recipe.from;
-import static mealplaner.xml.adapters.IngredientAdapter.convertIngredientFromXml;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,6 +17,7 @@ import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.recipes.model.Ingredient;
 import mealplaner.recipes.model.Recipe;
+import mealplaner.xml.model.v1.IngredientXml;
 import mealplaner.xml.model.v2.RecipeXml;
 
 // TODO Better error messages.
@@ -61,11 +62,37 @@ public final class RecipeAdapter {
     if (recipe == null) {
       return empty();
     }
+    List<Ingredient> ingredients = data.getIngredients();
+    validateIngredients(recipe.ingredients, ingredients);
+
     Map<Ingredient, NonnegativeInteger> nonnegativeIntegerMap = recipe.ingredients
         .entrySet()
         .stream()
-        .collect(toMap(e -> convertIngredientFromXml(e.getKey()),
+        .collect(toMap(e -> findCorrectIngredient(e.getKey(), ingredients),
             e -> nonNegative(e.getValue())));
     return of(from(nonNegative(recipe.numberOfPortions), nonnegativeIntegerMap));
+  }
+
+  private static void validateIngredients(Map<IngredientXml, Integer> recipe,
+      List<Ingredient> ingredients) {
+    if (!recipe.keySet()
+        .stream()
+        .allMatch(ingredient -> ingredients.stream()
+            .filter(ing -> ing.getName().equals(ingredient.name)
+                && ing.getType().equals(ingredient.type)
+                && ing.getMeasure().equals(ingredient.measure))
+            .findFirst().isPresent())) {
+      throw new MealException("Not all ingredients are present in Mealplaner");
+    }
+  }
+
+  private static Ingredient findCorrectIngredient(IngredientXml ingredient,
+      List<Ingredient> ingredients) {
+    return ingredients.stream()
+        .filter(ing -> ing.getName().equals(ingredient.name)
+            && ing.getType().equals(ingredient.type)
+            && ing.getMeasure().equals(ingredient.measure))
+        .findFirst()
+        .get();
   }
 }

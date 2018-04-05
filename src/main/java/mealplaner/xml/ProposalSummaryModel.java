@@ -1,6 +1,6 @@
 package mealplaner.xml;
 
-import static java.time.LocalDate.MIN;
+import static java.time.LocalDate.now;
 import static mealplaner.model.Proposal.createProposal;
 import static mealplaner.model.settings.DefaultSettings.createDefaultSettings;
 
@@ -17,7 +17,7 @@ public class ProposalSummaryModel {
   public ProposalSummaryModel() {
     this.lastProposal = createProposal();
     this.defaultSettings = createDefaultSettings();
-    this.time = MIN;
+    this.time = now();
   }
 
   public ProposalSummaryModel(Proposal lastProposal, DefaultSettings defaultSettings,

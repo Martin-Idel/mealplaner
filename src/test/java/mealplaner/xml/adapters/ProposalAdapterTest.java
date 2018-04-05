@@ -1,22 +1,29 @@
 package mealplaner.xml.adapters;
 
-import org.junit.Ignore;
+import static mealplaner.xml.adapters.ProposalAdapter.convertProposalFromXml;
+import static mealplaner.xml.adapters.ProposalAdapter.convertProposalToXml;
+import static org.assertj.core.api.Assertions.assertThat;
+import static testcommons.CommonFunctions.getProposal1;
+import static testcommons.CommonFunctions.setupMealplanerDataWithAllMealsAndIngredients;
+
 import org.junit.Test;
+
+import mealplaner.MealplanerData;
+import mealplaner.model.Proposal;
+import testcommons.CommonFunctions;
 
 public class ProposalAdapterTest {
 
-  @Ignore
   @Test
   public void adapterTest() {
-    // Proposal proposal1 = getProposal1();
-    // Proposal proposal2 = getProposal2();
-    //
-    // Proposal convertedProposal1 =
-    // convertProposalFromXml(convertProposalToXml(proposal1));
-    // Proposal convertedProposal2 =
-    // convertProposalFromXml(convertProposalToXml(proposal2));
-    //
-    // assertThat(convertedProposal1).isEqualTo(proposal1);
-    // assertThat(convertedProposal2).isEqualTo(proposal2);
+    MealplanerData mealPlan = setupMealplanerDataWithAllMealsAndIngredients();
+    Proposal proposal1 = getProposal1();
+    Proposal proposal2 = CommonFunctions.getProposal2();
+
+    Proposal convertedProposal1 = convertProposalFromXml(mealPlan, convertProposalToXml(proposal1));
+    Proposal convertedProposal2 = convertProposalFromXml(mealPlan, convertProposalToXml(proposal2));
+
+    assertThat(convertedProposal1).isEqualTo(proposal1);
+    assertThat(convertedProposal2).isEqualTo(proposal2);
   }
 }

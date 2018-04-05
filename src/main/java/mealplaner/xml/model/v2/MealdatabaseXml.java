@@ -12,17 +12,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "MealData")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MealdatabaseXml {
-  public int version;
+  public int version = 2;
   @XmlElementWrapper(name = "meals")
   @XmlElement(name = "meal")
-  public final List<MealXml> meals;
+  public List<MealXml> meals;
 
   public MealdatabaseXml() {
-    this(new ArrayList<>(), 2);
+    this(new ArrayList<>());
   }
 
-  public MealdatabaseXml(List<MealXml> meals, int version) {
+  public MealdatabaseXml(List<MealXml> meals) {
     this.meals = meals;
-    this.version = version;
   }
 }

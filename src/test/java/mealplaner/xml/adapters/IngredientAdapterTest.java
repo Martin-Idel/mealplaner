@@ -14,15 +14,12 @@ public class IngredientAdapterTest {
 
   @Test
   public void adapterTest() {
-    Ingredient ingredient1 = getIngredient1();
-    Ingredient ingredient2 = getIngredient2();
-
     Ingredient convertedIngredients1 = convertIngredientFromXml(
-        convertIngredientToXml(ingredient1));
+        convertIngredientToXml(getIngredient1()));
     Ingredient convertedIngredients2 = convertIngredientFromXml(
-        convertIngredientToXml(ingredient2));
+        convertIngredientToXml(getIngredient2()));
 
-    assertThat(convertedIngredients1).isEqualTo(ingredient1);
-    assertThat(convertedIngredients2).isEqualTo(ingredient2);
+    assertThat(convertedIngredients1).isEqualTo(getIngredient1());
+    assertThat(convertedIngredients2).isEqualTo(getIngredient2());
   }
 }
