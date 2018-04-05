@@ -6,6 +6,9 @@ import static java.util.UUID.randomUUID;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.Meal.createMeal;
 import static mealplaner.model.MealData.createData;
+import static mealplaner.model.ProposedMenu.entryAndMain;
+import static mealplaner.model.ProposedMenu.mainAndDesert;
+import static mealplaner.model.ProposedMenu.mainOnly;
 import static mealplaner.recipes.model.Ingredient.ingredient;
 import static mealplaner.recipes.model.Ingredient.ingredientWithUuid;
 import static mealplaner.recipes.model.IngredientType.BAKING_GOODS;
@@ -170,9 +173,9 @@ public class MealDataTest {
     MealplanerData data = MealplanerData.getInstance();
     sut = createData(data);
     sut.setMeals(meals);
-    List<Meal> updatedList = new ArrayList<>();
-    updatedList.add(meal3); // cooked first
-    updatedList.add(meal1); // cooked later
+    List<ProposedMenu> updatedList = new ArrayList<>();
+    updatedList.add(mainOnly(meal3.getId(), nonNegative(2))); // cooked first
+    updatedList.add(mainOnly(meal1.getId(), nonNegative(2))); // cooked later
 
     sut.updateMeals(updatedList, nonNegative(5));
 
@@ -181,6 +184,46 @@ public class MealDataTest {
     Meal updatedMeal1 = MealBuilder.from(meal1).daysPassed(nonNegative(0)).create();
     Meal updatedMeal2 = MealBuilder.from(meal2).daysPassed(nonNegative(106)).create();
     Meal updatedMeal3 = MealBuilder.from(meal3).daysPassed(nonNegative(1)).create();
+    assertThat(mealsList).containsExactly(updatedMeal1, updatedMeal2, updatedMeal3);
+  }
+
+  @Test
+  public void updateAddsCorrectNumberOfDaysIncludingEntry() {
+    addInitializedMeals();
+    MealplanerData data = MealplanerData.getInstance();
+    sut = createData(data);
+    sut.setMeals(meals);
+    List<ProposedMenu> updatedList = new ArrayList<>();
+    updatedList.add(entryAndMain(meal2.getId(), meal3.getId(), nonNegative(2))); // cooked first
+    updatedList.add(mainOnly(meal1.getId(), nonNegative(2))); // cooked later
+
+    sut.updateMeals(updatedList, nonNegative(5));
+
+    List<Meal> mealsList = sut.getMealsInList();
+
+    Meal updatedMeal1 = MealBuilder.from(meal1).daysPassed(nonNegative(0)).create();
+    Meal updatedMeal2 = MealBuilder.from(meal2).daysPassed(nonNegative(1)).create();
+    Meal updatedMeal3 = MealBuilder.from(meal3).daysPassed(nonNegative(1)).create();
+    assertThat(mealsList).containsExactly(updatedMeal1, updatedMeal2, updatedMeal3);
+  }
+
+  @Test
+  public void updateAddsCorrectNumberOfDaysIncludingDesert() {
+    addInitializedMeals();
+    MealplanerData data = MealplanerData.getInstance();
+    sut = createData(data);
+    sut.setMeals(meals);
+    List<ProposedMenu> updatedList = new ArrayList<>();
+    updatedList.add(mainOnly(meal2.getId(), nonNegative(2))); // cooked first
+    updatedList.add(mainAndDesert(meal1.getId(), meal3.getId(), nonNegative(2))); // cooked later
+
+    sut.updateMeals(updatedList, nonNegative(5));
+
+    List<Meal> mealsList = sut.getMealsInList();
+
+    Meal updatedMeal1 = MealBuilder.from(meal1).daysPassed(nonNegative(0)).create();
+    Meal updatedMeal2 = MealBuilder.from(meal2).daysPassed(nonNegative(1)).create();
+    Meal updatedMeal3 = MealBuilder.from(meal3).daysPassed(nonNegative(0)).create();
     assertThat(mealsList).containsExactly(updatedMeal1, updatedMeal2, updatedMeal3);
   }
 

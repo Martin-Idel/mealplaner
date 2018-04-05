@@ -18,22 +18,18 @@ import mealplaner.xml.util.LocalDataAdapter;
 public class ProposalXml {
   @XmlElementWrapper(name = "meals")
   @XmlElement(name = "meal")
-  public List<MealXml> mealList;
-  @XmlElementWrapper(name = "settings")
-  @XmlElement(name = "setting")
-  public List<SettingsXml> settingsList;
+  public List<ProposedMenuXml> mealList;
   @XmlJavaTypeAdapter(value = LocalDataAdapter.class)
   public LocalDate date;
   public boolean includeToday;
 
   public ProposalXml() {
-    this(new ArrayList<>(), new ArrayList<>(), LocalDate.MIN, true);
+    this(new ArrayList<>(), LocalDate.MIN, true);
   }
 
-  public ProposalXml(List<MealXml> mealList, List<SettingsXml> settingsList, LocalDate date,
+  public ProposalXml(List<ProposedMenuXml> mealList, LocalDate date,
       boolean includeToday) {
     this.mealList = mealList;
-    this.settingsList = settingsList;
     this.date = date;
     this.includeToday = includeToday;
   }

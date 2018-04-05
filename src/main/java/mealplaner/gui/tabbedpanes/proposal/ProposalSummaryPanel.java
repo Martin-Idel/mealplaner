@@ -25,8 +25,8 @@ import mealplaner.gui.MainContainer;
 import mealplaner.gui.dialogs.proposaloutput.ProposalTable;
 import mealplaner.gui.factories.DialogFactory;
 import mealplaner.io.FileIoGui;
-import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
+import mealplaner.model.ProposedMenu;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.ProposalOutline;
 import mealplaner.model.settings.Settings;
@@ -103,11 +103,11 @@ public class ProposalSummaryPanel {
     Proposal updatedProposal = dialogs.createProposalOutputDialog()
         .showDialog(mealPlan);
     mealPlan.setLastProposal(updatedProposal);
-    dialogs.createShoppingListDialog().showDialog(updatedProposal, mealPlan.getIngredients());
+    dialogs.createShoppingListDialog().showDialog(updatedProposal, mealPlan);
   }
 
   public void updatePastMeals() {
-    Optional<List<Meal>> lastCookedMealList = dialogs.createUpdatePastMealDialog()
+    Optional<List<ProposedMenu>> lastCookedMealList = dialogs.createUpdatePastMealDialog()
         .showDialog(mealPlan);
     lastCookedMealList.ifPresent(list -> mealPlan.update(list, now()));
     proposalSummary.update();
@@ -164,7 +164,7 @@ public class ProposalSummaryPanel {
 
   private void printProposal() {
     ProposalTable proposalTable = dialogs.createProposalTableFactory();
-    proposalTable.setupProposalTable(mealPlan.getLastProposal());
+    proposalTable.setupProposalTable(mealPlan, mealPlan.getLastProposal());
     proposalTable.getTable().printTable(frame);
   }
 

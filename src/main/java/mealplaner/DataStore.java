@@ -2,6 +2,8 @@ package mealplaner;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
@@ -20,6 +22,8 @@ public interface DataStore {
   LocalDate getTime();
 
   List<Meal> getMeals();
+
+  Optional<Meal> getMeal(UUID uuid);
 
   DefaultSettings getDefaultSettings();
 

@@ -9,6 +9,7 @@ import static mealplaner.model.enums.PreferenceSettings.NORMAL;
 import static mealplaner.model.settings.CookingTimeSetting.cookingTimeWithProhibited;
 import static mealplaner.model.settings.CookingTimeSetting.defaultCookingTime;
 import static mealplaner.model.settings.Settings.from;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class ProposalBuilderTest {
     Proposal proposal = proposalBuilder.propose(settings, meals);
 
     assertEquals(1, proposal.getProposalList().size());
-    assertMealsEquals(meals.get(1), proposal.getItem(0));
+    assertThat(meals.get(1).getId()).isEqualTo(proposal.getItem(0).main);
   }
 
   @Test
@@ -72,7 +73,7 @@ public class ProposalBuilderTest {
 
     Proposal proposal = proposalBuilder.propose(settings, meals);
 
-    assertMealsEquals(meals.get(2), proposal.getItem(0));
+    assertThat(meals.get(2).getId()).isEqualTo(proposal.getItem(0).main);
   }
 
   @Test
@@ -84,7 +85,7 @@ public class ProposalBuilderTest {
 
     Proposal proposal = proposalBuilder.propose(settings, meals);
 
-    assertMealsEquals(meals.get(3), proposal.getItem(0));
+    assertThat(meals.get(3).getId()).isEqualTo(proposal.getItem(0).main);
   }
 
   @Test
@@ -96,7 +97,7 @@ public class ProposalBuilderTest {
 
     Proposal proposal = proposalBuilder.propose(settings, meals);
 
-    assertMealsEquals(meals.get(2), proposal.getItem(0));
+    assertThat(meals.get(2).getId()).isEqualTo(proposal.getItem(0).main);
   }
 
   @Test
@@ -108,7 +109,7 @@ public class ProposalBuilderTest {
 
     Proposal proposal = proposalBuilder.propose(settings, meals);
 
-    assertMealsEquals(meals.get(1), proposal.getItem(0));
+    assertThat(meals.get(1).getId()).isEqualTo(proposal.getItem(0).main);
   }
 
   @Test
@@ -120,7 +121,7 @@ public class ProposalBuilderTest {
 
     Proposal proposal = proposalBuilder.propose(settings, meals);
 
-    assertMealsEquals(meals.get(4), proposal.getItem(0));
+    assertThat(meals.get(4).getId()).isEqualTo(proposal.getItem(0).main);
   }
 
   @Test
@@ -133,7 +134,7 @@ public class ProposalBuilderTest {
 
     Proposal proposal = proposalBuilder.propose(settings, meals);
 
-    assertMealsEquals(meals.get(4), proposal.getItem(0));
+    assertThat(meals.get(4).getId()).isEqualTo(proposal.getItem(0).main);
   }
 
   @Test
@@ -148,7 +149,7 @@ public class ProposalBuilderTest {
 
     Proposal proposal = proposalBuilder.propose(settings, meals);
 
-    assertMealsEquals(meals.get(1), proposal.getItem(0));
+    assertThat(meals.get(1).getId()).isEqualTo(proposal.getItem(0).main);
   }
 
   private void addMeals() throws MealException {
@@ -195,9 +196,5 @@ public class ProposalBuilderTest {
         ObligatoryUtensil.POT,
         CookingPreference.NO_PREFERENCE, CourseType.MAIN, nonNegative(70), "", empty());
     meals.add(meal5);
-  }
-
-  public static void assertMealsEquals(Meal expected, Meal actual) {
-    assertEquals(expected.getName(), actual.getName());
   }
 }

@@ -6,13 +6,14 @@ import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
 import static mealplaner.commons.gui.dialogs.DialogWindow.window;
 import static mealplaner.recipes.gui.dialogs.recepies.IngredientsTable.setupTable;
 import static mealplaner.shopping.ShoppingListUtils.createShoppingList;
-import static mealplaner.shopping.ShoppingListUtils.missingRecipesForCompleteList;
+import static mealplaner.shopping.ShoppingListUtils.someRecipesMissingForCompleteList;
 
 import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import mealplaner.DataStore;
 import mealplaner.commons.gui.buttonpanel.ButtonPanel;
 import mealplaner.commons.gui.dialogs.DialogWindow;
 import mealplaner.commons.gui.tables.Table;
@@ -27,17 +28,17 @@ public class ShoppingListDialog {
     dialogWindow = window(parent, BUNDLES.message("createShoppingListDialogTitle"));
   }
 
-  public void showDialog(Proposal proposal, List<Ingredient> ingredientProvider) {
-    createTable(proposal, ingredientProvider);
+  public void showDialog(Proposal proposal, DataStore dataStore) {
+    createTable(proposal, dataStore);
     dialogWindow.dispose();
   }
 
-  private void createTable(Proposal proposal, List<Ingredient> ingredients) {
-    if (missingRecipesForCompleteList(proposal) && disposeIfUserWantsTo()) {
+  private void createTable(Proposal proposal, DataStore dataStore) {
+    if (someRecipesMissingForCompleteList(proposal, dataStore) && disposeIfUserWantsTo()) {
       return;
     }
-    ShoppingList shoppingList = createShoppingList(proposal);
-    display(shoppingList, ingredients);
+    ShoppingList shoppingList = createShoppingList(proposal, dataStore);
+    display(shoppingList, dataStore.getIngredients());
   }
 
   private boolean disposeIfUserWantsTo() {

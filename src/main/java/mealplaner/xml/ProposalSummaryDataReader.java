@@ -14,40 +14,31 @@ public final class ProposalSummaryDataReader {
   private ProposalSummaryDataReader() {
   }
 
-  public static MealplanerData loadXml(String filePath) {
+  public static ProposalSummaryModel loadXml(MealplanerData data, String filePath) {
     int versionNumber = getVersion(filePath);
     if (versionNumber == 1) {
       mealplaner.xml.model.v1.ProposalSummaryDataXml database = read(filePath,
           mealplaner.xml.model.v1.ProposalSummaryDataXml.class);
-      return convertToMealplanerData(database);
+      return convertToMealplanerData(data, database);
     } else if (versionNumber == 2) {
       ProposalSummaryDataXml database = read(filePath, ProposalSummaryDataXml.class);
-      return convertToMealplanerData(database);
+      return convertToMealplanerData(data, database);
     } else {
-      MealplanerData data = MealplanerData.getInstance();
-      data.clear();
-      return data;
+      return new ProposalSummaryModel();
     }
   }
 
-  static MealplanerData convertToMealplanerData(ProposalSummaryDataXml data) {
+  static ProposalSummaryModel convertToMealplanerData(MealplanerData database,
+      ProposalSummaryDataXml data) {
     DefaultSettings defaultSettings = convertDefaultSettingsFromXml(data.defaultSettings);
-
-    MealplanerData mealplanerData = MealplanerData.getInstance();
-    mealplanerData.setTime(data.date);
-    mealplanerData.setDefaultSettings(defaultSettings);
-    mealplanerData.setLastProposal(convertProposalFromXml(data.proposal));
-    return mealplanerData;
+    return new ProposalSummaryModel(convertProposalFromXml(database, data.proposal),
+        defaultSettings, data.date);
   }
 
-  static MealplanerData convertToMealplanerData(
+  static ProposalSummaryModel convertToMealplanerData(MealplanerData database,
       mealplaner.xml.model.v1.ProposalSummaryDataXml data) {
     DefaultSettings defaultSettings = convertDefaultSettingsFromXmlV1(data.defaultSettings);
-
-    MealplanerData mealplanerData = MealplanerData.getInstance();
-    mealplanerData.setTime(data.date);
-    mealplanerData.setDefaultSettings(defaultSettings);
-    mealplanerData.setLastProposal(convertProposalFromXml(data.proposal));
-    return mealplanerData;
+    return new ProposalSummaryModel(convertProposalFromXml(database, data.proposal),
+        defaultSettings, data.date);
   }
 }

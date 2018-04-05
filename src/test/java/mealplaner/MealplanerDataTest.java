@@ -84,8 +84,10 @@ public class MealplanerDataTest {
 
   @Test
   public void setMealsNotifiesCorrectListeners() {
+    List<Meal> meals = new ArrayList<>();
+    meals.add(initializeNewMeal());
 
-    sut.setMeals(proposal.getProposalList());
+    sut.setMeals(meals);
 
     verify(listener).updateData(DATABASE_EDITED);
   }

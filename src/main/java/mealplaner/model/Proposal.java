@@ -2,34 +2,60 @@ package mealplaner.model;
 
 import static java.time.LocalDate.now;
 import static java.util.Collections.unmodifiableList;
-import static java.util.stream.Collectors.toList;
-import static mealplaner.commons.Pair.of;
+import static mealplaner.model.ProposedMenu.mainOnly;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 
-import mealplaner.commons.Pair;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.settings.Settings;
 
+// TODO: Fix interface
 public final class Proposal {
-  private final List<Meal> mealList;
-  private final List<Settings> settingsList;
+  private final List<ProposedMenu> mealList;
   private final LocalDate date;
   private final boolean includeToday;
 
   private Proposal(List<Meal> mealList, List<Settings> settingsList, LocalDate date,
       boolean includeToday) {
-    this.mealList = mealList;
-    this.settingsList = settingsList;
+    this.mealList = createProposedMenuListFrom(mealList, settingsList);
     this.date = date;
     this.includeToday = includeToday;
   }
 
+  private Proposal(List<ProposedMenu> proposedMenu, LocalDate date, boolean includeToday) {
+    this.mealList = proposedMenu;
+    this.date = date;
+    this.includeToday = includeToday;
+  }
+
+  private List<ProposedMenu> createProposedMenuListFrom(List<Meal> meals, List<Settings> settings) {
+    if (meals.size() != settings.size()) {
+      throw new MealException("Number of proposed meals and settings does not fit");
+    }
+    List<ProposedMenu> proposedMenu = new ArrayList<>();
+    for (int i = 0; i < meals.size(); i++) {
+      proposedMenu.add(createProposedMenuFrom(meals.get(i), settings.get(i)));
+    }
+    return proposedMenu;
+  }
+
+  private ProposedMenu createProposedMenuFrom(Meal meal, Settings settings) {
+    return mainOnly(meal.getId(), settings.getNumberOfPeople());
+  }
+
   public static Proposal createProposal() {
     return new Proposal(new ArrayList<>(), new ArrayList<>(), now(), false);
+  }
+
+  public static Proposal from(boolean includeToday, List<ProposedMenu> proposedMenu) {
+    return new Proposal(proposedMenu, now(), includeToday);
+  }
+
+  public static Proposal from(boolean includeToday, List<ProposedMenu> proposedMenu,
+      LocalDate date) {
+    return new Proposal(proposedMenu, date, includeToday);
   }
 
   public static Proposal from(boolean includeToday, List<Meal> meals, List<Settings> settings) {
@@ -44,25 +70,15 @@ public final class Proposal {
     return new Proposal(meals, settings, date, includeToday);
   }
 
-  public List<Meal> getProposalList() {
+  public List<ProposedMenu> getProposalList() {
     return unmodifiableList(mealList);
-  }
-
-  public List<Settings> getSettingsList() {
-    return unmodifiableList(settingsList);
-  }
-
-  public List<Pair<Meal, Settings>> getMealsAndSettings() {
-    return unmodifiableList(IntStream.range(0, mealList.size())
-        .mapToObj(number -> of(mealList.get(number), settingsList.get(number)))
-        .collect(toList()));
   }
 
   public int getSize() {
     return mealList.size();
   }
 
-  public Meal getItem(int index) {
+  public ProposedMenu getItem(int index) {
     return mealList.get(index);
   }
 
@@ -81,7 +97,6 @@ public final class Proposal {
   @Override
   public String toString() {
     return "Proposal [mealList=" + mealList
-        + ", settings=" + settingsList
         + ", calendar=" + date
         + ", includeToday=" + includeToday + "]";
   }
@@ -90,10 +105,9 @@ public final class Proposal {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((date == null) ? 0 : date.hashCode());
+    result = prime * result + date.hashCode();
     result = prime * result + (includeToday ? 1231 : 1237);
-    result = prime * result + ((mealList == null) ? 0 : mealList.hashCode());
-    result = prime * result + ((settingsList == null) ? 0 : settingsList.hashCode());
+    result = prime * result + mealList.hashCode();
     return result;
   }
 
@@ -108,7 +122,6 @@ public final class Proposal {
     Proposal other = (Proposal) obj;
     return date.equals(other.date)
         && includeToday == other.includeToday
-        && mealList.equals(other.mealList)
-        && settingsList.equals(other.settingsList);
+        && mealList.equals(other.mealList);
   }
 }

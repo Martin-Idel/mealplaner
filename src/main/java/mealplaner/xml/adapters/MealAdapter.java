@@ -8,6 +8,7 @@ import static mealplaner.xml.adapters.RecipeAdapter.convertRecipeToXml;
 
 import java.util.UUID;
 
+import mealplaner.MealplanerData;
 import mealplaner.model.Meal;
 import mealplaner.xml.model.v2.MealXml;
 
@@ -29,7 +30,7 @@ public final class MealAdapter {
         convertRecipeToXml(meal.getRecipe()));
   }
 
-  public static Meal convertMealFromXml(MealXml meal) {
+  public static Meal convertMealFromXml(MealplanerData data, MealXml meal) {
     return createMeal(
         meal.uuid,
         meal.name,
@@ -40,10 +41,10 @@ public final class MealAdapter {
         meal.courseType,
         nonNegative(meal.daysPassed),
         meal.comment,
-        convertRecipeFromXml(meal.recipe));
+        convertRecipeFromXml(data, meal.recipe));
   }
 
-  public static Meal convertMealFromXml(mealplaner.xml.model.v1.MealXml meal) {
+  public static Meal convertMealFromXml(MealplanerData data, mealplaner.xml.model.v1.MealXml meal) {
     return createMeal(
         UUID.randomUUID(),
         meal.name,
@@ -54,6 +55,6 @@ public final class MealAdapter {
         MAIN,
         nonNegative(meal.daysPassed),
         meal.comment,
-        convertRecipeFromXml(meal.recipe));
+        convertRecipeFromXml(data, meal.recipe));
   }
 }

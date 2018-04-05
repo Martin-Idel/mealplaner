@@ -14,12 +14,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import mealplaner.DataStore;
 import mealplaner.commons.gui.tables.Table;
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
+import mealplaner.model.ProposedMenu;
 
 public final class ProposalTable {
-  private final List<Meal> proposalMeals = new ArrayList<>();
+  private final List<ProposedMenu> proposalMeals = new ArrayList<>();
   private final List<Meal> meals;
   private LocalDate newDate;
   private Proposal lastProposal;
@@ -33,10 +35,10 @@ public final class ProposalTable {
     return new ProposalTable(meals);
   }
 
-  public void setupProposalTable(Proposal lastProposal) {
+  public void setupProposalTable(DataStore store, Proposal lastProposal) {
     this.lastProposal = lastProposal;
 
-    lastProposal.getProposalList().forEach(proposalMeals::add);
+    proposalMeals.addAll(lastProposal.getProposalList());
     newDate = lastProposal.getDateOfFirstProposedItem();
     proposalTable = createNewTable()
         .withRowCount(proposalMeals::size)
@@ -56,8 +58,11 @@ public final class ProposalTable {
         .addColumn(withContent(String.class)
             .withColumnName(BUNDLES.message("menu"))
             .getValueFromOrderedList(proposalMeals,
-                meal -> meal.equals(Meal.EMPTY_MEAL) ? "" : meal.getName())
-            .setRowValueToUnderlyingModel((name, row) -> proposalMeals.set(row, findMeal(name)))
+                meal -> meal.main.equals(Meal.EMPTY_MEAL.getId()) ? ""
+                    : store.getMeal(meal.main).get().getName())
+            .setRowValueToUnderlyingModel(
+                (name, row) -> proposalMeals.set(row,
+                    changeMain(proposalMeals.get(row), findMeal(name))))
             .isEditable()
             .overwriteTableCellEditor(autoCompleteCellEditor(meals, Meal::getName))
             .build())
@@ -69,7 +74,12 @@ public final class ProposalTable {
   }
 
   public Proposal getProposal() {
-    return from(lastProposal.isToday(), proposalMeals, lastProposal.getSettingsList());
+    return from(lastProposal.isToday(), proposalMeals);
+  }
+
+  private ProposedMenu changeMain(ProposedMenu oldMenu, Meal newMain) {
+    return ProposedMenu.proposed(oldMenu.entry, newMain.getId(), oldMenu.desert,
+        oldMenu.numberOfPeople);
   }
 
   private Meal findMeal(String name) {

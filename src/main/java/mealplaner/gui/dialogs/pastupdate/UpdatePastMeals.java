@@ -15,12 +15,12 @@ import mealplaner.DataStore;
 import mealplaner.commons.gui.buttonpanel.ButtonPanel;
 import mealplaner.commons.gui.dialogs.DialogCreating;
 import mealplaner.commons.gui.dialogs.DialogWindow;
-import mealplaner.model.Meal;
+import mealplaner.model.ProposedMenu;
 
-public class UpdatePastMeals implements DialogCreating<Optional<List<Meal>>> {
+public class UpdatePastMeals implements DialogCreating<Optional<List<ProposedMenu>>> {
   private final DialogWindow dialogWindow;
   private final UpdateTable updateTable;
-  private Optional<List<Meal>> changedMeals = empty();
+  private Optional<List<ProposedMenu>> changedMeals = empty();
 
   public UpdatePastMeals(JFrame parentFrame) {
     dialogWindow = window(parentFrame, BUNDLES.message("updatePastMealsDialogTitle"));
@@ -28,14 +28,14 @@ public class UpdatePastMeals implements DialogCreating<Optional<List<Meal>>> {
   }
 
   @Override
-  public Optional<List<Meal>> showDialog(DataStore mealPlan) {
+  public Optional<List<ProposedMenu>> showDialog(DataStore mealPlan) {
     display(mealPlan);
     return changedMeals;
   }
 
   private void display(DataStore mealPlan) {
     updateTable.createTable(mealPlan.getLastProposal(),
-        mealPlan.getMeals(), mealPlan.getDaysPassed());
+        mealPlan, mealPlan.getDaysPassed());
 
     ButtonPanel buttonPanel = createButtonPanel();
 

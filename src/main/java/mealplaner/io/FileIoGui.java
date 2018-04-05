@@ -27,6 +27,7 @@ import mealplaner.xml.MealsReader;
 import mealplaner.xml.MealsWriter;
 import mealplaner.xml.ProposalSummaryDataReader;
 import mealplaner.xml.ProposalSummaryDataWriter;
+import mealplaner.xml.ProposalSummaryModel;
 
 public class FileIoGui {
   private final JFrame frame;
@@ -41,11 +42,15 @@ public class FileIoGui {
   public MealplanerData loadDatabase() {
     MealplanerData mealPlan = MealplanerData.getInstance();
     try {
-      mealPlan = ProposalSummaryDataReader.loadXml(savePath + "save.xml");
-      List<Meal> meals = MealsReader.loadXml(savePath + "meals.xml");
       List<Ingredient> ingredients = IngredientsReader.loadXml(savePath + "ingredients.xml");
-      mealPlan.setMeals(meals);
       mealPlan.setIngredients(ingredients);
+      List<Meal> meals = MealsReader.loadXml(mealPlan, savePath + "meals.xml");
+      mealPlan.setMeals(meals);
+      ProposalSummaryModel proposalData = ProposalSummaryDataReader.loadXml(mealPlan,
+          savePath + "save.xml");
+      mealPlan.setDefaultSettings(proposalData.defaultSettings);
+      mealPlan.setLastProposal(proposalData.lastProposal);
+      mealPlan.setTime(proposalData.time);
     } catch (MealException exc) {
       errorMessages(frame, exc, BUNDLES.errorMessage("MSG_LOAD_ERROR"));
       logger.error("Could not load database: ", exc);

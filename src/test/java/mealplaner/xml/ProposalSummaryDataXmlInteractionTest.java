@@ -57,12 +57,12 @@ public class ProposalSummaryDataXmlInteractionTest {
     }
     MealplanerData.getInstance().clear();
 
-    MealplanerData loadedMealplaner = ProposalSummaryDataReader.loadXml(DESTINATION_FILE_PATH);
+    ProposalSummaryModel loadedProposalSummaryData = ProposalSummaryDataReader
+        .loadXml(MealplanerData.getInstance(), DESTINATION_FILE_PATH);
 
-    assertThat(loadedMealplaner.getLastProposal()).isEqualTo(proposal);
-    assertThat(loadedMealplaner.getTime()).isEqualTo(time);
-    assertThat(loadedMealplaner.getMeals()).isEmpty();
-    assertThat(loadedMealplaner.getDefaultSettings().getDefaultSettings())
+    assertThat(loadedProposalSummaryData.lastProposal).isEqualTo(proposal);
+    assertThat(loadedProposalSummaryData.time).isEqualTo(time);
+    assertThat(loadedProposalSummaryData.defaultSettings.getDefaultSettings())
         .containsAllEntriesOf(defaultSettings);
   }
 
@@ -85,12 +85,12 @@ public class ProposalSummaryDataXmlInteractionTest {
     data.setLastProposal(proposal);
 
     ProposalSummaryDataWriter.saveXml(data, DESTINATION_FILE_PATH);
-    MealplanerData roundTripMealplaner = ProposalSummaryDataReader.loadXml(DESTINATION_FILE_PATH);
+    ProposalSummaryModel roundTripModel = ProposalSummaryDataReader
+        .loadXml(MealplanerData.getInstance(), DESTINATION_FILE_PATH);
 
-    assertThat(roundTripMealplaner.getLastProposal()).isEqualTo(proposal);
-    assertThat(roundTripMealplaner.getTime()).isEqualTo(time);
-    assertThat(roundTripMealplaner.getMeals()).isEmpty();
-    assertThat(roundTripMealplaner.getDefaultSettings().getDefaultSettings())
+    assertThat(roundTripModel.lastProposal).isEqualTo(proposal);
+    assertThat(roundTripModel.time).isEqualTo(time);
+    assertThat(roundTripModel.defaultSettings.getDefaultSettings())
         .containsAllEntriesOf(defaultSettings);
   }
 }

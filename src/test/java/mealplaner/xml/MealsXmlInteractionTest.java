@@ -18,6 +18,7 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Test;
 
+import mealplaner.MealplanerData;
 import mealplaner.model.Meal;
 
 public class MealsXmlInteractionTest {
@@ -51,7 +52,7 @@ public class MealsXmlInteractionTest {
       fail("Could not load file");
     }
 
-    List<Meal> database = loadXml(DESTINATION_FILE_PATH);
+    List<Meal> database = loadXml(MealplanerData.getInstance(), DESTINATION_FILE_PATH);
 
     database.sort((meal1, meal2) -> meal1.compareTo(meal2));
     meals.sort((meal1, meal2) -> meal1.compareTo(meal2));
@@ -66,7 +67,7 @@ public class MealsXmlInteractionTest {
     meals.add(getMeal3());
 
     saveXml(meals, DESTINATION_FILE_PATH);
-    List<Meal> roundTripMeals = loadXml(DESTINATION_FILE_PATH);
+    List<Meal> roundTripMeals = loadXml(MealplanerData.getInstance(), DESTINATION_FILE_PATH);
 
     roundTripMeals.sort((meal1, meal2) -> meal1.compareTo(meal2));
     meals.sort((meal1, meal2) -> meal1.compareTo(meal2));

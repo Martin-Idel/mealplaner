@@ -1,9 +1,11 @@
 package mealplaner.model;
 
+import static java.util.Optional.ofNullable;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
+import static mealplaner.model.Meal.createMeal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -80,13 +82,19 @@ public final class MealData implements DataStoreListener {
     recipeData.clear();
   }
 
-  public void updateMeals(List<Meal> mealsCookedLast, NonnegativeInteger daysSinceLastUpdate) {
-    List<UUID> mealsCooked = mealsCookedLast.stream().map(Meal::getId).collect(toList());
+  public void updateMeals(List<ProposedMenu> mealsCookedLast,
+      NonnegativeInteger daysSinceLastUpdate) {
+    List<UUID> mealsCooked = mealsCookedLast.stream().map(menu -> menu.main).collect(toList());
     for (Entry<UUID, NonnegativeInteger> mealEntry : daysPassedSinceLastUpdate.entrySet()) {
       daysPassedSinceLastUpdate.compute(mealEntry.getKey(),
-          (key, daysSinceUpdate) -> mealsCooked.contains(key)
-              ? nonNegative(mealsCooked.size() - mealsCooked.indexOf(key) - 1)
-              : daysSinceUpdate.add(daysSinceLastUpdate));
+          (key, daysSinceUpdate) -> daysSinceUpdate.add(daysSinceLastUpdate));
+    }
+    for (int i = 0; i < mealsCookedLast.size(); i++) {
+      ProposedMenu menu = mealsCookedLast.get(i);
+      NonnegativeInteger daysPassed = nonNegative(mealsCooked.size() - i - 1);
+      menu.entry.ifPresent(entryMeal -> daysPassedSinceLastUpdate.put(entryMeal, daysPassed));
+      daysPassedSinceLastUpdate.put(menu.main, daysPassed);
+      menu.desert.ifPresent(entryMeal -> daysPassedSinceLastUpdate.put(entryMeal, daysPassed));
     }
   }
 
@@ -121,5 +129,14 @@ public final class MealData implements DataStoreListener {
         throw new MealException("An ingredient used is not contained in the ingredient list");
       }
     }
+  }
+
+  public Optional<Meal> getMeal(UUID uuid) {
+    return ofNullable(metadata.get(uuid))
+        .map(metadata -> {
+          NonnegativeInteger daysSinceCooked = daysPassedSinceLastUpdate.get(uuid);
+          Optional<Recipe> recipe = recipeData.get(uuid);
+          return createMeal(uuid, metadata, daysSinceCooked, recipe);
+        });
   }
 }

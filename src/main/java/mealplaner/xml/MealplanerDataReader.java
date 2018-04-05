@@ -17,6 +17,7 @@ import mealplaner.model.settings.DefaultSettings;
 import mealplaner.recipes.model.Ingredient;
 import mealplaner.xml.model.v2.MealplanerDataXml;
 
+// TODO: Cleanup
 public final class MealplanerDataReader {
   private MealplanerDataReader() {
   }
@@ -39,37 +40,41 @@ public final class MealplanerDataReader {
 
   private static MealplanerData convertToData(MealplanerDataXml database) {
     DefaultSettings defaultSettings = convertDefaultSettingsFromXml(database.defaultSettings);
-    List<Meal> modelMeals = database.meals.stream()
-        .map(meal -> convertMealFromXml(meal))
-        .collect(toList());
+    MealplanerData data = MealplanerData.getInstance();
+
     List<Ingredient> ingredients = database.ingredients.stream()
         .map(ingredient -> convertIngredientFromXml(ingredient))
         .collect(toList());
-
-    MealplanerData data = MealplanerData.getInstance();
     data.setIngredients(ingredients);
+
+    List<Meal> modelMeals = database.meals.stream()
+        .map(meal -> convertMealFromXml(data, meal))
+        .collect(toList());
     data.setMeals(modelMeals);
+
     data.setTime(database.date);
     data.setDefaultSettings(defaultSettings);
-    data.setLastProposal(convertProposalFromXml(database.proposal));
+    data.setLastProposal(convertProposalFromXml(data, database.proposal));
     return data;
   }
 
   private static MealplanerData convertToData(mealplaner.xml.model.v1.MealplanerDataXml database) {
     DefaultSettings defaultSettings = convertDefaultSettingsFromXmlV1(database.defaultSettings);
-    List<Meal> modelMeals = database.meals.stream()
-        .map(meal -> convertMealFromXml(meal))
-        .collect(toList());
+    MealplanerData data = MealplanerData.getInstance();
+
     List<Ingredient> ingredients = database.ingredients.stream()
         .map(ingredient -> convertIngredientFromXml(ingredient))
         .collect(toList());
-
-    MealplanerData data = MealplanerData.getInstance();
     data.setIngredients(ingredients);
+
+    List<Meal> modelMeals = database.meals.stream()
+        .map(meal -> convertMealFromXml(data, meal))
+        .collect(toList());
     data.setMeals(modelMeals);
+
     data.setTime(database.date);
     data.setDefaultSettings(defaultSettings);
-    data.setLastProposal(convertProposalFromXml(database.proposal));
+    data.setLastProposal(convertProposalFromXml(data, database.proposal));
     return data;
   }
 }
