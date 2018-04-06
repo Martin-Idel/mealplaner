@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import static testcommons.CommonFunctions.getIngredient1;
 import static testcommons.CommonFunctions.getIngredient2;
 import static testcommons.CommonFunctions.getIngredient3;
-import static testcommons.MealAssert.assertThat;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
