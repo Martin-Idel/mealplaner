@@ -27,6 +27,7 @@ import mealplaner.model.settings.Settings;
 public class ProposalSummaryDataXmlInteractionTest {
   private static final String DESTINATION_FILE_PATH = "src/test/resources/saveTemp.xml";
   private static final String RESOURCE_FILE_WITH_THREE_MEALS_V1 = "src/test/resources/proposalSummaryXmlV1.xml";
+  private static final String RESOURCE_FILE_WITH_THREE_MEALS_V2 = "src/test/resources/proposalSummaryXmlV2.xml";
 
   @After
   public void tearDown() {
@@ -61,8 +62,32 @@ public class ProposalSummaryDataXmlInteractionTest {
     ProposalSummaryModel loadedProposalSummaryData = ProposalSummaryDataReader
         .loadXml(mealPlan, DESTINATION_FILE_PATH);
 
-    System.out.println(loadedProposalSummaryData.lastProposal);
-    System.out.println(proposal);
+    assertThat(loadedProposalSummaryData.lastProposal).isEqualTo(proposal);
+    assertThat(loadedProposalSummaryData.time).isEqualTo(time);
+    assertThat(loadedProposalSummaryData.defaultSettings.getDefaultSettings())
+        .containsAllEntriesOf(defaultSettings);
+  }
+
+  @Test
+  public void loadingProposalSummaryWorksCorrectlyForV2() {
+    Map<DayOfWeek, Settings> defaultSettings = new HashMap<>();
+    defaultSettings.put(DayOfWeek.MONDAY, getSettings1());
+    defaultSettings.put(DayOfWeek.WEDNESDAY, getSettings2());
+    defaultSettings.put(DayOfWeek.FRIDAY, getSettings1());
+    Proposal proposal = getProposal1();
+    LocalDate time = LocalDate.of(2017, 5, 3);
+
+    File originalFile = new File(RESOURCE_FILE_WITH_THREE_MEALS_V2);
+    File temporaryFile = new File(DESTINATION_FILE_PATH);
+    try {
+      Files.copy(originalFile.toPath(), temporaryFile.toPath(), REPLACE_EXISTING);
+    } catch (IOException exc) {
+      fail("Could not load file");
+    }
+    MealplanerData mealPlan = setupMealplanerDataWithAllMealsAndIngredients();
+
+    ProposalSummaryModel loadedProposalSummaryData = ProposalSummaryDataReader
+        .loadXml(mealPlan, DESTINATION_FILE_PATH);
 
     assertThat(loadedProposalSummaryData.lastProposal).isEqualTo(proposal);
     assertThat(loadedProposalSummaryData.time).isEqualTo(time);

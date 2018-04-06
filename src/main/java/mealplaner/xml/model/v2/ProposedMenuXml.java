@@ -16,7 +16,7 @@ public class ProposedMenuXml {
   public int numberOfPeople;
 
   public ProposedMenuXml() {
-    this(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), 0);
+    this(null, UUID.randomUUID(), null, 0);
   }
 
   public ProposedMenuXml(UUID entry, UUID main, UUID desert, int numberOfPeople) {
