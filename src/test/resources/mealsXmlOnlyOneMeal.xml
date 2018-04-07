@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<MealData>
+    <version>2</version>
+    <meals>
+        <meal>
+            <uuid>0e6db2d7-8818-31ff-80d4-c21e0f2f4a7b</uuid>
+            <name>Test1</name>
+            <cookingTime>SHORT</cookingTime>
+            <sidedish>PASTA</sidedish>
+            <obligatoryUtensil>PAN</obligatoryUtensil>
+            <cookingPreference>VERY_POPULAR</cookingPreference>
+            <courseType>MAIN</courseType>
+            <daysPassed>5</daysPassed>
+            <comment>no comment</comment>
+        </meal>
+    </meals>
+</MealData>

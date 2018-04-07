@@ -30,11 +30,10 @@ import mealplaner.model.settings.Settings;
 import mealplaner.recipes.model.Recipe;
 
 public class ShoppingListUtilsTest {
-  private MealplanerData data;
+  private final MealplanerData data = getInstance();
 
   @Before
   public void setUp() {
-    data = getInstance();
     data.clear();
   }
 

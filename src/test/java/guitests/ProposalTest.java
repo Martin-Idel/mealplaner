@@ -37,6 +37,11 @@ import mealplaner.recipes.model.Recipe;
 import mealplaner.shopping.ShoppingList;
 
 public class ProposalTest extends AssertJMealplanerTestCase {
+  public ProposalTest() {
+    super("src/test/resources/mealsXmlV2.xml",
+        "src/test/resources/save.xml",
+        "src/test/resources/ingredients.xml");
+  }
 
   @Test
   public void saveDefaultSettings() {
@@ -60,20 +65,20 @@ public class ProposalTest extends AssertJMealplanerTestCase {
     Meal meal2 = getMeal2();
     Meal meal3 = getMeal3();
 
-    windowHelpers.enterMealFromMenu(meal1);
-    windowHelpers.enterMealFromMenu(meal2);
-    windowHelpers.enterMealFromMenu(meal3);
-
     window.tabbedPane().selectTab(PROPOSAL_SUMMARY.number());
+    window.button("ButtonProposalSummaryUpdate").click();
+    window.dialog().button("ButtonPanelUpdatePastMeals0").click();
+
     window.textBox("InputFieldNonnegativeIntegerNumberDays").enterText("3");
+
     window.button("ButtonProposalSummaryMakeProposal").click();
     windowHelpers.enterSetting(window.dialog().table(), getSettings2(), 0);
     window.dialog().button("ButtonPanelProposalSettingsInput2").click();
 
     List<Meal> mealOutput = new ArrayList<>();
-    mealOutput.add(meal2);
-    mealOutput.add(meal1);
     mealOutput.add(meal3);
+    mealOutput.add(meal1);
+    mealOutput.add(meal2);
 
     window.dialog().table().requireContents(generateProposalOutputContent(mealOutput));
     window.dialog().button("ButtonPanelProposalOutput1").click();
@@ -81,8 +86,8 @@ public class ProposalTest extends AssertJMealplanerTestCase {
     window.optionPane().yesButton().click(); // Not all recipes have a recipe
 
     List<Pair<Recipe, NonnegativeInteger>> recipeList = new ArrayList<>();
-    recipeList.add(of(meal2.getRecipe().get(), nonNegative(4)));
-    recipeList.add(of(meal3.getRecipe().get(), nonNegative(2)));
+    recipeList.add(of(meal2.getRecipe().get(), nonNegative(2)));
+    recipeList.add(of(meal3.getRecipe().get(), nonNegative(4)));
 
     window.dialog().table().requireContents(generateShoppingListContent(from(recipeList)));
     window.dialog().button("ButtonPanelShoppingListDialog1").click();

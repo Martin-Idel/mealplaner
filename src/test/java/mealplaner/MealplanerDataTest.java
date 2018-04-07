@@ -7,6 +7,7 @@ import static mealplaner.DataStoreEventType.DATABASE_EDITED;
 import static mealplaner.DataStoreEventType.DATE_UPDATED;
 import static mealplaner.DataStoreEventType.PROPOSAL_ADDED;
 import static mealplaner.DataStoreEventType.SETTINGS_CHANGED;
+import static mealplaner.MealplanerData.getInstance;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.Meal.createMeal;
 import static mealplaner.model.Proposal.from;
@@ -41,7 +42,6 @@ import mealplaner.recipes.model.Ingredient;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MealplanerDataTest {
-
   private final List<Meal> meals = new ArrayList<>();
   private Meal meal1;
   private Meal meal3;
@@ -49,9 +49,9 @@ public class MealplanerDataTest {
   private final List<Ingredient> ingredients = new ArrayList<>();
   private DataStoreListener listener;
   private LocalDate date;
-
-  private MealplanerData sut;
   private Proposal proposal;
+
+  private final MealplanerData sut = getInstance();
 
   @Before
   public void setUp() {
@@ -59,7 +59,6 @@ public class MealplanerDataTest {
     date = of(2017, 5, 7);
     proposal = from(true, new ArrayList<>(), new ArrayList<>());
     ingredients.addAll(createIngredientsList());
-    sut = MealplanerData.getInstance();
     sut.clear();
     sut.setIngredients(ingredients);
     sut.setMeals(meals);

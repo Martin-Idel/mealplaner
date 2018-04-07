@@ -151,7 +151,7 @@ public final class GuiMethods {
       TableCell checkbox,
       CookingTimeSetting cookingTime,
       CookingTime time) {
-    return cookingTime.contains(time) != settingsTable.valueAt(checkbox)
+    return !cookingTime.contains(time) != settingsTable.valueAt(checkbox)
         .equals(Boolean.toString(true));
   }
 
@@ -162,10 +162,10 @@ public final class GuiMethods {
       Settings setting = settings.get(day);
       int row = day.getValue() - 1;
       content[row][0] = day.getDisplayName(FULL, BUNDLES.locale());
-      content[row][1] = Boolean.toString(setting.getCookingTime().contains(VERY_SHORT));
-      content[row][2] = Boolean.toString(setting.getCookingTime().contains(SHORT));
-      content[row][3] = Boolean.toString(setting.getCookingTime().contains(MEDIUM));
-      content[row][4] = Boolean.toString(setting.getCookingTime().contains(LONG));
+      content[row][1] = Boolean.toString(!setting.getCookingTime().contains(VERY_SHORT));
+      content[row][2] = Boolean.toString(!setting.getCookingTime().contains(SHORT));
+      content[row][3] = Boolean.toString(!setting.getCookingTime().contains(MEDIUM));
+      content[row][4] = Boolean.toString(!setting.getCookingTime().contains(LONG));
       content[row][5] = setting.getNumberOfPeople().toString();
       content[row][6] = setting.getCasserole().toString();
       content[row][7] = setting.getPreference().toString();
