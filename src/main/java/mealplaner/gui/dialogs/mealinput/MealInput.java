@@ -40,6 +40,7 @@ public abstract class MealInput<T> implements DialogCreating<T> {
     dialogWindow.addCentral(mealCreationPanel);
     dialogWindow.addSouth(buttonPanel);
     dialogWindow.arrangeWithSize(300, 400);
+    resetFields();
     dialogWindow.setVisible();
   }
 
