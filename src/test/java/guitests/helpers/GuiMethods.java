@@ -15,6 +15,7 @@ import static org.assertj.swing.data.TableCell.row;
 import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import org.assertj.swing.data.TableCell;
 import org.assertj.swing.fixture.DialogFixture;
@@ -30,9 +31,11 @@ import mealplaner.recipes.model.QuantitativeIngredient;
 import mealplaner.recipes.model.Recipe;
 
 public final class GuiMethods {
-  private static final int NUMBER_OF_DATA_COLUMNS = 8;
+  private static final int NUMBER_OF_DATA_COLUMNS = 9;
   private static final int RECIPE_COLUMN_IN_DATA_BASE = NUMBER_OF_DATA_COLUMNS - 1;
   private static final int NUMBER_OF_INGREDIENT_COLUMNS = 3;
+  private static final int NUMBER_OF_DEFAULT_SETTINGS_COLUMNS = 9;
+  private static final int NUMBER_OF_WEEKDAYS = 7;
 
   private final FrameFixture window;
 
@@ -79,27 +82,29 @@ public final class GuiMethods {
   }
 
   public void enterDefaultSettings(DefaultSettings defaultSettings) {
-    window.tabbedPane().selectTab(PROPOSAL_SUMMARY.number());
-    window.button("ButtonProposalSummaryDefaultSettings").click();
-    DialogFixture settingsDialog = window.dialog();
-    JTableFixture settingsTable = settingsDialog.table();
-    settingsTable.requireRowCount(7);
-    settingsTable.requireColumnCount(8);
+    inDefaultSettingsDialog(settingsTable -> enterDefaultSettings(defaultSettings, settingsTable));
+  }
+
+  public void compareDefaultSettings(DefaultSettings defaultSettings) {
+    inDefaultSettingsDialog(settingsTable -> settingsTable
+        .requireContents(defaultSettingsTableEntries(defaultSettings)));
+  }
+
+  private void enterDefaultSettings(DefaultSettings defaultSettings, JTableFixture settingsTable) {
     Map<DayOfWeek, Settings> settings = defaultSettings.getDefaultSettings();
     for (DayOfWeek day : DayOfWeek.values()) {
       enterSetting(settingsTable, settings.get(day), day.getValue() - 1, false);
     }
-    settingsDialog.button("ButtonPanelDefaultSettingsInput1");
   }
 
-  public void compareDefaultSettings(DefaultSettings defaultSettings) {
+  private void inDefaultSettingsDialog(Consumer<JTableFixture> doInSettingsTable) {
     window.tabbedPane().selectTab(PROPOSAL_SUMMARY.number());
     window.button("ButtonProposalSummaryDefaultSettings").click();
     DialogFixture settingsDialog = window.dialog();
     JTableFixture settingsTable = settingsDialog.table();
-    settingsTable.requireRowCount(7);
-    settingsTable.requireColumnCount(8);
-    settingsTable.requireContents(defaultSettingsTableEntries(defaultSettings));
+    settingsTable.requireRowCount(NUMBER_OF_WEEKDAYS);
+    settingsTable.requireColumnCount(NUMBER_OF_DEFAULT_SETTINGS_COLUMNS);
+    doInSettingsTable.accept(settingsTable);
     settingsDialog.button("ButtonPanelDefaultSettingsInput1");
   }
 
@@ -128,6 +133,8 @@ public final class GuiMethods {
         setting.getCasserole().toString());
     updateComboBox(settingsTable, row(dayNumber).column(firstColumn++),
         setting.getPreference().toString());
+    updateComboBox(settingsTable, row(dayNumber).column(firstColumn++),
+        setting.getCourseSettings().toString());
   }
 
   private void updateCheckBox(JTableFixture settingsTable,
@@ -157,7 +164,7 @@ public final class GuiMethods {
 
   private String[][] defaultSettingsTableEntries(DefaultSettings defaultSettings) {
     Map<DayOfWeek, Settings> settings = defaultSettings.getDefaultSettings();
-    String[][] content = new String[7][8];
+    String[][] content = new String[NUMBER_OF_WEEKDAYS][NUMBER_OF_DEFAULT_SETTINGS_COLUMNS];
     for (DayOfWeek day : DayOfWeek.values()) {
       Settings setting = settings.get(day);
       int row = day.getValue() - 1;
@@ -169,6 +176,7 @@ public final class GuiMethods {
       content[row][5] = setting.getNumberOfPeople().toString();
       content[row][6] = setting.getCasserole().toString();
       content[row][7] = setting.getPreference().toString();
+      content[row][8] = setting.getCourseSettings().toString();
     }
     return content;
   }
@@ -183,10 +191,12 @@ public final class GuiMethods {
         .selectItem(meal.getSidedish().toString());
     mealInputDialog.comboBox("InputFieldComboBoxObligatoryUtensil")
         .selectItem(meal.getObligatoryUtensil().toString());
-    mealInputDialog.comboBox("InputFieldComboBoxCookingPreference")
-        .selectItem(meal.getCookingPreference().toString());
     mealInputDialog.textBox("InputFieldNonnegativeIntegerDaysPassed")
         .enterText(meal.getDaysPassed().toString());
+    mealInputDialog.comboBox("InputFieldComboBoxCookingPreference")
+        .selectItem(meal.getCookingPreference().toString());
+    mealInputDialog.comboBox("InputFieldComboBoxCourseType")
+        .selectItem(meal.getCourseType().toString());
     mealInputDialog.textBox("InputFieldTextComment")
         .enterText(meal.getComment());
     if (meal.getRecipe().isPresent()) {
@@ -246,8 +256,9 @@ public final class GuiMethods {
       content[i][3] = meal.getObligatoryUtensil().toString();
       content[i][4] = meal.getDaysPassed().toString();
       content[i][5] = meal.getCookingPreference().toString();
-      content[i][6] = meal.getComment();
-      content[i][7] = meal.getRecipe().isPresent()
+      content[i][6] = meal.getCourseType().toString();
+      content[i][7] = meal.getComment();
+      content[i][8] = meal.getRecipe().isPresent()
           ? BUNDLES.message("editRecipeButtonLabel")
           : BUNDLES.message("createRecipeButtonLabel");
     }

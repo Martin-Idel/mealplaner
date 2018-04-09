@@ -32,6 +32,7 @@ import mealplaner.io.FileIoGui;
 import mealplaner.model.Meal;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
+import mealplaner.model.enums.CourseType;
 import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.Sidedish;
 import mealplaner.recipes.gui.dialogs.recepies.RecipeInput;
@@ -120,6 +121,14 @@ public class DatabaseEdit implements DataStoreListener {
                 (meal, preference) -> from(meal).cookingPreference(preference)
                     .create())
             .getValueFromOrderedList(meals, meal -> meal.getCookingPreference())
+            .isEditable()
+            .onChange(() -> buttonPanel.enableButtons())
+            .build())
+        .addColumn(withEnumContent(CourseType.class)
+            .withColumnName(BUNDLES.message("courseTypeColumn"))
+            .setValueToOrderedImmutableList(meals,
+                (meal, courseType) -> from(meal).courseType(courseType).create())
+            .getValueFromOrderedList(meals, meal -> meal.getCourseType())
             .isEditable()
             .onChange(() -> buttonPanel.enableButtons())
             .build())

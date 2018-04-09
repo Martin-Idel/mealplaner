@@ -69,11 +69,6 @@ public final class MealInputGrid {
         "ObligatoryUtensil",
         ObligatoryUtensil.class,
         ObligatoryUtensil.POT);
-    courseTypeField = new ComboBoxInputField<CourseType>(
-        BUNDLES.message("insertMealCourseType"),
-        "CourseType",
-        CourseType.class,
-        CourseType.MAIN);
     daysPassedField = new NonnegativeIntegerInputField(
         BUNDLES.message("insertMealLastCooked"),
         "DaysPassed",
@@ -83,6 +78,11 @@ public final class MealInputGrid {
         "CookingPreference",
         CookingPreference.class,
         CookingPreference.NO_PREFERENCE);
+    courseTypeField = new ComboBoxInputField<CourseType>(
+        BUNDLES.message("insertMealCourseType"),
+        "CourseType",
+        CourseType.class,
+        CourseType.MAIN);
     commentField = new TextInputField(BUNDLES.message("insertMealComment"), "Comment");
     recipeInputField = new ButtonInputField<Optional<Recipe>>(
         BUNDLES.message("createRecipeLabel"),

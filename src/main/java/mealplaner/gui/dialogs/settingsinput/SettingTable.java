@@ -23,6 +23,7 @@ import mealplaner.commons.gui.tables.FlexibleTableBuilder;
 import mealplaner.commons.gui.tables.Table;
 import mealplaner.model.enums.CasseroleSettings;
 import mealplaner.model.enums.CookingTime;
+import mealplaner.model.enums.CourseSettings;
 import mealplaner.model.enums.PreferenceSettings;
 import mealplaner.model.settings.CookingTimeSetting;
 import mealplaner.model.settings.DefaultSettings;
@@ -97,6 +98,7 @@ public class SettingTable {
             .getValueFromOrderedList(settings, setting -> setting.getCasserole())
             .setValueToOrderedImmutableList(settings,
                 (element, value) -> element.changeCasserole(value))
+            .setPreferredSize(100)
             .isEditable()
             .build())
         .addColumn(withEnumContent(PreferenceSettings.class)
@@ -105,6 +107,15 @@ public class SettingTable {
             .setValueToOrderedImmutableList(settings,
                 (element, value) -> element.changePreference(value))
             .isEditable()
+            .setPreferredSize(100)
+            .build())
+        .addColumn(withEnumContent(CourseSettings.class)
+            .withColumnName(BUNDLES.message("courseSettingColumn"))
+            .getValueFromOrderedList(settings, setting -> setting.getCourseSettings())
+            .setValueToOrderedImmutableList(settings,
+                (element, value) -> element.changeCourseSettings(value))
+            .isEditable()
+            .setPreferredSize(120)
             .build());
   }
 
@@ -141,6 +152,7 @@ public class SettingTable {
             (element, value) -> element.changeCookingTime(changeStateOf(time, value,
                 copyCookingTimeSetting(element.getCookingTime()))))
         .isEditable()
+        .setPreferredSize(50)
         .build());
   }
 
