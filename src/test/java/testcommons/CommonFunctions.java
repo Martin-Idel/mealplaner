@@ -93,6 +93,45 @@ public final class CommonFunctions {
         of(getRecipe2()));
   }
 
+  public static Meal getMealEntry() {
+    return createMeal(nameUUIDFromBytes("Test4Meal".getBytes(forName("UTF-8"))),
+        "Test4",
+        CookingTime.LONG,
+        Sidedish.RICE,
+        ObligatoryUtensil.PAN,
+        CookingPreference.NO_PREFERENCE,
+        CourseType.ENTRY,
+        nonNegative(2),
+        "",
+        of(getRecipe2()));
+  }
+
+  public static Meal getMealDesert() {
+    return createMeal(nameUUIDFromBytes("Test5Meal".getBytes(forName("UTF-8"))),
+        "Test5",
+        CookingTime.VERY_SHORT,
+        Sidedish.RICE,
+        ObligatoryUtensil.POT,
+        CookingPreference.VERY_POPULAR,
+        CourseType.DESERT,
+        nonNegative(2),
+        "",
+        of(getRecipe2()));
+  }
+
+  public static Meal getMealEntry2() {
+    return createMeal(nameUUIDFromBytes("Test6Meal".getBytes(forName("UTF-8"))),
+        "Test6",
+        CookingTime.VERY_SHORT,
+        Sidedish.NONE,
+        ObligatoryUtensil.CASSEROLE,
+        CookingPreference.RARE,
+        CourseType.ENTRY,
+        nonNegative(2),
+        "",
+        empty());
+  }
+
   public static Recipe getRecipe1() {
     Map<Ingredient, NonnegativeFraction> ingredients = new HashMap<>();
     ingredients.put(getIngredient1(), wholeNumber(nonNegative(100)));

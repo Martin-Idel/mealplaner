@@ -3,6 +3,8 @@ package mealplaner.gui.dialogs.proposaloutput;
 import static java.time.format.DateTimeFormatter.ofLocalizedDate;
 import static java.time.format.FormatStyle.SHORT;
 import static java.time.format.TextStyle.FULL;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.SwingUtilityMethods.autoCompleteCellEditor;
 import static mealplaner.commons.gui.tables.FlexibleTableBuilder.createNewTable;
@@ -13,15 +15,19 @@ import static mealplaner.model.Proposal.from;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import mealplaner.DataStore;
+import mealplaner.commons.gui.tables.FlexibleTableBuilder;
 import mealplaner.commons.gui.tables.Table;
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
 import mealplaner.model.ProposedMenu;
 
+// TODO: maybe adjust interface: we can get the list of meals from the store directly
 public final class ProposalTable {
-  private final List<ProposedMenu> proposalMeals = new ArrayList<>();
+  private final List<ProposedMenu> proposalMenues = new ArrayList<>();
   private final List<Meal> meals;
   private LocalDate newDate;
   private Proposal lastProposal;
@@ -38,10 +44,16 @@ public final class ProposalTable {
   public void setupProposalTable(DataStore store, Proposal lastProposal) {
     this.lastProposal = lastProposal;
 
-    proposalMeals.addAll(lastProposal.getProposalList());
+    proposalMenues.addAll(lastProposal.getProposalList());
+
+    boolean needsEntryColumn = proposalMenues.stream()
+        .anyMatch(proposedMenu -> proposedMenu.entry.isPresent());
+    boolean needsDesertColumn = proposalMenues.stream()
+        .anyMatch(proposedMenu -> proposedMenu.desert.isPresent());
+
     newDate = lastProposal.getDateOfFirstProposedItem();
-    proposalTable = createNewTable()
-        .withRowCount(proposalMeals::size)
+    FlexibleTableBuilder builder = createNewTable()
+        .withRowCount(proposalMenues::size)
         .addColumn(withContent(String.class)
             .withColumnName(BUNDLES.message("date"))
             .getRowValueFromUnderlyingModel(
@@ -54,19 +66,48 @@ public final class ProposalTable {
                 row -> newDate.plusDays(row)
                     .getDayOfWeek()
                     .getDisplayName(FULL, BUNDLES.locale()))
-            .build())
-        .addColumn(withContent(String.class)
-            .withColumnName(BUNDLES.message("menu"))
-            .getValueFromOrderedList(proposalMeals,
-                meal -> meal.main.equals(Meal.EMPTY_MEAL.getId()) ? ""
-                    : store.getMeal(meal.main).get().getName())
-            .setRowValueToUnderlyingModel(
-                (name, row) -> proposalMeals.set(row,
-                    changeMain(proposalMeals.get(row), findMeal(name))))
-            .isEditable()
-            .overwriteTableCellEditor(autoCompleteCellEditor(meals, Meal::getName))
-            .build())
-        .buildTable();
+            .build());
+    if (needsEntryColumn) {
+      builder.addColumn(withContent(String.class)
+          .withColumnName(BUNDLES.message("entry"))
+          .getValueFromOrderedList(proposalMenues,
+              meal -> meal.entry.isPresent()
+                  ? store.getMeal(meal.entry.get()).get().getName()
+                  : "")
+          .setRowValueToUnderlyingModel(
+              (name, row) -> proposalMenues.set(row,
+                  changeEntry(proposalMenues.get(row), findMeal(name))))
+          .isEditable()
+          .overwriteTableCellEditor(autoCompleteCellEditor(meals, Meal::getName))
+          .build());
+    }
+    builder.addColumn(withContent(String.class)
+        .withColumnName(BUNDLES.message("main"))
+        .getValueFromOrderedList(proposalMenues,
+            meal -> meal.main.equals(Meal.EMPTY_MEAL.getId())
+                ? ""
+                : store.getMeal(meal.main).get().getName())
+        .setRowValueToUnderlyingModel(
+            (name, row) -> proposalMenues.set(row,
+                changeMain(proposalMenues.get(row), findMeal(name))))
+        .isEditable()
+        .overwriteTableCellEditor(autoCompleteCellEditor(meals, Meal::getName))
+        .build());
+    if (needsDesertColumn) {
+      builder.addColumn(withContent(String.class)
+          .withColumnName(BUNDLES.message("desert"))
+          .getValueFromOrderedList(proposalMenues,
+              meal -> meal.desert.isPresent()
+                  ? store.getMeal(meal.desert.get()).get().getName()
+                  : "")
+          .setRowValueToUnderlyingModel(
+              (name, row) -> proposalMenues.set(row,
+                  changeDesert(proposalMenues.get(row), findMeal(name))))
+          .isEditable()
+          .overwriteTableCellEditor(autoCompleteCellEditor(meals, Meal::getName))
+          .build());
+    }
+    proposalTable = builder.buildTable();
   }
 
   public Table getTable() {
@@ -74,7 +115,21 @@ public final class ProposalTable {
   }
 
   public Proposal getProposal() {
-    return from(lastProposal.isToday(), proposalMeals);
+    return from(lastProposal.isToday(), proposalMenues);
+  }
+
+  private ProposedMenu changeEntry(ProposedMenu oldMenu, Meal newEntry) {
+    Optional<UUID> newEntryId = newEntry.equals(Meal.EMPTY_MEAL)
+        ? empty()
+        : of(newEntry.getId());
+    return ProposedMenu.proposed(newEntryId, oldMenu.main, oldMenu.desert, oldMenu.numberOfPeople);
+  }
+
+  private ProposedMenu changeDesert(ProposedMenu oldMenu, Meal newDesert) {
+    Optional<UUID> newDesertId = newDesert.equals(Meal.EMPTY_MEAL)
+        ? empty()
+        : of(newDesert.getId());
+    return ProposedMenu.proposed(oldMenu.entry, oldMenu.main, newDesertId, oldMenu.numberOfPeople);
   }
 
   private ProposedMenu changeMain(ProposedMenu oldMenu, Meal newMain) {
