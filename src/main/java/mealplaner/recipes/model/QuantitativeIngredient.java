@@ -1,24 +1,24 @@
 package mealplaner.recipes.model;
 
-import static mealplaner.commons.NonnegativeInteger.ZERO;
+import static mealplaner.commons.NonnegativeFraction.ZERO;
 import static mealplaner.recipes.model.Ingredient.emptyIngredient;
 
-import mealplaner.commons.NonnegativeInteger;
+import mealplaner.commons.NonnegativeFraction;
 
 public final class QuantitativeIngredient {
   public static final QuantitativeIngredient DEFAULT = new QuantitativeIngredient(
       emptyIngredient(), ZERO);
 
   private final Ingredient ingredient;
-  private final NonnegativeInteger amount;
+  private final NonnegativeFraction amount;
 
   private QuantitativeIngredient(Ingredient ingredient,
-      NonnegativeInteger amount) {
+      NonnegativeFraction amount) {
     this.ingredient = ingredient;
     this.amount = amount;
   }
 
-  public static QuantitativeIngredient create(Ingredient ingredient, NonnegativeInteger amount) {
+  public static QuantitativeIngredient create(Ingredient ingredient, NonnegativeFraction amount) {
     return new QuantitativeIngredient(ingredient, amount);
   }
 
@@ -26,7 +26,7 @@ public final class QuantitativeIngredient {
     return ingredient;
   }
 
-  public NonnegativeInteger getAmount() {
+  public NonnegativeFraction getAmount() {
     return amount;
   }
 

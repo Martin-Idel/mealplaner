@@ -16,8 +16,10 @@ import javax.swing.JComboBox;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
+import mealplaner.commons.NonnegativeFraction;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.gui.buttonpanel.ButtonPanelEnabling;
+import mealplaner.commons.gui.editing.NonnegativeFractionCellEditor;
 import mealplaner.commons.gui.editing.NonnegativeIntegerCellEditor;
 import mealplaner.commons.gui.tables.models.TableColumnData;
 
@@ -53,6 +55,12 @@ public final class TableColumnBuilder<T> {
     return new TableColumnBuilder<>(NonnegativeInteger.class)
         .setPreferredSize(50)
         .overwriteTableCellEditor(new NonnegativeIntegerCellEditor());
+  }
+
+  public static TableColumnBuilder<NonnegativeFraction> withNonnegativeFractionContent() {
+    return new TableColumnBuilder<>(NonnegativeFraction.class)
+        .setPreferredSize(50)
+        .overwriteTableCellEditor(new NonnegativeFractionCellEditor());
   }
 
   public static TableColumnBuilder<Boolean> withBooleanContent() {

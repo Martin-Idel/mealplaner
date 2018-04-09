@@ -3,6 +3,7 @@ package mealplaner.commons;
 import static mealplaner.commons.NonnegativeFraction.fraction;
 import static mealplaner.commons.NonnegativeFraction.parse;
 import static mealplaner.commons.NonnegativeFraction.wholeNumber;
+import static mealplaner.commons.NonnegativeInteger.TWO;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -122,30 +123,38 @@ public class NonnegativeFractionTest {
     NonnegativeFraction fraction = fraction(6, 4);
     NonnegativeFraction secondFraction = fraction(2, 6);
 
-    NonnegativeFraction addedFractions = fraction.plus(secondFraction);
+    NonnegativeFraction addedFractions = fraction.add(secondFraction);
 
     assertThat(addedFractions.getNumerator()).isEqualTo(11);
     assertThat(addedFractions.getDenominator()).isEqualTo(6);
   }
 
   @Test
-  public void minusSubstractsSmallerFractions() {
-    NonnegativeFraction fraction = fraction(6, 4);
-    NonnegativeFraction secondFraction = fraction(2, 6);
+  public void roundTripParsingWorksCorrectly() {
+    NonnegativeFraction fraction = fraction(10, 3);
 
-    NonnegativeFraction substractedFraction = fraction.minus(secondFraction);
+    NonnegativeFraction roundtripFraction = parse(fraction.toString());
 
-    assertThat(substractedFraction.getNumerator()).isEqualTo(7);
-    assertThat(substractedFraction.getDenominator()).isEqualTo(6);
+    assertThat(roundtripFraction).isEqualTo(fraction);
   }
 
-  @Test(expected = NumberFormatException.class)
-  public void minusThrowsExceptionIfBiggerFractionGetsSubstracted() {
-    NonnegativeFraction fraction = fraction(6, 4);
-    NonnegativeFraction secondFraction = fraction(2, 1);
+  @Test
+  public void multiplyByCorrectlyMultipliesFraction() {
+    NonnegativeFraction fraction = fraction(5, 3);
 
-    NonnegativeFraction substractedFraction = fraction.minus(secondFraction);
+    NonnegativeFraction multipliedFraction = fraction.multiplyBy(TWO);
 
-    assertThat(substractedFraction.getNumerator()).isEqualTo(1);
+    assertThat(multipliedFraction.getNumerator()).isEqualTo(10);
+    assertThat(multipliedFraction.getDenominator()).isEqualTo(3);
+  }
+
+  @Test
+  public void divideByCorrectlyMultipliesFraction() {
+    NonnegativeFraction fraction = fraction(5, 3);
+
+    NonnegativeFraction multipliedFraction = fraction.divideBy(TWO);
+
+    assertThat(multipliedFraction.getNumerator()).isEqualTo(5);
+    assertThat(multipliedFraction.getDenominator()).isEqualTo(6);
   }
 }

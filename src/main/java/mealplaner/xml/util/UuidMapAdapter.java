@@ -9,20 +9,23 @@ import java.util.stream.Collectors;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
+import mealplaner.commons.NonnegativeFraction;
 import mealplaner.xml.model.v2.RecipeMap;
 
-public class UuidMapAdapter extends XmlAdapter<RecipeMap, Map<UUID, Integer>> {
+public class UuidMapAdapter extends XmlAdapter<RecipeMap, Map<UUID, NonnegativeFraction>> {
 
   @Override
-  public RecipeMap marshal(Map<UUID, Integer> recipe) throws Exception {
+  public RecipeMap marshal(Map<UUID, NonnegativeFraction> recipe) throws Exception {
     return new RecipeMap(recipe.entrySet().stream()
-        .map(entry -> new RecipeMap.KeyValuePair(entry.getKey().toString(), entry.getValue()))
+        .map(entry -> new RecipeMap.KeyValuePair(entry.getKey().toString(),
+            entry.getValue().toString()))
         .collect(Collectors.toList()));
   }
 
   @Override
-  public Map<UUID, Integer> unmarshal(RecipeMap map) throws Exception {
+  public Map<UUID, NonnegativeFraction> unmarshal(RecipeMap map) throws Exception {
     return map.recipeList.stream()
-        .collect(toMap(entry -> fromString(entry.uuidKey), entry -> entry.value));
+        .collect(toMap(entry -> fromString(entry.uuidKey),
+            entry -> NonnegativeFraction.parse(entry.value)));
   }
 }

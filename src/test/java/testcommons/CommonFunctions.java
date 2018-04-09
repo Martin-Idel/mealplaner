@@ -5,6 +5,8 @@ import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static java.util.UUID.nameUUIDFromBytes;
 import static mealplaner.MealplanerData.getInstance;
+import static mealplaner.commons.NonnegativeFraction.fraction;
+import static mealplaner.commons.NonnegativeFraction.wholeNumber;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.Meal.createMeal;
 import static mealplaner.model.Proposal.from;
@@ -25,7 +27,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 
 import mealplaner.MealplanerData;
-import mealplaner.commons.NonnegativeInteger;
+import mealplaner.commons.NonnegativeFraction;
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
 import mealplaner.model.enums.CasseroleSettings;
@@ -92,17 +94,31 @@ public final class CommonFunctions {
   }
 
   public static Recipe getRecipe1() {
-    Map<Ingredient, NonnegativeInteger> ingredients = new HashMap<>();
-    ingredients.put(getIngredient1(), nonNegative(100));
-    ingredients.put(getIngredient2(), nonNegative(200));
+    Map<Ingredient, NonnegativeFraction> ingredients = new HashMap<>();
+    ingredients.put(getIngredient1(), wholeNumber(nonNegative(100)));
+    ingredients.put(getIngredient2(), wholeNumber(nonNegative(200)));
     return Recipe.from(nonNegative(2), ingredients);
   }
 
   public static Recipe getRecipe2() {
-    Map<Ingredient, NonnegativeInteger> ingredients = new HashMap<>();
-    ingredients.put(getIngredient1(), nonNegative(100));
-    ingredients.put(getIngredient3(), nonNegative(400));
+    Map<Ingredient, NonnegativeFraction> ingredients = new HashMap<>();
+    ingredients.put(getIngredient1(), wholeNumber(nonNegative(100)));
+    ingredients.put(getIngredient3(), wholeNumber(nonNegative(400)));
     return Recipe.from(nonNegative(4), ingredients);
+  }
+
+  public static Recipe getRecipe3() {
+    Map<Ingredient, NonnegativeFraction> recipeMap = new HashMap<>();
+    recipeMap.put(getIngredient1(), wholeNumber(nonNegative(100)));
+    recipeMap.put(getIngredient2(), wholeNumber(nonNegative(50)));
+    return Recipe.from(nonNegative(1), recipeMap);
+  }
+
+  public static Recipe getRecipe4() {
+    Map<Ingredient, NonnegativeFraction> recipeMap = new HashMap<>();
+    recipeMap.put(getIngredient1(), fraction(10, 3));
+    recipeMap.put(getIngredient2(), fraction(2, 4));
+    return Recipe.from(nonNegative(1), recipeMap);
   }
 
   public static Ingredient getIngredient1() {

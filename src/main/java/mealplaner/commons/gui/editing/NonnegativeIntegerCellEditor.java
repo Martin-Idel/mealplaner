@@ -12,8 +12,9 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
-public class NonnegativeIntegerCellEditor extends DefaultCellEditor {
+import mealplaner.commons.NonnegativeInteger;
 
+public class NonnegativeIntegerCellEditor extends DefaultCellEditor {
   private static final long serialVersionUID = 1L;
   private static final Border red = new LineBorder(Color.RED);
   private static final Border black = new LineBorder(Color.BLACK);
@@ -48,7 +49,7 @@ public class NonnegativeIntegerCellEditor extends DefaultCellEditor {
   }
 
   @Override
-  public Object getCellEditorValue() {
+  public NonnegativeInteger getCellEditorValue() {
     return nonNegative(parseInt((String) super.getCellEditorValue()));
   }
 }

@@ -1,15 +1,15 @@
 package mealplaner.recipes.gui.dialogs.recepies;
 
 import static mealplaner.commons.BundleStore.BUNDLES;
-import static mealplaner.commons.NonnegativeInteger.ZERO;
 import static mealplaner.commons.gui.SwingUtilityMethods.autoCompleteCellEditor;
 import static mealplaner.commons.gui.tables.FlexibleTableBuilder.createNewTable;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
-import static mealplaner.commons.gui.tables.TableColumnBuilder.withNonnegativeIntegerContent;
+import static mealplaner.commons.gui.tables.TableColumnBuilder.withEnumContent;
 import static mealplaner.recipes.model.QuantitativeIngredient.create;
 
 import java.util.List;
 
+import mealplaner.commons.NonnegativeFraction;
 import mealplaner.commons.gui.tables.Table;
 import mealplaner.commons.gui.tables.TableColumnBuilder;
 import mealplaner.recipes.model.Ingredient;
@@ -44,16 +44,16 @@ public final class IngredientsTable {
             .overwriteTableCellEditor(
                 autoCompleteCellEditor(ingredientList, Ingredient::getName))
             .build())
-        .addColumn(withNonnegativeIntegerContent()
+        .addColumn(TableColumnBuilder.withNonnegativeFractionContent()
             .withColumnName(BUNDLES.message("ingredientAmountColumn"))
             .getValueFromOrderedList(ingredients,
                 ingredient -> ingredient.getAmount())
             .setValueToOrderedImmutableList(ingredients,
                 (ingredient, amount) -> create(ingredient.getIngredient(), amount))
             .isEditable()
-            .setDefaultValueForEmptyRow(ZERO)
+            .setDefaultValueForEmptyRow(NonnegativeFraction.ZERO)
             .build())
-        .addColumn(TableColumnBuilder.withEnumContent(Measure.class)
+        .addColumn(withEnumContent(Measure.class)
             .withColumnName(BUNDLES.message("ingredientMeasureColumn"))
             .getValueFromOrderedList(ingredients,
                 ingredient -> ingredient.getIngredient().getMeasure())

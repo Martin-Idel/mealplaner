@@ -3,6 +3,7 @@ package mealplaner.model;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static java.util.UUID.randomUUID;
+import static mealplaner.commons.NonnegativeFraction.wholeNumber;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.Meal.createMeal;
 import static mealplaner.model.MealData.createData;
@@ -29,7 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import mealplaner.MealplanerData;
-import mealplaner.commons.NonnegativeInteger;
+import mealplaner.commons.NonnegativeFraction;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
@@ -235,9 +236,9 @@ public class MealDataTest {
   }
 
   private static Recipe getRecipe(Ingredient ingredient1, Ingredient ingredient2) {
-    Map<Ingredient, NonnegativeInteger> ingredients = new HashMap<>();
-    ingredients.put(ingredient1, nonNegative(100));
-    ingredients.put(ingredient2, nonNegative(200));
+    Map<Ingredient, NonnegativeFraction> ingredients = new HashMap<>();
+    ingredients.put(ingredient1, wholeNumber(nonNegative(100)));
+    ingredients.put(ingredient2, wholeNumber(nonNegative(200)));
     return Recipe.from(nonNegative(2), ingredients);
   }
 

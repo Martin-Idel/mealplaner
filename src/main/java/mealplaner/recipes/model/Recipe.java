@@ -4,8 +4,8 @@ import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.reducing;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
+import static mealplaner.commons.NonnegativeFraction.ZERO;
 import static mealplaner.commons.NonnegativeInteger.ONE;
-import static mealplaner.commons.NonnegativeInteger.ZERO;
 import static mealplaner.recipes.model.QuantitativeIngredient.create;
 
 import java.util.HashMap;
@@ -14,26 +14,27 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Function;
 
+import mealplaner.commons.NonnegativeFraction;
 import mealplaner.commons.NonnegativeInteger;
 
 public final class Recipe {
   private final NonnegativeInteger numberOfPortions;
-  private final Map<Ingredient, NonnegativeInteger> ingredients;
+  private final Map<Ingredient, NonnegativeFraction> ingredients;
 
   private Recipe(NonnegativeInteger numberOfPortions,
-      Map<Ingredient, NonnegativeInteger> ingredients) {
+      Map<Ingredient, NonnegativeFraction> ingredients) {
     this.numberOfPortions = numberOfPortions;
     this.ingredients = ingredients;
   }
 
   public static Recipe from(NonnegativeInteger numberOfPortions,
-      Map<Ingredient, NonnegativeInteger> ingredients) {
+      Map<Ingredient, NonnegativeFraction> ingredients) {
     return new Recipe(numberOfPortions, ingredients);
   }
 
   public static Recipe from(NonnegativeInteger numberOfPortions,
       List<QuantitativeIngredient> ingredients) {
-    Map<Ingredient, NonnegativeInteger> ingredientMap = ingredients.stream()
+    Map<Ingredient, NonnegativeFraction> ingredientMap = ingredients.stream()
         .collect(groupingBy(QuantitativeIngredient::getIngredient,
             reducing(ZERO,
                 QuantitativeIngredient::getAmount,
@@ -49,7 +50,7 @@ public final class Recipe {
     return numberOfPortions;
   }
 
-  public Map<Ingredient, NonnegativeInteger> getIngredientsFor(
+  public Map<Ingredient, NonnegativeFraction> getIngredientsFor(
       final NonnegativeInteger numberOfPeople) {
     return ingredients.entrySet().stream()
         .collect(toMap(Entry::getKey,
@@ -58,7 +59,7 @@ public final class Recipe {
                 .divideBy(numberOfPortions)));
   }
 
-  public Map<Ingredient, NonnegativeInteger> getIngredientsAsIs() {
+  public Map<Ingredient, NonnegativeFraction> getIngredientsAsIs() {
     return ingredients;
   }
 
@@ -74,7 +75,7 @@ public final class Recipe {
   }
 
   private List<QuantitativeIngredient> getIngredientListWithMultipliedAmount(
-      Function<NonnegativeInteger, NonnegativeInteger> mapValues) {
+      Function<NonnegativeFraction, NonnegativeFraction> mapValues) {
     return ingredients.entrySet()
         .stream()
         .map(entry -> create(entry.getKey(), mapValues.apply(entry.getValue())))

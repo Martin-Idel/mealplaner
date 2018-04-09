@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import mealplaner.commons.NonnegativeFraction;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.Pair;
 import mealplaner.recipes.model.Ingredient;
@@ -16,14 +17,14 @@ import mealplaner.recipes.model.QuantitativeIngredient;
 import mealplaner.recipes.model.Recipe;
 
 public final class ShoppingList {
-  private final Map<Ingredient, NonnegativeInteger> shoppingList;
+  private final Map<Ingredient, NonnegativeFraction> shoppingList;
 
-  private ShoppingList(Map<Ingredient, NonnegativeInteger> recipes) {
+  private ShoppingList(Map<Ingredient, NonnegativeFraction> recipes) {
     shoppingList = recipes;
   }
 
   public static ShoppingList from(List<Pair<Recipe, NonnegativeInteger>> recipes) {
-    Map<Ingredient, NonnegativeInteger> shoppingList = recipes.stream()
+    Map<Ingredient, NonnegativeFraction> shoppingList = recipes.stream()
         .map(pair -> pair.left.getIngredientsFor(pair.right))
         .map(Map::entrySet)
         .flatMap(Collection::stream)
@@ -45,7 +46,7 @@ public final class ShoppingList {
         .collect(toList());
   }
 
-  public Map<Ingredient, NonnegativeInteger> getMap() {
+  public Map<Ingredient, NonnegativeFraction> getMap() {
     return shoppingList;
   }
 }

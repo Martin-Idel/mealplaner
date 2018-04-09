@@ -1,10 +1,13 @@
 package mealplaner.recipes.gui.dialogs.recepies;
 
+import static mealplaner.commons.NonnegativeFraction.fraction;
+import static mealplaner.commons.NonnegativeFraction.wholeNumber;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.getIngredient1;
 import static testcommons.CommonFunctions.getIngredient2;
 import static testcommons.CommonFunctions.getIngredient3;
+import static testcommons.CommonFunctions.getRecipe3;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -17,7 +20,7 @@ import javax.swing.JTable;
 import org.junit.Before;
 import org.junit.Test;
 
-import mealplaner.commons.NonnegativeInteger;
+import mealplaner.commons.NonnegativeFraction;
 import mealplaner.recipes.model.Ingredient;
 import mealplaner.recipes.model.Measure;
 import mealplaner.recipes.model.Recipe;
@@ -34,21 +37,21 @@ public class RecipeTableTest {
 
   @Test
   public void recipeGetsDisplayedCorrectly() {
-    Recipe recipe = createStandardRecipe();
+    Recipe recipe = getRecipe3();
     recipeTable = new RecipeTable(recipe, ingredients);
 
     JTable table = recipeTable.setupTable().getTable();
 
     assertThat(table.getRowCount()).isEqualTo(3);
     assertThat(table.getValueAt(0, 0)).isEqualTo(getIngredient1().getName());
-    assertThat(table.getValueAt(0, 1)).isEqualTo(nonNegative(100));
+    assertThat(table.getValueAt(0, 1)).isEqualTo(wholeNumber(nonNegative(100)));
     assertThat(table.getValueAt(1, 0)).isEqualTo(getIngredient2().getName());
-    assertThat(table.getValueAt(1, 1)).isEqualTo(nonNegative(50));
+    assertThat(table.getValueAt(1, 1)).isEqualTo(wholeNumber(nonNegative(50)));
   }
 
   @Test
   public void recipeGetsReturnedCorrectly() {
-    Recipe recipe = createStandardRecipe();
+    Recipe recipe = getRecipe3();
     recipeTable = new RecipeTable(recipe, ingredients);
     recipeTable.setupTable();
 
@@ -59,16 +62,16 @@ public class RecipeTableTest {
 
   @Test
   public void addingAnIngredientWorksCorrectly() {
-    Recipe recipe = createStandardRecipe();
+    Recipe recipe = getRecipe3();
     recipeTable = new RecipeTable(recipe, ingredients);
     JTable table = recipeTable.setupTable().getTable();
 
     table.setValueAt("Test3", 2, 0);
 
-    Map<Ingredient, NonnegativeInteger> recipeMap = new HashMap<>();
-    recipeMap.put(getIngredient1(), nonNegative(100));
-    recipeMap.put(getIngredient2(), nonNegative(50));
-    recipeMap.put(getIngredient3(), nonNegative(0));
+    Map<Ingredient, NonnegativeFraction> recipeMap = new HashMap<>();
+    recipeMap.put(getIngredient1(), wholeNumber(nonNegative(100)));
+    recipeMap.put(getIngredient2(), wholeNumber(nonNegative(50)));
+    recipeMap.put(getIngredient3(), wholeNumber(nonNegative(0)));
     Recipe expectedRecipe = Recipe.from(nonNegative(1), recipeMap);
     Optional<Recipe> returned = recipeTable.getRecipe(nonNegative(1));
     assertThat(table.getRowCount()).isEqualTo(4);
@@ -77,15 +80,15 @@ public class RecipeTableTest {
 
   @Test
   public void changingAnIngredientWorksCorrectly() {
-    Recipe recipe = createStandardRecipe();
+    Recipe recipe = getRecipe3();
     recipeTable = new RecipeTable(recipe, ingredients);
     JTable table = recipeTable.setupTable().getTable();
 
     table.setValueAt("Test3", 1, 0);
 
-    Map<Ingredient, NonnegativeInteger> recipeMap = new HashMap<>();
-    recipeMap.put(getIngredient1(), nonNegative(100));
-    recipeMap.put(getIngredient3(), nonNegative(50));
+    Map<Ingredient, NonnegativeFraction> recipeMap = new HashMap<>();
+    recipeMap.put(getIngredient1(), wholeNumber(nonNegative(100)));
+    recipeMap.put(getIngredient3(), wholeNumber(nonNegative(50)));
     Recipe expectedRecipe = Recipe.from(nonNegative(1), recipeMap);
     Optional<Recipe> returned = recipeTable.getRecipe(nonNegative(1));
     assertThat(table.getRowCount()).isEqualTo(3);
@@ -95,26 +98,37 @@ public class RecipeTableTest {
 
   @Test
   public void addingAnIngredientTwiceAddsAmounts() {
-    Recipe recipe = createStandardRecipe();
+    Recipe recipe = getRecipe3();
     recipeTable = new RecipeTable(recipe, ingredients);
     JTable table = recipeTable.setupTable().getTable();
 
     table.setValueAt("Test2", 2, 0);
-    table.setValueAt(nonNegative(50), 2, 1);
+    table.setValueAt(wholeNumber(nonNegative(50)), 2, 1);
 
-    Map<Ingredient, NonnegativeInteger> recipeMap = new HashMap<>();
-    recipeMap.put(getIngredient1(), nonNegative(100));
-    recipeMap.put(getIngredient2(), nonNegative(50 + 50));
+    Map<Ingredient, NonnegativeFraction> recipeMap = new HashMap<>();
+    recipeMap.put(getIngredient1(), wholeNumber(nonNegative(100)));
+    recipeMap.put(getIngredient2(), wholeNumber(nonNegative(50 + 50)));
     Recipe expectedRecipe = Recipe.from(nonNegative(1), recipeMap);
     Optional<Recipe> returned = recipeTable.getRecipe(nonNegative(1));
     assertThat(table.getRowCount()).isEqualTo(4);
     assertThat(returned.get()).isEqualTo(expectedRecipe);
   }
 
-  private Recipe createStandardRecipe() {
-    Map<Ingredient, NonnegativeInteger> recipeMap = new HashMap<>();
-    recipeMap.put(getIngredient1(), nonNegative(100));
-    recipeMap.put(getIngredient2(), nonNegative(50));
-    return Recipe.from(nonNegative(1), recipeMap);
+  @Test
+  public void addingAnIngredientTwiceWithFractionsAddsFractions() {
+    Recipe recipe = getRecipe3();
+    recipeTable = new RecipeTable(recipe, ingredients);
+    JTable table = recipeTable.setupTable().getTable();
+
+    table.setValueAt("Test2", 2, 0);
+    table.setValueAt(fraction(40, 11), 2, 1);
+
+    Map<Ingredient, NonnegativeFraction> recipeMap = new HashMap<>();
+    recipeMap.put(getIngredient1(), wholeNumber(nonNegative(100)));
+    recipeMap.put(getIngredient2(), fraction(550 + 40, 11));
+    Recipe expectedRecipe = Recipe.from(nonNegative(1), recipeMap);
+    Optional<Recipe> returned = recipeTable.getRecipe(nonNegative(1));
+    assertThat(table.getRowCount()).isEqualTo(4);
+    assertThat(returned.get()).isEqualTo(expectedRecipe);
   }
 }

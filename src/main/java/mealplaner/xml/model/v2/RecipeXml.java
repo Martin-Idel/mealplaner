@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import mealplaner.commons.NonnegativeFraction;
 import mealplaner.xml.util.UuidMapAdapter;
 
 @XmlRootElement
@@ -16,13 +17,13 @@ import mealplaner.xml.util.UuidMapAdapter;
 public class RecipeXml {
   public int numberOfPortions;
   @XmlJavaTypeAdapter(value = UuidMapAdapter.class)
-  public Map<UUID, Integer> uuid;
+  public Map<UUID, NonnegativeFraction> uuid;
 
   public RecipeXml() {
     this(1, new HashMap<>());
   }
 
-  public RecipeXml(Integer numberOfPortions, Map<UUID, Integer> uuid) {
+  public RecipeXml(Integer numberOfPortions, Map<UUID, NonnegativeFraction> uuid) {
     this.numberOfPortions = numberOfPortions;
     this.uuid = uuid;
   }

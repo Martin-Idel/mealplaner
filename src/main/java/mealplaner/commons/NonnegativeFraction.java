@@ -7,8 +7,6 @@ import static java.util.regex.Pattern.compile;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import mealplaner.commons.errorhandling.MealException;
-
 public final class NonnegativeFraction {
   public static final NonnegativeFraction ZERO = fraction(0, 1);
 
@@ -82,19 +80,18 @@ public final class NonnegativeFraction {
         + parseInt(afterSeparator), POWERS_OF_10[afterSeparator.length()]);
   }
 
-  public NonnegativeFraction plus(NonnegativeFraction summand) {
+  public NonnegativeFraction add(NonnegativeFraction summand) {
     return new NonnegativeFraction(
         numerator * summand.denominator + summand.numerator * denominator,
         denominator * summand.denominator);
   }
 
-  public NonnegativeFraction minus(NonnegativeFraction summand) throws MealException {
-    int newNominator = numerator * summand.denominator - summand.numerator * denominator;
-    if (newNominator < 0) {
-      throw new NumberFormatException(
-          "Trying to substract larger number from fraction. Fraction must be nonnegative.");
-    }
-    return new NonnegativeFraction(newNominator, denominator * summand.denominator);
+  public NonnegativeFraction multiplyBy(NonnegativeInteger multiplier) {
+    return fraction(numerator * multiplier.value, denominator);
+  }
+
+  public NonnegativeFraction divideBy(NonnegativeInteger divisor) {
+    return fraction(numerator, denominator * divisor.value);
   }
 
   public int getNumerator() {

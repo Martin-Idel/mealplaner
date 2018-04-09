@@ -9,11 +9,12 @@ import static mealplaner.recipes.model.Recipe.from;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.UUID;
 
 import mealplaner.MealplanerData;
-import mealplaner.commons.NonnegativeInteger;
+import mealplaner.commons.NonnegativeFraction;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.recipes.model.Ingredient;
 import mealplaner.recipes.model.Recipe;
@@ -28,10 +29,10 @@ public final class RecipeAdapter {
   public static RecipeXml convertRecipeToXml(Optional<Recipe> optionalRecipe) {
     if (optionalRecipe.isPresent()) {
       Recipe recipe = optionalRecipe.get();
-      Map<UUID, Integer> integerMap = recipe.getIngredientsAsIs()
+      Map<UUID, NonnegativeFraction> integerMap = recipe.getIngredientsAsIs()
           .entrySet()
           .stream()
-          .collect(toMap(e -> e.getKey().getId(), e -> e.getValue().value));
+          .collect(toMap(e -> e.getKey().getId(), e -> e.getValue()));
       return new RecipeXml(recipe.getNumberOfPortions().value, integerMap);
     }
     return null;
@@ -48,11 +49,10 @@ public final class RecipeAdapter {
         throw new MealException("Save file corrupted. Ingredient was not present in list.");
       }
     }
-    Map<Ingredient, NonnegativeInteger> nonnegativeIntegerMap = recipe.uuid
+    Map<Ingredient, NonnegativeFraction> nonnegativeIntegerMap = recipe.uuid
         .entrySet()
         .stream()
-        .collect(toMap(entry -> ingredients.get(entry.getKey()),
-            entry -> nonNegative(entry.getValue())));
+        .collect(toMap(entry -> ingredients.get(entry.getKey()), Entry::getValue));
     return of(from(nonNegative(recipe.numberOfPortions),
         nonnegativeIntegerMap));
   }
@@ -65,11 +65,11 @@ public final class RecipeAdapter {
     List<Ingredient> ingredients = data.getIngredients();
     validateIngredients(recipe.ingredients, ingredients);
 
-    Map<Ingredient, NonnegativeInteger> nonnegativeIntegerMap = recipe.ingredients
+    Map<Ingredient, NonnegativeFraction> nonnegativeIntegerMap = recipe.ingredients
         .entrySet()
         .stream()
         .collect(toMap(e -> findCorrectIngredient(e.getKey(), ingredients),
-            e -> nonNegative(e.getValue())));
+            e -> NonnegativeFraction.fraction(e.getValue(), 1)));
     return of(from(nonNegative(recipe.numberOfPortions), nonnegativeIntegerMap));
   }
 

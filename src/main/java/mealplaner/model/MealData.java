@@ -18,6 +18,7 @@ import java.util.UUID;
 import mealplaner.DataStoreEventType;
 import mealplaner.DataStoreListener;
 import mealplaner.MealplanerData;
+import mealplaner.commons.NonnegativeFraction;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.recipes.model.Ingredient;
@@ -116,7 +117,7 @@ public final class MealData implements DataStoreListener {
 
   private Recipe recomputeRecipe(Map<UUID, Ingredient> ingredients, Recipe oldRecipe) {
     validateIngredients(ingredients, oldRecipe);
-    Map<Ingredient, NonnegativeInteger> newIngredientsMap = oldRecipe.getIngredientsAsIs()
+    Map<Ingredient, NonnegativeFraction> newIngredientsMap = oldRecipe.getIngredientsAsIs()
         .entrySet()
         .stream()
         .collect(toMap(entry -> ingredients.get(entry.getKey().getId()), Entry::getValue));

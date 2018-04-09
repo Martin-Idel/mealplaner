@@ -23,13 +23,13 @@ public class RecipeMap {
 
   public static class KeyValuePair {
     public String uuidKey;
-    public Integer value;
+    public String value;
 
     public KeyValuePair() {
-      this(UUID.randomUUID().toString(), 0);
+      this(UUID.randomUUID().toString(), "0");
     }
 
-    public KeyValuePair(String key, Integer value) {
+    public KeyValuePair(String key, String value) {
       this.uuidKey = key;
       this.value = value;
     }
