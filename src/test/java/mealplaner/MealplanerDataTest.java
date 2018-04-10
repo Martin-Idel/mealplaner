@@ -8,9 +8,12 @@ import static mealplaner.DataStoreEventType.DATE_UPDATED;
 import static mealplaner.DataStoreEventType.PROPOSAL_ADDED;
 import static mealplaner.DataStoreEventType.SETTINGS_CHANGED;
 import static mealplaner.MealplanerData.getInstance;
+import static mealplaner.commons.NonnegativeInteger.TWO;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.Meal.createMeal;
+import static mealplaner.model.Proposal.createProposal;
 import static mealplaner.model.Proposal.from;
+import static mealplaner.model.ProposedMenu.mainOnly;
 import static mealplaner.model.settings.DefaultSettings.createDefaultSettings;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -22,7 +25,6 @@ import static testcommons.CommonFunctions.getIngredient3;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -32,12 +34,12 @@ import org.mockito.runners.MockitoJUnitRunner;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
+import mealplaner.model.ProposedMenu;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
 import mealplaner.model.enums.CourseType;
 import mealplaner.model.enums.ObligatoryUtensil;
 import mealplaner.model.enums.Sidedish;
-import mealplaner.model.settings.Settings;
 import mealplaner.recipes.model.Ingredient;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -57,7 +59,7 @@ public class MealplanerDataTest {
   public void setUp() {
     addInitializedMeals();
     date = of(2017, 5, 7);
-    proposal = from(true, new ArrayList<>(), new ArrayList<>());
+    proposal = createProposal();
     ingredients.addAll(createIngredientsList());
     sut.clear();
     sut.setIngredients(ingredients);
@@ -112,10 +114,10 @@ public class MealplanerDataTest {
 
   @Test
   public void updateMealCorrectlyUpdatesCookedMeals() {
-    List<Meal> proposalMeals = new ArrayList<>();
-    proposalMeals.add(meal1);
-    proposalMeals.add(meal4);
-    proposal = from(true, proposalMeals, createEmptySettingsList(2));
+    List<ProposedMenu> proposalMeals = new ArrayList<>();
+    proposalMeals.add(mainOnly(meal1.getId(), TWO));
+    proposalMeals.add(mainOnly(meal4.getId(), TWO));
+    proposal = from(true, proposalMeals);
     sut.setMeals(meals);
     sut.setTime(date);
     sut.setLastProposal(proposal);
@@ -229,11 +231,5 @@ public class MealplanerDataTest {
     ingredientList.add(getIngredient2());
     ingredientList.add(getIngredient3());
     return ingredientList;
-  }
-
-  private List<Settings> createEmptySettingsList(int i) {
-    List<Settings> settings = new ArrayList<>();
-    IntStream.range(0, i).forEach(number -> settings.add(Settings.createSettings()));
-    return settings;
   }
 }

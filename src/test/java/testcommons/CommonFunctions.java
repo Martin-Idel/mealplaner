@@ -10,6 +10,7 @@ import static mealplaner.commons.NonnegativeFraction.wholeNumber;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.Meal.createMeal;
 import static mealplaner.model.Proposal.from;
+import static mealplaner.model.ProposedMenu.mainOnly;
 import static mealplaner.model.settings.CookingTimeSetting.cookingTimeWithProhibited;
 import static mealplaner.model.settings.Settings.from;
 import static mealplaner.recipes.model.Ingredient.ingredientWithUuid;
@@ -30,6 +31,7 @@ import mealplaner.MealplanerData;
 import mealplaner.commons.NonnegativeFraction;
 import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
+import mealplaner.model.ProposedMenu;
 import mealplaner.model.enums.CasseroleSettings;
 import mealplaner.model.enums.CookingPreference;
 import mealplaner.model.enums.CookingTime;
@@ -186,25 +188,20 @@ public final class CommonFunctions {
   }
 
   public static Proposal getProposal1() {
-    List<Meal> meals = new ArrayList<>();
-    meals.add(getMeal1());
-    meals.add(getMeal2());
-    List<Settings> settings = new ArrayList<>();
-    settings.add(getSettings1());
-    settings.add(getSettings2());
+    List<ProposedMenu> meals = new ArrayList<>();
+    meals.add(mainOnly(getMeal1().getId(), getSettings1().getNumberOfPeople()));
+    meals.add(mainOnly(getMeal2().getId(), getSettings2().getNumberOfPeople()));
     LocalDate date = LocalDate.of(2017, 7, 5);
-    return from(true, meals, settings, date);
+    return from(true, meals, date);
   }
 
   public static Proposal getProposal2() {
-    List<Meal> meals = new ArrayList<>();
-    meals.add(getMeal2());
-    meals.add(getMeal3());
-    List<Settings> settings = new ArrayList<>();
-    settings.add(getSettings1());
-    settings.add(getSettings2());
+    List<ProposedMenu> meals = new ArrayList<>();
+    meals.add(mainOnly(getMeal2().getId(), getSettings1().getNumberOfPeople()));
+    meals.add(mainOnly(getMeal3().getId(), getSettings2().getNumberOfPeople()));
+
     LocalDate date = LocalDate.of(2017, 7, 5);
-    return from(true, meals, settings, date);
+    return from(true, meals, date);
   }
 
   public static MealplanerData setupMealplanerDataWithAllIngredients() {
