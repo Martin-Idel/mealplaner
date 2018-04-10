@@ -9,13 +9,13 @@ import java.util.Optional;
 
 import javax.swing.JFrame;
 
-import mealplaner.DataStore;
 import mealplaner.commons.gui.GridPanel;
 import mealplaner.commons.gui.MessageDialog;
 import mealplaner.commons.gui.buttonpanel.ButtonPanel;
-import mealplaner.commons.gui.dialogs.DialogCreating;
 import mealplaner.commons.gui.dialogs.DialogWindow;
-import mealplaner.model.Meal;
+import mealplaner.gui.dialogs.DialogCreating;
+import mealplaner.model.DataStore;
+import mealplaner.model.meal.Meal;
 
 public abstract class MealInput<T> implements DialogCreating<T> {
   private final JFrame parentFrame;

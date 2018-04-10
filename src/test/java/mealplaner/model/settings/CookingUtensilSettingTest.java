@@ -1,10 +1,10 @@
 package mealplaner.model.settings;
 
-import static mealplaner.model.MealBuilder.meal;
-import static mealplaner.model.enums.ObligatoryUtensil.PAN;
-import static mealplaner.model.enums.ObligatoryUtensil.POT;
-import static mealplaner.model.settings.CookingUtensilSetting.createCookingUtensilSettings;
-import static mealplaner.model.settings.CookingUtensilSetting.from;
+import static mealplaner.model.meal.MealBuilder.meal;
+import static mealplaner.model.meal.enums.ObligatoryUtensil.PAN;
+import static mealplaner.model.meal.enums.ObligatoryUtensil.POT;
+import static mealplaner.model.settings.subsettings.CookingUtensilSetting.createCookingUtensilSettings;
+import static mealplaner.model.settings.subsettings.CookingUtensilSetting.from;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
@@ -20,9 +20,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import mealplaner.model.Meal;
-import mealplaner.model.enums.CasseroleSettings;
-import mealplaner.model.enums.ObligatoryUtensil;
+import mealplaner.model.meal.Meal;
+import mealplaner.model.meal.enums.ObligatoryUtensil;
+import mealplaner.model.settings.enums.CasseroleSettings;
+import mealplaner.model.settings.subsettings.CookingUtensilSetting;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CookingUtensilSettingTest {

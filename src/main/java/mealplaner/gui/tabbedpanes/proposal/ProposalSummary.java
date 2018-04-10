@@ -13,16 +13,16 @@ import java.time.LocalDate;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
-import mealplaner.DataStore;
-import mealplaner.DataStoreEventType;
-import mealplaner.DataStoreListener;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.gui.GridPanel;
 import mealplaner.commons.gui.inputfields.CheckboxInputField;
 import mealplaner.commons.gui.inputfields.InputField;
 import mealplaner.commons.gui.inputfields.NonnegativeIntegerInputField;
-import mealplaner.model.settings.ProposalOutline;
-import mealplaner.model.settings.ProposalOutline.ProposalOutlineBuilder;
+import mealplaner.model.DataStore;
+import mealplaner.model.DataStoreEventType;
+import mealplaner.model.DataStoreListener;
+import mealplaner.model.proposal.ProposalOutline;
+import mealplaner.model.proposal.ProposalOutline.ProposalOutlineBuilder;
 
 // TODO: Refactoring with ProposalsummaryPanel
 public class ProposalSummary implements DataStoreListener {

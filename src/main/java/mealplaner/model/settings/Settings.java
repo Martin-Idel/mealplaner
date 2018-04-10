@@ -1,21 +1,24 @@
 package mealplaner.model.settings;
 
 import static mealplaner.commons.NonnegativeInteger.TWO;
-import static mealplaner.model.enums.CasseroleSettings.POSSIBLE;
-import static mealplaner.model.enums.CourseSettings.ONLY_MAIN;
-import static mealplaner.model.enums.PreferenceSettings.NORMAL;
-import static mealplaner.model.settings.CookingPreferenceSetting.createCookingPreferenceSettings;
-import static mealplaner.model.settings.CookingTimeSetting.copyCookingTimeSetting;
-import static mealplaner.model.settings.CookingTimeSetting.defaultCookingTime;
-import static mealplaner.model.settings.CookingUtensilSetting.copyUtensilSetting;
-import static mealplaner.model.settings.CookingUtensilSetting.createCookingUtensilSettings;
+import static mealplaner.model.settings.enums.CasseroleSettings.POSSIBLE;
+import static mealplaner.model.settings.enums.CourseSettings.ONLY_MAIN;
+import static mealplaner.model.settings.enums.PreferenceSettings.NORMAL;
+import static mealplaner.model.settings.subsettings.CookingPreferenceSetting.createCookingPreferenceSettings;
+import static mealplaner.model.settings.subsettings.CookingTimeSetting.copyCookingTimeSetting;
+import static mealplaner.model.settings.subsettings.CookingTimeSetting.defaultCookingTime;
+import static mealplaner.model.settings.subsettings.CookingUtensilSetting.copyUtensilSetting;
+import static mealplaner.model.settings.subsettings.CookingUtensilSetting.createCookingUtensilSettings;
 
 import mealplaner.commons.NonnegativeInteger;
-import mealplaner.model.enums.CasseroleSettings;
-import mealplaner.model.enums.CookingTime;
-import mealplaner.model.enums.CourseSettings;
-import mealplaner.model.enums.ObligatoryUtensil;
-import mealplaner.model.enums.PreferenceSettings;
+import mealplaner.model.meal.enums.CookingTime;
+import mealplaner.model.meal.enums.ObligatoryUtensil;
+import mealplaner.model.settings.enums.CasseroleSettings;
+import mealplaner.model.settings.enums.CourseSettings;
+import mealplaner.model.settings.enums.PreferenceSettings;
+import mealplaner.model.settings.subsettings.CookingPreferenceSetting;
+import mealplaner.model.settings.subsettings.CookingTimeSetting;
+import mealplaner.model.settings.subsettings.CookingUtensilSetting;
 
 public final class Settings {
   private final CasseroleSettings casseroleSettings;

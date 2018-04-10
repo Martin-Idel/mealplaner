@@ -1,11 +1,11 @@
 package guitests.databaseedit;
 
 import static guitests.helpers.TabbedPanes.DATABASE_EDIT;
-import static mealplaner.model.MealBuilder.from;
-import static mealplaner.model.enums.CookingTime.MEDIUM;
-import static mealplaner.model.enums.CookingTime.SHORT;
-import static mealplaner.model.enums.CourseType.DESERT;
-import static mealplaner.model.enums.Sidedish.RICE;
+import static mealplaner.model.meal.MealBuilder.from;
+import static mealplaner.model.meal.enums.CookingTime.MEDIUM;
+import static mealplaner.model.meal.enums.CookingTime.SHORT;
+import static mealplaner.model.meal.enums.CourseType.DESERT;
+import static mealplaner.model.meal.enums.Sidedish.RICE;
 import static org.assertj.swing.data.TableCell.row;
 import static testcommons.CommonFunctions.getMeal1;
 import static testcommons.CommonFunctions.getRecipe2;
@@ -17,8 +17,8 @@ import org.assertj.swing.fixture.JTableFixture;
 import org.junit.Test;
 
 import guitests.helpers.AssertJMealplanerTestCase;
-import mealplaner.model.Meal;
-import mealplaner.recipes.model.Recipe;
+import mealplaner.model.meal.Meal;
+import mealplaner.model.recipes.Recipe;
 
 public class DatabaseEditChangeMeals extends AssertJMealplanerTestCase {
   public static final int DATABASE_TIME_COLUMN = 1;

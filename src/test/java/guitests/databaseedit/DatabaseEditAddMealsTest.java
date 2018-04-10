@@ -9,7 +9,7 @@ import java.util.List;
 import org.junit.Test;
 
 import guitests.helpers.AssertJMealplanerTestCase;
-import mealplaner.model.Meal;
+import mealplaner.model.meal.Meal;
 
 public class DatabaseEditAddMealsTest extends AssertJMealplanerTestCase {
 

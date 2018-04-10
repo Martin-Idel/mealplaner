@@ -8,18 +8,18 @@ import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.commons.gui.SwingUtilityMethods.autoCompleteCellEditor;
 import static mealplaner.commons.gui.tables.FlexibleTableBuilder.createNewTable;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
-import static mealplaner.model.ProposedMenu.mainOnly;
-import static mealplaner.model.ProposedMenu.proposed;
+import static mealplaner.model.proposal.ProposedMenu.mainOnly;
+import static mealplaner.model.proposal.ProposedMenu.proposed;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import mealplaner.DataStore;
 import mealplaner.commons.gui.tables.Table;
-import mealplaner.model.Meal;
-import mealplaner.model.Proposal;
-import mealplaner.model.ProposedMenu;
+import mealplaner.model.DataStore;
+import mealplaner.model.meal.Meal;
+import mealplaner.model.proposal.Proposal;
+import mealplaner.model.proposal.ProposedMenu;
 
 public class UpdateTable {
   private List<ProposedMenu> meals;

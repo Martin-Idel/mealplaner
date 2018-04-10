@@ -10,7 +10,7 @@ import static java.time.format.TextStyle.FULL;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.commons.Pair.of;
-import static mealplaner.shopping.ShoppingList.from;
+import static mealplaner.model.shoppinglist.ShoppingList.from;
 import static testcommons.CommonFunctions.getMeal1;
 import static testcommons.CommonFunctions.getMeal2;
 import static testcommons.CommonFunctions.getMeal3;
@@ -29,12 +29,12 @@ import org.junit.Test;
 import guitests.helpers.AssertJMealplanerTestCase;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.Pair;
-import mealplaner.model.Meal;
+import mealplaner.model.meal.Meal;
+import mealplaner.model.recipes.QuantitativeIngredient;
+import mealplaner.model.recipes.Recipe;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
-import mealplaner.recipes.model.QuantitativeIngredient;
-import mealplaner.recipes.model.Recipe;
-import mealplaner.shopping.ShoppingList;
+import mealplaner.model.shoppinglist.ShoppingList;
 
 public class ProposalTest extends AssertJMealplanerTestCase {
   public ProposalTest() {

@@ -11,11 +11,11 @@ import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
-import mealplaner.MealplanerData;
 import mealplaner.gui.factories.DialogFactory;
 import mealplaner.gui.tabbedpanes.databaseedit.DatabaseEditPanel;
 import mealplaner.gui.tabbedpanes.proposal.ProposalSummaryPanel;
 import mealplaner.io.FileIoGui;
+import mealplaner.model.MealplanerData;
 
 public class MainGui {
   private final JFrame frame;

@@ -8,7 +8,7 @@ import static mealplaner.commons.gui.tables.FlexibleTableBuilder.createNewTable;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withEnumContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withNonnegativeIntegerContent;
-import static mealplaner.model.MealBuilder.from;
+import static mealplaner.model.meal.MealBuilder.from;
 
 import java.awt.BorderLayout;
 import java.util.ArrayDeque;
@@ -21,22 +21,22 @@ import java.util.function.Consumer;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import mealplaner.DataStore;
-import mealplaner.DataStoreEventType;
-import mealplaner.DataStoreListener;
 import mealplaner.commons.gui.buttonpanel.ButtonPanelEnabling;
 import mealplaner.commons.gui.editing.NonemptyTextCellEditor;
 import mealplaner.commons.gui.tables.Table;
 import mealplaner.gui.dialogs.mealinput.SingleMealInput;
+import mealplaner.gui.dialogs.recepies.RecipeInput;
 import mealplaner.io.FileIoGui;
-import mealplaner.model.Meal;
-import mealplaner.model.enums.CookingPreference;
-import mealplaner.model.enums.CookingTime;
-import mealplaner.model.enums.CourseType;
-import mealplaner.model.enums.ObligatoryUtensil;
-import mealplaner.model.enums.Sidedish;
-import mealplaner.recipes.gui.dialogs.recepies.RecipeInput;
-import mealplaner.recipes.model.Recipe;
+import mealplaner.model.DataStore;
+import mealplaner.model.DataStoreEventType;
+import mealplaner.model.DataStoreListener;
+import mealplaner.model.meal.Meal;
+import mealplaner.model.meal.enums.CookingPreference;
+import mealplaner.model.meal.enums.CookingTime;
+import mealplaner.model.meal.enums.CourseType;
+import mealplaner.model.meal.enums.ObligatoryUtensil;
+import mealplaner.model.meal.enums.Sidedish;
+import mealplaner.model.recipes.Recipe;
 
 public class DatabaseEdit implements DataStoreListener {
   private final JFrame dataFrame;

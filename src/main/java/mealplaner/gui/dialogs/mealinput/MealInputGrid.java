@@ -6,13 +6,12 @@ import static java.util.UUID.randomUUID;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.NonnegativeInteger.ZERO;
 import static mealplaner.commons.gui.GridPanel.gridPanel;
-import static mealplaner.model.Meal.createMeal;
+import static mealplaner.model.meal.Meal.createMeal;
 
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import mealplaner.DataStore;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.gui.GridPanel;
 import mealplaner.commons.gui.dialogs.DialogWindow;
@@ -22,14 +21,15 @@ import mealplaner.commons.gui.inputfields.InputField;
 import mealplaner.commons.gui.inputfields.NonEmptyTextInputField;
 import mealplaner.commons.gui.inputfields.NonnegativeIntegerInputField;
 import mealplaner.commons.gui.inputfields.TextInputField;
-import mealplaner.model.Meal;
-import mealplaner.model.enums.CookingPreference;
-import mealplaner.model.enums.CookingTime;
-import mealplaner.model.enums.CourseType;
-import mealplaner.model.enums.ObligatoryUtensil;
-import mealplaner.model.enums.Sidedish;
-import mealplaner.recipes.gui.dialogs.recepies.RecipeInput;
-import mealplaner.recipes.model.Recipe;
+import mealplaner.gui.dialogs.recepies.RecipeInput;
+import mealplaner.model.DataStore;
+import mealplaner.model.meal.Meal;
+import mealplaner.model.meal.enums.CookingPreference;
+import mealplaner.model.meal.enums.CookingTime;
+import mealplaner.model.meal.enums.CourseType;
+import mealplaner.model.meal.enums.ObligatoryUtensil;
+import mealplaner.model.meal.enums.Sidedish;
+import mealplaner.model.recipes.Recipe;
 
 public final class MealInputGrid {
   private InputField<Optional<String>> nameField;

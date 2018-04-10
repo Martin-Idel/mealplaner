@@ -1,8 +1,8 @@
 package mealplaner.model.settings;
 
-import static mealplaner.model.MealBuilder.meal;
-import static mealplaner.model.enums.CookingTime.LONG;
-import static mealplaner.model.enums.CookingTime.SHORT;
+import static mealplaner.model.meal.MealBuilder.meal;
+import static mealplaner.model.meal.enums.CookingTime.LONG;
+import static mealplaner.model.meal.enums.CookingTime.SHORT;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -12,8 +12,9 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-import mealplaner.model.Meal;
-import mealplaner.model.enums.CookingTime;
+import mealplaner.model.meal.Meal;
+import mealplaner.model.meal.enums.CookingTime;
+import mealplaner.model.settings.subsettings.CookingTimeSetting;
 
 public class CookingTimeSettingTest {
 

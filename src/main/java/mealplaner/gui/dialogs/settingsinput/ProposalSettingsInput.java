@@ -11,11 +11,11 @@ import java.util.Optional;
 
 import javax.swing.JFrame;
 
-import mealplaner.DataStore;
 import mealplaner.commons.gui.buttonpanel.ButtonPanel;
-import mealplaner.commons.gui.dialogs.DialogCreatingWithAdditional;
+import mealplaner.gui.dialogs.DialogCreatingWithAdditional;
+import mealplaner.model.DataStore;
+import mealplaner.model.proposal.ProposalOutline;
 import mealplaner.model.settings.DefaultSettings;
-import mealplaner.model.settings.ProposalOutline;
 import mealplaner.model.settings.Settings;
 
 public class ProposalSettingsInput extends SettingsInput

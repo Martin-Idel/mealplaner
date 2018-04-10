@@ -1,9 +1,9 @@
 package mealplaner.gui.dialogs.proposaloutput;
 
 import static mealplaner.commons.NonnegativeInteger.ONE;
-import static mealplaner.model.ProposedMenu.mainAndDesert;
-import static mealplaner.model.ProposedMenu.mainOnly;
-import static mealplaner.model.ProposedMenu.threeCourseMeal;
+import static mealplaner.model.proposal.ProposedMenu.mainAndDesert;
+import static mealplaner.model.proposal.ProposedMenu.mainOnly;
+import static mealplaner.model.proposal.ProposedMenu.threeCourseMeal;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.getMeal1;
 import static testcommons.CommonFunctions.getMeal2;
@@ -21,9 +21,9 @@ import javax.swing.JTable;
 
 import org.junit.Test;
 
-import mealplaner.MealplanerData;
-import mealplaner.model.Proposal;
-import mealplaner.model.ProposedMenu;
+import mealplaner.model.MealplanerData;
+import mealplaner.model.proposal.Proposal;
+import mealplaner.model.proposal.ProposedMenu;
 
 public class ProposalTableTest {
 

@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import mealplaner.gui.MainGui;
 import mealplaner.gui.factories.DialogFactory;
 import mealplaner.io.FileIoGui;
+import mealplaner.model.MealplanerData;
 
 public final class Kochplaner {
   public static final String SAVE_PATH = "savefiles/";

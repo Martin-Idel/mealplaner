@@ -2,11 +2,11 @@ package mealplaner;
 
 import static java.util.Optional.empty;
 import static java.util.stream.Collectors.toList;
-import static mealplaner.model.Proposal.from;
-import static mealplaner.model.ProposedMenu.proposed;
-import static mealplaner.model.enums.CourseType.DESERT;
-import static mealplaner.model.enums.CourseType.ENTRY;
-import static mealplaner.model.enums.CourseType.MAIN;
+import static mealplaner.model.meal.enums.CourseType.DESERT;
+import static mealplaner.model.meal.enums.CourseType.ENTRY;
+import static mealplaner.model.meal.enums.CourseType.MAIN;
+import static mealplaner.model.proposal.Proposal.from;
+import static mealplaner.model.proposal.ProposedMenu.proposed;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -19,14 +19,14 @@ import java.util.stream.Collectors;
 
 import mealplaner.commons.Pair;
 import mealplaner.commons.errorhandling.MealException;
-import mealplaner.model.Meal;
-import mealplaner.model.Proposal;
-import mealplaner.model.ProposedMenu;
-import mealplaner.model.SideDish;
 import mealplaner.model.configuration.PreferenceMap;
-import mealplaner.model.enums.CookingPreference;
-import mealplaner.model.enums.PreferenceSettings;
+import mealplaner.model.meal.Meal;
+import mealplaner.model.meal.enums.CookingPreference;
+import mealplaner.model.proposal.Proposal;
+import mealplaner.model.proposal.ProposedMenu;
+import mealplaner.model.proposal.SideDish;
 import mealplaner.model.settings.Settings;
+import mealplaner.model.settings.enums.PreferenceSettings;
 
 public class ProposalBuilder {
   private SideDish sideDish;

@@ -16,10 +16,10 @@ import org.assertj.swing.fixture.FrameFixture;
 import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
 import org.junit.Assert;
 
-import mealplaner.MealplanerData;
 import mealplaner.gui.MainGui;
 import mealplaner.gui.factories.DialogFactory;
 import mealplaner.io.FileIoGui;
+import mealplaner.model.MealplanerData;
 
 public class AssertJMealplanerTestCase extends AssertJSwingJUnitTestCase {
   protected FrameFixture window;

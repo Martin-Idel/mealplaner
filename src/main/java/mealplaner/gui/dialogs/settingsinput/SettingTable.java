@@ -10,7 +10,7 @@ import static mealplaner.commons.gui.tables.TableColumnBuilder.withBooleanConten
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withEnumContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withNonnegativeIntegerContent;
-import static mealplaner.model.settings.CookingTimeSetting.copyCookingTimeSetting;
+import static mealplaner.model.settings.subsettings.CookingTimeSetting.copyCookingTimeSetting;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -21,13 +21,13 @@ import java.util.Map;
 import mealplaner.commons.gui.dialogs.DialogWindow;
 import mealplaner.commons.gui.tables.FlexibleTableBuilder;
 import mealplaner.commons.gui.tables.Table;
-import mealplaner.model.enums.CasseroleSettings;
-import mealplaner.model.enums.CookingTime;
-import mealplaner.model.enums.CourseSettings;
-import mealplaner.model.enums.PreferenceSettings;
-import mealplaner.model.settings.CookingTimeSetting;
+import mealplaner.model.meal.enums.CookingTime;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
+import mealplaner.model.settings.enums.CasseroleSettings;
+import mealplaner.model.settings.enums.CourseSettings;
+import mealplaner.model.settings.enums.PreferenceSettings;
+import mealplaner.model.settings.subsettings.CookingTimeSetting;
 
 public class SettingTable {
   private Table table;

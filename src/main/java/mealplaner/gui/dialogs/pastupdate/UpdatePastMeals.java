@@ -11,11 +11,11 @@ import java.util.Optional;
 
 import javax.swing.JFrame;
 
-import mealplaner.DataStore;
 import mealplaner.commons.gui.buttonpanel.ButtonPanel;
-import mealplaner.commons.gui.dialogs.DialogCreating;
 import mealplaner.commons.gui.dialogs.DialogWindow;
-import mealplaner.model.ProposedMenu;
+import mealplaner.gui.dialogs.DialogCreating;
+import mealplaner.model.DataStore;
+import mealplaner.model.proposal.ProposedMenu;
 
 public class UpdatePastMeals implements DialogCreating<Optional<List<ProposedMenu>>> {
   private final DialogWindow dialogWindow;

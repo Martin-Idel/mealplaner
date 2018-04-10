@@ -15,19 +15,19 @@ import javax.swing.JOptionPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import mealplaner.MealplanerData;
 import mealplaner.commons.errorhandling.MealException;
-import mealplaner.model.Meal;
-import mealplaner.recipes.model.Ingredient;
-import mealplaner.xml.IngredientsReader;
-import mealplaner.xml.IngredientsWriter;
-import mealplaner.xml.MealplanerDataReader;
-import mealplaner.xml.MealplanerDataWriter;
-import mealplaner.xml.MealsReader;
-import mealplaner.xml.MealsWriter;
-import mealplaner.xml.ProposalSummaryDataReader;
-import mealplaner.xml.ProposalSummaryDataWriter;
-import mealplaner.xml.ProposalSummaryModel;
+import mealplaner.io.xml.IngredientsReader;
+import mealplaner.io.xml.IngredientsWriter;
+import mealplaner.io.xml.MealplanerDataReader;
+import mealplaner.io.xml.MealplanerDataWriter;
+import mealplaner.io.xml.MealsReader;
+import mealplaner.io.xml.MealsWriter;
+import mealplaner.io.xml.ProposalSummaryDataReader;
+import mealplaner.io.xml.ProposalSummaryDataWriter;
+import mealplaner.io.xml.ProposalSummaryModel;
+import mealplaner.model.MealplanerData;
+import mealplaner.model.meal.Meal;
+import mealplaner.model.recipes.Ingredient;
 
 public class FileIoGui {
   private final JFrame frame;

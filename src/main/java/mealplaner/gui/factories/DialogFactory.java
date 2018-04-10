@@ -4,6 +4,7 @@ import static mealplaner.gui.dialogs.proposaloutput.ProposalTable.proposalOutput
 
 import javax.swing.JFrame;
 
+import mealplaner.gui.dialogs.ingredients.IngredientsInput;
 import mealplaner.gui.dialogs.mealinput.MultipleMealInput;
 import mealplaner.gui.dialogs.mealinput.SingleMealInput;
 import mealplaner.gui.dialogs.pastupdate.UpdatePastMeals;
@@ -11,8 +12,7 @@ import mealplaner.gui.dialogs.proposaloutput.ProposalOutput;
 import mealplaner.gui.dialogs.proposaloutput.ProposalTable;
 import mealplaner.gui.dialogs.settingsinput.DefaultSettingsInput;
 import mealplaner.gui.dialogs.settingsinput.ProposalSettingsInput;
-import mealplaner.recipes.gui.dialogs.ingredients.IngredientsInput;
-import mealplaner.shopping.ShoppingListDialog;
+import mealplaner.gui.dialogs.shopping.ShoppingListDialog;
 
 public class DialogFactory {
   private final JFrame frame;

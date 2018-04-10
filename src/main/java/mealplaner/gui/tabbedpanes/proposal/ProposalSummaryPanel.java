@@ -17,7 +17,6 @@ import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-import mealplaner.MealplanerData;
 import mealplaner.ProposalBuilder;
 import mealplaner.commons.gui.JMenuBuilder;
 import mealplaner.commons.gui.buttonpanel.ButtonPanel;
@@ -25,10 +24,11 @@ import mealplaner.gui.MainContainer;
 import mealplaner.gui.dialogs.proposaloutput.ProposalTable;
 import mealplaner.gui.factories.DialogFactory;
 import mealplaner.io.FileIoGui;
-import mealplaner.model.Proposal;
-import mealplaner.model.ProposedMenu;
+import mealplaner.model.MealplanerData;
+import mealplaner.model.proposal.Proposal;
+import mealplaner.model.proposal.ProposalOutline;
+import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.settings.DefaultSettings;
-import mealplaner.model.settings.ProposalOutline;
 import mealplaner.model.settings.Settings;
 
 public class ProposalSummaryPanel {

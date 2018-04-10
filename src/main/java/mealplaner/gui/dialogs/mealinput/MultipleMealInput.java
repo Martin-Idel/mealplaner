@@ -6,8 +6,8 @@ import java.util.Optional;
 
 import javax.swing.JFrame;
 
-import mealplaner.DataStore;
-import mealplaner.model.Meal;
+import mealplaner.model.DataStore;
+import mealplaner.model.meal.Meal;
 
 public class MultipleMealInput extends MealInput<List<Meal>> {
   private final List<Meal> newMeals;

@@ -15,9 +15,9 @@ import java.util.Optional;
 
 import javax.swing.JFrame;
 
-import mealplaner.DataStore;
 import mealplaner.commons.gui.buttonpanel.ButtonPanel;
-import mealplaner.commons.gui.dialogs.DialogCreating;
+import mealplaner.gui.dialogs.DialogCreating;
+import mealplaner.model.DataStore;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
 

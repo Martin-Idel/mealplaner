@@ -11,10 +11,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import mealplaner.MealplanerData;
 import mealplaner.gui.MainContainer;
 import mealplaner.io.FileIoGui;
-import mealplaner.model.Meal;
+import mealplaner.model.MealplanerData;
+import mealplaner.model.meal.Meal;
 
 public class DatabaseEditPanel {
   private final MealplanerData mealPlan;

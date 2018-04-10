@@ -3,12 +3,12 @@ package mealplaner;
 import static java.util.Optional.empty;
 import static java.util.UUID.randomUUID;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
-import static mealplaner.model.Meal.createMeal;
-import static mealplaner.model.enums.CookingPreference.RARE;
-import static mealplaner.model.enums.PreferenceSettings.NORMAL;
-import static mealplaner.model.settings.CookingTimeSetting.cookingTimeWithProhibited;
-import static mealplaner.model.settings.CookingTimeSetting.defaultCookingTime;
+import static mealplaner.model.meal.Meal.createMeal;
+import static mealplaner.model.meal.enums.CookingPreference.RARE;
 import static mealplaner.model.settings.Settings.from;
+import static mealplaner.model.settings.enums.PreferenceSettings.NORMAL;
+import static mealplaner.model.settings.subsettings.CookingTimeSetting.cookingTimeWithProhibited;
+import static mealplaner.model.settings.subsettings.CookingTimeSetting.defaultCookingTime;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
@@ -21,20 +21,20 @@ import org.junit.Test;
 
 import mealplaner.commons.Pair;
 import mealplaner.commons.errorhandling.MealException;
-import mealplaner.model.Meal;
-import mealplaner.model.Proposal;
-import mealplaner.model.SideDish;
 import mealplaner.model.configuration.PreferenceMap;
-import mealplaner.model.enums.CasseroleSettings;
-import mealplaner.model.enums.CookingPreference;
-import mealplaner.model.enums.CookingTime;
-import mealplaner.model.enums.CourseSettings;
-import mealplaner.model.enums.CourseType;
-import mealplaner.model.enums.ObligatoryUtensil;
-import mealplaner.model.enums.PreferenceSettings;
-import mealplaner.model.enums.Sidedish;
-import mealplaner.model.settings.CookingTimeSetting;
+import mealplaner.model.meal.Meal;
+import mealplaner.model.meal.enums.CookingPreference;
+import mealplaner.model.meal.enums.CookingTime;
+import mealplaner.model.meal.enums.CourseType;
+import mealplaner.model.meal.enums.ObligatoryUtensil;
+import mealplaner.model.meal.enums.Sidedish;
+import mealplaner.model.proposal.Proposal;
+import mealplaner.model.proposal.SideDish;
 import mealplaner.model.settings.Settings;
+import mealplaner.model.settings.enums.CasseroleSettings;
+import mealplaner.model.settings.enums.CourseSettings;
+import mealplaner.model.settings.enums.PreferenceSettings;
+import mealplaner.model.settings.subsettings.CookingTimeSetting;
 
 public class ProposalBuilderTest {
 

@@ -1,18 +1,18 @@
 package mealplaner.model.configuration;
 
-import static mealplaner.model.enums.CookingPreference.NO_PREFERENCE;
-import static mealplaner.model.enums.CookingPreference.RARE;
-import static mealplaner.model.enums.CookingPreference.VERY_POPULAR;
-import static mealplaner.model.enums.PreferenceSettings.NORMAL;
-import static mealplaner.model.enums.PreferenceSettings.RARE_NONE;
-import static mealplaner.model.enums.PreferenceSettings.RARE_PREFERED;
+import static mealplaner.model.meal.enums.CookingPreference.NO_PREFERENCE;
+import static mealplaner.model.meal.enums.CookingPreference.RARE;
+import static mealplaner.model.meal.enums.CookingPreference.VERY_POPULAR;
+import static mealplaner.model.settings.enums.PreferenceSettings.NORMAL;
+import static mealplaner.model.settings.enums.PreferenceSettings.RARE_NONE;
+import static mealplaner.model.settings.enums.PreferenceSettings.RARE_PREFERED;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import mealplaner.commons.Pair;
-import mealplaner.model.enums.CookingPreference;
-import mealplaner.model.enums.PreferenceSettings;
+import mealplaner.model.meal.enums.CookingPreference;
+import mealplaner.model.settings.enums.PreferenceSettings;
 
 public final class PreferenceMap {
   private PreferenceMap() {

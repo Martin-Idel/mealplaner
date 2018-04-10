@@ -5,7 +5,7 @@ import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
-import static mealplaner.model.Meal.createMeal;
+import static mealplaner.model.meal.Meal.createMeal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,14 +15,14 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.UUID;
 
-import mealplaner.DataStoreEventType;
-import mealplaner.DataStoreListener;
-import mealplaner.MealplanerData;
 import mealplaner.commons.NonnegativeFraction;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.errorhandling.MealException;
-import mealplaner.recipes.model.Ingredient;
-import mealplaner.recipes.model.Recipe;
+import mealplaner.model.meal.Meal;
+import mealplaner.model.meal.MealMetaData;
+import mealplaner.model.proposal.ProposedMenu;
+import mealplaner.model.recipes.Ingredient;
+import mealplaner.model.recipes.Recipe;
 
 public final class MealData implements DataStoreListener {
   private final MealplanerData data;

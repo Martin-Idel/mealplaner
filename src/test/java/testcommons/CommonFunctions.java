@@ -4,16 +4,16 @@ import static java.nio.charset.Charset.forName;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static java.util.UUID.nameUUIDFromBytes;
-import static mealplaner.MealplanerData.getInstance;
 import static mealplaner.commons.NonnegativeFraction.fraction;
 import static mealplaner.commons.NonnegativeFraction.wholeNumber;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
-import static mealplaner.model.Meal.createMeal;
-import static mealplaner.model.Proposal.from;
-import static mealplaner.model.ProposedMenu.mainOnly;
-import static mealplaner.model.settings.CookingTimeSetting.cookingTimeWithProhibited;
+import static mealplaner.model.MealplanerData.getInstance;
+import static mealplaner.model.meal.Meal.createMeal;
+import static mealplaner.model.proposal.Proposal.from;
+import static mealplaner.model.proposal.ProposedMenu.mainOnly;
+import static mealplaner.model.recipes.Ingredient.ingredientWithUuid;
 import static mealplaner.model.settings.Settings.from;
-import static mealplaner.recipes.model.Ingredient.ingredientWithUuid;
+import static mealplaner.model.settings.subsettings.CookingTimeSetting.cookingTimeWithProhibited;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -27,24 +27,24 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 
-import mealplaner.MealplanerData;
 import mealplaner.commons.NonnegativeFraction;
-import mealplaner.model.Meal;
-import mealplaner.model.Proposal;
-import mealplaner.model.ProposedMenu;
-import mealplaner.model.enums.CasseroleSettings;
-import mealplaner.model.enums.CookingPreference;
-import mealplaner.model.enums.CookingTime;
-import mealplaner.model.enums.CourseSettings;
-import mealplaner.model.enums.CourseType;
-import mealplaner.model.enums.ObligatoryUtensil;
-import mealplaner.model.enums.PreferenceSettings;
-import mealplaner.model.enums.Sidedish;
+import mealplaner.model.MealplanerData;
+import mealplaner.model.meal.Meal;
+import mealplaner.model.meal.enums.CookingPreference;
+import mealplaner.model.meal.enums.CookingTime;
+import mealplaner.model.meal.enums.CourseType;
+import mealplaner.model.meal.enums.ObligatoryUtensil;
+import mealplaner.model.meal.enums.Sidedish;
+import mealplaner.model.proposal.Proposal;
+import mealplaner.model.proposal.ProposedMenu;
+import mealplaner.model.recipes.Ingredient;
+import mealplaner.model.recipes.IngredientType;
+import mealplaner.model.recipes.Measure;
+import mealplaner.model.recipes.Recipe;
 import mealplaner.model.settings.Settings;
-import mealplaner.recipes.model.Ingredient;
-import mealplaner.recipes.model.IngredientType;
-import mealplaner.recipes.model.Measure;
-import mealplaner.recipes.model.Recipe;
+import mealplaner.model.settings.enums.CasseroleSettings;
+import mealplaner.model.settings.enums.CourseSettings;
+import mealplaner.model.settings.enums.PreferenceSettings;
 
 public final class CommonFunctions {
   private CommonFunctions() {

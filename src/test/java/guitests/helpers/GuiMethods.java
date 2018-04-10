@@ -4,10 +4,10 @@ import static guitests.helpers.TabbedPanes.DATABASE_EDIT;
 import static guitests.helpers.TabbedPanes.PROPOSAL_SUMMARY;
 import static java.time.format.TextStyle.FULL;
 import static mealplaner.commons.BundleStore.BUNDLES;
-import static mealplaner.model.enums.CookingTime.LONG;
-import static mealplaner.model.enums.CookingTime.MEDIUM;
-import static mealplaner.model.enums.CookingTime.SHORT;
-import static mealplaner.model.enums.CookingTime.VERY_SHORT;
+import static mealplaner.model.meal.enums.CookingTime.LONG;
+import static mealplaner.model.meal.enums.CookingTime.MEDIUM;
+import static mealplaner.model.meal.enums.CookingTime.SHORT;
+import static mealplaner.model.meal.enums.CookingTime.VERY_SHORT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.swing.core.MouseButton.LEFT_BUTTON;
 import static org.assertj.swing.data.TableCell.row;
@@ -22,13 +22,13 @@ import org.assertj.swing.fixture.DialogFixture;
 import org.assertj.swing.fixture.FrameFixture;
 import org.assertj.swing.fixture.JTableFixture;
 
-import mealplaner.model.Meal;
-import mealplaner.model.enums.CookingTime;
-import mealplaner.model.settings.CookingTimeSetting;
+import mealplaner.model.meal.Meal;
+import mealplaner.model.meal.enums.CookingTime;
+import mealplaner.model.recipes.QuantitativeIngredient;
+import mealplaner.model.recipes.Recipe;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
-import mealplaner.recipes.model.QuantitativeIngredient;
-import mealplaner.recipes.model.Recipe;
+import mealplaner.model.settings.subsettings.CookingTimeSetting;
 
 public final class GuiMethods {
   private static final int NUMBER_OF_DATA_COLUMNS = 9;

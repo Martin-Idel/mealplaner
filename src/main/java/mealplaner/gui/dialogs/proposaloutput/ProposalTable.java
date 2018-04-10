@@ -9,8 +9,8 @@ import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.SwingUtilityMethods.autoCompleteCellEditor;
 import static mealplaner.commons.gui.tables.FlexibleTableBuilder.createNewTable;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
-import static mealplaner.model.Meal.EMPTY_MEAL;
-import static mealplaner.model.Proposal.from;
+import static mealplaner.model.meal.Meal.EMPTY_MEAL;
+import static mealplaner.model.proposal.Proposal.from;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,12 +18,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import mealplaner.DataStore;
 import mealplaner.commons.gui.tables.FlexibleTableBuilder;
 import mealplaner.commons.gui.tables.Table;
-import mealplaner.model.Meal;
-import mealplaner.model.Proposal;
-import mealplaner.model.ProposedMenu;
+import mealplaner.model.DataStore;
+import mealplaner.model.meal.Meal;
+import mealplaner.model.proposal.Proposal;
+import mealplaner.model.proposal.ProposedMenu;
 
 public final class ProposalTable {
   private final List<ProposedMenu> proposalMenues = new ArrayList<>();

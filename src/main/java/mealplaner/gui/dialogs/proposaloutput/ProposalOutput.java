@@ -7,11 +7,11 @@ import static mealplaner.gui.dialogs.proposaloutput.ProposalTable.proposalOutput
 
 import javax.swing.JFrame;
 
-import mealplaner.DataStore;
 import mealplaner.commons.gui.buttonpanel.ButtonPanel;
-import mealplaner.commons.gui.dialogs.DialogCreating;
 import mealplaner.commons.gui.dialogs.DialogWindow;
-import mealplaner.model.Proposal;
+import mealplaner.gui.dialogs.DialogCreating;
+import mealplaner.model.DataStore;
+import mealplaner.model.proposal.Proposal;
 
 public class ProposalOutput implements DialogCreating<Proposal> {
   private final JFrame parentFrame;
