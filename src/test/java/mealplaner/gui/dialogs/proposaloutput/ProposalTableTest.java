@@ -170,7 +170,7 @@ public class ProposalTableTest {
   }
 
   private JTable createProposalTable(MealplanerData data, Proposal proposal) {
-    ProposalTable table = ProposalTable.proposalOutput(data.getMeals());
+    ProposalTable table = ProposalTable.proposalOutput();
     table.setupProposalTable(data, proposal);
 
     return table.getTable().getTable();

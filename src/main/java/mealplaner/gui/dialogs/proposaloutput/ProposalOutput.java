@@ -24,7 +24,7 @@ public class ProposalOutput implements DialogCreating<Proposal> {
 
   @Override
   public Proposal showDialog(DataStore store) {
-    ProposalTable proposalTable = proposalOutput(store.getMeals());
+    ProposalTable proposalTable = proposalOutput();
     proposalTable.setupProposalTable(store, store.getLastProposal());
 
     ButtonPanel buttonPanel = createButtonPanel(proposalTable);

@@ -25,24 +25,23 @@ import mealplaner.model.Meal;
 import mealplaner.model.Proposal;
 import mealplaner.model.ProposedMenu;
 
-// TODO: maybe adjust interface: we can get the list of meals from the store directly
 public final class ProposalTable {
   private final List<ProposedMenu> proposalMenues = new ArrayList<>();
-  private final List<Meal> meals;
+  private final List<Meal> meals = new ArrayList<>();
   private LocalDate newDate;
   private Proposal lastProposal;
   private Table proposalTable;
 
-  private ProposalTable(List<Meal> meals) {
-    this.meals = meals;
+  private ProposalTable() {
   }
 
-  public static ProposalTable proposalOutput(List<Meal> meals) {
-    return new ProposalTable(meals);
+  public static ProposalTable proposalOutput() {
+    return new ProposalTable();
   }
 
   public void setupProposalTable(DataStore store, Proposal lastProposal) {
     this.lastProposal = lastProposal;
+    this.meals.addAll(store.getMeals());
 
     proposalMenues.addAll(lastProposal.getProposalList());
 

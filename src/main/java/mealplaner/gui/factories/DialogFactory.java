@@ -2,8 +2,6 @@ package mealplaner.gui.factories;
 
 import static mealplaner.gui.dialogs.proposaloutput.ProposalTable.proposalOutput;
 
-import java.util.ArrayList;
-
 import javax.swing.JFrame;
 
 import mealplaner.gui.dialogs.mealinput.MultipleMealInput;
@@ -48,7 +46,7 @@ public class DialogFactory {
   }
 
   public ProposalTable createProposalTableFactory() {
-    return proposalOutput(new ArrayList<>());
+    return proposalOutput();
   }
 
   public IngredientsInput createIngredientsInput() {
