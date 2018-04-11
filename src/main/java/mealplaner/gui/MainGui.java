@@ -18,6 +18,7 @@ import mealplaner.gui.tabbedpanes.proposal.ProposalSummaryPanel;
 import mealplaner.io.FileIoGui;
 import mealplaner.model.MealplanerData;
 
+// TODO Revisit saving meals
 public class MainGui {
   private final JFrame frame;
   private final MainContainer container;

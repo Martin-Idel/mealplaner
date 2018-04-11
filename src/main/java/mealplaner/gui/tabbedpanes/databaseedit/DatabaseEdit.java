@@ -24,7 +24,7 @@ import javax.swing.JPanel;
 import mealplaner.commons.gui.buttonpanel.ButtonPanelEnabling;
 import mealplaner.commons.gui.editing.NonemptyTextCellEditor;
 import mealplaner.commons.gui.tables.Table;
-import mealplaner.gui.dialogs.mealinput.SingleMealInput;
+import mealplaner.gui.dialogs.mealinput.MealInput;
 import mealplaner.gui.dialogs.recepies.RecipeInput;
 import mealplaner.io.FileIoGui;
 import mealplaner.model.DataStore;
@@ -164,7 +164,7 @@ public class DatabaseEdit implements DataStoreListener {
         .addButton(BUNDLES.message("addButton"),
             BUNDLES.message("addButtonMnemonic"),
             action -> {
-              Meal newMeal = new SingleMealInput(dataFrame)
+              Meal newMeal = new MealInput(dataFrame)
                   .showDialog(mealplanerData);
               insertItem(Optional.of(newMeal));
             })

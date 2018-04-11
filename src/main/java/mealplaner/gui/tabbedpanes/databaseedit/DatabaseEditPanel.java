@@ -3,7 +3,6 @@ package mealplaner.gui.tabbedpanes.databaseedit;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.JMenuBuilder.builder;
 
-import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -31,8 +30,6 @@ public class DatabaseEditPanel {
 
   public void addElements(MainContainer container) {
     container.addTabbedPane(BUNDLES.message("dataPanelName"), setupDatabasePanel());
-    container.addToFileMenu(printDatabaseMenu(action -> dbaseEdit.printTable()));
-    container.addSeparatorToFileMenu();
     container.addToHelpMenu(helpDatabaseMenu());
   }
 
@@ -42,13 +39,6 @@ public class DatabaseEditPanel {
         .addActionListener(action -> JOptionPane.showMessageDialog(frame,
             BUNDLES.message("helpDatabaseText"),
             BUNDLES.message("helpDatabaseTitle"), JOptionPane.INFORMATION_MESSAGE))
-        .build();
-  }
-
-  private JMenuItem printDatabaseMenu(ActionListener listener) {
-    return builder("PrintDatabase").addLabelText(BUNDLES.message("menuDataPrintDatabase"))
-        .addMnemonic(BUNDLES.message("menuDataPrintDatabaseMnemonic"))
-        .addActionListener(listener)
         .build();
   }
 

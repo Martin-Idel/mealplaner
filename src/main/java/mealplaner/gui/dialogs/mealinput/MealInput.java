@@ -17,11 +17,12 @@ import mealplaner.gui.dialogs.DialogCreating;
 import mealplaner.model.DataStore;
 import mealplaner.model.meal.Meal;
 
-public abstract class MealInput<T> implements DialogCreating<T> {
+public class MealInput implements DialogCreating<Meal> {
   private final JFrame parentFrame;
   private final DialogWindow dialogWindow;
-
   private final MealInputGrid inputGrid;
+
+  private Meal newMeal;
 
   public MealInput(JFrame parent) {
     dialogWindow = DialogWindow.window(parent, BUNDLES.message("mealInputDialogTitle"));
@@ -30,9 +31,20 @@ public abstract class MealInput<T> implements DialogCreating<T> {
   }
 
   @Override
-  public abstract T showDialog(DataStore store);
+  public Meal showDialog(DataStore store) {
+    display(store, action -> saveMeal());
+    return newMeal;
+  }
 
-  protected void display(DataStore mealPlan, ActionListener saveListener) {
+  private void saveMeal() {
+    Optional<Meal> mealFromInput = getMealAndShowDialog();
+    mealFromInput.ifPresent(meal -> {
+      newMeal = meal;
+      dispose();
+    });
+  }
+
+  private void display(DataStore mealPlan, ActionListener saveListener) {
     GridPanel mealCreationPanel = inputGrid.initialiseInputFields(mealPlan);
 
     ButtonPanel buttonPanel = buildButtonPanel(saveListener);
@@ -51,15 +63,15 @@ public abstract class MealInput<T> implements DialogCreating<T> {
         .build();
   }
 
-  protected void resetFields() {
+  private void resetFields() {
     inputGrid.resetFields();
   }
 
-  protected void dispose() {
+  private void dispose() {
     dialogWindow.dispose();
   }
 
-  protected Optional<Meal> getMealAndShowDialog() {
+  private Optional<Meal> getMealAndShowDialog() {
     Optional<Meal> mealFromInput = inputGrid.getMealFromUserInput();
     if (!mealFromInput.isPresent()) {
       MessageDialog.userErrorMessage(parentFrame, BUNDLES.message("menuNameChoiceEmpty"));

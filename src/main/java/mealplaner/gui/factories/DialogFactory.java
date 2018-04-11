@@ -5,8 +5,7 @@ import static mealplaner.gui.dialogs.proposaloutput.ProposalTable.proposalOutput
 import javax.swing.JFrame;
 
 import mealplaner.gui.dialogs.ingredients.IngredientsInput;
-import mealplaner.gui.dialogs.mealinput.MultipleMealInput;
-import mealplaner.gui.dialogs.mealinput.SingleMealInput;
+import mealplaner.gui.dialogs.mealinput.MealInput;
 import mealplaner.gui.dialogs.pastupdate.UpdatePastMeals;
 import mealplaner.gui.dialogs.proposaloutput.ProposalOutput;
 import mealplaner.gui.dialogs.proposaloutput.ProposalTable;
@@ -21,12 +20,8 @@ public class DialogFactory {
     this.frame = parentFrame;
   }
 
-  public MultipleMealInput createMultipleMealInputDialog() {
-    return new MultipleMealInput(frame);
-  }
-
-  public SingleMealInput createSingleMealInputDialog() {
-    return new SingleMealInput(frame);
+  public MealInput createSingleMealInputDialog() {
+    return new MealInput(frame);
   }
 
   public UpdatePastMeals createUpdatePastMealDialog() {

@@ -4,7 +4,6 @@ import static java.time.LocalDate.now;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.MessageDialog.showSaveExitDialog;
 import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
-import static mealplaner.io.DataParts.INGREDIENTS;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
@@ -142,17 +141,6 @@ public class ProposalSummaryPanel {
   }
 
   private void addToFileMenu(MainContainer container) {
-    container.addToFileMenu(createIngredientsMenu(action -> {
-      dialogs.createIngredientsInput()
-          .showDialog(mealPlan)
-          .forEach(mealPlan::addIngredient);
-      fileIoGui.savePart(mealPlan, INGREDIENTS);
-    }));
-    container.addToFileMenu(createMealMenu(action -> {
-      dialogs.createMultipleMealInputDialog()
-          .showDialog(mealPlan)
-          .forEach(meal -> mealPlan.addMeal(meal));
-    }));
     container.addToFileMenu(viewProposalMenu(action -> dialogs
         .createProposalOutputDialog()
         .showDialog(mealPlan)));
@@ -172,22 +160,6 @@ public class ProposalSummaryPanel {
     return JMenuBuilder.builder("PrintProposal")
         .addLabelText(BUNDLES.message("menuDataPrintProposal"))
         .addMnemonic(BUNDLES.message("menuDataPrintProposalMnemonic"))
-        .addActionListener(listener)
-        .build();
-  }
-
-  private JMenuItem createIngredientsMenu(ActionListener listener) {
-    return JMenuBuilder.builder("InsertIngredients")
-        .addLabelText(BUNDLES.message("ingredientInsertMenu"))
-        .addMnemonic(BUNDLES.message("ingredientInsertMenuMnemonic"))
-        .addActionListener(listener)
-        .build();
-  }
-
-  private JMenuItem createMealMenu(ActionListener listener) {
-    return JMenuBuilder.builder("CreateMeal")
-        .addLabelText(BUNDLES.message("menuDataCreateMenu"))
-        .addMnemonic(BUNDLES.message("menuDataCreateMenuMnemonic"))
         .addActionListener(listener)
         .build();
   }

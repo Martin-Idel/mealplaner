@@ -1,9 +1,6 @@
 package guitests;
 
-import static java.util.Optional.of;
-import static java.util.UUID.randomUUID;
-import static mealplaner.commons.NonnegativeInteger.nonNegative;
-import static mealplaner.model.meal.Meal.createMeal;
+import static guitests.helpers.TabbedPanes.INGREDIENTS_EDIT;
 import static mealplaner.model.recipes.Ingredient.ingredient;
 import static mealplaner.model.recipes.IngredientType.SPICE;
 import static mealplaner.model.recipes.Measure.NONE;
@@ -11,10 +8,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.getIngredient1;
 import static testcommons.CommonFunctions.getIngredient2;
 import static testcommons.CommonFunctions.getIngredient3;
-import static testcommons.CommonFunctions.getRecipe1;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.swing.fixture.DialogFixture;
@@ -22,34 +17,16 @@ import org.junit.Test;
 
 import guitests.helpers.AssertJMealplanerTestCase;
 import mealplaner.io.xml.IngredientsReader;
-import mealplaner.model.meal.Meal;
-import mealplaner.model.meal.enums.CookingPreference;
-import mealplaner.model.meal.enums.CookingTime;
-import mealplaner.model.meal.enums.CourseType;
-import mealplaner.model.meal.enums.ObligatoryUtensil;
-import mealplaner.model.meal.enums.Sidedish;
 import mealplaner.model.recipes.Ingredient;
 
-public class MenuItemsTest extends AssertJMealplanerTestCase {
-
-  @Test
-  public void createMenu() {
-    Meal meal1 = createMeal(randomUUID(), "Bla", CookingTime.LONG, Sidedish.PASTA,
-        ObligatoryUtensil.CASSEROLE, CookingPreference.RARE, CourseType.ENTRY, nonNegative(2),
-        "No comment", of(getRecipe1()));
-    windowHelpers.enterMealFromMenu(meal1);
-    List<Meal> meals = new ArrayList<>();
-    meals.add(meal1);
-    windowHelpers.compareDatabaseInTable(meals);
-    window.close();
-  }
-
+public class IngredientsTest extends AssertJMealplanerTestCase {
   @Test
   public void createIngredient() throws IOException {
     Ingredient ingredient = ingredient("Test4", SPICE, NONE);
 
-    window.menuItem("MenuFile").click();
-    window.menuItem("MenuItemInsertIngredients").click();
+    window.tabbedPane().selectTab(INGREDIENTS_EDIT.number()).click();
+    window.button("ButtonPanelDatabaseEdit0").click();
+
     DialogFixture enterIngredientDialog = window.dialog();
     enterIngredientDialog.textBox("InputFieldNonemptyTextIngredientName")
         .setText(ingredient.getName());
@@ -59,6 +36,8 @@ public class MenuItemsTest extends AssertJMealplanerTestCase {
         .selectItem(ingredient.getMeasure().toString());
     enterIngredientDialog.button("ButtonPanelIngredientsInput0").click();
     enterIngredientDialog.button("ButtonPanelIngredientsInput1").click();
+
+    window.button("ButtonPanelDatabaseEdit2").click();
 
     List<Ingredient> ingredientsAfterSaving = IngredientsReader
         .loadXml(DESTINATION_INGREDIENT_FILE_PATH);

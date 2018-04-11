@@ -17,7 +17,7 @@ public class Ingredient {
   private final IngredientType type;
   private final Measure measure;
 
-  public Ingredient() {
+  private Ingredient() {
     this(UUID.randomUUID(), "no name", IngredientType.OTHER, Measure.NONE);
   }
 
