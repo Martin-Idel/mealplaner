@@ -5,7 +5,7 @@ import static java.util.UUID.nameUUIDFromBytes;
 
 import java.util.UUID;
 
-public class Ingredient {
+public final class Ingredient {
   private static final Ingredient EMPTY_INGREDIENT = new Ingredient(
       nameUUIDFromBytes("".getBytes(forName("UTF-8"))),
       "",

@@ -19,13 +19,15 @@ import guitests.helpers.AssertJMealplanerTestCase;
 import mealplaner.io.xml.IngredientsReader;
 import mealplaner.model.recipes.Ingredient;
 
+// TODO Need more tests as in database edit
 public class IngredientsTest extends AssertJMealplanerTestCase {
+
   @Test
   public void createIngredient() throws IOException {
     Ingredient ingredient = ingredient("Test4", SPICE, NONE);
 
     window.tabbedPane().selectTab(INGREDIENTS_EDIT.number()).click();
-    window.button("ButtonPanelDatabaseEdit0").click();
+    window.button("ButtonPanelIngredientsEdit0").click();
 
     DialogFixture enterIngredientDialog = window.dialog();
     enterIngredientDialog.textBox("InputFieldNonemptyTextIngredientName")
@@ -37,7 +39,7 @@ public class IngredientsTest extends AssertJMealplanerTestCase {
     enterIngredientDialog.button("ButtonPanelIngredientsInput0").click();
     enterIngredientDialog.button("ButtonPanelIngredientsInput1").click();
 
-    window.button("ButtonPanelDatabaseEdit2").click();
+    window.button("ButtonPanelIngredientsEdit2").click();
 
     List<Ingredient> ingredientsAfterSaving = IngredientsReader
         .loadXml(DESTINATION_INGREDIENT_FILE_PATH);

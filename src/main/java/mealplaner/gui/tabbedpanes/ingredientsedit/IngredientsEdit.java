@@ -7,6 +7,7 @@ import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
 import static mealplaner.commons.gui.tables.FlexibleTableBuilder.createNewTable;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withEnumContent;
+import static mealplaner.gui.dialogs.ingredients.IngredientsInput.ingredientsInput;
 import static mealplaner.io.DataParts.INGREDIENTS;
 import static mealplaner.model.DataStoreEventType.INGREDIENTS_CHANGED;
 import static mealplaner.model.recipes.Ingredient.ingredientWithUuid;
@@ -23,7 +24,6 @@ import javax.swing.JPanel;
 
 import mealplaner.commons.gui.buttonpanel.ButtonPanelEnabling;
 import mealplaner.commons.gui.tables.Table;
-import mealplaner.gui.dialogs.ingredients.IngredientsInput;
 import mealplaner.io.FileIoGui;
 import mealplaner.model.DataStoreEventType;
 import mealplaner.model.DataStoreListener;
@@ -107,38 +107,28 @@ public class IngredientsEdit implements DataStoreListener {
         .buildTable();
   }
 
-  // TODO: This code is duplicated in DatabaseEdit - consolidate
+  // TODO: On remove, we need a check!
   private ButtonPanelEnabling createButtonPanelWithEnabling(Consumer<List<Ingredient>> setData) {
-    return builder("DatabaseEdit")
-        .addButton(BUNDLES.message("addButton"),
-            BUNDLES.message("addButtonMnemonic"),
-            action -> {
-              List<Ingredient> newIngredient = new IngredientsInput(frame)
-                  .showDialog(mealPlan);
-              insertItems(newIngredient);
-            })
-        .addButton(BUNDLES.message("removeSelectedButton"),
-            BUNDLES.message("removeSelectedButtonMnemonic"),
-            action -> {
-              Arrays.stream(table.getSelectedRows())
-                  .collect(ArrayDeque<Integer>::new, ArrayDeque<Integer>::add,
-                      ArrayDeque<Integer>::addAll)
-                  .descendingIterator()
-                  .forEachRemaining(number -> {
-                    ingredients.remove((int) number);
-                    table.deleteRows(number, number);
-                  });
-              buttonPanel.enableButtons();
-            })
+    return builder("IngredientsEdit")
+        .addAddButton(action -> insertItems(ingredientsInput(frame).showDialog(mealPlan)))
+        .addRemoveSelectedButton(action -> {
+          Arrays.stream(table.getSelectedRows())
+              .collect(ArrayDeque<Integer>::new, ArrayDeque<Integer>::add,
+                  ArrayDeque<Integer>::addAll)
+              .descendingIterator()
+              .forEachRemaining(number -> {
+                ingredients.remove((int) number);
+                table.deleteRows(number, number);
+              });
+          buttonPanel.enableButtons();
+        })
         .addSaveButton(action -> {
           setData.accept(ingredients);
           fileIoGui.savePart(mealPlan, INGREDIENTS);
           buttonPanel.disableButtons();
         })
         .makeLastButtonEnabling()
-        .addButton(BUNDLES.message("cancelButton"),
-            BUNDLES.message("cancelButtonMnemonic"),
-            action -> updateTable())
+        .addCancelButton(action -> updateTable())
         .makeLastButtonEnabling()
         .buildEnablingPanel();
   }

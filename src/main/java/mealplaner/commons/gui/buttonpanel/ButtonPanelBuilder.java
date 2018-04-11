@@ -47,10 +47,38 @@ public final class ButtonPanelBuilder {
     return this;
   }
 
+  public ButtonPanelBuilder addSaveAndCloseButton(ActionListener listener) {
+    buttonList.add(createButton(BUNDLES.message("saveAndCloseButton"),
+        BUNDLES.message("saveAndCloseButtonMnemonic"),
+        listener));
+    return this;
+  }
+
   public ButtonPanelBuilder addCancelDialogButton(JDialog dialog) {
     buttonList.add(createButton(BUNDLES.message("cancelButton"),
         BUNDLES.message("cancelButtonMnemonic"),
         justDisposeListener(dialog)));
+    return this;
+  }
+
+  public ButtonPanelBuilder addCancelButton(ActionListener actionListener) {
+    buttonList.add(createButton(BUNDLES.message("cancelButton"),
+        BUNDLES.message("cancelButtonMnemonic"),
+        actionListener));
+    return this;
+  }
+
+  public ButtonPanelBuilder addAddButton(ActionListener actionListener) {
+    buttonList.add(createButton(BUNDLES.message("addButton"),
+        BUNDLES.message("addButtonMnemonic"),
+        actionListener));
+    return this;
+  }
+
+  public ButtonPanelBuilder addRemoveSelectedButton(ActionListener actionListener) {
+    buttonList.add(createButton(BUNDLES.message("removeSelectedButton"),
+        BUNDLES.message("removeSelectedButtonMnemonic"),
+        actionListener));
     return this;
   }
 

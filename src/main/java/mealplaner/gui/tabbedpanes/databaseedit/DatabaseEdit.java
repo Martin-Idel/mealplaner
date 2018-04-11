@@ -8,6 +8,7 @@ import static mealplaner.commons.gui.tables.FlexibleTableBuilder.createNewTable;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withEnumContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withNonnegativeIntegerContent;
+import static mealplaner.gui.dialogs.mealinput.MealInput.mealinput;
 import static mealplaner.model.meal.MealBuilder.from;
 
 import java.awt.BorderLayout;
@@ -24,7 +25,6 @@ import javax.swing.JPanel;
 import mealplaner.commons.gui.buttonpanel.ButtonPanelEnabling;
 import mealplaner.commons.gui.editing.NonemptyTextCellEditor;
 import mealplaner.commons.gui.tables.Table;
-import mealplaner.gui.dialogs.mealinput.MealInput;
 import mealplaner.gui.dialogs.recepies.RecipeInput;
 import mealplaner.io.FileIoGui;
 import mealplaner.model.DataStore;
@@ -161,35 +161,25 @@ public class DatabaseEdit implements DataStoreListener {
 
   private ButtonPanelEnabling createButtonPanelWithEnabling(Consumer<List<Meal>> setData) {
     return builder("DatabaseEdit")
-        .addButton(BUNDLES.message("addButton"),
-            BUNDLES.message("addButtonMnemonic"),
-            action -> {
-              Meal newMeal = new MealInput(dataFrame)
-                  .showDialog(mealplanerData);
-              insertItem(Optional.of(newMeal));
-            })
-        .addButton(BUNDLES.message("removeSelectedButton"),
-            BUNDLES.message("removeSelectedButtonMnemonic"),
-            action -> {
-              Arrays.stream(table.getSelectedRows())
-                  .collect(ArrayDeque<Integer>::new, ArrayDeque<Integer>::add,
-                      ArrayDeque<Integer>::addAll)
-                  .descendingIterator()
-                  .forEachRemaining(number -> {
-                    meals.remove((int) number);
-                    table.deleteRows(number, number);
-                  });
-              buttonPanel.enableButtons();
-            })
+        .addAddButton(action -> insertItem(mealinput(dataFrame).showDialog(mealplanerData)))
+        .addRemoveSelectedButton(action -> {
+          Arrays.stream(table.getSelectedRows())
+              .collect(ArrayDeque<Integer>::new, ArrayDeque<Integer>::add,
+                  ArrayDeque<Integer>::addAll)
+              .descendingIterator()
+              .forEachRemaining(number -> {
+                meals.remove((int) number);
+                table.deleteRows(number, number);
+              });
+          buttonPanel.enableButtons();
+        })
         .addSaveButton(action -> {
           setData.accept(meals);
           fileIoGui.saveMeals(meals);
           buttonPanel.disableButtons();
         })
         .makeLastButtonEnabling()
-        .addButton(BUNDLES.message("cancelButton"),
-            BUNDLES.message("cancelButtonMnemonic"),
-            action -> updateTable())
+        .addCancelButton(action -> updateTable())
         .makeLastButtonEnabling()
         .buildEnablingPanel();
   }

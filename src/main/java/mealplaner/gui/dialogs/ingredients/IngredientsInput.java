@@ -40,6 +40,10 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
     ingredients = new ArrayList<>();
   }
 
+  public static IngredientsInput ingredientsInput(JFrame parent) {
+    return new IngredientsInput(parent);
+  }
+
   @Override
   public List<Ingredient> showDialog(DataStore store) {
     setupDialog(action -> {

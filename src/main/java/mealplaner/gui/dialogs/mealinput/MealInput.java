@@ -2,9 +2,9 @@ package mealplaner.gui.dialogs.mealinput;
 
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
+import static mealplaner.commons.gui.dialogs.DialogWindow.window;
 import static mealplaner.gui.dialogs.mealinput.MealInputGrid.inputGrid;
 
-import java.awt.event.ActionListener;
 import java.util.Optional;
 
 import javax.swing.JFrame;
@@ -17,37 +17,38 @@ import mealplaner.gui.dialogs.DialogCreating;
 import mealplaner.model.DataStore;
 import mealplaner.model.meal.Meal;
 
-public class MealInput implements DialogCreating<Meal> {
+public class MealInput implements DialogCreating<Optional<Meal>> {
   private final JFrame parentFrame;
   private final DialogWindow dialogWindow;
   private final MealInputGrid inputGrid;
 
-  private Meal newMeal;
+  private Optional<Meal> newMeal = Optional.empty();
 
   public MealInput(JFrame parent) {
-    dialogWindow = DialogWindow.window(parent, BUNDLES.message("mealInputDialogTitle"));
+    dialogWindow = window(parent, BUNDLES.message("mealInputDialogTitle"));
     this.parentFrame = parent;
     inputGrid = inputGrid(dialogWindow);
   }
 
+  public static MealInput mealinput(JFrame parent) {
+    return new MealInput(parent);
+  }
+
   @Override
-  public Meal showDialog(DataStore store) {
-    display(store, action -> saveMeal());
+  public Optional<Meal> showDialog(DataStore store) {
+    display(store);
     return newMeal;
   }
 
   private void saveMeal() {
-    Optional<Meal> mealFromInput = getMealAndShowDialog();
-    mealFromInput.ifPresent(meal -> {
-      newMeal = meal;
-      dispose();
-    });
+    newMeal = getMealAndShowDialog();
+    newMeal.ifPresent(meal -> dispose());
   }
 
-  private void display(DataStore mealPlan, ActionListener saveListener) {
+  private void display(DataStore mealPlan) {
     GridPanel mealCreationPanel = inputGrid.initialiseInputFields(mealPlan);
 
-    ButtonPanel buttonPanel = buildButtonPanel(saveListener);
+    ButtonPanel buttonPanel = buildButtonPanel();
 
     dialogWindow.addCentral(mealCreationPanel);
     dialogWindow.addSouth(buttonPanel);
@@ -56,9 +57,9 @@ public class MealInput implements DialogCreating<Meal> {
     dialogWindow.setVisible();
   }
 
-  private ButtonPanel buildButtonPanel(ActionListener saveListener) {
+  private ButtonPanel buildButtonPanel() {
     return builder("MealInput")
-        .addSaveButton(saveListener)
+        .addSaveAndCloseButton(action -> saveMeal())
         .addCancelDialogButton(dialogWindow)
         .build();
   }
