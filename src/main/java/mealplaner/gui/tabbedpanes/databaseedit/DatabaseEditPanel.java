@@ -46,7 +46,6 @@ public class DatabaseEditPanel {
   }
 
   private JMenuItem printDatabaseMenu(ActionListener listener) {
-
     return builder("PrintDatabase").addLabelText(BUNDLES.message("menuDataPrintDatabase"))
         .addMnemonic(BUNDLES.message("menuDataPrintDatabaseMnemonic"))
         .addActionListener(listener)

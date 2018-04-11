@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 
 import mealplaner.gui.factories.DialogFactory;
 import mealplaner.gui.tabbedpanes.databaseedit.DatabaseEditPanel;
+import mealplaner.gui.tabbedpanes.ingredientsedit.IngredientsEditPanel;
 import mealplaner.gui.tabbedpanes.proposal.ProposalSummaryPanel;
 import mealplaner.io.FileIoGui;
 import mealplaner.model.MealplanerData;
@@ -26,6 +27,7 @@ public class MainGui {
   private final FileIoGui fileIoGui;
   private final DatabaseEditPanel dbaseEditPanel;
   private final ProposalSummaryPanel mealPanel;
+  private final IngredientsEditPanel ingredientsPanel;
 
   public MainGui(JFrame mainFrame, MealplanerData mealPlan, DialogFactory dialogFactory,
       FileIoGui fileIoGui) {
@@ -37,6 +39,7 @@ public class MainGui {
     mealPanel = new ProposalSummaryPanel(this.mealPlan, dialogFactory,
         mainFrame, fileIoGui);
     dbaseEditPanel = new DatabaseEditPanel(this.mealPlan, frame, fileIoGui);
+    ingredientsPanel = new IngredientsEditPanel(this.mealPlan, frame, fileIoGui);
     setupTabbedPanes();
   }
 
@@ -44,6 +47,7 @@ public class MainGui {
     mealPanel.setupPanel();
     mealPanel.addElements(container);
     dbaseEditPanel.addElements(container);
+    ingredientsPanel.addElements(container);
 
     addToFileMenu();
     container.addToHelpMenu(overallHelpMenu());

@@ -107,6 +107,7 @@ public class FileIoGui {
 
   }
 
+  // TODO: use function above
   public void saveMeals(List<Meal> meals) {
     MealsWriter.saveXml(meals, savePath + "meals.xml");
   }
