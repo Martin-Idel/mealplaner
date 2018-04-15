@@ -13,19 +13,22 @@ public class DialogWindow extends JDialog {
   private static final long serialVersionUID = 1L;
   private final Window window;
   private final JPanel mainPanel;
+  private final BorderLayout borderLayout;
 
   protected DialogWindow(JFrame frame, String name) {
     super(frame, name, true);
     this.window = frame;
     mainPanel = new JPanel();
-    mainPanel.setLayout(new BorderLayout());
+    borderLayout = new BorderLayout();
+    mainPanel.setLayout(borderLayout);
   }
 
   protected DialogWindow(JDialog dialog, String name) {
     super(dialog, name, true);
     this.window = dialog;
     mainPanel = new JPanel();
-    mainPanel.setLayout(new BorderLayout());
+    borderLayout = new BorderLayout();
+    mainPanel.setLayout(borderLayout);
   }
 
   public static DialogWindow window(JFrame frame, String name) {
@@ -46,6 +49,12 @@ public class DialogWindow extends JDialog {
 
   public void addCentral(GuiComponent panel) {
     mainPanel.add(panel.getComponent(), BorderLayout.CENTER);
+  }
+
+  public void swapCentral(GuiComponent oldPanel, GuiComponent newPanel) {
+    mainPanel.remove(borderLayout.getLayoutComponent(BorderLayout.CENTER));
+    mainPanel.add(newPanel.getComponent(), BorderLayout.CENTER);
+    mainPanel.validate();
   }
 
   public void addNorth(GuiComponent panel) {

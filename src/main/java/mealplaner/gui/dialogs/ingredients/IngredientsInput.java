@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 
 import mealplaner.commons.gui.GridPanel;
@@ -36,6 +37,12 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
   private final List<Ingredient> ingredients;
 
   public IngredientsInput(JFrame parent) {
+    dialogWindow = DialogWindow.window(parent, BUNDLES.message("ingredientInputDialogTitle"));
+    ingredients = new ArrayList<>();
+  }
+
+  // TODO: Can we consolidate JFrame and JDialog?
+  public IngredientsInput(JDialog parent) {
     dialogWindow = DialogWindow.window(parent, BUNDLES.message("ingredientInputDialogTitle"));
     ingredients = new ArrayList<>();
   }

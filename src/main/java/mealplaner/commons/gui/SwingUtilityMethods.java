@@ -37,6 +37,5 @@ public final class SwingUtilityMethods {
     JComboBox<String> autoCompleteBox = new JComboBox<String>(listAndEmptyElement);
     AutoCompleteDecorator.decorate(autoCompleteBox);
     return new ComboBoxCellEditor(autoCompleteBox);
-
   }
 }

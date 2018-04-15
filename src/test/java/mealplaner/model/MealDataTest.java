@@ -230,6 +230,55 @@ public class MealDataTest {
     assertThat(mealsList).containsExactly(updatedMeal1, updatedMeal2, updatedMeal3);
   }
 
+  @Test
+  public void ingredientInUseIdentifiesUsedIngredientId() {
+    setupOneMeal(getIngredient1(), getIngredient2());
+    MealplanerData data = MealplanerData.getInstance();
+    sut = createData(data);
+    sut.setMeals(meals);
+
+    assertThat(sut.ingredientInUse(getIngredient2())).isTrue();
+    assertThat(sut.ingredientInUse(getIngredient3())).isFalse();
+  }
+
+  @Test
+  public void replaceIngredientReplacesIngredientIfPresent() {
+    setupOneMeal(getIngredient1(), getIngredient2());
+    MealplanerData data = MealplanerData.getInstance();
+    sut = createData(data);
+    sut.setMeals(meals);
+
+    sut.replaceIngredient(getIngredient2(), getIngredient3());
+
+    assertThat(sut.ingredientInUse(getIngredient2())).isFalse();
+    assertThat(sut.ingredientInUse(getIngredient3())).isTrue();
+
+    assertThat(sut.getMealsInList().get(0).getRecipe().get())
+        .isEqualTo(getRecipe(getIngredient1(), getIngredient3()));
+  }
+
+  @Test
+  public void replaceIngredientDoesNothingIfIngredientIsAbsent() {
+    setupOneMeal(getIngredient1(), getIngredient3());
+    MealplanerData data = MealplanerData.getInstance();
+    sut = createData(data);
+    sut.setMeals(meals);
+
+    assertThat(sut.ingredientInUse(getIngredient2())).isFalse();
+    assertThat(sut.ingredientInUse(getIngredient3())).isTrue();
+
+    assertThat(sut.getMealsInList().get(0).getRecipe().get())
+        .isEqualTo(getRecipe(getIngredient1(), getIngredient3()));
+
+    sut.replaceIngredient(getIngredient2(), getIngredient3());
+
+    assertThat(sut.ingredientInUse(getIngredient2())).isFalse();
+    assertThat(sut.ingredientInUse(getIngredient3())).isTrue();
+
+    assertThat(sut.getMealsInList().get(0).getRecipe().get())
+        .isEqualTo(getRecipe(getIngredient1(), getIngredient3()));
+  }
+
   private void setupOneMeal(Ingredient ingredient1, Ingredient ingredient2) {
     meal1 = createMeal(randomUUID(), "Meal1", CookingTime.SHORT, Sidedish.NONE,
         ObligatoryUtensil.PAN, CookingPreference.NO_PREFERENCE, CourseType.MAIN, nonNegative(50),

@@ -21,6 +21,7 @@ import static org.mockito.Mockito.verify;
 import static testcommons.CommonFunctions.getIngredient1;
 import static testcommons.CommonFunctions.getIngredient2;
 import static testcommons.CommonFunctions.getIngredient3;
+import static testcommons.CommonFunctions.getMeal2;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -32,8 +33,6 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import mealplaner.commons.errorhandling.MealException;
-import mealplaner.model.DataStoreListener;
-import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.meal.enums.CookingPreference;
 import mealplaner.model.meal.enums.CookingTime;
@@ -158,7 +157,7 @@ public class MealplanerDataTest {
   }
 
   @Test
-  public void setIngredientsProhibitsAddingFurtherIngredients() {
+  public void setIngredientsGuardsAgainstAddingFurtherIngredients() {
     List<Ingredient> testAgainst = createIngredientsList();
 
     sut.setIngredients(testAgainst);
@@ -179,6 +178,24 @@ public class MealplanerDataTest {
     assertThat(testAgainst).hasSize(4);
     assertThat(sut.getIngredients()).hasSize(3);
     assertThat(testAgainst).containsAll(sut.getIngredients());
+  }
+
+  @Test(expected = MealException.class)
+  public void setIngredientsThrowsExceptionIfIngredientIsDeletedButStillInUse() {
+    sut.addMeal(getMeal2());
+
+    sut.setIngredients(new ArrayList<>());
+  }
+
+  @Test
+  public void deletedIngredientsStillInUseReturnsNonemptyListIfIngredientIsStillUsed() {
+    sut.addMeal(getMeal2());
+
+    List<Ingredient> deletedIngredientsStillInUse = sut
+        .deletedIngredientsStillInUse(new ArrayList<>());
+
+    assertThat(deletedIngredientsStillInUse)
+        .containsExactlyInAnyOrder(getIngredient1(), getIngredient2());
   }
 
   @Test

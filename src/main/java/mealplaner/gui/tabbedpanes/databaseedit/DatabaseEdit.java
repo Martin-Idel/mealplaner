@@ -217,6 +217,7 @@ public class DatabaseEdit implements DataStoreListener {
     return meals;
   }
 
+  // TODO: We need to make sure that we get Ingredient updates also.
   @Override
   public void updateData(DataStoreEventType event) {
     if (event == DataStoreEventType.DATABASE_EDITED) {

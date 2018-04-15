@@ -8,6 +8,7 @@ import static mealplaner.commons.gui.tables.FlexibleTableBuilder.createNewTable;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withEnumContent;
 import static mealplaner.gui.dialogs.ingredients.IngredientsInput.ingredientsInput;
+import static mealplaner.gui.tabbedpanes.ingredientsedit.ReplaceIngredientDialog.showReplaceDialog;
 import static mealplaner.io.DataParts.INGREDIENTS;
 import static mealplaner.model.DataStoreEventType.INGREDIENTS_CHANGED;
 import static mealplaner.model.recipes.Ingredient.ingredientWithUuid;
@@ -17,6 +18,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 import javax.swing.JFrame;
@@ -107,30 +109,48 @@ public class IngredientsEdit implements DataStoreListener {
         .buildTable();
   }
 
-  // TODO: On remove, we need a check!
   private ButtonPanelEnabling createButtonPanelWithEnabling(Consumer<List<Ingredient>> setData) {
     return builder("IngredientsEdit")
         .addAddButton(action -> insertItems(ingredientsInput(frame).showDialog(mealPlan)))
         .addRemoveSelectedButton(action -> {
-          Arrays.stream(table.getSelectedRows())
-              .collect(ArrayDeque<Integer>::new, ArrayDeque<Integer>::add,
-                  ArrayDeque<Integer>::addAll)
-              .descendingIterator()
-              .forEachRemaining(number -> {
-                ingredients.remove((int) number);
-                table.deleteRows(number, number);
-              });
+          deleteSelectedRows(table, number -> ingredients.remove((int) number));
           buttonPanel.enableButtons();
         })
         .addSaveButton(action -> {
-          setData.accept(ingredients);
-          fileIoGui.savePart(mealPlan, INGREDIENTS);
+          saveIngredients(setData);
           buttonPanel.disableButtons();
         })
         .makeLastButtonEnabling()
         .addCancelButton(action -> updateTable())
         .makeLastButtonEnabling()
         .buildEnablingPanel();
+  }
+
+  // TODO: setData is irrelevant
+  private void saveIngredients(Consumer<List<Ingredient>> setData) {
+    List<Ingredient> deletedIngredientsStillInUse = mealPlan
+        .deletedIngredientsStillInUse(ingredients);
+    deletedIngredientsStillInUse.forEach(ingredient -> {
+      Optional<Ingredient> replaced = showReplaceDialog(frame, ingredients, ingredient);
+      if (replaced.isPresent()) {
+        ingredients.add(ingredient);
+      } else {
+        mealPlan.replaceIngredient(ingredient, replaced.get());
+      }
+    });
+    setData.accept(ingredients);
+    fileIoGui.savePart(mealPlan, INGREDIENTS);
+  }
+
+  private void deleteSelectedRows(Table table, Consumer<Integer> remove) {
+    Arrays.stream(table.getSelectedRows())
+        .collect(ArrayDeque<Integer>::new, ArrayDeque<Integer>::add,
+            ArrayDeque<Integer>::addAll)
+        .descendingIterator()
+        .forEachRemaining(number -> {
+          remove.accept(number);
+          table.deleteRows(number, number);
+        });
   }
 
   private void updateTable() {

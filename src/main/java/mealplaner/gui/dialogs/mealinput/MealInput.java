@@ -52,7 +52,7 @@ public class MealInput implements DialogCreating<Optional<Meal>> {
 
     dialogWindow.addCentral(mealCreationPanel);
     dialogWindow.addSouth(buttonPanel);
-    dialogWindow.arrangeWithSize(300, 400);
+    dialogWindow.arrangeWithSize(350, 400);
     resetFields();
     dialogWindow.setVisible();
   }
