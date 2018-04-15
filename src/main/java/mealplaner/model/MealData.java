@@ -176,7 +176,9 @@ public final class MealData implements DataStoreListener {
     Map<Ingredient, NonnegativeFraction> newIngredientsMap = oldRecipe.getIngredientsAsIs();
     if (newIngredientsMap.containsKey(toBeReplaced)) {
       newIngredientsMap.compute(replacingIngredient,
-          (oldIngredient, oldNumber) -> newIngredientsMap.get(toBeReplaced));
+          (oldIngredient, oldNumber) -> oldNumber == null
+              ? newIngredientsMap.get(toBeReplaced)
+              : newIngredientsMap.get(toBeReplaced).add(oldNumber));
       newIngredientsMap.remove(toBeReplaced);
     }
     return Recipe.from(oldRecipe.getNumberOfPortions(), newIngredientsMap);

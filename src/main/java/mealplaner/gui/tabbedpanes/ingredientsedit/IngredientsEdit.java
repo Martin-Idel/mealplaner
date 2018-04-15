@@ -133,9 +133,9 @@ public class IngredientsEdit implements DataStoreListener {
     deletedIngredientsStillInUse.forEach(ingredient -> {
       Optional<Ingredient> replaced = showReplaceDialog(frame, ingredients, ingredient);
       if (replaced.isPresent()) {
-        ingredients.add(ingredient);
-      } else {
         mealPlan.replaceIngredient(ingredient, replaced.get());
+      } else {
+        ingredients.add(ingredient);
       }
     });
     setData.accept(ingredients);
