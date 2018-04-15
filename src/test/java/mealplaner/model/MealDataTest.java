@@ -258,6 +258,23 @@ public class MealDataTest {
   }
 
   @Test
+  public void replaceIngredientReplacesIngredientAddingToAlreadyPresentIngredient() {
+    setupOneMeal(getIngredient1(), getIngredient2());
+    MealplanerData data = MealplanerData.getInstance();
+    sut = createData(data);
+    sut.setMeals(meals);
+
+    sut.replaceIngredient(getIngredient2(), getIngredient1());
+
+    Map<Ingredient, NonnegativeFraction> ingredients = new HashMap<>();
+    ingredients.put(getIngredient1(), wholeNumber(nonNegative(300)));
+    Recipe recipe = Recipe.from(nonNegative(2), ingredients);
+
+    assertThat(sut.getMealsInList().get(0).getRecipe().get())
+        .isEqualTo(recipe);
+  }
+
+  @Test
   public void replaceIngredientDoesNothingIfIngredientIsAbsent() {
     setupOneMeal(getIngredient1(), getIngredient3());
     MealplanerData data = MealplanerData.getInstance();

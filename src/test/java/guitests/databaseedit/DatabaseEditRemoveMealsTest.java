@@ -1,6 +1,5 @@
 package guitests.databaseedit;
 
-import static guitests.helpers.TabbedPanes.DATABASE_EDIT;
 import static testcommons.CommonFunctions.getMeal3;
 
 import java.util.ArrayList;
@@ -9,6 +8,7 @@ import java.util.List;
 import org.junit.Test;
 
 import guitests.helpers.AssertJMealplanerTestCase;
+import guitests.helpers.MealsEditPageObject;
 import mealplaner.model.meal.Meal;
 
 public class DatabaseEditRemoveMealsTest extends AssertJMealplanerTestCase {
@@ -23,12 +23,10 @@ public class DatabaseEditRemoveMealsTest extends AssertJMealplanerTestCase {
     List<Meal> meals = new ArrayList<>();
     meals.add(getMeal3());
 
-    window.tabbedPane().selectTab(DATABASE_EDIT.number()).click();
-    window.table().selectRows(0, 1);
-    window.button("ButtonPanelDatabaseEdit1").click();
-    windowHelpers.compareDatabaseInTable(meals);
-    window.button("ButtonPanelDatabaseEdit2").requireEnabled();
-    window.button("ButtonPanelDatabaseEdit3").requireEnabled();
-    window.close();
+    MealsEditPageObject database = windowHelpers.getMealsPane()
+        .removeSelectedMeals(0, 1)
+        .compareDatabaseInTable(meals);
+    database.cancelButton().requireEnabled();
+    database.saveButton().requireEnabled();
   }
 }

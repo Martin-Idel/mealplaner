@@ -9,6 +9,7 @@ import java.util.List;
 import org.junit.Test;
 
 import guitests.helpers.AssertJMealplanerTestCase;
+import guitests.helpers.MealsEditPageObject;
 import mealplaner.model.meal.Meal;
 
 public class DatabaseEditAddMealsTest extends AssertJMealplanerTestCase {
@@ -16,15 +17,13 @@ public class DatabaseEditAddMealsTest extends AssertJMealplanerTestCase {
   @Test
   public void addMealAddsMealsInCorrectOrder() {
     List<Meal> meals = new ArrayList<>();
-    Meal meal1 = getMeal1();
-    Meal meal2 = getMeal2();
-    meals.add(meal1);
-    meals.add(meal2);
-    windowHelpers.addMealFromDatabase(meal2);
-    windowHelpers.addMealFromDatabase(meal1);
-    windowHelpers.compareDatabaseInTable(meals);
-    window.button("ButtonPanelDatabaseEdit2").requireEnabled();
-    window.button("ButtonPanelDatabaseEdit3").requireEnabled();
-    window.close();
+    meals.add(getMeal1());
+    meals.add(getMeal2());
+    MealsEditPageObject database = windowHelpers.getMealsPane()
+        .addMeal(getMeal2())
+        .addMeal(getMeal1())
+        .compareDatabaseInTable(meals);
+    database.cancelButton().requireEnabled();
+    database.saveButton().requireEnabled();
   }
 }

@@ -1,6 +1,5 @@
-package guitests;
+package guitests.ingredients;
 
-import static guitests.helpers.TabbedPanes.INGREDIENTS_EDIT;
 import static mealplaner.model.recipes.Ingredient.ingredient;
 import static mealplaner.model.recipes.IngredientType.SPICE;
 import static mealplaner.model.recipes.Measure.NONE;
@@ -12,34 +11,19 @@ import static testcommons.CommonFunctions.getIngredient3;
 import java.io.IOException;
 import java.util.List;
 
-import org.assertj.swing.fixture.DialogFixture;
 import org.junit.Test;
 
 import guitests.helpers.AssertJMealplanerTestCase;
 import mealplaner.io.xml.IngredientsReader;
 import mealplaner.model.recipes.Ingredient;
 
-// TODO Need more tests as in database edit
-public class IngredientsTest extends AssertJMealplanerTestCase {
+public class IngredientsInputTest extends AssertJMealplanerTestCase {
 
   @Test
   public void createIngredient() throws IOException {
     Ingredient ingredient = ingredient("Test4", SPICE, NONE);
 
-    window.tabbedPane().selectTab(INGREDIENTS_EDIT.number()).click();
-    window.button("ButtonPanelIngredientsEdit0").click();
-
-    DialogFixture enterIngredientDialog = window.dialog();
-    enterIngredientDialog.textBox("InputFieldNonemptyTextIngredientName")
-        .setText(ingredient.getName());
-    enterIngredientDialog.comboBox("InputFieldComboBoxIngredientType")
-        .selectItem(ingredient.getType().toString());
-    enterIngredientDialog.comboBox("InputFieldComboBoxIngredientMeasure")
-        .selectItem(ingredient.getMeasure().toString());
-    enterIngredientDialog.button("ButtonPanelIngredientsInput0").click();
-    enterIngredientDialog.button("ButtonPanelIngredientsInput1").click();
-
-    window.button("ButtonPanelIngredientsEdit2").click();
+    windowHelpers.getIngredientsPane().addIngredient(ingredient);
 
     List<Ingredient> ingredientsAfterSaving = IngredientsReader
         .loadXml(DESTINATION_INGREDIENT_FILE_PATH);
