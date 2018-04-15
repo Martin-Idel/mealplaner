@@ -2,6 +2,7 @@ package mealplaner.gui.dialogs.recepies;
 
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.NonnegativeInteger.FOUR;
+import static mealplaner.commons.NonnegativeInteger.ONE;
 import static mealplaner.commons.gui.GridPanel.gridPanel;
 import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
 import static mealplaner.commons.gui.dialogs.DialogWindow.window;
@@ -22,6 +23,7 @@ import mealplaner.commons.gui.inputfields.InputField;
 import mealplaner.commons.gui.inputfields.NonnegativeIntegerInputField;
 import mealplaner.commons.gui.tables.Table;
 import mealplaner.gui.dialogs.DialogEditing;
+import mealplaner.gui.dialogs.ingredients.IngredientsInput;
 import mealplaner.model.DataStore;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.Recipe;
@@ -31,6 +33,7 @@ public class RecipeInput implements DialogEditing<Optional<Recipe>> {
   private RecipeTable recipeTable;
   private InputField<NonnegativeInteger> nonnegativeIntegerInputField;
   private Optional<Recipe> enteredRecipe;
+  private Table table;
 
   public RecipeInput(JFrame parentFrame, String label) {
     dialogWindow = window(parentFrame, label);
@@ -43,25 +46,25 @@ public class RecipeInput implements DialogEditing<Optional<Recipe>> {
   @Override
   public Optional<Recipe> showDialog(Optional<Recipe> recipe, DataStore store) {
     enteredRecipe = recipe;
-    display(recipe, store.getIngredients());
+    display(recipe, store);
     dialogWindow.dispose();
     return enteredRecipe;
   }
 
-  private void display(Optional<Recipe> recipe, List<Ingredient> ingredients) {
+  private void display(Optional<Recipe> recipe, DataStore store) {
     nonnegativeIntegerInputField = setupInputField(recipe);
-    GridPanel inputFieldPanel = gridPanel(0, 2);
+    GridPanel inputFieldPanel = gridPanel(1, 2);
     nonnegativeIntegerInputField.addToPanel(inputFieldPanel);
 
-    recipeTable = new RecipeTable(recipe.orElse(createRecipe()), ingredients);
-    Table table = recipeTable.setupTable();
+    recipeTable = new RecipeTable(recipe.orElse(createRecipe()), store.getIngredients());
+    table = recipeTable.setupTable();
 
-    ButtonPanel buttonPanel = displayButtons();
+    ButtonPanel buttonPanel = displayButtons(store);
 
     dialogWindow.addNorth(inputFieldPanel);
     dialogWindow.addCentral(table);
     dialogWindow.addSouth(buttonPanel);
-    dialogWindow.arrangeWithSize(300, 300);
+    dialogWindow.arrangeWithSize(400, 300);
     dialogWindow.setVisible();
   }
 
@@ -74,14 +77,27 @@ public class RecipeInput implements DialogEditing<Optional<Recipe>> {
             : FOUR);
   }
 
-  private ButtonPanel displayButtons() {
+  private ButtonPanel displayButtons(DataStore store) {
     return builder("RecipeInput")
+        .addButton(BUNDLES.message("ingredientInput"),
+            BUNDLES.message("ingredientInputMnemonic"),
+            action -> saveNewIngredients(store))
         .addCancelDialogButton(dialogWindow)
-        .addOkButton(getSaveListener(recipeTable))
+        .addOkButton(getSaveListener())
         .build();
   }
 
-  private ActionListener getSaveListener(RecipeTable recipeTable) {
+  private void saveNewIngredients(DataStore store) {
+    List<Ingredient> newIngredients = new IngredientsInput(dialogWindow).showDialog(store);
+    Table oldTable = table;
+    enteredRecipe = recipeTable.getRecipe(ONE);
+    newIngredients.addAll(store.getIngredients());
+    recipeTable = new RecipeTable(enteredRecipe.orElse(createRecipe()), newIngredients);
+    table = recipeTable.setupTable();
+    dialogWindow.swapCentral(oldTable, table);
+  }
+
+  private ActionListener getSaveListener() {
     return action -> {
       enteredRecipe = recipeTable.getRecipe(nonnegativeIntegerInputField.getUserInput());
       dialogWindow.dispose();

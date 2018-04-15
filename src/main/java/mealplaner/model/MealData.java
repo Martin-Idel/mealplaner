@@ -22,8 +22,10 @@ import mealplaner.model.meal.Meal;
 import mealplaner.model.meal.MealMetaData;
 import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.recipes.Ingredient;
+import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 
+// TODO split this up into several classes
 public final class MealData implements DataStoreListener {
   private final MealplanerData data;
   private final Map<UUID, MealMetaData> metadata;
@@ -86,10 +88,18 @@ public final class MealData implements DataStoreListener {
   public void updateMeals(List<ProposedMenu> mealsCookedLast,
       NonnegativeInteger daysSinceLastUpdate) {
     List<UUID> mealsCooked = mealsCookedLast.stream().map(menu -> menu.main).collect(toList());
+    addDaysPassedToAllMeals(daysSinceLastUpdate);
+    resetMealsCookedLast(mealsCookedLast, mealsCooked);
+  }
+
+  private void addDaysPassedToAllMeals(NonnegativeInteger daysSinceLastUpdate) {
     for (Entry<UUID, NonnegativeInteger> mealEntry : daysPassedSinceLastUpdate.entrySet()) {
       daysPassedSinceLastUpdate.compute(mealEntry.getKey(),
           (key, daysSinceUpdate) -> daysSinceUpdate.add(daysSinceLastUpdate));
     }
+  }
+
+  private void resetMealsCookedLast(List<ProposedMenu> mealsCookedLast, List<UUID> mealsCooked) {
     for (int i = 0; i < mealsCookedLast.size(); i++) {
       ProposedMenu menu = mealsCookedLast.get(i);
       NonnegativeInteger daysPassed = nonNegative(mealsCooked.size() - i - 1);
@@ -139,5 +149,36 @@ public final class MealData implements DataStoreListener {
           Optional<Recipe> recipe = recipeData.get(uuid);
           return createMeal(uuid, metadata, daysSinceCooked, recipe);
         });
+  }
+
+  public boolean ingredientInUse(Ingredient ingredient) {
+    return recipeData.values()
+        .stream()
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .map(Recipe::getIngredientListAsIs)
+        .flatMap(List::stream)
+        .map(QuantitativeIngredient::getIngredient)
+        .anyMatch(ingredient::equalIds);
+  }
+
+  public void replaceIngredient(Ingredient toBeReplaced, Ingredient replacingIngredient) {
+    for (Entry<UUID, MealMetaData> mealMetaData : metadata.entrySet()) {
+      recipeData.compute(mealMetaData.getKey(),
+          (key, value) -> value
+              .map(recipe -> replaceIngredientInRecipe(recipe, toBeReplaced, replacingIngredient)));
+    }
+  }
+
+  // TODO: Is there a better way?
+  private Recipe replaceIngredientInRecipe(Recipe oldRecipe, Ingredient toBeReplaced,
+      Ingredient replacingIngredient) {
+    Map<Ingredient, NonnegativeFraction> newIngredientsMap = oldRecipe.getIngredientsAsIs();
+    if (newIngredientsMap.containsKey(toBeReplaced)) {
+      newIngredientsMap.compute(replacingIngredient,
+          (oldIngredient, oldNumber) -> newIngredientsMap.get(toBeReplaced));
+      newIngredientsMap.remove(toBeReplaced);
+    }
+    return Recipe.from(oldRecipe.getNumberOfPortions(), newIngredientsMap);
   }
 }

@@ -57,6 +57,10 @@ public final class Ingredient {
     return measure;
   }
 
+  public boolean equalIds(Ingredient ingredient) {
+    return this.uuid.equals(ingredient.getId());
+  }
+
   @Override
   public String toString() {
     return "Ingredient [uuid=" + uuid.toString() + ", name=" + name + ", type=" + type

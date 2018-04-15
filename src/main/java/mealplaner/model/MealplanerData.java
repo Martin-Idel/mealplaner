@@ -3,6 +3,7 @@ package mealplaner.model;
 import static java.lang.Math.toIntExact;
 import static java.time.LocalDate.now;
 import static java.time.temporal.ChronoUnit.DAYS;
+import static java.util.stream.Collectors.toList;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.DataStoreEventType.DATABASE_EDITED;
 import static mealplaner.model.DataStoreEventType.DATE_UPDATED;
@@ -19,6 +20,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import mealplaner.commons.NonnegativeInteger;
+import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.proposal.ProposedMenu;
@@ -94,9 +96,32 @@ public final class MealplanerData implements DataStore {
     listeners.forEach(listener -> listener.updateData(INGREDIENTS_CHANGED));
   }
 
+  public List<Ingredient> deletedIngredientsStillInUse(List<Ingredient> ingredients) {
+    return this.ingredients.stream()
+        .filter(ingredient -> !containsIgnoringChanges(ingredients, ingredient))
+        .filter(this::ingredientIsUsed)
+        .collect(toList());
+  }
+
+  public void replaceIngredient(Ingredient toBeReplaced, Ingredient replacingIngredient) {
+    this.mealData.replaceIngredient(toBeReplaced, replacingIngredient);
+  }
+
+  private boolean containsIgnoringChanges(List<Ingredient> ingredients, Ingredient ingredient) {
+    return ingredients.stream().anyMatch(ing -> ing.getId().equals(ingredient.getId()));
+  }
+
+  private boolean ingredientIsUsed(Ingredient ingredient) {
+    return mealData.ingredientInUse(ingredient);
+  }
+
   public void setIngredients(List<Ingredient> ingredients) {
-    this.ingredients = new ArrayList<>(ingredients); // defensive copy
-    listeners.forEach(listener -> listener.updateData(INGREDIENTS_CHANGED));
+    if (deletedIngredientsStillInUse(ingredients).isEmpty()) {
+      this.ingredients = new ArrayList<>(ingredients); // defensive copy
+      listeners.forEach(listener -> listener.updateData(INGREDIENTS_CHANGED));
+    } else {
+      throw new MealException("Trying to set ingredients still in use");
+    }
   }
 
   @Override
