@@ -119,6 +119,7 @@ public final class MealplanerData implements DataStore {
     if (deletedIngredientsStillInUse(ingredients).isEmpty()) {
       this.ingredients = new ArrayList<>(ingredients); // defensive copy
       listeners.forEach(listener -> listener.updateData(INGREDIENTS_CHANGED));
+      listeners.forEach(listener -> listener.updateData(DATABASE_EDITED));
     } else {
       throw new MealException("Trying to set ingredients still in use");
     }

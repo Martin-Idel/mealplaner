@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import guitests.helpers.AssertJMealplanerTestCase;
@@ -82,8 +81,6 @@ public class IngredientsEditDatabase extends AssertJMealplanerTestCase {
         .assertRecipeIn(1, expectedNewRecipe);
   }
 
-  // TODO Fix test
-  @Ignore
   @Test
   public void editingNameReplacesNameInRecipe() {
     Ingredient newIngredient = ingredientWithUuid(getIngredient1().getId(), "New name",
