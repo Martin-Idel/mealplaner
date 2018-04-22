@@ -9,6 +9,7 @@ import static mealplaner.commons.gui.dialogs.DialogWindow.window;
 import static mealplaner.model.recipes.Recipe.createRecipe;
 
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -91,8 +92,10 @@ public class RecipeInput implements DialogEditing<Optional<Recipe>> {
     List<Ingredient> newIngredients = new IngredientsInput(dialogWindow).showDialog(store);
     Table oldTable = table;
     enteredRecipe = recipeTable.getRecipe(ONE);
-    newIngredients.addAll(store.getIngredients());
-    recipeTable = new RecipeTable(enteredRecipe.orElse(createRecipe()), newIngredients);
+    List<Ingredient> allIngredients = new ArrayList<>();
+    allIngredients.addAll(store.getIngredients());
+    allIngredients.addAll(newIngredients);
+    recipeTable = new RecipeTable(enteredRecipe.orElse(createRecipe()), allIngredients);
     table = recipeTable.setupTable();
     dialogWindow.swapCentral(oldTable, table);
   }
