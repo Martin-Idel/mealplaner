@@ -116,6 +116,10 @@ public class IngredientsEditPageObject {
 
   private void enterIngredientInDialog(Ingredient ingredient) {
     DialogFixture enterIngredientDialog = window.dialog();
+    enterIngredient(ingredient, enterIngredientDialog);
+  }
+
+  static void enterIngredient(Ingredient ingredient, DialogFixture enterIngredientDialog) {
     enterIngredientDialog.textBox("InputFieldNonemptyTextIngredientName")
         .setText(ingredient.getName());
     enterIngredientDialog.comboBox("InputFieldComboBoxIngredientType")

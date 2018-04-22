@@ -1,5 +1,6 @@
 package guitests.helpers;
 
+import static guitests.helpers.IngredientsEditPageObject.enterIngredient;
 import static guitests.helpers.TabbedPanes.DATABASE_EDIT;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -19,6 +20,7 @@ import mealplaner.model.meal.enums.CookingTime;
 import mealplaner.model.meal.enums.CourseType;
 import mealplaner.model.meal.enums.ObligatoryUtensil;
 import mealplaner.model.meal.enums.Sidedish;
+import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 
@@ -60,9 +62,15 @@ public class MealsEditPageObject {
     return this;
   }
 
-  public MealsEditPageObject addMeal(Meal meal) {
+  public MealsEditPageObject addMeal(Meal meal, Ingredient... missingIngredients) {
     addMealButton().click();
-    addMealInDialog(meal);
+    addMealInDialog(meal, missingIngredients);
+    return this;
+  }
+
+  public MealsEditPageObject addMealWithIngredients(Ingredient ingredient) {
+    addMealButton().click();
+
     return this;
   }
 
@@ -132,6 +140,11 @@ public class MealsEditPageObject {
     return this;
   }
 
+  public MealsEditPageObject save() {
+    saveButton().click();
+    return this;
+  }
+
   public JButtonFixture addMealButton() {
     return window.button("ButtonPanelDatabaseEdit0");
   }
@@ -159,7 +172,7 @@ public class MealsEditPageObject {
     return this;
   }
 
-  private void addMealInDialog(Meal meal) {
+  private void addMealInDialog(Meal meal, Ingredient... missingIngredients) {
     DialogFixture mealInputDialog = window.dialog();
     mealInputDialog.textBox("InputFieldNonemptyTextName")
         .enterText(meal.getName());
@@ -179,22 +192,30 @@ public class MealsEditPageObject {
         .enterText(meal.getComment());
     if (meal.getRecipe().isPresent()) {
       mealInputDialog.button("InputFieldButtonRecipe").click();
-      enterRecipe(meal.getRecipe().get(), mealInputDialog);
+      enterRecipe(meal.getRecipe().get(), mealInputDialog, missingIngredients);
     }
     mealInputDialog.button("ButtonPanelMealInput0").click();
   }
 
-  private MealsEditPageObject enterRecipe(Recipe recipe, DialogFixture dialog) {
-    dialog.textBox("InputFieldNonnegativeIntegerRecipePortions")
+  private MealsEditPageObject enterRecipe(Recipe recipe, DialogFixture recipeDialog,
+      Ingredient... ingredients) {
+    if (ingredients.length != 0) {
+      recipeDialog.button("ButtonPanelRecipeInput0").click();
+      for (Ingredient ingredient : ingredients) {
+        // TODO: Maybe give names to dialogs if possible.
+        enterIngredient(ingredient, window.dialog("dialog2")); // dialogs are counted
+      }
+    }
+    recipeDialog.textBox("InputFieldNonnegativeIntegerRecipePortions")
         .enterText(recipe.getNumberOfPortions().toString());
-    JTableFixture ingredientsTable = dialog.table();
+    JTableFixture ingredientsTable = recipeDialog.table();
     List<QuantitativeIngredient> ingredientsAsIs = recipe.getIngredientListAsIs();
     for (int i = 0; i < ingredientsAsIs.size(); i++) {
       QuantitativeIngredient ingredient = ingredientsAsIs.get(i);
       ingredientsTable.enterValue(row(i).column(0), ingredient.getIngredient().getName());
       ingredientsTable.enterValue(row(i).column(1), ingredient.getAmount().toString());
     }
-    dialog.button("ButtonPanelRecipeInput2").click();
+    recipeDialog.button("ButtonPanelRecipeInput2").click();
     return this;
   }
 
