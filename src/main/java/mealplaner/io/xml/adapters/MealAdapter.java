@@ -44,7 +44,8 @@ public final class MealAdapter {
         convertRecipeFromXml(data, meal.recipe));
   }
 
-  public static Meal convertMealFromXml(MealplanerData data, mealplaner.io.xml.model.v1.MealXml meal) {
+  public static Meal convertMealFromXml(MealplanerData data,
+      mealplaner.io.xml.model.v1.MealXml meal) {
     return createMeal(
         UUID.randomUUID(),
         meal.name,

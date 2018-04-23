@@ -75,24 +75,24 @@ public class ProposalBuilder {
     UUID main = meals.get(0).getId();
     Optional<UUID> desert = empty();
     switch (settings[today].getCourseSettings()) {
-    case ONLY_MAIN:
-      main = proposeNextMain(meals, proposalList, settings[today]).orElse(meals.get(0)).getId();
-      break;
-    case ENTRY_MAIN:
-      entry = proposeNextEntry(meals);
-      main = proposeNextMain(meals, proposalList, settings[today]).orElse(meals.get(0)).getId();
-      break;
-    case MAIN_DESERT:
-      main = proposeNextMain(meals, proposalList, settings[today]).orElse(meals.get(0)).getId();
-      desert = proposeNextDesert(meals);
-      break;
-    case THREE_COURSE:
-      entry = proposeNextEntry(meals);
-      main = proposeNextMain(meals, proposalList, settings[today]).orElse(meals.get(0)).getId();
-      desert = proposeNextDesert(meals);
-      break;
-    default:
-      throw new MealException("Internal Error: This should not happen");
+      case ONLY_MAIN:
+        main = proposeNextMain(meals, proposalList, settings[today]).orElse(meals.get(0)).getId();
+        break;
+      case ENTRY_MAIN:
+        entry = proposeNextEntry(meals);
+        main = proposeNextMain(meals, proposalList, settings[today]).orElse(meals.get(0)).getId();
+        break;
+      case MAIN_DESERT:
+        main = proposeNextMain(meals, proposalList, settings[today]).orElse(meals.get(0)).getId();
+        desert = proposeNextDesert(meals);
+        break;
+      case THREE_COURSE:
+        entry = proposeNextEntry(meals);
+        main = proposeNextMain(meals, proposalList, settings[today]).orElse(meals.get(0)).getId();
+        desert = proposeNextDesert(meals);
+        break;
+      default:
+        throw new MealException("Internal Error: This should not happen");
     }
     proposalList.add(proposed(entry, main, desert, settings[today].getNumberOfPeople()));
     updateCurrentSidedish(getMeal(main, meals));

@@ -89,16 +89,16 @@ public class FileIoGui {
   public void savePart(MealplanerData mealPlan, DataParts part) {
     try {
       switch (part) {
-      case INGREDIENTS:
-        IngredientsWriter.saveXml(mealPlan.getIngredients(), savePath + "ingredients.xml");
-        break;
-      case MEALS:
-        MealsWriter.saveXml(mealPlan.getMeals(), savePath + "meals.xml");
-        break;
-      case PROPOSAL:
-        ProposalSummaryDataWriter.saveXml(mealPlan, savePath + "save.xml");
-        break;
-      default: // do nothing
+        case INGREDIENTS:
+          IngredientsWriter.saveXml(mealPlan.getIngredients(), savePath + "ingredients.xml");
+          break;
+        case MEALS:
+          MealsWriter.saveXml(mealPlan.getMeals(), savePath + "meals.xml");
+          break;
+        case PROPOSAL:
+          ProposalSummaryDataWriter.saveXml(mealPlan, savePath + "save.xml");
+          break;
+        default: // do nothing
       }
     } catch (MealException exc) {
       errorMessages(frame, exc, BUNDLES.errorMessage("MSG_SAVING_ERROR"));

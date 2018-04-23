@@ -205,21 +205,21 @@ public final class CommonFunctions {
   }
 
   public static MealplanerData setupMealplanerDataWithAllIngredients() {
-    MealplanerData mealPlan = getInstance();
     List<Ingredient> ingredients = new ArrayList<>();
     ingredients.add(CommonFunctions.getIngredient1());
     ingredients.add(CommonFunctions.getIngredient2());
     ingredients.add(CommonFunctions.getIngredient3());
+    MealplanerData mealPlan = getInstance();
     mealPlan.setIngredients(ingredients);
     return mealPlan;
   }
 
   public static MealplanerData setupMealplanerDataWithAllMealsAndIngredients() {
-    MealplanerData mealPlan = setupMealplanerDataWithAllIngredients();
     List<Meal> meals = new ArrayList<>();
     meals.add(getMeal1());
     meals.add(getMeal2());
     meals.add(getMeal3());
+    MealplanerData mealPlan = setupMealplanerDataWithAllIngredients();
     mealPlan.setMeals(meals);
     return mealPlan;
   }

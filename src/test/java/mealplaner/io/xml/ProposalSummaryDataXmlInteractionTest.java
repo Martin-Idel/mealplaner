@@ -13,9 +13,6 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import mealplaner.io.xml.ProposalSummaryDataReader;
-import mealplaner.io.xml.ProposalSummaryDataWriter;
-import mealplaner.io.xml.ProposalSummaryModel;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.settings.DefaultSettings;
@@ -57,7 +54,6 @@ public class ProposalSummaryDataXmlInteractionTest extends XmlInteraction {
   }
 
   private void loadingProposalSummaryWorksCorrectlyFor(String filename) {
-    Map<DayOfWeek, Settings> defaultSettings = createDefaultSettings();
     Proposal proposal = getProposal1();
     LocalDate time = LocalDate.of(2017, 5, 3);
     loadFileWithName(filename);
@@ -68,6 +64,7 @@ public class ProposalSummaryDataXmlInteractionTest extends XmlInteraction {
 
     assertThat(loadedProposalSummaryData.lastProposal).isEqualTo(proposal);
     assertThat(loadedProposalSummaryData.time).isEqualTo(time);
+    Map<DayOfWeek, Settings> defaultSettings = createDefaultSettings();
     assertThat(loadedProposalSummaryData.defaultSettings.getDefaultSettings())
         .containsAllEntriesOf(defaultSettings);
   }

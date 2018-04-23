@@ -51,7 +51,6 @@ public class ProposalSummaryPanel {
   }
 
   public void setupPanel() {
-    ButtonPanel buttonPanel = createButtonPanel();
     mealPanel = new JPanel();
     mealPanel.setLayout(new BorderLayout());
     proposalSummary = new ProposalSummary(this.mealPlan);
@@ -60,6 +59,7 @@ public class ProposalSummaryPanel {
         action -> changeDefaultSettings(),
         action -> makeProposal()).getComponent(),
         BorderLayout.CENTER);
+    ButtonPanel buttonPanel = createButtonPanel();
     mealPanel.add(buttonPanel.getComponent(), BorderLayout.SOUTH);
   }
 

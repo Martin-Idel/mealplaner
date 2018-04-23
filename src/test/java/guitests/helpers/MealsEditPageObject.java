@@ -136,7 +136,7 @@ public class MealsEditPageObject {
   public MealsEditPageObject enterRecipe(int row, Recipe recipe) {
     JTableFixture table = window.table();
     table.cell(row(row).column(DATABASE_RECIPE_COLUMN)).click();
-    enterRecipe(recipe, window.dialog());
+    enterRecipeInDialog(recipe, window.dialog());
     return this;
   }
 
@@ -192,12 +192,12 @@ public class MealsEditPageObject {
         .enterText(meal.getComment());
     if (meal.getRecipe().isPresent()) {
       mealInputDialog.button("InputFieldButtonRecipe").click();
-      enterRecipe(meal.getRecipe().get(), mealInputDialog, missingIngredients);
+      enterRecipeInDialog(meal.getRecipe().get(), mealInputDialog, missingIngredients);
     }
     mealInputDialog.button("ButtonPanelMealInput0").click();
   }
 
-  private MealsEditPageObject enterRecipe(Recipe recipe, DialogFixture recipeDialog,
+  private MealsEditPageObject enterRecipeInDialog(Recipe recipe, DialogFixture recipeDialog,
       Ingredient... ingredients) {
     if (ingredients.length != 0) {
       recipeDialog.button("ButtonPanelRecipeInput0").click();

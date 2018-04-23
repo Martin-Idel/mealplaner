@@ -1,9 +1,9 @@
 This is a small project for a mealplaner. Based on your settings and your database (simple list with various options), it makes proposition on what next to eat. 
 
-## Features (v0.3.0)
+## Features (v0.4.0)
 
 - Internationalization: English and German currently available
-- Can propose one meal per day
+- Can propose one menu with up to three meals per day
 - Meals can store a comment and all ingredients with amount
 - You can define your own settings for every day: How much time do you have? How many people are going to eat? Do you need to prepare the food in advance and want to cook a casserole? Do you rather want to cook special meals or much preferred ones?
 - You can store default settings for a weekly routine to quickly get a proposal for next weeks meals.

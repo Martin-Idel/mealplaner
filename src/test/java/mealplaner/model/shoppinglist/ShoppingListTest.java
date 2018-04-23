@@ -22,20 +22,19 @@ import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.Pair;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.Recipe;
-import mealplaner.model.shoppinglist.ShoppingList;
 
 public class ShoppingListTest {
 
   @Test
   public void addsRecipesTogetherFaithfully() {
     List<Pair<Recipe, NonnegativeInteger>> recipes = getRecipeListForShoppingList();
-
-    ShoppingList shoppingList = ShoppingList.from(recipes);
-
     Map<Ingredient, NonnegativeFraction> expected = new HashMap<>();
     expected.put(getIngredient1(), wholeNumber(nonNegative(300)));
     expected.put(getIngredient2(), wholeNumber(nonNegative(400)));
     expected.put(getIngredient3(), wholeNumber(nonNegative(400)));
+
+    ShoppingList shoppingList = ShoppingList.from(recipes);
+
     assertThat(shoppingList.getMap()).containsAllEntriesOf(expected);
     assertThat(expected).containsAllEntriesOf(shoppingList.getMap());
   }

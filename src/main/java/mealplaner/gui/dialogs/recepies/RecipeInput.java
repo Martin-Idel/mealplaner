@@ -90,12 +90,12 @@ public class RecipeInput implements DialogEditing<Optional<Recipe>> {
 
   private void saveNewIngredients(DataStore store) {
     List<Ingredient> newIngredients = new IngredientsInput(dialogWindow).showDialog(store);
-    Table oldTable = table;
     enteredRecipe = recipeTable.getRecipe(ONE);
     List<Ingredient> allIngredients = new ArrayList<>();
     allIngredients.addAll(store.getIngredients());
     allIngredients.addAll(newIngredients);
     recipeTable = new RecipeTable(enteredRecipe.orElse(createRecipe()), allIngredients);
+    Table oldTable = table;
     table = recipeTable.setupTable();
     dialogWindow.swapCentral(oldTable, table);
   }

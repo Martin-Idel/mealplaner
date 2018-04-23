@@ -45,11 +45,6 @@ public final class ProposalTable {
 
     proposalMenues.addAll(lastProposal.getProposalList());
 
-    boolean needsEntryColumn = proposalMenues.stream()
-        .anyMatch(proposedMenu -> proposedMenu.entry.isPresent());
-    boolean needsDesertColumn = proposalMenues.stream()
-        .anyMatch(proposedMenu -> proposedMenu.desert.isPresent());
-
     newDate = lastProposal.getDateOfFirstProposedItem();
     FlexibleTableBuilder builder = createNewTable()
         .withRowCount(proposalMenues::size)
@@ -66,7 +61,7 @@ public final class ProposalTable {
                     .getDayOfWeek()
                     .getDisplayName(FULL, BUNDLES.locale()))
             .build());
-    if (needsEntryColumn) {
+    if (needsEntryColumn()) {
       builder.addColumn(withContent(String.class)
           .withColumnName(BUNDLES.message("entry"))
           .getValueFromOrderedList(proposalMenues,
@@ -92,7 +87,7 @@ public final class ProposalTable {
         .isEditable()
         .overwriteTableCellEditor(autoCompleteCellEditor(meals, Meal::getName))
         .build());
-    if (needsDesertColumn) {
+    if (needsDesertColumn()) {
       builder.addColumn(withContent(String.class)
           .withColumnName(BUNDLES.message("desert"))
           .getValueFromOrderedList(proposalMenues,
@@ -107,6 +102,14 @@ public final class ProposalTable {
           .build());
     }
     proposalTable = builder.buildTable();
+  }
+
+  private boolean needsDesertColumn() {
+    return proposalMenues.stream().anyMatch(proposedMenu -> proposedMenu.desert.isPresent());
+  }
+
+  private boolean needsEntryColumn() {
+    return proposalMenues.stream().anyMatch(proposedMenu -> proposedMenu.entry.isPresent());
   }
 
   public Table getTable() {

@@ -58,6 +58,13 @@ public class ProposalSummaryPageObject {
     return this;
   }
 
+  private void enterDefaultSettings(DefaultSettings defaultSettings, JTableFixture settingsTable) {
+    Map<DayOfWeek, Settings> settings = defaultSettings.getDefaultSettings();
+    for (DayOfWeek day : DayOfWeek.values()) {
+      enterSettingInDialog(settingsTable, settings.get(day), day.getValue() - 1, false);
+    }
+  }
+
   public ProposalSummaryPageObject compareDefaultSettings(DefaultSettings defaultSettings) {
     inDefaultSettingsDialog(settingsTable -> settingsTable
         .requireContents(defaultSettingsTableEntries(defaultSettings)));
@@ -80,15 +87,8 @@ public class ProposalSummaryPageObject {
 
   private ProposalSummaryPageObject enterSetting(JTableFixture settingsTable, Settings setting,
       int dayNumber) {
-    enterSetting(settingsTable, setting, dayNumber, true);
+    enterSettingInDialog(settingsTable, setting, dayNumber, true);
     return this;
-  }
-
-  private void enterDefaultSettings(DefaultSettings defaultSettings, JTableFixture settingsTable) {
-    Map<DayOfWeek, Settings> settings = defaultSettings.getDefaultSettings();
-    for (DayOfWeek day : DayOfWeek.values()) {
-      enterSetting(settingsTable, settings.get(day), day.getValue() - 1, false);
-    }
   }
 
   private void inDefaultSettingsDialog(Consumer<JTableFixture> doInSettingsTable) {
@@ -105,7 +105,7 @@ public class ProposalSummaryPageObject {
     return window.button("ButtonProposalSummaryDefaultSettings");
   }
 
-  private void enterSetting(JTableFixture settingsTable, Settings setting, int dayNumber,
+  private void enterSettingInDialog(JTableFixture settingsTable, Settings setting, int dayNumber,
       boolean proposal) {
     int firstColumn = proposal ? 2 : 1;
     CookingTimeSetting timeSetting = setting.getCookingTime();
