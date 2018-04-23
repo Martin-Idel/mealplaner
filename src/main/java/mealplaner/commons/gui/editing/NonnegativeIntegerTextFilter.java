@@ -1,5 +1,7 @@
 package mealplaner.commons.gui.editing;
 
+import static java.lang.Integer.parseInt;
+
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
@@ -50,7 +52,7 @@ public class NonnegativeIntegerTextFilter extends DocumentFilter {
 
   private boolean isNonnegativeInteger(String text) {
     try {
-      return Integer.parseInt(text) >= 0 ? true : false;
+      return text.equals("") || parseInt(text) >= 0;
     } catch (NumberFormatException e) {
       return false;
     }
