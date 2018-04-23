@@ -13,6 +13,7 @@ public class IngredientsEditPanel {
   private final MealplanerData mealPlan;
   private final JFrame frame;
   private final FileIoGui fileIoGui;
+  private IngredientsEdit ingredientsEdit;
 
   public IngredientsEditPanel(MealplanerData mealPlan,
       JFrame frame, FileIoGui fileIoGui) {
@@ -27,9 +28,13 @@ public class IngredientsEditPanel {
 
   private JPanel setupIngredientsPanel() {
     JPanel databasePanel = new JPanel();
-    IngredientsEdit ingredientsEdit = new IngredientsEdit(this.mealPlan, frame, databasePanel,
+    ingredientsEdit = new IngredientsEdit(this.mealPlan, frame, databasePanel,
         fileIoGui);
-    ingredientsEdit.setupPane(ingredients -> mealPlan.setIngredients(ingredients));
+    ingredientsEdit.setupPane();
     return databasePanel;
+  }
+
+  public void saveDatabase() {
+    ingredientsEdit.saveIngredients();
   }
 }

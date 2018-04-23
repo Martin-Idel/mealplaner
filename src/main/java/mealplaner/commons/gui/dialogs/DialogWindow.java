@@ -25,6 +25,7 @@ public class DialogWindow extends JDialog {
 
   protected DialogWindow(JDialog dialog, String name) {
     super(dialog, name, true);
+    // this.setName("IngredientsInput");
     this.window = dialog;
     mainPanel = new JPanel();
     borderLayout = new BorderLayout();

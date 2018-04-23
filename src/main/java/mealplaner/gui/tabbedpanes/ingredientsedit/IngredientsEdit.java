@@ -7,6 +7,7 @@ import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
 import static mealplaner.commons.gui.tables.FlexibleTableBuilder.createNewTable;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withEnumContent;
+import static mealplaner.commons.gui.tables.TableHelpers.deleteSelectedRows;
 import static mealplaner.gui.dialogs.ingredients.IngredientsInput.ingredientsInput;
 import static mealplaner.gui.tabbedpanes.ingredientsedit.ReplaceIngredientDialog.showReplaceDialog;
 import static mealplaner.io.DataParts.INGREDIENTS;
@@ -14,12 +15,9 @@ import static mealplaner.model.DataStoreEventType.INGREDIENTS_CHANGED;
 import static mealplaner.model.recipes.Ingredient.ingredientWithUuid;
 
 import java.awt.BorderLayout;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -56,8 +54,8 @@ public class IngredientsEdit implements DataStoreListener {
     dataPanel.setLayout(new BorderLayout());
   }
 
-  public void setupPane(Consumer<List<Ingredient>> setIngredients) {
-    buttonPanel = createButtonPanelWithEnabling(setIngredients);
+  public void setupPane() {
+    buttonPanel = createButtonPanelWithEnabling();
     buttonPanel.disableButtons();
 
     table = createTable();
@@ -109,7 +107,7 @@ public class IngredientsEdit implements DataStoreListener {
         .buildTable();
   }
 
-  private ButtonPanelEnabling createButtonPanelWithEnabling(Consumer<List<Ingredient>> setData) {
+  private ButtonPanelEnabling createButtonPanelWithEnabling() {
     return builder("IngredientsEdit")
         .addAddButton(action -> insertItems(ingredientsInput(frame).showDialog(mealPlan)))
         .addRemoveSelectedButton(action -> {
@@ -117,7 +115,7 @@ public class IngredientsEdit implements DataStoreListener {
           buttonPanel.enableButtons();
         })
         .addSaveButton(action -> {
-          saveIngredients(setData);
+          saveIngredients();
           buttonPanel.disableButtons();
         })
         .makeLastButtonEnabling()
@@ -126,8 +124,7 @@ public class IngredientsEdit implements DataStoreListener {
         .buildEnablingPanel();
   }
 
-  // TODO: setData is irrelevant
-  private void saveIngredients(Consumer<List<Ingredient>> setData) {
+  public void saveIngredients() {
     List<Ingredient> deletedIngredientsStillInUse = mealPlan
         .deletedIngredientsStillInUse(ingredients);
     deletedIngredientsStillInUse.forEach(ingredient -> {
@@ -138,19 +135,8 @@ public class IngredientsEdit implements DataStoreListener {
         ingredients.add(ingredient);
       }
     });
-    setData.accept(ingredients);
+    mealPlan.setIngredients(ingredients);
     fileIoGui.savePart(mealPlan, INGREDIENTS);
-  }
-
-  private void deleteSelectedRows(Table table, Consumer<Integer> remove) {
-    Arrays.stream(table.getSelectedRows())
-        .collect(ArrayDeque<Integer>::new, ArrayDeque<Integer>::add,
-            ArrayDeque<Integer>::addAll)
-        .descendingIterator()
-        .forEachRemaining(number -> {
-          remove.accept(number);
-          table.deleteRows(number, number);
-        });
   }
 
   private void updateTable() {

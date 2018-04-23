@@ -59,22 +59,6 @@ public class FileIoGui {
     return mealPlan;
   }
 
-  public Optional<MealplanerData> loadBackup() {
-    String bak = JOptionPane.showInputDialog(frame, BUNDLES.message("createLoadBackup"),
-        "*.xml");
-    if (bak != null) {
-      MealplanerData mealPlan = MealplanerData.getInstance();
-      try {
-        mealPlan = MealplanerDataReader.loadXml(bak);
-      } catch (MealException exc) {
-        errorMessages(frame, exc, BUNDLES.errorMessage("MSG_BACKUP_NOT_LOADED"));
-        logger.error("Could not load backup: ", exc);
-      }
-      return of(mealPlan);
-    }
-    return empty();
-  }
-
   public void saveDatabase(MealplanerData mealPlan) {
     try {
       ProposalSummaryDataWriter.saveXml(mealPlan, savePath + "save.xml");
@@ -107,9 +91,20 @@ public class FileIoGui {
 
   }
 
-  // TODO: use function above
-  public void saveMeals(List<Meal> meals) {
-    MealsWriter.saveXml(meals, savePath + "meals.xml");
+  public Optional<MealplanerData> loadBackup() {
+    String bak = JOptionPane.showInputDialog(frame, BUNDLES.message("createLoadBackup"),
+        "*.xml");
+    if (bak != null) {
+      MealplanerData mealPlan = MealplanerData.getInstance();
+      try {
+        mealPlan = MealplanerDataReader.loadXml(bak);
+      } catch (MealException exc) {
+        errorMessages(frame, exc, BUNDLES.errorMessage("MSG_BACKUP_NOT_LOADED"));
+        logger.error("Could not load backup: ", exc);
+      }
+      return of(mealPlan);
+    }
+    return empty();
   }
 
   public void createBackup(MealplanerData mealPlan) {

@@ -8,13 +8,12 @@ import static mealplaner.commons.gui.tables.FlexibleTableBuilder.createNewTable;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withEnumContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withNonnegativeIntegerContent;
+import static mealplaner.commons.gui.tables.TableHelpers.deleteSelectedRows;
 import static mealplaner.gui.dialogs.mealinput.MealInput.mealinput;
 import static mealplaner.model.meal.MealBuilder.from;
 
 import java.awt.BorderLayout;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -26,10 +25,11 @@ import mealplaner.commons.gui.buttonpanel.ButtonPanelEnabling;
 import mealplaner.commons.gui.editing.NonemptyTextCellEditor;
 import mealplaner.commons.gui.tables.Table;
 import mealplaner.gui.dialogs.recepies.RecipeInput;
+import mealplaner.io.DataParts;
 import mealplaner.io.FileIoGui;
-import mealplaner.model.DataStore;
 import mealplaner.model.DataStoreEventType;
 import mealplaner.model.DataStoreListener;
+import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.meal.enums.CookingPreference;
 import mealplaner.model.meal.enums.CookingTime;
@@ -46,10 +46,10 @@ public class DatabaseEdit implements DataStoreListener {
   private ButtonPanelEnabling buttonPanel;
   private final FileIoGui fileIoGui;
 
-  private final DataStore mealplanerData;
+  private final MealplanerData mealplanerData;
   private final List<Meal> meals;
 
-  public DatabaseEdit(DataStore mealPlan, JFrame parentFrame, JPanel parentPanel,
+  public DatabaseEdit(MealplanerData mealPlan, JFrame parentFrame, JPanel parentPanel,
       FileIoGui fileIoGui) {
     this.mealplanerData = mealPlan;
     this.fileIoGui = fileIoGui;
@@ -162,20 +162,11 @@ public class DatabaseEdit implements DataStoreListener {
   private ButtonPanelEnabling createButtonPanelWithEnabling(Consumer<List<Meal>> setData) {
     return builder("DatabaseEdit")
         .addAddButton(action -> insertItem(mealinput(dataFrame).showDialog(mealplanerData)))
-        .addRemoveSelectedButton(action -> {
-          Arrays.stream(table.getSelectedRows())
-              .collect(ArrayDeque<Integer>::new, ArrayDeque<Integer>::add,
-                  ArrayDeque<Integer>::addAll)
-              .descendingIterator()
-              .forEachRemaining(number -> {
-                meals.remove((int) number);
-                table.deleteRows(number, number);
-              });
-          buttonPanel.enableButtons();
-        })
+        .addRemoveSelectedButton(
+            action -> deleteSelectedRows(table, number -> meals.remove((int) number)))
         .addSaveButton(action -> {
           setData.accept(meals);
-          fileIoGui.saveMeals(meals);
+          fileIoGui.savePart(mealplanerData, DataParts.MEALS);
           buttonPanel.disableButtons();
         })
         .makeLastButtonEnabling()
@@ -217,7 +208,6 @@ public class DatabaseEdit implements DataStoreListener {
     return meals;
   }
 
-  // TODO: We need to make sure that we get Ingredient updates also.
   @Override
   public void updateData(DataStoreEventType event) {
     if (event == DataStoreEventType.DATABASE_EDITED) {
