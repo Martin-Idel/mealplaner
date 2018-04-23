@@ -24,7 +24,6 @@ import mealplaner.model.DataStoreListener;
 import mealplaner.model.proposal.ProposalOutline;
 import mealplaner.model.proposal.ProposalOutline.ProposalOutlineBuilder;
 
-// TODO: Refactoring with ProposalsummaryPanel
 public class ProposalSummary implements DataStoreListener {
   private final DataStore mealPlan;
   private final GridPanel dataPanel;

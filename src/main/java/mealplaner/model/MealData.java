@@ -4,6 +4,7 @@ import static java.util.Optional.ofNullable;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
+import static mealplaner.commons.NonnegativeFraction.ZERO;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.meal.Meal.createMeal;
 
@@ -25,7 +26,6 @@ import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 
-// TODO split this up into several classes
 public final class MealData implements DataStoreListener {
   private final MealplanerData data;
   private final Map<UUID, MealMetaData> metadata;
@@ -170,15 +170,13 @@ public final class MealData implements DataStoreListener {
     }
   }
 
-  // TODO: Is there a better way?
   private Recipe replaceIngredientInRecipe(Recipe oldRecipe, Ingredient toBeReplaced,
       Ingredient replacingIngredient) {
     Map<Ingredient, NonnegativeFraction> newIngredientsMap = oldRecipe.getIngredientsAsIs();
     if (newIngredientsMap.containsKey(toBeReplaced)) {
-      newIngredientsMap.compute(replacingIngredient,
-          (oldIngredient, oldNumber) -> oldNumber == null
-              ? newIngredientsMap.get(toBeReplaced)
-              : newIngredientsMap.get(toBeReplaced).add(oldNumber));
+      newIngredientsMap.put(replacingIngredient,
+          newIngredientsMap.getOrDefault(replacingIngredient, ZERO)
+              .add(newIngredientsMap.get(toBeReplaced)));
       newIngredientsMap.remove(toBeReplaced);
     }
     return Recipe.from(oldRecipe.getNumberOfPortions(), newIngredientsMap);

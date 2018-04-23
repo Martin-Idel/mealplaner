@@ -4,20 +4,19 @@ import static java.time.LocalDate.now;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.MessageDialog.showSaveExitDialog;
 import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
+import static mealplaner.gui.tabbedpanes.proposal.ProposalSummaryMenuItems.printProposalMenu;
+import static mealplaner.gui.tabbedpanes.proposal.ProposalSummaryMenuItems.viewProposalMenu;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionListener;
 import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import javax.swing.JFrame;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import mealplaner.ProposalBuilder;
-import mealplaner.commons.gui.JMenuBuilder;
 import mealplaner.commons.gui.buttonpanel.ButtonPanel;
 import mealplaner.gui.MainContainer;
 import mealplaner.gui.dialogs.proposaloutput.ProposalTable;
@@ -154,21 +153,5 @@ public class ProposalSummaryPanel {
     ProposalTable proposalTable = dialogs.createProposalTableFactory();
     proposalTable.setupProposalTable(mealPlan, mealPlan.getLastProposal());
     proposalTable.getTable().printTable(frame);
-  }
-
-  private JMenuItem printProposalMenu(ActionListener listener) {
-    return JMenuBuilder.builder("PrintProposal")
-        .addLabelText(BUNDLES.message("menuDataPrintProposal"))
-        .addMnemonic(BUNDLES.message("menuDataPrintProposalMnemonic"))
-        .addActionListener(listener)
-        .build();
-  }
-
-  private JMenuItem viewProposalMenu(ActionListener listener) {
-    return JMenuBuilder.builder("LastProposal")
-        .addLabelText(BUNDLES.message("menuDataLastProposal"))
-        .addMnemonic(BUNDLES.message("menuDataLastProposalMnemonic"))
-        .addActionListener(listener)
-        .build();
   }
 }

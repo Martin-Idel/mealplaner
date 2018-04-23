@@ -46,6 +46,14 @@ public class RecipeInput implements DialogEditing<Optional<Recipe>> {
         "RecipeInputDialog");
   }
 
+  public static RecipeInput recipeInput(JFrame parentFrame) {
+    return new RecipeInput(parentFrame);
+  }
+
+  public static RecipeInput recipeInput(JDialog parentDialog) {
+    return new RecipeInput(parentDialog);
+  }
+
   @Override
   public Optional<Recipe> showDialog(Optional<Recipe> recipe, DataStore store) {
     enteredRecipe = recipe;
