@@ -14,8 +14,8 @@ public class SettingsInput {
   protected DialogWindow dialogWindow;
   private Optional<Settings[]> enteredSettings = Optional.empty();
 
-  public SettingsInput(JFrame parentFrame, String label) {
-    dialogWindow = window(parentFrame, label);
+  public SettingsInput(JFrame parentFrame, String label, String swingName) {
+    dialogWindow = window(parentFrame, label, swingName);
   }
 
   protected Optional<Settings[]> getEnteredSettings() {

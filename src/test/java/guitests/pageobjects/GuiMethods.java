@@ -1,4 +1,4 @@
-package guitests.helpers;
+package guitests.pageobjects;
 
 import org.assertj.swing.fixture.FrameFixture;
 

@@ -149,9 +149,8 @@ public class DatabaseEdit implements DataStoreListener {
             .build())
         .addListenerToThisColumn((row) -> {
           Optional<Recipe> recipe = meals.get(row).getRecipe();
-          Optional<Recipe> editedRecipe = new RecipeInput(
-              dataFrame, BUNDLES.message("recipeInputDialogTitle"))
-                  .showDialog(recipe, mealplanerData);
+          Optional<Recipe> editedRecipe = new RecipeInput(dataFrame)
+              .showDialog(recipe, mealplanerData);
           Meal newMeal = from(meals.get(row)).optionalRecipe(editedRecipe).create();
           meals.set(row, newMeal);
           buttonPanel.enableButtons();

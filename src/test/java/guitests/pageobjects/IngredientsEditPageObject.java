@@ -1,6 +1,6 @@
-package guitests.helpers;
+package guitests.pageobjects;
 
-import static guitests.helpers.TabbedPanes.INGREDIENTS_EDIT;
+import static guitests.pageobjects.TabbedPanes.INGREDIENTS_EDIT;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static org.assertj.swing.data.TableCell.row;
 

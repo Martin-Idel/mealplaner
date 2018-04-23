@@ -26,7 +26,8 @@ public class ShoppingListDialog {
   private Table table;
 
   public ShoppingListDialog(JFrame parent) {
-    dialogWindow = window(parent, BUNDLES.message("createShoppingListDialogTitle"));
+    dialogWindow = window(parent, BUNDLES.message("createShoppingListDialogTitle"),
+        "ShoppingListDialog");
   }
 
   public void showDialog(Proposal proposal, DataStore dataStore) {

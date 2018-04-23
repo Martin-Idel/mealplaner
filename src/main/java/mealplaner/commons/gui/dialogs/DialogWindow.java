@@ -15,29 +15,30 @@ public class DialogWindow extends JDialog {
   private final JPanel mainPanel;
   private final BorderLayout borderLayout;
 
-  protected DialogWindow(JFrame frame, String name) {
+  protected DialogWindow(JFrame frame, String name, String swingName) {
     super(frame, name, true);
+    this.setName(swingName);
     this.window = frame;
     mainPanel = new JPanel();
     borderLayout = new BorderLayout();
     mainPanel.setLayout(borderLayout);
   }
 
-  protected DialogWindow(JDialog dialog, String name) {
+  protected DialogWindow(JDialog dialog, String name, String swingName) {
     super(dialog, name, true);
-    // this.setName("IngredientsInput");
+    this.setName(swingName);
     this.window = dialog;
     mainPanel = new JPanel();
     borderLayout = new BorderLayout();
     mainPanel.setLayout(borderLayout);
   }
 
-  public static DialogWindow window(JFrame frame, String name) {
-    return new DialogWindow(frame, name);
+  public static DialogWindow window(JFrame frame, String name, String swingName) {
+    return new DialogWindow(frame, name, swingName);
   }
 
-  public static DialogWindow window(JDialog dialog, String name) {
-    return new DialogWindow(dialog, name);
+  public static DialogWindow window(JDialog dialog, String name, String swingName) {
+    return new DialogWindow(dialog, name, swingName);
   }
 
   public void setVisible() {

@@ -24,7 +24,7 @@ public class ProposalSettingsInput extends SettingsInput
   private SettingTable settingTable;
 
   public ProposalSettingsInput(JFrame parentFrame) {
-    super(parentFrame, BUNDLES.message("settingsUpdateProposeTitle"));
+    super(parentFrame, BUNDLES.message("settingsUpdateProposeTitle"), "ProposalSettingsDialog");
     this.parentFrame = parentFrame;
   }
 

@@ -36,12 +36,14 @@ public class RecipeInput implements DialogEditing<Optional<Recipe>> {
   private Optional<Recipe> enteredRecipe;
   private Table table;
 
-  public RecipeInput(JFrame parentFrame, String label) {
-    dialogWindow = window(parentFrame, label);
+  public RecipeInput(JFrame parentFrame) {
+    dialogWindow = window(parentFrame, BUNDLES.message("recipeInputDialogTitle"),
+        "RecipeInputDialog");
   }
 
-  public RecipeInput(JDialog parentDialog, String label) {
-    dialogWindow = window(parentDialog, label);
+  public RecipeInput(JDialog parentDialog) {
+    dialogWindow = window(parentDialog, BUNDLES.message("recipeInputDialogTitle"),
+        "RecipeInputDialog");
   }
 
   @Override

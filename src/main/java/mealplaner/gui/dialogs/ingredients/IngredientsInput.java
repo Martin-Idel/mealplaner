@@ -4,6 +4,7 @@ import static java.util.Arrays.asList;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.GridPanel.gridPanel;
 import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
+import static mealplaner.commons.gui.dialogs.DialogWindow.window;
 import static mealplaner.model.recipes.Ingredient.ingredient;
 
 import java.awt.event.ActionListener;
@@ -37,13 +38,14 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
   private final List<Ingredient> ingredients;
 
   public IngredientsInput(JFrame parent) {
-    dialogWindow = DialogWindow.window(parent, BUNDLES.message("ingredientInputDialogTitle"));
+    dialogWindow = window(parent, BUNDLES.message("ingredientInputDialogTitle"),
+        "IngredientsInputDialog");
     ingredients = new ArrayList<>();
   }
 
-  // TODO: Can we consolidate JFrame and JDialog?
   public IngredientsInput(JDialog parent) {
-    dialogWindow = DialogWindow.window(parent, BUNDLES.message("ingredientInputDialogTitle"));
+    dialogWindow = window(parent, BUNDLES.message("ingredientInputDialogTitle"),
+        "IngredientsInputDialog");
     ingredients = new ArrayList<>();
   }
 

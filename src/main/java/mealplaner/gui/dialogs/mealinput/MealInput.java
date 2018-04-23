@@ -25,7 +25,7 @@ public class MealInput implements DialogCreating<Optional<Meal>> {
   private Optional<Meal> newMeal = Optional.empty();
 
   public MealInput(JFrame parent) {
-    dialogWindow = window(parent, BUNDLES.message("mealInputDialogTitle"));
+    dialogWindow = window(parent, BUNDLES.message("mealInputDialogTitle"), "MealInput");
     this.parentFrame = parent;
     inputGrid = inputGrid(dialogWindow);
   }

@@ -23,7 +23,8 @@ public class UpdatePastMeals implements DialogCreating<Optional<List<ProposedMen
   private Optional<List<ProposedMenu>> changedMeals = empty();
 
   public UpdatePastMeals(JFrame parentFrame) {
-    dialogWindow = window(parentFrame, BUNDLES.message("updatePastMealsDialogTitle"));
+    dialogWindow = window(parentFrame, BUNDLES.message("updatePastMealsDialogTitle"),
+        "UpdateDialog");
     updateTable = new UpdateTable();
   }
 

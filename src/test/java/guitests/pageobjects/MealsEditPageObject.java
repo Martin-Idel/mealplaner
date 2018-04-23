@@ -1,7 +1,7 @@
-package guitests.helpers;
+package guitests.pageobjects;
 
-import static guitests.helpers.IngredientsEditPageObject.enterIngredient;
-import static guitests.helpers.TabbedPanes.DATABASE_EDIT;
+import static guitests.pageobjects.IngredientsEditPageObject.enterIngredient;
+import static guitests.pageobjects.TabbedPanes.DATABASE_EDIT;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.swing.data.TableCell.row;
@@ -202,8 +202,7 @@ public class MealsEditPageObject {
     if (ingredients.length != 0) {
       recipeDialog.button("ButtonPanelRecipeInput0").click();
       for (Ingredient ingredient : ingredients) {
-        // TODO: Maybe give names to dialogs if possible.
-        enterIngredient(ingredient, window.dialog("dialog2")); // dialogs are counted
+        enterIngredient(ingredient, window.dialog("IngredientsInputDialog"));
       }
     }
     recipeDialog.textBox("InputFieldNonnegativeIntegerRecipePortions")

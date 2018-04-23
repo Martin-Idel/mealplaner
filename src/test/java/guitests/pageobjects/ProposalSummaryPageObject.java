@@ -1,6 +1,6 @@
-package guitests.helpers;
+package guitests.pageobjects;
 
-import static guitests.helpers.TabbedPanes.PROPOSAL_SUMMARY;
+import static guitests.pageobjects.TabbedPanes.PROPOSAL_SUMMARY;
 import static java.time.format.TextStyle.FULL;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.model.meal.enums.CookingTime.LONG;

@@ -97,8 +97,7 @@ public final class MealInputGrid {
   }
 
   private Optional<Recipe> createRecipeDialog(DataStore mealPlan, Optional<Recipe> recipe) {
-    RecipeInput recipeInput = new RecipeInput(dialogWindow,
-        BUNDLES.message("recipeInputDialogTitle"));
+    RecipeInput recipeInput = new RecipeInput(dialogWindow);
     return recipeInput.showDialog(recipe, mealPlan);
   }
 

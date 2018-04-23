@@ -1,4 +1,4 @@
-package guitests.helpers;
+package guitests.pageobjects;
 
 import static java.time.LocalDate.now;
 import static java.time.format.DateTimeFormatter.ofLocalizedDate;

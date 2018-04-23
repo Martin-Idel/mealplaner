@@ -3,6 +3,7 @@ package mealplaner.gui.dialogs.proposaloutput;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
 import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.justDisposeListener;
+import static mealplaner.commons.gui.dialogs.DialogWindow.window;
 import static mealplaner.gui.dialogs.proposaloutput.ProposalTable.proposalOutput;
 
 import javax.swing.JFrame;
@@ -18,7 +19,8 @@ public class ProposalOutput implements DialogCreating<Proposal> {
   private final DialogWindow dialogWindow;
 
   public ProposalOutput(JFrame parentFrame) {
-    dialogWindow = DialogWindow.window(parentFrame, BUNDLES.message("proposalOutputDialogTitle"));
+    dialogWindow = window(parentFrame, BUNDLES.message("proposalOutputDialogTitle"),
+        "ProposalOutputDialog");
     this.parentFrame = parentFrame;
   }
 

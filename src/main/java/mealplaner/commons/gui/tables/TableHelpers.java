@@ -4,7 +4,10 @@ import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.function.Consumer;
 
-public class TableHelpers {
+public final class TableHelpers {
+  private TableHelpers() {
+  }
+
   public static void deleteSelectedRows(Table table, Consumer<Integer> remove) {
     Arrays.stream(table.getSelectedRows())
         .collect(ArrayDeque<Integer>::new, ArrayDeque<Integer>::add,

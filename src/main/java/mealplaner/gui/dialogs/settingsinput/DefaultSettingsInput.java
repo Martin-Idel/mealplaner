@@ -26,7 +26,7 @@ public class DefaultSettingsInput extends SettingsInput
   private final JFrame parentFrame;
 
   public DefaultSettingsInput(JFrame parentFrame) {
-    super(parentFrame, BUNDLES.message("settingsUpdateDefaultTitle"));
+    super(parentFrame, BUNDLES.message("settingsUpdateDefaultTitle"), "DefaultSettingsDialog");
     this.parentFrame = parentFrame;
   }
 

@@ -8,7 +8,7 @@ import java.util.List;
 import org.junit.Test;
 
 import guitests.helpers.AssertJMealplanerTestCase;
-import guitests.helpers.MealsEditPageObject;
+import guitests.pageobjects.MealsEditPageObject;
 import mealplaner.model.meal.Meal;
 
 public class DatabaseEditRemoveMealsTest extends AssertJMealplanerTestCase {

@@ -1,6 +1,6 @@
 package guitests.helpers;
 
-import static guitests.helpers.GuiMethods.create;
+import static guitests.pageobjects.GuiMethods.create;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static org.junit.Assert.fail;
@@ -16,6 +16,7 @@ import org.assertj.swing.fixture.FrameFixture;
 import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
 import org.junit.Assert;
 
+import guitests.pageobjects.GuiMethods;
 import mealplaner.gui.MainGui;
 import mealplaner.gui.factories.DialogFactory;
 import mealplaner.io.FileIoGui;

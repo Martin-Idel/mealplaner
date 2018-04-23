@@ -1,4 +1,4 @@
-package guitests.helpers;
+package guitests.pageobjects;
 
 import java.util.List;
 
