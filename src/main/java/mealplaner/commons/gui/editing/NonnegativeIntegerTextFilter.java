@@ -52,7 +52,7 @@ public class NonnegativeIntegerTextFilter extends DocumentFilter {
 
   private boolean isNonnegativeInteger(String text) {
     try {
-      return text.equals("") || parseInt(text) >= 0;
+      return "".equals(text) || parseInt(text) >= 0;
     } catch (NumberFormatException e) {
       return false;
     }

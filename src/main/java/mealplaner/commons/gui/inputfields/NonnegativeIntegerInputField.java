@@ -50,7 +50,7 @@ public class NonnegativeIntegerInputField implements InputField<NonnegativeInteg
   @Override
   public NonnegativeInteger getUserInput() {
     String input = nonnegativeIntegerTextField.getText();
-    return nonNegative(input.equals("") ? 0 : parseInt(input));
+    return nonNegative("".equals(input) ? 0 : parseInt(input));
   }
 
   @Override
