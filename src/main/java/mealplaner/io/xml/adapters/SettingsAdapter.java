@@ -13,7 +13,6 @@ import mealplaner.io.xml.model.v2.SettingsXml;
 import mealplaner.model.meal.enums.CookingTime;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
-import mealplaner.model.settings.enums.CourseSettings;
 import mealplaner.model.settings.subsettings.CookingTimeSetting;
 
 public final class SettingsAdapter {
@@ -45,16 +44,6 @@ public final class SettingsAdapter {
         setting.courseSettings);
   }
 
-  public static Settings convertSettingsFromXml(mealplaner.io.xml.model.v1.SettingsXml setting) {
-    CookingTimeSetting times = CookingTimeSetting.cookingTimeWithProhibited(
-        setting.cookingTime.toArray(new CookingTime[setting.cookingTime.size()]));
-    return Settings.from(times,
-        nonNegative(setting.numberOfPeople),
-        setting.casseroleSettings,
-        setting.preference,
-        CourseSettings.ONLY_MAIN);
-  }
-
   public static Map<DayOfWeek, SettingsXml> convertDefaultSettingsToXml(
       DefaultSettings defaultSettings) {
     return defaultSettings.getDefaultSettings()
@@ -66,16 +55,6 @@ public final class SettingsAdapter {
 
   public static DefaultSettings convertDefaultSettingsFromXml(
       Map<DayOfWeek, SettingsXml> settings) {
-    return DefaultSettings.from(
-        settings.entrySet()
-            .stream()
-            .collect(toMap(
-                entry -> entry.getKey(),
-                entry -> convertSettingsFromXml(entry.getValue()))));
-  }
-
-  public static DefaultSettings convertDefaultSettingsFromXmlV1(
-      Map<DayOfWeek, mealplaner.io.xml.model.v1.SettingsXml> settings) {
     return DefaultSettings.from(
         settings.entrySet()
             .stream()

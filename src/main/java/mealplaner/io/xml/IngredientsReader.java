@@ -17,11 +17,7 @@ public final class IngredientsReader {
 
   public static List<Ingredient> loadXml(String filePath) {
     int versionNumber = VersionControl.getVersion(filePath);
-    if (versionNumber == 1) {
-      mealplaner.io.xml.model.v1.IngredientdatabaseXml database = read(filePath,
-          mealplaner.io.xml.model.v1.IngredientdatabaseXml.class);
-      return convertToIngredients(database);
-    } else if (versionNumber == 2) {
+    if (versionNumber == 2) {
       IngredientdatabaseXml database = read(filePath, IngredientdatabaseXml.class);
       return convertToIngredients(database);
     } else {
@@ -30,13 +26,6 @@ public final class IngredientsReader {
   }
 
   private static List<Ingredient> convertToIngredients(IngredientdatabaseXml database) {
-    return database.ingredients.stream()
-        .map(ingredient -> convertIngredientFromXml(ingredient))
-        .collect(toList());
-  }
-
-  private static List<Ingredient> convertToIngredients(
-      mealplaner.io.xml.model.v1.IngredientdatabaseXml database) {
     return database.ingredients.stream()
         .map(ingredient -> convertIngredientFromXml(ingredient))
         .collect(toList());

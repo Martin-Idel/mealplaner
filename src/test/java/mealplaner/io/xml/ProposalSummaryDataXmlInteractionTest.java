@@ -20,13 +20,7 @@ import mealplaner.model.settings.Settings;
 import testcommons.XmlInteraction;
 
 public class ProposalSummaryDataXmlInteractionTest extends XmlInteraction {
-  private static final String RESOURCE_FILE_WITH_THREE_MEALS_V1 = "src/test/resources/proposalSummaryXmlV1.xml";
   private static final String RESOURCE_FILE_WITH_THREE_MEALS_V2 = "src/test/resources/proposalSummaryXmlV2.xml";
-
-  @Test
-  public void loadingProposalSummaryWorksCorrectlyForV1() {
-    loadingProposalSummaryWorksCorrectlyFor(RESOURCE_FILE_WITH_THREE_MEALS_V1);
-  }
 
   @Test
   public void loadingProposalSummaryWorksCorrectlyForV2() {

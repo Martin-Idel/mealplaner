@@ -20,11 +20,4 @@ public final class IngredientAdapter {
         ingredient.type,
         ingredient.measure);
   }
-
-  public static Ingredient convertIngredientFromXml(
-      mealplaner.io.xml.model.v1.IngredientXml ingredient) {
-    return Ingredient.ingredient(ingredient.name,
-        ingredient.type,
-        ingredient.measure);
-  }
 }

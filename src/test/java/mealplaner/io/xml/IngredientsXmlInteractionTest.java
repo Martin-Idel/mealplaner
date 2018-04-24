@@ -16,19 +16,7 @@ import mealplaner.model.recipes.Ingredient;
 import testcommons.XmlInteraction;
 
 public class IngredientsXmlInteractionTest extends XmlInteraction {
-  private static final String RESOURCE_FILE_WITH_THREE_INGREDIENTS_V1 = "src/test/resources/ingredientsXmlV1.xml";
   private static final String RESOURCE_FILE_WITH_THREE_INGREDIENTS_V2 = "src/test/resources/ingredientsXmlV2.xml";
-
-  @Test
-  public void loadingIngredientsWorksCorrectlyWithVersion1() {
-    loadFileWithName(RESOURCE_FILE_WITH_THREE_INGREDIENTS_V1);
-
-    List<Ingredient> database = loadXml(DESTINATION_FILE_PATH);
-
-    assertThat(database).element(0).hasFieldOrPropertyWithValue("name", getIngredient1().getName());
-    assertThat(database).element(1).hasFieldOrPropertyWithValue("name", getIngredient2().getName());
-    assertThat(database).element(2).hasFieldOrPropertyWithValue("name", getIngredient3().getName());
-  }
 
   @Test
   public void loadingIngredientsWorksCorrectlyWithVersion2() {

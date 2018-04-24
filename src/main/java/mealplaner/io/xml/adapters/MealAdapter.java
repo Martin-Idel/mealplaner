@@ -4,9 +4,6 @@ import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.io.xml.adapters.RecipeAdapter.convertRecipeFromXml;
 import static mealplaner.io.xml.adapters.RecipeAdapter.convertRecipeToXml;
 import static mealplaner.model.meal.Meal.createMeal;
-import static mealplaner.model.meal.enums.CourseType.MAIN;
-
-import java.util.UUID;
 
 import mealplaner.io.xml.model.v2.MealXml;
 import mealplaner.model.MealplanerData;
@@ -39,21 +36,6 @@ public final class MealAdapter {
         meal.obligatoryUtensil,
         meal.cookingPreference,
         meal.courseType,
-        nonNegative(meal.daysPassed),
-        meal.comment,
-        convertRecipeFromXml(data, meal.recipe));
-  }
-
-  public static Meal convertMealFromXml(MealplanerData data,
-      mealplaner.io.xml.model.v1.MealXml meal) {
-    return createMeal(
-        UUID.randomUUID(),
-        meal.name,
-        meal.cookingTime,
-        meal.sidedish,
-        meal.obligatoryUtensil,
-        meal.cookingPreference,
-        MAIN,
         nonNegative(meal.daysPassed),
         meal.comment,
         convertRecipeFromXml(data, meal.recipe));

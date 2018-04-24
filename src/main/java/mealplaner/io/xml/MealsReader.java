@@ -17,11 +17,7 @@ public final class MealsReader {
 
   public static List<Meal> loadXml(MealplanerData data, String filePath) {
     int versionNumber = VersionControl.getVersion(filePath);
-    if (versionNumber == 1) {
-      mealplaner.io.xml.model.v1.MealdatabaseXml database = read(filePath,
-          mealplaner.io.xml.model.v1.MealdatabaseXml.class);
-      return convertToMeals(data, database);
-    } else if (versionNumber == 2) {
+    if (versionNumber == 2) {
       MealdatabaseXml database = read(filePath, MealdatabaseXml.class);
       return convertToMeals(data, database);
     } else {
@@ -30,15 +26,6 @@ public final class MealsReader {
   }
 
   private static List<Meal> convertToMeals(MealplanerData database, MealdatabaseXml data) {
-    List<Meal> modelMeals = new ArrayList<>();
-    data.meals.stream()
-        .map(meal -> convertMealFromXml(database, meal))
-        .forEach(meal -> modelMeals.add(meal));
-    return modelMeals;
-  }
-
-  private static List<Meal> convertToMeals(MealplanerData database,
-      mealplaner.io.xml.model.v1.MealdatabaseXml data) {
     List<Meal> modelMeals = new ArrayList<>();
     data.meals.stream()
         .map(meal -> convertMealFromXml(database, meal))
