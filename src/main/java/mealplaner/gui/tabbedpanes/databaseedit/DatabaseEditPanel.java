@@ -1,6 +1,7 @@
 package mealplaner.gui.tabbedpanes.databaseedit;
 
 import static mealplaner.commons.BundleStore.BUNDLES;
+import static mealplaner.commons.gui.HelpPanel.mealPlanerHelpScrollPane;
 import static mealplaner.commons.gui.JMenuBuilder.builder;
 
 import java.util.List;
@@ -37,8 +38,8 @@ public class DatabaseEditPanel {
     return builder("HelpDataBase").addLabelText(BUNDLES.message("menuHelpDatabase"))
         .addMnemonic(BUNDLES.message("menuHelpDatabaseMnemonic"))
         .addActionListener(action -> JOptionPane.showMessageDialog(frame,
-            BUNDLES.message("helpDatabaseText"),
-            BUNDLES.message("helpDatabaseTitle"), JOptionPane.INFORMATION_MESSAGE))
+            mealPlanerHelpScrollPane("DatabaseEditHelp"),
+            BUNDLES.message("menuHelp"), JOptionPane.PLAIN_MESSAGE))
         .build();
   }
 

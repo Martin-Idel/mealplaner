@@ -9,7 +9,6 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 
 import mealplaner.gui.factories.DialogFactory;
 import mealplaner.gui.tabbedpanes.databaseedit.DatabaseEditPanel;
@@ -50,7 +49,6 @@ public class MainGui {
     ingredientsPanel.addElements(container);
 
     addToFileMenu();
-    container.addToHelpMenu(overallHelpMenu());
 
     container.setupMainFrame(new SaveExitWindowListener());
   }
@@ -60,15 +58,6 @@ public class MainGui {
     container.addToFileMenu(loadBackupMenu());
     container.addSeparatorToFileMenu();
     container.addToFileMenu(exitMenu());
-  }
-
-  private JMenuItem overallHelpMenu() {
-    return builder("HelpProposal").addLabelText(BUNDLES.message("menuHelpProposal"))
-        .addMnemonic(BUNDLES.message("menuHelpProposalMnemonic"))
-        .addActionListener(action -> JOptionPane.showMessageDialog(frame,
-            BUNDLES.message("helpProposalText"),
-            BUNDLES.message("helpProposalTitle"), JOptionPane.INFORMATION_MESSAGE))
-        .build();
   }
 
   private JMenuItem createBackupMenu() {

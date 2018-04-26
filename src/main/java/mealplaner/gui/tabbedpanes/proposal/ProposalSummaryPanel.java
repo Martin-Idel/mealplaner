@@ -4,6 +4,7 @@ import static java.time.LocalDate.now;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.MessageDialog.showSaveExitDialog;
 import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
+import static mealplaner.gui.tabbedpanes.proposal.ProposalSummaryMenuItems.helpMenu;
 import static mealplaner.gui.tabbedpanes.proposal.ProposalSummaryMenuItems.printProposalMenu;
 import static mealplaner.gui.tabbedpanes.proposal.ProposalSummaryMenuItems.viewProposalMenu;
 
@@ -16,7 +17,6 @@ import java.util.Optional;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import mealplaner.ProposalBuilder;
 import mealplaner.commons.gui.buttonpanel.ButtonPanel;
 import mealplaner.gui.MainContainer;
 import mealplaner.gui.dialogs.proposaloutput.ProposalTable;
@@ -28,6 +28,7 @@ import mealplaner.model.proposal.ProposalOutline;
 import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
+import mealplaner.proposal.ProposalBuilder;
 
 public class ProposalSummaryPanel {
   private final MealplanerData mealPlan;
@@ -65,6 +66,7 @@ public class ProposalSummaryPanel {
   public void addElements(MainContainer container) {
     container.addTabbedPane(BUNDLES.message("menuPanelName"), mealPanel);
     addToFileMenu(container);
+    container.addToHelpMenu(helpMenu(frame));
   }
 
   public void makeProposal() {

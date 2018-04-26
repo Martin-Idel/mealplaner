@@ -1,8 +1,12 @@
 package mealplaner.gui.tabbedpanes.ingredientsedit;
 
 import static mealplaner.commons.BundleStore.BUNDLES;
+import static mealplaner.commons.gui.HelpPanel.mealPlanerHelpScrollPane;
+import static mealplaner.commons.gui.JMenuBuilder.builder;
 
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import mealplaner.gui.MainContainer;
@@ -24,6 +28,7 @@ public class IngredientsEditPanel {
 
   public void addElements(MainContainer container) {
     container.addTabbedPane(BUNDLES.message("ingredientsPanelName"), setupIngredientsPanel());
+    container.addToHelpMenu(helpIngredientsMenu());
   }
 
   private JPanel setupIngredientsPanel() {
@@ -37,4 +42,14 @@ public class IngredientsEditPanel {
   public void saveDatabase() {
     ingredientsEdit.saveIngredients();
   }
+
+  private JMenuItem helpIngredientsMenu() {
+    return builder("HelpDataBase").addLabelText(BUNDLES.message("menuHelpIngredients"))
+        .addMnemonic(BUNDLES.message("menuHelpIngredientsMnemonic"))
+        .addActionListener(action -> JOptionPane.showMessageDialog(frame,
+            mealPlanerHelpScrollPane("IngredientsEditHelp"),
+            BUNDLES.message("menuHelp"), JOptionPane.PLAIN_MESSAGE))
+        .build();
+  }
+
 }
