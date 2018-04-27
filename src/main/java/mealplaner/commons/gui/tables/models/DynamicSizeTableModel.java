@@ -6,6 +6,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
+/**
+ * This class provides a table model to be built by the FlexibleTableBuilder. It
+ * allows to have a table with an arbitrary amount of columns and rows, backed
+ * by an arbitrary data structure which allows the user to enter new entries by
+ * editing the last (empty) row.
+ *
+ */
 public class DynamicSizeTableModel extends FlexibleTableModel {
   private static final long serialVersionUID = 1L;
   private final Runnable addValue;

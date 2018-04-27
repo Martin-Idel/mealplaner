@@ -5,6 +5,12 @@ import java.util.function.Supplier;
 
 import javax.swing.table.AbstractTableModel;
 
+/**
+ * This class provides the base class of the table model to be built by the
+ * FlexibleTableBuilder. The real types are subtypes of this class. It holds the
+ * columns build using FlexibleTableBuilder. Clients still need to provide
+ * mechanisms to set and get values from a data structure.
+ */
 public abstract class FlexibleTableModel extends AbstractTableModel {
   private static final long serialVersionUID = 1L;
 
