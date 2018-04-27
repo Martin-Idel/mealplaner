@@ -17,12 +17,12 @@ public final class Utils {
     return t -> !p.test(t);
   }
 
-  public static URL getLocalizedResource(String documentationName, String suffix) {
+  public static String getLocalizedResource(String documentationName, String suffix) {
     Locale wantedLocale = BUNDLES.locale();
     return getLocalizedResource(documentationName, suffix, wantedLocale);
   }
 
-  static URL getLocalizedResource(String documentationName, String suffix,
+  static String getLocalizedResource(String documentationName, String suffix,
       Locale wantedLocale) {
     ResourceBundle.Control control = getControl(ResourceBundle.Control.FORMAT_DEFAULT);
     List<Locale> possibleLocales = control.getCandidateLocales(documentationName, wantedLocale);
@@ -32,9 +32,9 @@ public final class Utils {
           control.toBundleName(documentationName, locale), suffix);
       URL url = Utils.class.getResource(resourceName);
       if (url != null) {
-        return url;
+        return resourceName;
       }
     }
-    return Utils.class.getResource(documentationName + "." + suffix);
+    return documentationName + "." + suffix;
   }
 }

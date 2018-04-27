@@ -1,14 +1,12 @@
 package mealplaner.commons.gui;
 
-import static java.nio.file.Files.readAllLines;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.Utils.getLocalizedResource;
-import static mealplaner.commons.gui.MessageDialog.errorMessages;
+import static mealplaner.commons.gui.MessageDialog.userErrorMessage;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Paths;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
@@ -33,19 +31,14 @@ public final class HelpPanel {
 
     editorPane.setContentType("text/plain");
     StringBuilder content = new StringBuilder();
-    try {
-      URL resource = getLocalizedResource(resourcePath + resourceName, suffix);
-      readAllLines(Paths.get(resource.toURI()))
-          .forEach(string -> content.append(string + "\n"));
-    } catch (IOException exc) {
-      errorMessages(null, exc, BUNDLES.errorMessage("MSG_FAIL_HELP"));
-      logger.error("The specified file does not exist. ", exc);
-    } catch (URISyntaxException exc) {
-      errorMessages(null, exc, BUNDLES.errorMessage("MSG_FAIL_HELP"));
-      logger.error(
-          "Something went wrong with retrieving the URL for the help site. "
-              + "This should not happen, please contact the developer. ",
-          exc);
+    InputStream in = HelpPanel.class
+        .getResourceAsStream(getLocalizedResource(resourcePath + resourceName, suffix));
+    if (in == null) {
+      userErrorMessage(null, BUNDLES.errorMessage("MSG_FAIL_HELP"));
+      logger.error("The specified resource does not exist. ");
+    } else {
+      BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+      reader.lines().forEach(line -> content.append(line + "\n"));
     }
     editorPane.setText(content.toString());
     editorPane.setSize(500, 400);

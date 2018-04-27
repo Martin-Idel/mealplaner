@@ -124,7 +124,7 @@ jar {
 	}
 }
 
-task createApplication(dependsOn: ["jar", "copyRuntimeLibs", "copyLicenses"]) {
+task createApplication(dependsOn: ["build", "jar", "copyRuntimeLibs", "copyLicenses"]) {
 	doLast {
 		println "Assembled and distributed"
 	}
