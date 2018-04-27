@@ -114,10 +114,10 @@ public class ProposalSummaryPanel {
   }
 
   private Proposal propose(Settings[] set, boolean today, boolean random) {
-    return new ProposalBuilder()
+    return new ProposalBuilder(mealPlan.getMeals())
         .firstProposal(today)
         .randomise(random)
-        .propose(set, mealPlan.getMeals());
+        .propose(set);
   }
 
   public void changeDefaultSettings() {

@@ -28,8 +28,8 @@ public final class CookingTimeSetting implements CookingSetting {
     return new CookingTimeSetting(cookingTimeSetting);
   }
 
-  public CookingTimeSetting(Set<CookingTime> prohibitedUtensil) {
-    this.prohibitedCookingTime = prohibitedUtensil;
+  public CookingTimeSetting(Set<CookingTime> prohibitedCookingTime) {
+    this.prohibitedCookingTime = prohibitedCookingTime;
   }
 
   public void prohibitCookingTime(CookingTime cookingTime) {

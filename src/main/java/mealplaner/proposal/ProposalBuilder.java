@@ -1,14 +1,14 @@
-package mealplaner;
+package mealplaner.proposal;
 
 import static java.util.Optional.empty;
 import static java.util.stream.Collectors.toList;
-import static mealplaner.model.meal.enums.CourseType.DESERT;
-import static mealplaner.model.meal.enums.CourseType.ENTRY;
 import static mealplaner.model.meal.enums.CourseType.MAIN;
 import static mealplaner.model.proposal.Proposal.from;
 import static mealplaner.model.proposal.ProposedMenu.proposed;
+import static mealplaner.proposal.ProposalFunctions.allows;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -33,21 +33,29 @@ public class ProposalBuilder {
   private boolean firstDayIsToday;
   private boolean random;
 
-  private final Map<Pair<CookingPreference, PreferenceSettings>, Integer> preferenceMap;
+  private final PreferenceMultiplier preferenceMultiplier;
   private final Random randomIntGenerator = new Random();
+  private final Map<UUID, Meal> mealData;
+  private final EntryProposal entryProposal;
+  private final DesertProposal desertProposal;
 
   private List<ProposedMenu> proposalList;
 
-  public ProposalBuilder() {
-    this(PreferenceMap.getPreferenceMap(), new SideDish());
+  public ProposalBuilder(List<Meal> meals) {
+    this(meals, PreferenceMap.getPreferenceMap(), new SideDish());
   }
 
   public ProposalBuilder(
+      List<Meal> meals,
       Map<Pair<CookingPreference, PreferenceSettings>, Integer> preferenceMap,
       SideDish sideDish) {
+    this.mealData = new HashMap<>();
+    meals.forEach(meal -> mealData.put(meal.getId(), meal));
     this.sideDish = sideDish;
-    this.preferenceMap = preferenceMap;
+    this.preferenceMultiplier = new PreferenceMultiplier(preferenceMap);
     proposalList = new ArrayList<>();
+    this.desertProposal = new DesertProposal(meals, preferenceMultiplier);
+    this.entryProposal = new EntryProposal(meals, preferenceMultiplier);
   }
 
   public ProposalBuilder randomise(boolean randomise) {
@@ -60,61 +68,50 @@ public class ProposalBuilder {
     return this;
   }
 
-  public Proposal propose(Settings[] settings, List<Meal> meals) {
-    setCurrentSideDishFromHistory(meals);
-    if (!meals.isEmpty()) {
+  public Proposal propose(Settings[] settings) { // NOPMD
+    setCurrentSideDishFromHistory();
+    if (!mealData.isEmpty()) {
       for (int today = 0; today < settings.length; today++) {
-        makeNextProposal(settings, meals, today);
+        makeNextProposal(settings, today);
       }
     }
     return from(firstDayIsToday, proposalList);
   }
 
-  private void makeNextProposal(Settings[] settings, List<Meal> meals, int today) {
+  private void makeNextProposal(Settings[] settings, int today) {
     Optional<UUID> entry = empty();
-    UUID main = meals.get(0).getId();
+    UUID main = mealData.entrySet().iterator().next().getKey();
+    Meal defaultMeal = mealData.get(main);
     Optional<UUID> desert = empty();
     switch (settings[today].getCourseSettings()) {
       case ONLY_MAIN:
-        main = proposeNextMain(meals, proposalList, settings[today]).orElse(meals.get(0)).getId();
+        main = proposeNextMain(proposalList, settings[today]).orElse(defaultMeal).getId();
         break;
       case ENTRY_MAIN:
-        entry = proposeNextEntry(meals);
-        main = proposeNextMain(meals, proposalList, settings[today]).orElse(meals.get(0)).getId();
+        main = proposeNextMain(proposalList, settings[today]).orElse(defaultMeal).getId();
+        entry = entryProposal.proposeNextEntry(settings[today], mealData.get(main), proposalList);
         break;
       case MAIN_DESERT:
-        main = proposeNextMain(meals, proposalList, settings[today]).orElse(meals.get(0)).getId();
-        desert = proposeNextDesert(meals);
+        main = proposeNextMain(proposalList, settings[today]).orElse(defaultMeal).getId();
+        desert = desertProposal.proposeNextDesert(settings[today], mealData.get(main),
+            proposalList);
         break;
       case THREE_COURSE:
-        entry = proposeNextEntry(meals);
-        main = proposeNextMain(meals, proposalList, settings[today]).orElse(meals.get(0)).getId();
-        desert = proposeNextDesert(meals);
+        main = proposeNextMain(proposalList, settings[today]).orElse(defaultMeal).getId();
+        entry = entryProposal.proposeNextEntry(settings[today], mealData.get(main), proposalList);
+        desert = desertProposal.proposeNextDesert(settings[today], mealData.get(main),
+            proposalList);
         break;
       default:
         throw new MealException("Internal Error: This should not happen");
     }
     proposalList.add(proposed(entry, main, desert, settings[today].getNumberOfPeople()));
-    updateCurrentSidedish(getMeal(main, meals));
+    updateCurrentSidedish(mealData.get(main));
   }
 
-  private Optional<UUID> proposeNextEntry(List<Meal> meals) {
-    return meals.stream()
-        .filter(meal -> meal.getCourseType().equals(ENTRY))
-        .findFirst()
-        .map(meal -> meal.getId());
-  }
-
-  private Optional<UUID> proposeNextDesert(List<Meal> meals) {
-    return meals.stream()
-        .filter(meal -> meal.getCourseType().equals(DESERT))
-        .findFirst()
-        .map(meal -> meal.getId());
-  }
-
-  private void setCurrentSideDishFromHistory(List<Meal> meals) {
+  private void setCurrentSideDishFromHistory() {
     sideDish.reset();
-    Iterator<Meal> mealList = getLastCookedDishes(meals).iterator();
+    Iterator<Meal> mealList = getLastCookedDishes().iterator();
     if (mealList.hasNext()) {
       sideDish.current = mealList.next().getSidedish();
       while (sideDish.inARow < 3 && mealList.hasNext()
@@ -124,8 +121,8 @@ public class ProposalBuilder {
     }
   }
 
-  private List<Meal> getLastCookedDishes(List<Meal> meals) {
-    return meals.stream()
+  private List<Meal> getLastCookedDishes() {
+    return mealData.values().stream()
         .sorted((meal1, meal2) -> meal1.getDaysPassed().compareTo(meal2.getDaysPassed()))
         .limit(3)
         .collect(Collectors.toList());
@@ -137,18 +134,16 @@ public class ProposalBuilder {
         : sideDish.resetToSideDish(nextProposal.getSidedish());
   }
 
-  public Optional<Meal> proposeNextMain(
-      List<Meal> meals,
-      final List<ProposedMenu> proposalList,
+  public Optional<Meal> proposeNextMain(final List<ProposedMenu> proposalList,
       final Settings settings) {
 
-    return meals.stream()
+    return mealData.values().stream()
         .filter(meal -> meal.getCourseType().equals(MAIN))
         .filter(meal -> allows(meal, settings))
         .map(meal -> Pair.of(meal, meal.getDaysPassedAsInteger()))
-        .map(pair -> takeProposalIntoAccount(pair, proposalList, meals))
+        .map(pair -> takeProposalIntoAccount(pair, proposalList))
         .map(pair -> takeSidedishIntoAccount(pair, sideDish))
-        .map(pair -> multiplyPrefs(pair, settings.getPreference()))
+        .map(pair -> preferenceMultiplier.multiplyPrefs(pair, settings.getPreference()))
         .map(pair -> randomize(pair))
         .sorted((pair1, pair2) -> -(pair1.right.compareTo(pair2.right)))
         .map(pair -> pair.left)
@@ -156,20 +151,14 @@ public class ProposalBuilder {
   }
 
   private Pair<Meal, Integer> takeProposalIntoAccount(Pair<Meal, Integer> pair,
-      List<ProposedMenu> proposalList, List<Meal> meals) {
+      List<ProposedMenu> proposalList) {
     List<Meal> proposedMeals = proposalList.stream()
-        .map(menu -> getMeal(menu.main, meals))
+        .filter(menu -> mealData.containsKey(menu.main))
+        .map(menu -> mealData.get(menu.main))
         .collect(toList());
     return proposedMeals.contains(pair.left)
         ? Pair.of(pair.left, proposalList.size() - proposedMeals.indexOf(pair.left) - 1)
         : pair;
-  }
-
-  private Meal getMeal(UUID uuid, List<Meal> meals) {
-    return meals.stream()
-        .filter(meal -> meal.getId().equals(uuid))
-        .findFirst()
-        .get();
   }
 
   private Pair<Meal, Integer> takeSidedishIntoAccount(Pair<Meal, Integer> pair,
@@ -181,21 +170,5 @@ public class ProposalBuilder {
 
   private Pair<Meal, Integer> randomize(Pair<Meal, Integer> pair) {
     return random ? Pair.of(pair.left, pair.right + randomIntGenerator.nextInt(7)) : pair;
-  }
-
-  private Pair<Meal, Integer> multiplyPrefs(Pair<Meal, Integer> pair,
-      PreferenceSettings preferenceSetting) {
-
-    Pair<CookingPreference, PreferenceSettings> currentSettings = Pair
-        .of(pair.left.getCookingPreference(), preferenceSetting);
-    return preferenceMap.containsKey(currentSettings)
-        ? Pair.of(pair.left, pair.right * preferenceMap.get(currentSettings))
-        : pair;
-  }
-
-  private boolean allows(Meal meal, Settings settings) {
-    return !(settings.getCookingTime().prohibits(meal)
-        || settings.getCookingUtensil().prohibits(meal)
-        || settings.getCookingPreference().prohibits(meal));
   }
 }
