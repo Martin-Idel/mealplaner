@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.gui.tabbedpanes.proposal;
 
 import static mealplaner.commons.BundleStore.BUNDLES;

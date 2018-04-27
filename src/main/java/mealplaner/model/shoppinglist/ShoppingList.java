@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.model.shoppinglist;
 
 import static java.util.stream.Collectors.toList;

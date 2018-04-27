@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.gui.dialogs.ingredients;
 
 import static java.util.Arrays.asList;

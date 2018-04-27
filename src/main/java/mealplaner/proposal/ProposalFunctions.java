@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.proposal;
 
 import mealplaner.model.meal.Meal;

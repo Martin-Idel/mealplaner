@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.io.xml;
 
 import static mealplaner.io.xml.adapters.ProposalAdapter.convertProposalFromXml;

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package guitests.pageobjects;
 
 import org.assertj.swing.fixture.FrameFixture;

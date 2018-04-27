@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.commons.gui.inputfields;
 
 import mealplaner.commons.gui.GuiPanel;
@@ -15,6 +17,8 @@ public interface InputField<T> {
    * panels.
    * 
    * @param panel
+   *          The GuiPanel (e.g. containing a grid layout) to add this component
+   *          to.
    */
   void addToPanel(GuiPanel panel);
 

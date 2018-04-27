@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.commons;
 
 import static java.util.ResourceBundle.Control.getControl;

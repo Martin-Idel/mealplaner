@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.gui.dialogs.shopping;
 
 import static mealplaner.commons.Pair.of;

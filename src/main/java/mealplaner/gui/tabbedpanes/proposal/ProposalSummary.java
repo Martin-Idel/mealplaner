@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.gui.tabbedpanes.proposal;
 
 import static java.time.format.DateTimeFormatter.ofLocalizedDate;

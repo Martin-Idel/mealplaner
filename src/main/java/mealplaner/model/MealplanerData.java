@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.model;
 
 import static java.lang.Math.toIntExact;

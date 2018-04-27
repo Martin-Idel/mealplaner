@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.commons;
 
 import static mealplaner.commons.Utils.getLocalizedResource;

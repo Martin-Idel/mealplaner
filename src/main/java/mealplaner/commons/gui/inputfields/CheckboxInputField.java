@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.commons.gui.inputfields;
 
 import javax.swing.JCheckBox;

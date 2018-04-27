@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.model.recipes;
 
 import static java.util.stream.Collectors.groupingBy;

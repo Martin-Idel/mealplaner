@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.commons.gui;
 
 import static javax.swing.KeyStroke.getKeyStroke;

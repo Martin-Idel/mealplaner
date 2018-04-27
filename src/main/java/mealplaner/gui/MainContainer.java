@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.gui;
 
 import static java.awt.BorderLayout.CENTER;

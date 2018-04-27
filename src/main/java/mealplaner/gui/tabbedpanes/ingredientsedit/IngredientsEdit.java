@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.gui.tabbedpanes.ingredientsedit;
 
 import static java.util.stream.Collectors.toList;

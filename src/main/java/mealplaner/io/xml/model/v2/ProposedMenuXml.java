@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.io.xml.model.v2;
 
 import java.util.UUID;

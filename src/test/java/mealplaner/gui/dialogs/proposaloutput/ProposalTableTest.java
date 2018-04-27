@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.gui.dialogs.proposaloutput;
 
 import static mealplaner.commons.NonnegativeInteger.ONE;

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package guitests;
 
 import static java.time.DayOfWeek.TUESDAY;

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.commons.gui.editing;
 
 import static mealplaner.commons.NonnegativeFraction.parse;

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package guitests.ingredients;
 
 import static mealplaner.model.recipes.Ingredient.ingredient;

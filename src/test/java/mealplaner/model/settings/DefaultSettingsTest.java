@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.model.settings;
 
 import static java.time.DayOfWeek.SATURDAY;

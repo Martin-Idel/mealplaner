@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package guitests.pageobjects;
 
 import static java.time.LocalDate.now;

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.model.configuration;
 
 import static mealplaner.model.meal.enums.CookingPreference.NO_PREFERENCE;

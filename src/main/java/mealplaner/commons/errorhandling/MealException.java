@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.commons.errorhandling;
 
 public class MealException extends RuntimeException {

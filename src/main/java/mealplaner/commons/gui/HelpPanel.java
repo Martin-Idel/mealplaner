@@ -1,10 +1,12 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.commons.gui;
 
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.Utils.getLocalizedResource;
-import static mealplaner.commons.gui.MessageDialog.userErrorMessage;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
@@ -31,14 +33,16 @@ public final class HelpPanel {
 
     editorPane.setContentType("text/plain");
     StringBuilder content = new StringBuilder();
-    InputStream in = HelpPanel.class
+    try (InputStream in = HelpPanel.class
         .getResourceAsStream(getLocalizedResource(resourcePath + resourceName, suffix));
-    if (in == null) {
-      userErrorMessage(null, BUNDLES.errorMessage("MSG_FAIL_HELP"));
-      logger.error("The specified resource does not exist. ");
-    } else {
-      BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+        InputStreamReader inputReader = new InputStreamReader(in, "UTF-8");
+        BufferedReader reader = new BufferedReader(inputReader)) {
       reader.lines().forEach(line -> content.append(line + "\n"));
+    } catch (IOException exc) {
+      logger.error("The specified resource does not exist. ", exc);
+    } catch (NullPointerException exc) { // NOPMD
+      MessageDialog.errorMessages(null, exc, BUNDLES.errorMessage("MSG_FAIL_HELP"));
+      logger.error("The specified resource does not exist.");
     }
     editorPane.setText(content.toString());
     editorPane.setSize(500, 400);

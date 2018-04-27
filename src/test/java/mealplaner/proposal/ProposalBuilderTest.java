@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.proposal;
 
 import static java.util.Optional.empty;

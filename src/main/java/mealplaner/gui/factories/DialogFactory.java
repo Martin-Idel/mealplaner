@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.gui.factories;
 
 import static mealplaner.gui.dialogs.proposaloutput.ProposalTable.proposalOutput;

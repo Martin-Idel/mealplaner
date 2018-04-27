@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.commons.gui.buttonpanel;
 
 import static mealplaner.commons.BundleStore.BUNDLES;

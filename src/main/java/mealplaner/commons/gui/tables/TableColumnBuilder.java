@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.commons.gui.tables;
 
 import static java.util.Optional.empty;
@@ -262,6 +264,7 @@ public final class TableColumnBuilder<T> {
    * activate/deactivate editing based on other cells content
    * 
    * @param predicate
+   *          The predicate to test against.
    * @return
    */
   public TableColumnBuilder<T> isEditableIf(Predicate<Integer> predicate) {
@@ -273,6 +276,7 @@ public final class TableColumnBuilder<T> {
    * Set the preferred horizontal size of the column
    * 
    * @param preferredSize
+   *          The preferred size in pixels
    * @return
    */
   public TableColumnBuilder<T> setPreferredSize(int preferredSize) {
@@ -284,6 +288,7 @@ public final class TableColumnBuilder<T> {
    * Add a custom TableCellEditor to this column.
    * 
    * @param editor
+   *          The table cell editor for this column
    * @return
    */
   public TableColumnBuilder<T> overwriteTableCellEditor(TableCellEditor editor) {
@@ -295,6 +300,7 @@ public final class TableColumnBuilder<T> {
    * Add a custom TableCellRenderer to this column.
    * 
    * @param renderer
+   *          The renderer for this column
    * @return
    */
   public TableColumnBuilder<T> overwriteTableCellRenderer(TableCellRenderer renderer) {

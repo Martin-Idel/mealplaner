@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.commons.gui.tables.models;
 
 import static java.util.Arrays.asList;

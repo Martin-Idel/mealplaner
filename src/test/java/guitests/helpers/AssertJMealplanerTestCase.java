@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package guitests.helpers;
 
 import static guitests.pageobjects.GuiMethods.create;

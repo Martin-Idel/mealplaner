@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.gui.dialogs.pastupdate;
 
 import static java.time.format.DateTimeFormatter.ofLocalizedDate;

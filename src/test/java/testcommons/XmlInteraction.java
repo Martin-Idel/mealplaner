@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package testcommons;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;

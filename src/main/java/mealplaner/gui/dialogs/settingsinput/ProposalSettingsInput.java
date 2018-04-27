@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.gui.dialogs.settingsinput;
 
 import static mealplaner.commons.BundleStore.BUNDLES;

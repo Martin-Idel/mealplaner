@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.io.xml;
 
 import static org.assertj.core.api.Assertions.assertThat;

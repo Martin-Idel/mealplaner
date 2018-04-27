@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.model.proposal;
 
 import mealplaner.model.meal.enums.Sidedish;

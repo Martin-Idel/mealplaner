@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package integrationtests;
 
 import static org.junit.Assert.assertTrue;

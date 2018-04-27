@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package guitests.databaseedit;
 
 import static mealplaner.model.meal.MealBuilder.from;
