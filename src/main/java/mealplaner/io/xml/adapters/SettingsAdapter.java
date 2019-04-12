@@ -24,10 +24,9 @@ public final class SettingsAdapter {
   public static SettingsXml convertSettingsToXml(Settings setting) {
     CookingTimeSetting cookingTimes = setting.getCookingTime();
     List<CookingTime> prohibitedTimes = new ArrayList<>();
-    Arrays.asList(CookingTime.values())
-        .stream()
-        .filter(cookingTime -> cookingTimes.contains(cookingTime))
-        .forEach(prohibitedTime -> prohibitedTimes.add(prohibitedTime));
+    Arrays.stream(CookingTime.values())
+        .filter(cookingTimes::contains)
+        .forEach(prohibitedTimes::add);
 
     return new SettingsXml(prohibitedTimes,
         setting.getNumberOfPeople().value,
@@ -38,7 +37,7 @@ public final class SettingsAdapter {
 
   public static Settings convertSettingsFromXml(SettingsXml setting) {
     CookingTimeSetting times = CookingTimeSetting.cookingTimeWithProhibited(
-        setting.cookingTime.toArray(new CookingTime[setting.cookingTime.size()]));
+        setting.cookingTime.toArray(new CookingTime[0]));
     return Settings.from(times,
         nonNegative(setting.numberOfPeople),
         setting.casseroleSettings,
@@ -51,7 +50,7 @@ public final class SettingsAdapter {
     return defaultSettings.getDefaultSettings()
         .entrySet()
         .stream()
-        .collect(toMap(entry -> entry.getKey(),
+        .collect(toMap(Map.Entry::getKey,
             entry -> convertSettingsToXml(entry.getValue())));
   }
 
@@ -61,7 +60,7 @@ public final class SettingsAdapter {
         settings.entrySet()
             .stream()
             .collect(toMap(
-                entry -> entry.getKey(),
+                    Map.Entry::getKey,
                 entry -> convertSettingsFromXml(entry.getValue()))));
   }
 }

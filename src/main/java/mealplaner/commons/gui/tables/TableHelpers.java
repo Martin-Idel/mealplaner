@@ -23,7 +23,7 @@ public final class TableHelpers {
    */
   public static void deleteSelectedRows(Table table, Consumer<Integer> remove) {
     Arrays.stream(table.getSelectedRows())
-        .collect(ArrayDeque<Integer>::new, ArrayDeque<Integer>::add,
+        .collect(ArrayDeque::new, ArrayDeque<Integer>::add,
             ArrayDeque<Integer>::addAll)
         .descendingIterator()
         .forEachRemaining(number -> {

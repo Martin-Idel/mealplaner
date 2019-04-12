@@ -72,16 +72,14 @@ public class MainGui {
   private JMenuItem loadBackupMenu() {
     return builder("LoadBackup").addLabelText(BUNDLES.message("menuDataLoadBackup"))
         .addMnemonic(BUNDLES.message("menuDataLoadBackupMnemonic"))
-        .addActionListener(action -> {
-          fileIoGui.loadBackup()
-              .ifPresent(loadedMealPlaner -> {
-                this.mealPlan.setMeals(loadedMealPlaner.getMeals());
-                this.mealPlan.setIngredients(loadedMealPlaner.getIngredients());
-                this.mealPlan.setDefaultSettings(loadedMealPlaner.getDefaultSettings());
-                this.mealPlan.setLastProposal(loadedMealPlaner.getLastProposal());
-                this.mealPlan.setTime(loadedMealPlaner.getTime());
-              });
-        })
+        .addActionListener(action -> fileIoGui.loadBackup()
+            .ifPresent(loadedMealPlaner -> {
+              this.mealPlan.setMeals(loadedMealPlaner.getMeals());
+              this.mealPlan.setIngredients(loadedMealPlaner.getIngredients());
+              this.mealPlan.setDefaultSettings(loadedMealPlaner.getDefaultSettings());
+              this.mealPlan.setLastProposal(loadedMealPlaner.getLastProposal());
+              this.mealPlan.setTime(loadedMealPlaner.getTime());
+            }))
         .build();
   }
 
@@ -108,7 +106,7 @@ public class MainGui {
     @Override
     public void windowClosing(WindowEvent e) {
       showSaveExitDialog(getFrame(), BUNDLES.message("saveYesNoQuestion"),
-          () -> saveDataBase());
+              MainGui.this::saveDataBase);
     }
   }
 }

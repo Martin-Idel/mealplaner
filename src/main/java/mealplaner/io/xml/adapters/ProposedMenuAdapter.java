@@ -14,9 +14,9 @@ public final class ProposedMenuAdapter {
   }
 
   public static ProposedMenuXml convertProposedMenuToXml(ProposedMenu proposedMenu) {
-    return new ProposedMenuXml(proposedMenu.entry.isPresent() ? proposedMenu.entry.get() : null,
+    return new ProposedMenuXml(proposedMenu.entry.orElse(null),
         proposedMenu.main,
-        proposedMenu.desert.isPresent() ? proposedMenu.desert.get() : null,
+            proposedMenu.desert.orElse(null),
         proposedMenu.numberOfPeople.value);
   }
 

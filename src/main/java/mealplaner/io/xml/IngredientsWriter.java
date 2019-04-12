@@ -8,6 +8,7 @@ import static mealplaner.io.xml.util.JaxHelper.save;
 
 import java.util.List;
 
+import mealplaner.io.xml.adapters.IngredientAdapter;
 import mealplaner.io.xml.model.v2.IngredientXml;
 import mealplaner.io.xml.model.v2.IngredientdatabaseXml;
 import mealplaner.model.recipes.Ingredient;
@@ -23,7 +24,7 @@ public final class IngredientsWriter {
 
   private static IngredientdatabaseXml convertDataBaseToXml(List<Ingredient> data) {
     List<IngredientXml> ingredientsXml = data.stream()
-        .map(ingredient -> convertIngredientToXml(ingredient))
+        .map(IngredientAdapter::convertIngredientToXml)
         .collect(toList());
     return new IngredientdatabaseXml(ingredientsXml);
   }

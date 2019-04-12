@@ -52,7 +52,7 @@ public class AssertJMealplanerTestCase extends AssertJSwingJUnitTestCase {
 
   @Override
   protected void onSetUp() {
-    MainGui frame = GuiActionRunner.execute(() -> createMainApplication());
+    MainGui frame = GuiActionRunner.execute(this::createMainApplication);
     window = new FrameFixture(robot(), frame.getFrame());
     window.show();
     windowHelpers = create(window);

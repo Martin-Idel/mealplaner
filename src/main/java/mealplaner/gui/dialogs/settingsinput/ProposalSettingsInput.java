@@ -53,7 +53,7 @@ public class ProposalSettingsInput extends SettingsInput
 
     settingTable.addJScrollTableToDialogCentre(dialogWindow);
     dialogWindow.addSouth(buttonPanel);
-    adjustPanesTo(parentFrame);
+    adjustPanesTo();
   }
 
   private ButtonPanel createButtonPanel(DefaultSettings defaultSettings) {

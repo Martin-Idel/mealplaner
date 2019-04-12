@@ -55,7 +55,7 @@ public class FileIoGui {
       mealPlan.setLastProposal(proposalData.lastProposal);
       mealPlan.setTime(proposalData.time);
     } catch (MealException exc) {
-      errorMessages(frame, exc, BUNDLES.errorMessage("MSG_LOAD_ERROR"));
+      errorMessages(frame, BUNDLES.errorMessage("MSG_LOAD_ERROR"));
       logger.error("Could not load database: ", exc);
     }
     return mealPlan;
@@ -67,7 +67,7 @@ public class FileIoGui {
       MealsWriter.saveXml(mealPlan.getMeals(), savePath + "meals.xml");
       IngredientsWriter.saveXml(mealPlan.getIngredients(), savePath + "ingredients.xml");
     } catch (MealException exc) {
-      errorMessages(frame, exc, BUNDLES.errorMessage("MSG_SAVING_ERROR"));
+      errorMessages(frame, BUNDLES.errorMessage("MSG_SAVING_ERROR"));
       logger.error("Could not save database: ", exc);
     }
   }
@@ -87,7 +87,7 @@ public class FileIoGui {
         default: // do nothing
       }
     } catch (MealException exc) {
-      errorMessages(frame, exc, BUNDLES.errorMessage("MSG_SAVING_ERROR"));
+      errorMessages(frame, BUNDLES.errorMessage("MSG_SAVING_ERROR"));
       logger.error("Could not save " + part.toString() + " of database: ", exc);
     }
 
@@ -101,7 +101,7 @@ public class FileIoGui {
       try {
         mealPlan = MealplanerDataReader.loadXml(bak);
       } catch (MealException exc) {
-        errorMessages(frame, exc, BUNDLES.errorMessage("MSG_BACKUP_NOT_LOADED"));
+        errorMessages(frame, BUNDLES.errorMessage("MSG_BACKUP_NOT_LOADED"));
         logger.error("Could not load backup: ", exc);
       }
       return of(mealPlan);
@@ -118,7 +118,7 @@ public class FileIoGui {
         JOptionPane.showMessageDialog(frame, BUNDLES.message("successSave"),
             BUNDLES.message("successHeading"), JOptionPane.INFORMATION_MESSAGE);
       } catch (MealException exc) {
-        errorMessages(frame, exc, BUNDLES.errorMessage("MSG_BACKUP_NOT_SAVED"));
+        errorMessages(frame, BUNDLES.errorMessage("MSG_BACKUP_NOT_SAVED"));
         logger.error("Could not load backup: ", exc);
       }
     }

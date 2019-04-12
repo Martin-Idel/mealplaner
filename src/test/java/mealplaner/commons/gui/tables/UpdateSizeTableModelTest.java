@@ -77,9 +77,9 @@ public class UpdateSizeTableModelTest {
         .addColumn(
             withContent(String.class)
                 .withColumnName("Column")
-                .getValueFromOrderedList(columnContent, test -> test.getString())
+                .getValueFromOrderedList(columnContent, TestClass::getString)
                 .setValueToOrderedList(columnContent,
-                    (element, value) -> element.setString(value))
+                        TestClass::setString)
                 .isEditable()
                 .build())
         .buildTable();
@@ -101,7 +101,7 @@ public class UpdateSizeTableModelTest {
         .addColumn(
             withContent(String.class)
                 .withColumnName("Column")
-                .getValueFromOrderedList(columnContent, test -> test.getString())
+                .getValueFromOrderedList(columnContent, TestClass::getString)
                 .setValueToOrderedImmutableList(columnContent,
                     (element, value) -> {
                       element.setString(value);
@@ -129,7 +129,7 @@ public class UpdateSizeTableModelTest {
         .addColumn(
             withContent(String.class)
                 .withColumnName("Column")
-                .getValueFromOrderedList(columnContent, test -> test.getString())
+                .getValueFromOrderedList(columnContent, TestClass::getString)
                 .setValueToOrderedImmutableList(columnContent,
                     (element, value) -> {
                       element.setString(value);
@@ -347,7 +347,7 @@ public class UpdateSizeTableModelTest {
         .addColumn(
             withContent(String.class)
                 .withColumnName("Column")
-                .getValueFromOrderedList(columnContent, test -> test.getString())
+                .getValueFromOrderedList(columnContent, TestClass::getString)
                 .setValueToOrderedImmutableList(columnContent,
                     (element, value) -> {
                       element.setString(value);

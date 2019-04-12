@@ -31,7 +31,7 @@ public class SettingsInput {
     };
   }
 
-  protected void adjustPanesTo(JFrame parentFrame) {
+  protected void adjustPanesTo() {
     dialogWindow.arrangeWithSize(550, 210);
   }
 }

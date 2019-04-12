@@ -12,6 +12,7 @@ import java.util.UUID;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.Pair;
 import mealplaner.model.DataStore;
+import mealplaner.model.meal.Meal;
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.recipes.Recipe;
@@ -26,9 +27,7 @@ public final class ShoppingListUtils {
       DataStore data) {
     return proposal.getProposalList()
         .stream()
-        .filter(meal -> !allMealsHaveRecipes(meal, data))
-        .findAny()
-        .isPresent();
+        .anyMatch(meal -> !allMealsHaveRecipes(meal, data));
   }
 
   private static boolean allMealsHaveRecipes(ProposedMenu proposedMenu, DataStore data) {
@@ -43,7 +42,7 @@ public final class ShoppingListUtils {
 
   private static boolean hasRecipe(UUID uuid, DataStore data) {
     return data.getMeal(uuid)
-        .flatMap(meal -> meal.getRecipe())
+        .flatMap(Meal::getRecipe)
         .isPresent();
   }
 
@@ -68,7 +67,7 @@ public final class ShoppingListUtils {
 
   private static Optional<Recipe> getRecipe(Optional<UUID> mealId, DataStore data) {
     return mealId
-        .flatMap(id -> data.getMeal(id))
-        .flatMap(meal -> meal.getRecipe());
+        .flatMap(data::getMeal)
+        .flatMap(Meal::getRecipe);
   }
 }

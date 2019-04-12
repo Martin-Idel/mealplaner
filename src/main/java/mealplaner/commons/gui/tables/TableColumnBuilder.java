@@ -62,8 +62,8 @@ public final class TableColumnBuilder<T> {
    */
   public static <S extends Enum<S>> TableColumnBuilder<S> withEnumContent(
       Class<S> type) {
-    JComboBox<S> comboBox = new JComboBox<S>(type.getEnumConstants());
-    return new TableColumnBuilder<S>(type)
+    JComboBox<S> comboBox = new JComboBox<>(type.getEnumConstants());
+    return new TableColumnBuilder<>(type)
         .setPreferredSize(50)
         .overwriteTableCellEditor(new DefaultCellEditor(comboBox));
   }

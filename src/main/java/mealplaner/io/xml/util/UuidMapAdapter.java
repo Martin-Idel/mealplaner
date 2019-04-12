@@ -17,7 +17,7 @@ import mealplaner.io.xml.model.v2.RecipeMap;
 public class UuidMapAdapter extends XmlAdapter<RecipeMap, Map<UUID, NonnegativeFraction>> {
 
   @Override
-  public RecipeMap marshal(Map<UUID, NonnegativeFraction> recipe) throws Exception {
+  public RecipeMap marshal(Map<UUID, NonnegativeFraction> recipe) {
     return new RecipeMap(recipe.entrySet().stream()
         .map(entry -> new RecipeMap.KeyValuePair(entry.getKey().toString(),
             entry.getValue().toString()))
@@ -25,7 +25,7 @@ public class UuidMapAdapter extends XmlAdapter<RecipeMap, Map<UUID, NonnegativeF
   }
 
   @Override
-  public Map<UUID, NonnegativeFraction> unmarshal(RecipeMap map) throws Exception {
+  public Map<UUID, NonnegativeFraction> unmarshal(RecipeMap map) {
     return map.recipeList.stream()
         .collect(toMap(entry -> fromString(entry.uuidKey),
             entry -> NonnegativeFraction.parse(entry.value)));

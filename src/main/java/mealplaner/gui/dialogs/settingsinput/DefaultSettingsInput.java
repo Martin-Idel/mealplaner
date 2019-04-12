@@ -3,7 +3,6 @@
 package mealplaner.gui.dialogs.settingsinput;
 
 import static java.time.DayOfWeek.MONDAY;
-import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
@@ -37,7 +36,7 @@ public class DefaultSettingsInput extends SettingsInput
     setup(store.getDefaultSettings());
     dialogWindow.setVisible();
     Optional<Settings[]> changedSettings = getEnteredSettings();
-    return changedSettings.isPresent() ? transformToDefault(changedSettings.get()) : empty();
+    return changedSettings.flatMap(this::transformToDefault);
   }
 
   private void setup(DefaultSettings defaultSettings) {
@@ -47,7 +46,7 @@ public class DefaultSettingsInput extends SettingsInput
 
     settingTable.addJScrollTableToDialogCentre(dialogWindow);
     dialogWindow.addSouth(buttonPanel);
-    adjustPanesTo(parentFrame);
+    adjustPanesTo();
   }
 
   private ButtonPanel createButtonPanel(SettingTable settingTable) {

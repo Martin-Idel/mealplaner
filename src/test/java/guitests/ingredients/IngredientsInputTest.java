@@ -22,7 +22,7 @@ import mealplaner.model.recipes.Ingredient;
 public class IngredientsInputTest extends AssertJMealplanerTestCase {
 
   @Test
-  public void createIngredient() throws IOException {
+  public void createIngredient() {
     Ingredient ingredient = ingredient("Test4", SPICE, NONE);
 
     windowHelpers.getIngredientsPane().addIngredient(ingredient);

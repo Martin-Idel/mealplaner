@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
@@ -35,13 +36,13 @@ public final class HelpPanel {
     StringBuilder content = new StringBuilder();
     try (InputStream in = HelpPanel.class
         .getResourceAsStream(getLocalizedResource(resourcePath + resourceName, suffix));
-        InputStreamReader inputReader = new InputStreamReader(in, "UTF-8");
-        BufferedReader reader = new BufferedReader(inputReader)) {
-      reader.lines().forEach(line -> content.append(line + "\n"));
+         InputStreamReader inputReader = new InputStreamReader(in, StandardCharsets.UTF_8);
+         BufferedReader reader = new BufferedReader(inputReader)) {
+      reader.lines().forEach(line -> content.append(line).append("\n"));
     } catch (IOException exc) {
       logger.error("The specified resource does not exist. ", exc);
     } catch (NullPointerException exc) { // NOPMD
-      MessageDialog.errorMessages(null, exc, BUNDLES.errorMessage("MSG_FAIL_HELP"));
+      MessageDialog.errorMessages(null, BUNDLES.errorMessage("MSG_FAIL_HELP"));
       logger.error("The specified resource does not exist.");
     }
     editorPane.setText(content.toString());

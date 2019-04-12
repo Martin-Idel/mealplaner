@@ -9,14 +9,7 @@ import static mealplaner.model.proposal.Proposal.from;
 import static mealplaner.model.proposal.ProposedMenu.proposed;
 import static mealplaner.proposal.ProposalFunctions.allows;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import mealplaner.commons.Pair;
@@ -125,7 +118,7 @@ public class ProposalBuilder {
 
   private List<Meal> getLastCookedDishes() {
     return mealData.values().stream()
-        .sorted((meal1, meal2) -> meal1.getDaysPassed().compareTo(meal2.getDaysPassed()))
+        .sorted(Comparator.comparing(Meal::getDaysPassed))
         .limit(3)
         .collect(Collectors.toList());
   }
@@ -146,7 +139,7 @@ public class ProposalBuilder {
         .map(pair -> takeProposalIntoAccount(pair, proposalList))
         .map(pair -> takeSidedishIntoAccount(pair, sideDish))
         .map(pair -> preferenceMultiplier.multiplyPrefs(pair, settings.getPreference()))
-        .map(pair -> randomize(pair))
+        .map(this::randomize)
         .sorted((pair1, pair2) -> -(pair1.right.compareTo(pair2.right)))
         .map(pair -> pair.left)
         .findFirst();

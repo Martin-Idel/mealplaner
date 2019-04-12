@@ -25,7 +25,7 @@ public final class IngredientsEditTable {
         .withRowCount(ingredients::size)
         .addColumn(withContent(String.class)
             .withColumnName(BUNDLES.message("insertIngredientName"))
-            .getValueFromOrderedList(ingredients, ingredient -> ingredient.getName())
+            .getValueFromOrderedList(ingredients, Ingredient::getName)
             .setValueToOrderedImmutableList(ingredients,
                 (oldIngredient, newName) -> ingredientWithUuid(
                     oldIngredient.getId(),
@@ -33,11 +33,11 @@ public final class IngredientsEditTable {
                     oldIngredient.getType(),
                     oldIngredient.getMeasure()))
             .isEditable()
-            .onChange(() -> buttonPanel.enableButtons())
+            .onChange(buttonPanel::enableButtons)
             .build())
         .addColumn(withEnumContent(IngredientType.class)
             .withColumnName(BUNDLES.message("insertTypeLength"))
-            .getValueFromOrderedList(ingredients, ingredient -> ingredient.getType())
+            .getValueFromOrderedList(ingredients, Ingredient::getType)
             .setValueToOrderedImmutableList(ingredients,
                 (oldIngredient, newType) -> ingredientWithUuid(
                     oldIngredient.getId(),
@@ -45,11 +45,11 @@ public final class IngredientsEditTable {
                     newType,
                     oldIngredient.getMeasure()))
             .isEditable()
-            .onChange(() -> buttonPanel.enableButtons())
+            .onChange(buttonPanel::enableButtons)
             .build())
         .addColumn(withEnumContent(Measure.class)
             .withColumnName(BUNDLES.message("insertMeasure"))
-            .getValueFromOrderedList(ingredients, ingredient -> ingredient.getMeasure())
+            .getValueFromOrderedList(ingredients, Ingredient::getMeasure)
             .setValueToOrderedImmutableList(ingredients,
                 (oldIngredient, newMeasure) -> ingredientWithUuid(
                     oldIngredient.getId(),
@@ -57,7 +57,7 @@ public final class IngredientsEditTable {
                     oldIngredient.getType(),
                     newMeasure))
             .isEditable()
-            .onChange(() -> buttonPanel.enableButtons())
+            .onChange(buttonPanel::enableButtons)
             .build())
         .buildTable();
   }

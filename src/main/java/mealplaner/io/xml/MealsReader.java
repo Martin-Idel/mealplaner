@@ -31,7 +31,7 @@ public final class MealsReader {
     List<Meal> modelMeals = new ArrayList<>();
     data.meals.stream()
         .map(meal -> convertMealFromXml(database, meal))
-        .forEach(meal -> modelMeals.add(meal));
+        .forEach(modelMeals::add);
     return modelMeals;
   }
 }

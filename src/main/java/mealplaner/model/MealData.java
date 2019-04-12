@@ -57,7 +57,7 @@ public final class MealData implements DataStoreListener {
       Meal meal = Meal.createMeal(id, data, daysSinceCooked, recipe);
       meals.add(meal);
     }
-    meals.sort((meal1, meal2) -> meal1.compareTo(meal2));
+    meals.sort(Meal::compareTo);
     return meals;
   }
 
@@ -69,7 +69,7 @@ public final class MealData implements DataStoreListener {
       meal.getRecipe().ifPresent(recipe -> recipe.getIngredientsAsIs().keySet()
           .stream()
           .filter(ingredient -> !ingredients.contains(ingredient))
-          .forEach(ingredient -> data.addIngredient(ingredient)));
+          .forEach(data::addIngredient));
       addMeal(meal);
     }
     updating = false;

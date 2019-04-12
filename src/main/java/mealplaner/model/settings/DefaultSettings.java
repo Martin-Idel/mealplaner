@@ -18,7 +18,7 @@ public final class DefaultSettings {
 
   private DefaultSettings(Map<DayOfWeek, Settings> defaultSettings) {
     this.defaultSettings = defaultSettings;
-    DAYS_OF_WEEK.stream().forEach(dayOfWeek -> this.defaultSettings
+    DAYS_OF_WEEK.forEach(dayOfWeek -> this.defaultSettings
         .computeIfAbsent(dayOfWeek, day -> createSettings()));
   }
 
@@ -36,7 +36,7 @@ public final class DefaultSettings {
 
   private static Map<DayOfWeek, Settings> copyHashMap(Map<DayOfWeek, Settings> defaultSettings) {
     return defaultSettings.entrySet().stream()
-        .collect(toMap(entry -> entry.getKey(), entry -> Settings.copy(entry.getValue())));
+        .collect(toMap(Map.Entry::getKey, entry -> Settings.copy(entry.getValue())));
   }
 
   public Map<DayOfWeek, Settings> getDefaultSettings() {

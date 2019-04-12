@@ -8,6 +8,7 @@ import static mealplaner.commons.BundleStore.BUNDLES;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.swing.data.TableCell.row;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.assertj.swing.fixture.DialogFixture;
@@ -70,7 +71,7 @@ public class MealsEditPageObject {
     return this;
   }
 
-  public MealsEditPageObject addMealWithIngredients(Ingredient ingredient) {
+  public MealsEditPageObject addMealWithIngredients() {
     addMealButton().click();
 
     return this;
@@ -244,8 +245,7 @@ public class MealsEditPageObject {
   private String[][] recipeToTableContent(Recipe recipe) {
     List<QuantitativeIngredient> ingredients = recipe
         .getIngredientListAsIs();
-    ingredients.sort((ingredient1, ingredient2) -> ingredient1.getIngredient().getName()
-        .compareTo(ingredient2.getIngredient().getName()));
+    ingredients.sort(Comparator.comparing(ingredient2 -> ingredient2.getIngredient().getName()));
     String[][] content = new String[ingredients.size() + 1][NUMBER_OF_INGREDIENT_COLUMNS];
     for (int i = 0; i < ingredients.size(); i++) {
       QuantitativeIngredient ingredient = ingredients.get(i);

@@ -31,9 +31,7 @@ public final class VersionControl {
       Document parsedDocument = documentBuilder.parse(inputFile);
       parsedDocument.getDocumentElement().normalize();
       return getVersionNumberFromTopLevelVersionNode(parsedDocument);
-    } catch (ParserConfigurationException ex) {
-      logger.warn("Exception on parsing XML with relative path " + filePath + ".");
-    } catch (SAXException ex) {
+    } catch (ParserConfigurationException | SAXException ex) {
       logger.warn("Exception on parsing XML with relative path " + filePath + ".");
     } catch (IOException ex) {
       logger.warn("Exception on parsing XML with relative path " + filePath

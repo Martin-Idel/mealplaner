@@ -31,7 +31,7 @@ public class MealsXmlInteractionTest extends XmlInteraction {
 
     List<Meal> database = loadXml(mealPlan, DESTINATION_FILE_PATH);
 
-    database.sort((meal1, meal2) -> meal1.compareTo(meal2));
+    database.sort(Meal::compareTo);
 
     assertThat(database).containsExactlyElementsOf(meals);
   }
@@ -44,8 +44,8 @@ public class MealsXmlInteractionTest extends XmlInteraction {
     saveXml(meals, DESTINATION_FILE_PATH);
     List<Meal> roundTripMeals = loadXml(mealPlan, DESTINATION_FILE_PATH);
 
-    roundTripMeals.sort((meal1, meal2) -> meal1.compareTo(meal2));
-    meals.sort((meal1, meal2) -> meal1.compareTo(meal2));
+    roundTripMeals.sort(Meal::compareTo);
+    meals.sort(Meal::compareTo);
     assertThat(roundTripMeals).containsExactlyElementsOf(meals);
   }
 
@@ -54,7 +54,7 @@ public class MealsXmlInteractionTest extends XmlInteraction {
     meals.add(getMeal1());
     meals.add(getMeal2());
     meals.add(getMeal3());
-    meals.sort((meal1, meal2) -> meal1.compareTo(meal2));
+    meals.sort(Meal::compareTo);
     return meals;
   }
 }

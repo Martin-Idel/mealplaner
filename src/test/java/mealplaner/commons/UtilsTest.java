@@ -16,7 +16,7 @@ public class UtilsTest {
     String localizedResource = getLocalizedResource("/help/DatabaseEditHelp", "txt",
         Locale.GERMANY);
 
-    Assertions.assertThat(localizedResource.toString())
+    Assertions.assertThat(localizedResource)
         .contains("help/DatabaseEditHelp_de.txt");
   }
 
@@ -24,7 +24,7 @@ public class UtilsTest {
   public void getLocalizedResourceWithDifferentLocaleReturnsDefaultEnglishFile() {
     String localizedResource = getLocalizedResource("/help/DatabaseEditHelp", "txt", Locale.FRENCH);
 
-    Assertions.assertThat(localizedResource.toString())
+    Assertions.assertThat(localizedResource)
         .contains("help/DatabaseEditHelp.txt");
   }
 }

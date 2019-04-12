@@ -146,8 +146,8 @@ public class ProposalSummaryPageObject {
       TableCell checkbox,
       CookingTimeSetting cookingTime,
       CookingTime time) {
-    return !cookingTime.contains(time) != settingsTable.valueAt(checkbox)
-        .equals(Boolean.toString(true));
+    return cookingTime.contains(time) == settingsTable.valueAt(checkbox)
+            .equals(Boolean.toString(true));
   }
 
   private String[][] defaultSettingsTableEntries(DefaultSettings defaultSettings) {

@@ -23,7 +23,7 @@ public class ComboBoxInputField<E extends Enum<E>> implements InputField<E> {
 
   @Override
   public void addToPanel(GuiPanel panel) {
-    comboBox = new JComboBox<E>(enumType.getEnumConstants());
+    comboBox = new JComboBox<>(enumType.getEnumConstants());
     comboBox.setName("InputFieldComboBox" + name);
     panel.getComponent().add(new JLabel(label));
     panel.getComponent().add(comboBox);

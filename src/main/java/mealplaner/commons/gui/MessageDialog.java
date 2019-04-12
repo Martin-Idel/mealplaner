@@ -12,7 +12,7 @@ public final class MessageDialog {
   private MessageDialog() {
   }
 
-  public static void errorMessages(JFrame frame, Exception exc, String errorMessage) {
+  public static void errorMessages(JFrame frame, String errorMessage) {
     JOptionPane.showMessageDialog(frame, errorMessage,
         BUNDLES.errorMessage("ERR_HEADING"), ERROR_MESSAGE);
   }

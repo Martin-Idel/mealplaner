@@ -31,7 +31,7 @@ public final class RecipeAdapter {
       Map<UUID, NonnegativeFraction> integerMap = recipe.getIngredientsAsIs()
           .entrySet()
           .stream()
-          .collect(toMap(e -> e.getKey().getId(), e -> e.getValue()));
+          .collect(toMap(e -> e.getKey().getId(), Entry::getValue));
       return new RecipeXml(recipe.getNumberOfPortions().value, integerMap);
     }
     return null;

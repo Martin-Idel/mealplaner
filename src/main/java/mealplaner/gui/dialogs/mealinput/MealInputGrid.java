@@ -56,42 +56,42 @@ public final class MealInputGrid {
 
   public GridPanel initialiseInputFields(DataStore mealPlan) {
     nameField = new NonEmptyTextInputField(BUNDLES.message("insertMealName"), "Name");
-    cookingTimeField = new ComboBoxInputField<CookingTime>(
-        BUNDLES.message("insertMealLength"),
-        "CookingTime",
-        CookingTime.class,
-        CookingTime.SHORT);
-    sidedishField = new ComboBoxInputField<Sidedish>(
-        BUNDLES.message("insertMealSidedish"),
-        "Sidedish",
-        Sidedish.class,
-        Sidedish.NONE);
-    obligatoryUtensilField = new ComboBoxInputField<ObligatoryUtensil>(
-        BUNDLES.message("insertMealUtensil"),
-        "ObligatoryUtensil",
-        ObligatoryUtensil.class,
-        ObligatoryUtensil.POT);
+    cookingTimeField = new ComboBoxInputField<>(
+            BUNDLES.message("insertMealLength"),
+            "CookingTime",
+            CookingTime.class,
+            CookingTime.SHORT);
+    sidedishField = new ComboBoxInputField<>(
+            BUNDLES.message("insertMealSidedish"),
+            "Sidedish",
+            Sidedish.class,
+            Sidedish.NONE);
+    obligatoryUtensilField = new ComboBoxInputField<>(
+            BUNDLES.message("insertMealUtensil"),
+            "ObligatoryUtensil",
+            ObligatoryUtensil.class,
+            ObligatoryUtensil.POT);
     daysPassedField = new NonnegativeIntegerInputField(
         BUNDLES.message("insertMealLastCooked"),
         "DaysPassed",
         ZERO);
-    preferenceField = new ComboBoxInputField<CookingPreference>(
-        BUNDLES.message("insertMealPopularity"),
-        "CookingPreference",
-        CookingPreference.class,
-        CookingPreference.NO_PREFERENCE);
-    courseTypeField = new ComboBoxInputField<CourseType>(
-        BUNDLES.message("insertMealCourseType"),
-        "CourseType",
-        CourseType.class,
-        CourseType.MAIN);
+    preferenceField = new ComboBoxInputField<>(
+            BUNDLES.message("insertMealPopularity"),
+            "CookingPreference",
+            CookingPreference.class,
+            CookingPreference.NO_PREFERENCE);
+    courseTypeField = new ComboBoxInputField<>(
+            BUNDLES.message("insertMealCourseType"),
+            "CourseType",
+            CourseType.class,
+            CourseType.MAIN);
     commentField = new TextInputField(BUNDLES.message("insertMealComment"), "Comment");
-    recipeInputField = new ButtonInputField<Optional<Recipe>>(
-        BUNDLES.message("createRecipeLabel"),
-        "Recipe",
-        BUNDLES.message("editRecipeButtonLabel"),
-        BUNDLES.message("createRecipeButtonLabel"),
-        empty(), content -> createRecipeDialog(mealPlan, content));
+    recipeInputField = new ButtonInputField<>(
+            BUNDLES.message("createRecipeLabel"),
+            "Recipe",
+            BUNDLES.message("editRecipeButtonLabel"),
+            BUNDLES.message("createRecipeButtonLabel"),
+            empty(), content -> createRecipeDialog(mealPlan, content));
 
     GridPanel mealCreationPanel = gridPanel(0, 2);
     allFields().forEach(field -> field.addToPanel(mealCreationPanel));
@@ -108,8 +108,8 @@ public final class MealInputGrid {
   }
 
   private Stream<InputField<?>> allFields() {
-    return Arrays.asList(nameField, cookingTimeField, sidedishField, obligatoryUtensilField,
-        daysPassedField, preferenceField, courseTypeField, commentField, recipeInputField).stream();
+    return Stream.of(nameField, cookingTimeField, sidedishField, obligatoryUtensilField,
+        daysPassedField, preferenceField, courseTypeField, commentField, recipeInputField);
   }
 
   public Optional<Meal> getMealFromUserInput() {

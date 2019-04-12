@@ -7,7 +7,7 @@ public enum TabbedPanes {
 
   private final int number;
 
-  private TabbedPanes(int number) {
+  TabbedPanes(int number) {
     this.number = number;
   }
 

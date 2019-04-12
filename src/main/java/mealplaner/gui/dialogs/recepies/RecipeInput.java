@@ -109,7 +109,7 @@ public class RecipeInput implements DialogEditing<Optional<Recipe>> {
     recipeTable = new RecipeTable(enteredRecipe.orElse(createRecipe()), allIngredients);
     Table oldTable = table;
     table = recipeTable.setupTable();
-    dialogWindow.swapCentral(oldTable, table);
+    dialogWindow.swapCentral(table);
   }
 
   private ActionListener getSaveListener() {

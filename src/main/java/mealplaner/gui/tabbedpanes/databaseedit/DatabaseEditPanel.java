@@ -48,7 +48,7 @@ public class DatabaseEditPanel {
   private JPanel setupDatabasePanel() {
     JPanel databasePanel = new JPanel();
     dbaseEdit = new DatabaseEdit(this.mealPlan, frame, databasePanel, fileIoGui);
-    dbaseEdit.setupPane((meals) -> mealPlan.setMeals(meals));
+    dbaseEdit.setupPane(mealPlan::setMeals);
     return databasePanel;
   }
 

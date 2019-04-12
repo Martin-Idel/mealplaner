@@ -40,7 +40,7 @@ public final class Recipe {
         .collect(groupingBy(QuantitativeIngredient::getIngredient,
             reducing(ZERO,
                 QuantitativeIngredient::getAmount,
-                (amount1, amount2) -> amount1.add(amount2))));
+                    NonnegativeFraction::add)));
     return new Recipe(numberOfPortions, ingredientMap);
   }
 

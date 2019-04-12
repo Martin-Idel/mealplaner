@@ -27,7 +27,7 @@ public enum BundleStore {
   private ResourceBundle errors;
   private Locale currentLocale;
 
-  private BundleStore() {
+  BundleStore() {
     currentLocale = getDefault();
   }
 

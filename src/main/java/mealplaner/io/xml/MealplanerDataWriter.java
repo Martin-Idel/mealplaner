@@ -11,6 +11,8 @@ import static mealplaner.io.xml.util.JaxHelper.save;
 
 import java.util.List;
 
+import mealplaner.io.xml.adapters.IngredientAdapter;
+import mealplaner.io.xml.adapters.MealAdapter;
 import mealplaner.io.xml.model.v2.IngredientXml;
 import mealplaner.io.xml.model.v2.MealXml;
 import mealplaner.io.xml.model.v2.MealplanerDataXml;
@@ -27,10 +29,10 @@ public final class MealplanerDataWriter {
 
   private static MealplanerDataXml convertDataBaseToXml(MealplanerData data) {
     List<MealXml> mealXmls = data.getMeals().stream()
-        .map(meal -> convertMealToXml(meal))
+        .map(MealAdapter::convertMealToXml)
         .collect(toList());
     List<IngredientXml> ingredientsXml = data.getIngredients().stream()
-        .map(ingredient -> convertIngredientToXml(ingredient))
+        .map(IngredientAdapter::convertIngredientToXml)
         .collect(toList());
     return new MealplanerDataXml(convertDefaultSettingsToXml(data.getDefaultSettings()),
         data.getTime(),

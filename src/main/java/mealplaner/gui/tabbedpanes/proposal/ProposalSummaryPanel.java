@@ -126,7 +126,7 @@ public class ProposalSummaryPanel {
     Optional<DefaultSettings> defaultSettings = dialogs
         .createDefaultSettingsDialog()
         .showDialog(mealPlan);
-    defaultSettings.ifPresent(settings -> mealPlan.setDefaultSettings(settings));
+    defaultSettings.ifPresent(mealPlan::setDefaultSettings);
   }
 
   private ButtonPanel createButtonPanel() {

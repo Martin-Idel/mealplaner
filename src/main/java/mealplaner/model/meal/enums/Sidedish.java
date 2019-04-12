@@ -26,7 +26,7 @@ public enum Sidedish {
   }
 
   public static EnumMap<Sidedish, String> getSidedishStrings() {
-    EnumMap<Sidedish, String> sideDishNames = new EnumMap<Sidedish, String>(Sidedish.class);
+    EnumMap<Sidedish, String> sideDishNames = new EnumMap<>(Sidedish.class);
     Arrays.asList(Sidedish.values()).forEach(dish -> sideDishNames.put(dish, dish.toString()));
     return sideDishNames;
   }

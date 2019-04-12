@@ -28,7 +28,7 @@ public final class ProposalSummaryDataReader {
   static ProposalSummaryModel convertToMealplanerData(MealplanerData database,
       ProposalSummaryDataXml data) {
     DefaultSettings defaultSettings = convertDefaultSettingsFromXml(data.defaultSettings);
-    return new ProposalSummaryModel(convertProposalFromXml(database, data.proposal),
+    return new ProposalSummaryModel(convertProposalFromXml(data.proposal),
         defaultSettings, data.date);
   }
 }

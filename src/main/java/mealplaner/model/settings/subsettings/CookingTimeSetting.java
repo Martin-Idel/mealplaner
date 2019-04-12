@@ -13,12 +13,11 @@ public final class CookingTimeSetting implements CookingSetting {
   private final Set<CookingTime> prohibitedCookingTime;
 
   private CookingTimeSetting(CookingTimeSetting cookingTimeSetting) {
-    this(new HashSet<CookingTime>(cookingTimeSetting.prohibitedCookingTime));
+    this(new HashSet<>(cookingTimeSetting.prohibitedCookingTime));
   }
 
   public static CookingTimeSetting cookingTimeWithProhibited(CookingTime... cookingTime) {
-    HashSet<CookingTime> prohibitedCookingTime = new HashSet<CookingTime>();
-    prohibitedCookingTime.addAll(Arrays.asList(cookingTime));
+    HashSet<CookingTime> prohibitedCookingTime = new HashSet<CookingTime>(Arrays.asList(cookingTime));
     return new CookingTimeSetting(prohibitedCookingTime);
   }
 

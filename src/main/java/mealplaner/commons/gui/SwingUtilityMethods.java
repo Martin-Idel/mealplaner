@@ -36,7 +36,7 @@ public final class SwingUtilityMethods {
       listAndEmptyElement[i] = label.apply(list.get(i));
     }
     listAndEmptyElement[listAndEmptyElement.length - 1] = "";
-    JComboBox<String> autoCompleteBox = new JComboBox<String>(listAndEmptyElement);
+    JComboBox<String> autoCompleteBox = new JComboBox<>(listAndEmptyElement);
     AutoCompleteDecorator.decorate(autoCompleteBox);
     return new ComboBoxCellEditor(autoCompleteBox);
   }

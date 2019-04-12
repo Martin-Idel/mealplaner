@@ -87,16 +87,16 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
     nameField = new NonEmptyTextInputField(
         BUNDLES.message("insertIngredientName"),
         "IngredientName");
-    typeField = new ComboBoxInputField<IngredientType>(
-        BUNDLES.message("insertTypeLength"),
-        "IngredientType",
-        IngredientType.class,
-        IngredientType.OTHER);
-    measureField = new ComboBoxInputField<Measure>(
-        BUNDLES.message("insertMeasure"),
-        "IngredientMeasure",
-        Measure.class,
-        Measure.NONE);
+    typeField = new ComboBoxInputField<>(
+            BUNDLES.message("insertTypeLength"),
+            "IngredientType",
+            IngredientType.class,
+            IngredientType.OTHER);
+    measureField = new ComboBoxInputField<>(
+            BUNDLES.message("insertMeasure"),
+            "IngredientMeasure",
+            Measure.class,
+            Measure.NONE);
   }
 
   private ButtonPanel setupButtonPanel(ActionListener saveListener) {
@@ -111,6 +111,6 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
   }
 
   private Stream<InputField<?>> allFields() {
-    return asList(nameField, typeField, measureField).stream();
+    return Stream.of(nameField, typeField, measureField);
   }
 }

@@ -9,12 +9,12 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 public class UuidAdapter extends XmlAdapter<String, UUID> {
 
   @Override
-  public UUID unmarshal(String v) throws Exception {
+  public UUID unmarshal(String v) {
     return UUID.fromString(v);
   }
 
   @Override
-  public String marshal(UUID v) throws Exception {
+  public String marshal(UUID v) {
     return v.toString();
   }
 }

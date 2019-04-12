@@ -16,10 +16,7 @@ import static mealplaner.model.proposal.Proposal.createProposal;
 import static mealplaner.model.settings.DefaultSettings.createDefaultSettings;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.errorhandling.MealException;
@@ -47,7 +44,7 @@ public final class MealplanerData implements DataStore {
   }
 
   private MealplanerData() {
-    ingredients = new ArrayList<Ingredient>();
+    ingredients = new ArrayList<>();
     date = now();
     defaultSettings = createDefaultSettings();
     proposal = createProposal();
@@ -55,7 +52,7 @@ public final class MealplanerData implements DataStore {
   }
 
   public void clear() {
-    ingredients = new ArrayList<Ingredient>();
+    ingredients = new ArrayList<>();
     mealData.clear();
     date = now();
     defaultSettings = createDefaultSettings();
@@ -88,8 +85,7 @@ public final class MealplanerData implements DataStore {
 
   @Override
   public List<Ingredient> getIngredients() {
-    ingredients.sort((ingredient1, ingredient2) -> ingredient1.getName()
-        .compareTo(ingredient2.getName()));
+    ingredients.sort(Comparator.comparing(Ingredient::getName));
     return new ArrayList<>(ingredients); // defensive copy
   }
 

@@ -55,7 +55,7 @@ public class DialogWindow extends JDialog {
     mainPanel.add(panel.getComponent(), BorderLayout.CENTER);
   }
 
-  public void swapCentral(GuiComponent oldPanel, GuiComponent newPanel) {
+  public void swapCentral(GuiComponent newPanel) {
     mainPanel.remove(borderLayout.getLayoutComponent(BorderLayout.CENTER));
     mainPanel.add(newPanel.getComponent(), BorderLayout.CENTER);
     mainPanel.validate();

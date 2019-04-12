@@ -84,7 +84,7 @@ public class DatabaseEdit implements DataStoreListener {
   }
 
   public void insertItem(Optional<Meal> optionalMeal) {
-    optionalMeal.ifPresent(meal -> addAtSortedPosition(meal));
+    optionalMeal.ifPresent(this::addAtSortedPosition);
   }
 
   private void addAtSortedPosition(Meal meal) {
@@ -102,7 +102,7 @@ public class DatabaseEdit implements DataStoreListener {
     List<Meal> newMeals = mealplanerData.getMeals();
     meals.removeAll(meals.stream().filter(not(newMeals::contains)).collect(toList()));
     newMeals.stream().filter(not(meals::contains)).map(Meal::copy).forEach(meals::add);
-    meals.sort((meal1, meal2) -> meal1.compareTo(meal2));
+    meals.sort(Meal::compareTo);
     table.update();
     buttonPanel.disableButtons();
   }

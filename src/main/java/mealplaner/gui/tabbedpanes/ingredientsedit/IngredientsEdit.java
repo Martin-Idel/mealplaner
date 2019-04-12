@@ -13,6 +13,7 @@ import static mealplaner.model.DataStoreEventType.INGREDIENTS_CHANGED;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -107,7 +108,7 @@ public class IngredientsEdit implements DataStoreListener {
         .filter(not(ingredients::contains))
         .forEach(ingredients::add);
     ingredients
-        .sort((ingredient1, ingredient2) -> ingredient1.getName().compareTo(ingredient2.getName()));
+        .sort(Comparator.comparing(Ingredient::getName));
     table.update();
     buttonPanel.disableButtons();
   }

@@ -49,7 +49,7 @@ public final class IngredientsTable {
         .addColumn(TableColumnBuilder.withNonnegativeFractionContent()
             .withColumnName(BUNDLES.message("ingredientAmountColumn"))
             .getValueFromOrderedList(ingredients,
-                ingredient -> ingredient.getAmount())
+                    QuantitativeIngredient::getAmount)
             .setValueToOrderedImmutableList(ingredients,
                 (ingredient, amount) -> create(ingredient.getIngredient(), amount))
             .isEditable()
@@ -61,9 +61,7 @@ public final class IngredientsTable {
                 ingredient -> ingredient.getIngredient().getMeasure())
             .setDefaultValueForEmptyRow(Measure.NONE)
             .build())
-        .addDefaultRowToUnderlyingModel(() -> {
-          ingredients.add(QuantitativeIngredient.DEFAULT);
-        })
+        .addDefaultRowToUnderlyingModel(() -> ingredients.add(QuantitativeIngredient.DEFAULT))
         .deleteRowsOnDelete(row -> ingredients.remove((int) row))
         .buildDynamicTable();
   }

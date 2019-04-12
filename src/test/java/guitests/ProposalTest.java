@@ -39,12 +39,10 @@ public class ProposalTest extends AssertJMealplanerTestCase {
   @Test
   public void saveDefaultSettings() {
     Settings defaultSettingTuesday = getSettings1();
-    DayOfWeek dayTuesday = TUESDAY;
     Settings defaultSettingWednesday = getSettings2();
-    DayOfWeek dayWednesday = WEDNESDAY;
     Map<DayOfWeek, Settings> defaultSettingsMap = new HashMap<>();
-    defaultSettingsMap.put(dayTuesday, defaultSettingTuesday);
-    defaultSettingsMap.put(dayWednesday, defaultSettingWednesday);
+    defaultSettingsMap.put(TUESDAY, defaultSettingTuesday);
+    defaultSettingsMap.put(WEDNESDAY, defaultSettingWednesday);
     DefaultSettings defaultSettings = DefaultSettings.from(defaultSettingsMap);
 
     windowHelpers.getProposalPane()

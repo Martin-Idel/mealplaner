@@ -34,8 +34,8 @@ public final class ComboBoxTextInputField implements InputField<String> {
   @Override
   public void addToPanel(GuiPanel panel) {
     String[] ingredientsAlternatives = new String[alternatives.size()];
-    autoCompleteBox = new JComboBox<String>(alternatives
-        .toArray(ingredientsAlternatives));
+    autoCompleteBox = new JComboBox<>(alternatives
+            .toArray(ingredientsAlternatives));
     autoCompleteBox.setName("InputFieldComboBoxText" + name);
     AutoCompleteDecorator.decorate(autoCompleteBox);
     panel.getComponent().add(new JLabel(label));
