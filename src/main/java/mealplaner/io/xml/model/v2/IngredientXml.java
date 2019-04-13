@@ -20,10 +20,10 @@ import mealplaner.model.recipes.Measure;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class IngredientXml {
   @XmlJavaTypeAdapter(value = UuidAdapter.class)
-  public UUID uuid;
-  public String name;
-  public IngredientType type;
-  public Measure measure;
+  public final UUID uuid;
+  public final String name;
+  public final IngredientType type;
+  public final Measure measure;
 
   public IngredientXml() {
     this(nameUUIDFromBytes("noname".getBytes(forName("UTF-8"))), "noname", IngredientType.OTHER,

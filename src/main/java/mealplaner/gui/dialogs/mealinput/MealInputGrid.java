@@ -10,7 +10,6 @@ import static mealplaner.commons.NonnegativeInteger.ZERO;
 import static mealplaner.commons.gui.GridPanel.gridPanel;
 import static mealplaner.model.meal.Meal.createMeal;
 
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Stream;
 

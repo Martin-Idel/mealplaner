@@ -9,7 +9,7 @@ public enum CookingPreference {
   NO_PREFERENCE(BUNDLES.message("noPreference")),
   RARE(BUNDLES.message("seldom"));
 
-  private String message;
+  private final String message;
 
   CookingPreference(String message) {
     this.message = message;

@@ -18,7 +18,7 @@ import mealplaner.model.meal.Meal;
 import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.settings.Settings;
 
-public class DesertProposal {
+class DesertProposal {
   private final Map<UUID, Meal> mealData;
   private final PreferenceMultiplier preferenceMultiplier;
 

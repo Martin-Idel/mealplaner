@@ -21,7 +21,7 @@ import mealplaner.model.MealplanerData;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.Recipe;
 
-public final class RecipeAdapter {
+final class RecipeAdapter {
   private RecipeAdapter() {
   }
 

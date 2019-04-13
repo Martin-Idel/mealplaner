@@ -31,7 +31,7 @@ import mealplaner.model.settings.enums.CourseSettings;
 import mealplaner.model.settings.enums.PreferenceSettings;
 import mealplaner.model.settings.subsettings.CookingTimeSetting;
 
-public class SettingTable {
+class SettingTable {
   private Table table;
   private final List<Settings> settings;
   private LocalDate date;

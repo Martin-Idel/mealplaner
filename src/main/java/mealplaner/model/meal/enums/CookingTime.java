@@ -10,7 +10,7 @@ public enum CookingTime {
   MEDIUM(BUNDLES.message("medium")),
   LONG(BUNDLES.message("long"));
 
-  private String message;
+  private final String message;
 
   CookingTime(String message) {
     this.message = message;

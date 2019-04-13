@@ -19,7 +19,7 @@ public enum IngredientType {
   DRY_GOODS(BUNDLES.message("DRY_GOODS")),
   OTHER(BUNDLES.message("OTHER"));
 
-  private String message;
+  private final String message;
 
   IngredientType(String message) {
     this.message = message;

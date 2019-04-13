@@ -20,10 +20,10 @@ import mealplaner.io.xml.util.LocalDataAdapter;
 public class ProposalXml {
   @XmlElementWrapper(name = "meals")
   @XmlElement(name = "meal")
-  public List<ProposedMenuXml> mealList;
+  public final List<ProposedMenuXml> mealList;
   @XmlJavaTypeAdapter(value = LocalDataAdapter.class)
-  public LocalDate date;
-  public boolean includeToday;
+  public final LocalDate date;
+  public final boolean includeToday;
 
   public ProposalXml() {
     this(new ArrayList<>(), LocalDate.MIN, true);

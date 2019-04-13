@@ -19,9 +19,9 @@ public class DynamicSizeTableModel extends FlexibleTableModel {
   private static final long serialVersionUID = 1L;
   private final Runnable addValue;
 
-  protected DynamicSizeTableModel(List<TableColumnData<?>> tableColumns,
-      Supplier<Integer> rowCount,
-      Runnable addValue) {
+  private DynamicSizeTableModel(List<TableColumnData<?>> tableColumns,
+                                Supplier<Integer> rowCount,
+                                Runnable addValue) {
     super(tableColumns, rowCount);
     this.addValue = addValue;
   }

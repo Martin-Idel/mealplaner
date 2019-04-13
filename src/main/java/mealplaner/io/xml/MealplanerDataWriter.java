@@ -3,8 +3,6 @@
 package mealplaner.io.xml;
 
 import static java.util.stream.Collectors.toList;
-import static mealplaner.io.xml.adapters.IngredientAdapter.convertIngredientToXml;
-import static mealplaner.io.xml.adapters.MealAdapter.convertMealToXml;
 import static mealplaner.io.xml.adapters.ProposalAdapter.convertProposalToXml;
 import static mealplaner.io.xml.adapters.SettingsAdapter.convertDefaultSettingsToXml;
 import static mealplaner.io.xml.util.JaxHelper.save;

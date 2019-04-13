@@ -25,26 +25,25 @@ import mealplaner.io.FileIoGui;
 import mealplaner.model.MealplanerData;
 
 public class AssertJMealplanerTestCase extends AssertJSwingJUnitTestCase {
-  protected FrameFixture window;
-  protected GuiMethods windowHelpers;
-  protected static final String WORKING_DIRECTORY = "src/test/resources/temp/";
-  protected static final String DESTINATION_MEALS_FILE_PATH = WORKING_DIRECTORY + "meals.xml";
-  protected static final String DESTINATION_MEALPLANER_FILE_PATH = WORKING_DIRECTORY
+    protected GuiMethods windowHelpers;
+  private static final String WORKING_DIRECTORY = "src/test/resources/temp/";
+  private static final String DESTINATION_MEALS_FILE_PATH = WORKING_DIRECTORY + "meals.xml";
+  private static final String DESTINATION_MEALPLANER_FILE_PATH = WORKING_DIRECTORY
       + "save.xml";
   protected static final String DESTINATION_INGREDIENT_FILE_PATH = WORKING_DIRECTORY
       + "ingredients.xml";
-  private String originMealsFilePath;
-  private String originMealplanerFilePath;
-  private String originIngredientFilePath;
+  private final String originMealsFilePath;
+  private final String originMealplanerFilePath;
+  private final String originIngredientFilePath;
 
-  public AssertJMealplanerTestCase() {
+  protected AssertJMealplanerTestCase() {
     this("src/test/resources/meals.xml",
         "src/test/resources/save.xml",
         "src/test/resources/ingredients.xml");
   }
 
-  public AssertJMealplanerTestCase(String originMealFilePath, String originMealplanerFilePath,
-      String originIngredientFilePath) {
+  protected AssertJMealplanerTestCase(String originMealFilePath, String originMealplanerFilePath,
+                                      String originIngredientFilePath) {
     this.originMealsFilePath = originMealFilePath;
     this.originMealplanerFilePath = originMealplanerFilePath;
     this.originIngredientFilePath = originIngredientFilePath;
@@ -53,7 +52,7 @@ public class AssertJMealplanerTestCase extends AssertJSwingJUnitTestCase {
   @Override
   protected void onSetUp() {
     MainGui frame = GuiActionRunner.execute(this::createMainApplication);
-    window = new FrameFixture(robot(), frame.getFrame());
+      FrameFixture window = new FrameFixture(robot(), frame.getFrame());
     window.show();
     windowHelpers = create(window);
   }
@@ -85,7 +84,7 @@ public class AssertJMealplanerTestCase extends AssertJSwingJUnitTestCase {
     }
   }
 
-  protected String useFilePath() throws IOException {
+  private String useFilePath() throws IOException {
     copyFile(originMealsFilePath, DESTINATION_MEALS_FILE_PATH);
     copyFile(originMealplanerFilePath, DESTINATION_MEALPLANER_FILE_PATH);
     copyFile(originIngredientFilePath, DESTINATION_INGREDIENT_FILE_PATH);

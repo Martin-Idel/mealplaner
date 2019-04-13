@@ -95,11 +95,11 @@ public class IngredientsEditPageObject {
     return this;
   }
 
-  public JButtonFixture addIngredientButton() {
+  private JButtonFixture addIngredientButton() {
     return window.button("ButtonPanelIngredientsEdit0");
   }
 
-  public JButtonFixture removeSelectedButton() {
+  private JButtonFixture removeSelectedButton() {
     return window.button("ButtonPanelIngredientsEdit1");
   }
 
@@ -107,7 +107,7 @@ public class IngredientsEditPageObject {
     return window.button("ButtonPanelIngredientsEdit2");
   }
 
-  public JButtonFixture cancelButton() {
+  private JButtonFixture cancelButton() {
     return window.button("ButtonPanelIngredientsEdit3");
   }
 

@@ -33,11 +33,7 @@ public final class ShoppingList {
     return new ShoppingList(shoppingList);
   }
 
-  public static ShoppingList emptyList() {
-    return new ShoppingList(new HashMap<>());
-  }
-
-  public List<QuantitativeIngredient> getList() {
+    public List<QuantitativeIngredient> getList() {
     return shoppingList.entrySet().stream()
         .map(entry -> create(entry.getKey(), entry.getValue()))
         .sorted(Comparator.comparing(ingredient -> ingredient.getIngredient().getType()))

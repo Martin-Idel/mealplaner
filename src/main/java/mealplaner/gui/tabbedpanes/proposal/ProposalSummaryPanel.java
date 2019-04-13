@@ -71,7 +71,7 @@ public class ProposalSummaryPanel {
     container.addToHelpMenu(helpMenu(frame));
   }
 
-  public void makeProposal() {
+  private void makeProposal() {
     ProposalOutline outline = proposalSummary.getProposalOutline();
     if (outline.takeDefaultSettings()) {
       Settings[] settings = setDefaultSettings(outline);
@@ -108,7 +108,7 @@ public class ProposalSummaryPanel {
     dialogs.createShoppingListDialog().showDialog(updatedProposal, mealPlan);
   }
 
-  public void updatePastMeals() {
+  private void updatePastMeals() {
     Optional<List<ProposedMenu>> lastCookedMealList = dialogs.createUpdatePastMealDialog()
         .showDialog(mealPlan);
     lastCookedMealList.ifPresent(list -> mealPlan.update(list, now()));
@@ -122,7 +122,7 @@ public class ProposalSummaryPanel {
         .propose(set);
   }
 
-  public void changeDefaultSettings() {
+  private void changeDefaultSettings() {
     Optional<DefaultSettings> defaultSettings = dialogs
         .createDefaultSettingsDialog()
         .showDialog(mealPlan);

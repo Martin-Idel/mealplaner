@@ -120,7 +120,7 @@ public final class TableColumnBuilder<T> {
    *          your list. In the table, when the user sets an entry, this function
    *          ensures that this will set the corresponding data inside the list at
    *          the correct row.
-   * @return
+   * @return the current builder
    */
   public <S> TableColumnBuilder<T> setValueToOrderedList(List<S> orderedList,
       BiConsumer<S, T> setValue) {
@@ -146,7 +146,7 @@ public final class TableColumnBuilder<T> {
    *          where the corresponding aspect is changed. In the table, when the
    *          user sets an entry, this function ensures that this will set the
    *          corresponding data inside the list at the correct row.
-   * @return
+   * @return the current builder
    */
   public <S> TableColumnBuilder<T> setValueToOrderedImmutableList(List<S> orderedList,
       BiFunction<S, T, S> setValue) {
@@ -165,7 +165,7 @@ public final class TableColumnBuilder<T> {
    * @param setValue
    *          Function which, when given a row number and the new value of that
    *          row, sets the data structure of the table correspondingly.
-   * @return
+   * @return the current builder
    */
   public TableColumnBuilder<T> setRowValueToUnderlyingModel(BiConsumer<T, Integer> setValue) {
     this.setValue = (value, row) -> {
@@ -187,7 +187,7 @@ public final class TableColumnBuilder<T> {
    *          corresponding entry in this column. In the table, this will make
    *          sure that row i will contain the content of the ith entry of your
    *          list.
-   * @return
+   * @return the current builder
    */
   public <S> TableColumnBuilder<T> getValueFromOrderedList(List<S> orderedList,
       Function<S, T> getValue) {
@@ -202,7 +202,7 @@ public final class TableColumnBuilder<T> {
    * @param getValue
    *          A function which given the row number, provides a value to be shown
    *          in the table.
-   * @return
+   * @return the current builder
    */
   public TableColumnBuilder<T> getRowValueFromUnderlyingModel(Function<Integer, T> getValue) {
     this.getValue = getValue;
@@ -216,7 +216,7 @@ public final class TableColumnBuilder<T> {
    * @param onSet
    *          An object of type ButtonPanelEnabling, which contains buttons which
    *          can be enabled or disabled.
-   * @return
+   * @return the current builder
    */
   public TableColumnBuilder<T> enableButtonsOnSet(ButtonPanelEnabling onSet) {
     // Need to copy the setValue-Function, as we modify it in the lambda
@@ -236,7 +236,7 @@ public final class TableColumnBuilder<T> {
    * @param cells
    *          Additional cells in the same row to repaint when a row of this
    *          column is changed.
-   * @return
+   * @return the current builder
    */
   public TableColumnBuilder<T> alsoUpdatesCellsOfColumns(Integer... cells) {
     // Need to copy the setValue-Function, as we modify it in the lambda
@@ -252,7 +252,7 @@ public final class TableColumnBuilder<T> {
    * Make the row editable. It is necessary to call any of the functions above
    * providing a setter for the data structure.
    * 
-   * @return
+   * @return the current builder
    */
   public TableColumnBuilder<T> isEditable() {
     this.isEditableIf = (bool) -> true;
@@ -265,7 +265,7 @@ public final class TableColumnBuilder<T> {
    * 
    * @param predicate
    *          The predicate to test against.
-   * @return
+   * @return the current builder
    */
   public TableColumnBuilder<T> isEditableIf(Predicate<Integer> predicate) {
     this.isEditableIf = predicate;
@@ -277,7 +277,7 @@ public final class TableColumnBuilder<T> {
    * 
    * @param preferredSize
    *          The preferred size in pixels
-   * @return
+   * @return the current builder
    */
   public TableColumnBuilder<T> setPreferredSize(int preferredSize) {
     this.preferredSize = preferredSize;
@@ -289,7 +289,7 @@ public final class TableColumnBuilder<T> {
    * 
    * @param editor
    *          The table cell editor for this column
-   * @return
+   * @return the current builder
    */
   public TableColumnBuilder<T> overwriteTableCellEditor(TableCellEditor editor) {
     this.editor = of(editor);
@@ -301,7 +301,7 @@ public final class TableColumnBuilder<T> {
    * 
    * @param renderer
    *          The renderer for this column
-   * @return
+   * @return the current builder
    */
   public TableColumnBuilder<T> overwriteTableCellRenderer(TableCellRenderer renderer) {
     this.renderer = of(renderer);
@@ -315,7 +315,7 @@ public final class TableColumnBuilder<T> {
    * 
    * @param defaultValue
    *          Value to display for the last row of an UpdateSizeTableModel
-   * @return
+   * @return the current builder
    */
   public TableColumnBuilder<T> setDefaultValueForEmptyRow(T defaultValue) {
     this.defaultValue = defaultValue;
@@ -330,7 +330,7 @@ public final class TableColumnBuilder<T> {
    * @param changeAction
    *          Runnable containing the action to be processed when changing a row's
    *          entry.
-   * @return
+   * @return the current builder
    */
   public TableColumnBuilder<T> onChange(Runnable changeAction) {
     final BiFunction<T, Integer, Optional<Integer[]>> oldSetValue = this.setValue;

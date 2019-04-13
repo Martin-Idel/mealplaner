@@ -24,7 +24,7 @@ import mealplaner.model.meal.enums.ObligatoryUtensil;
 import mealplaner.model.meal.enums.Sidedish;
 import mealplaner.model.recipes.Recipe;
 
-public final class DatabaseEditTable {
+final class DatabaseEditTable {
   private DatabaseEditTable() {
   }
 

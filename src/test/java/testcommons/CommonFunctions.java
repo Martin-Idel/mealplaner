@@ -6,7 +6,6 @@ import static java.nio.charset.Charset.forName;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static java.util.UUID.nameUUIDFromBytes;
-import static mealplaner.commons.NonnegativeFraction.fraction;
 import static mealplaner.commons.NonnegativeFraction.wholeNumber;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.MealplanerData.getInstance;
@@ -22,12 +21,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
 
 import mealplaner.commons.NonnegativeFraction;
 import mealplaner.model.MealplanerData;
@@ -50,12 +43,6 @@ import mealplaner.model.settings.enums.PreferenceSettings;
 
 public final class CommonFunctions {
   private CommonFunctions() {
-  }
-
-  public static Document createDocument() throws ParserConfigurationException {
-    DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder documentBuilder = docFactory.newDocumentBuilder();
-    return documentBuilder.newDocument();
   }
 
   public static Meal getMeal1() {
@@ -154,13 +141,6 @@ public final class CommonFunctions {
     Map<Ingredient, NonnegativeFraction> recipeMap = new HashMap<>();
     recipeMap.put(getIngredient1(), wholeNumber(nonNegative(100)));
     recipeMap.put(getIngredient2(), wholeNumber(nonNegative(50)));
-    return Recipe.from(nonNegative(1), recipeMap);
-  }
-
-  public static Recipe getRecipe4() {
-    Map<Ingredient, NonnegativeFraction> recipeMap = new HashMap<>();
-    recipeMap.put(getIngredient1(), fraction(10, 3));
-    recipeMap.put(getIngredient2(), fraction(2, 4));
     return Recipe.from(nonNegative(1), recipeMap);
   }
 

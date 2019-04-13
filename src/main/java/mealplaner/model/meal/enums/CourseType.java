@@ -9,7 +9,7 @@ public enum CourseType {
   MAIN(BUNDLES.message("main")),
   DESERT(BUNDLES.message("desert"));
 
-  private String message;
+  private final String message;
 
   CourseType(String message) {
     this.message = message;

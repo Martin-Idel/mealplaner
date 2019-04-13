@@ -19,13 +19,13 @@ import mealplaner.model.settings.enums.PreferenceSettings;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SettingsXml {
-  public CasseroleSettings casseroleSettings;
-  public PreferenceSettings preferenceSettings;
-  public CourseSettings courseSettings;
+  public final CasseroleSettings casseroleSettings;
+  public final PreferenceSettings preferenceSettings;
+  public final CourseSettings courseSettings;
   @XmlElementWrapper(name = "cookingTimes")
   @XmlElement(name = "cookingTime")
-  public List<CookingTime> cookingTime;
-  public int numberOfPeople;
+  public final List<CookingTime> cookingTime;
+  public final int numberOfPeople;
 
   public SettingsXml() {
     this(new ArrayList<>(), 1, CasseroleSettings.POSSIBLE, PreferenceSettings.NORMAL,

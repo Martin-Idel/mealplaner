@@ -96,13 +96,13 @@ public class MainGui {
     return frame;
   }
 
-  void saveDataBase() {
+  private void saveDataBase() {
     dbaseEditPanel.saveDatabase();
     ingredientsPanel.saveDatabase();
     fileIoGui.saveDatabase(mealPlan);
   }
 
-  public class SaveExitWindowListener extends WindowAdapter {
+  class SaveExitWindowListener extends WindowAdapter {
     @Override
     public void windowClosing(WindowEvent e) {
       showSaveExitDialog(getFrame(), BUNDLES.message("saveYesNoQuestion"),

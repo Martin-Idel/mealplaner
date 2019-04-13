@@ -10,7 +10,7 @@ public enum CourseSettings {
   ENTRY_MAIN(BUNDLES.message("entrymain")),
   THREE_COURSE(BUNDLES.message("threecourse"));
 
-  private String message;
+  private final String message;
 
   CourseSettings(String message) {
     this.message = message;

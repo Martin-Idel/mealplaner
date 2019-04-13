@@ -27,8 +27,8 @@ public final class HelpPanel {
     return scrollPaneWithTextFrom("/help/", resourceName, "txt");
   }
 
-  public static JScrollPane scrollPaneWithTextFrom(
-      String resourcePath, String resourceName, String suffix) {
+  private static JScrollPane scrollPaneWithTextFrom(
+          String resourcePath, String resourceName, String suffix) {
     JEditorPane editorPane = new JEditorPane();
     editorPane.setEditable(false);
 

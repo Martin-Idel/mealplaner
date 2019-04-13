@@ -31,16 +31,16 @@ import mealplaner.model.meal.enums.Sidedish;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MealXml {
   @XmlJavaTypeAdapter(value = UuidAdapter.class)
-  public UUID uuid;
-  public String name;
-  public CookingTime cookingTime;
-  public Sidedish sidedish;
-  public ObligatoryUtensil obligatoryUtensil;
-  public CookingPreference cookingPreference;
-  public CourseType courseType;
-  public int daysPassed;
-  public String comment;
-  public RecipeXml recipe;
+  public final UUID uuid;
+  public final String name;
+  public final CookingTime cookingTime;
+  public final Sidedish sidedish;
+  public final ObligatoryUtensil obligatoryUtensil;
+  public final CookingPreference cookingPreference;
+  public final CourseType courseType;
+  public final int daysPassed;
+  public final String comment;
+  public final RecipeXml recipe;
 
   public MealXml() {
     this(nameUUIDFromBytes("noname".getBytes(forName("UTF-8"))),

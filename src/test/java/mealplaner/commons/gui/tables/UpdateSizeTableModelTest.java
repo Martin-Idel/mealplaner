@@ -411,15 +411,15 @@ public class UpdateSizeTableModelTest {
   private static class TestClass {
     private String string;
 
-    public TestClass(String string) {
+    TestClass(String string) {
       this.string = string;
     }
 
-    public String getString() {
+    String getString() {
       return string;
     }
 
-    public void setString(String string) {
+    void setString(String string) {
       this.string = string;
     }
   }

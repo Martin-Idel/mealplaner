@@ -11,7 +11,7 @@ public enum Measure {
   TABLESPOON(BUNDLES.message("TABLESPOON")),
   NONE(BUNDLES.message("NONE"));
 
-  private String message;
+  private final String message;
 
   Measure(String message) {
     this.message = message;

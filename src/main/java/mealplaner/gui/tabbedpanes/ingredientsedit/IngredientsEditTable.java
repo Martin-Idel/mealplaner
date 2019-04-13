@@ -16,7 +16,7 @@ import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.IngredientType;
 import mealplaner.model.recipes.Measure;
 
-public final class IngredientsEditTable {
+final class IngredientsEditTable {
   private IngredientsEditTable() {
   }
 

@@ -48,7 +48,7 @@ public final class MealBuilder {
         .optionalRecipe(meal.getRecipe());
   }
 
-  public MealBuilder id(UUID uuid) {
+  private MealBuilder id(UUID uuid) {
     this.uuid = uuid;
     return this;
   }

@@ -25,11 +25,11 @@ public class MealplanerDataXml {
 
   @XmlElementWrapper(name = "defaultSettings")
   @XmlElement(name = "setting")
-  public Map<DayOfWeek, SettingsXml> defaultSettings;
+  public final Map<DayOfWeek, SettingsXml> defaultSettings;
   @XmlElement(name = "dateSinceUpdate")
   @XmlJavaTypeAdapter(value = LocalDataAdapter.class)
-  public LocalDate date;
-  public ProposalXml proposal;
+  public final LocalDate date;
+  public final ProposalXml proposal;
   @XmlElementWrapper(name = "meals")
   @XmlElement(name = "meal")
   public final List<MealXml> meals;

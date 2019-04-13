@@ -82,10 +82,6 @@ public final class Meal implements Comparable<Meal> {
     return metadata;
   }
 
-  public static Meal createEmptyMeal() {
-    return EMPTY_MEAL;
-  }
-
   public Meal addRecipe(Optional<Recipe> recipe) {
     Meal newMeal = copy(this);
     newMeal.recipe = recipe;

@@ -17,7 +17,7 @@ public class MealdatabaseXml {
   public int version = 2;
   @XmlElementWrapper(name = "meals")
   @XmlElement(name = "meal")
-  public List<MealXml> meals;
+  public final List<MealXml> meals;
 
   public MealdatabaseXml() {
     this(new ArrayList<>());

@@ -20,8 +20,8 @@ public final class ProposalOutline {
     this.dateToday = dateToday;
   }
 
-  static ProposalOutline outline(int numberOfDays, boolean includedToday, boolean shallBeRandomised,
-      boolean takeDefaultSettings, LocalDate dateToday) {
+  private static ProposalOutline outline(int numberOfDays, boolean includedToday, boolean shallBeRandomised,
+                                         boolean takeDefaultSettings, LocalDate dateToday) {
     return new ProposalOutline(numberOfDays, includedToday, shallBeRandomised, takeDefaultSettings,
         dateToday);
   }

@@ -16,11 +16,11 @@ import javax.swing.table.AbstractTableModel;
 public abstract class FlexibleTableModel extends AbstractTableModel {
   private static final long serialVersionUID = 1L;
 
-  protected final List<TableColumnData<?>> columns;
+  final List<TableColumnData<?>> columns;
 
-  protected Supplier<Integer> rowCount;
+  private final Supplier<Integer> rowCount;
 
-  protected FlexibleTableModel(List<TableColumnData<?>> tableColumns, Supplier<Integer> rowCount) {
+  FlexibleTableModel(List<TableColumnData<?>> tableColumns, Supplier<Integer> rowCount) {
     columns = tableColumns;
     this.rowCount = rowCount;
   }

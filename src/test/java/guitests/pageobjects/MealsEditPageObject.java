@@ -148,11 +148,11 @@ public class MealsEditPageObject {
     return this;
   }
 
-  public JButtonFixture addMealButton() {
+  private JButtonFixture addMealButton() {
     return window.button("ButtonPanelDatabaseEdit0");
   }
 
-  public JButtonFixture removeSelectedButton() {
+  private JButtonFixture removeSelectedButton() {
     return window.button("ButtonPanelDatabaseEdit1");
   }
 

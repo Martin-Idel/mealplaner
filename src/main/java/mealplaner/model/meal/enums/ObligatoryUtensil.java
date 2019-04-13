@@ -9,7 +9,7 @@ public enum ObligatoryUtensil {
   PAN(BUNDLES.message("pan")),
   CASSEROLE(BUNDLES.message("casserole"));
 
-  private String message;
+  private final String message;
 
   ObligatoryUtensil(String message) {
     this.message = message;

@@ -22,11 +22,11 @@ public class ProposalSummaryDataXml {
   public int version = 2;
   @XmlElementWrapper(name = "defaultSettings")
   @XmlElement(name = "setting")
-  public Map<DayOfWeek, SettingsXml> defaultSettings;
+  public final Map<DayOfWeek, SettingsXml> defaultSettings;
   @XmlElement(name = "dateSinceUpdate")
   @XmlJavaTypeAdapter(value = LocalDataAdapter.class)
-  public LocalDate date;
-  public ProposalXml proposal;
+  public final LocalDate date;
+  public final ProposalXml proposal;
 
   public ProposalSummaryDataXml() {
     this(new HashMap<>(), LocalDate.MIN, new ProposalXml());

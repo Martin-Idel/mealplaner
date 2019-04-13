@@ -15,7 +15,7 @@ import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 
-public class RecipeTable {
+class RecipeTable {
   private final List<Ingredient> ingredientList;
   private final List<QuantitativeIngredient> ingredients;
 

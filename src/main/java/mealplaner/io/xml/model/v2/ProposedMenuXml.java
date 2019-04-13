@@ -10,12 +10,12 @@ import mealplaner.io.xml.util.UuidAdapter;
 
 public class ProposedMenuXml {
   @XmlJavaTypeAdapter(value = UuidAdapter.class)
-  public UUID entry;
+  public final UUID entry;
   @XmlJavaTypeAdapter(value = UuidAdapter.class)
-  public UUID main;
+  public final UUID main;
   @XmlJavaTypeAdapter(value = UuidAdapter.class)
-  public UUID desert;
-  public int numberOfPeople;
+  public final UUID desert;
+  public final int numberOfPeople;
 
   public ProposedMenuXml() {
     this(null, UUID.randomUUID(), null, 0);

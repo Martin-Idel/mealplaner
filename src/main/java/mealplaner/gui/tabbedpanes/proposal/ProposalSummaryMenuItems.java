@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 
 import mealplaner.commons.gui.JMenuBuilder;
 
-public final class ProposalSummaryMenuItems {
+final class ProposalSummaryMenuItems {
   private ProposalSummaryMenuItems() {
   }
 

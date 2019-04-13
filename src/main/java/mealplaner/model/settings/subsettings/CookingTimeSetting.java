@@ -17,7 +17,7 @@ public final class CookingTimeSetting implements CookingSetting {
   }
 
   public static CookingTimeSetting cookingTimeWithProhibited(CookingTime... cookingTime) {
-    HashSet<CookingTime> prohibitedCookingTime = new HashSet<CookingTime>(Arrays.asList(cookingTime));
+    HashSet<CookingTime> prohibitedCookingTime = new HashSet<>(Arrays.asList(cookingTime));
     return new CookingTimeSetting(prohibitedCookingTime);
   }
 

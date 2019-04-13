@@ -7,7 +7,7 @@ import mealplaner.model.meal.enums.ObligatoryUtensil;
 import mealplaner.model.meal.enums.Sidedish;
 import mealplaner.model.settings.Settings;
 
-public final class ProposalFunctions {
+final class ProposalFunctions {
   private ProposalFunctions() {
   }
 

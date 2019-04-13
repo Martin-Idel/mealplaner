@@ -112,7 +112,7 @@ public final class Settings {
     return cookingTime;
   }
 
-  public boolean isTimeProhibited(CookingTime cookingTime) {
+  private boolean isTimeProhibited(CookingTime cookingTime) {
     return this.cookingTime.isTimeProhibited(cookingTime);
   }
 

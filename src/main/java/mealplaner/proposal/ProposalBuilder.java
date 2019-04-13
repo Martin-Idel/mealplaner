@@ -34,7 +34,7 @@ public class ProposalBuilder {
   private final EntryProposal entryProposal;
   private final DesertProposal desertProposal;
 
-  private List<ProposedMenu> proposalList;
+  private final List<ProposedMenu> proposalList;
 
   public ProposalBuilder(List<Meal> meals) {
     this(meals, PreferenceMap.getPreferenceMap(), new SideDish());
@@ -129,8 +129,8 @@ public class ProposalBuilder {
         : sideDish.resetToSideDish(nextProposal.getSidedish());
   }
 
-  public Optional<Meal> proposeNextMain(final List<ProposedMenu> proposalList,
-      final Settings settings) {
+  private Optional<Meal> proposeNextMain(final List<ProposedMenu> proposalList,
+                                         final Settings settings) {
 
     return mealData.values().stream()
         .filter(meal -> meal.getCourseType().equals(MAIN))

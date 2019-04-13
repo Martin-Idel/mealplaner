@@ -9,7 +9,7 @@ import mealplaner.model.meal.Meal;
 import mealplaner.model.meal.enums.CookingPreference;
 import mealplaner.model.settings.enums.PreferenceSettings;
 
-public class PreferenceMultiplier {
+class PreferenceMultiplier {
   private final Map<Pair<CookingPreference, PreferenceSettings>, Integer> preferenceMap;
 
   public PreferenceMultiplier(

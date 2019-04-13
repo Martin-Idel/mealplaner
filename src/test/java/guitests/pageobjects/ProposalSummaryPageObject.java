@@ -83,7 +83,7 @@ public class ProposalSummaryPageObject {
     return new ProposalTablePageObject(window);
   }
 
-  public JButtonFixture proposalButton() {
+  private JButtonFixture proposalButton() {
     return window.button("ButtonProposalSummaryMakeProposal");
   }
 

@@ -19,7 +19,7 @@ import mealplaner.model.meal.Meal;
 import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.settings.Settings;
 
-public class EntryProposal {
+class EntryProposal {
   private final Map<UUID, Meal> mealData;
   private final PreferenceMultiplier preferenceMultiplier;
 

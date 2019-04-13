@@ -25,7 +25,7 @@ public enum BundleStore {
   private static final Logger logger = LoggerFactory.getLogger(Kochplaner.class);
   private ResourceBundle messages;
   private ResourceBundle errors;
-  private Locale currentLocale;
+  private final Locale currentLocale;
 
   BundleStore() {
     currentLocale = getDefault();

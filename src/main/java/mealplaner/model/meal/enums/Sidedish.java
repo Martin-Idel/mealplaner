@@ -4,9 +4,6 @@ package mealplaner.model.meal.enums;
 
 import static mealplaner.commons.BundleStore.BUNDLES;
 
-import java.util.Arrays;
-import java.util.EnumMap;
-
 public enum Sidedish {
   POTATOES(BUNDLES.message("potatoes")),
   PASTA(BUNDLES.message("pasta")),
@@ -14,7 +11,7 @@ public enum Sidedish {
       BUNDLES.message("rice")),
   NONE(BUNDLES.message("none"));
 
-  private String message;
+  private final String message;
 
   Sidedish(String message) {
     this.message = message;
@@ -25,9 +22,4 @@ public enum Sidedish {
     return message;
   }
 
-  public static EnumMap<Sidedish, String> getSidedishStrings() {
-    EnumMap<Sidedish, String> sideDishNames = new EnumMap<>(Sidedish.class);
-    Arrays.asList(Sidedish.values()).forEach(dish -> sideDishNames.put(dish, dish.toString()));
-    return sideDishNames;
-  }
 }

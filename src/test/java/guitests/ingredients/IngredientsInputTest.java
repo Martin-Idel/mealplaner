@@ -10,7 +10,6 @@ import static testcommons.CommonFunctions.getIngredient1;
 import static testcommons.CommonFunctions.getIngredient2;
 import static testcommons.CommonFunctions.getIngredient3;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.junit.Test;

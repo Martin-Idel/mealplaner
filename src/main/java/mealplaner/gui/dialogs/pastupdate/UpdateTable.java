@@ -23,7 +23,7 @@ import mealplaner.model.meal.Meal;
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.proposal.ProposedMenu;
 
-public class UpdateTable {
+class UpdateTable {
   private List<ProposedMenu> meals;
   private Table updateTable;
 

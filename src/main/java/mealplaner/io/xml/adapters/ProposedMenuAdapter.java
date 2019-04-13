@@ -9,7 +9,7 @@ import static mealplaner.model.proposal.ProposedMenu.proposed;
 import mealplaner.io.xml.model.v2.ProposedMenuXml;
 import mealplaner.model.proposal.ProposedMenu;
 
-public final class ProposedMenuAdapter {
+final class ProposedMenuAdapter {
   private ProposedMenuAdapter() {
   }
 

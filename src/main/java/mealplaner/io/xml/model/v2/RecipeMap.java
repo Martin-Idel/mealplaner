@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RecipeMap {
-  public List<KeyValuePair> recipeList;
+  public final List<KeyValuePair> recipeList;
 
   public RecipeMap() {
     this(new ArrayList<>());
@@ -24,8 +24,8 @@ public class RecipeMap {
   }
 
   public static class KeyValuePair {
-    public String uuidKey;
-    public String value;
+    public final String uuidKey;
+    public final String value;
 
     public KeyValuePair() {
       this(UUID.randomUUID().toString(), "0");

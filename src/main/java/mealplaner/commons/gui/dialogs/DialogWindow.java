@@ -17,7 +17,7 @@ public class DialogWindow extends JDialog {
   private final JPanel mainPanel;
   private final BorderLayout borderLayout;
 
-  protected DialogWindow(JFrame frame, String name, String swingName) {
+  private DialogWindow(JFrame frame, String name, String swingName) {
     super(frame, name, true);
     this.setName(swingName);
     this.window = frame;
@@ -26,7 +26,7 @@ public class DialogWindow extends JDialog {
     mainPanel.setLayout(borderLayout);
   }
 
-  protected DialogWindow(JDialog dialog, String name, String swingName) {
+  private DialogWindow(JDialog dialog, String name, String swingName) {
     super(dialog, name, true);
     this.setName(swingName);
     this.window = dialog;

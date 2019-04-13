@@ -9,7 +9,7 @@ public enum CasseroleSettings {
   ONLY(BUNDLES.message("onlyCasseroles")),
   NONE(BUNDLES.message("noCasseroles"));
 
-  private String message;
+  private final String message;
 
   CasseroleSettings(String message) {
     this.message = message;

@@ -63,7 +63,7 @@ public final class FlexibleTableBuilder {
    * 
    * @param column
    *          to be added
-   * @return
+   * @return the current builder
    */
   public FlexibleTableBuilder addColumn(TableColumnData<?> column) {
     columns.add(column);
@@ -79,7 +79,7 @@ public final class FlexibleTableBuilder {
    * @param rowCount
    *          supplier of number of rows of your table (e.g. List::size() if you
    *          work with lists)
-   * @return
+   * @return the current builder
    */
   public FlexibleTableBuilder withRowCount(Supplier<Integer> rowCount) {
     this.rowCount = rowCount;
@@ -94,7 +94,7 @@ public final class FlexibleTableBuilder {
    * @param onClick
    *          Listener: Get a row number, perform an action on the cell designated
    *          by that row number.
-   * @return
+   * @return the current builder
    */
   public FlexibleTableBuilder addListenerToThisColumn(Consumer<Integer> onClick) {
     columnListeners.add(ColumnListener.createColumnListener(columns.size() - 1, onClick));
@@ -111,7 +111,7 @@ public final class FlexibleTableBuilder {
    *          Provide a function adding an empty row to your data structure (i.e.
    *          add a default entry to your list if you use a list as data
    *          structure)
-   * @return
+   * @return the current builder
    */
   public FlexibleTableBuilder addDefaultRowToUnderlyingModel(Runnable addRow) {
     this.addRow = addRow;
@@ -127,7 +127,7 @@ public final class FlexibleTableBuilder {
    * @param deleteRows
    *          Function which deletes a row with given number from the underlying
    *          data structure
-   * @return
+   * @return the current builder
    */
   public FlexibleTableBuilder deleteRowsOnDelete(Consumer<Integer> deleteRows) {
     this.deleteRow = deleteRows;

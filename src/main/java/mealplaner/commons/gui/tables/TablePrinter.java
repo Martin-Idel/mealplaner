@@ -13,7 +13,7 @@ import javax.swing.JTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class TablePrinter {
+final class TablePrinter {
   private static final Logger logger = LoggerFactory.getLogger(TablePrinter.class);
 
   private TablePrinter() {

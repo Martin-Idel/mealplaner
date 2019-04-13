@@ -20,7 +20,7 @@ import mealplaner.commons.gui.GuiPanel;
 import mealplaner.commons.gui.inputfields.InputField;
 import mealplaner.model.recipes.Ingredient;
 
-public final class ReplaceIngredientDialog {
+final class ReplaceIngredientDialog {
   private ReplaceIngredientDialog() {
   }
 

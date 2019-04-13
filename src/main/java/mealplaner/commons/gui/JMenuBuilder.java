@@ -10,9 +10,9 @@ import javax.swing.JMenuItem;
 
 public final class JMenuBuilder {
   private final String name;
-  String labelText;
-  String mnemonic;
-  ActionListener actionListener;
+  private String labelText;
+  private String mnemonic;
+  private ActionListener actionListener;
 
   private JMenuBuilder(String name) {
     this.name = name;

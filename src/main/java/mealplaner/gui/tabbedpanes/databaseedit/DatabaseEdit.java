@@ -83,7 +83,7 @@ public class DatabaseEdit implements DataStoreListener {
     table.printTable(dataFrame);
   }
 
-  public void insertItem(Optional<Meal> optionalMeal) {
+  private void insertItem(Optional<Meal> optionalMeal) {
     optionalMeal.ifPresent(this::addAtSortedPosition);
   }
 
@@ -97,7 +97,7 @@ public class DatabaseEdit implements DataStoreListener {
     buttonPanel.enableButtons();
   }
 
-  public void updateTable() {
+  private void updateTable() {
     // We have to update the reference meals as it is not replaceable in the table
     List<Meal> newMeals = mealplanerData.getMeals();
     meals.removeAll(meals.stream().filter(not(newMeals::contains)).collect(toList()));

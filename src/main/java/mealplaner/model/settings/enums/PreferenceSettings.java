@@ -10,7 +10,7 @@ public enum PreferenceSettings {
   RARE_NONE(BUNDLES.message("noSeldomPref")),
   RARE_PREFERED(BUNDLES.message("seldomPref"));
 
-  private String message;
+  private final String message;
 
   PreferenceSettings(String message) {
     this.message = message;
