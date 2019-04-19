@@ -6,7 +6,10 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static mealplaner.model.recipes.QuantitativeIngredient.create;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 
 import mealplaner.commons.NonnegativeFraction;
 import mealplaner.commons.NonnegativeInteger;
@@ -33,7 +36,7 @@ public final class ShoppingList {
     return new ShoppingList(shoppingList);
   }
 
-    public List<QuantitativeIngredient> getList() {
+  public List<QuantitativeIngredient> getList() {
     return shoppingList.entrySet().stream()
         .map(entry -> create(entry.getKey(), entry.getValue()))
         .sorted(Comparator.comparing(ingredient -> ingredient.getIngredient().getType()))

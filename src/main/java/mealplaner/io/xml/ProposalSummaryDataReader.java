@@ -19,14 +19,13 @@ public final class ProposalSummaryDataReader {
     int versionNumber = getVersion(filePath);
     if (versionNumber == 2) {
       ProposalSummaryDataXml database = read(filePath, ProposalSummaryDataXml.class);
-      return convertToMealplanerData(data, database);
+      return convertToMealplanerData(database);
     } else {
       return new ProposalSummaryModel();
     }
   }
 
-  private static ProposalSummaryModel convertToMealplanerData(MealplanerData database,
-                                                              ProposalSummaryDataXml data) {
+  private static ProposalSummaryModel convertToMealplanerData(ProposalSummaryDataXml data) {
     DefaultSettings defaultSettings = convertDefaultSettingsFromXml(data.defaultSettings);
     return new ProposalSummaryModel(convertProposalFromXml(data.proposal),
         defaultSettings, data.date);

@@ -30,10 +30,6 @@ public final class DefaultSettings {
     return new DefaultSettings(new HashMap<>());
   }
 
-  public static DefaultSettings copy(DefaultSettings defaultSettings) {
-    return new DefaultSettings(copyHashMap(defaultSettings.defaultSettings));
-  }
-
   private static Map<DayOfWeek, Settings> copyHashMap(Map<DayOfWeek, Settings> defaultSettings) {
     return defaultSettings.entrySet().stream()
         .collect(toMap(Map.Entry::getKey, entry -> Settings.copy(entry.getValue())));

@@ -121,7 +121,7 @@ public class ProposalSummaryPageObject {
         setting.getCasserole().toString());
     updateComboBox(settingsTable, row(dayNumber).column(firstColumn++),
         setting.getPreference().toString());
-    updateComboBox(settingsTable, row(dayNumber).column(firstColumn++),
+    updateComboBox(settingsTable, row(dayNumber).column(firstColumn),
         setting.getCourseSettings().toString());
   }
 

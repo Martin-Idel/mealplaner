@@ -2,10 +2,7 @@
 
 package mealplaner.commons.gui.tables.models;
 
-import static java.util.Arrays.asList;
-
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
@@ -15,7 +12,7 @@ import java.util.function.Supplier;
  * editing the last (empty) row.
  *
  */
-public class DynamicSizeTableModel extends FlexibleTableModel {
+public final class DynamicSizeTableModel extends FlexibleTableModel {
   private static final long serialVersionUID = 1L;
   private final Runnable addValue;
 
@@ -43,10 +40,7 @@ public class DynamicSizeTableModel extends FlexibleTableModel {
       insertRows(getRowCount(), getRowCount());
       setValueAt(value, row, col);
     } else {
-      Optional<Integer[]> fireOtherCellsUpdated = columns.get(col).setValue(value, row);
-      fireTableCellUpdated(row, col);
-      fireOtherCellsUpdated.ifPresent(otherColumns -> asList(otherColumns)
-          .forEach(column -> fireTableCellUpdated(row, column)));
+      usualSetValueAt(value, row, col);
     }
   }
 

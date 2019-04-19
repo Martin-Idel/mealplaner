@@ -13,7 +13,7 @@ public final class NonnegativeFraction {
   public static final NonnegativeFraction ZERO = fraction(0, 1);
 
   private static final Pattern INTEGER_PATTERN = compile("^\\d*$");
-  private static final Pattern FRACTION_PATTERN = compile("^\\d*[\\,\\/\\.]?\\d*$");
+  private static final Pattern FRACTION_PATTERN = compile("^\\d*[,/.]?\\d*$");
   private static final int[] POWERS_OF_10 = { 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000,
       100000000, 1000000000 };
 

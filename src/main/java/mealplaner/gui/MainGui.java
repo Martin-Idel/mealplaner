@@ -96,7 +96,7 @@ public class MainGui {
     return frame;
   }
 
-  private void saveDataBase() {
+  void saveDataBase() {
     dbaseEditPanel.saveDatabase();
     ingredientsPanel.saveDatabase();
     fileIoGui.saveDatabase(mealPlan);

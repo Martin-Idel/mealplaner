@@ -79,10 +79,6 @@ public class DatabaseEdit implements DataStoreListener {
         .buildEnablingPanel();
   }
 
-  public void printTable() {
-    table.printTable(dataFrame);
-  }
-
   private void insertItem(Optional<Meal> optionalMeal) {
     optionalMeal.ifPresent(this::addAtSortedPosition);
   }

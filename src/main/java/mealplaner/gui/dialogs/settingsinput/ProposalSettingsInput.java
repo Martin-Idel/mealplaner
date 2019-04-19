@@ -22,11 +22,10 @@ import mealplaner.model.settings.Settings;
 
 public class ProposalSettingsInput extends SettingsInput
     implements DialogCreatingWithAdditional<ProposalOutline, Optional<Settings[]>> {
-    private SettingTable settingTable;
+  private SettingTable settingTable;
 
   public ProposalSettingsInput(JFrame parentFrame) {
     super(parentFrame, BUNDLES.message("settingsUpdateProposeTitle"), "ProposalSettingsDialog");
-      JFrame parentFrame1 = parentFrame;
   }
 
   @Override

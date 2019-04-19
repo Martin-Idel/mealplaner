@@ -107,7 +107,6 @@ public class RecipeInput implements DialogEditing<Optional<Recipe>> {
     allIngredients.addAll(store.getIngredients());
     allIngredients.addAll(newIngredients);
     recipeTable = new RecipeTable(enteredRecipe.orElse(createRecipe()), allIngredients);
-    Table oldTable = table;
     table = recipeTable.setupTable();
     dialogWindow.swapCentral(table);
   }

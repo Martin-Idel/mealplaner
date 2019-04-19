@@ -37,7 +37,7 @@ public final class SettingsAdapter {
 
   public static Settings convertSettingsFromXml(SettingsXml setting) {
     CookingTimeSetting times = CookingTimeSetting.cookingTimeWithProhibited(
-        setting.cookingTime.toArray(new CookingTime[0]));
+        setting.cookingTime.toArray(new CookingTime[0]));  // NOPMD
     return Settings.from(times,
         nonNegative(setting.numberOfPeople),
         setting.casseroleSettings,

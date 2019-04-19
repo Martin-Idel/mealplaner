@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 import mealplaner.commons.gui.GuiComponent;
 
-public class DialogWindow extends JDialog {
+public final class DialogWindow extends JDialog {
   private static final long serialVersionUID = 1L;
   private final Window window;
   private final JPanel mainPanel;

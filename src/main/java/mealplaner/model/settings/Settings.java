@@ -13,8 +13,6 @@ import static mealplaner.model.settings.subsettings.CookingUtensilSetting.copyUt
 import static mealplaner.model.settings.subsettings.CookingUtensilSetting.createCookingUtensilSettings;
 
 import mealplaner.commons.NonnegativeInteger;
-import mealplaner.model.meal.enums.CookingTime;
-import mealplaner.model.meal.enums.ObligatoryUtensil;
 import mealplaner.model.settings.enums.CasseroleSettings;
 import mealplaner.model.settings.enums.CourseSettings;
 import mealplaner.model.settings.enums.PreferenceSettings;
@@ -110,18 +108,6 @@ public final class Settings {
 
   public CookingTimeSetting getCookingTime() {
     return cookingTime;
-  }
-
-  private boolean isTimeProhibited(CookingTime cookingTime) {
-    return this.cookingTime.isTimeProhibited(cookingTime);
-  }
-
-  public boolean isTimePossible(CookingTime cookingTime) {
-    return !isTimeProhibited(cookingTime);
-  }
-
-  public boolean shallManyPeopleEat() {
-    return cookingUtensil.isUtensilProhibited(ObligatoryUtensil.PAN);
   }
 
   public CookingUtensilSetting getCookingUtensil() {

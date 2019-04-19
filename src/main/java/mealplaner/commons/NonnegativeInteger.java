@@ -19,26 +19,30 @@ public final class NonnegativeInteger implements Comparable<NonnegativeInteger> 
   public final int value;
 
   private NonnegativeInteger(int nonnegative) {
-    if (nonnegative < 0) {
-      throw new MealException("Integer must be nonnegative");
-    }
     this.value = nonnegative;
   }
 
   public static NonnegativeInteger nonNegative(int nonnegative) {
+    if (nonnegative < 0) {
+      throw new MealException("Integer must be nonnegative");
+    }
+    return new NonnegativeInteger(nonnegative);
+  }
+
+  private static NonnegativeInteger uncheckedNonNegative(int nonnegative) {
     return new NonnegativeInteger(nonnegative);
   }
 
   public NonnegativeInteger multiplyBy(NonnegativeInteger multiplier) {
-    return nonNegative(value * multiplier.value);
+    return uncheckedNonNegative(value * multiplier.value);
   }
 
   public NonnegativeInteger divideBy(NonnegativeInteger divisor) {
-    return nonNegative((int) ((float) value / divisor.value));
+    return uncheckedNonNegative((int) ((float) value / divisor.value));
   }
 
   public NonnegativeInteger add(NonnegativeInteger summand) {
-    return nonNegative(value + summand.value);
+    return uncheckedNonNegative(value + summand.value);
   }
 
   @Override

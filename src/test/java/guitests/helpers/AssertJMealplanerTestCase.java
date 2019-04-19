@@ -25,7 +25,7 @@ import mealplaner.io.FileIoGui;
 import mealplaner.model.MealplanerData;
 
 public class AssertJMealplanerTestCase extends AssertJSwingJUnitTestCase {
-    protected GuiMethods windowHelpers;
+  protected GuiMethods windowHelpers;
   private static final String WORKING_DIRECTORY = "src/test/resources/temp/";
   private static final String DESTINATION_MEALS_FILE_PATH = WORKING_DIRECTORY + "meals.xml";
   private static final String DESTINATION_MEALPLANER_FILE_PATH = WORKING_DIRECTORY
@@ -52,7 +52,7 @@ public class AssertJMealplanerTestCase extends AssertJSwingJUnitTestCase {
   @Override
   protected void onSetUp() {
     MainGui frame = GuiActionRunner.execute(this::createMainApplication);
-      FrameFixture window = new FrameFixture(robot(), frame.getFrame());
+    FrameFixture window = new FrameFixture(robot(), frame.getFrame());
     window.show();
     windowHelpers = create(window);
   }

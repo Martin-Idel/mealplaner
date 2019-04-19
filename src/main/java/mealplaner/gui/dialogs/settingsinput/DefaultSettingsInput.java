@@ -22,12 +22,10 @@ import mealplaner.model.DataStore;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
 
-public class DefaultSettingsInput extends SettingsInput
-    implements DialogCreating<Optional<DefaultSettings>> {
+public class DefaultSettingsInput extends SettingsInput implements DialogCreating<Optional<DefaultSettings>> {
 
-    public DefaultSettingsInput(JFrame parentFrame) {
+  public DefaultSettingsInput(JFrame parentFrame) {
     super(parentFrame, BUNDLES.message("settingsUpdateDefaultTitle"), "DefaultSettingsDialog");
-        JFrame parentFrame1 = parentFrame;
   }
 
   @Override

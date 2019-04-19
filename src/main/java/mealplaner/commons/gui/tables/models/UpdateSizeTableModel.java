@@ -2,10 +2,7 @@
 
 package mealplaner.commons.gui.tables.models;
 
-import static java.util.Arrays.asList;
-
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
@@ -14,7 +11,7 @@ import java.util.function.Supplier;
  * by an arbitrary data structure which allows the user to enter new entries by
  * calling and update function
  */
-public class UpdateSizeTableModel extends FlexibleTableModel {
+public final class UpdateSizeTableModel extends FlexibleTableModel {
   private static final long serialVersionUID = 1L;
 
   private UpdateSizeTableModel(List<TableColumnData<?>> tableColumns,
@@ -29,10 +26,7 @@ public class UpdateSizeTableModel extends FlexibleTableModel {
 
   @Override
   public void setValueAt(Object value, int row, int col) {
-    Optional<Integer[]> fireOtherCellsUpdated = columns.get(col).setValue(value, row);
-    fireTableCellUpdated(row, col);
-    fireOtherCellsUpdated.ifPresent(otherColumns -> asList(otherColumns)
-        .forEach(column -> fireTableCellUpdated(row, column)));
+    usualSetValueAt(value, row, col);
   }
 
   @Override

@@ -2,7 +2,10 @@
 
 package mealplaner.commons.gui.tables.models;
 
+import static java.util.Arrays.asList;
+
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import javax.swing.table.AbstractTableModel;
@@ -60,5 +63,12 @@ public abstract class FlexibleTableModel extends AbstractTableModel {
 
   public void updateTable() {
     fireTableDataChanged();
+  }
+
+  void usualSetValueAt(Object value, int row, int col) {
+    Optional<Integer[]> fireOtherCellsUpdated = columns.get(col).setValue(value, row);
+    fireTableCellUpdated(row, col);
+    fireOtherCellsUpdated.ifPresent(otherColumns -> asList(otherColumns)
+            .forEach(column -> fireTableCellUpdated(row, column)));
   }
 }

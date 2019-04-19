@@ -60,7 +60,7 @@ public class NonnegativeIntegerInputField implements InputField<NonnegativeInteg
     nonnegativeIntegerTextField.setText(defaultValue.toString());
   }
 
-  private void selectAll() {
+  void selectAll() {
     nonnegativeIntegerTextField.selectAll();
   }
 }

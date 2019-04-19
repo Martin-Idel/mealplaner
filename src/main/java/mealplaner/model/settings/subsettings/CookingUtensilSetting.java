@@ -21,8 +21,7 @@ public final class CookingUtensilSetting implements CookingSetting {
     return new CookingUtensilSetting(new HashSet<>());
   }
 
-  public static CookingUtensilSetting from(
-      Set<ObligatoryUtensil> utensils) {
+  public static CookingUtensilSetting from(Set<ObligatoryUtensil> utensils) {
     return new CookingUtensilSetting(utensils);
   }
 
