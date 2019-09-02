@@ -2,6 +2,7 @@
 
 package mealplaner.gui.dialogs.recepies;
 
+import static java.util.Comparator.comparing;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.NonnegativeInteger.FOUR;
 import static mealplaner.commons.NonnegativeInteger.ONE;
@@ -106,6 +107,7 @@ public class RecipeInput implements DialogEditing<Optional<Recipe>> {
     List<Ingredient> allIngredients = new ArrayList<>();
     allIngredients.addAll(store.getIngredients());
     allIngredients.addAll(newIngredients);
+    allIngredients.sort(comparing(Ingredient::getName));
     recipeTable = new RecipeTable(enteredRecipe.orElse(createRecipe()), allIngredients);
     table = recipeTable.setupTable();
     dialogWindow.swapCentral(table);
