@@ -5,7 +5,7 @@ package mealplaner.model.shoppinglist;
 import static mealplaner.commons.NonnegativeFraction.fraction;
 import static mealplaner.commons.NonnegativeFraction.wholeNumber;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
-import static mealplaner.model.recipes.QuantitativeIngredient.create;
+import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitativeIngredient;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.getIngredient1;
 import static testcommons.CommonFunctions.getIngredient2;
@@ -23,6 +23,7 @@ import mealplaner.commons.NonnegativeFraction;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.Pair;
 import mealplaner.model.recipes.Ingredient;
+import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 
 public class ShoppingListTest {
@@ -49,23 +50,29 @@ public class ShoppingListTest {
 
     // Order depends on IngredientType
     assertThat(shoppingList.getList()).containsExactly(
-        create(getIngredient1(), wholeNumber(nonNegative(300))),
-        create(getIngredient3(), wholeNumber(nonNegative(400))),
-        create(getIngredient2(), wholeNumber(nonNegative(400))));
+        createQuantitativeIngredient(
+            getIngredient1(), wholeNumber(nonNegative(300))),
+        createQuantitativeIngredient(
+            getIngredient3(), wholeNumber(nonNegative(400))),
+        createQuantitativeIngredient(
+            getIngredient2(), wholeNumber(nonNegative(400))));
   }
 
   @Test
   public void addsRecipesTogetherFaithfullyIncludingFractions() {
-    Map<Ingredient, NonnegativeFraction> ingredients = new HashMap<>();
-    ingredients.put(getIngredient1(), fraction(10, 3));
-    ingredients.put(getIngredient3(), fraction(4, 5));
+    List<QuantitativeIngredient> ingredients = new ArrayList<>();
+    ingredients.add(createQuantitativeIngredient(
+        getIngredient1(), fraction(10, 3)));
+    ingredients.add(createQuantitativeIngredient(
+        getIngredient3(), fraction(4, 5)));
     Recipe recipe1 = Recipe.from(nonNegative(2), ingredients);
 
-    Map<Ingredient, NonnegativeFraction> ingredients2 = new HashMap<>();
-    ingredients2.put(getIngredient1(), fraction(4, 5));
-    ingredients2.put(getIngredient3(), fraction(2, 1));
+    List<QuantitativeIngredient> ingredients2 = new ArrayList<>();
+    ingredients2.add(createQuantitativeIngredient(
+        getIngredient1(), fraction(4, 5)));
+    ingredients2.add(createQuantitativeIngredient(
+        getIngredient3(), fraction(2, 1)));
     Recipe recipe2 = Recipe.from(nonNegative(2), ingredients2);
-
     List<Pair<Recipe, NonnegativeInteger>> recipes = addRecipesToShoppingList(recipe1, recipe2);
 
     ShoppingList shoppingList = ShoppingList.from(recipes);
@@ -92,9 +99,11 @@ public class ShoppingListTest {
   }
 
   private Recipe getRecipeForShoppingList() {
-    Map<Ingredient, NonnegativeFraction> ingredients = new HashMap<>();
-    ingredients.put(getIngredient1(), wholeNumber(nonNegative(100)));
-    ingredients.put(getIngredient3(), wholeNumber(nonNegative(400)));
+    List<QuantitativeIngredient> ingredients = new ArrayList<>();
+    ingredients.add(createQuantitativeIngredient(
+        getIngredient1(), wholeNumber(nonNegative(100))));
+    ingredients.add(createQuantitativeIngredient(
+        getIngredient3(), wholeNumber(nonNegative(400))));
     return Recipe.from(nonNegative(2), ingredients);
   }
 }

@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MIT
 
-package mealplaner.io.xml.model.v2;
+package mealplaner.io.xml.model.v3;
 
 import static java.util.UUID.nameUUIDFromBytes;
+import static mealplaner.commons.NonnegativeFraction.ZERO;
 
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
@@ -12,28 +13,27 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import mealplaner.commons.NonnegativeFraction;
+import mealplaner.io.xml.util.NonnegativeFractionAdapter;
 import mealplaner.io.xml.util.UuidAdapter;
-import mealplaner.model.recipes.IngredientType;
 import mealplaner.model.recipes.Measure;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class IngredientXml {
+public class QuantitativeIngredientXml {
   @XmlJavaTypeAdapter(value = UuidAdapter.class)
   public final UUID uuid;
-  public final String name;
-  public final IngredientType type;
+  @XmlJavaTypeAdapter(value = NonnegativeFractionAdapter.class)
+  public final NonnegativeFraction amount;
   public final Measure measure;
 
-  public IngredientXml() {
-    this(nameUUIDFromBytes("noname".getBytes(StandardCharsets.UTF_8)), "noname", IngredientType.OTHER,
-        Measure.NONE);
+  public QuantitativeIngredientXml() {
+    this(nameUUIDFromBytes("noname".getBytes(StandardCharsets.UTF_8)), ZERO, Measure.NONE);
   }
 
-  public IngredientXml(UUID uuid, String name, IngredientType type, Measure measure) {
+  public QuantitativeIngredientXml(UUID uuid, NonnegativeFraction amount, Measure measure) {
     this.uuid = uuid;
-    this.name = name;
-    this.type = type;
+    this.amount = amount;
     this.measure = measure;
   }
 }

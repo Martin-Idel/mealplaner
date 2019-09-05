@@ -2,41 +2,41 @@
 
 package mealplaner.model.recipes;
 
-import static java.nio.charset.Charset.forName;
 import static java.util.UUID.nameUUIDFromBytes;
 
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 public final class Ingredient {
   private static final Ingredient EMPTY_INGREDIENT = new Ingredient(
-      nameUUIDFromBytes("".getBytes(forName("UTF-8"))),
+      nameUUIDFromBytes("".getBytes(StandardCharsets.UTF_8)),
       "",
       IngredientType.OTHER,
-      Measure.NONE);
+      Measures.DEFAULT_MEASURES);
 
   private final UUID uuid;
   private final String name;
   private final IngredientType type;
-  private final Measure measure;
+  private final Measures measures;
 
   private Ingredient() {
-    this(UUID.randomUUID(), "no name", IngredientType.OTHER, Measure.NONE);
+    this(UUID.randomUUID(), "no name", IngredientType.OTHER, Measures.DEFAULT_MEASURES);
   }
 
-  private Ingredient(UUID uuid, String name, IngredientType type, Measure measure) {
+  private Ingredient(UUID uuid, String name, IngredientType type, Measures measures) {
     this.uuid = uuid;
     this.name = name;
     this.type = type;
-    this.measure = measure;
+    this.measures = measures;
   }
 
-  public static Ingredient ingredient(String name, IngredientType type, Measure measure) {
-    return new Ingredient(UUID.randomUUID(), name, type, measure);
+  public static Ingredient ingredient(String name, IngredientType type, Measures measures) {
+    return new Ingredient(UUID.randomUUID(), name, type, measures);
   }
 
   public static Ingredient ingredientWithUuid(UUID uuid, String name, IngredientType type,
-      Measure measure) {
-    return new Ingredient(uuid, name, type, measure);
+                                              Measures measures) {
+    return new Ingredient(uuid, name, type, measures);
   }
 
   public static Ingredient emptyIngredient() {
@@ -55,8 +55,12 @@ public final class Ingredient {
     return type;
   }
 
-  public Measure getMeasure() {
-    return measure;
+  public Measures getMeasures() {
+    return measures;
+  }
+
+  public Measure getPrimaryMeasure() {
+    return measures.getPrimaryMeasure();
   }
 
   public boolean equalIds(Ingredient ingredient) {
@@ -66,7 +70,7 @@ public final class Ingredient {
   @Override
   public String toString() {
     return "Ingredient [uuid=" + uuid.toString() + ", name=" + name + ", type=" + type
-        + ", measure=" + measure + "]";
+        + ", measures=" + measures.toString() + "]";
   }
 
   @Override
@@ -74,7 +78,7 @@ public final class Ingredient {
     final int prime = 31;
     int result = 1;
     result = prime * result + uuid.hashCode();
-    result = prime * result + measure.hashCode();
+    result = prime * result + measures.hashCode();
     result = prime * result + name.hashCode();
     result = prime * result + type.hashCode();
     return result;
@@ -89,7 +93,7 @@ public final class Ingredient {
     }
     Ingredient other = (Ingredient) obj;
     return uuid.equals(other.uuid)
-        && measure == other.measure
+        && measures.equals(other.measures)
         && name.equals(other.name)
         && type == other.type;
   }

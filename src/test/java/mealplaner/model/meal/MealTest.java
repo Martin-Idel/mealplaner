@@ -13,7 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import mealplaner.commons.errorhandling.MealException;
-import mealplaner.model.meal.Meal;
 import mealplaner.model.meal.enums.CookingPreference;
 import mealplaner.model.meal.enums.CookingTime;
 import mealplaner.model.meal.enums.CourseType;

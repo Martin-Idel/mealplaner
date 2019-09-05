@@ -15,6 +15,7 @@ import mealplaner.commons.gui.tables.Table;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.IngredientType;
 import mealplaner.model.recipes.Measure;
+import mealplaner.model.recipes.Measures;
 
 final class IngredientsEditTable {
   private IngredientsEditTable() {
@@ -31,7 +32,7 @@ final class IngredientsEditTable {
                     oldIngredient.getId(),
                     newName,
                     oldIngredient.getType(),
-                    oldIngredient.getMeasure()))
+                    oldIngredient.getMeasures()))
             .isEditable()
             .onChange(buttonPanel::enableButtons)
             .build())
@@ -43,19 +44,19 @@ final class IngredientsEditTable {
                     oldIngredient.getId(),
                     oldIngredient.getName(),
                     newType,
-                    oldIngredient.getMeasure()))
+                    oldIngredient.getMeasures()))
             .isEditable()
             .onChange(buttonPanel::enableButtons)
             .build())
         .addColumn(withEnumContent(Measure.class)
             .withColumnName(BUNDLES.message("insertMeasure"))
-            .getValueFromOrderedList(ingredients, Ingredient::getMeasure)
+            .getValueFromOrderedList(ingredients, Ingredient::getPrimaryMeasure)
             .setValueToOrderedImmutableList(ingredients,
                 (oldIngredient, newMeasure) -> ingredientWithUuid(
                     oldIngredient.getId(),
                     oldIngredient.getName(),
                     oldIngredient.getType(),
-                    newMeasure))
+                    Measures.createMeasures(newMeasure)))
             .isEditable()
             .onChange(buttonPanel::enableButtons)
             .build())

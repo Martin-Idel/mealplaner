@@ -8,8 +8,8 @@ import static mealplaner.io.xml.util.JaxHelper.save;
 import java.util.List;
 
 import mealplaner.io.xml.adapters.IngredientAdapter;
-import mealplaner.io.xml.model.v2.IngredientXml;
-import mealplaner.io.xml.model.v2.IngredientdatabaseXml;
+import mealplaner.io.xml.model.v3.IngredientXml;
+import mealplaner.io.xml.model.v3.IngredientdatabaseXml;
 import mealplaner.model.recipes.Ingredient;
 
 public final class IngredientsWriter {
@@ -23,7 +23,7 @@ public final class IngredientsWriter {
 
   private static IngredientdatabaseXml convertDataBaseToXml(List<Ingredient> data) {
     List<IngredientXml> ingredientsXml = data.stream()
-        .map(IngredientAdapter::convertIngredientToXml)
+        .map(IngredientAdapter::convertIngredientV3ToXml)
         .collect(toList());
     return new IngredientdatabaseXml(ingredientsXml);
   }

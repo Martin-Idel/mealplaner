@@ -14,10 +14,10 @@ public final class ProposalAdapter {
   private ProposalAdapter() {
   }
 
-  public static ProposalXml convertProposalToXml(Proposal proposal) {
+  public static ProposalXml convertProposalV2ToXml(Proposal proposal) {
     List<ProposedMenuXml> mealList = proposal.getProposalList()
         .stream()
-        .map(ProposedMenuAdapter::convertProposedMenuToXml)
+        .map(ProposedMenuAdapter::convertProposedMenuV2ToXml)
         .collect(toList());
 
     return new ProposalXml(mealList,
@@ -25,11 +25,31 @@ public final class ProposalAdapter {
         proposal.isToday());
   }
 
-  public static Proposal convertProposalFromXml(ProposalXml proposalData) {
+  public static mealplaner.io.xml.model.v3.ProposalXml convertProposalV3ToXml(Proposal proposal) {
+    List<mealplaner.io.xml.model.v3.ProposedMenuXml> mealList = proposal.getProposalList()
+        .stream()
+        .map(ProposedMenuAdapter::convertProposedMenuV3ToXml)
+        .collect(toList());
+
+    return new mealplaner.io.xml.model.v3.ProposalXml(mealList,
+        proposal.getDateOfFirstProposedItem(),
+        proposal.isToday());
+  }
+
+  public static Proposal convertProposalV2FromXml(ProposalXml proposalData) {
     return Proposal.from(proposalData.includeToday,
         proposalData.mealList
             .stream()
-            .map(ProposedMenuAdapter::convertProposedMenuFromXml)
+            .map(ProposedMenuAdapter::convertProposedMenuV2FromXml)
+            .collect(toList()),
+        proposalData.date);
+  }
+
+  public static Proposal convertProposalV3FromXml(mealplaner.io.xml.model.v3.ProposalXml proposalData) {
+    return Proposal.from(proposalData.includeToday,
+        proposalData.mealList
+            .stream()
+            .map(ProposedMenuAdapter::convertProposedMenuV3FromXml)
             .collect(toList()),
         proposalData.date);
   }

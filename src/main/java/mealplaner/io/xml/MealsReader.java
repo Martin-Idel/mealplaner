@@ -2,7 +2,8 @@
 
 package mealplaner.io.xml;
 
-import static mealplaner.io.xml.adapters.MealAdapter.convertMealFromXml;
+import static mealplaner.io.xml.adapters.MealAdapter.convertMealV2FromXml;
+import static mealplaner.io.xml.adapters.MealAdapter.convertMealV3FromXml;
 import static mealplaner.io.xml.util.JaxHelper.read;
 
 import java.util.ArrayList;
@@ -21,16 +22,28 @@ public final class MealsReader {
     int versionNumber = VersionControl.getVersion(filePath);
     if (versionNumber == 2) {
       MealdatabaseXml database = read(filePath, MealdatabaseXml.class);
-      return convertToMeals(data, database);
+      return convertToMealsV2(data, database);
+    } else if (versionNumber == 3) {
+      mealplaner.io.xml.model.v3.MealdatabaseXml database =
+          read(filePath, mealplaner.io.xml.model.v3.MealdatabaseXml.class);
+      return convertToMealsV3(data, database);
     } else {
       return new ArrayList<>();
     }
   }
 
-  private static List<Meal> convertToMeals(MealplanerData database, MealdatabaseXml data) {
+  private static List<Meal> convertToMealsV2(MealplanerData database, MealdatabaseXml data) {
     List<Meal> modelMeals = new ArrayList<>();
     data.meals.stream()
-        .map(meal -> convertMealFromXml(database, meal))
+        .map(meal -> convertMealV2FromXml(database, meal))
+        .forEach(modelMeals::add);
+    return modelMeals;
+  }
+
+  private static List<Meal> convertToMealsV3(MealplanerData database, mealplaner.io.xml.model.v3.MealdatabaseXml data) {
+    List<Meal> modelMeals = new ArrayList<>();
+    data.meals.stream()
+        .map(meal -> convertMealV3FromXml(database, meal))
         .forEach(modelMeals::add);
     return modelMeals;
   }

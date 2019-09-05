@@ -2,66 +2,63 @@
 
 package mealplaner.model.recipes;
 
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.reducing;
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
-import static mealplaner.commons.NonnegativeFraction.ZERO;
 import static mealplaner.commons.NonnegativeInteger.ONE;
-import static mealplaner.model.recipes.QuantitativeIngredient.create;
+import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitativeIngredient;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import mealplaner.commons.NonnegativeFraction;
 import mealplaner.commons.NonnegativeInteger;
 
 public final class Recipe {
   private final NonnegativeInteger numberOfPortions;
-  private final Map<Ingredient, NonnegativeFraction> ingredients;
+  private final List<QuantitativeIngredient> ingredients;
 
-  private Recipe(NonnegativeInteger numberOfPortions,
-      Map<Ingredient, NonnegativeFraction> ingredients) {
+  private Recipe(NonnegativeInteger numberOfPortions, List<QuantitativeIngredient> ingredients) {
     this.numberOfPortions = numberOfPortions;
     this.ingredients = ingredients;
   }
 
-  public static Recipe from(NonnegativeInteger numberOfPortions,
-      Map<Ingredient, NonnegativeFraction> ingredients) {
+  public static Recipe from(NonnegativeInteger numberOfPortions, List<QuantitativeIngredient> ingredients) {
     return new Recipe(numberOfPortions, ingredients);
   }
 
-  public static Recipe from(NonnegativeInteger numberOfPortions,
-      List<QuantitativeIngredient> ingredients) {
-    Map<Ingredient, NonnegativeFraction> ingredientMap = ingredients.stream()
-        .collect(groupingBy(QuantitativeIngredient::getIngredient,
-            reducing(ZERO,
-                QuantitativeIngredient::getAmount,
-                    NonnegativeFraction::add)));
-    return new Recipe(numberOfPortions, ingredientMap);
-  }
-
   public static Recipe createRecipe() {
-    return new Recipe(ONE, new HashMap<>());
+    return new Recipe(ONE, new ArrayList<>());
   }
 
   public NonnegativeInteger getNumberOfPortions() {
     return numberOfPortions;
   }
 
-  public Map<Ingredient, NonnegativeFraction> getIngredientsFor(
+  public List<QuantitativeIngredient> getIngredientsWithPrimaryMeasureFor(
       final NonnegativeInteger numberOfPeople) {
-    return ingredients.entrySet().stream()
-        .collect(toMap(Entry::getKey,
-            entry -> entry.getValue()
-                .multiplyBy(numberOfPeople)
-                .divideBy(numberOfPortions)));
+    Map<Ingredient, NonnegativeFraction> combinedIngredients = new HashMap<>();
+    for (var quantitativeIngredient : ingredients) {
+      var convertedQuantitativeIngredient = quantitativeIngredient
+          .multiplyBy(numberOfPeople)
+          .divideBy(numberOfPortions)
+          .convertToPrimaryMeasure();
+      combinedIngredients.compute(convertedQuantitativeIngredient.getIngredient(),
+          (ingredient, oldValue) ->
+              (oldValue == null)
+                  ? convertedQuantitativeIngredient.getAmount()
+                  : oldValue.add(convertedQuantitativeIngredient.getAmount()));
+    }
+    return combinedIngredients.entrySet().stream()
+        .map(entry -> createQuantitativeIngredient(
+            entry.getKey(),
+            entry.getValue()))
+        .collect(Collectors.toUnmodifiableList());
   }
 
-  public Map<Ingredient, NonnegativeFraction> getIngredientsAsIs() {
+  public List<QuantitativeIngredient> getIngredientsAsIs() {
     return ingredients;
   }
 
@@ -78,9 +75,11 @@ public final class Recipe {
 
   private List<QuantitativeIngredient> getIngredientListWithMultipliedAmount(
       Function<NonnegativeFraction, NonnegativeFraction> mapValues) {
-    return ingredients.entrySet()
-        .stream()
-        .map(entry -> create(entry.getKey(), mapValues.apply(entry.getValue())))
+    return ingredients.stream()
+        .map(ingredient -> createQuantitativeIngredient(
+            ingredient.getIngredient(),
+            ingredient.getMeasure(),
+            mapValues.apply(ingredient.getAmount())))
         .collect(toList());
   }
 

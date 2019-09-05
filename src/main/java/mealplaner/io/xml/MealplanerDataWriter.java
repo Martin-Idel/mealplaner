@@ -3,17 +3,17 @@
 package mealplaner.io.xml;
 
 import static java.util.stream.Collectors.toList;
-import static mealplaner.io.xml.adapters.ProposalAdapter.convertProposalToXml;
-import static mealplaner.io.xml.adapters.SettingsAdapter.convertDefaultSettingsToXml;
+import static mealplaner.io.xml.adapters.ProposalAdapter.convertProposalV3ToXml;
+import static mealplaner.io.xml.adapters.SettingsAdapter.convertDefaultSettingsV3ToXml;
 import static mealplaner.io.xml.util.JaxHelper.save;
 
 import java.util.List;
 
 import mealplaner.io.xml.adapters.IngredientAdapter;
 import mealplaner.io.xml.adapters.MealAdapter;
-import mealplaner.io.xml.model.v2.IngredientXml;
-import mealplaner.io.xml.model.v2.MealXml;
-import mealplaner.io.xml.model.v2.MealplanerDataXml;
+import mealplaner.io.xml.model.v3.IngredientXml;
+import mealplaner.io.xml.model.v3.MealXml;
+import mealplaner.io.xml.model.v3.MealplanerDataXml;
 import mealplaner.model.MealplanerData;
 
 public final class MealplanerDataWriter {
@@ -27,13 +27,13 @@ public final class MealplanerDataWriter {
 
   private static MealplanerDataXml convertDataBaseToXml(MealplanerData data) {
     List<MealXml> mealXmls = data.getMeals().stream()
-        .map(MealAdapter::convertMealToXml)
+        .map(MealAdapter::convertMealV3ToXml)
         .collect(toList());
     List<IngredientXml> ingredientsXml = data.getIngredients().stream()
-        .map(IngredientAdapter::convertIngredientToXml)
+        .map(IngredientAdapter::convertIngredientV3ToXml)
         .collect(toList());
-    return new MealplanerDataXml(convertDefaultSettingsToXml(data.getDefaultSettings()),
+    return new MealplanerDataXml(convertDefaultSettingsV3ToXml(data.getDefaultSettings()),
         data.getTime(),
-        convertProposalToXml(data.getLastProposal()), mealXmls, ingredientsXml);
+        convertProposalV3ToXml(data.getLastProposal()), mealXmls, ingredientsXml);
   }
 }

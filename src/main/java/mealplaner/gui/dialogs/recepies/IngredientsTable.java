@@ -7,7 +7,7 @@ import static mealplaner.commons.gui.SwingUtilityMethods.autoCompleteCellEditor;
 import static mealplaner.commons.gui.tables.FlexibleTableBuilder.createNewTable;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withEnumContent;
-import static mealplaner.model.recipes.QuantitativeIngredient.create;
+import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitativeIngredient;
 
 import java.util.List;
 
@@ -36,7 +36,8 @@ public final class IngredientsTable {
                       .filter(ing -> ing.getName().equals(name))
                       .findAny()
                       .orElse(Ingredient.emptyIngredient());
-                  return create(newIngredient, ingredient.getAmount());
+                  return createQuantitativeIngredient(
+                      newIngredient, newIngredient.getPrimaryMeasure(), ingredient.getAmount());
                 })
             .alsoUpdatesCellsOfColumns(2)
             .getValueFromOrderedList(ingredients,
@@ -51,14 +52,15 @@ public final class IngredientsTable {
             .getValueFromOrderedList(ingredients,
                     QuantitativeIngredient::getAmount)
             .setValueToOrderedImmutableList(ingredients,
-                (ingredient, amount) -> create(ingredient.getIngredient(), amount))
+                (ingredient, amount) -> createQuantitativeIngredient(
+                    ingredient.getIngredient(), ingredient.getMeasure(), amount))
             .isEditable()
             .setDefaultValueForEmptyRow(NonnegativeFraction.ZERO)
             .build())
         .addColumn(withEnumContent(Measure.class)
             .withColumnName(BUNDLES.message("ingredientMeasureColumn"))
             .getValueFromOrderedList(ingredients,
-                ingredient -> ingredient.getIngredient().getMeasure())
+                ingredient -> ingredient.getIngredient().getPrimaryMeasure())
             .setDefaultValueForEmptyRow(Measure.NONE)
             .build())
         .addDefaultRowToUnderlyingModel(() -> ingredients.add(QuantitativeIngredient.DEFAULT))

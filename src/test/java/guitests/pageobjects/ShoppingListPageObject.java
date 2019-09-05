@@ -33,7 +33,7 @@ public class ShoppingListPageObject {
       QuantitativeIngredient ingredient = shoppings.get(row);
       contents[row][0] = ingredient.getIngredient().getName();
       contents[row][1] = ingredient.getAmount().toString();
-      contents[row][2] = ingredient.getIngredient().getMeasure().toString();
+      contents[row][2] = ingredient.getIngredient().getPrimaryMeasure().toString();
     }
     contents[shoppings.size()][0] = "";
     contents[shoppings.size()][1] = "0";

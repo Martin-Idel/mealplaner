@@ -13,14 +13,27 @@ final class ProposedMenuAdapter {
   private ProposedMenuAdapter() {
   }
 
-  public static ProposedMenuXml convertProposedMenuToXml(ProposedMenu proposedMenu) {
+  public static ProposedMenuXml convertProposedMenuV2ToXml(ProposedMenu proposedMenu) {
     return new ProposedMenuXml(proposedMenu.entry.orElse(null),
         proposedMenu.main,
             proposedMenu.desert.orElse(null),
         proposedMenu.numberOfPeople.value);
   }
 
-  public static ProposedMenu convertProposedMenuFromXml(ProposedMenuXml proposedMenu) {
+  public static mealplaner.io.xml.model.v3.ProposedMenuXml convertProposedMenuV3ToXml(ProposedMenu proposedMenu) {
+    return new mealplaner.io.xml.model.v3.ProposedMenuXml(proposedMenu.entry.orElse(null),
+        proposedMenu.main,
+        proposedMenu.desert.orElse(null),
+        proposedMenu.numberOfPeople.value);
+  }
+
+  public static ProposedMenu convertProposedMenuV2FromXml(ProposedMenuXml proposedMenu) {
+    return proposed(ofNullable(proposedMenu.entry), proposedMenu.main,
+        ofNullable(proposedMenu.desert),
+        nonNegative(proposedMenu.numberOfPeople));
+  }
+
+  public static ProposedMenu convertProposedMenuV3FromXml(mealplaner.io.xml.model.v3.ProposedMenuXml proposedMenu) {
     return proposed(ofNullable(proposedMenu.entry), proposedMenu.main,
         ofNullable(proposedMenu.desert),
         nonNegative(proposedMenu.numberOfPeople));

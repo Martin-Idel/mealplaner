@@ -23,7 +23,6 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import mealplaner.io.xml.MealplanerDataWriter;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.proposal.Proposal;

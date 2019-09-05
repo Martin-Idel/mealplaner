@@ -5,38 +5,35 @@ package mealplaner.model.recipes;
 import static mealplaner.commons.NonnegativeFraction.fraction;
 import static mealplaner.commons.NonnegativeFraction.wholeNumber;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
-import static mealplaner.model.recipes.QuantitativeIngredient.create;
+import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitativeIngredient;
 import static mealplaner.model.recipes.Recipe.from;
 import static org.assertj.core.api.Assertions.assertThat;
+import static testcommons.CommonFunctions.getIngredient1;
+import static testcommons.CommonFunctions.getIngredient2;
+import static testcommons.CommonFunctions.getIngredient4;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import mealplaner.commons.NonnegativeFraction;
-import mealplaner.model.recipes.Ingredient;
-import mealplaner.model.recipes.QuantitativeIngredient;
-import mealplaner.model.recipes.Recipe;
-import testcommons.CommonFunctions;
-
 public class RecipeTest {
   private Ingredient anIngredient1;
   private Ingredient anIngredient2;
+  private Ingredient anIngredient3;
   private QuantitativeIngredient quantitativeIngredient1;
   private QuantitativeIngredient quantitativeIngredient2;
   private QuantitativeIngredient quantitativeIngredient3;
 
   @Before
   public void setUp() {
-    anIngredient1 = CommonFunctions.getIngredient1();
-    anIngredient2 = CommonFunctions.getIngredient2();
-    quantitativeIngredient1 = create(anIngredient1, wholeNumber(nonNegative(1)));
-    quantitativeIngredient2 = create(anIngredient2, wholeNumber(nonNegative(10)));
-    quantitativeIngredient3 = create(anIngredient1, wholeNumber(nonNegative(10)));
+    anIngredient1 = getIngredient1();
+    anIngredient2 = getIngredient2();
+    anIngredient3 = getIngredient4();
+    quantitativeIngredient1 = createQuantitativeIngredient(anIngredient1, wholeNumber(nonNegative(1)));
+    quantitativeIngredient2 = createQuantitativeIngredient(anIngredient2, wholeNumber(nonNegative(10)));
+    quantitativeIngredient3 = createQuantitativeIngredient(anIngredient1, wholeNumber(nonNegative(10)));
   }
 
   @Test
@@ -47,70 +44,54 @@ public class RecipeTest {
 
     Recipe recipe = Recipe.from(nonNegative(1), ingredientList);
 
-    Map<Ingredient, NonnegativeFraction> ingredients = new HashMap<>();
-    ingredients.put(anIngredient1, wholeNumber(nonNegative(1)));
-    ingredients.put(anIngredient2, wholeNumber(nonNegative(10)));
-    assertThat(recipe.getIngredientsAsIs()).containsAllEntriesOf(ingredients);
-    assertThat(ingredients).containsAllEntriesOf(recipe.getIngredientsAsIs());
-  }
-
-  @Test
-  public void initialiserCreatesAddedUpAmountsForEqualEntries() {
-    List<QuantitativeIngredient> ingredientList = new ArrayList<>();
-    ingredientList.add(quantitativeIngredient1);
-    ingredientList.add(quantitativeIngredient3);
-
-    Recipe recipe = Recipe.from(nonNegative(1), ingredientList);
-
-    Map<Ingredient, NonnegativeFraction> ingredients = new HashMap<>();
-    ingredients.put(anIngredient1, wholeNumber(nonNegative(11)));
-    assertThat(recipe.getIngredientsAsIs()).containsAllEntriesOf(ingredients);
-    assertThat(ingredients).containsAllEntriesOf(recipe.getIngredientsAsIs());
-  }
-
-  @Test
-  public void initialiserCreatesAddedUpAmountsForSeveralEntries() {
-    List<QuantitativeIngredient> ingredientList = new ArrayList<>();
-    ingredientList.add(quantitativeIngredient1);
-    ingredientList.add(quantitativeIngredient2);
-    ingredientList.add(quantitativeIngredient3);
-
-    Recipe recipe = Recipe.from(nonNegative(1), ingredientList);
-
-    Map<Ingredient, NonnegativeFraction> ingredients = new HashMap<>();
-    ingredients.put(anIngredient1, wholeNumber(nonNegative(11)));
-    ingredients.put(anIngredient2, wholeNumber(nonNegative(10)));
-    assertThat(recipe.getIngredientsAsIs()).containsAllEntriesOf(ingredients);
-    assertThat(ingredients).containsAllEntriesOf(recipe.getIngredientsAsIs());
+    assertThat(recipe.getIngredientsAsIs()).containsExactlyInAnyOrder(
+        createQuantitativeIngredient(anIngredient1, wholeNumber(nonNegative(1))),
+        createQuantitativeIngredient(anIngredient2, wholeNumber(nonNegative(10))));
   }
 
   @Test
   public void getIngredientsListReturnsDoubleAmountsForDoubleNumberOfPeople() {
-    Map<Ingredient, NonnegativeFraction> ingredients = new HashMap<>();
-    ingredients.put(anIngredient1, wholeNumber(nonNegative(100)));
-    ingredients.put(anIngredient2, wholeNumber(nonNegative(300)));
+    List<QuantitativeIngredient> ingredients = new ArrayList<>();
+    ingredients.add(createQuantitativeIngredient(anIngredient1, wholeNumber(nonNegative(100))));
+    ingredients.add(createQuantitativeIngredient(anIngredient2, wholeNumber(nonNegative(300))));
     Recipe recipe = from(nonNegative(2), ingredients);
 
     List<QuantitativeIngredient> ingredientListFor = recipe
         .getIngredientListFor(nonNegative(4));
 
     assertThat(ingredientListFor).containsExactlyInAnyOrder(
-        create(anIngredient1, wholeNumber(nonNegative(200))),
-        create(anIngredient2, wholeNumber(nonNegative(600))));
+        createQuantitativeIngredient(anIngredient1, wholeNumber(nonNegative(200))),
+        createQuantitativeIngredient(anIngredient2, wholeNumber(nonNegative(600))));
   }
 
   @Test
-  public void getIngredientsListReturnsCorrectAmountsForHalfTheNumberOfPeople() {
-    Map<Ingredient, NonnegativeFraction> ingredients = new HashMap<>();
-    ingredients.put(anIngredient1, wholeNumber(nonNegative(100)));
-    ingredients.put(anIngredient2, wholeNumber(nonNegative(300)));
+  public void getIngredientsListReturnsHalfAmountsForHalfTheNumberOfPeople() {
+    List<QuantitativeIngredient> ingredients = new ArrayList<>();
+    ingredients.add(createQuantitativeIngredient(anIngredient1, wholeNumber(nonNegative(100))));
+    ingredients.add(createQuantitativeIngredient(anIngredient2, wholeNumber(nonNegative(300))));
     Recipe recipe = from(nonNegative(3), ingredients);
 
     List<QuantitativeIngredient> ingredientListFor = recipe
         .getIngredientListFor(nonNegative(1));
 
     assertThat(ingredientListFor).containsExactlyInAnyOrder(
-        create(anIngredient1, fraction(100, 3)),
-        create(anIngredient2, wholeNumber(nonNegative(100))));
+        createQuantitativeIngredient(anIngredient1, fraction(100, 3)),
+        createQuantitativeIngredient(anIngredient2, wholeNumber(nonNegative(100))));
+  }
+
+  @Test
+  public void getIngredientsWithPrimaryMeasureForReturnsAmountInPrimaryMeasure() {
+    List<QuantitativeIngredient> ingredients = new ArrayList<>();
+    ingredients.add(createQuantitativeIngredient(anIngredient1, wholeNumber(nonNegative(100))));
+    ingredients.add(createQuantitativeIngredient(
+        anIngredient3, Measure.TEASPOON, wholeNumber(nonNegative(300))));
+    Recipe recipe = from(nonNegative(2), ingredients);
+
+    List<QuantitativeIngredient> ingredientsForOnePerson = recipe
+        .getIngredientsWithPrimaryMeasureFor(nonNegative(1));
+
+    assertThat(ingredientsForOnePerson).containsExactlyInAnyOrder(
+        createQuantitativeIngredient(anIngredient1, fraction(100, 2)),
+        createQuantitativeIngredient(anIngredient3, fraction(300, 2 * 2)));
   }
 }

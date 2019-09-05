@@ -6,7 +6,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
-import mealplaner.io.xml.util.VersionControl;
 import testcommons.XmlInteraction;
 
 public class VersionControlTest extends XmlInteraction {

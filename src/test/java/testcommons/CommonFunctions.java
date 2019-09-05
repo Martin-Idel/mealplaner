@@ -2,10 +2,10 @@
 
 package testcommons;
 
-import static java.nio.charset.Charset.forName;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static java.util.UUID.nameUUIDFromBytes;
+import static mealplaner.commons.NonnegativeFraction.fraction;
 import static mealplaner.commons.NonnegativeFraction.wholeNumber;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.MealplanerData.getInstance;
@@ -13,14 +13,16 @@ import static mealplaner.model.meal.Meal.createMeal;
 import static mealplaner.model.proposal.Proposal.from;
 import static mealplaner.model.proposal.ProposedMenu.mainOnly;
 import static mealplaner.model.recipes.Ingredient.ingredientWithUuid;
+import static mealplaner.model.recipes.Measures.createMeasures;
+import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitativeIngredient;
 import static mealplaner.model.settings.Settings.from;
 import static mealplaner.model.settings.subsettings.CookingTimeSetting.cookingTimeWithProhibited;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import mealplaner.commons.NonnegativeFraction;
 import mealplaner.model.MealplanerData;
@@ -35,6 +37,7 @@ import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.IngredientType;
 import mealplaner.model.recipes.Measure;
+import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 import mealplaner.model.settings.Settings;
 import mealplaner.model.settings.enums.CasseroleSettings;
@@ -46,7 +49,7 @@ public final class CommonFunctions {
   }
 
   public static Meal getMeal1() {
-    return createMeal(nameUUIDFromBytes("Test1Meal".getBytes(forName("UTF-8"))),
+    return createMeal(nameUUIDFromBytes("Test1Meal".getBytes(StandardCharsets.UTF_8)),
         "Test1",
         CookingTime.SHORT,
         Sidedish.PASTA,
@@ -59,7 +62,7 @@ public final class CommonFunctions {
   }
 
   public static Meal getMeal2() {
-    return createMeal(nameUUIDFromBytes("Test2Meal".getBytes(forName("UTF-8"))),
+    return createMeal(nameUUIDFromBytes("Test2Meal".getBytes(StandardCharsets.UTF_8)),
         "Test2",
         CookingTime.SHORT,
         Sidedish.NONE,
@@ -72,7 +75,7 @@ public final class CommonFunctions {
   }
 
   public static Meal getMeal3() {
-    return createMeal(nameUUIDFromBytes("Test3Meal".getBytes(forName("UTF-8"))),
+    return createMeal(nameUUIDFromBytes("Test3Meal".getBytes(StandardCharsets.UTF_8)),
         "Test3",
         CookingTime.MEDIUM,
         Sidedish.RICE,
@@ -85,7 +88,7 @@ public final class CommonFunctions {
   }
 
   public static Meal getMealEntry() {
-    return createMeal(nameUUIDFromBytes("Test4Meal".getBytes(forName("UTF-8"))),
+    return createMeal(nameUUIDFromBytes("Test4Meal".getBytes(StandardCharsets.UTF_8)),
         "Test4",
         CookingTime.LONG,
         Sidedish.RICE,
@@ -98,7 +101,7 @@ public final class CommonFunctions {
   }
 
   public static Meal getMealDesert() {
-    return createMeal(nameUUIDFromBytes("Test5Meal".getBytes(forName("UTF-8"))),
+    return createMeal(nameUUIDFromBytes("Test5Meal".getBytes(StandardCharsets.UTF_8)),
         "Test5",
         CookingTime.VERY_SHORT,
         Sidedish.RICE,
@@ -111,7 +114,7 @@ public final class CommonFunctions {
   }
 
   public static Meal getMealEntry2() {
-    return createMeal(nameUUIDFromBytes("Test6Meal".getBytes(forName("UTF-8"))),
+    return createMeal(nameUUIDFromBytes("Test6Meal".getBytes(StandardCharsets.UTF_8)),
         "Test6",
         CookingTime.VERY_SHORT,
         Sidedish.NONE,
@@ -124,39 +127,52 @@ public final class CommonFunctions {
   }
 
   public static Recipe getRecipe1() {
-    Map<Ingredient, NonnegativeFraction> ingredients = new HashMap<>();
-    ingredients.put(getIngredient1(), wholeNumber(nonNegative(100)));
-    ingredients.put(getIngredient2(), wholeNumber(nonNegative(200)));
+    var ingredients = new ArrayList<QuantitativeIngredient>();
+    ingredients.add(createQuantitativeIngredient(
+        getIngredient1(), getIngredient1().getPrimaryMeasure(), wholeNumber(nonNegative(100))));
+    ingredients.add(createQuantitativeIngredient(
+        getIngredient2(), getIngredient2().getPrimaryMeasure(), wholeNumber(nonNegative(200))));
     return Recipe.from(nonNegative(2), ingredients);
   }
 
   public static Recipe getRecipe2() {
-    Map<Ingredient, NonnegativeFraction> ingredients = new HashMap<>();
-    ingredients.put(getIngredient1(), wholeNumber(nonNegative(100)));
-    ingredients.put(getIngredient3(), wholeNumber(nonNegative(400)));
+    var ingredients = new ArrayList<QuantitativeIngredient>();
+    ingredients.add(createQuantitativeIngredient(
+        getIngredient1(), getIngredient1().getPrimaryMeasure(), wholeNumber(nonNegative(100))));
+    ingredients.add(createQuantitativeIngredient(
+        getIngredient3(), getIngredient3().getPrimaryMeasure(), wholeNumber(nonNegative(400))));
     return Recipe.from(nonNegative(4), ingredients);
   }
 
   public static Recipe getRecipe3() {
-    Map<Ingredient, NonnegativeFraction> recipeMap = new HashMap<>();
-    recipeMap.put(getIngredient1(), wholeNumber(nonNegative(100)));
-    recipeMap.put(getIngredient2(), wholeNumber(nonNegative(50)));
-    return Recipe.from(nonNegative(1), recipeMap);
+    var ingredients = new ArrayList<QuantitativeIngredient>();
+    ingredients.add(createQuantitativeIngredient(
+        getIngredient1(), getIngredient1().getPrimaryMeasure(), wholeNumber(nonNegative(100))));
+    ingredients.add(createQuantitativeIngredient(
+        getIngredient2(), getIngredient2().getPrimaryMeasure(), wholeNumber(nonNegative(50))));
+    return Recipe.from(nonNegative(1), ingredients);
   }
 
   public static Ingredient getIngredient1() {
-    return ingredientWithUuid(nameUUIDFromBytes("Test1".getBytes(forName("UTF-8"))), "Test1",
-        IngredientType.FRESH_FRUIT, Measure.GRAM);
+    return ingredientWithUuid(nameUUIDFromBytes("Test1".getBytes(StandardCharsets.UTF_8)), "Test1",
+        IngredientType.FRESH_FRUIT, createMeasures(Measure.GRAM));
   }
 
   public static Ingredient getIngredient2() {
-    return ingredientWithUuid(nameUUIDFromBytes("Test2".getBytes(forName("UTF-8"))), "Test2",
-        IngredientType.BAKING_GOODS, Measure.MILLILITRE);
+    return ingredientWithUuid(nameUUIDFromBytes("Test2".getBytes(StandardCharsets.UTF_8)), "Test2",
+        IngredientType.BAKING_GOODS, createMeasures(Measure.MILLILITRE));
   }
 
   public static Ingredient getIngredient3() {
-    return ingredientWithUuid(nameUUIDFromBytes("Test3".getBytes(forName("UTF-8"))), "Test3",
-        IngredientType.CANNED_FRUIT, Measure.GRAM);
+    return ingredientWithUuid(nameUUIDFromBytes("Test3".getBytes(StandardCharsets.UTF_8)), "Test3",
+        IngredientType.CANNED_FRUIT, createMeasures(Measure.GRAM));
+  }
+
+  public static Ingredient getIngredient4() {
+    var secondaries = new HashMap<Measure, NonnegativeFraction>();
+    secondaries.put(Measure.TEASPOON, fraction(1, 2));
+    return ingredientWithUuid(nameUUIDFromBytes("Test4".getBytes(StandardCharsets.UTF_8)), "Test4",
+        IngredientType.MEAT_PRODUCTS, createMeasures(Measure.GRAM, secondaries));
   }
 
   public static Settings getSettings1() {

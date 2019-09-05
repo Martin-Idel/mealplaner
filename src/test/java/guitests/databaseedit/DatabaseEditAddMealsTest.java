@@ -2,33 +2,32 @@
 
 package guitests.databaseedit;
 
-import static java.nio.charset.Charset.forName;
 import static java.util.UUID.nameUUIDFromBytes;
 import static mealplaner.commons.NonnegativeFraction.fraction;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.meal.MealBuilder.from;
 import static mealplaner.model.recipes.Ingredient.ingredientWithUuid;
+import static mealplaner.model.recipes.Measures.createMeasures;
+import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitativeIngredient;
 import static testcommons.CommonFunctions.getIngredient1;
 import static testcommons.CommonFunctions.getIngredient2;
 import static testcommons.CommonFunctions.getIngredient3;
 import static testcommons.CommonFunctions.getMeal1;
 import static testcommons.CommonFunctions.getMeal2;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import guitests.helpers.AssertJMealplanerTestCase;
 import guitests.pageobjects.MealsEditPageObject;
-import mealplaner.commons.NonnegativeFraction;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.IngredientType;
 import mealplaner.model.recipes.Measure;
+import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 
 public class DatabaseEditAddMealsTest extends AssertJMealplanerTestCase {
@@ -63,15 +62,15 @@ public class DatabaseEditAddMealsTest extends AssertJMealplanerTestCase {
   }
 
   private static Meal getMealWithNewIngredient() {
-    Map<Ingredient, NonnegativeFraction> recipeMap = new HashMap<>();
-    recipeMap.put(getIngredient1(), fraction(10, 3));
-    recipeMap.put(getIngredient4(), fraction(2, 4));
+    List<QuantitativeIngredient> recipeMap = new ArrayList<>();
+    recipeMap.add(createQuantitativeIngredient(getIngredient1(), fraction(10, 3)));
+    recipeMap.add(createQuantitativeIngredient(getIngredient4(), fraction(2, 4)));
     Recipe recipe = Recipe.from(nonNegative(1), recipeMap);
     return from(getMeal2()).recipe(recipe).create();
   }
 
   private static Ingredient getIngredient4() {
-    return ingredientWithUuid(nameUUIDFromBytes("Test4".getBytes(forName("UTF-8"))), "Test4",
-        IngredientType.CANNED_FRUIT, Measure.GRAM);
+    return ingredientWithUuid(nameUUIDFromBytes("Test4".getBytes(StandardCharsets.UTF_8)), "Test4",
+        IngredientType.CANNED_FRUIT, createMeasures(Measure.GRAM));
   }
 }

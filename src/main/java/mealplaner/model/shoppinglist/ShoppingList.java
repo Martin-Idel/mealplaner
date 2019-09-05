@@ -4,7 +4,7 @@ package mealplaner.model.shoppinglist;
 
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
-import static mealplaner.model.recipes.QuantitativeIngredient.create;
+import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitativeIngredient;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -27,18 +27,18 @@ public final class ShoppingList {
 
   public static ShoppingList from(List<Pair<Recipe, NonnegativeInteger>> recipes) {
     Map<Ingredient, NonnegativeFraction> shoppingList = recipes.stream()
-        .map(pair -> pair.left.getIngredientsFor(pair.right))
-        .map(Map::entrySet)
+        .map(pair -> pair.left.getIngredientsWithPrimaryMeasureFor(pair.right))
         .flatMap(Collection::stream)
-        .collect(toMap(Map.Entry::getKey,
-            Map.Entry::getValue,
-                NonnegativeFraction::add));
+        .collect(toMap(QuantitativeIngredient::getIngredient,
+            QuantitativeIngredient::getAmount,
+            NonnegativeFraction::add));
     return new ShoppingList(shoppingList);
   }
 
   public List<QuantitativeIngredient> getList() {
     return shoppingList.entrySet().stream()
-        .map(entry -> create(entry.getKey(), entry.getValue()))
+        .map(entry -> createQuantitativeIngredient(
+            entry.getKey(), entry.getKey().getMeasures().getPrimaryMeasure(), entry.getValue()))
         .sorted(Comparator.comparing(ingredient -> ingredient.getIngredient().getType()))
         .collect(toList());
   }

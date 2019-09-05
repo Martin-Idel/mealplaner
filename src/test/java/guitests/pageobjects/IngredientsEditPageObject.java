@@ -127,7 +127,7 @@ public class IngredientsEditPageObject {
     enterIngredientDialog.comboBox("InputFieldComboBoxIngredientType")
         .selectItem(ingredient.getType().toString());
     enterIngredientDialog.comboBox("InputFieldComboBoxIngredientMeasure")
-        .selectItem(ingredient.getMeasure().toString());
+        .selectItem(ingredient.getPrimaryMeasure().toString());
     enterIngredientDialog.button("ButtonPanelIngredientsInput0").click();
     enterIngredientDialog.button("ButtonPanelIngredientsInput1").click();
   }
@@ -138,7 +138,7 @@ public class IngredientsEditPageObject {
       Ingredient ingredient = ingredients.get(i);
       content[i][0] = ingredient.getName();
       content[i][1] = ingredient.getType().toString();
-      content[i][2] = ingredient.getMeasure().toString();
+      content[i][2] = ingredient.getPrimaryMeasure().toString();
     }
     return content;
   }

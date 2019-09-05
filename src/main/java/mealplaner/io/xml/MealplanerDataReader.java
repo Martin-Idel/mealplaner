@@ -3,9 +3,12 @@
 package mealplaner.io.xml;
 
 import static java.util.stream.Collectors.toList;
-import static mealplaner.io.xml.adapters.MealAdapter.convertMealFromXml;
-import static mealplaner.io.xml.adapters.ProposalAdapter.convertProposalFromXml;
-import static mealplaner.io.xml.adapters.SettingsAdapter.convertDefaultSettingsFromXml;
+import static mealplaner.io.xml.adapters.MealAdapter.convertMealV2FromXml;
+import static mealplaner.io.xml.adapters.MealAdapter.convertMealV3FromXml;
+import static mealplaner.io.xml.adapters.ProposalAdapter.convertProposalV2FromXml;
+import static mealplaner.io.xml.adapters.ProposalAdapter.convertProposalV3FromXml;
+import static mealplaner.io.xml.adapters.SettingsAdapter.convertDefaultSettingsV2FromXml;
+import static mealplaner.io.xml.adapters.SettingsAdapter.convertDefaultSettingsV3FromXml;
 import static mealplaner.io.xml.util.JaxHelper.read;
 import static mealplaner.io.xml.util.VersionControl.getVersion;
 
@@ -27,6 +30,10 @@ public final class MealplanerDataReader {
     if (versionNumber == 2) {
       MealplanerDataXml database = read(filePath, MealplanerDataXml.class);
       return convertToData(database);
+    } else if (versionNumber == 3) {
+      mealplaner.io.xml.model.v3.MealplanerDataXml database = read(
+          filePath, mealplaner.io.xml.model.v3.MealplanerDataXml.class);
+      return convertToData(database);
     } else {
       MealplanerData data = MealplanerData.getInstance();
       data.clear();
@@ -35,22 +42,42 @@ public final class MealplanerDataReader {
   }
 
   private static MealplanerData convertToData(MealplanerDataXml database) {
-    DefaultSettings defaultSettings = convertDefaultSettingsFromXml(database.defaultSettings);
+    DefaultSettings defaultSettings = convertDefaultSettingsV2FromXml(database.defaultSettings);
     MealplanerData data = MealplanerData.getInstance();
 
     List<Ingredient> ingredients = database.ingredients.stream()
-        .map(IngredientAdapter::convertIngredientFromXml)
+        .map(IngredientAdapter::convertIngredientV2FromXml)
         .collect(toList());
     data.setIngredients(ingredients);
 
     List<Meal> modelMeals = database.meals.stream()
-        .map(meal -> convertMealFromXml(data, meal))
+        .map(meal -> convertMealV2FromXml(data, meal))
         .collect(toList());
     data.setMeals(modelMeals);
 
     data.setTime(database.date);
     data.setDefaultSettings(defaultSettings);
-    data.setLastProposal(convertProposalFromXml(database.proposal));
+    data.setLastProposal(convertProposalV2FromXml(database.proposal));
+    return data;
+  }
+
+  private static MealplanerData convertToData(mealplaner.io.xml.model.v3.MealplanerDataXml database) {
+    DefaultSettings defaultSettings = convertDefaultSettingsV3FromXml(database.defaultSettings);
+    MealplanerData data = MealplanerData.getInstance();
+
+    List<Ingredient> ingredients = database.ingredients.stream()
+        .map(IngredientAdapter::convertIngredientV3FromXml)
+        .collect(toList());
+    data.setIngredients(ingredients);
+
+    List<Meal> modelMeals = database.meals.stream()
+        .map(meal -> convertMealV3FromXml(data, meal))
+        .collect(toList());
+    data.setMeals(modelMeals);
+
+    data.setTime(database.date);
+    data.setDefaultSettings(defaultSettings);
+    data.setLastProposal(convertProposalV3FromXml(database.proposal));
     return data;
   }
 }

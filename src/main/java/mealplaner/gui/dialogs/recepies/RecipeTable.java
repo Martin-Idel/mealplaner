@@ -2,10 +2,6 @@
 
 package mealplaner.gui.dialogs.recepies;
 
-import static java.util.stream.Collectors.toList;
-import static mealplaner.model.recipes.QuantitativeIngredient.create;
-
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,11 +17,7 @@ class RecipeTable {
 
   public RecipeTable(Recipe recipe, List<Ingredient> ingredientList) {
     this.ingredientList = ingredientList;
-    this.ingredients = recipe.getIngredientsFor(recipe.getNumberOfPortions()).entrySet()
-        .stream()
-        .map(entry -> create(entry.getKey(), entry.getValue()))
-        .sorted(Comparator.comparing(ingredient -> ingredient.getIngredient().getName()))
-        .collect(toList());
+    this.ingredients = recipe.getIngredientListFor(recipe.getNumberOfPortions());
   }
 
   public Table setupTable() {

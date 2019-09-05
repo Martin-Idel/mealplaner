@@ -29,6 +29,7 @@ import mealplaner.model.DataStore;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.IngredientType;
 import mealplaner.model.recipes.Measure;
+import mealplaner.model.recipes.Measures;
 
 public class IngredientsInput implements DialogCreating<List<Ingredient>> {
   private final DialogWindow dialogWindow;
@@ -61,7 +62,7 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
       if (nameField.getUserInput().isPresent()) {
         ingredients.add(ingredient(nameField.getUserInput().get(),
             typeField.getUserInput(),
-            measureField.getUserInput()));
+            Measures.createMeasures(measureField.getUserInput())));
         resetFields();
       }
     });

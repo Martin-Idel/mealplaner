@@ -251,7 +251,7 @@ public class MealsEditPageObject {
       QuantitativeIngredient ingredient = ingredients.get(i);
       content[i][0] = ingredient.getIngredient().getName();
       content[i][1] = ingredient.getAmount().toString();
-      content[i][2] = ingredient.getIngredient().getMeasure().toString();
+      content[i][2] = ingredient.getIngredient().getPrimaryMeasure().toString();
     }
     content[ingredients.size()][0] = "";
     content[ingredients.size()][1] = "0";

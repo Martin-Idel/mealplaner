@@ -22,14 +22,24 @@ public final class IngredientsReader {
     if (versionNumber == 2) {
       IngredientdatabaseXml database = read(filePath, IngredientdatabaseXml.class);
       return convertToIngredients(database);
+    } else if (versionNumber == 3) {
+      mealplaner.io.xml.model.v3.IngredientdatabaseXml database = read(
+          filePath, mealplaner.io.xml.model.v3.IngredientdatabaseXml.class);
+      return convertToIngredientsV3(database);
     } else {
       return new ArrayList<>();
     }
   }
 
+  private static List<Ingredient> convertToIngredientsV3(mealplaner.io.xml.model.v3.IngredientdatabaseXml database) {
+    return database.ingredients.stream()
+        .map(IngredientAdapter::convertIngredientV3FromXml)
+        .collect(toList());
+  }
+
   private static List<Ingredient> convertToIngredients(IngredientdatabaseXml database) {
     return database.ingredients.stream()
-        .map(IngredientAdapter::convertIngredientFromXml)
+        .map(IngredientAdapter::convertIngredientV2FromXml)
         .collect(toList());
   }
 }

@@ -21,7 +21,7 @@ public final class SettingsAdapter {
   private SettingsAdapter() {
   }
 
-  public static SettingsXml convertSettingsToXml(Settings setting) {
+  public static SettingsXml convertSettingsV2ToXml(Settings setting) {
     CookingTimeSetting cookingTimes = setting.getCookingTime();
     List<CookingTime> prohibitedTimes = new ArrayList<>();
     Arrays.stream(CookingTime.values())
@@ -35,7 +35,21 @@ public final class SettingsAdapter {
         setting.getCourseSettings());
   }
 
-  public static Settings convertSettingsFromXml(SettingsXml setting) {
+  public static mealplaner.io.xml.model.v3.SettingsXml convertSettingsV3ToXml(Settings setting) {
+    CookingTimeSetting cookingTimes = setting.getCookingTime();
+    List<CookingTime> prohibitedTimes = new ArrayList<>();
+    Arrays.stream(CookingTime.values())
+        .filter(cookingTimes::contains)
+        .forEach(prohibitedTimes::add);
+
+    return new mealplaner.io.xml.model.v3.SettingsXml(prohibitedTimes,
+        setting.getNumberOfPeople().value,
+        setting.getCasserole(),
+        setting.getPreference(),
+        setting.getCourseSettings());
+  }
+
+  public static Settings convertSettingsV2FromXml(SettingsXml setting) {
     CookingTimeSetting times = CookingTimeSetting.cookingTimeWithProhibited(
         setting.cookingTime.toArray(new CookingTime[0]));  // NOPMD
     return Settings.from(times,
@@ -45,22 +59,51 @@ public final class SettingsAdapter {
         setting.courseSettings);
   }
 
-  public static Map<DayOfWeek, SettingsXml> convertDefaultSettingsToXml(
+  public static Settings convertSettingsV3FromXml(mealplaner.io.xml.model.v3.SettingsXml setting) {
+    CookingTimeSetting times = CookingTimeSetting.cookingTimeWithProhibited(
+        setting.cookingTime.toArray(new CookingTime[0]));  // NOPMD
+    return Settings.from(times,
+        nonNegative(setting.numberOfPeople),
+        setting.casseroleSettings,
+        setting.preferenceSettings,
+        setting.courseSettings);
+  }
+
+  public static Map<DayOfWeek, SettingsXml> convertDefaultSettingsV2ToXml(
       DefaultSettings defaultSettings) {
     return defaultSettings.getDefaultSettings()
         .entrySet()
         .stream()
         .collect(toMap(Map.Entry::getKey,
-            entry -> convertSettingsToXml(entry.getValue())));
+            entry -> convertSettingsV2ToXml(entry.getValue())));
   }
 
-  public static DefaultSettings convertDefaultSettingsFromXml(
+  public static Map<DayOfWeek, mealplaner.io.xml.model.v3.SettingsXml> convertDefaultSettingsV3ToXml(
+      DefaultSettings defaultSettings) {
+    return defaultSettings.getDefaultSettings()
+        .entrySet()
+        .stream()
+        .collect(toMap(Map.Entry::getKey,
+            entry -> convertSettingsV3ToXml(entry.getValue())));
+  }
+
+  public static DefaultSettings convertDefaultSettingsV2FromXml(
       Map<DayOfWeek, SettingsXml> settings) {
     return DefaultSettings.from(
         settings.entrySet()
             .stream()
             .collect(toMap(
                     Map.Entry::getKey,
-                entry -> convertSettingsFromXml(entry.getValue()))));
+                entry -> convertSettingsV2FromXml(entry.getValue()))));
+  }
+
+  public static DefaultSettings convertDefaultSettingsV3FromXml(
+      Map<DayOfWeek, mealplaner.io.xml.model.v3.SettingsXml> settings) {
+    return DefaultSettings.from(
+        settings.entrySet()
+            .stream()
+            .collect(toMap(
+                Map.Entry::getKey,
+                entry -> convertSettingsV3FromXml(entry.getValue()))));
   }
 }

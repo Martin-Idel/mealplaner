@@ -16,6 +16,8 @@ import static mealplaner.model.recipes.Ingredient.ingredient;
 import static mealplaner.model.recipes.Ingredient.ingredientWithUuid;
 import static mealplaner.model.recipes.IngredientType.BAKING_GOODS;
 import static mealplaner.model.recipes.Measure.GRAM;
+import static mealplaner.model.recipes.Measures.createMeasures;
+import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitativeIngredient;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.getIngredient1;
 import static testcommons.CommonFunctions.getIngredient2;
@@ -23,15 +25,12 @@ import static testcommons.CommonFunctions.getIngredient3;
 import static testcommons.CommonFunctions.getRecipe1;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import mealplaner.commons.NonnegativeFraction;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.meal.MealBuilder;
@@ -42,6 +41,7 @@ import mealplaner.model.meal.enums.ObligatoryUtensil;
 import mealplaner.model.meal.enums.Sidedish;
 import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.recipes.Ingredient;
+import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 
 public class MealDataTest {
@@ -137,7 +137,7 @@ public class MealDataTest {
     sut.setMeals(meals);
 
     Ingredient changedIngredient = ingredientWithUuid(ingredient2.getId(), "Test3",
-        BAKING_GOODS, GRAM);
+        BAKING_GOODS, createMeasures(GRAM));
 
     ingredients.set(1, changedIngredient);
 
@@ -165,7 +165,7 @@ public class MealDataTest {
     sut = MealData.createData(data);
     sut.setMeals(meals);
 
-    Ingredient changedIngredient = ingredient("Test3", BAKING_GOODS, GRAM);
+    Ingredient changedIngredient = ingredient("Test3", BAKING_GOODS, createMeasures(GRAM));
 
     ingredients.set(1, changedIngredient); // This removes the second ingredient, needed in recipe
 
@@ -260,7 +260,7 @@ public class MealDataTest {
   }
 
   @Test
-  public void replaceIngredientReplacesIngredientAddingToAlreadyPresentIngredient() {
+  public void replaceIngredientReplacesIngredientEvenForSameIngredients() {
     setupOneMeal(getIngredient1(), getIngredient2());
     MealplanerData data = MealplanerData.getInstance();
     sut = createData(data);
@@ -268,8 +268,9 @@ public class MealDataTest {
 
     sut.replaceIngredient(getIngredient2(), getIngredient1());
 
-    Map<Ingredient, NonnegativeFraction> ingredients = new HashMap<>();
-    ingredients.put(getIngredient1(), wholeNumber(nonNegative(300)));
+    List<QuantitativeIngredient> ingredients = new ArrayList<>();
+    ingredients.add(createQuantitativeIngredient(getIngredient1(), wholeNumber(nonNegative(100))));
+    ingredients.add(createQuantitativeIngredient(getIngredient1(), wholeNumber(nonNegative(200))));
     Recipe recipe = Recipe.from(nonNegative(2), ingredients);
 
     assertThat(sut.getMealsInList().get(0).getRecipe().get())
@@ -306,9 +307,11 @@ public class MealDataTest {
   }
 
   private static Recipe getRecipe(Ingredient ingredient1, Ingredient ingredient2) {
-    Map<Ingredient, NonnegativeFraction> ingredients = new HashMap<>();
-    ingredients.put(ingredient1, wholeNumber(nonNegative(100)));
-    ingredients.put(ingredient2, wholeNumber(nonNegative(200)));
+    List<QuantitativeIngredient> ingredients = new ArrayList<>();
+    ingredients.add(createQuantitativeIngredient(
+        ingredient1, wholeNumber(nonNegative(100))));
+    ingredients.add(createQuantitativeIngredient(
+        ingredient2, wholeNumber(nonNegative(200))));
     return Recipe.from(nonNegative(2), ingredients);
   }
 

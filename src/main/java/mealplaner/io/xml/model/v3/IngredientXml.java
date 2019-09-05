@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MIT
 
-package mealplaner.io.xml.model.v2;
+package mealplaner.io.xml.model.v3;
 
 import static java.util.UUID.nameUUIDFromBytes;
+import static mealplaner.model.recipes.Measures.DEFAULT_MEASURES;
 
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
@@ -14,7 +15,6 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import mealplaner.io.xml.util.UuidAdapter;
 import mealplaner.model.recipes.IngredientType;
-import mealplaner.model.recipes.Measure;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -23,17 +23,17 @@ public class IngredientXml {
   public final UUID uuid;
   public final String name;
   public final IngredientType type;
-  public final Measure measure;
+  public final MeasuresXml measures;
 
   public IngredientXml() {
     this(nameUUIDFromBytes("noname".getBytes(StandardCharsets.UTF_8)), "noname", IngredientType.OTHER,
-        Measure.NONE);
+        new MeasuresXml(DEFAULT_MEASURES));
   }
 
-  public IngredientXml(UUID uuid, String name, IngredientType type, Measure measure) {
+  public IngredientXml(UUID uuid, String name, IngredientType type, MeasuresXml measures) {
     this.uuid = uuid;
     this.name = name;
     this.type = type;
-    this.measure = measure;
+    this.measures = measures;
   }
 }

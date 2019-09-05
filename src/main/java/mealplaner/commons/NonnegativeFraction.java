@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 
 public final class NonnegativeFraction {
   public static final NonnegativeFraction ZERO = fraction(0, 1);
+  public static final NonnegativeFraction ONE = fraction(1, 1);
 
   private static final Pattern INTEGER_PATTERN = compile("^\\d*$");
   private static final Pattern FRACTION_PATTERN = compile("^\\d*[,/.]?\\d*$");
@@ -92,6 +93,10 @@ public final class NonnegativeFraction {
     return fraction(numerator * multiplier.value, denominator);
   }
 
+  public NonnegativeFraction multiplyBy(NonnegativeFraction multiplier) {
+    return fraction(numerator * multiplier.numerator, denominator * multiplier.denominator);
+  }
+
   public NonnegativeFraction divideBy(NonnegativeInteger divisor) {
     return fraction(numerator, denominator * divisor.value);
   }
@@ -132,5 +137,9 @@ public final class NonnegativeFraction {
     NonnegativeFraction other = (NonnegativeFraction) obj;
     return this.numerator == other.numerator
         && this.denominator == other.denominator;
+  }
+
+  public NonnegativeFraction invert() {
+    return fraction(denominator, numerator);
   }
 }

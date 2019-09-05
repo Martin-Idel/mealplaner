@@ -159,4 +159,24 @@ public class NonnegativeFractionTest {
     assertThat(multipliedFraction.getNumerator()).isEqualTo(5);
     assertThat(multipliedFraction.getDenominator()).isEqualTo(6);
   }
+
+  @Test
+  public void multiplyByFractionCorrectlyMultipliesTwoFractions() {
+    NonnegativeFraction fraction = fraction(5, 3);
+
+    NonnegativeFraction multipliedFraction = fraction.multiplyBy(fraction(3, 5));
+
+    assertThat(multipliedFraction.getNumerator()).isEqualTo(1);
+    assertThat(multipliedFraction.getDenominator()).isEqualTo(1);
+  }
+
+  @Test
+  public void invertInvertsFraction() {
+    NonnegativeFraction fraction = fraction(5, 3);
+
+    NonnegativeFraction invertedFraction = fraction.invert();
+
+    assertThat(invertedFraction.getNumerator()).isEqualTo(3);
+    assertThat(invertedFraction.getDenominator()).isEqualTo(5);
+  }
 }

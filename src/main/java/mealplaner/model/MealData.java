@@ -6,7 +6,6 @@ import static java.util.Optional.ofNullable;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
-import static mealplaner.commons.NonnegativeFraction.ZERO;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.meal.Meal.createMeal;
 
@@ -18,13 +17,13 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.UUID;
 
-import mealplaner.commons.NonnegativeFraction;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.meal.MealMetaData;
 import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.recipes.Ingredient;
+import mealplaner.model.recipes.Measure;
 import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 
@@ -66,9 +65,10 @@ public final class MealData implements DataStoreListener {
     updating = true;
     for (Meal meal : meals) {
       List<Ingredient> ingredients = data.getIngredients();
-      meal.getRecipe().ifPresent(recipe -> recipe.getIngredientsAsIs().keySet()
+      meal.getRecipe().ifPresent(recipe -> recipe.getIngredientsAsIs()
           .stream()
-          .filter(ingredient -> !ingredients.contains(ingredient))
+          .filter(quantitativeIngredient -> !ingredients.contains(quantitativeIngredient.getIngredient()))
+          .map(QuantitativeIngredient::getIngredient)
           .forEach(data::addIngredient));
       addMeal(meal);
     }
@@ -88,7 +88,7 @@ public final class MealData implements DataStoreListener {
   }
 
   public void updateMeals(List<ProposedMenu> mealsCookedLast,
-      NonnegativeInteger daysSinceLastUpdate) {
+                          NonnegativeInteger daysSinceLastUpdate) {
     List<UUID> mealsCooked = mealsCookedLast.stream().map(menu -> menu.main).collect(toList());
     addDaysPassedToAllMeals(daysSinceLastUpdate);
     resetMealsCookedLast(mealsCookedLast, mealsCooked);
@@ -129,16 +129,28 @@ public final class MealData implements DataStoreListener {
 
   private Recipe recomputeRecipe(Map<UUID, Ingredient> ingredients, Recipe oldRecipe) {
     validateIngredients(ingredients, oldRecipe);
-    Map<Ingredient, NonnegativeFraction> newIngredientsMap = oldRecipe.getIngredientsAsIs()
-        .entrySet()
+    List<QuantitativeIngredient> newIngredientsMap = oldRecipe.getIngredientsAsIs()
         .stream()
-        .collect(toMap(entry -> ingredients.get(entry.getKey().getId()), Entry::getValue));
+        .map(quantitativeIngredient -> QuantitativeIngredient.createQuantitativeIngredient(
+            ingredients.get(quantitativeIngredient.getIngredient().getId()),
+            setOldMeasureOrPrimaryMeasureIfOldMeasureIsNotPossible(ingredients, quantitativeIngredient),
+            quantitativeIngredient.getAmount()))
+        .collect(toList());
     return Recipe.from(oldRecipe.getNumberOfPortions(), newIngredientsMap);
   }
 
+  private Measure setOldMeasureOrPrimaryMeasureIfOldMeasureIsNotPossible(
+      Map<UUID, Ingredient> ingredients, QuantitativeIngredient quantitativeIngredient) {
+    return ingredients.get(quantitativeIngredient.getIngredient().getId())
+        .getMeasures()
+        .contains(quantitativeIngredient.getMeasure())
+        ? quantitativeIngredient.getMeasure()
+        : ingredients.get(quantitativeIngredient.getIngredient().getId()).getPrimaryMeasure();
+  }
+
   private void validateIngredients(Map<UUID, Ingredient> ingredients, Recipe oldRecipe) {
-    for (Ingredient ingredient : oldRecipe.getIngredientsAsIs().keySet()) {
-      if (ingredients.get(ingredient.getId()) == null && !updating) {
+    for (QuantitativeIngredient ingredient : oldRecipe.getIngredientsAsIs()) {
+      if (ingredients.get(ingredient.getIngredient().getId()) == null && !updating) {
         throw new MealException("An ingredient used is not contained in the ingredient list");
       }
     }
@@ -173,14 +185,20 @@ public final class MealData implements DataStoreListener {
   }
 
   private Recipe replaceIngredientInRecipe(Recipe oldRecipe, Ingredient toBeReplaced,
-      Ingredient replacingIngredient) {
-    Map<Ingredient, NonnegativeFraction> newIngredientsMap = oldRecipe.getIngredientsAsIs();
-    if (newIngredientsMap.containsKey(toBeReplaced)) {
-      newIngredientsMap.put(replacingIngredient,
-          newIngredientsMap.getOrDefault(replacingIngredient, ZERO)
-              .add(newIngredientsMap.get(toBeReplaced)));
-      newIngredientsMap.remove(toBeReplaced);
+                                           Ingredient replacingIngredient) {
+    List<QuantitativeIngredient> newIngredients = oldRecipe.getIngredientsAsIs();
+    for (int i = 0; i < newIngredients.size(); ++i) {
+      var quantitativeIngredient = newIngredients.get(i);
+      if (quantitativeIngredient.getIngredient().equals(toBeReplaced)) {
+        newIngredients.set(i, QuantitativeIngredient.createQuantitativeIngredient(
+            replacingIngredient,
+            replacingIngredient.getMeasures().contains(quantitativeIngredient.getMeasure())
+                ? quantitativeIngredient.getMeasure()
+                : replacingIngredient.getPrimaryMeasure(),
+            quantitativeIngredient.getAmount()
+        ));
+      }
     }
-    return Recipe.from(oldRecipe.getNumberOfPortions(), newIngredientsMap);
+    return Recipe.from(oldRecipe.getNumberOfPortions(), newIngredients);
   }
 }

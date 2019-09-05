@@ -5,6 +5,7 @@ package guitests.ingredients;
 import static mealplaner.model.recipes.Ingredient.ingredient;
 import static mealplaner.model.recipes.IngredientType.SPICE;
 import static mealplaner.model.recipes.Measure.NONE;
+import static mealplaner.model.recipes.Measures.createMeasures;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.getIngredient1;
 import static testcommons.CommonFunctions.getIngredient2;
@@ -22,7 +23,7 @@ public class IngredientsInputTest extends AssertJMealplanerTestCase {
 
   @Test
   public void createIngredient() {
-    Ingredient ingredient = ingredient("Test4", SPICE, NONE);
+    Ingredient ingredient = ingredient("Test4", SPICE, createMeasures(NONE));
 
     windowHelpers.getIngredientsPane().addIngredient(ingredient);
 
@@ -36,6 +37,6 @@ public class IngredientsInputTest extends AssertJMealplanerTestCase {
     // UUID is random upon creation, so we can't compare ingredients directly
     assertThat(ingredientsAfterSaving.get(3).getName()).isEqualTo(ingredient.getName());
     assertThat(ingredientsAfterSaving.get(3).getType()).isEqualTo(ingredient.getType());
-    assertThat(ingredientsAfterSaving.get(3).getMeasure()).isEqualTo(ingredient.getMeasure());
+    assertThat(ingredientsAfterSaving.get(3).getPrimaryMeasure()).isEqualTo(ingredient.getPrimaryMeasure());
   }
 }

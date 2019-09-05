@@ -7,20 +7,20 @@ import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.recipes.Ingredient.ingredientWithUuid;
 import static mealplaner.model.recipes.IngredientType.FLUID;
 import static mealplaner.model.recipes.Measure.TEASPOON;
+import static mealplaner.model.recipes.Measures.createMeasures;
+import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitativeIngredient;
 import static testcommons.CommonFunctions.getIngredient1;
 import static testcommons.CommonFunctions.getIngredient2;
 import static testcommons.CommonFunctions.getIngredient3;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Test;
 
 import guitests.helpers.AssertJMealplanerTestCase;
-import mealplaner.commons.NonnegativeFraction;
 import mealplaner.model.recipes.Ingredient;
+import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 
 public class IngredientsEditDatabase extends AssertJMealplanerTestCase {
@@ -32,8 +32,8 @@ public class IngredientsEditDatabase extends AssertJMealplanerTestCase {
 
   @Test
   public void canChangeAllAspectOfAnIngredient() {
-    Ingredient newIngredient = ingredientWithUuid(getIngredient1().getId(), "New name", FLUID,
-        TEASPOON);
+    Ingredient newIngredient = ingredientWithUuid(
+        getIngredient1().getId(), "New name", FLUID, createMeasures(TEASPOON));
     List<Ingredient> ingredients = new ArrayList<>();
     ingredients.add(newIngredient);
     ingredients.add(getIngredient2());
@@ -42,7 +42,7 @@ public class IngredientsEditDatabase extends AssertJMealplanerTestCase {
     windowHelpers.getIngredientsPane()
         .changeName(0, newIngredient.getName())
         .changeType(0, newIngredient.getType())
-        .changeMeasure(0, newIngredient.getMeasure())
+        .changeMeasure(0, newIngredient.getPrimaryMeasure())
         .compareIngredientsInTable(ingredients);
   }
 
@@ -69,8 +69,9 @@ public class IngredientsEditDatabase extends AssertJMealplanerTestCase {
     ingredients.add(getIngredient1());
     ingredients.add(getIngredient3());
 
-    Map<Ingredient, NonnegativeFraction> recipeIngredients = new HashMap<>();
-    recipeIngredients.put(getIngredient1(), wholeNumber(nonNegative(300)));
+    List<QuantitativeIngredient> recipeIngredients = new ArrayList<>();
+    recipeIngredients.add(createQuantitativeIngredient(getIngredient1(), wholeNumber(nonNegative(100))));
+    recipeIngredients.add(createQuantitativeIngredient(getIngredient1(), wholeNumber(nonNegative(200))));
     Recipe expectedNewRecipe = Recipe.from(nonNegative(2), recipeIngredients);
 
     windowHelpers.getIngredientsPane()
@@ -87,21 +88,21 @@ public class IngredientsEditDatabase extends AssertJMealplanerTestCase {
   public void editingNameReplacesNameInRecipe() {
     Ingredient newIngredient = ingredientWithUuid(getIngredient1().getId(), "New name",
         getIngredient1().getType(),
-        getIngredient1().getMeasure());
+        getIngredient1().getMeasures());
     List<Ingredient> ingredients = new ArrayList<>();
     ingredients.add(newIngredient);
     ingredients.add(getIngredient2());
     ingredients.add(getIngredient3());
 
-    Map<Ingredient, NonnegativeFraction> recipeIngredients = new HashMap<>();
-    recipeIngredients.put(newIngredient, wholeNumber(nonNegative(100)));
-    recipeIngredients.put(getIngredient2(), wholeNumber(nonNegative(200)));
+    List<QuantitativeIngredient> recipeIngredients = new ArrayList<>();
+    recipeIngredients.add(createQuantitativeIngredient(newIngredient, wholeNumber(nonNegative(100))));
+    recipeIngredients.add(createQuantitativeIngredient(getIngredient2(), wholeNumber(nonNegative(200))));
     Recipe expectedNewRecipe = Recipe.from(nonNegative(2), recipeIngredients);
 
     windowHelpers.getIngredientsPane()
         .changeName(0, newIngredient.getName())
         .changeType(0, newIngredient.getType())
-        .changeMeasure(0, newIngredient.getMeasure())
+        .changeMeasure(0, newIngredient.getPrimaryMeasure())
         .compareIngredientsInTable(ingredients)
         .saveButton().click();
 
