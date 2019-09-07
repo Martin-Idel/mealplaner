@@ -4,7 +4,7 @@ apply plugin: "eclipse"
 
 apply plugin: "checkstyle"
 apply plugin: "pmd"
-apply plugin: "findbugs"
+// apply plugin: "findbugs"
 
 repositories {
     jcenter()
@@ -108,12 +108,12 @@ pmd {
 		]
 }
 
-findbugs {
-	toolVersion = "3.0.1"
-	ignoreFailures = false
-	effort = "max"
-	excludeFilter = file("config/findbugs/exclude.xml")
-}
+// findbugs {
+// 	toolVersion = "3.0.1"
+// 	ignoreFailures = false
+// 	effort = "max"
+// 	excludeFilter = file("config/findbugs/exclude.xml")
+// }
 
 mainClassName = "mealplaner.Kochplaner"
 
