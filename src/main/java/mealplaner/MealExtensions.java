@@ -3,7 +3,6 @@ package mealplaner;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.Supplier;
 
@@ -20,15 +19,15 @@ public class MealExtensions {
       registeredMealExtensions = new HashMap<>();
   private Map<Class<? extends MealFact>, Supplier<? extends MealFact>> defaultFactories = new HashMap<>();
 
-  public boolean containsMealFact(Class<?> fact) {
+  public boolean containsFact(Class<?> fact) {
     return registeredMealExtensions.containsKey(fact);
   }
 
-  public boolean containsMealFactXml(Class<?> fact) {
+  public boolean containsFactXml(Class<?> fact) {
     return registeredMealExtensions.containsValue(fact);
   }
 
-  public Class<? extends MealFact> obtainMealFactClass(Class<? extends MealFactXml> factXml) {
+  public Class<? extends MealFact> obtainFactClass(Class<? extends MealFactXml> factXml) {
     var mealFactExtension = registeredMealExtensions
         .entrySet()
         .stream()

@@ -41,12 +41,13 @@ public final class Meal implements Comparable<Meal> {
   private final List<Element> hiddenMealFacts;
   private Optional<Recipe> recipe;
 
-  private Meal(UUID uuid,
-               MealMetaData metadata,
-               NonnegativeInteger daysPassed,
-               Map<Class, MealFact> mealFacts,
-               List<Element> hiddenMealFacts,
-               Optional<Recipe> recipe) {
+  private Meal(
+      UUID uuid,
+      MealMetaData metadata,
+      NonnegativeInteger daysPassed,
+      Map<Class, MealFact> mealFacts,
+      List<Element> hiddenMealFacts,
+      Optional<Recipe> recipe) {
     this.uuid = uuid;
     this.metadata = metadata;
     this.daysPassed = daysPassed;
@@ -55,14 +56,16 @@ public final class Meal implements Comparable<Meal> {
     this.recipe = recipe;
   }
 
-  public static Meal createMeal(UUID uuid,
+  public static Meal createMeal(
+      UUID uuid,
       MealMetaData metadata,
       NonnegativeInteger daysPassed,
       Optional<Recipe> recipe) {
     return new Meal(uuid, metadata, daysPassed, new HashMap<>(), new ArrayList<>(), recipe);
   }
 
-  public static Meal createMeal(UUID uuid,
+  public static Meal createMeal(
+      UUID uuid,
       String name,
       CookingTime cookingTime,
       Sidedish sideDish,
@@ -84,18 +87,19 @@ public final class Meal implements Comparable<Meal> {
         new HashMap<>(), new ArrayList<>(), recipe);
   }
 
-  public static Meal createMeal(UUID uuid,
-                                String name,
-                                CookingTime cookingTime,
-                                Sidedish sideDish,
-                                ObligatoryUtensil obligatoryUtensil,
-                                CookingPreference cookingPreference,
-                                CourseType courseType,
-                                NonnegativeInteger daysPassed,
-                                String comment,
-                                Map<Class, MealFact> mealFacts,
-                                List<Element> hiddenMealFacts,
-                                Optional<Recipe> recipe) throws MealException {
+  public static Meal createMeal(
+      UUID uuid,
+      String name,
+      CookingTime cookingTime,
+      Sidedish sideDish,
+      ObligatoryUtensil obligatoryUtensil,
+      CookingPreference cookingPreference,
+      CourseType courseType,
+      NonnegativeInteger daysPassed,
+      String comment,
+      Map<Class, MealFact> mealFacts,
+      List<Element> hiddenMealFacts,
+      Optional<Recipe> recipe) throws MealException {
     return new Meal(uuid,
         createMealMetaData(name,
             cookingTime,
@@ -144,7 +148,7 @@ public final class Meal implements Comparable<Meal> {
 
   @SuppressWarnings("unchecked")
   public <T> T getTypedMealFact(Class<T> name) {
-    return (T)mealFacts.get(name);
+    return (T) mealFacts.get(name);
   }
 
   public UUID getId() {
@@ -201,7 +205,9 @@ public final class Meal implements Comparable<Meal> {
     return "[" + uuid + ", "
         + metadata + ", "
         + daysPassed + ", "
-        + recipe + "]";
+        + recipe + ", "
+        + mealFacts + ", "
+        + hiddenMealFacts + "]";
   }
 
   @Override
@@ -211,6 +217,8 @@ public final class Meal implements Comparable<Meal> {
     result = prime * result + uuid.hashCode();
     result = prime * result + metadata.hashCode();
     result = prime * result + daysPassed.value;
+    result = prime * result + mealFacts.hashCode();
+    result = prime * result + hiddenMealFacts.hashCode();
     return result;
   }
 
@@ -226,6 +234,8 @@ public final class Meal implements Comparable<Meal> {
     return uuid.equals(other.uuid)
         && metadata.equals(other.metadata)
         && daysPassed.equals(other.daysPassed)
-        && recipe.equals(other.recipe);
+        && recipe.equals(other.recipe)
+        && mealFacts.equals(other.mealFacts)
+        && hiddenMealFacts.equals(other.mealFacts);
   }
 }

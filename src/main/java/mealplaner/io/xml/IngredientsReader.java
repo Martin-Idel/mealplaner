@@ -8,6 +8,8 @@ import static mealplaner.io.xml.util.JaxHelper.read;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.core.config.plugins.Plugin;
+
 import mealplaner.PluginStore;
 import mealplaner.io.xml.adapters.IngredientAdapter;
 import mealplaner.io.xml.model.v2.IngredientdatabaseXml;
@@ -26,15 +28,17 @@ public final class IngredientsReader {
     } else if (versionNumber == 3) {
       mealplaner.io.xml.model.v3.IngredientdatabaseXml database = read(
           filePath, mealplaner.io.xml.model.v3.IngredientdatabaseXml.class, knownPlugins);
-      return convertToIngredientsV3(database);
+      return convertToIngredientsV3(database, knownPlugins);
     } else {
       return new ArrayList<>();
     }
   }
 
-  private static List<Ingredient> convertToIngredientsV3(mealplaner.io.xml.model.v3.IngredientdatabaseXml database) {
+  private static List<Ingredient> convertToIngredientsV3(
+      mealplaner.io.xml.model.v3.IngredientdatabaseXml database,
+      PluginStore plugins) {
     return database.ingredients.stream()
-        .map(IngredientAdapter::convertIngredientV3FromXml)
+        .map(ingredient -> IngredientAdapter.convertIngredientV3FromXml(ingredient, plugins))
         .collect(toList());
   }
 

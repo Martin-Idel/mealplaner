@@ -1,7 +1,7 @@
 package mealplaner.plugins.api;
 
 public interface MealFactXml {
-  default MealFact convertToMeal() {
+  default MealFact convertToFact() {
     return (MealFact) this;
   }
 }

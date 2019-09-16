@@ -68,7 +68,7 @@ public final class MealplanerDataReader {
     MealplanerData data = MealplanerData.getInstance();
 
     List<Ingredient> ingredients = database.ingredients.stream()
-        .map(IngredientAdapter::convertIngredientV3FromXml)
+        .map(ingredient -> IngredientAdapter.convertIngredientV3FromXml(ingredient, plugins))
         .collect(toList());
     data.setIngredients(ingredients);
 

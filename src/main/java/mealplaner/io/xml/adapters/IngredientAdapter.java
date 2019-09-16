@@ -2,10 +2,18 @@
 
 package mealplaner.io.xml.adapters;
 
+import static mealplaner.io.xml.util.FactsAdapter.extractIngredientFacts;
+import static mealplaner.io.xml.util.FactsAdapter.extractUnknownFacts;
+
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
+import mealplaner.PluginStore;
 import mealplaner.io.xml.model.v2.IngredientXml;
 import mealplaner.io.xml.model.v3.MeasuresXml;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.Measures;
+import mealplaner.plugins.api.IngredientFact;
 
 public final class IngredientAdapter {
   private IngredientAdapter() {
@@ -19,10 +27,19 @@ public final class IngredientAdapter {
   }
 
   public static mealplaner.io.xml.model.v3.IngredientXml convertIngredientV3ToXml(Ingredient ingredient) {
+    var ingredientFacts = new ArrayList<Object>();
+    ingredientFacts.addAll(
+        ingredient.getIngredientFacts()
+            .values()
+            .stream()
+            .map(IngredientFact::convertToXml)
+            .collect(Collectors.toUnmodifiableList()));
+    ingredientFacts.addAll(ingredient.getHiddenFacts());
     return new mealplaner.io.xml.model.v3.IngredientXml(ingredient.getId(),
         ingredient.getName(),
         ingredient.getType(),
-        new MeasuresXml(ingredient.getMeasures()));
+        new MeasuresXml(ingredient.getMeasures()),
+        ingredientFacts);
   }
 
   public static Ingredient convertIngredientV2FromXml(IngredientXml ingredient) {
@@ -32,10 +49,14 @@ public final class IngredientAdapter {
         Measures.createMeasures(ingredient.measure));
   }
 
-  public static Ingredient convertIngredientV3FromXml(mealplaner.io.xml.model.v3.IngredientXml ingredient) {
+  public static Ingredient convertIngredientV3FromXml(
+      mealplaner.io.xml.model.v3.IngredientXml ingredient,
+      PluginStore plugins) {
     return Ingredient.ingredientWithUuid(ingredient.uuid,
         ingredient.name,
         ingredient.type,
-        Measures.createMeasures(ingredient.measures.primaryMeasure, ingredient.measures.secondaryMeasures));
+        Measures.createMeasures(ingredient.measures.primaryMeasure, ingredient.measures.secondaryMeasures),
+        extractIngredientFacts(ingredient.ingredientFacts, plugins.getRegisteredIngredientExtensions()),
+        extractUnknownFacts(ingredient.ingredientFacts, plugins.getRegisteredIngredientExtensions()));
   }
 }

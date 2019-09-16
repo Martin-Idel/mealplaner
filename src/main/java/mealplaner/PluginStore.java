@@ -22,10 +22,7 @@ import mealplaner.plugins.api.SettingsInputDialogExtension;
 
 public class PluginStore {
   private MealExtensions registeredMealExtensions = new MealExtensions();
-  private Map<
-      Class<? extends IngredientFact>,
-      Class<? extends IngredientFactXml>>
-      registeredIngredientExtensions = new HashMap<>();
+  private IngredientExtensions registeredIngredientExtensions = new IngredientExtensions();
   private Map<Class<? extends Setting>, Class<? extends SettingXml>>
       registeredSettingExtensions = new HashMap<>();
   private Map<
@@ -48,19 +45,20 @@ public class PluginStore {
       Class<T> mealFact,
       Class<? extends MealFactXml> mealFactXml,
       Supplier<T> mealFactFactory) {
-    if (registeredMealExtensions.containsMealFact(mealFact)) {
-      throw new MealException("Class name already known or plugin already registered");
+    if (registeredMealExtensions.containsFact(mealFact)) {
+      throw new MealException("Class name " + mealFact + " already known or plugin already registered");
     }
     registeredMealExtensions.registerClass(mealFact, mealFactXml, mealFactFactory);
   }
 
-  public void registerIngredientExtension(
-      Class<? extends IngredientFact> ingredientFact,
-      Class<? extends IngredientFactXml> ingredientFactXmls) {
-    if (registeredIngredientExtensions.containsKey(ingredientFact)) {
-      throw new MealException("Class name already known or plugin already registered");
+  public <T extends IngredientFact> void registerIngredientExtension(
+      Class<T> ingredientFact,
+      Class<? extends IngredientFactXml> ingredientFactXmls,
+      Supplier<T> ingredientFactory) {
+    if (registeredIngredientExtensions.containsFact(ingredientFact)) {
+      throw new MealException("Class name " + ingredientFact + " already known or plugin already registered");
     }
-    registeredIngredientExtensions.putIfAbsent(ingredientFact, ingredientFactXmls);
+    registeredIngredientExtensions.registerClass(ingredientFact, ingredientFactXmls, ingredientFactory);
   }
 
   public void registerSettingExtension(
@@ -103,8 +101,7 @@ public class PluginStore {
     return registeredMealExtensions;
   }
 
-  public Map<Class<? extends IngredientFact>, Class<? extends IngredientFactXml>>
-      getRegisteredIngredientExtensions() {
+  public IngredientExtensions getRegisteredIngredientExtensions() {
     return registeredIngredientExtensions;
   }
 
@@ -136,8 +133,8 @@ public class PluginStore {
     Set<Class<?>> knownClasses = new HashSet<>();
     knownClasses.addAll(registeredMealExtensions.getAllRegisteredFacts());
     knownClasses.addAll(registeredMealExtensions.getAllRegisteredFactXmls());
-    knownClasses.addAll(registeredIngredientExtensions.keySet());
-    knownClasses.addAll(registeredIngredientExtensions.values());
+    knownClasses.addAll(registeredIngredientExtensions.getAllRegisteredFacts());
+    knownClasses.addAll(registeredIngredientExtensions.getAllRegisteredFactXmls());
     knownClasses.addAll(registeredSettingExtensions.keySet());
     knownClasses.addAll(registeredSettingExtensions.values());
     var knownClassesArray = new Class<?>[knownClasses.size()];

@@ -5,38 +5,82 @@ package mealplaner.model.recipes;
 import static java.util.UUID.nameUUIDFromBytes;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+
+import org.w3c.dom.Element;
+
+import mealplaner.plugins.api.IngredientFact;
 
 public final class Ingredient {
   private static final Ingredient EMPTY_INGREDIENT = new Ingredient(
       nameUUIDFromBytes("".getBytes(StandardCharsets.UTF_8)),
       "",
       IngredientType.OTHER,
-      Measures.DEFAULT_MEASURES);
+      Measures.DEFAULT_MEASURES,
+      new HashMap<>(),
+      new ArrayList<>());
 
   private final UUID uuid;
   private final String name;
   private final IngredientType type;
   private final Measures measures;
+  private final Map<Class, IngredientFact> ingredientFacts;
+  private final List<Element> hiddenIngredientFacts;
 
   private Ingredient() {
-    this(UUID.randomUUID(), "no name", IngredientType.OTHER, Measures.DEFAULT_MEASURES);
+    this(UUID.randomUUID(),
+        "no name",
+        IngredientType.OTHER,
+        Measures.DEFAULT_MEASURES,
+        new HashMap<>(),
+        new ArrayList<>());
   }
 
-  private Ingredient(UUID uuid, String name, IngredientType type, Measures measures) {
+  private Ingredient(
+      UUID uuid,
+      String name,
+      IngredientType type,
+      Measures measures,
+      Map<Class, IngredientFact> ingredientFacts,
+      List<Element> hiddenIngredientFacts) {
     this.uuid = uuid;
     this.name = name;
     this.type = type;
     this.measures = measures;
+    this.ingredientFacts = ingredientFacts;
+    this.hiddenIngredientFacts = hiddenIngredientFacts;
+  }
+
+  public static Ingredient ingredient(
+      String name,
+      IngredientType type,
+      Measures measures,
+      Map<Class, IngredientFact> ingredientFacts,
+      List<Element> hiddenIngredientFacts) {
+    return new Ingredient(UUID.randomUUID(), name, type, measures, ingredientFacts, hiddenIngredientFacts);
   }
 
   public static Ingredient ingredient(String name, IngredientType type, Measures measures) {
-    return new Ingredient(UUID.randomUUID(), name, type, measures);
+    return new Ingredient(UUID.randomUUID(), name, type, measures, new HashMap<>(), new ArrayList<>());
+  }
+
+  public static Ingredient ingredientWithUuid(
+      UUID uuid,
+      String name,
+      IngredientType type,
+      Measures measures,
+      Map<Class, IngredientFact> ingredientFacts,
+      List<Element> hiddenIngredientFacts) {
+    return new Ingredient(uuid, name, type, measures, ingredientFacts, hiddenIngredientFacts);
   }
 
   public static Ingredient ingredientWithUuid(UUID uuid, String name, IngredientType type,
                                               Measures measures) {
-    return new Ingredient(uuid, name, type, measures);
+    return new Ingredient(uuid, name, type, measures, new HashMap<>(), new ArrayList<>());
   }
 
   public static Ingredient emptyIngredient() {
@@ -59,6 +103,14 @@ public final class Ingredient {
     return measures;
   }
 
+  public Map<Class, IngredientFact> getIngredientFacts() {
+    return ingredientFacts;
+  }
+
+  public List<Element> getHiddenFacts() {
+    return hiddenIngredientFacts;
+  }
+
   public Measure getPrimaryMeasure() {
     return measures.getPrimaryMeasure();
   }
@@ -67,10 +119,27 @@ public final class Ingredient {
     return this.uuid.equals(ingredient.getId());
   }
 
+  /**
+   * N.B.: Return value may be null
+   *
+   * @param name class of the ingredient fact
+   * @return IngredientFact corresponding to the class if available (null otherwise)
+   */
+  public IngredientFact getIngredientFact(Class name) {
+    return ingredientFacts.get(name);
+  }
+
+  @SuppressWarnings("unchecked")
+  public <T> T getTypedIngredientFact(Class<T> name) {
+    return (T)ingredientFacts.get(name);
+  }
+
+
   @Override
   public String toString() {
     return "Ingredient [uuid=" + uuid.toString() + ", name=" + name + ", type=" + type
-        + ", measures=" + measures.toString() + "]";
+        + ", measures=" + measures.toString() + ", ingredientfacts=" + ingredientFacts.toString()
+        + ", hiddenFacts=" + hiddenIngredientFacts.toString() + "]";
   }
 
   @Override
@@ -81,6 +150,8 @@ public final class Ingredient {
     result = prime * result + measures.hashCode();
     result = prime * result + name.hashCode();
     result = prime * result + type.hashCode();
+    result = prime * result + ingredientFacts.hashCode();
+    result = prime * result + hiddenIngredientFacts.hashCode();
     return result;
   }
 
@@ -95,6 +166,8 @@ public final class Ingredient {
     return uuid.equals(other.uuid)
         && measures.equals(other.measures)
         && name.equals(other.name)
-        && type == other.type;
+        && type == other.type
+        && ingredientFacts.equals(other.ingredientFacts)
+        && hiddenIngredientFacts.equals(other.hiddenIngredientFacts);
   }
 }
