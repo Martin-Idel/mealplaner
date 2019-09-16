@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import mealplaner.PluginStore;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
 import testcommons.XmlInteraction;
@@ -29,7 +30,7 @@ public class MealsXmlInteractionTest extends XmlInteraction {
 
     loadFileWithName(RESOURCE_FILE_WITH_THREE_MEALS_V2);
 
-    List<Meal> database = loadXml(mealPlan, DESTINATION_FILE_PATH);
+    List<Meal> database = loadXml(mealPlan, DESTINATION_FILE_PATH, new PluginStore());
 
     database.sort(Meal::compareTo);
 
@@ -41,8 +42,8 @@ public class MealsXmlInteractionTest extends XmlInteraction {
     MealplanerData mealPlan = setupMealplanerDataWithAllIngredients();
     List<Meal> meals = fillListWithThreeMeals();
 
-    saveXml(meals, DESTINATION_FILE_PATH);
-    List<Meal> roundTripMeals = loadXml(mealPlan, DESTINATION_FILE_PATH);
+    saveXml(meals, DESTINATION_FILE_PATH, new PluginStore());
+    List<Meal> roundTripMeals = loadXml(mealPlan, DESTINATION_FILE_PATH, new PluginStore());
 
     roundTripMeals.sort(Meal::compareTo);
     meals.sort(Meal::compareTo);

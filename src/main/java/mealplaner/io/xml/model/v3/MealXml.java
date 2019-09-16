@@ -11,10 +11,14 @@ import static mealplaner.model.meal.enums.CourseType.MAIN;
 import static mealplaner.model.meal.enums.ObligatoryUtensil.POT;
 import static mealplaner.model.meal.enums.Sidedish.NONE;
 
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
@@ -26,6 +30,7 @@ import mealplaner.model.meal.enums.CookingTime;
 import mealplaner.model.meal.enums.CourseType;
 import mealplaner.model.meal.enums.ObligatoryUtensil;
 import mealplaner.model.meal.enums.Sidedish;
+import mealplaner.plugins.api.MealFactXml;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -40,11 +45,14 @@ public class MealXml {
   public final CourseType courseType;
   public final int daysPassed;
   public final String comment;
+  @XmlAnyElement(lax = true)
+  public final List<Object> mealFacts;
   public final RecipeXml recipe;
 
   public MealXml() {
-    this(nameUUIDFromBytes("noname".getBytes(forName("UTF-8"))),
-        "noname", VERY_SHORT, NONE, POT, NO_PREFERENCE, MAIN, ZERO, "no comment", null);
+    this(nameUUIDFromBytes("noname".getBytes(StandardCharsets.UTF_8)),
+        "noname", VERY_SHORT, NONE, POT, NO_PREFERENCE, MAIN, ZERO, "no comment",
+        new ArrayList<>(), null);
   }
 
   public MealXml(UUID uuid,
@@ -56,6 +64,7 @@ public class MealXml {
       CourseType courseType,
       NonnegativeInteger daysPassed,
       String comment,
+      List<Object> mealFacts,
       RecipeXml recipe)
       throws MealException {
     this.uuid = uuid;
@@ -67,6 +76,7 @@ public class MealXml {
     this.courseType = courseType;
     this.daysPassed = daysPassed.value;
     this.comment = comment;
+    this.mealFacts = mealFacts;
     this.recipe = recipe;
   }
 }

@@ -9,6 +9,7 @@ import static mealplaner.io.xml.adapters.SettingsAdapter.convertDefaultSettingsV
 import static mealplaner.io.xml.util.JaxHelper.read;
 import static mealplaner.io.xml.util.VersionControl.getVersion;
 
+import mealplaner.PluginStore;
 import mealplaner.io.xml.model.v2.ProposalSummaryDataXml;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.settings.DefaultSettings;
@@ -17,14 +18,14 @@ public final class ProposalSummaryDataReader {
   private ProposalSummaryDataReader() {
   }
 
-  public static ProposalSummaryModel loadXml(MealplanerData data, String filePath) {
+  public static ProposalSummaryModel loadXml(MealplanerData data, String filePath, PluginStore knownPlugins) {
     int versionNumber = getVersion(filePath);
     if (versionNumber == 2) {
-      ProposalSummaryDataXml database = read(filePath, ProposalSummaryDataXml.class);
+      ProposalSummaryDataXml database = read(filePath, ProposalSummaryDataXml.class, knownPlugins);
       return convertToMealplanerDataV2(database);
     } else if (versionNumber == 3) {
       mealplaner.io.xml.model.v3.ProposalSummaryDataXml database =
-          read(filePath, mealplaner.io.xml.model.v3.ProposalSummaryDataXml.class);
+          read(filePath, mealplaner.io.xml.model.v3.ProposalSummaryDataXml.class, knownPlugins);
       return convertToMealplanerDataV3(database);
     } else {
       return new ProposalSummaryModel();

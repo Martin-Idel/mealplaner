@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import mealplaner.PluginStore;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.settings.DefaultSettings;
@@ -39,9 +40,9 @@ public class ProposalSummaryDataXmlInteractionTest extends XmlInteraction {
     mealPlan.setDefaultSettings(DefaultSettings.from(defaultSettings));
     mealPlan.setLastProposal(proposal);
 
-    ProposalSummaryDataWriter.saveXml(mealPlan, DESTINATION_FILE_PATH);
+    ProposalSummaryDataWriter.saveXml(mealPlan, DESTINATION_FILE_PATH, new PluginStore());
     ProposalSummaryModel roundTripModel = ProposalSummaryDataReader
-        .loadXml(MealplanerData.getInstance(), DESTINATION_FILE_PATH);
+        .loadXml(MealplanerData.getInstance(), DESTINATION_FILE_PATH, new PluginStore());
 
     assertThat(roundTripModel.lastProposal).isEqualTo(proposal);
     assertThat(roundTripModel.time).isEqualTo(time);
@@ -56,7 +57,7 @@ public class ProposalSummaryDataXmlInteractionTest extends XmlInteraction {
     MealplanerData mealPlan = setupMealplanerDataWithAllMealsAndIngredients();
 
     ProposalSummaryModel loadedProposalSummaryData = ProposalSummaryDataReader
-        .loadXml(mealPlan, DESTINATION_FILE_PATH);
+        .loadXml(mealPlan, DESTINATION_FILE_PATH, new PluginStore());
 
     assertThat(loadedProposalSummaryData.lastProposal).isEqualTo(proposal);
     assertThat(loadedProposalSummaryData.time).isEqualTo(time);

@@ -13,6 +13,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import mealplaner.PluginStore;
 import mealplaner.commons.errorhandling.MealException;
 
 public final class JaxHelper {
@@ -20,9 +21,10 @@ public final class JaxHelper {
   }
 
   @SuppressWarnings("unchecked")
-  public static <T> T read(String savePath, Class<T> type) {
+  public static <T> T read(String savePath, Class<T> type, PluginStore knownPlugins) {
     try {
-      JAXBContext jc = JAXBContext.newInstance(type);
+      var combinedArray = combineArray(type, knownPlugins);
+      JAXBContext jc = JAXBContext.newInstance(combinedArray);
       Unmarshaller unmarshaller = jc.createUnmarshaller();
       File xml = new File(savePath);
       return (T) unmarshaller.unmarshal(xml);
@@ -31,9 +33,10 @@ public final class JaxHelper {
     }
   }
 
-  public static <T> void save(Class<T> type, T data, String filePath) {
+  public static <T> void save(String filePath, Class<T> type, T data, PluginStore knownPlugins) {
     try (OutputStream outputStream = new FileOutputStream(filePath)) {
-      JAXBContext jc = JAXBContext.newInstance(type);
+      var combinedArray = combineArray(type, knownPlugins);
+      JAXBContext jc = JAXBContext.newInstance(combinedArray);
       Marshaller marshaller = jc.createMarshaller();
       marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
       marshaller.marshal(data, outputStream);
@@ -44,5 +47,13 @@ public final class JaxHelper {
     } catch (IOException e) {
       throw new MealException("File " + filePath + " could not be loaded: " + e.getMessage(), e);
     }
+  }
+
+  private static <T> Class[] combineArray(Class<T> type, PluginStore knownPlugins) {
+    var knownPluginClasses = knownPlugins.getAllKnownClassesForXmlConversion();
+    var combinedArray = new Class[knownPluginClasses.length + 1];
+    combinedArray[0] = type;
+    System.arraycopy(knownPluginClasses, 0, combinedArray, 1, knownPluginClasses.length);
+    return combinedArray;
   }
 }

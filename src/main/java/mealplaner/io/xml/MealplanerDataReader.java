@@ -14,6 +14,7 @@ import static mealplaner.io.xml.util.VersionControl.getVersion;
 
 import java.util.List;
 
+import mealplaner.PluginStore;
 import mealplaner.io.xml.adapters.IngredientAdapter;
 import mealplaner.io.xml.model.v2.MealplanerDataXml;
 import mealplaner.model.MealplanerData;
@@ -25,15 +26,15 @@ public final class MealplanerDataReader {
   private MealplanerDataReader() {
   }
 
-  public static MealplanerData loadXml(String filePath) {
+  public static MealplanerData loadXml(String filePath, PluginStore knownPlugins) {
     int versionNumber = getVersion(filePath);
     if (versionNumber == 2) {
-      MealplanerDataXml database = read(filePath, MealplanerDataXml.class);
+      MealplanerDataXml database = read(filePath, MealplanerDataXml.class, knownPlugins);
       return convertToData(database);
     } else if (versionNumber == 3) {
       mealplaner.io.xml.model.v3.MealplanerDataXml database = read(
-          filePath, mealplaner.io.xml.model.v3.MealplanerDataXml.class);
-      return convertToData(database);
+          filePath, mealplaner.io.xml.model.v3.MealplanerDataXml.class, knownPlugins);
+      return convertToData(database, knownPlugins);
     } else {
       MealplanerData data = MealplanerData.getInstance();
       data.clear();
@@ -61,7 +62,8 @@ public final class MealplanerDataReader {
     return data;
   }
 
-  private static MealplanerData convertToData(mealplaner.io.xml.model.v3.MealplanerDataXml database) {
+  private static MealplanerData convertToData(
+      mealplaner.io.xml.model.v3.MealplanerDataXml database, PluginStore plugins) {
     DefaultSettings defaultSettings = convertDefaultSettingsV3FromXml(database.defaultSettings);
     MealplanerData data = MealplanerData.getInstance();
 
@@ -71,7 +73,7 @@ public final class MealplanerDataReader {
     data.setIngredients(ingredients);
 
     List<Meal> modelMeals = database.meals.stream()
-        .map(meal -> convertMealV3FromXml(data, meal))
+        .map(meal -> convertMealV3FromXml(data, meal, plugins))
         .collect(toList());
     data.setMeals(modelMeals);
 

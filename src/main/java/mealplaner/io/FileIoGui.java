@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import mealplaner.PluginStore;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.io.xml.IngredientsReader;
 import mealplaner.io.xml.IngredientsWriter;
@@ -34,23 +35,25 @@ import mealplaner.model.recipes.Ingredient;
 public class FileIoGui {
   private final JFrame frame;
   private final String savePath;
+  private final PluginStore knownPlugins;
   private static final Logger logger = LoggerFactory.getLogger(FileIoGui.class);
 
-  public FileIoGui(JFrame frame, String savePath) {
+  public FileIoGui(JFrame frame, String savePath, PluginStore knownPlugins) {
     this.frame = frame;
     this.savePath = savePath;
+    this.knownPlugins = knownPlugins;
   }
 
   public MealplanerData loadDatabase() {
     MealplanerData mealPlan = MealplanerData.getInstance();
     try {
       mealPlan.clear();
-      List<Ingredient> ingredients = IngredientsReader.loadXml(savePath + "ingredients.xml");
+      List<Ingredient> ingredients = IngredientsReader.loadXml(savePath + "ingredients.xml", knownPlugins);
       mealPlan.setIngredients(ingredients);
-      List<Meal> meals = MealsReader.loadXml(mealPlan, savePath + "meals.xml");
+      List<Meal> meals = MealsReader.loadXml(mealPlan, savePath + "meals.xml", knownPlugins);
       mealPlan.setMeals(meals);
       ProposalSummaryModel proposalData = ProposalSummaryDataReader.loadXml(mealPlan,
-          savePath + "save.xml");
+          savePath + "save.xml", knownPlugins);
       mealPlan.setDefaultSettings(proposalData.defaultSettings);
       mealPlan.setLastProposal(proposalData.lastProposal);
       mealPlan.setTime(proposalData.time);
@@ -63,9 +66,9 @@ public class FileIoGui {
 
   public void saveDatabase(MealplanerData mealPlan) {
     try {
-      ProposalSummaryDataWriter.saveXml(mealPlan, savePath + "save.xml");
-      MealsWriter.saveXml(mealPlan.getMeals(), savePath + "meals.xml");
-      IngredientsWriter.saveXml(mealPlan.getIngredients(), savePath + "ingredients.xml");
+      ProposalSummaryDataWriter.saveXml(mealPlan, savePath + "save.xml", knownPlugins);
+      MealsWriter.saveXml(mealPlan.getMeals(), savePath + "meals.xml", knownPlugins);
+      IngredientsWriter.saveXml(mealPlan.getIngredients(), savePath + "ingredients.xml", knownPlugins);
     } catch (MealException exc) {
       errorMessages(frame, BUNDLES.errorMessage("MSG_SAVING_ERROR"));
       logger.error("Could not save database: ", exc);
@@ -76,13 +79,13 @@ public class FileIoGui {
     try {
       switch (part) {
         case INGREDIENTS:
-          IngredientsWriter.saveXml(mealPlan.getIngredients(), savePath + "ingredients.xml");
+          IngredientsWriter.saveXml(mealPlan.getIngredients(), savePath + "ingredients.xml", knownPlugins);
           break;
         case MEALS:
-          MealsWriter.saveXml(mealPlan.getMeals(), savePath + "meals.xml");
+          MealsWriter.saveXml(mealPlan.getMeals(), savePath + "meals.xml", knownPlugins);
           break;
         case PROPOSAL:
-          ProposalSummaryDataWriter.saveXml(mealPlan, savePath + "save.xml");
+          ProposalSummaryDataWriter.saveXml(mealPlan, savePath + "save.xml", knownPlugins);
           break;
         default: // do nothing
       }
@@ -99,7 +102,7 @@ public class FileIoGui {
     if (bak != null) {
       MealplanerData mealPlan = MealplanerData.getInstance();
       try {
-        mealPlan = MealplanerDataReader.loadXml(bak);
+        mealPlan = MealplanerDataReader.loadXml(bak, knownPlugins);
       } catch (MealException exc) {
         errorMessages(frame, BUNDLES.errorMessage("MSG_BACKUP_NOT_LOADED"));
         logger.error("Could not load backup: ", exc);
@@ -114,7 +117,7 @@ public class FileIoGui {
         "*.xml");
     if (bak != null) {
       try {
-        MealplanerDataWriter.saveXml(mealPlan, bak);
+        MealplanerDataWriter.saveXml(mealPlan, bak, knownPlugins);
         JOptionPane.showMessageDialog(frame, BUNDLES.message("successSave"),
             BUNDLES.message("successHeading"), JOptionPane.INFORMATION_MESSAGE);
       } catch (MealException exc) {

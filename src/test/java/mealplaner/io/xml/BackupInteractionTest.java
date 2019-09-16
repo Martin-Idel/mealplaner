@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import mealplaner.PluginStore;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.proposal.Proposal;
@@ -62,8 +63,8 @@ public class BackupInteractionTest extends XmlInteraction {
     data.setDefaultSettings(DefaultSettings.from(defaultSettings));
     data.setLastProposal(proposal);
 
-    MealplanerDataWriter.saveXml(data, DESTINATION_FILE_PATH);
-    MealplanerData roundtripData = loadXml(DESTINATION_FILE_PATH);
+    MealplanerDataWriter.saveXml(data, DESTINATION_FILE_PATH, new PluginStore());
+    MealplanerData roundtripData = loadXml(DESTINATION_FILE_PATH, new PluginStore());
 
     assertThat(roundtripData.getLastProposal()).isEqualTo(proposal);
     assertThat(roundtripData.getTime()).isEqualTo(time);

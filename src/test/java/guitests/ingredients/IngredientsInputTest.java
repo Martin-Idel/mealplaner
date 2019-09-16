@@ -16,6 +16,7 @@ import java.util.List;
 import org.junit.Test;
 
 import guitests.helpers.AssertJMealplanerTestCase;
+import mealplaner.PluginStore;
 import mealplaner.io.xml.IngredientsReader;
 import mealplaner.model.recipes.Ingredient;
 
@@ -28,7 +29,7 @@ public class IngredientsInputTest extends AssertJMealplanerTestCase {
     windowHelpers.getIngredientsPane().addIngredient(ingredient);
 
     List<Ingredient> ingredientsAfterSaving = IngredientsReader
-        .loadXml(DESTINATION_INGREDIENT_FILE_PATH);
+        .loadXml(DESTINATION_INGREDIENT_FILE_PATH, new PluginStore());
 
     assertThat(ingredientsAfterSaving).hasSize(4);
     assertThat(ingredientsAfterSaving).contains(getIngredient1(),

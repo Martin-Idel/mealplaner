@@ -25,7 +25,8 @@ public final class Kochplaner {
   private static Runnable createMainGui() {
     return () -> {
       JFrame mainFrame = new JFrame(BUNDLES.message("mainFrameTitle"));
-      FileIoGui fileIoGui = new FileIoGui(mainFrame, SAVE_PATH);
+      PluginStore pluginStore = new PluginStore();
+      FileIoGui fileIoGui = new FileIoGui(mainFrame, SAVE_PATH, pluginStore);
       MealplanerData data = fileIoGui.loadDatabase();
       DialogFactory dialogFactory = new DialogFactory(mainFrame);
       new MainGui(mainFrame, data, dialogFactory, fileIoGui);

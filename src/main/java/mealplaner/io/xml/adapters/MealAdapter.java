@@ -7,11 +7,19 @@ import static mealplaner.io.xml.adapters.RecipeAdapter.convertRecipeV2FromXml;
 import static mealplaner.io.xml.adapters.RecipeAdapter.convertRecipeV2ToXml;
 import static mealplaner.io.xml.adapters.RecipeAdapter.convertRecipeV3FromXml;
 import static mealplaner.io.xml.adapters.RecipeAdapter.convertRecipeV3ToXml;
+import static mealplaner.io.xml.util.FactsAdapter.extractMealFacts;
+import static mealplaner.io.xml.util.FactsAdapter.extractUnknownFacts;
 import static mealplaner.model.meal.Meal.createMeal;
 
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
+import mealplaner.PluginStore;
 import mealplaner.io.xml.model.v2.MealXml;
+import mealplaner.io.xml.util.FactsAdapter;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
+import mealplaner.plugins.api.MealFact;
 
 public final class MealAdapter {
   private MealAdapter() {
@@ -32,6 +40,14 @@ public final class MealAdapter {
   }
 
   public static mealplaner.io.xml.model.v3.MealXml convertMealV3ToXml(Meal meal) {
+    var mealFacts = new ArrayList<Object>();
+    mealFacts.addAll(
+        meal.getMealFacts()
+            .values()
+            .stream()
+            .map(MealFact::convertToXml)
+            .collect(Collectors.toUnmodifiableList()));
+    mealFacts.addAll(meal.getHiddenFacts());
     return new mealplaner.io.xml.model.v3.MealXml(
         meal.getId(),
         meal.getName(),
@@ -42,6 +58,7 @@ public final class MealAdapter {
         meal.getCourseType(),
         meal.getDaysPassed(),
         meal.getComment(),
+        mealFacts,
         convertRecipeV3ToXml(meal.getRecipe()));
   }
 
@@ -59,7 +76,8 @@ public final class MealAdapter {
         convertRecipeV2FromXml(data, meal.recipe));
   }
 
-  public static Meal convertMealV3FromXml(MealplanerData data, mealplaner.io.xml.model.v3.MealXml meal) {
+  public static Meal convertMealV3FromXml(
+      MealplanerData data, mealplaner.io.xml.model.v3.MealXml meal, PluginStore plugins) {
     return createMeal(
         meal.uuid,
         meal.name,
@@ -70,6 +88,8 @@ public final class MealAdapter {
         meal.courseType,
         nonNegative(meal.daysPassed),
         meal.comment,
+        extractMealFacts(meal.mealFacts, plugins.getRegisteredMealExtensions()),
+        extractUnknownFacts(meal.mealFacts, plugins.getRegisteredMealExtensions()),
         convertRecipeV3FromXml(data, meal.recipe));
   }
 }

@@ -4,6 +4,6 @@ import java.util.List;
 
 import mealplaner.commons.gui.inputfields.InputField;
 
-public interface MealCreationDialogExtension<MealFact> {
+public interface MealInputDialogExtension {
   List<InputField<MealFact>> createInputElements();
 }

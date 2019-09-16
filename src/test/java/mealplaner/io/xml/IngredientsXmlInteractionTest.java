@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import mealplaner.PluginStore;
 import mealplaner.model.recipes.Ingredient;
 import testcommons.XmlInteraction;
 
@@ -26,7 +27,7 @@ public class IngredientsXmlInteractionTest extends XmlInteraction {
 
     loadFileWithName(RESOURCE_FILE_WITH_THREE_INGREDIENTS_V2);
 
-    List<Ingredient> database = loadXml(DESTINATION_FILE_PATH);
+    List<Ingredient> database = loadXml(DESTINATION_FILE_PATH, new PluginStore());
 
     assertThat(database).containsExactlyElementsOf(ingredients);
   }
@@ -34,9 +35,8 @@ public class IngredientsXmlInteractionTest extends XmlInteraction {
   @Test
   public void roundTripResultsInSameOutputAsInput() {
     List<Ingredient> ingredients = fillIngredientsArray();
-
-    saveXml(ingredients, DESTINATION_FILE_PATH);
-    List<Ingredient> roundTripMeals = loadXml(DESTINATION_FILE_PATH);
+    saveXml(ingredients, DESTINATION_FILE_PATH, new PluginStore());
+    List<Ingredient> roundTripMeals = loadXml(DESTINATION_FILE_PATH, new PluginStore());
 
     assertThat(roundTripMeals).containsExactlyElementsOf(ingredients);
   }

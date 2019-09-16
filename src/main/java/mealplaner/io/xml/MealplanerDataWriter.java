@@ -9,6 +9,7 @@ import static mealplaner.io.xml.util.JaxHelper.save;
 
 import java.util.List;
 
+import mealplaner.PluginStore;
 import mealplaner.io.xml.adapters.IngredientAdapter;
 import mealplaner.io.xml.adapters.MealAdapter;
 import mealplaner.io.xml.model.v3.IngredientXml;
@@ -20,9 +21,9 @@ public final class MealplanerDataWriter {
   private MealplanerDataWriter() {
   }
 
-  public static void saveXml(MealplanerData data, String filePath) {
+  public static void saveXml(MealplanerData data, String filePath, PluginStore knownPlugins) {
     MealplanerDataXml mealDataBase = convertDataBaseToXml(data);
-    save(MealplanerDataXml.class, mealDataBase, filePath);
+    save(filePath, MealplanerDataXml.class, mealDataBase, knownPlugins);
   }
 
   private static MealplanerDataXml convertDataBaseToXml(MealplanerData data) {

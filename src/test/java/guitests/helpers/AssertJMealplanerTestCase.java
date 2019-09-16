@@ -19,6 +19,7 @@ import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
 import org.junit.Assert;
 
 import guitests.pageobjects.GuiMethods;
+import mealplaner.PluginStore;
 import mealplaner.gui.MainGui;
 import mealplaner.gui.factories.DialogFactory;
 import mealplaner.io.FileIoGui;
@@ -74,7 +75,7 @@ public class AssertJMealplanerTestCase extends AssertJSwingJUnitTestCase {
   private MainGui createMainApplication() {
     try {
       JFrame mainFrame = new JFrame(BUNDLES.message("mainFrameTitle"));
-      FileIoGui fileIoGui = new FileIoGui(mainFrame, useFilePath());
+      FileIoGui fileIoGui = new FileIoGui(mainFrame, useFilePath(), new PluginStore());
       MealplanerData data = fileIoGui.loadDatabase();
       DialogFactory dialogFactory = new DialogFactory(mainFrame);
       return new MainGui(mainFrame, data, dialogFactory, fileIoGui);
