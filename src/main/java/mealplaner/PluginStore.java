@@ -21,8 +21,8 @@ import mealplaner.plugins.api.SettingXml;
 import mealplaner.plugins.api.SettingsInputDialogExtension;
 
 public class PluginStore {
-  private MealExtensions registeredMealExtensions = new MealExtensions();
-  private IngredientExtensions registeredIngredientExtensions = new IngredientExtensions();
+  private ModelExtension<MealFact, MealFactXml> registeredMealExtensions = new ModelExtension<>();
+  private ModelExtension<IngredientFact, IngredientFactXml> registeredIngredientExtensions = new ModelExtension<>();
   private Map<Class<? extends Setting>, Class<? extends SettingXml>>
       registeredSettingExtensions = new HashMap<>();
   private Map<
@@ -97,11 +97,11 @@ public class PluginStore {
     registeredProposalExtensions.putIfAbsent(settingsInputDialogExtension, proposalBuilderStep);
   }
 
-  public MealExtensions getRegisteredMealExtensions() {
+  public ModelExtension<MealFact, MealFactXml> getRegisteredMealExtensions() {
     return registeredMealExtensions;
   }
 
-  public IngredientExtensions getRegisteredIngredientExtensions() {
+  public ModelExtension<IngredientFact, IngredientFactXml> getRegisteredIngredientExtensions() {
     return registeredIngredientExtensions;
   }
 

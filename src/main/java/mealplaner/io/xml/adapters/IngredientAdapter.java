@@ -2,7 +2,7 @@
 
 package mealplaner.io.xml.adapters;
 
-import static mealplaner.io.xml.util.FactsAdapter.extractIngredientFacts;
+import static mealplaner.io.xml.util.FactsAdapter.extractFacts;
 import static mealplaner.io.xml.util.FactsAdapter.extractUnknownFacts;
 
 import java.util.ArrayList;
@@ -56,7 +56,7 @@ public final class IngredientAdapter {
         ingredient.name,
         ingredient.type,
         Measures.createMeasures(ingredient.measures.primaryMeasure, ingredient.measures.secondaryMeasures),
-        extractIngredientFacts(ingredient.ingredientFacts, plugins.getRegisteredIngredientExtensions()),
+        extractFacts(ingredient.ingredientFacts, plugins.getRegisteredIngredientExtensions()),
         extractUnknownFacts(ingredient.ingredientFacts, plugins.getRegisteredIngredientExtensions()));
   }
 }

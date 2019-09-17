@@ -1,6 +1,7 @@
 package mealplaner.plugins.api;
 
-public interface MealFact {
+public interface MealFact extends Fact {
+  @Override
   default MealFactXml convertToXml() {
     return (MealFactXml) this;
   }

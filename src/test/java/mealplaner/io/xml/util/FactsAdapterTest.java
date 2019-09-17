@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 
-import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,7 +26,7 @@ public class FactsAdapterTest {
 
   @Test
   public void extractMealFactsFindsKnownPluginAndCastsToCorrectClass() {
-    var mealFacts = FactsAdapter.extractMealFacts(unmarshalledFacts, knownPlugins.getRegisteredMealExtensions());
+    var mealFacts = FactsAdapter.extractFacts(unmarshalledFacts, knownPlugins.getRegisteredMealExtensions());
 
     assertThat(mealFacts).containsOnlyKeys(SomeTestFactXml.class);
     assertThat(((SomeTestFactXml) mealFacts.get(SomeTestFactXml.class)).testString)

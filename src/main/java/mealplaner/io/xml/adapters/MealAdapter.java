@@ -7,7 +7,7 @@ import static mealplaner.io.xml.adapters.RecipeAdapter.convertRecipeV2FromXml;
 import static mealplaner.io.xml.adapters.RecipeAdapter.convertRecipeV2ToXml;
 import static mealplaner.io.xml.adapters.RecipeAdapter.convertRecipeV3FromXml;
 import static mealplaner.io.xml.adapters.RecipeAdapter.convertRecipeV3ToXml;
-import static mealplaner.io.xml.util.FactsAdapter.extractMealFacts;
+import static mealplaner.io.xml.util.FactsAdapter.extractFacts;
 import static mealplaner.io.xml.util.FactsAdapter.extractUnknownFacts;
 import static mealplaner.model.meal.Meal.createMeal;
 
@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 
 import mealplaner.PluginStore;
 import mealplaner.io.xml.model.v2.MealXml;
-import mealplaner.io.xml.util.FactsAdapter;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
 import mealplaner.plugins.api.MealFact;
@@ -88,7 +87,7 @@ public final class MealAdapter {
         meal.courseType,
         nonNegative(meal.daysPassed),
         meal.comment,
-        extractMealFacts(meal.mealFacts, plugins.getRegisteredMealExtensions()),
+        extractFacts(meal.mealFacts, plugins.getRegisteredMealExtensions()),
         extractUnknownFacts(meal.mealFacts, plugins.getRegisteredMealExtensions()),
         convertRecipeV3FromXml(data, meal.recipe));
   }
