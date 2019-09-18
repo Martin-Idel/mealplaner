@@ -6,7 +6,7 @@ import static mealplaner.io.xml.adapters.ProposalAdapter.convertProposalV3ToXml;
 import static mealplaner.io.xml.adapters.SettingsAdapter.convertDefaultSettingsV3ToXml;
 import static mealplaner.io.xml.util.JaxHelper.save;
 
-import mealplaner.PluginStore;
+import mealplaner.plugins.PluginStore;
 import mealplaner.io.xml.model.v3.ProposalSummaryDataXml;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.proposal.Proposal;

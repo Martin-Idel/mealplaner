@@ -11,6 +11,7 @@ import mealplaner.gui.MainGui;
 import mealplaner.gui.factories.DialogFactory;
 import mealplaner.io.FileIoGui;
 import mealplaner.model.MealplanerData;
+import mealplaner.plugins.PluginStore;
 
 public final class Kochplaner {
   private static final String SAVE_PATH = "savefiles/";

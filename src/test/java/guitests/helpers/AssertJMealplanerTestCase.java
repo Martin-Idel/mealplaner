@@ -19,7 +19,7 @@ import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
 import org.junit.Assert;
 
 import guitests.pageobjects.GuiMethods;
-import mealplaner.PluginStore;
+import mealplaner.plugins.PluginStore;
 import mealplaner.gui.MainGui;
 import mealplaner.gui.factories.DialogFactory;
 import mealplaner.io.FileIoGui;

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import mealplaner.PluginStore;
+import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.MealFact;
 import mealplaner.plugins.api.MealFactXml;
 
@@ -31,6 +31,16 @@ public class FactsAdapterTest {
     assertThat(mealFacts).containsOnlyKeys(SomeTestFactXml.class);
     assertThat(((SomeTestFactXml) mealFacts.get(SomeTestFactXml.class)).testString)
         .isEqualToIgnoringWhitespace("known");
+  }
+
+  @Test
+  public void extractMealFactsDefaultsKnownPluginAsGivenBySupplier() {
+    var emptyFacts = new ArrayList<>();
+    var mealFacts = FactsAdapter.extractFacts(emptyFacts, knownPlugins.getRegisteredMealExtensions());
+
+    assertThat(mealFacts).containsOnlyKeys(SomeTestFactXml.class);
+    assertThat(((SomeTestFactXml) mealFacts.get(SomeTestFactXml.class)).testString)
+        .isEqualToIgnoringWhitespace("test");
   }
 
   private static class SomeTestFactXml implements MealFactXml, MealFact {

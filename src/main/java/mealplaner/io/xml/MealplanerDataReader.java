@@ -14,7 +14,7 @@ import static mealplaner.io.xml.util.VersionControl.getVersion;
 
 import java.util.List;
 
-import mealplaner.PluginStore;
+import mealplaner.plugins.PluginStore;
 import mealplaner.io.xml.adapters.IngredientAdapter;
 import mealplaner.io.xml.model.v2.MealplanerDataXml;
 import mealplaner.model.MealplanerData;

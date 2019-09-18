@@ -8,7 +8,7 @@ import static mealplaner.io.xml.util.FactsAdapter.extractUnknownFacts;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-import mealplaner.PluginStore;
+import mealplaner.plugins.PluginStore;
 import mealplaner.io.xml.model.v2.IngredientXml;
 import mealplaner.io.xml.model.v3.MeasuresXml;
 import mealplaner.model.recipes.Ingredient;

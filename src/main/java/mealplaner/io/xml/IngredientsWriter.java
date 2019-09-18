@@ -7,7 +7,7 @@ import static mealplaner.io.xml.util.JaxHelper.save;
 
 import java.util.List;
 
-import mealplaner.PluginStore;
+import mealplaner.plugins.PluginStore;
 import mealplaner.io.xml.adapters.IngredientAdapter;
 import mealplaner.io.xml.model.v3.IngredientXml;
 import mealplaner.io.xml.model.v3.IngredientdatabaseXml;

@@ -1,4 +1,4 @@
-package mealplaner;
+package mealplaner.plugins;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -14,7 +14,6 @@ import mealplaner.plugins.api.Fact;
 import mealplaner.plugins.api.FactXml;
 
 public class ModelExtension<FactType extends Fact, FactXmlType extends FactXml> {
-  private static final Logger LOGGER = LoggerFactory.getLogger(ModelExtension.class);
   private Map<Class<? extends Fact>, Class<? extends FactXml>>
       registeredMealExtensions = new HashMap<>();
   private Map<Class<? extends Fact>, Supplier<? extends FactType>> defaultFactories = new HashMap<>();

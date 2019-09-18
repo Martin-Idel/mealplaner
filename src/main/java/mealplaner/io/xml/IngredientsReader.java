@@ -8,9 +8,7 @@ import static mealplaner.io.xml.util.JaxHelper.read;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.core.config.plugins.Plugin;
-
-import mealplaner.PluginStore;
+import mealplaner.plugins.PluginStore;
 import mealplaner.io.xml.adapters.IngredientAdapter;
 import mealplaner.io.xml.model.v2.IngredientdatabaseXml;
 import mealplaner.io.xml.util.VersionControl;

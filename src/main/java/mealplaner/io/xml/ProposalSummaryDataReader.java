@@ -9,7 +9,7 @@ import static mealplaner.io.xml.adapters.SettingsAdapter.convertDefaultSettingsV
 import static mealplaner.io.xml.util.JaxHelper.read;
 import static mealplaner.io.xml.util.VersionControl.getVersion;
 
-import mealplaner.PluginStore;
+import mealplaner.plugins.PluginStore;
 import mealplaner.io.xml.model.v2.ProposalSummaryDataXml;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.settings.DefaultSettings;

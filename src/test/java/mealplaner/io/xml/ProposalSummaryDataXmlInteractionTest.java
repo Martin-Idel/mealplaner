@@ -15,7 +15,7 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import mealplaner.PluginStore;
+import mealplaner.plugins.PluginStore;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.settings.DefaultSettings;

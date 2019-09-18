@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.w3c.dom.Element;
 
-import mealplaner.ModelExtension;
+import mealplaner.plugins.ModelExtension;
 import mealplaner.plugins.api.Fact;
 import mealplaner.plugins.api.FactXml;
 

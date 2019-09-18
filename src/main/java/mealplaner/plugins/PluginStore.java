@@ -1,4 +1,4 @@
-package mealplaner;
+package mealplaner.plugins;
 
 import java.util.HashMap;
 import java.util.HashSet;

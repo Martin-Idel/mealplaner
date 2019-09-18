@@ -16,7 +16,7 @@ import java.util.List;
 import org.junit.Test;
 
 import guitests.helpers.AssertJMealplanerTestCase;
-import mealplaner.PluginStore;
+import mealplaner.plugins.PluginStore;
 import mealplaner.io.xml.IngredientsReader;
 import mealplaner.model.recipes.Ingredient;
 

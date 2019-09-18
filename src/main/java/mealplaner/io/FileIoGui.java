@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import mealplaner.PluginStore;
+import mealplaner.plugins.PluginStore;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.io.xml.IngredientsReader;
 import mealplaner.io.xml.IngredientsWriter;
