@@ -14,13 +14,13 @@ import static mealplaner.io.xml.util.VersionControl.getVersion;
 
 import java.util.List;
 
-import mealplaner.plugins.PluginStore;
 import mealplaner.io.xml.adapters.IngredientAdapter;
 import mealplaner.io.xml.model.v2.MealplanerDataXml;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.settings.DefaultSettings;
+import mealplaner.plugins.PluginStore;
 
 public final class MealplanerDataReader {
   private MealplanerDataReader() {

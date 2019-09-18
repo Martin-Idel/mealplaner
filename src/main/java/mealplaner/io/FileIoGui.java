@@ -17,7 +17,6 @@ import javax.swing.JOptionPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import mealplaner.plugins.PluginStore;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.io.xml.IngredientsReader;
 import mealplaner.io.xml.IngredientsWriter;
@@ -31,6 +30,7 @@ import mealplaner.io.xml.ProposalSummaryModel;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.recipes.Ingredient;
+import mealplaner.plugins.PluginStore;
 
 public class FileIoGui {
   private final JFrame frame;

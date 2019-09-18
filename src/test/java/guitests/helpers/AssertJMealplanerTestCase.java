@@ -19,11 +19,11 @@ import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
 import org.junit.Assert;
 
 import guitests.pageobjects.GuiMethods;
-import mealplaner.plugins.PluginStore;
 import mealplaner.gui.MainGui;
 import mealplaner.gui.factories.DialogFactory;
 import mealplaner.io.FileIoGui;
 import mealplaner.model.MealplanerData;
+import mealplaner.plugins.PluginStore;
 
 public class AssertJMealplanerTestCase extends AssertJSwingJUnitTestCase {
   protected GuiMethods windowHelpers;

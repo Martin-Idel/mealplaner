@@ -13,8 +13,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-import mealplaner.plugins.PluginStore;
 import mealplaner.commons.errorhandling.MealException;
+import mealplaner.plugins.PluginStore;
 
 public final class JaxHelper {
   private JaxHelper() {

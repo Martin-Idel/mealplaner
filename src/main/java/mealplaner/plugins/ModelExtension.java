@@ -6,9 +6,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.plugins.api.Fact;
 import mealplaner.plugins.api.FactXml;

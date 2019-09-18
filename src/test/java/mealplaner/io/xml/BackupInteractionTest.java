@@ -23,13 +23,13 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import mealplaner.plugins.PluginStore;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
+import mealplaner.plugins.PluginStore;
 import testcommons.XmlInteraction;
 
 public class BackupInteractionTest extends XmlInteraction {

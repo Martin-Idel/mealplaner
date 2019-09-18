@@ -9,13 +9,13 @@ import static mealplaner.io.xml.util.JaxHelper.save;
 
 import java.util.List;
 
-import mealplaner.plugins.PluginStore;
 import mealplaner.io.xml.adapters.IngredientAdapter;
 import mealplaner.io.xml.adapters.MealAdapter;
 import mealplaner.io.xml.model.v3.IngredientXml;
 import mealplaner.io.xml.model.v3.MealXml;
 import mealplaner.io.xml.model.v3.MealplanerDataXml;
 import mealplaner.model.MealplanerData;
+import mealplaner.plugins.PluginStore;
 
 public final class MealplanerDataWriter {
   private MealplanerDataWriter() {

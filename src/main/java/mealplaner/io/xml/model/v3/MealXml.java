@@ -2,7 +2,6 @@
 
 package mealplaner.io.xml.model.v3;
 
-import static java.nio.charset.Charset.forName;
 import static java.util.UUID.nameUUIDFromBytes;
 import static mealplaner.commons.NonnegativeInteger.ZERO;
 import static mealplaner.model.meal.enums.CookingPreference.NO_PREFERENCE;
@@ -30,7 +29,6 @@ import mealplaner.model.meal.enums.CookingTime;
 import mealplaner.model.meal.enums.CourseType;
 import mealplaner.model.meal.enums.ObligatoryUtensil;
 import mealplaner.model.meal.enums.Sidedish;
-import mealplaner.plugins.api.MealFactXml;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

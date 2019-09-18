@@ -14,10 +14,10 @@ import static mealplaner.model.meal.Meal.createMeal;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-import mealplaner.plugins.PluginStore;
 import mealplaner.io.xml.model.v2.MealXml;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
+import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.MealFact;
 
 public final class MealAdapter {

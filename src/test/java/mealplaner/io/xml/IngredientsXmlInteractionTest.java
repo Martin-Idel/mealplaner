@@ -14,8 +14,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import mealplaner.plugins.PluginStore;
 import mealplaner.model.recipes.Ingredient;
+import mealplaner.plugins.PluginStore;
 import testcommons.XmlInteraction;
 
 public class IngredientsXmlInteractionTest extends XmlInteraction {

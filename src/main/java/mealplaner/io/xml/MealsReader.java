@@ -9,11 +9,11 @@ import static mealplaner.io.xml.util.JaxHelper.read;
 import java.util.ArrayList;
 import java.util.List;
 
-import mealplaner.plugins.PluginStore;
 import mealplaner.io.xml.model.v2.MealdatabaseXml;
 import mealplaner.io.xml.util.VersionControl;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
+import mealplaner.plugins.PluginStore;
 
 public final class MealsReader {
   private MealsReader() {

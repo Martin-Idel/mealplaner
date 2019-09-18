@@ -8,11 +8,11 @@ import static mealplaner.io.xml.util.FactsAdapter.extractUnknownFacts;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-import mealplaner.plugins.PluginStore;
 import mealplaner.io.xml.model.v2.IngredientXml;
 import mealplaner.io.xml.model.v3.MeasuresXml;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.Measures;
+import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.IngredientFact;
 
 public final class IngredientAdapter {

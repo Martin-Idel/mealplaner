@@ -15,9 +15,9 @@ import java.util.List;
 
 import org.junit.Test;
 
-import mealplaner.plugins.PluginStore;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
+import mealplaner.plugins.PluginStore;
 import testcommons.XmlInteraction;
 
 public class MealsXmlInteractionTest extends XmlInteraction {

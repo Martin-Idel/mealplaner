@@ -16,9 +16,9 @@ import java.util.List;
 import org.junit.Test;
 
 import guitests.helpers.AssertJMealplanerTestCase;
-import mealplaner.plugins.PluginStore;
 import mealplaner.io.xml.IngredientsReader;
 import mealplaner.model.recipes.Ingredient;
+import mealplaner.plugins.PluginStore;
 
 public class IngredientsInputTest extends AssertJMealplanerTestCase {
 
