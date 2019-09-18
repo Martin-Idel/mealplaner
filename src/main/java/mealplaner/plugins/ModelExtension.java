@@ -10,10 +10,10 @@ import mealplaner.commons.errorhandling.MealException;
 import mealplaner.plugins.api.Fact;
 import mealplaner.plugins.api.FactXml;
 
-public class ModelExtension<FactType extends Fact, FactXmlType extends FactXml> {
+public class ModelExtension<FactT extends Fact, FactXmlT extends FactXml> {
   private Map<Class<? extends Fact>, Class<? extends FactXml>>
       registeredMealExtensions = new HashMap<>();
-  private Map<Class<? extends Fact>, Supplier<? extends FactType>> defaultFactories = new HashMap<>();
+  private Map<Class<? extends Fact>, Supplier<? extends FactT>> defaultFactories = new HashMap<>();
 
   public boolean containsFact(Class<?> fact) {
     return registeredMealExtensions.containsKey(fact);
@@ -45,13 +45,13 @@ public class ModelExtension<FactType extends Fact, FactXmlType extends FactXml> 
     return registeredMealExtensions.values();
   }
 
-  public FactType getDefault(Class<? extends Fact> fact) {
-    return (FactType) defaultFactories.get(fact).get();
+  public FactT getDefault(Class<? extends Fact> fact) {
+    return (FactT) defaultFactories.get(fact).get();
   }
 
-  public <T extends FactType> void registerClass(
+  public <T extends FactT> void registerClass(
       Class<T> fact,
-      Class<? extends FactXmlType> factXml,
+      Class<? extends FactXmlT> factXml,
       Supplier<T> factSupplier) {
     registeredMealExtensions.putIfAbsent(fact, factXml);
     defaultFactories.putIfAbsent(fact, factSupplier);

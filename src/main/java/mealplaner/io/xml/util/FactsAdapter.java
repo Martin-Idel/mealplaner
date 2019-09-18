@@ -12,29 +12,29 @@ import mealplaner.plugins.api.Fact;
 import mealplaner.plugins.api.FactXml;
 
 public class FactsAdapter {
-  public static <FactType extends Fact, FactTypeXml extends FactXml> Map<Class, FactType> extractFacts(
-      List<Object> facts, ModelExtension<FactType, FactTypeXml> knownExtensions) {
-    var mealFactMap = new HashMap<Class, FactType>();
+  public static <FactT extends Fact, FactXmlT extends FactXml> Map<Class, FactT> extractFacts(
+      List<Object> facts, ModelExtension<FactT, FactXmlT> knownExtensions) {
+    var mealFactMap = new HashMap<Class, FactT>();
     addSavedFacts(facts, knownExtensions, mealFactMap);
     defaultUnsavedMealFacts(knownExtensions, mealFactMap);
     return mealFactMap;
   }
 
   @SuppressWarnings("unchecked")
-  private static <FactType extends Fact, FactTypeXml extends FactXml> void addSavedFacts(
-      List<Object> mealFacts, ModelExtension<FactType, FactTypeXml> knownExtensions, HashMap<Class, FactType> mealFactMap) {
+  private static <FactT extends Fact, FactXmlT extends FactXml> void addSavedFacts(
+      List<Object> mealFacts, ModelExtension<FactT, FactXmlT> knownExtensions, HashMap<Class, FactT> mealFactMap) {
     for (var potentialKnownMealFact : mealFacts) {
       if (knownExtensions.containsFactXml(potentialKnownMealFact.getClass())) {
-        var castMealFactXml = (FactTypeXml) potentialKnownMealFact;
+        var castMealFactXml = (FactXmlT) potentialKnownMealFact;
         mealFactMap.put(
             knownExtensions.obtainFactClass(castMealFactXml.getClass()),
-            (FactType) castMealFactXml.convertToFact());
+            (FactT) castMealFactXml.convertToFact());
       }
     }
   }
 
-  private static <FactType extends Fact, FactTypeXml extends FactXml> void defaultUnsavedMealFacts(
-      ModelExtension<FactType, FactTypeXml> knownPlugins, HashMap<Class, FactType> mealFactMap) {
+  private static <FactT extends Fact, FactXmlT extends FactXml> void defaultUnsavedMealFacts(
+      ModelExtension<FactT, FactXmlT> knownPlugins, HashMap<Class, FactT> mealFactMap) {
     for (var extension : knownPlugins.getAllRegisteredFacts()) {
       if (!mealFactMap.containsKey(extension)) {
         mealFactMap.put(extension, knownPlugins.getDefault(extension));
@@ -43,8 +43,8 @@ public class FactsAdapter {
   }
 
   // TODO probably add test
-  public static <FactType extends Fact, FactTypeXml extends FactXml> List<Element> extractUnknownFacts(
-      List<Object> facts, ModelExtension<FactType, FactTypeXml> knownExtensions) {
+  public static <FactT extends Fact, FactXmlT extends FactXml> List<Element> extractUnknownFacts(
+      List<Object> facts, ModelExtension<FactT, FactXmlT> knownExtensions) {
     var potentialFact = new ArrayList<Element>();
     for (var potentialKnownMealFact : facts) {
       if (!knownExtensions.containsFactXml(potentialKnownMealFact.getClass())) {
