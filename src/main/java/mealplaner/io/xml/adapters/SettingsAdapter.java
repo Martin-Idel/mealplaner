@@ -10,12 +10,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import mealplaner.io.xml.model.v2.SettingsXml;
+import mealplaner.io.xml.util.FactsAdapter;
 import mealplaner.model.meal.enums.CookingTime;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
 import mealplaner.model.settings.subsettings.CookingTimeSetting;
+import mealplaner.plugins.ModelExtension;
+import mealplaner.plugins.api.Setting;
+import mealplaner.plugins.api.SettingXml;
 
 public final class SettingsAdapter {
   private SettingsAdapter() {
@@ -42,11 +47,20 @@ public final class SettingsAdapter {
         .filter(cookingTimes::contains)
         .forEach(prohibitedTimes::add);
 
+    var settings = new ArrayList<Object>();
+    settings.addAll(
+        setting.getSubSettings()
+            .values()
+            .stream()
+            .map(Setting::convertToXml)
+            .collect(Collectors.toUnmodifiableList()));
+    settings.addAll(setting.getHiddenSubSettings());
     return new mealplaner.io.xml.model.v3.SettingsXml(prohibitedTimes,
         setting.getNumberOfPeople().value,
         setting.getCasserole(),
         setting.getPreference(),
-        setting.getCourseSettings());
+        setting.getCourseSettings(),
+        settings);
   }
 
   public static Settings convertSettingsV2FromXml(SettingsXml setting) {
@@ -59,14 +73,17 @@ public final class SettingsAdapter {
         setting.courseSettings);
   }
 
-  public static Settings convertSettingsV3FromXml(mealplaner.io.xml.model.v3.SettingsXml setting) {
+  public static Settings convertSettingsV3FromXml(
+      mealplaner.io.xml.model.v3.SettingsXml setting, ModelExtension<Setting, SettingXml> knownExtensions) {
     CookingTimeSetting times = CookingTimeSetting.cookingTimeWithProhibited(
         setting.cookingTime.toArray(new CookingTime[0]));  // NOPMD
     return Settings.from(times,
         nonNegative(setting.numberOfPeople),
         setting.casseroleSettings,
         setting.preferenceSettings,
-        setting.courseSettings);
+        setting.courseSettings,
+        FactsAdapter.extractFacts(setting.settings, knownExtensions),
+        FactsAdapter.extractUnknownFacts(setting.settings, knownExtensions));
   }
 
   public static Map<DayOfWeek, SettingsXml> convertDefaultSettingsV2ToXml(
@@ -98,12 +115,13 @@ public final class SettingsAdapter {
   }
 
   public static DefaultSettings convertDefaultSettingsV3FromXml(
-      Map<DayOfWeek, mealplaner.io.xml.model.v3.SettingsXml> settings) {
+      Map<DayOfWeek, mealplaner.io.xml.model.v3.SettingsXml> settings,
+      ModelExtension<Setting, SettingXml> knownExtensions) {
     return DefaultSettings.from(
         settings.entrySet()
             .stream()
             .collect(toMap(
                 Map.Entry::getKey,
-                entry -> convertSettingsV3FromXml(entry.getValue()))));
+                entry -> convertSettingsV3FromXml(entry.getValue(), knownExtensions))));
   }
 }

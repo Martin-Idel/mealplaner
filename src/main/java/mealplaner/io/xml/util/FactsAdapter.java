@@ -13,9 +13,9 @@ import mealplaner.plugins.api.FactXml;
 
 public class FactsAdapter {
   public static <FactType extends Fact, FactTypeXml extends FactXml> Map<Class, FactType> extractFacts(
-      List<Object> mealFacts, ModelExtension<FactType, FactTypeXml> knownExtensions) {
+      List<Object> facts, ModelExtension<FactType, FactTypeXml> knownExtensions) {
     var mealFactMap = new HashMap<Class, FactType>();
-    addSavedFacts(mealFacts, knownExtensions, mealFactMap);
+    addSavedFacts(facts, knownExtensions, mealFactMap);
     defaultUnsavedMealFacts(knownExtensions, mealFactMap);
     return mealFactMap;
   }
@@ -44,9 +44,9 @@ public class FactsAdapter {
 
   // TODO probably add test
   public static <FactType extends Fact, FactTypeXml extends FactXml> List<Element> extractUnknownFacts(
-      List<Object> mealFacts, ModelExtension<FactType, FactTypeXml> knownExtensions) {
+      List<Object> facts, ModelExtension<FactType, FactTypeXml> knownExtensions) {
     var potentialFact = new ArrayList<Element>();
-    for (var potentialKnownMealFact : mealFacts) {
+    for (var potentialKnownMealFact : facts) {
       if (!knownExtensions.containsFactXml(potentialKnownMealFact.getClass())) {
         potentialFact.add((Element) potentialKnownMealFact);
       }

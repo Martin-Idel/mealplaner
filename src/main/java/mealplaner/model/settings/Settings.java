@@ -12,6 +12,13 @@ import static mealplaner.model.settings.subsettings.CookingTimeSetting.defaultCo
 import static mealplaner.model.settings.subsettings.CookingUtensilSetting.copyUtensilSetting;
 import static mealplaner.model.settings.subsettings.CookingUtensilSetting.createCookingUtensilSettings;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.w3c.dom.Element;
+
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.model.settings.enums.CasseroleSettings;
 import mealplaner.model.settings.enums.CourseSettings;
@@ -19,6 +26,7 @@ import mealplaner.model.settings.enums.PreferenceSettings;
 import mealplaner.model.settings.subsettings.CookingPreferenceSetting;
 import mealplaner.model.settings.subsettings.CookingTimeSetting;
 import mealplaner.model.settings.subsettings.CookingUtensilSetting;
+import mealplaner.plugins.api.Setting;
 
 public final class Settings {
   private final CasseroleSettings casseroleSettings;
@@ -28,12 +36,19 @@ public final class Settings {
   private final CookingUtensilSetting cookingUtensil;
   private final NonnegativeInteger numberOfPeople;
   private final CourseSettings courseSettings;
+  private final Map<Class, Setting> subSettings;
+  private final List<Element> hiddenSubSettings;
 
-  private Settings(CookingTimeSetting cookingTime,
+  private Settings(
+      CookingTimeSetting cookingTime,
       NonnegativeInteger numberOfPeople,
       CasseroleSettings casseroleSettings,
       PreferenceSettings preferenceSettings,
-      CourseSettings courseSettings) {
+      CourseSettings courseSettings,
+      Map<Class, Setting> mealFacts,
+      List<Element> hiddenSubSettings) {
+    this.subSettings = mealFacts;
+    this.hiddenSubSettings = hiddenSubSettings;
     this.cookingPreferences = createCookingPreferenceSettings();
     this.cookingTime = cookingTime;
     this.cookingUtensil = createCookingUtensilSettings();
@@ -55,9 +70,29 @@ public final class Settings {
     this.cookingTime = copyCookingTimeSetting(setting.getCookingTime());
     this.cookingUtensil = copyUtensilSetting(setting.getCookingUtensil());
     this.courseSettings = setting.getCourseSettings();
+    this.subSettings = setting.getSubSettings();
+    this.hiddenSubSettings = setting.getHiddenSubSettings();
   }
 
-  public static Settings from(CookingTimeSetting cookingTime,
+  public static Settings from(
+      CookingTimeSetting cookingTime,
+      NonnegativeInteger numberOfPeople,
+      CasseroleSettings casseroleSettings,
+      PreferenceSettings preferenceSettings,
+      CourseSettings courseSettings,
+      Map<Class, Setting> subSettings,
+      List<Element> hiddenSubSettings) {
+    return new Settings(cookingTime,
+        numberOfPeople,
+        casseroleSettings,
+        preferenceSettings,
+        courseSettings,
+        subSettings,
+        hiddenSubSettings);
+  }
+
+  public static Settings from(
+      CookingTimeSetting cookingTime,
       NonnegativeInteger numberOfPeople,
       CasseroleSettings casseroleSettings,
       PreferenceSettings preferenceSettings,
@@ -66,11 +101,11 @@ public final class Settings {
         numberOfPeople,
         casseroleSettings,
         preferenceSettings,
-        courseSettings);
+        courseSettings, new HashMap<>(), new ArrayList<>());
   }
 
   public static Settings createSettings() {
-    return new Settings(defaultCookingTime(), TWO, POSSIBLE, NORMAL, ONLY_MAIN);
+    return new Settings(defaultCookingTime(), TWO, POSSIBLE, NORMAL, ONLY_MAIN, new HashMap<>(), new ArrayList<>());
   }
 
   public static Settings copy(Settings setting) {
@@ -128,6 +163,14 @@ public final class Settings {
 
   public CourseSettings getCourseSettings() {
     return courseSettings;
+  }
+
+  public Map<Class, Setting> getSubSettings() {
+    return subSettings;
+  }
+
+  public List<Element> getHiddenSubSettings() {
+    return hiddenSubSettings;
   }
 
   @Override

@@ -23,8 +23,7 @@ import mealplaner.plugins.api.SettingsInputDialogExtension;
 public class PluginStore {
   private ModelExtension<MealFact, MealFactXml> registeredMealExtensions = new ModelExtension<>();
   private ModelExtension<IngredientFact, IngredientFactXml> registeredIngredientExtensions = new ModelExtension<>();
-  private Map<Class<? extends Setting>, Class<? extends SettingXml>>
-      registeredSettingExtensions = new HashMap<>();
+  private ModelExtension<Setting, SettingXml> registeredSettingExtensions = new ModelExtension<>();
   private Map<
       Class<? extends MealInputDialogExtension>,
       Class<? extends DatabaseEditExtension>>
@@ -61,13 +60,14 @@ public class PluginStore {
     registeredIngredientExtensions.registerClass(ingredientFact, ingredientFactXmls, ingredientFactory);
   }
 
-  public void registerSettingExtension(
-      Class<? extends Setting> setting,
-      Class<? extends SettingXml> settingXml) {
-    if (registeredSettingExtensions.containsKey(setting)) {
-      throw new MealException("Class name already known or plugin already registered");
+  public <T extends Setting> void registerSettingExtension(
+      Class<T> setting,
+      Class<? extends SettingXml> settingXml,
+      Supplier<T> settingFactory) {
+    if (registeredSettingExtensions.containsFact(setting)) {
+      throw new MealException("Class name " + setting + " already known or plugin already registered");
     }
-    registeredSettingExtensions.putIfAbsent(setting, settingXml);
+    registeredSettingExtensions.registerClass(setting, settingXml, settingFactory);
   }
 
   public void registerMealGuiExtension(
@@ -105,8 +105,7 @@ public class PluginStore {
     return registeredIngredientExtensions;
   }
 
-  public Map<Class<? extends Setting>, Class<? extends SettingXml>>
-      getRegisteredSettingExtensions() {
+  public ModelExtension<Setting, SettingXml> getRegisteredSettingExtensions() {
     return registeredSettingExtensions;
   }
 
@@ -135,8 +134,8 @@ public class PluginStore {
     knownClasses.addAll(registeredMealExtensions.getAllRegisteredFactXmls());
     knownClasses.addAll(registeredIngredientExtensions.getAllRegisteredFacts());
     knownClasses.addAll(registeredIngredientExtensions.getAllRegisteredFactXmls());
-    knownClasses.addAll(registeredSettingExtensions.keySet());
-    knownClasses.addAll(registeredSettingExtensions.values());
+    knownClasses.addAll(registeredSettingExtensions.getAllRegisteredFacts());
+    knownClasses.addAll(registeredSettingExtensions.getAllRegisteredFactXmls());
     var knownClassesArray = new Class<?>[knownClasses.size()];
     return knownClasses.toArray(knownClassesArray);
   }

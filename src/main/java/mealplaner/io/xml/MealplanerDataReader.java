@@ -64,7 +64,8 @@ public final class MealplanerDataReader {
 
   private static MealplanerData convertToData(
       mealplaner.io.xml.model.v3.MealplanerDataXml database, PluginStore plugins) {
-    DefaultSettings defaultSettings = convertDefaultSettingsV3FromXml(database.defaultSettings);
+    DefaultSettings defaultSettings = convertDefaultSettingsV3FromXml(
+        database.defaultSettings, plugins.getRegisteredSettingExtensions());
     MealplanerData data = MealplanerData.getInstance();
 
     List<Ingredient> ingredients = database.ingredients.stream()

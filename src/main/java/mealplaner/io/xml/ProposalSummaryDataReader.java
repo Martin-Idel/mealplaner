@@ -9,10 +9,13 @@ import static mealplaner.io.xml.adapters.SettingsAdapter.convertDefaultSettingsV
 import static mealplaner.io.xml.util.JaxHelper.read;
 import static mealplaner.io.xml.util.VersionControl.getVersion;
 
+import mealplaner.plugins.ModelExtension;
 import mealplaner.plugins.PluginStore;
 import mealplaner.io.xml.model.v2.ProposalSummaryDataXml;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.settings.DefaultSettings;
+import mealplaner.plugins.api.Setting;
+import mealplaner.plugins.api.SettingXml;
 
 public final class ProposalSummaryDataReader {
   private ProposalSummaryDataReader() {
@@ -26,7 +29,7 @@ public final class ProposalSummaryDataReader {
     } else if (versionNumber == 3) {
       mealplaner.io.xml.model.v3.ProposalSummaryDataXml database =
           read(filePath, mealplaner.io.xml.model.v3.ProposalSummaryDataXml.class, knownPlugins);
-      return convertToMealplanerDataV3(database);
+      return convertToMealplanerDataV3(database, knownPlugins.getRegisteredSettingExtensions());
     } else {
       return new ProposalSummaryModel();
     }
@@ -39,8 +42,9 @@ public final class ProposalSummaryDataReader {
   }
 
   private static ProposalSummaryModel convertToMealplanerDataV3(
-      mealplaner.io.xml.model.v3.ProposalSummaryDataXml data) {
-    DefaultSettings defaultSettings = convertDefaultSettingsV3FromXml(data.defaultSettings);
+      mealplaner.io.xml.model.v3.ProposalSummaryDataXml data,
+      ModelExtension<Setting, SettingXml> knownExtensions) {
+    DefaultSettings defaultSettings = convertDefaultSettingsV3FromXml(data.defaultSettings, knownExtensions);
     return new ProposalSummaryModel(convertProposalV3FromXml(data.proposal),
         defaultSettings, data.date);
   }

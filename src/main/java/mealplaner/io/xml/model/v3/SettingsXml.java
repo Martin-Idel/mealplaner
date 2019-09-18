@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -26,21 +27,26 @@ public class SettingsXml {
   @XmlElement(name = "cookingTime")
   public final List<CookingTime> cookingTime;
   public final int numberOfPeople;
+  @XmlAnyElement(lax = true)
+  public final List<Object> settings;
 
   public SettingsXml() {
     this(new ArrayList<>(), 1, CasseroleSettings.POSSIBLE, PreferenceSettings.NORMAL,
-        CourseSettings.ONLY_MAIN);
+        CourseSettings.ONLY_MAIN, new ArrayList<>());
   }
 
-  public SettingsXml(List<CookingTime> cookingTime,
+  public SettingsXml(
+      List<CookingTime> cookingTime,
       int numberOfPeople,
       CasseroleSettings casseroleSettings,
       PreferenceSettings preferenceSettings,
-      CourseSettings courseSettings) {
+      CourseSettings courseSettings,
+      List<Object> settings) {
     this.cookingTime = cookingTime;
     this.numberOfPeople = numberOfPeople;
     this.casseroleSettings = casseroleSettings;
     this.preferenceSettings = preferenceSettings;
     this.courseSettings = courseSettings;
+    this.settings = settings;
   }
 }

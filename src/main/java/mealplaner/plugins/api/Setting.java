@@ -1,4 +1,4 @@
 package mealplaner.plugins.api;
 
-public interface Setting {
+public interface Setting extends Fact {
 }

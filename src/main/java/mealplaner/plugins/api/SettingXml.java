@@ -1,4 +1,4 @@
 package mealplaner.plugins.api;
 
-public interface SettingXml {
+public interface SettingXml extends FactXml {
 }
