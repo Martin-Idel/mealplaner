@@ -183,7 +183,9 @@ public final class Settings {
     result = prime * result + cookingUtensil.hashCode();
     result = prime * result + preference.hashCode();
     result = prime * result + courseSettings.hashCode();
-    result = prime * result * numberOfPeople.value;
+    result = prime * result + numberOfPeople.value;
+    result = prime * result + subSettings.hashCode();
+    result = prime * result + hiddenSubSettings.hashCode();
     return result;
   }
 
@@ -202,7 +204,9 @@ public final class Settings {
         && cookingUtensil.equals(other.cookingUtensil)
         && preference.equals(other.preference)
         && courseSettings.equals(other.courseSettings)
-        && numberOfPeople.equals(other.numberOfPeople);
+        && numberOfPeople.equals(other.numberOfPeople)
+        && subSettings.equals(other.subSettings)
+        && hiddenSubSettings.equals(other.hiddenSubSettings);
   }
 
   @Override
@@ -210,6 +214,7 @@ public final class Settings {
     return "Settings [casseroleSettings=" + casseroleSettings + ", preference=" + preference
         + ", cookingPreferences=" + cookingPreferences + ", cookingTime=" + cookingTime
         + ", cookingUtensil=" + cookingUtensil + ", courseSettings=" + courseSettings
-        + ", numberOfPeople=" + numberOfPeople + "]";
+        + ", numberOfPeople=" + numberOfPeople + ", subSettings=" + subSettings
+        + ", hiddenSubSettins="  + hiddenSubSettings + "]";
   }
 }

@@ -202,12 +202,12 @@ public final class Meal implements Comparable<Meal> {
 
   @Override
   public String toString() {
-    return "[" + uuid + ", "
-        + metadata + ", "
-        + daysPassed + ", "
-        + recipe + ", "
-        + mealFacts + ", "
-        + hiddenMealFacts + "]";
+    return "[" + "uuid=" + uuid + ", "
+        + "metadata=" + metadata + ", "
+        + "daysPassed=" + daysPassed + ", "
+        + "recipe=" + recipe + ", "
+        + "mealFacts=" + mealFacts + ", "
+        + "hiddenMealFacts=" + hiddenMealFacts + "]";
   }
 
   @Override
@@ -236,6 +236,6 @@ public final class Meal implements Comparable<Meal> {
         && daysPassed.equals(other.daysPassed)
         && recipe.equals(other.recipe)
         && mealFacts.equals(other.mealFacts)
-        && hiddenMealFacts.equals(other.mealFacts);
+        && hiddenMealFacts.equals(other.hiddenMealFacts);
   }
 }
