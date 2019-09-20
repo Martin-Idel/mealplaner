@@ -27,6 +27,7 @@ import mealplaner.model.DataStoreEventType;
 import mealplaner.model.DataStoreListener;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
+import mealplaner.plugins.PluginStore;
 
 public class DatabaseEdit implements DataStoreListener {
   private final JFrame dataFrame;
@@ -51,21 +52,21 @@ public class DatabaseEdit implements DataStoreListener {
     dataPanel.setLayout(new BorderLayout());
   }
 
-  public void setupPane(Consumer<List<Meal>> setMeals) {
-    buttonPanel = createButtonPanelWithEnabling(setMeals);
+  public void setupPane(Consumer<List<Meal>> setMeals, PluginStore pluginStore) {
+    buttonPanel = createButtonPanelWithEnabling(setMeals, pluginStore);
     buttonPanel.disableButtons();
 
     table = createTable(buttonPanel,
         meals,
-        recipe -> recipeInput(dataFrame).showDialog(recipe, mealplanerData));
+        recipe -> recipeInput(dataFrame).showDialog(recipe, mealplanerData, pluginStore));
 
     dataPanel.add(table.getComponent(), BorderLayout.CENTER);
     dataPanel.add(buttonPanel.getPanel(), BorderLayout.SOUTH);
   }
 
-  private ButtonPanelEnabling createButtonPanelWithEnabling(Consumer<List<Meal>> setData) {
+  private ButtonPanelEnabling createButtonPanelWithEnabling(Consumer<List<Meal>> setData, PluginStore store) {
     return builder("DatabaseEdit")
-        .addAddButton(action -> insertItem(mealinput(dataFrame).showDialog(mealplanerData)))
+        .addAddButton(action -> insertItem(mealinput(dataFrame).showDialog(mealplanerData, store)))
         .addRemoveSelectedButton(
             action -> deleteSelectedRows(table, number -> meals.remove((int) number)))
         .addSaveButton(action -> {

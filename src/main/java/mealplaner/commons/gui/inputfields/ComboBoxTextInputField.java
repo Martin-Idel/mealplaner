@@ -17,25 +17,27 @@ public final class ComboBoxTextInputField implements InputField<String> {
   private JComboBox<String> autoCompleteBox;
   private final String defaultValue;
   private final List<String> alternatives;
+  private final int orderNumber;
 
-  private ComboBoxTextInputField(String label, String name, String defaultValue,
-      List<String> alternatives) {
+  private ComboBoxTextInputField(
+      String label, String name, String defaultValue, List<String> alternatives, int orderNumber) {
     this.label = label;
     this.name = name;
     this.defaultValue = defaultValue;
     this.alternatives = alternatives;
+    this.orderNumber = orderNumber;
   }
 
-  public static ComboBoxTextInputField inputField(String label, String name, String defaultValue,
-      List<String> alternatives) {
-    return new ComboBoxTextInputField(label, name, defaultValue, alternatives);
+  public static ComboBoxTextInputField inputField(
+      String label, String name, String defaultValue, List<String> alternatives, int orderNumber) {
+    return new ComboBoxTextInputField(label, name, defaultValue, alternatives, orderNumber);
   }
 
   @Override
   public void addToPanel(GuiPanel panel) {
     String[] ingredientsAlternatives = new String[alternatives.size()];
     autoCompleteBox = new JComboBox<>(alternatives
-            .toArray(ingredientsAlternatives));
+        .toArray(ingredientsAlternatives));
     autoCompleteBox.setName("InputFieldComboBoxText" + name);
     AutoCompleteDecorator.decorate(autoCompleteBox);
     panel.getComponent().add(new JLabel(label));
@@ -50,5 +52,10 @@ public final class ComboBoxTextInputField implements InputField<String> {
   @Override
   public void resetField() {
     autoCompleteBox.setSelectedItem(defaultValue);
+  }
+
+  @Override
+  public int getOrdering() {
+    return orderNumber;
   }
 }

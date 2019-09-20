@@ -18,6 +18,7 @@ import mealplaner.commons.gui.dialogs.DialogWindow;
 import mealplaner.gui.dialogs.DialogCreating;
 import mealplaner.model.DataStore;
 import mealplaner.model.proposal.ProposedMenu;
+import mealplaner.plugins.PluginStore;
 
 public class UpdatePastMeals implements DialogCreating<Optional<List<ProposedMenu>>> {
   private final DialogWindow dialogWindow;
@@ -31,7 +32,7 @@ public class UpdatePastMeals implements DialogCreating<Optional<List<ProposedMen
   }
 
   @Override
-  public Optional<List<ProposedMenu>> showDialog(DataStore mealPlan) {
+  public Optional<List<ProposedMenu>> showDialog(DataStore mealPlan, PluginStore pluginStore) {
     display(mealPlan);
     return changedMeals;
   }

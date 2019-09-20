@@ -86,11 +86,11 @@ public class ProposalSummary implements DataStoreListener {
 
   private void buildInputFields() {
     numberOfDaysField = new NonnegativeIntegerInputField(
-        BUNDLES.message("proposalNumberOfDays"), "NumberDays", SEVEN);
-    takeTodayCheckBox = new CheckboxInputField(BUNDLES.message("proposalStartToday"), "TakeToday");
-    randomiseCheckBox = new CheckboxInputField(BUNDLES.message("proposalRandomize"), "Randomize");
+        BUNDLES.message("proposalNumberOfDays"), "NumberDays", SEVEN, 0);
+    takeTodayCheckBox = new CheckboxInputField(BUNDLES.message("proposalStartToday"), "TakeToday", 100);
+    randomiseCheckBox = new CheckboxInputField(BUNDLES.message("proposalRandomize"), "Randomize", 200);
     takeDefaultCheckBox = new CheckboxInputField(
-        BUNDLES.message("proposalApplyDefaultSettings"), "ApplyDefault");
+        BUNDLES.message("proposalApplyDefaultSettings"), "ApplyDefault", 300);
   }
 
   private void adjustFieldsOnPanel() {

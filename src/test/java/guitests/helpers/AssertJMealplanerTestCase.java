@@ -78,7 +78,7 @@ public class AssertJMealplanerTestCase extends AssertJSwingJUnitTestCase {
       FileIoGui fileIoGui = new FileIoGui(mainFrame, useFilePath(), new PluginStore());
       MealplanerData data = fileIoGui.loadDatabase();
       DialogFactory dialogFactory = new DialogFactory(mainFrame);
-      return new MainGui(mainFrame, data, dialogFactory, fileIoGui);
+      return new MainGui(mainFrame, data, dialogFactory, fileIoGui, new PluginStore());
     } catch (IOException exception) {
       fail("One of the files to use as save files does not exist");
       return null;

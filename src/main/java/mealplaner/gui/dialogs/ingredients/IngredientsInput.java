@@ -30,6 +30,7 @@ import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.IngredientType;
 import mealplaner.model.recipes.Measure;
 import mealplaner.model.recipes.Measures;
+import mealplaner.plugins.PluginStore;
 
 public class IngredientsInput implements DialogCreating<List<Ingredient>> {
   private final DialogWindow dialogWindow;
@@ -57,7 +58,7 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
   }
 
   @Override
-  public List<Ingredient> showDialog(DataStore store) {
+  public List<Ingredient> showDialog(DataStore store, PluginStore pluginStore) {
     setupDialog(action -> {
       if (nameField.getUserInput().isPresent()) {
         ingredients.add(ingredient(nameField.getUserInput().get(),
@@ -87,17 +88,17 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
   private void setupInputFields() {
     nameField = new NonEmptyTextInputField(
         BUNDLES.message("insertIngredientName"),
-        "IngredientName");
+        "IngredientName", 0);
     typeField = new ComboBoxInputField<>(
             BUNDLES.message("insertTypeLength"),
             "IngredientType",
             IngredientType.class,
-            IngredientType.OTHER);
+            IngredientType.OTHER, 100);
     measureField = new ComboBoxInputField<>(
             BUNDLES.message("insertMeasure"),
             "IngredientMeasure",
             Measure.class,
-            Measure.NONE);
+            Measure.NONE, 200);
   }
 
   private ButtonPanel setupButtonPanel(ActionListener saveListener) {

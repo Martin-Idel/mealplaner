@@ -11,10 +11,12 @@ public class CheckboxInputField implements InputField<Boolean> {
   private final String label;
   private final String name;
   private JCheckBox checkBox;
+  private final int orderNumber;
 
-  public CheckboxInputField(String label, String name) {
+  public CheckboxInputField(String label, String name, int orderNumber) {
     this.label = label;
     this.name = name;
+    this.orderNumber = orderNumber;
   }
 
   @Override
@@ -35,4 +37,9 @@ public class CheckboxInputField implements InputField<Boolean> {
     checkBox.setSelected(false);
   }
 
+
+  @Override
+  public int getOrdering() {
+    return orderNumber;
+  }
 }

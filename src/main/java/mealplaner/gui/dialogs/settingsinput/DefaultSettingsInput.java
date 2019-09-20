@@ -21,6 +21,7 @@ import mealplaner.gui.dialogs.DialogCreating;
 import mealplaner.model.DataStore;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
+import mealplaner.plugins.PluginStore;
 
 public class DefaultSettingsInput extends SettingsInput implements DialogCreating<Optional<DefaultSettings>> {
 
@@ -29,7 +30,7 @@ public class DefaultSettingsInput extends SettingsInput implements DialogCreatin
   }
 
   @Override
-  public Optional<DefaultSettings> showDialog(DataStore store) {
+  public Optional<DefaultSettings> showDialog(DataStore store, PluginStore pluginStore) {
     setup(store.getDefaultSettings());
     dialogWindow.setVisible();
     Optional<Settings[]> changedSettings = getEnteredSettings();

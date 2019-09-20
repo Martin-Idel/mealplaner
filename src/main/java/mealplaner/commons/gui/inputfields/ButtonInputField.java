@@ -18,10 +18,12 @@ public class ButtonInputField<T> implements InputField<T> {
   private final T defaultContent;
   private final Function<T, T> changeContent;
   private T content;
+  private final int orderNumber;
+
 
   public ButtonInputField(String label, String name, String buttonLabel,
       String buttonLabelForDefaultContent,
-      T defaultContent, Function<T, T> changeContent) {
+      T defaultContent, Function<T, T> changeContent, int orderNumber) {
     this.label = label;
     this.name = name;
     this.buttonLabel = buttonLabel;
@@ -29,6 +31,7 @@ public class ButtonInputField<T> implements InputField<T> {
     this.content = defaultContent;
     this.defaultContent = defaultContent;
     this.changeContent = changeContent;
+    this.orderNumber = orderNumber;
   }
 
   @Override
@@ -55,5 +58,10 @@ public class ButtonInputField<T> implements InputField<T> {
   public void resetField() {
     content = defaultContent;
     button.setText(buttonLabelForDefaultContent);
+  }
+
+  @Override
+  public int getOrdering() {
+    return orderNumber;
   }
 }

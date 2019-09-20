@@ -18,6 +18,7 @@ import mealplaner.commons.gui.dialogs.DialogWindow;
 import mealplaner.gui.dialogs.DialogCreating;
 import mealplaner.model.DataStore;
 import mealplaner.model.meal.Meal;
+import mealplaner.plugins.PluginStore;
 
 public class MealInput implements DialogCreating<Optional<Meal>> {
   private final JFrame parentFrame;
@@ -37,8 +38,8 @@ public class MealInput implements DialogCreating<Optional<Meal>> {
   }
 
   @Override
-  public Optional<Meal> showDialog(DataStore store) {
-    display(store);
+  public Optional<Meal> showDialog(DataStore store, PluginStore pluginStore) {
+    display(store, pluginStore);
     return newMeal;
   }
 
@@ -47,8 +48,8 @@ public class MealInput implements DialogCreating<Optional<Meal>> {
     newMeal.ifPresent(meal -> dispose());
   }
 
-  private void display(DataStore mealPlan) {
-    GridPanel mealCreationPanel = inputGrid.initialiseInputFields(mealPlan);
+  private void display(DataStore mealPlan, PluginStore pluginStore) {
+    GridPanel mealCreationPanel = inputGrid.initialiseInputFields(mealPlan, pluginStore);
 
     ButtonPanel buttonPanel = buildButtonPanel();
 

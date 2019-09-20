@@ -30,7 +30,7 @@ public final class Kochplaner {
       FileIoGui fileIoGui = new FileIoGui(mainFrame, SAVE_PATH, pluginStore);
       MealplanerData data = fileIoGui.loadDatabase();
       DialogFactory dialogFactory = new DialogFactory(mainFrame);
-      new MainGui(mainFrame, data, dialogFactory, fileIoGui);
+      new MainGui(mainFrame, data, dialogFactory, fileIoGui, pluginStore);
     };
   }
 }

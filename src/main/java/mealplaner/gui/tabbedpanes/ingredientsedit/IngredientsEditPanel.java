@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import mealplaner.gui.MainContainer;
 import mealplaner.io.FileIoGui;
 import mealplaner.model.MealplanerData;
+import mealplaner.plugins.PluginStore;
 
 public class IngredientsEditPanel {
   private final MealplanerData mealPlan;
@@ -28,16 +29,16 @@ public class IngredientsEditPanel {
     this.fileIoGui = fileIoGui;
   }
 
-  public void addElements(MainContainer container) {
-    container.addTabbedPane(BUNDLES.message("ingredientsPanelName"), setupIngredientsPanel());
+  public void addElements(MainContainer container, PluginStore pluginStore) {
+    container.addTabbedPane(BUNDLES.message("ingredientsPanelName"), setupIngredientsPanel(pluginStore));
     container.addToHelpMenu(helpIngredientsMenu());
   }
 
-  private JPanel setupIngredientsPanel() {
+  private JPanel setupIngredientsPanel(PluginStore pluginStore) {
     JPanel databasePanel = new JPanel();
     ingredientsEdit = new IngredientsEdit(this.mealPlan, frame, databasePanel,
         fileIoGui);
-    ingredientsEdit.setupPane();
+    ingredientsEdit.setupPane(pluginStore);
     return databasePanel;
   }
 

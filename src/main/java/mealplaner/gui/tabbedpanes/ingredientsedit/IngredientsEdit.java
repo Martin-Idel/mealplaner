@@ -28,6 +28,7 @@ import mealplaner.model.DataStoreEventType;
 import mealplaner.model.DataStoreListener;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.recipes.Ingredient;
+import mealplaner.plugins.PluginStore;
 
 public class IngredientsEdit implements DataStoreListener {
   private final MealplanerData mealPlan;
@@ -51,8 +52,8 @@ public class IngredientsEdit implements DataStoreListener {
     dataPanel.setLayout(new BorderLayout());
   }
 
-  public void setupPane() {
-    buttonPanel = createButtonPanelWithEnabling();
+  public void setupPane(PluginStore pluginStore) {
+    buttonPanel = createButtonPanelWithEnabling(pluginStore);
     buttonPanel.disableButtons();
 
     ingredients.addAll(mealPlan.getIngredients());
@@ -62,9 +63,9 @@ public class IngredientsEdit implements DataStoreListener {
     dataPanel.add(buttonPanel.getPanel(), BorderLayout.SOUTH);
   }
 
-  private ButtonPanelEnabling createButtonPanelWithEnabling() {
+  private ButtonPanelEnabling createButtonPanelWithEnabling(PluginStore pluginStore) {
     return builder("IngredientsEdit")
-        .addAddButton(action -> insertItems(ingredientsInput(frame).showDialog(mealPlan)))
+        .addAddButton(action -> insertItems(ingredientsInput(frame).showDialog(mealPlan, pluginStore)))
         .addRemoveSelectedButton(action -> {
           deleteSelectedRows(table, number -> ingredients.remove((int) number));
           buttonPanel.enableButtons();

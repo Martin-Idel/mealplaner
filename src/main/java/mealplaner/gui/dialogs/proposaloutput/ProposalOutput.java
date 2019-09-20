@@ -15,6 +15,7 @@ import mealplaner.commons.gui.dialogs.DialogWindow;
 import mealplaner.gui.dialogs.DialogCreating;
 import mealplaner.model.DataStore;
 import mealplaner.model.proposal.Proposal;
+import mealplaner.plugins.PluginStore;
 
 public class ProposalOutput implements DialogCreating<Proposal> {
   private final JFrame parentFrame;
@@ -27,7 +28,7 @@ public class ProposalOutput implements DialogCreating<Proposal> {
   }
 
   @Override
-  public Proposal showDialog(DataStore store) {
+  public Proposal showDialog(DataStore store, PluginStore pluginStore) {
     ProposalTable proposalTable = proposalOutput();
     proposalTable.setupProposalTable(store, store.getLastProposal());
 

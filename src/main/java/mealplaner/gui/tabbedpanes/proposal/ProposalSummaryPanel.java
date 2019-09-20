@@ -19,6 +19,8 @@ import java.util.Optional;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import org.apache.logging.log4j.core.config.plugins.Plugin;
+
 import mealplaner.commons.gui.buttonpanel.ButtonPanel;
 import mealplaner.gui.MainContainer;
 import mealplaner.gui.dialogs.proposaloutput.ProposalTable;
@@ -30,6 +32,7 @@ import mealplaner.model.proposal.ProposalOutline;
 import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
+import mealplaner.plugins.PluginStore;
 import mealplaner.proposal.ProposalBuilder;
 
 public class ProposalSummaryPanel {
@@ -52,35 +55,35 @@ public class ProposalSummaryPanel {
     this.fileIoGui = fileIoGui;
   }
 
-  public void setupPanel() {
+  public void setupPanel(PluginStore pluginStore) {
     mealPanel = new JPanel();
     mealPanel.setLayout(new BorderLayout());
     proposalSummary = new ProposalSummary(this.mealPlan);
     mealPanel.add(proposalSummary.buildProposalPanel(
-        action -> updatePastMeals(),
-        action -> changeDefaultSettings(),
-        action -> makeProposal()).getComponent(),
+        action -> updatePastMeals(pluginStore),
+        action -> changeDefaultSettings(pluginStore),
+        action -> makeProposal(pluginStore)).getComponent(),
         BorderLayout.CENTER);
     ButtonPanel buttonPanel = createButtonPanel();
     mealPanel.add(buttonPanel.getComponent(), BorderLayout.SOUTH);
   }
 
-  public void addElements(MainContainer container) {
+  public void addElements(MainContainer container, PluginStore pluginStore) {
     container.addTabbedPane(BUNDLES.message("menuPanelName"), mealPanel);
-    addToFileMenu(container);
+    addToFileMenu(container, pluginStore);
     container.addToHelpMenu(helpMenu(frame));
   }
 
-  private void makeProposal() {
+  private void makeProposal(PluginStore pluginStore) {
     ProposalOutline outline = proposalSummary.getProposalOutline();
     if (outline.takeDefaultSettings()) {
       Settings[] settings = setDefaultSettings(outline);
-      createProposal(settings, outline);
+      createProposal(settings, outline, pluginStore);
     } else {
       Optional<Settings[]> settingsInput = dialogs
           .createProposalSettingsDialog()
           .showDialog(outline, mealPlan);
-      settingsInput.ifPresent(settings -> createProposal(settings, outline));
+      settingsInput.ifPresent(settings -> createProposal(settings, outline, pluginStore));
     }
   }
 
@@ -98,19 +101,19 @@ public class ProposalSummaryPanel {
     return settings;
   }
 
-  private void createProposal(Settings[] settings, ProposalOutline outline) {
+  private void createProposal(Settings[] settings, ProposalOutline outline, PluginStore pluginStore) {
     Proposal proposal = propose(settings, outline.isIncludedToday(),
         outline.isShallBeRandomised());
     mealPlan.setLastProposal(proposal);
     Proposal updatedProposal = dialogs.createProposalOutputDialog()
-        .showDialog(mealPlan);
+        .showDialog(mealPlan, pluginStore);
     mealPlan.setLastProposal(updatedProposal);
     dialogs.createShoppingListDialog().showDialog(updatedProposal, mealPlan);
   }
 
-  private void updatePastMeals() {
+  private void updatePastMeals(PluginStore pluginStore) {
     Optional<List<ProposedMenu>> lastCookedMealList = dialogs.createUpdatePastMealDialog()
-        .showDialog(mealPlan);
+        .showDialog(mealPlan, pluginStore);
     lastCookedMealList.ifPresent(list -> mealPlan.update(list, now()));
     proposalSummary.update();
   }
@@ -122,10 +125,10 @@ public class ProposalSummaryPanel {
         .propose(set);
   }
 
-  private void changeDefaultSettings() {
+  private void changeDefaultSettings(PluginStore pluginStore) {
     Optional<DefaultSettings> defaultSettings = dialogs
         .createDefaultSettingsDialog()
-        .showDialog(mealPlan);
+        .showDialog(mealPlan, pluginStore);
     defaultSettings.ifPresent(mealPlan::setDefaultSettings);
   }
 
@@ -143,10 +146,10 @@ public class ProposalSummaryPanel {
         .build();
   }
 
-  private void addToFileMenu(MainContainer container) {
+  private void addToFileMenu(MainContainer container, PluginStore pluginStore) {
     container.addToFileMenu(viewProposalMenu(action -> dialogs
         .createProposalOutputDialog()
-        .showDialog(mealPlan)));
+        .showDialog(mealPlan, pluginStore)));
     container.addSeparatorToFileMenu();
 
     container.addToFileMenu(printProposalMenu(action -> printProposal()));

@@ -17,6 +17,7 @@ import mealplaner.gui.MainContainer;
 import mealplaner.io.FileIoGui;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
+import mealplaner.plugins.PluginStore;
 
 public class DatabaseEditPanel {
   private final MealplanerData mealPlan;
@@ -31,8 +32,8 @@ public class DatabaseEditPanel {
     this.fileIoGui = fileIoGui;
   }
 
-  public void addElements(MainContainer container) {
-    container.addTabbedPane(BUNDLES.message("dataPanelName"), setupDatabasePanel());
+  public void addElements(MainContainer container, PluginStore pluginStore) {
+    container.addTabbedPane(BUNDLES.message("dataPanelName"), setupDatabasePanel(pluginStore));
     container.addToHelpMenu(helpDatabaseMenu());
   }
 
@@ -45,10 +46,10 @@ public class DatabaseEditPanel {
         .build();
   }
 
-  private JPanel setupDatabasePanel() {
+  private JPanel setupDatabasePanel(PluginStore pluginStore) {
     JPanel databasePanel = new JPanel();
     dbaseEdit = new DatabaseEdit(this.mealPlan, frame, databasePanel, fileIoGui);
-    dbaseEdit.setupPane(mealPlan::setMeals);
+    dbaseEdit.setupPane(mealPlan::setMeals, pluginStore);
     return databasePanel;
   }
 

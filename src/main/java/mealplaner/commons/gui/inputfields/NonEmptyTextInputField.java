@@ -16,10 +16,12 @@ public class NonEmptyTextInputField implements InputField<Optional<String>> {
   private final String label;
   private final String name;
   private JTextField nonEmptyTextField;
+  private final int orderNumber;
 
-  public NonEmptyTextInputField(String label, String name) {
+  public NonEmptyTextInputField(String label, String name, int orderNumber) {
     this.label = label;
     this.name = name;
+    this.orderNumber = orderNumber;
   }
 
   @Override
@@ -39,5 +41,10 @@ public class NonEmptyTextInputField implements InputField<Optional<String>> {
   @Override
   public void resetField() {
     nonEmptyTextField.setText("");
+  }
+
+  @Override
+  public int getOrdering() {
+    return orderNumber;
   }
 }

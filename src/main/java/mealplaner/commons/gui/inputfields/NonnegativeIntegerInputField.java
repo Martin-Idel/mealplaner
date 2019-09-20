@@ -21,11 +21,13 @@ public class NonnegativeIntegerInputField implements InputField<NonnegativeInteg
   private final String name;
   private JTextField nonnegativeIntegerTextField;
   private final NonnegativeInteger defaultValue;
+  private final int orderNumber;
 
-  public NonnegativeIntegerInputField(String label, String name, NonnegativeInteger defaultValue) {
+  public NonnegativeIntegerInputField(String label, String name, NonnegativeInteger defaultValue, int orderNumber) {
     this.label = label;
     this.name = name;
     this.defaultValue = defaultValue;
+    this.orderNumber = orderNumber;
   }
 
   @Override
@@ -62,5 +64,10 @@ public class NonnegativeIntegerInputField implements InputField<NonnegativeInteg
 
   void selectAll() {
     nonnegativeIntegerTextField.selectAll();
+  }
+
+  @Override
+  public int getOrdering() {
+    return orderNumber;
   }
 }

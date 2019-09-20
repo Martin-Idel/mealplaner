@@ -1,5 +1,6 @@
 package mealplaner.plugins;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -24,14 +25,10 @@ public class PluginStore {
   private ModelExtension<MealFact, MealFactXml> registeredMealExtensions = new ModelExtension<>();
   private ModelExtension<IngredientFact, IngredientFactXml> registeredIngredientExtensions = new ModelExtension<>();
   private ModelExtension<Setting, SettingXml> registeredSettingExtensions = new ModelExtension<>();
-  private Map<
-      Class<? extends MealInputDialogExtension>,
-      Class<? extends DatabaseEditExtension>>
-      registeredMealGuiExtensions = new HashMap<>();
-  private Map<
-      Class<? extends IngredientInputDialogExtension>,
-      Class<? extends IngredientEditExtension>>
-      registeredIngredientGuiExtensions = new HashMap<>();
+  private GuiExtension<MealInputDialogExtension, DatabaseEditExtension> registeredMealGuiExtensions
+      = new GuiExtension<>();
+  private GuiExtension<IngredientInputDialogExtension, IngredientEditExtension> registeredIngredientGuiExtensions
+      = new GuiExtension<>();
   private Map<
       Class<? extends SettingsInputDialogExtension>,
       Class<? extends ProposalBuilderStep>>
@@ -71,21 +68,20 @@ public class PluginStore {
   }
 
   public void registerMealGuiExtension(
-      Class<? extends MealInputDialogExtension> mealInputDialogExtension,
-      Class<? extends DatabaseEditExtension> databaseEditExtension) {
-    if (registeredMealGuiExtensions.containsKey(mealInputDialogExtension)) {
-      throw new MealException("Class name already known or plugin already registered");
-    }
-    registeredMealGuiExtensions.putIfAbsent(mealInputDialogExtension, databaseEditExtension);
+      MealInputDialogExtension mealInputDialogExtension,
+      DatabaseEditExtension databaseEditExtension) {
+    registeredMealGuiExtensions.registerGuiExtension(
+        mealInputDialogExtension.getClass(), mealInputDialogExtension,
+        databaseEditExtension.getClass(), databaseEditExtension);
   }
 
   public void registerIngredientGuiExtension(
-      Class<? extends IngredientInputDialogExtension> ingredientInputDialogExtension,
-      Class<? extends IngredientEditExtension> ingredientEditExtension) {
-    if (registeredIngredientGuiExtensions.containsKey(ingredientInputDialogExtension)) {
-      throw new MealException("Class name already known or plugin already registered");
-    }
-    registeredIngredientGuiExtensions.putIfAbsent(ingredientInputDialogExtension, ingredientEditExtension);
+      IngredientInputDialogExtension ingredientInputDialogExtension,
+      IngredientEditExtension ingredientEditExtension) {
+    registeredIngredientGuiExtensions.registerGuiExtension(
+        ingredientInputDialogExtension.getClass(), ingredientInputDialogExtension,
+        ingredientEditExtension.getClass(), ingredientEditExtension
+    );
   }
 
   public void registerProposalExtension(
@@ -109,16 +105,20 @@ public class PluginStore {
     return registeredSettingExtensions;
   }
 
-  public Map<Class<? extends MealInputDialogExtension>, Class<? extends DatabaseEditExtension>>
-      getRegisteredMealGuiExtensions() {
-    return registeredMealGuiExtensions;
+  public Collection<MealInputDialogExtension> getRegisteredMealInputGuiExtensions() {
+    return registeredMealGuiExtensions.getInputExtensions();
   }
 
-  public Map<
-      Class<? extends IngredientInputDialogExtension>,
-      Class<? extends IngredientEditExtension>>
-      getRegisteredIngredientGuiExtensions() {
-    return registeredIngredientGuiExtensions;
+  public Collection<DatabaseEditExtension> getRegisteredMealEditGuiExtensions() {
+    return registeredMealGuiExtensions.getEditExtensions();
+  }
+
+  public Collection<IngredientInputDialogExtension> getRegisteredIngredientInputGuiExtensions() {
+    return registeredIngredientGuiExtensions.getInputExtensions();
+  }
+
+  public Collection<IngredientEditExtension> getRegisteredIngredientEditGuiExtensions() {
+    return registeredIngredientGuiExtensions.getEditExtensions();
   }
 
   public Map<

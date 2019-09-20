@@ -28,7 +28,7 @@ final class ReplaceIngredientDialog {
       List<Ingredient> ingredients,
       Ingredient ingredient) {
 
-    InputField<String> ingredientField = createInputFieldWithAutoComplete(ingredients, ingredient);
+    InputField<String> ingredientField = createInputFieldWithAutoComplete(ingredients, ingredient, 0);
     GuiPanel optionPanel = gridPanel(1, 2);
     ingredientField.addToPanel(optionPanel);
 
@@ -39,7 +39,7 @@ final class ReplaceIngredientDialog {
   }
 
   private static InputField<String> createInputFieldWithAutoComplete(
-      List<Ingredient> ingredients, Ingredient ingredient) {
+      List<Ingredient> ingredients, Ingredient ingredient, int orderNumber) {
     List<String> ingredientAlternatives = ingredients.stream()
         .map(Ingredient::getName)
         .collect(toList());
@@ -47,7 +47,7 @@ final class ReplaceIngredientDialog {
         format(BUNDLES.message("replaceIngredient"), ingredient.getName()),
         "ReplacingIngredient",
         ingredients.isEmpty() ? "" : ingredients.get(0).getName(),
-        ingredientAlternatives);
+        ingredientAlternatives, orderNumber);
   }
 
   private static int showDialogForEitherNotDeletingOrReplacing(JFrame frame, GuiPanel optionPanel) {

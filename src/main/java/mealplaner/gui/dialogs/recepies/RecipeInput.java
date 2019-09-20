@@ -31,6 +31,7 @@ import mealplaner.gui.dialogs.ingredients.IngredientsInput;
 import mealplaner.model.DataStore;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.Recipe;
+import mealplaner.plugins.PluginStore;
 
 public class RecipeInput implements DialogEditing<Optional<Recipe>> {
   private final DialogWindow dialogWindow;
@@ -58,14 +59,14 @@ public class RecipeInput implements DialogEditing<Optional<Recipe>> {
   }
 
   @Override
-  public Optional<Recipe> showDialog(Optional<Recipe> recipe, DataStore store) {
+  public Optional<Recipe> showDialog(Optional<Recipe> recipe, DataStore store, PluginStore pluginStore) {
     enteredRecipe = recipe;
-    display(recipe, store);
+    display(recipe, store, pluginStore);
     dialogWindow.dispose();
     return enteredRecipe;
   }
 
-  private void display(Optional<Recipe> recipe, DataStore store) {
+  private void display(Optional<Recipe> recipe, DataStore store, PluginStore pluginStore) {
     nonnegativeIntegerInputField = setupInputField(recipe);
     GridPanel inputFieldPanel = gridPanel(1, 2);
     nonnegativeIntegerInputField.addToPanel(inputFieldPanel);
@@ -73,7 +74,7 @@ public class RecipeInput implements DialogEditing<Optional<Recipe>> {
     recipeTable = new RecipeTable(recipe.orElse(createRecipe()), store.getIngredients());
     table = recipeTable.setupTable();
 
-    ButtonPanel buttonPanel = displayButtons(store);
+    ButtonPanel buttonPanel = displayButtons(store, pluginStore);
 
     dialogWindow.addNorth(inputFieldPanel);
     dialogWindow.addCentral(table);
@@ -88,21 +89,21 @@ public class RecipeInput implements DialogEditing<Optional<Recipe>> {
         "RecipePortions",
         recipe.isPresent()
             ? recipe.get().getNumberOfPortions()
-            : FOUR);
+            : FOUR, 0);
   }
 
-  private ButtonPanel displayButtons(DataStore store) {
+  private ButtonPanel displayButtons(DataStore store, PluginStore pluginStore) {
     return builder("RecipeInput")
         .addButton(BUNDLES.message("ingredientInput"),
             BUNDLES.message("ingredientInputMnemonic"),
-            action -> saveNewIngredients(store))
+            action -> saveNewIngredients(store, pluginStore))
         .addCancelDialogButton(dialogWindow)
         .addOkButton(getSaveListener())
         .build();
   }
 
-  private void saveNewIngredients(DataStore store) {
-    List<Ingredient> newIngredients = new IngredientsInput(dialogWindow).showDialog(store);
+  private void saveNewIngredients(DataStore store, PluginStore pluginStore) {
+    List<Ingredient> newIngredients = new IngredientsInput(dialogWindow).showDialog(store, pluginStore);
     enteredRecipe = recipeTable.getRecipe(ONE);
     List<Ingredient> allIngredients = new ArrayList<>();
     allIngredients.addAll(store.getIngredients());

@@ -13,12 +13,14 @@ public class ComboBoxInputField<E extends Enum<E>> implements InputField<E> {
   private final Class<E> enumType;
   private JComboBox<E> comboBox;
   private final E defaultValue;
+  private final int orderNumber;
 
-  public ComboBoxInputField(String label, String name, Class<E> enumType, E defaultValue) {
+  public ComboBoxInputField(String label, String name, Class<E> enumType, E defaultValue, int orderNumber) {
     this.label = label;
     this.name = name;
     this.enumType = enumType;
     this.defaultValue = defaultValue;
+    this.orderNumber = orderNumber;
   }
 
   @Override
@@ -37,5 +39,10 @@ public class ComboBoxInputField<E extends Enum<E>> implements InputField<E> {
   @Override
   public void resetField() {
     comboBox.setSelectedItem(defaultValue);
+  }
+
+  @Override
+  public int getOrdering() {
+    return orderNumber;
   }
 }
