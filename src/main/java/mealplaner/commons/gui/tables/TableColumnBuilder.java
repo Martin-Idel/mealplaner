@@ -28,7 +28,7 @@ import mealplaner.commons.gui.tables.models.TableColumnData;
 /**
  * TableColumnBuilder to provide type safe access to an underlying data
  * structure.
- * 
+ *
  * @param <T>
  *          Content type of the column to be constructed
  */
@@ -111,7 +111,7 @@ public final class TableColumnBuilder<T> {
    * Call this function if your table's data structure is an ordered
    * java.utils.List (ordered in the sense that row i will be entry i in the
    * list). Note that the data structure cannot be reassigned.
-   * 
+   *
    * @param orderedList
    *          The ordered list which provides the data structure of this column
    * @param setValue
@@ -136,7 +136,7 @@ public final class TableColumnBuilder<T> {
    * java.utils.List (ordered in the sense that row i will be entry i in the list)
    * where the entries are immutable. Note that the list data structure cannot be
    * reassigned and must be mutable.
-   * 
+   *
    * @param orderedList
    *          The ordered list of immutables which provides the data structure of
    *          this column
@@ -161,7 +161,7 @@ public final class TableColumnBuilder<T> {
    * Call this function if you want to use an arbitrary data structure. Provide a
    * function which when the user changes this column at row i changes the
    * corresponding entry in your data.
-   * 
+   *
    * @param setValue
    *          Function which, when given a row number and the new value of that
    *          row, sets the data structure of the table correspondingly.
@@ -179,7 +179,7 @@ public final class TableColumnBuilder<T> {
    * Call this function if your table's data structure is an ordered
    * java.utils.List (ordered in the sense that row i will be entry i in the
    * list). Note that the data structure cannot be reassigned.
-   * 
+   *
    * @param orderedList
    *          The ordered list which provides the data structure of this column
    * @param getValue
@@ -198,7 +198,7 @@ public final class TableColumnBuilder<T> {
   /**
    * Call this function for an arbitrary data structure. This function provides
    * the link between the data structure and the representation in the table.
-   * 
+   *
    * @param getValue
    *          A function which given the row number, provides a value to be shown
    *          in the table.
@@ -212,7 +212,7 @@ public final class TableColumnBuilder<T> {
   /**
    * Call this function if you want to enable buttons when a value of the table is
    * set to a new value.
-   * 
+   *
    * @param onSet
    *          An object of type ButtonPanelEnabling, which contains buttons which
    *          can be enabled or disabled.
@@ -232,7 +232,7 @@ public final class TableColumnBuilder<T> {
    * Call this function when setting the value in one cell also affects the values
    * in other cells of the same row. This might be the case if e.g. some columns
    * are read only and depend on other aspects of the list.
-   * 
+   *
    * @param cells
    *          Additional cells in the same row to repaint when a row of this
    *          column is changed.
@@ -251,7 +251,7 @@ public final class TableColumnBuilder<T> {
   /**
    * Make the row editable. It is necessary to call any of the functions above
    * providing a setter for the data structure.
-   * 
+   *
    * @return the current builder
    */
   public TableColumnBuilder<T> isEditable() {
@@ -262,7 +262,7 @@ public final class TableColumnBuilder<T> {
   /**
    * Make the row editable if a condition is fulfiled. This can be used to
    * activate/deactivate editing based on other cells content
-   * 
+   *
    * @param predicate
    *          The predicate to test against.
    * @return the current builder
@@ -274,7 +274,7 @@ public final class TableColumnBuilder<T> {
 
   /**
    * Set the preferred horizontal size of the column
-   * 
+   *
    * @param preferredSize
    *          The preferred size in pixels
    * @return the current builder
@@ -286,7 +286,7 @@ public final class TableColumnBuilder<T> {
 
   /**
    * Add a custom TableCellEditor to this column.
-   * 
+   *
    * @param editor
    *          The table cell editor for this column
    * @return the current builder
@@ -298,7 +298,7 @@ public final class TableColumnBuilder<T> {
 
   /**
    * Add a custom TableCellRenderer to this column.
-   * 
+   *
    * @param renderer
    *          The renderer for this column
    * @return the current builder
@@ -312,7 +312,7 @@ public final class TableColumnBuilder<T> {
    * Set a default value for an empty row. This is necessary if the column is part
    * of an UpdateSizeTableModel as this value gets displayed for the last "empty"
    * row. See the table model for further clarification.
-   * 
+   *
    * @param defaultValue
    *          Value to display for the last row of an UpdateSizeTableModel
    * @return the current builder
@@ -326,7 +326,7 @@ public final class TableColumnBuilder<T> {
    * Perform another action when a column is changed, e.g. run a save action, etc.
    * N.B: This function must be called after calling one of the functions above
    * setting values to the table.
-   * 
+   *
    * @param changeAction
    *          Runnable containing the action to be processed when changing a row's
    *          entry.
@@ -346,11 +346,12 @@ public final class TableColumnBuilder<T> {
 
   /**
    * Build a TableColumn.
-   * 
+   *
    * @return The table column with all aspects chosen for this builder
    */
   public TableColumnData<T> build() {
-    return createTableColumn(classType,
+    return createTableColumn(
+        classType,
         name,
         defaultValue,
         setValue,
@@ -358,6 +359,27 @@ public final class TableColumnBuilder<T> {
         isEditableIf,
         preferredSize,
         editor,
-        renderer);
+        renderer,
+        Optional.empty());
+  }
+
+  /**
+   * Build a TableColumn with an order number. This order number will be used to order the table deterministically.
+   * The higher the order number, the more the column will appear to the right.
+   *
+   * @return A pair of the table column with all aspects chosen for this builder and the order number
+   */
+  public TableColumnData<T> buildWithOrderNumber(int orderNumber) {
+    return createTableColumn(
+        classType,
+        name,
+        defaultValue,
+        setValue,
+        getValue,
+        isEditableIf,
+        preferredSize,
+        editor,
+        renderer,
+        Optional.of(orderNumber));
   }
 }

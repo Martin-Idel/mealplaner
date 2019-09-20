@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 import javax.swing.JTable;
 
 public final class ColumnListener extends MouseAdapter {
-  private final int columnNumber;
+  private int columnNumber;
   private final Consumer<Integer> onClick;
 
   private ColumnListener(int columnNumber, Consumer<Integer> onClick) {
@@ -19,6 +19,14 @@ public final class ColumnListener extends MouseAdapter {
 
   public static ColumnListener createColumnListener(int columnNumber, Consumer<Integer> onClick) {
     return new ColumnListener(columnNumber, onClick);
+  }
+
+  public int getColumnNumber() {
+    return columnNumber;
+  }
+
+  public void setColumnNumber(int columnNumber) {
+    this.columnNumber = columnNumber;
   }
 
   @Override

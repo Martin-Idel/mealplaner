@@ -4,6 +4,7 @@ package mealplaner.commons.gui.tables;
 
 import static java.util.Arrays.stream;
 import static java.util.Collections.reverseOrder;
+import static java.util.Comparator.comparingInt;
 import static java.util.stream.Collectors.toList;
 
 import java.awt.event.ActionEvent;
@@ -34,8 +35,9 @@ import mealplaner.commons.gui.tables.models.UpdateSizeTableModel;
  * one type of data.
  */
 public final class FlexibleTableBuilder {
-  private final List<TableColumnData<?>> columns;
-  private final List<MouseAdapter> columnListeners;
+  private List<TableColumnData<?>> columns;
+  private final List<ColumnListener> columnListeners;
+  private int counter = 100;
   private JTable table;
   private Supplier<Integer> rowCount = () -> 0;
   private Runnable addRow = () -> {
@@ -50,7 +52,7 @@ public final class FlexibleTableBuilder {
 
   /**
    * Obtain a Builder of TableModels
-   * 
+   *
    * @return a new instance of a builder
    */
   public static FlexibleTableBuilder createNewTable() {
@@ -60,13 +62,12 @@ public final class FlexibleTableBuilder {
   /**
    * Add a new Column to this table model. The column should be build using
    * TableColumnBuilder
-   * 
-   * @param column
-   *          to be added
+   *
+   * @param column to be added
    * @return the current builder
    */
   public FlexibleTableBuilder addColumn(TableColumnData<?> column) {
-    columns.add(column);
+    columns.add(column.hasOrderNumber() ? column : column.addOrderNumber(counter++));
     return this;
   }
 
@@ -75,10 +76,9 @@ public final class FlexibleTableBuilder {
    * base of your table model, this would just be a call to List::size(). It is
    * imperative your data structure can return (and/or set) as many values as the
    * rowCount seems to have.
-   * 
-   * @param rowCount
-   *          supplier of number of rows of your table (e.g. List::size() if you
-   *          work with lists)
+   *
+   * @param rowCount supplier of number of rows of your table (e.g. List::size() if you
+   *                 work with lists)
    * @return the current builder
    */
   public FlexibleTableBuilder withRowCount(Supplier<Integer> rowCount) {
@@ -90,10 +90,9 @@ public final class FlexibleTableBuilder {
    * Add a listener to the last column added. The listener takes a row number and
    * performs some action on your underlying data structure. This can be used to
    * e.g. open dialogs when clicking on cells.
-   * 
-   * @param onClick
-   *          Listener: Get a row number, perform an action on the cell designated
-   *          by that row number.
+   *
+   * @param onClick Listener: Get a row number, perform an action on the cell designated
+   *                by that row number.
    * @return the current builder
    */
   public FlexibleTableBuilder addListenerToThisColumn(Consumer<Integer> onClick) {
@@ -106,11 +105,10 @@ public final class FlexibleTableBuilder {
    * case, the last row of your table will always be an "empty" row that when
    * edited enlarges the table. Therefore, you need to provide a function which
    * adds an "empty" row to your underlying data structure.
-   * 
-   * @param addRow
-   *          Provide a function adding an empty row to your data structure (i.e.
-   *          add a default entry to your list if you use a list as data
-   *          structure)
+   *
+   * @param addRow Provide a function adding an empty row to your data structure (i.e.
+   *               add a default entry to your list if you use a list as data
+   *               structure)
    * @return the current builder
    */
   public FlexibleTableBuilder addDefaultRowToUnderlyingModel(Runnable addRow) {
@@ -123,10 +121,9 @@ public final class FlexibleTableBuilder {
    * delete button. To do so, the user must provide a function which upon getting
    * a row value will delete the corresponding data from the underlying data
    * structure (e.g. call List::remove() when using a list as a data structure).
-   * 
-   * @param deleteRows
-   *          Function which deletes a row with given number from the underlying
-   *          data structure
+   *
+   * @param deleteRows Function which deletes a row with given number from the underlying
+   *                   data structure
    * @return the current builder
    */
   public FlexibleTableBuilder deleteRowsOnDelete(Consumer<Integer> deleteRows) {
@@ -136,12 +133,13 @@ public final class FlexibleTableBuilder {
 
   /**
    * Using all of columns and other aspects, build a table (UpdateSizeTableModel)
-   * 
+   *
    * @return new Table backed by the columns entered in this builder. Keep in mind
-   *         that the data structure is not stored in the table, the table only
-   *         provides a view on the data.
+   * that the data structure is not stored in the table, the table only
+   * provides a view on the data.
    */
   public Table buildTable() {
+    sortTableColumns();
     UpdateSizeTableModel tableModel = UpdateSizeTableModel.from(columns, rowCount);
     table = new JTable(tableModel);
 
@@ -152,13 +150,14 @@ public final class FlexibleTableBuilder {
 
   /**
    * Using all of columns and other aspects, build a table (DynamicSizeTableModel)
-   * 
+   *
    * @return new Table backed by the columns entered in this builder. Make sure
-   *         that you called "addDefaultRowToUnderlyingModel" before. Keep in mind
-   *         that the data structure is not stored in the table, the table only
-   *         provides a view on the data.
+   * that you called "addDefaultRowToUnderlyingModel" before. Keep in mind
+   * that the data structure is not stored in the table, the table only
+   * provides a view on the data.
    */
   public Table buildDynamicTable() {
+    sortTableColumns();
     DynamicSizeTableModel tableModel = DynamicSizeTableModel.from(columns, rowCount, addRow);
     table = new JTable(tableModel);
 
@@ -166,6 +165,25 @@ public final class FlexibleTableBuilder {
     setColumnListenersIfNecessary();
     enableDeletionOfLines(tableModel);
     return Table.from(tableModel, table);
+  }
+
+  private void sortTableColumns() {
+    var sortedColumns = columns.stream()
+        .sorted(comparingInt(TableColumnData::getOrderNumber))
+        .collect(toList());
+    redirectListenersToSortedColumns(sortedColumns);
+    columns = sortedColumns;
+  }
+
+  private void redirectListenersToSortedColumns(List<TableColumnData<?>> sortedColumns) {
+    for (var columnListener : columnListeners) {
+      var oldListenerColumn = columns.get(columnListener.getColumnNumber());
+      for (int i = 0; i < sortedColumns.size(); i++) {
+        if (oldListenerColumn.equals(sortedColumns.get(i))) {
+          columnListener.setColumnNumber(i);
+        }
+      }
+    }
   }
 
   private void setColumnListenersIfNecessary() {

@@ -2,6 +2,7 @@
 
 package mealplaner.commons.gui.tables.models;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -22,6 +23,7 @@ public final class TableColumnData<T> {
   private final int preferredSize;
   private final Optional<TableCellEditor> tableCellEditor;
   private final Optional<TableCellRenderer> tableCellRenderer;
+  private final Optional<Integer> orderNumber;
 
   private TableColumnData(
       Class<T> classType,
@@ -32,7 +34,8 @@ public final class TableColumnData<T> {
       Predicate<Integer> isEditableIf,
       int preferredSize,
       Optional<TableCellEditor> tableCellEditor,
-      Optional<TableCellRenderer> tableCellRenderer) {
+      Optional<TableCellRenderer> tableCellRenderer,
+      Optional<Integer> orderNumber) {
     this.classType = classType;
     this.name = name;
     this.defaultValue = defaultValue;
@@ -42,6 +45,7 @@ public final class TableColumnData<T> {
     this.preferredSize = preferredSize;
     this.tableCellEditor = tableCellEditor;
     this.tableCellRenderer = tableCellRenderer;
+    this.orderNumber = orderNumber;
   }
 
   public static <S> TableColumnData<S> createTableColumn(
@@ -53,10 +57,15 @@ public final class TableColumnData<T> {
       Predicate<Integer> isEditableIf,
       int preferredSize,
       Optional<TableCellEditor> tableCellEditor,
-      Optional<TableCellRenderer> tableCellRenderer) {
+      Optional<TableCellRenderer> tableCellRenderer,
+      Optional<Integer> orderNumber) {
     return new TableColumnData<>(classType, name, defaultValue, setValue, getValue,
-        isEditableIf,
-        preferredSize, tableCellEditor, tableCellRenderer);
+        isEditableIf, preferredSize, tableCellEditor, tableCellRenderer, orderNumber);
+  }
+
+  public TableColumnData<T> addOrderNumber(int orderNumber) {
+    return new TableColumnData<>(classType, name, defaultValue, setValue, getValue,
+        isEditableIf, preferredSize, tableCellEditor, tableCellRenderer, Optional.of(orderNumber));
   }
 
   public String columnName() {
@@ -93,5 +102,30 @@ public final class TableColumnData<T> {
 
   public T getDefaultValue() {
     return defaultValue;
+  }
+
+  public int getOrderNumber() {
+    return orderNumber.orElse(-1);
+  }
+
+  public boolean hasOrderNumber() {
+    return orderNumber.isPresent();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    TableColumnData<?> that = (TableColumnData<?>) o;
+    return name.equals(that.name);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(name);
   }
 }
