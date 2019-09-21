@@ -58,7 +58,8 @@ public class DatabaseEdit implements DataStoreListener {
 
     table = createTable(buttonPanel,
         meals,
-        recipe -> recipeInput(dataFrame).showDialog(recipe, mealplanerData, pluginStore));
+        recipe -> recipeInput(dataFrame).showDialog(recipe, mealplanerData, pluginStore),
+        pluginStore.getRegisteredMealEditGuiExtensions());
 
     dataPanel.add(table.getComponent(), BorderLayout.CENTER);
     dataPanel.add(buttonPanel.getPanel(), BorderLayout.SOUTH);

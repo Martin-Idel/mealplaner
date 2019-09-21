@@ -9,6 +9,7 @@ import static mealplaner.commons.gui.tables.TableColumnBuilder.withEnumContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withNonnegativeIntegerContent;
 import static mealplaner.model.meal.MealBuilder.from;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -23,15 +24,18 @@ import mealplaner.model.meal.enums.CourseType;
 import mealplaner.model.meal.enums.ObligatoryUtensil;
 import mealplaner.model.meal.enums.Sidedish;
 import mealplaner.model.recipes.Recipe;
+import mealplaner.plugins.api.DatabaseEditExtension;
 
 final class DatabaseEditTable {
   private DatabaseEditTable() {
   }
 
-  public static Table createTable(ButtonPanelEnabling buttonPanel,
+  public static Table createTable(
+      ButtonPanelEnabling buttonPanel,
       List<Meal> meals,
-      Function<Optional<Recipe>, Optional<Recipe>> editRecipe) {
-    return createNewTable()
+      Function<Optional<Recipe>, Optional<Recipe>> editRecipe,
+      Collection<DatabaseEditExtension> extensions) {
+    var tableModelBuilder = createNewTable()
         .withRowCount(meals::size)
         .addColumn(withContent(String.class)
             .withColumnName(BUNDLES.message("mealNameColumn"))
@@ -112,8 +116,11 @@ final class DatabaseEditTable {
           Meal newMeal = from(meals.get(row)).optionalRecipe(editedRecipe).create();
           meals.set(row, newMeal);
           buttonPanel.enableButtons();
-        })
-        .buildTable();
+        });
+    for (var extension : extensions) {
+      extension.addTableColumns(tableModelBuilder, meals);
+    }
+    return tableModelBuilder.buildTable();
   }
 
 }

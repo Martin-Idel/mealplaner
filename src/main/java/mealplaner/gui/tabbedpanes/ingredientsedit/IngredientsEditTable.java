@@ -8,6 +8,7 @@ import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withEnumContent;
 import static mealplaner.model.recipes.Ingredient.ingredientWithUuid;
 
+import java.util.Collection;
 import java.util.List;
 
 import mealplaner.commons.gui.buttonpanel.ButtonPanelEnabling;
@@ -16,13 +17,17 @@ import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.IngredientType;
 import mealplaner.model.recipes.Measure;
 import mealplaner.model.recipes.Measures;
+import mealplaner.plugins.api.IngredientEditExtension;
 
 final class IngredientsEditTable {
   private IngredientsEditTable() {
   }
 
-  public static Table createTable(List<Ingredient> ingredients, ButtonPanelEnabling buttonPanel) {
-    return createNewTable()
+  public static Table createTable(
+      List<Ingredient> ingredients,
+      ButtonPanelEnabling buttonPanel,
+      Collection<IngredientEditExtension> ingredientEditExtensions) {
+    var tableModelBuilder = createNewTable()
         .withRowCount(ingredients::size)
         .addColumn(withContent(String.class)
             .withColumnName(BUNDLES.message("insertIngredientName"))
@@ -59,8 +64,11 @@ final class IngredientsEditTable {
                     Measures.createMeasures(newMeasure)))
             .isEditable()
             .onChange(buttonPanel::enableButtons)
-            .build())
-        .buildTable();
+            .build());
+    for (var ingredientEditExtension : ingredientEditExtensions) {
+      ingredientEditExtension.addTableColumns(tableModelBuilder, ingredients);
+    }
+    return tableModelBuilder.buildTable();
   }
 
 }

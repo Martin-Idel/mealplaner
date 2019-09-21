@@ -7,6 +7,7 @@ import static mealplaner.commons.Utils.not;
 import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
 import static mealplaner.commons.gui.tables.TableHelpers.deleteSelectedRows;
 import static mealplaner.gui.dialogs.ingredients.IngredientsInput.ingredientsInput;
+import static mealplaner.gui.tabbedpanes.ingredientsedit.IngredientsEditTable.createTable;
 import static mealplaner.gui.tabbedpanes.ingredientsedit.ReplaceIngredientDialog.showReplaceDialog;
 import static mealplaner.io.DataParts.INGREDIENTS;
 import static mealplaner.model.DataStoreEventType.INGREDIENTS_CHANGED;
@@ -57,7 +58,7 @@ public class IngredientsEdit implements DataStoreListener {
     buttonPanel.disableButtons();
 
     ingredients.addAll(mealPlan.getIngredients());
-    table = IngredientsEditTable.createTable(ingredients, buttonPanel);
+    table = createTable(ingredients, buttonPanel, pluginStore.getRegisteredIngredientEditGuiExtensions());
 
     dataPanel.add(table.getComponent(), BorderLayout.CENTER);
     dataPanel.add(buttonPanel.getPanel(), BorderLayout.SOUTH);

@@ -53,7 +53,8 @@ public class FlexibleTableBuilderTest {
             .withColumnName("new Column")
             .setDefaultValueForEmptyRow("some row")
             .buildWithOrderNumber(2))
-        .addListenerToThisColumn(click -> {})
+        .addListenerToThisColumn(click -> {
+        })
         .addColumn(withNonnegativeIntegerContent()
             .withColumnName("new Column 2")
             .setDefaultValueForEmptyRow(FOUR)
