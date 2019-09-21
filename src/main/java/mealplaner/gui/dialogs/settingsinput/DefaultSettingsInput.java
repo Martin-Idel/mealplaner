@@ -10,6 +10,7 @@ import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.justDisposeL
 import static mealplaner.model.settings.DefaultSettings.from;
 
 import java.time.DayOfWeek;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -22,6 +23,7 @@ import mealplaner.model.DataStore;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
 import mealplaner.plugins.PluginStore;
+import mealplaner.plugins.api.SettingsInputDialogExtension;
 
 public class DefaultSettingsInput extends SettingsInput implements DialogCreating<Optional<DefaultSettings>> {
 
@@ -31,18 +33,20 @@ public class DefaultSettingsInput extends SettingsInput implements DialogCreatin
 
   @Override
   public Optional<DefaultSettings> showDialog(DataStore store, PluginStore pluginStore) {
-    setup(store.getDefaultSettings());
+    setup(store.getDefaultSettings(), pluginStore.getRegisteredSettingsInputGuiExtensions());
     dialogWindow.setVisible();
     Optional<Settings[]> changedSettings = getEnteredSettings();
     return changedSettings.flatMap(this::transformToDefault);
   }
 
-  private void setup(DefaultSettings defaultSettings) {
+  private void setup(
+      DefaultSettings defaultSettings,
+      Collection<SettingsInputDialogExtension> settingsInputDialogExtensions) {
     SettingTable settingTable = new SettingTable(defaultSettings);
 
     ButtonPanel buttonPanel = createButtonPanel(settingTable);
 
-    settingTable.addJScrollTableToDialogCentre(dialogWindow);
+    settingTable.addJScrollTableToDialogCentre(dialogWindow, settingsInputDialogExtensions);
     dialogWindow.addSouth(buttonPanel);
     adjustPanesTo();
   }

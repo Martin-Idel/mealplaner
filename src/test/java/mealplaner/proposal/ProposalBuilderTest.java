@@ -2,6 +2,7 @@
 
 package mealplaner.proposal;
 
+import static java.util.Collections.EMPTY_LIST;
 import static java.util.Optional.empty;
 import static java.util.UUID.randomUUID;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
@@ -15,6 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -58,7 +61,7 @@ public class ProposalBuilderTest {
     settings[0] = from(cookingTimeSetting, nonNegative(4),
         CasseroleSettings.POSSIBLE, PreferenceSettings.NORMAL, CourseSettings.ONLY_MAIN);
 
-    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish);
+    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish, EMPTY_LIST);
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertEquals(1, proposal.getProposalList().size());
@@ -72,7 +75,7 @@ public class ProposalBuilderTest {
     settings[0] = from(cookingTimeSetting, nonNegative(2),
         CasseroleSettings.NONE, PreferenceSettings.VERY_POPULAR_ONLY, CourseSettings.ONLY_MAIN);
 
-    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish);
+    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish, EMPTY_LIST);
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertThat(meals.get(2).getId()).isEqualTo(proposal.getItem(0).main);
@@ -85,7 +88,7 @@ public class ProposalBuilderTest {
     settings[0] = from(cookingTimeSetting, nonNegative(2),
         CasseroleSettings.ONLY, PreferenceSettings.RARE_NONE, CourseSettings.ONLY_MAIN);
 
-    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish);
+    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish, EMPTY_LIST);
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertThat(meals.get(3).getId()).isEqualTo(proposal.getItem(0).main);
@@ -98,7 +101,7 @@ public class ProposalBuilderTest {
     settings[0] = from(cookingTimeSetting, nonNegative(1),
         CasseroleSettings.POSSIBLE, PreferenceSettings.NORMAL, CourseSettings.ONLY_MAIN);
 
-    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish);
+    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish, EMPTY_LIST);
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertThat(meals.get(2).getId()).isEqualTo(proposal.getItem(0).main);
@@ -111,7 +114,7 @@ public class ProposalBuilderTest {
     settings[0] = from(cookingTimeSetting, nonNegative(2), CasseroleSettings.POSSIBLE,
         PreferenceSettings.RARE_PREFERED, CourseSettings.ONLY_MAIN);
 
-    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish);
+    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish, EMPTY_LIST);
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertThat(meals.get(1).getId()).isEqualTo(proposal.getItem(0).main);
@@ -124,7 +127,7 @@ public class ProposalBuilderTest {
     settings[0] = from(cookingTimeSetting, nonNegative(2), CasseroleSettings.POSSIBLE,
         PreferenceSettings.NORMAL, CourseSettings.ONLY_MAIN);
 
-    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish);
+    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish, EMPTY_LIST);
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertThat(meals.get(4).getId()).isEqualTo(proposal.getItem(0).main);
@@ -138,7 +141,7 @@ public class ProposalBuilderTest {
     settings[0] = from(cookingTimeSetting, nonNegative(2), CasseroleSettings.POSSIBLE,
         PreferenceSettings.RARE_PREFERED, CourseSettings.ONLY_MAIN);
 
-    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish);
+    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish, EMPTY_LIST);
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertThat(meals.get(4).getId()).isEqualTo(proposal.getItem(0).main);
@@ -153,7 +156,7 @@ public class ProposalBuilderTest {
     settings[0] = from(cookingTimeSetting, nonNegative(2), CasseroleSettings.POSSIBLE,
         PreferenceSettings.NORMAL, CourseSettings.ONLY_MAIN);
 
-    proposalBuilder = new ProposalBuilder(meals, preferenceMap, sideDish);
+    proposalBuilder = new ProposalBuilder(meals, preferenceMap, sideDish, EMPTY_LIST);
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertThat(meals.get(1).getId()).isEqualTo(proposal.getItem(0).main);

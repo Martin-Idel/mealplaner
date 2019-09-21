@@ -12,14 +12,13 @@ import static mealplaner.gui.tabbedpanes.proposal.ProposalSummaryMenuItems.viewP
 
 import java.awt.BorderLayout;
 import java.time.DayOfWeek;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import org.apache.logging.log4j.core.config.plugins.Plugin;
 
 import mealplaner.commons.gui.buttonpanel.ButtonPanel;
 import mealplaner.gui.MainContainer;
@@ -33,6 +32,7 @@ import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
 import mealplaner.plugins.PluginStore;
+import mealplaner.plugins.api.ProposalBuilderStep;
 import mealplaner.proposal.ProposalBuilder;
 
 public class ProposalSummaryPanel {
@@ -82,7 +82,7 @@ public class ProposalSummaryPanel {
     } else {
       Optional<Settings[]> settingsInput = dialogs
           .createProposalSettingsDialog()
-          .showDialog(outline, mealPlan);
+          .showDialog(outline, mealPlan, pluginStore);
       settingsInput.ifPresent(settings -> createProposal(settings, outline, pluginStore));
     }
   }
@@ -103,7 +103,7 @@ public class ProposalSummaryPanel {
 
   private void createProposal(Settings[] settings, ProposalOutline outline, PluginStore pluginStore) {
     Proposal proposal = propose(settings, outline.isIncludedToday(),
-        outline.isShallBeRandomised());
+        outline.isShallBeRandomised(), pluginStore.getRegisteredProposalBuilderSteps());
     mealPlan.setLastProposal(proposal);
     Proposal updatedProposal = dialogs.createProposalOutputDialog()
         .showDialog(mealPlan, pluginStore);
@@ -118,8 +118,9 @@ public class ProposalSummaryPanel {
     proposalSummary.update();
   }
 
-  private Proposal propose(Settings[] set, boolean today, boolean random) {
-    return new ProposalBuilder(mealPlan.getMeals())
+  private Proposal propose(
+      Settings[] set, boolean today, boolean random, Collection<ProposalBuilderStep> proposalBuilderSteps) {
+    return new ProposalBuilder(mealPlan.getMeals(), proposalBuilderSteps)
         .firstProposal(today)
         .randomise(random)
         .propose(set);

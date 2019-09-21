@@ -10,6 +10,7 @@ import static mealplaner.model.proposal.ProposedMenu.proposed;
 import static mealplaner.proposal.ProposalFunctions.allows;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -30,6 +31,7 @@ import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.proposal.SideDish;
 import mealplaner.model.settings.Settings;
 import mealplaner.model.settings.enums.PreferenceSettings;
+import mealplaner.plugins.api.ProposalBuilderStep;
 
 public class ProposalBuilder {
   private SideDish sideDish;
@@ -43,15 +45,18 @@ public class ProposalBuilder {
   private final DesertProposal desertProposal;
 
   private final List<ProposedMenu> proposalList;
+  private final Collection<ProposalBuilderStep> proposalBuilderSteps;
 
-  public ProposalBuilder(List<Meal> meals) {
-    this(meals, PreferenceMap.getPreferenceMap(), new SideDish());
+  public ProposalBuilder(List<Meal> meals, Collection<ProposalBuilderStep> proposalBuilderSteps) {
+    this(meals, PreferenceMap.getPreferenceMap(), new SideDish(), proposalBuilderSteps);
   }
 
   public ProposalBuilder(
       List<Meal> meals,
       Map<Pair<CookingPreference, PreferenceSettings>, Integer> preferenceMap,
-      SideDish sideDish) {
+      SideDish sideDish,
+      Collection<ProposalBuilderStep> proposalBuilderSteps) {
+    this.proposalBuilderSteps = proposalBuilderSteps;
     this.mealData = new HashMap<>();
     meals.forEach(meal -> mealData.put(meal.getId(), meal));
     this.sideDish = sideDish;
@@ -140,14 +145,18 @@ public class ProposalBuilder {
   private Optional<Meal> proposeNextMain(final List<ProposedMenu> proposalList,
                                          final Settings settings) {
 
-    return mealData.values().stream()
+    var proposalStream = mealData.values().stream()
         .filter(meal -> meal.getCourseType().equals(MAIN))
         .filter(meal -> allows(meal, settings))
         .map(meal -> Pair.of(meal, meal.getDaysPassedAsInteger()))
         .map(pair -> takeProposalIntoAccount(pair, proposalList))
         .map(pair -> takeSidedishIntoAccount(pair, sideDish))
         .map(pair -> preferenceMultiplier.multiplyPrefs(pair, settings.getPreference()))
-        .map(this::randomize)
+        .map(this::randomize);
+    for (var proposalStep : proposalBuilderSteps) {
+      proposalStep.applyPluginSuggestions(proposalStream);
+    }
+    return proposalStream
         .sorted((pair1, pair2) -> -(pair1.right.compareTo(pair2.right)))
         .map(pair -> pair.left)
         .findFirst();

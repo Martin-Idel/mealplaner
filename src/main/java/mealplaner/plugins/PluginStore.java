@@ -29,10 +29,8 @@ public class PluginStore {
       = new GuiExtension<>();
   private GuiExtension<IngredientInputDialogExtension, IngredientEditExtension> registeredIngredientGuiExtensions
       = new GuiExtension<>();
-  private Map<
-      Class<? extends SettingsInputDialogExtension>,
-      Class<? extends ProposalBuilderStep>>
-      registeredProposalExtensions = new HashMap<>();
+  private GuiExtension<SettingsInputDialogExtension, ProposalBuilderStep> registeredProposalExtensions
+      = new GuiExtension<>();
 
   public PluginStore() {
   }
@@ -85,12 +83,12 @@ public class PluginStore {
   }
 
   public void registerProposalExtension(
-      Class<? extends SettingsInputDialogExtension> settingsInputDialogExtension,
-      Class<? extends ProposalBuilderStep> proposalBuilderStep) {
-    if (registeredProposalExtensions.containsKey(settingsInputDialogExtension)) {
-      throw new MealException("Class name already known or plugin already registered");
-    }
-    registeredProposalExtensions.putIfAbsent(settingsInputDialogExtension, proposalBuilderStep);
+      SettingsInputDialogExtension settingsInputDialogExtension,
+      ProposalBuilderStep proposalBuilderStep) {
+    registeredProposalExtensions.registerGuiExtension(
+        settingsInputDialogExtension.getClass(), settingsInputDialogExtension,
+        proposalBuilderStep.getClass(), proposalBuilderStep
+    );
   }
 
   public ModelExtension<MealFact, MealFactXml> getRegisteredMealExtensions() {
@@ -121,11 +119,12 @@ public class PluginStore {
     return registeredIngredientGuiExtensions.getEditExtensions();
   }
 
-  public Map<
-      Class<? extends SettingsInputDialogExtension>,
-      Class<? extends ProposalBuilderStep>>
-      getRegisteredProposalExtensions() {
-    return registeredProposalExtensions;
+  public Collection<SettingsInputDialogExtension> getRegisteredSettingsInputGuiExtensions() {
+    return registeredProposalExtensions.getInputExtensions();
+  }
+
+  public Collection<ProposalBuilderStep> getRegisteredProposalBuilderSteps() {
+    return registeredProposalExtensions.getEditExtensions();
   }
 
   public Class<?>[] getAllKnownClassesForXmlConversion() {

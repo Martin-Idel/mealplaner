@@ -8,6 +8,7 @@ import static mealplaner.model.settings.Settings.createSettings;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,8 @@ import mealplaner.model.DataStore;
 import mealplaner.model.proposal.ProposalOutline;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
+import mealplaner.plugins.PluginStore;
+import mealplaner.plugins.api.SettingsInputDialogExtension;
 
 public class ProposalSettingsInput extends SettingsInput
     implements DialogCreatingWithAdditional<ProposalOutline, Optional<Settings[]>> {
@@ -29,8 +32,9 @@ public class ProposalSettingsInput extends SettingsInput
   }
 
   @Override
-  public Optional<Settings[]> showDialog(ProposalOutline outline, DataStore dataStore) {
-    setup(dataStore.getDefaultSettings(), outline);
+  public Optional<Settings[]> showDialog(
+      ProposalOutline outline, DataStore dataStore, PluginStore pluginStore) {
+    setup(dataStore.getDefaultSettings(), outline, pluginStore.getRegisteredSettingsInputGuiExtensions());
     dialogWindow.setVisible();
     return getEnteredSettings();
   }
@@ -41,7 +45,10 @@ public class ProposalSettingsInput extends SettingsInput
     return Arrays.asList(settings);
   }
 
-  private void setup(DefaultSettings defaultSettings, ProposalOutline outline) {
+  private void setup(
+      DefaultSettings defaultSettings,
+      ProposalOutline outline,
+      Collection<SettingsInputDialogExtension> settingsInputDialogExtensions) {
     List<Settings> tableSettings = createSettingsForTable(outline.getNumberOfDays());
     LocalDate date = outline.isIncludedToday() ? outline.getDateToday()
         : outline.getDateToday().plusDays(1);
@@ -49,7 +56,7 @@ public class ProposalSettingsInput extends SettingsInput
 
     ButtonPanel buttonPanel = createButtonPanel(defaultSettings);
 
-    settingTable.addJScrollTableToDialogCentre(dialogWindow);
+    settingTable.addJScrollTableToDialogCentre(dialogWindow, settingsInputDialogExtensions);
     dialogWindow.addSouth(buttonPanel);
     adjustPanesTo();
   }

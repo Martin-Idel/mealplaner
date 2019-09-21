@@ -17,6 +17,7 @@ import static mealplaner.model.settings.subsettings.CookingTimeSetting.copyCooki
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +31,7 @@ import mealplaner.model.settings.enums.CasseroleSettings;
 import mealplaner.model.settings.enums.CourseSettings;
 import mealplaner.model.settings.enums.PreferenceSettings;
 import mealplaner.model.settings.subsettings.CookingTimeSetting;
+import mealplaner.plugins.api.SettingsInputDialogExtension;
 
 class SettingTable {
   private Table table;
@@ -68,7 +70,8 @@ class SettingTable {
     table.update();
   }
 
-  public void addJScrollTableToDialogCentre(DialogWindow window) {
+  public void addJScrollTableToDialogCentre(
+      DialogWindow window, Collection<SettingsInputDialogExtension> settingsInputDialogExtensions) {
     FlexibleTableBuilder tableBuilder = createNewTable();
     addDayOfWeekColumn(tableBuilder);
     if (date != null) {
@@ -81,6 +84,9 @@ class SettingTable {
     addCookingTimeColumnFor(CookingTime.LONG, BUNDLES.message("longColumn"), tableBuilder);
 
     addOtherSettings(tableBuilder);
+    for (var setting : settingsInputDialogExtensions) {
+      setting.addTableColumns(tableBuilder, settings);
+    }
 
     table = tableBuilder.buildTable();
     window.addCentral(table);
