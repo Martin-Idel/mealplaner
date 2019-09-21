@@ -1,14 +1,11 @@
 package mealplaner.plugins;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
 
-import mealplaner.commons.errorhandling.MealException;
-import mealplaner.plugins.api.DatabaseEditExtension;
+import mealplaner.plugins.api.MealEditExtension;
 import mealplaner.plugins.api.IngredientEditExtension;
 import mealplaner.plugins.api.IngredientFact;
 import mealplaner.plugins.api.IngredientFactXml;
@@ -25,7 +22,7 @@ public class PluginStore {
   private ModelExtension<MealFact, MealFactXml> registeredMealExtensions = new ModelExtension<>();
   private ModelExtension<IngredientFact, IngredientFactXml> registeredIngredientExtensions = new ModelExtension<>();
   private ModelExtension<Setting, SettingXml> registeredSettingExtensions = new ModelExtension<>();
-  private GuiExtension<MealInputDialogExtension, DatabaseEditExtension> registeredMealGuiExtensions
+  private GuiExtension<MealInputDialogExtension, MealEditExtension> registeredMealGuiExtensions
       = new GuiExtension<>();
   private GuiExtension<IngredientInputDialogExtension, IngredientEditExtension> registeredIngredientGuiExtensions
       = new GuiExtension<>();
@@ -39,9 +36,6 @@ public class PluginStore {
       Class<T> mealFact,
       Class<? extends MealFactXml> mealFactXml,
       Supplier<T> mealFactFactory) {
-    if (registeredMealExtensions.containsFact(mealFact)) {
-      throw new MealException("Class name " + mealFact + " already known or plugin already registered");
-    }
     registeredMealExtensions.registerClass(mealFact, mealFactXml, mealFactFactory);
   }
 
@@ -49,9 +43,6 @@ public class PluginStore {
       Class<T> ingredientFact,
       Class<? extends IngredientFactXml> ingredientFactXmls,
       Supplier<T> ingredientFactory) {
-    if (registeredIngredientExtensions.containsFact(ingredientFact)) {
-      throw new MealException("Class name " + ingredientFact + " already known or plugin already registered");
-    }
     registeredIngredientExtensions.registerClass(ingredientFact, ingredientFactXmls, ingredientFactory);
   }
 
@@ -59,18 +50,15 @@ public class PluginStore {
       Class<T> setting,
       Class<? extends SettingXml> settingXml,
       Supplier<T> settingFactory) {
-    if (registeredSettingExtensions.containsFact(setting)) {
-      throw new MealException("Class name " + setting + " already known or plugin already registered");
-    }
     registeredSettingExtensions.registerClass(setting, settingXml, settingFactory);
   }
 
   public void registerMealGuiExtension(
       MealInputDialogExtension mealInputDialogExtension,
-      DatabaseEditExtension databaseEditExtension) {
+      MealEditExtension mealEditExtension) {
     registeredMealGuiExtensions.registerGuiExtension(
         mealInputDialogExtension.getClass(), mealInputDialogExtension,
-        databaseEditExtension.getClass(), databaseEditExtension);
+        mealEditExtension.getClass(), mealEditExtension);
   }
 
   public void registerIngredientGuiExtension(
@@ -107,7 +95,7 @@ public class PluginStore {
     return registeredMealGuiExtensions.getInputExtensions();
   }
 
-  public Collection<DatabaseEditExtension> getRegisteredMealEditGuiExtensions() {
+  public Collection<MealEditExtension> getRegisteredMealEditGuiExtensions() {
     return registeredMealGuiExtensions.getEditExtensions();
   }
 

@@ -5,6 +5,6 @@ import java.util.List;
 import mealplaner.commons.gui.tables.FlexibleTableBuilder;
 import mealplaner.model.meal.Meal;
 
-public interface DatabaseEditExtension {
+public interface MealEditExtension {
   FlexibleTableBuilder addTableColumns(FlexibleTableBuilder table, List<Meal> meals);
 }

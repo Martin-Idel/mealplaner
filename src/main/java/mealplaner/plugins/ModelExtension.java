@@ -53,6 +53,12 @@ public class ModelExtension<FactT extends Fact, FactXmlT extends FactXml> {
       Class<T> fact,
       Class<? extends FactXmlT> factXml,
       Supplier<T> factSupplier) {
+    if (registeredMealExtensions.containsKey(fact)) {
+      throw new MealException("Class name " + fact + " already known or plugin already registered");
+    }
+    if (registeredMealExtensions.containsValue(factXml)) {
+      throw new MealException("Class name " + fact + " already known or plugin already registered");
+    }
     registeredMealExtensions.putIfAbsent(fact, factXml);
     defaultFactories.putIfAbsent(fact, factSupplier);
   }

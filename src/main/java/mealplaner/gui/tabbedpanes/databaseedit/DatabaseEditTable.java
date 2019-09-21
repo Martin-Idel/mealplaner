@@ -24,7 +24,7 @@ import mealplaner.model.meal.enums.CourseType;
 import mealplaner.model.meal.enums.ObligatoryUtensil;
 import mealplaner.model.meal.enums.Sidedish;
 import mealplaner.model.recipes.Recipe;
-import mealplaner.plugins.api.DatabaseEditExtension;
+import mealplaner.plugins.api.MealEditExtension;
 
 final class DatabaseEditTable {
   private DatabaseEditTable() {
@@ -34,7 +34,7 @@ final class DatabaseEditTable {
       ButtonPanelEnabling buttonPanel,
       List<Meal> meals,
       Function<Optional<Recipe>, Optional<Recipe>> editRecipe,
-      Collection<DatabaseEditExtension> extensions) {
+      Collection<MealEditExtension> extensions) {
     var tableModelBuilder = createNewTable()
         .withRowCount(meals::size)
         .addColumn(withContent(String.class)
