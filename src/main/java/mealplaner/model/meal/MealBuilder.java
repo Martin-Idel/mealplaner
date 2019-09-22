@@ -4,8 +4,15 @@ package mealplaner.model.meal;
 
 import static mealplaner.commons.NonnegativeInteger.ZERO;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
+
+import org.w3c.dom.Element;
 
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.model.meal.enums.CookingPreference;
@@ -14,6 +21,7 @@ import mealplaner.model.meal.enums.CourseType;
 import mealplaner.model.meal.enums.ObligatoryUtensil;
 import mealplaner.model.meal.enums.Sidedish;
 import mealplaner.model.recipes.Recipe;
+import mealplaner.plugins.api.MealFact;
 
 public final class MealBuilder {
   private UUID uuid = UUID.randomUUID();
@@ -26,11 +34,14 @@ public final class MealBuilder {
   private NonnegativeInteger daysPassed = ZERO;
   private String comment = "";
   private Optional<Recipe> recipe = Optional.empty();
+  private Map<Class, MealFact> mealFactMap = new HashMap<>();
+  private List<Element> hiddenMealFacts = new ArrayList<>();
 
   private MealBuilder() {
   }
 
-  public static MealBuilder meal() {
+  // TODO: Add validation
+  public static MealBuilder mealWithValidator(Set<MealFact> mealFacts) {
     return new MealBuilder();
   }
 
@@ -45,7 +56,9 @@ public final class MealBuilder {
         .courseType(meal.getCourseType())
         .daysPassed(meal.getDaysPassed())
         .comment(meal.getComment())
-        .optionalRecipe(meal.getRecipe());
+        .optionalRecipe(meal.getRecipe())
+        .addMealMap(meal.getMealFacts())
+        .addHiddenMeals(meal.getHiddenFacts());
   }
 
   public MealBuilder id(UUID uuid) {
@@ -108,16 +121,33 @@ public final class MealBuilder {
     return this;
   }
 
+  public MealBuilder addFact(MealFact mealFact) {
+    mealFactMap.putIfAbsent(mealFact.getClass(), mealFact);
+    return this;
+  }
+
+  private MealBuilder addMealMap(Map<Class, MealFact> facts) {
+    this.mealFactMap = facts;
+    return this;
+  }
+
+  private MealBuilder addHiddenMeals(List<Element> hiddenMealFacts) {
+    this.hiddenMealFacts = hiddenMealFacts;
+    return this;
+  }
+
   public Meal create() {
     return Meal.createMeal(uuid,
-        name,
+        MealMetaData.createMealMetaData(name,
         cookingTime,
         sidedish,
         obligatoryUtensil,
         cookingPreference,
         courseType,
-        daysPassed,
         comment,
+        mealFactMap,
+        new ArrayList<>()),
+        daysPassed,
         recipe);
   }
 }

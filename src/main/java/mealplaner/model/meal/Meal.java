@@ -50,63 +50,12 @@ public final class Meal implements Comparable<Meal> {
     this.recipe = recipe;
   }
 
-  public static Meal createMeal(
+  static Meal createMeal(
       UUID uuid,
       MealMetaData metadata,
       NonnegativeInteger daysPassed,
       Optional<Recipe> recipe) {
     return new Meal(uuid, metadata, daysPassed, recipe);
-  }
-
-  public static Meal createMeal(
-      UUID uuid,
-      String name,
-      CookingTime cookingTime,
-      Sidedish sideDish,
-      ObligatoryUtensil obligatoryUtensil,
-      CookingPreference cookingPreference,
-      CourseType courseType,
-      NonnegativeInteger daysPassed,
-      String comment,
-      Optional<Recipe> recipe) throws MealException {
-    return new Meal(uuid,
-        createMealMetaData(name,
-            cookingTime,
-            sideDish,
-            obligatoryUtensil,
-            cookingPreference,
-            courseType,
-            comment,
-            new HashMap<>(),
-            new ArrayList<>()),
-        daysPassed,
-        recipe);
-  }
-
-  public static Meal createMeal(
-      UUID uuid,
-      String name,
-      CookingTime cookingTime,
-      Sidedish sideDish,
-      ObligatoryUtensil obligatoryUtensil,
-      CookingPreference cookingPreference,
-      CourseType courseType,
-      NonnegativeInteger daysPassed,
-      String comment,
-      Map<Class, MealFact> mealFacts,
-      List<Element> hiddenMealFacts,
-      Optional<Recipe> recipe) throws MealException {
-    return new Meal(uuid,
-        createMealMetaData(name,
-            cookingTime,
-            sideDish,
-            obligatoryUtensil,
-            cookingPreference,
-            courseType,
-            comment,
-            mealFacts,
-            hiddenMealFacts),
-        daysPassed, recipe);
   }
 
   public static Meal copy(Meal meal) {
