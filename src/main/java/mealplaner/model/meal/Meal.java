@@ -32,27 +32,21 @@ public final class Meal implements Comparable<Meal> {
       nameUUIDFromBytes("EMPTY".getBytes(StandardCharsets.UTF_8)),
       MealMetaData.createEmptyMealMetaData(),
       ZERO,
-      new HashMap<>(), new ArrayList<>(), empty());
+      empty());
 
   private final UUID uuid;
   private final MealMetaData metadata;
   private final NonnegativeInteger daysPassed;
-  private final Map<Class, MealFact> mealFacts;
-  private final List<Element> hiddenMealFacts;
   private Optional<Recipe> recipe;
 
   private Meal(
       UUID uuid,
       MealMetaData metadata,
       NonnegativeInteger daysPassed,
-      Map<Class, MealFact> mealFacts,
-      List<Element> hiddenMealFacts,
       Optional<Recipe> recipe) {
     this.uuid = uuid;
     this.metadata = metadata;
     this.daysPassed = daysPassed;
-    this.mealFacts = mealFacts;
-    this.hiddenMealFacts = hiddenMealFacts;
     this.recipe = recipe;
   }
 
@@ -61,7 +55,7 @@ public final class Meal implements Comparable<Meal> {
       MealMetaData metadata,
       NonnegativeInteger daysPassed,
       Optional<Recipe> recipe) {
-    return new Meal(uuid, metadata, daysPassed, new HashMap<>(), new ArrayList<>(), recipe);
+    return new Meal(uuid, metadata, daysPassed, recipe);
   }
 
   public static Meal createMeal(
@@ -82,9 +76,11 @@ public final class Meal implements Comparable<Meal> {
             obligatoryUtensil,
             cookingPreference,
             courseType,
-            comment),
+            comment,
+            new HashMap<>(),
+            new ArrayList<>()),
         daysPassed,
-        new HashMap<>(), new ArrayList<>(), recipe);
+        recipe);
   }
 
   public static Meal createMeal(
@@ -107,15 +103,17 @@ public final class Meal implements Comparable<Meal> {
             obligatoryUtensil,
             cookingPreference,
             courseType,
-            comment),
-        daysPassed, mealFacts, hiddenMealFacts, recipe);
+            comment,
+            mealFacts,
+            hiddenMealFacts),
+        daysPassed, recipe);
   }
 
   public static Meal copy(Meal meal) {
     return new Meal(meal.getId(),
         MealMetaData.copy(meal.getMetaData()),
         meal.getDaysPassed(),
-        meal.getMealFacts(), meal.hiddenMealFacts, meal.getRecipe());
+        meal.getRecipe());
   }
 
   public MealMetaData getMetaData() {
@@ -123,11 +121,11 @@ public final class Meal implements Comparable<Meal> {
   }
 
   public Map<Class, MealFact> getMealFacts() {
-    return new HashMap<>(mealFacts);
+    return new HashMap<>(metadata.getMealFacts());
   }
 
   public List<Element> getHiddenFacts() {
-    return hiddenMealFacts;
+    return new ArrayList<>(metadata.getHiddenMealFacts());
   }
 
   public Meal addRecipe(Optional<Recipe> recipe) {
@@ -143,12 +141,12 @@ public final class Meal implements Comparable<Meal> {
    * @return MealFact corresponding to the class if available (null otherwise)
    */
   public MealFact getMealFact(Class name) {
-    return mealFacts.get(name);
+    return metadata.getMealFacts().get(name);
   }
 
   @SuppressWarnings("unchecked")
   public <T> T getTypedMealFact(Class<T> name) {
-    return (T) mealFacts.get(name);
+    return (T) metadata.getMealFacts().get(name);
   }
 
   public UUID getId() {
@@ -205,9 +203,7 @@ public final class Meal implements Comparable<Meal> {
     return "[" + "uuid=" + uuid + ", "
         + "metadata=" + metadata + ", "
         + "daysPassed=" + daysPassed + ", "
-        + "recipe=" + recipe + ", "
-        + "mealFacts=" + mealFacts + ", "
-        + "hiddenMealFacts=" + hiddenMealFacts + "]";
+        + "recipe=" + recipe + ", " + "]";
   }
 
   @Override
@@ -217,8 +213,6 @@ public final class Meal implements Comparable<Meal> {
     result = prime * result + uuid.hashCode();
     result = prime * result + metadata.hashCode();
     result = prime * result + daysPassed.value;
-    result = prime * result + mealFacts.hashCode();
-    result = prime * result + hiddenMealFacts.hashCode();
     return result;
   }
 
@@ -234,8 +228,6 @@ public final class Meal implements Comparable<Meal> {
     return uuid.equals(other.uuid)
         && metadata.equals(other.metadata)
         && daysPassed.equals(other.daysPassed)
-        && recipe.equals(other.recipe)
-        && mealFacts.equals(other.mealFacts)
-        && hiddenMealFacts.equals(other.hiddenMealFacts);
+        && recipe.equals(other.recipe);
   }
 }

@@ -2,12 +2,20 @@
 
 package mealplaner.model.meal;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.w3c.dom.Element;
+
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.meal.enums.CookingPreference;
 import mealplaner.model.meal.enums.CookingTime;
 import mealplaner.model.meal.enums.CourseType;
 import mealplaner.model.meal.enums.ObligatoryUtensil;
 import mealplaner.model.meal.enums.Sidedish;
+import mealplaner.plugins.api.MealFact;
 
 public final class MealMetaData {
   private static final MealMetaData EMPTY_METADATA = new MealMetaData(
@@ -16,7 +24,10 @@ public final class MealMetaData {
       Sidedish.NONE,
       ObligatoryUtensil.CASSEROLE,
       CookingPreference.RARE,
-      CourseType.MAIN, "");
+      CourseType.MAIN,
+      "",
+      new HashMap<>(),
+      new ArrayList<>());
 
   private String name;
   private final CookingTime cookingTime;
@@ -25,14 +36,19 @@ public final class MealMetaData {
   private final CookingPreference cookingPreference;
   private final CourseType courseType;
   private final String comment;
+  private final Map<Class, MealFact> mealFacts;
+  private final List<Element> hiddenMealFacts;
 
-  private MealMetaData(String name,
+  private MealMetaData(
+      String name,
       CookingTime cookingTime,
       Sidedish sideDish,
       ObligatoryUtensil obligatoryUtensil,
       CookingPreference cookingPreference,
       CourseType courseType,
-      String comment)
+      String comment,
+      Map<Class, MealFact> mealFacts,
+      List<Element> hiddenMealFacts)
       throws MealException {
     setName(name);
     this.cookingTime = cookingTime;
@@ -41,22 +57,29 @@ public final class MealMetaData {
     this.cookingPreference = cookingPreference;
     this.courseType = courseType;
     this.comment = comment;
+    this.mealFacts = mealFacts;
+    this.hiddenMealFacts = hiddenMealFacts;
   }
 
-  public static MealMetaData createMealMetaData(String name,
+  public static MealMetaData createMealMetaData(
+      String name,
       CookingTime cookingTime,
       Sidedish sideDish,
       ObligatoryUtensil obligatoryUtensil,
       CookingPreference cookingPreference,
       CourseType courseType,
-      String comment) throws MealException {
+      String comment,
+      Map<Class, MealFact> mealFacts,
+      List<Element> hiddenMealFacts) throws MealException {
     return new MealMetaData(name,
         cookingTime,
         sideDish,
         obligatoryUtensil,
         cookingPreference,
         courseType,
-        comment);
+        comment,
+        mealFacts,
+        hiddenMealFacts);
   }
 
   public static MealMetaData copy(MealMetaData meal) {
@@ -66,7 +89,9 @@ public final class MealMetaData {
         meal.getObligatoryUtensil(),
         meal.getCookingPreference(),
         meal.getCourseType(),
-        meal.getComment());
+        meal.getComment(),
+        meal.getMealFacts(),
+        meal.getHiddenMealFacts());
   }
 
   public static MealMetaData createEmptyMealMetaData() {
@@ -101,6 +126,14 @@ public final class MealMetaData {
     return comment;
   }
 
+  public Map<Class, MealFact> getMealFacts() {
+    return mealFacts;
+  }
+
+  public List<Element> getHiddenMealFacts() {
+    return hiddenMealFacts;
+  }
+
   @Override
   public String toString() {
     return "["
@@ -111,6 +144,8 @@ public final class MealMetaData {
         + cookingPreference + ", "
         + courseType + ", "
         + comment + ", "
+        + mealFacts + ", "
+        + hiddenMealFacts + ", "
         + "]";
   }
 
@@ -124,6 +159,8 @@ public final class MealMetaData {
     result = prime * result + name.hashCode();
     result = prime * result + obligatoryUtensil.hashCode();
     result = prime * result + sidedish.hashCode();
+    result = prime * result + mealFacts.hashCode();
+    result = prime * result + hiddenMealFacts.hashCode();
     return result;
   }
 
@@ -142,7 +179,9 @@ public final class MealMetaData {
         && cookingTime == other.cookingTime
         && obligatoryUtensil == other.obligatoryUtensil
         && courseType == other.courseType
-        && sidedish == other.sidedish;
+        && sidedish == other.sidedish
+        && mealFacts.equals(other.mealFacts)
+        && hiddenMealFacts.equals(other.hiddenMealFacts);
   }
 
   private void setName(String name) throws MealException {
