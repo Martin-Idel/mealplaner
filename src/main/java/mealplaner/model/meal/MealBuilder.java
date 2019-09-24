@@ -6,6 +6,7 @@ import static mealplaner.commons.NonnegativeInteger.ZERO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -21,9 +22,11 @@ import mealplaner.model.meal.enums.CourseType;
 import mealplaner.model.meal.enums.ObligatoryUtensil;
 import mealplaner.model.meal.enums.Sidedish;
 import mealplaner.model.recipes.Recipe;
+import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.MealFact;
 
 public final class MealBuilder {
+  private PluginStore validationStore;
   private UUID uuid = UUID.randomUUID();
   private String name = "";
   private CookingTime cookingTime = CookingTime.SHORT;
@@ -38,11 +41,19 @@ public final class MealBuilder {
   private List<Element> hiddenMealFacts = new ArrayList<>();
 
   private MealBuilder() {
+    validationStore = new PluginStore();
   }
 
-  // TODO: Add validation
-  public static MealBuilder mealWithValidator(Set<MealFact> mealFacts) {
+  private MealBuilder(PluginStore validationStore) {
+    this.validationStore = validationStore;
+  }
+
+  public static MealBuilder meal() {
     return new MealBuilder();
+  }
+
+  public static MealBuilder mealWithValidator(PluginStore pluginStore) {
+    return new MealBuilder(pluginStore);
   }
 
   public static MealBuilder from(Meal meal) {
@@ -126,12 +137,12 @@ public final class MealBuilder {
     return this;
   }
 
-  private MealBuilder addMealMap(Map<Class, MealFact> facts) {
+  public MealBuilder addMealMap(Map<Class, MealFact> facts) {
     this.mealFactMap = facts;
     return this;
   }
 
-  private MealBuilder addHiddenMeals(List<Element> hiddenMealFacts) {
+  public MealBuilder addHiddenMeals(List<Element> hiddenMealFacts) {
     this.hiddenMealFacts = hiddenMealFacts;
     return this;
   }

@@ -3,8 +3,6 @@
 package mealplaner.model;
 
 import static java.time.LocalDate.of;
-import static java.util.Optional.empty;
-import static java.util.UUID.randomUUID;
 import static mealplaner.commons.NonnegativeInteger.TWO;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.DataStoreEventType.DATABASE_EDITED;
@@ -12,7 +10,21 @@ import static mealplaner.model.DataStoreEventType.DATE_UPDATED;
 import static mealplaner.model.DataStoreEventType.PROPOSAL_ADDED;
 import static mealplaner.model.DataStoreEventType.SETTINGS_CHANGED;
 import static mealplaner.model.MealplanerData.getInstance;
-import static mealplaner.model.meal.Meal.createMeal;
+import static mealplaner.model.meal.MealBuilder.meal;
+import static mealplaner.model.meal.enums.CookingPreference.NO_PREFERENCE;
+import static mealplaner.model.meal.enums.CookingPreference.RARE;
+import static mealplaner.model.meal.enums.CookingPreference.VERY_POPULAR;
+import static mealplaner.model.meal.enums.CookingTime.LONG;
+import static mealplaner.model.meal.enums.CookingTime.MEDIUM;
+import static mealplaner.model.meal.enums.CookingTime.SHORT;
+import static mealplaner.model.meal.enums.CourseType.MAIN;
+import static mealplaner.model.meal.enums.ObligatoryUtensil.CASSEROLE;
+import static mealplaner.model.meal.enums.ObligatoryUtensil.PAN;
+import static mealplaner.model.meal.enums.ObligatoryUtensil.POT;
+import static mealplaner.model.meal.enums.Sidedish.NONE;
+import static mealplaner.model.meal.enums.Sidedish.PASTA;
+import static mealplaner.model.meal.enums.Sidedish.POTATOES;
+import static mealplaner.model.meal.enums.Sidedish.RICE;
 import static mealplaner.model.proposal.Proposal.createProposal;
 import static mealplaner.model.proposal.Proposal.from;
 import static mealplaner.model.proposal.ProposedMenu.mainOnly;
@@ -36,11 +48,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.meal.Meal;
-import mealplaner.model.meal.enums.CookingPreference;
-import mealplaner.model.meal.enums.CookingTime;
-import mealplaner.model.meal.enums.CourseType;
-import mealplaner.model.meal.enums.ObligatoryUtensil;
-import mealplaner.model.meal.enums.Sidedish;
+import mealplaner.model.meal.MealBuilder;
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.recipes.Ingredient;
@@ -226,24 +234,48 @@ public class MealplanerDataTest {
   }
 
   private void addInitializedMeals() throws MealException {
-    meal1 = createMeal(randomUUID(), "Meal1", CookingTime.SHORT, Sidedish.NONE,
-        ObligatoryUtensil.PAN, CookingPreference.NO_PREFERENCE, CourseType.MAIN, nonNegative(50),
-        "", empty());
+    meal1 = MealBuilder.meal()
+        .name("Meal1")
+        .cookingTime(SHORT)
+        .sidedish(NONE)
+        .obligatoryUtensil(PAN)
+        .cookingPreference(NO_PREFERENCE)
+        .courseType(MAIN)
+        .addDaysPassed(nonNegative(50))
+        .create();
     meals.add(meal1);
-    Meal meal2 = createMeal(randomUUID(), "Meal2", CookingTime.MEDIUM, Sidedish.PASTA,
-        ObligatoryUtensil.CASSEROLE, CookingPreference.RARE, CourseType.MAIN, nonNegative(101), "",
-        empty());
+    Meal meal2 = meal()
+        .name("Meal2")
+        .cookingTime(MEDIUM)
+        .sidedish(PASTA)
+        .obligatoryUtensil(CASSEROLE)
+        .cookingPreference(RARE)
+        .courseType(MAIN)
+        .addDaysPassed(nonNegative(101))
+        .create();
     meals.add(meal2);
-    meal4 = createMeal(randomUUID(), "Meal4", CookingTime.LONG, Sidedish.RICE,
-        ObligatoryUtensil.POT, CookingPreference.VERY_POPULAR, CourseType.MAIN, nonNegative(20), "",
-        empty());
+    meal4 = meal()
+        .name("Meal4")
+        .cookingTime(LONG)
+        .sidedish(RICE)
+        .obligatoryUtensil(POT)
+        .cookingPreference(VERY_POPULAR)
+        .courseType(MAIN)
+        .addDaysPassed(nonNegative(20))
+        .create();
     meals.add(meal4);
   }
 
   private Meal initializeNewMeal() {
-    return createMeal(randomUUID(), "Meal3", CookingTime.SHORT, Sidedish.POTATOES,
-        ObligatoryUtensil.PAN, CookingPreference.NO_PREFERENCE, CourseType.MAIN, nonNegative(10),
-        "", empty());
+    return meal()
+        .name("Meal3")
+        .cookingTime(SHORT)
+        .sidedish(POTATOES)
+        .obligatoryUtensil(PAN)
+        .cookingPreference(NO_PREFERENCE)
+        .courseType(MAIN)
+        .addDaysPassed(nonNegative(10))
+        .create();
   }
 
   private List<Ingredient> createIngredientsList() {

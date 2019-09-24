@@ -50,7 +50,7 @@ public final class Meal implements Comparable<Meal> {
     this.recipe = recipe;
   }
 
-  static Meal createMeal(
+  public static Meal createMeal(
       UUID uuid,
       MealMetaData metadata,
       NonnegativeInteger daysPassed,

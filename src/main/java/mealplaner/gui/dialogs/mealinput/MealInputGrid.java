@@ -9,10 +9,10 @@ import static java.util.UUID.randomUUID;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.NonnegativeInteger.ZERO;
 import static mealplaner.commons.gui.GridPanel.gridPanel;
-import static mealplaner.model.meal.Meal.createMeal;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -28,6 +28,7 @@ import mealplaner.commons.gui.inputfields.TextInputField;
 import mealplaner.gui.dialogs.recepies.RecipeInput;
 import mealplaner.model.DataStore;
 import mealplaner.model.meal.Meal;
+import mealplaner.model.meal.MealBuilder;
 import mealplaner.model.meal.enums.CookingPreference;
 import mealplaner.model.meal.enums.CookingTime;
 import mealplaner.model.meal.enums.CourseType;
@@ -35,6 +36,7 @@ import mealplaner.model.meal.enums.ObligatoryUtensil;
 import mealplaner.model.meal.enums.Sidedish;
 import mealplaner.model.recipes.Recipe;
 import mealplaner.plugins.PluginStore;
+import mealplaner.plugins.api.MealFact;
 
 public final class MealInputGrid {
   private InputField<Optional<String>> nameField;
@@ -61,41 +63,41 @@ public final class MealInputGrid {
   public GridPanel initialiseInputFields(DataStore mealPlan, PluginStore pluginStore) {
     nameField = new NonEmptyTextInputField(BUNDLES.message("insertMealName"), "Name", 0);
     cookingTimeField = new ComboBoxInputField<>(
-            BUNDLES.message("insertMealLength"),
-            "CookingTime",
-            CookingTime.class,
-            CookingTime.SHORT, 10);
+        BUNDLES.message("insertMealLength"),
+        "CookingTime",
+        CookingTime.class,
+        CookingTime.SHORT, 10);
     sidedishField = new ComboBoxInputField<>(
-            BUNDLES.message("insertMealSidedish"),
-            "Sidedish",
-            Sidedish.class,
-            Sidedish.NONE, 20);
+        BUNDLES.message("insertMealSidedish"),
+        "Sidedish",
+        Sidedish.class,
+        Sidedish.NONE, 20);
     obligatoryUtensilField = new ComboBoxInputField<>(
-            BUNDLES.message("insertMealUtensil"),
-            "ObligatoryUtensil",
-            ObligatoryUtensil.class,
-            ObligatoryUtensil.POT, 30);
+        BUNDLES.message("insertMealUtensil"),
+        "ObligatoryUtensil",
+        ObligatoryUtensil.class,
+        ObligatoryUtensil.POT, 30);
     daysPassedField = new NonnegativeIntegerInputField(
         BUNDLES.message("insertMealLastCooked"),
         "DaysPassed",
         ZERO, 40);
     preferenceField = new ComboBoxInputField<>(
-            BUNDLES.message("insertMealPopularity"),
-            "CookingPreference",
-            CookingPreference.class,
-            CookingPreference.NO_PREFERENCE, 50);
+        BUNDLES.message("insertMealPopularity"),
+        "CookingPreference",
+        CookingPreference.class,
+        CookingPreference.NO_PREFERENCE, 50);
     courseTypeField = new ComboBoxInputField<>(
-            BUNDLES.message("insertMealCourseType"),
-            "CourseType",
-            CourseType.class,
-            CourseType.MAIN, 60);
+        BUNDLES.message("insertMealCourseType"),
+        "CourseType",
+        CourseType.class,
+        CourseType.MAIN, 60);
     commentField = new TextInputField(BUNDLES.message("insertMealComment"), "Comment", 70);
     recipeInputField = new ButtonInputField<>(
-            BUNDLES.message("createRecipeLabel"),
-            "Recipe",
-            BUNDLES.message("editRecipeButtonLabel"),
-            BUNDLES.message("createRecipeButtonLabel"),
-            empty(), content -> createRecipeDialog(mealPlan, content, pluginStore), 10000);
+        BUNDLES.message("createRecipeLabel"),
+        "Recipe",
+        BUNDLES.message("editRecipeButtonLabel"),
+        BUNDLES.message("createRecipeButtonLabel"),
+        empty(), content -> createRecipeDialog(mealPlan, content, pluginStore), 10000);
     mealFactFields = pluginStore
         .getRegisteredMealInputGuiExtensions()
         .stream()
@@ -120,23 +122,24 @@ public final class MealInputGrid {
   private Stream<InputField<?>> allFields() {
     return Stream.concat(
         Stream.of(nameField, cookingTimeField, sidedishField, obligatoryUtensilField,
-        daysPassedField, preferenceField, courseTypeField, commentField, recipeInputField),
+            daysPassedField, preferenceField, courseTypeField, commentField, recipeInputField),
         mealFactFields.stream())
         .sorted(comparingInt(InputField::getOrdering));
   }
 
-  public Optional<Meal> getMealFromUserInput() {
+  public Optional<Meal> getMealFromUserInput(PluginStore pluginStore) {
     return nameField.getUserInput().isPresent()
-        ? of(createMeal(randomUUID(),
-            nameField.getUserInput().get(),
-            cookingTimeField.getUserInput(),
-            sidedishField.getUserInput(),
-            obligatoryUtensilField.getUserInput(),
-            preferenceField.getUserInput(),
-            courseTypeField.getUserInput(),
-            daysPassedField.getUserInput(),
-            commentField.getUserInput(),
-            recipeInputField.getUserInput()))
+        ? of(MealBuilder.mealWithValidator(pluginStore)
+        .name(nameField.getUserInput().get())
+        .cookingTime(cookingTimeField.getUserInput())
+        .sidedish(sidedishField.getUserInput())
+        .obligatoryUtensil(obligatoryUtensilField.getUserInput())
+        .cookingPreference(preferenceField.getUserInput())
+        .courseType(courseTypeField.getUserInput())
+        .daysPassed(daysPassedField.getUserInput())
+        .comment(commentField.getUserInput())
+        .optionalRecipe(recipeInputField.getUserInput())
+        .create())
         : Optional.empty();
   }
 }

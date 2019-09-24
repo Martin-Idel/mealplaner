@@ -9,7 +9,6 @@ import static mealplaner.io.xml.adapters.RecipeAdapter.convertRecipeV3FromXml;
 import static mealplaner.io.xml.adapters.RecipeAdapter.convertRecipeV3ToXml;
 import static mealplaner.io.xml.util.FactsAdapter.extractFacts;
 import static mealplaner.io.xml.util.FactsAdapter.extractUnknownFacts;
-import static mealplaner.model.meal.Meal.createMeal;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -17,6 +16,7 @@ import java.util.stream.Collectors;
 import mealplaner.io.xml.model.v2.MealXml;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
+import mealplaner.model.meal.MealBuilder;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.MealFact;
 
@@ -39,7 +39,7 @@ public final class MealAdapter {
   }
 
   public static mealplaner.io.xml.model.v3.MealXml convertMealV3ToXml(Meal meal) {
-    var mealFacts = new ArrayList<Object>();
+    var mealFacts = new ArrayList<>();
     mealFacts.addAll(
         meal.getMealFacts()
             .values()
@@ -62,33 +62,35 @@ public final class MealAdapter {
   }
 
   public static Meal convertMealV2FromXml(MealplanerData data, MealXml meal) {
-    return createMeal(
-        meal.uuid,
-        meal.name,
-        meal.cookingTime,
-        meal.sidedish,
-        meal.obligatoryUtensil,
-        meal.cookingPreference,
-        meal.courseType,
-        nonNegative(meal.daysPassed),
-        meal.comment,
-        convertRecipeV2FromXml(data, meal.recipe));
+    return MealBuilder.meal()
+        .id(meal.uuid)
+        .name(meal.name)
+        .cookingTime(meal.cookingTime)
+        .sidedish(meal.sidedish)
+        .obligatoryUtensil(meal.obligatoryUtensil)
+        .cookingPreference(meal.cookingPreference)
+        .courseType(meal.courseType)
+        .daysPassed(nonNegative(meal.daysPassed))
+        .comment(meal.comment)
+        .optionalRecipe(convertRecipeV2FromXml(data, meal.recipe))
+        .create();
   }
 
   public static Meal convertMealV3FromXml(
       MealplanerData data, mealplaner.io.xml.model.v3.MealXml meal, PluginStore plugins) {
-    return createMeal(
-        meal.uuid,
-        meal.name,
-        meal.cookingTime,
-        meal.sidedish,
-        meal.obligatoryUtensil,
-        meal.cookingPreference,
-        meal.courseType,
-        nonNegative(meal.daysPassed),
-        meal.comment,
-        extractFacts(meal.mealFacts, plugins.getRegisteredMealExtensions()),
-        extractUnknownFacts(meal.mealFacts, plugins.getRegisteredMealExtensions()),
-        convertRecipeV3FromXml(data, meal.recipe));
+    return MealBuilder.mealWithValidator(plugins)
+        .id(meal.uuid)
+        .name(meal.name)
+        .cookingTime(meal.cookingTime)
+        .sidedish(meal.sidedish)
+        .obligatoryUtensil(meal.obligatoryUtensil)
+        .cookingPreference(meal.cookingPreference)
+        .courseType(meal.courseType)
+        .daysPassed(nonNegative(meal.daysPassed))
+        .comment(meal.comment)
+        .optionalRecipe(convertRecipeV3FromXml(data, meal.recipe))
+        .addMealMap(extractFacts(meal.mealFacts, plugins.getRegisteredMealExtensions()))
+        .addHiddenMeals(extractUnknownFacts(meal.mealFacts, plugins.getRegisteredMealExtensions()))
+        .create();
   }
 }

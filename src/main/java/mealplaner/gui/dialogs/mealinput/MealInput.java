@@ -43,15 +43,15 @@ public class MealInput implements DialogCreating<Optional<Meal>> {
     return newMeal;
   }
 
-  private void saveMeal() {
-    newMeal = getMealAndShowDialog();
+  private void saveMeal(PluginStore pluginStore) {
+    newMeal = getMealAndShowDialog(pluginStore);
     newMeal.ifPresent(meal -> dispose());
   }
 
   private void display(DataStore mealPlan, PluginStore pluginStore) {
     GridPanel mealCreationPanel = inputGrid.initialiseInputFields(mealPlan, pluginStore);
 
-    ButtonPanel buttonPanel = buildButtonPanel();
+    ButtonPanel buttonPanel = buildButtonPanel(pluginStore);
 
     dialogWindow.addCentral(mealCreationPanel);
     dialogWindow.addSouth(buttonPanel);
@@ -60,9 +60,9 @@ public class MealInput implements DialogCreating<Optional<Meal>> {
     dialogWindow.setVisible();
   }
 
-  private ButtonPanel buildButtonPanel() {
+  private ButtonPanel buildButtonPanel(PluginStore pluginStore) {
     return builder("MealInput")
-        .addSaveAndCloseButton(action -> saveMeal())
+        .addSaveAndCloseButton(action -> saveMeal(pluginStore))
         .addCancelDialogButton(dialogWindow)
         .build();
   }
@@ -75,9 +75,9 @@ public class MealInput implements DialogCreating<Optional<Meal>> {
     dialogWindow.dispose();
   }
 
-  private Optional<Meal> getMealAndShowDialog() {
-    Optional<Meal> mealFromInput = inputGrid.getMealFromUserInput();
-    if (!mealFromInput.isPresent()) {
+  private Optional<Meal> getMealAndShowDialog(PluginStore pluginStore) {
+    Optional<Meal> mealFromInput = inputGrid.getMealFromUserInput(pluginStore);
+    if (mealFromInput.isEmpty()) {
       MessageDialog.userErrorMessage(parentFrame, BUNDLES.message("menuNameChoiceEmpty"));
     }
     return mealFromInput;

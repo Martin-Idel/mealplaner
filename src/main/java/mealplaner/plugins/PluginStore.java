@@ -5,11 +5,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Supplier;
 
-import mealplaner.plugins.api.MealEditExtension;
 import mealplaner.plugins.api.IngredientEditExtension;
 import mealplaner.plugins.api.IngredientFact;
 import mealplaner.plugins.api.IngredientFactXml;
 import mealplaner.plugins.api.IngredientInputDialogExtension;
+import mealplaner.plugins.api.MealEditExtension;
 import mealplaner.plugins.api.MealFact;
 import mealplaner.plugins.api.MealFactXml;
 import mealplaner.plugins.api.MealInputDialogExtension;

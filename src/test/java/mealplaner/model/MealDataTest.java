@@ -9,6 +9,21 @@ import static mealplaner.commons.NonnegativeFraction.wholeNumber;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.MealData.createData;
 import static mealplaner.model.meal.Meal.createMeal;
+import static mealplaner.model.meal.MealBuilder.from;
+import static mealplaner.model.meal.MealBuilder.meal;
+import static mealplaner.model.meal.enums.CookingPreference.NO_PREFERENCE;
+import static mealplaner.model.meal.enums.CookingPreference.RARE;
+import static mealplaner.model.meal.enums.CookingPreference.VERY_POPULAR;
+import static mealplaner.model.meal.enums.CookingTime.LONG;
+import static mealplaner.model.meal.enums.CookingTime.MEDIUM;
+import static mealplaner.model.meal.enums.CookingTime.SHORT;
+import static mealplaner.model.meal.enums.CourseType.MAIN;
+import static mealplaner.model.meal.enums.ObligatoryUtensil.CASSEROLE;
+import static mealplaner.model.meal.enums.ObligatoryUtensil.PAN;
+import static mealplaner.model.meal.enums.ObligatoryUtensil.POT;
+import static mealplaner.model.meal.enums.Sidedish.NONE;
+import static mealplaner.model.meal.enums.Sidedish.PASTA;
+import static mealplaner.model.meal.enums.Sidedish.RICE;
 import static mealplaner.model.proposal.ProposedMenu.entryAndMain;
 import static mealplaner.model.proposal.ProposedMenu.mainAndDesert;
 import static mealplaner.model.proposal.ProposedMenu.mainOnly;
@@ -79,9 +94,15 @@ public class MealDataTest {
 
   @Test
   public void putAndGetMealWithRecipeDoesNotChangeRecipe() {
-    meal1 = createMeal(randomUUID(), "Meal1", CookingTime.SHORT, Sidedish.NONE,
-        ObligatoryUtensil.PAN, CookingPreference.NO_PREFERENCE, CourseType.MAIN, nonNegative(50),
-        "", of(getRecipe1()));
+    meal1 = meal()
+        .name("Meal1")
+        .cookingTime(SHORT)
+        .sidedish(NONE)
+        .obligatoryUtensil(PAN)
+        .cookingPreference(NO_PREFERENCE)
+        .courseType(MAIN)
+        .addDaysPassed(nonNegative(50))
+        .create();
     meals.add(meal1);
     MealplanerData data = MealplanerData.getInstance();
     sut = MealData.createData(data);
@@ -145,9 +166,9 @@ public class MealDataTest {
 
     List<Meal> mealsList = sut.getMealsInList();
 
-    Meal changedMeal = createMeal(meal1.getId(), "Meal1", CookingTime.SHORT, Sidedish.NONE,
-        ObligatoryUtensil.PAN, CookingPreference.NO_PREFERENCE, CourseType.MAIN, nonNegative(50),
-        "", of(getRecipe(ingredient1, changedIngredient)));
+    Meal changedMeal = from(meal1)
+        .optionalRecipe(of(getRecipe(ingredient1, changedIngredient)))
+        .create();
 
     assertThat(mealsList).containsExactly(changedMeal);
   }
@@ -300,9 +321,16 @@ public class MealDataTest {
   }
 
   private void setupOneMeal(Ingredient ingredient1, Ingredient ingredient2) {
-    meal1 = createMeal(randomUUID(), "Meal1", CookingTime.SHORT, Sidedish.NONE,
-        ObligatoryUtensil.PAN, CookingPreference.NO_PREFERENCE, CourseType.MAIN, nonNegative(50),
-        "", of(getRecipe(ingredient1, ingredient2)));
+    meal1 = meal()
+        .name("Meal1")
+        .cookingTime(SHORT)
+        .sidedish(NONE)
+        .obligatoryUtensil(PAN)
+        .cookingPreference(NO_PREFERENCE)
+        .courseType(MAIN)
+        .addDaysPassed(nonNegative(50))
+        .optionalRecipe(of(getRecipe(ingredient1, ingredient2)))
+        .create();
     meals.add(meal1);
   }
 
@@ -316,17 +344,35 @@ public class MealDataTest {
   }
 
   private void addInitializedMeals() throws MealException {
-    meal1 = createMeal(randomUUID(), "Meal1", CookingTime.SHORT, Sidedish.NONE,
-        ObligatoryUtensil.PAN, CookingPreference.NO_PREFERENCE, CourseType.MAIN, nonNegative(50),
-        "", empty());
+    meal1 = meal()
+        .name("Meal1")
+        .cookingTime(SHORT)
+        .sidedish(NONE)
+        .obligatoryUtensil(PAN)
+        .cookingPreference(NO_PREFERENCE)
+        .courseType(MAIN)
+        .addDaysPassed(nonNegative(50))
+        .create();
     meals.add(meal1);
-    meal2 = createMeal(randomUUID(), "Meal2", CookingTime.MEDIUM, Sidedish.PASTA,
-        ObligatoryUtensil.CASSEROLE, CookingPreference.RARE, CourseType.MAIN, nonNegative(101), "",
-        empty());
+    meal2 = meal()
+        .name("Meal2")
+        .cookingTime(MEDIUM)
+        .sidedish(PASTA)
+        .obligatoryUtensil(CASSEROLE)
+        .cookingPreference(RARE)
+        .courseType(MAIN)
+        .addDaysPassed(nonNegative(101))
+        .create();
     meals.add(meal2);
-    meal3 = createMeal(randomUUID(), "Meal4", CookingTime.LONG, Sidedish.RICE,
-        ObligatoryUtensil.POT, CookingPreference.VERY_POPULAR, CourseType.MAIN, nonNegative(20), "",
-        empty());
+    meal3 = meal()
+        .name("Meal4")
+        .cookingTime(LONG)
+        .sidedish(RICE)
+        .obligatoryUtensil(POT)
+        .cookingPreference(VERY_POPULAR)
+        .courseType(MAIN)
+        .addDaysPassed(nonNegative(20))
+        .create();
     meals.add(meal3);
   }
 }

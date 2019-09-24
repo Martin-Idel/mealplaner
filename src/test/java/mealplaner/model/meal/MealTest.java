@@ -2,25 +2,22 @@
 
 package mealplaner.model.meal;
 
-import static java.util.Optional.empty;
-import static java.util.UUID.randomUUID;
+import static mealplaner.commons.NonnegativeInteger.FIVE;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
-import static mealplaner.model.meal.Meal.createMeal;
+import static mealplaner.model.meal.enums.CookingPreference.NO_PREFERENCE;
+import static mealplaner.model.meal.enums.CookingTime.SHORT;
+import static mealplaner.model.meal.enums.CourseType.MAIN;
+import static mealplaner.model.meal.enums.ObligatoryUtensil.POT;
+import static mealplaner.model.meal.enums.Sidedish.PASTA;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.getMeal2;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import mealplaner.commons.errorhandling.MealException;
-import mealplaner.model.meal.enums.CookingPreference;
-import mealplaner.model.meal.enums.CookingTime;
-import mealplaner.model.meal.enums.CourseType;
-import mealplaner.model.meal.enums.ObligatoryUtensil;
-import mealplaner.model.meal.enums.Sidedish;
 import mealplaner.plugins.api.MealFact;
 
 public class MealTest {
@@ -30,18 +27,17 @@ public class MealTest {
   public void setup() throws MealException {
     var mealFacts = new HashMap<Class, MealFact>();
     mealFacts.put(TestMealFact.class, new TestMealFact("unmodifiable"));
-    sut = createMeal(randomUUID(),
-        "Test",
-        CookingTime.SHORT,
-        Sidedish.PASTA,
-        ObligatoryUtensil.POT,
-        CookingPreference.NO_PREFERENCE,
-        CourseType.MAIN,
-        nonNegative(5),
-        "",
-        mealFacts,
-        new ArrayList<>(),
-        empty());
+    sut = MealBuilder.meal()
+        .name("Test")
+        .cookingTime(SHORT)
+        .sidedish(PASTA)
+        .obligatoryUtensil(POT)
+        .cookingPreference(NO_PREFERENCE)
+        .daysPassed(FIVE)
+        .courseType(MAIN)
+        .comment("")
+        .addMealMap(mealFacts)
+        .create();
   }
 
   @Test
@@ -52,16 +48,16 @@ public class MealTest {
 
   @Test(expected = MealException.class)
   public void setNameWithOnlyWhitespace() throws MealException {
-    sut = createMeal(randomUUID(),
-        "",
-        CookingTime.SHORT,
-        Sidedish.PASTA,
-        ObligatoryUtensil.POT,
-        CookingPreference.NO_PREFERENCE,
-        CourseType.MAIN,
-        nonNegative(5),
-        "",
-        empty());
+    sut = MealBuilder.meal()
+        .name("")
+        .cookingTime(SHORT)
+        .sidedish(PASTA)
+        .obligatoryUtensil(POT)
+        .cookingPreference(NO_PREFERENCE)
+        .daysPassed(FIVE)
+        .courseType(MAIN)
+        .comment("")
+        .create();
 
     assertThat(sut.getName()).isEqualTo("Test");
   }

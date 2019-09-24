@@ -2,14 +2,31 @@
 
 package testcommons;
 
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.UUID.nameUUIDFromBytes;
 import static mealplaner.commons.NonnegativeFraction.fraction;
 import static mealplaner.commons.NonnegativeFraction.wholeNumber;
+import static mealplaner.commons.NonnegativeInteger.FIVE;
+import static mealplaner.commons.NonnegativeInteger.ONE;
+import static mealplaner.commons.NonnegativeInteger.TWO;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.MealplanerData.getInstance;
-import static mealplaner.model.meal.Meal.createMeal;
+import static mealplaner.model.meal.enums.CookingPreference.NO_PREFERENCE;
+import static mealplaner.model.meal.enums.CookingPreference.RARE;
+import static mealplaner.model.meal.enums.CookingPreference.VERY_POPULAR;
+import static mealplaner.model.meal.enums.CookingTime.LONG;
+import static mealplaner.model.meal.enums.CookingTime.MEDIUM;
+import static mealplaner.model.meal.enums.CookingTime.SHORT;
+import static mealplaner.model.meal.enums.CookingTime.VERY_SHORT;
+import static mealplaner.model.meal.enums.CourseType.DESERT;
+import static mealplaner.model.meal.enums.CourseType.ENTRY;
+import static mealplaner.model.meal.enums.CourseType.MAIN;
+import static mealplaner.model.meal.enums.ObligatoryUtensil.CASSEROLE;
+import static mealplaner.model.meal.enums.ObligatoryUtensil.PAN;
+import static mealplaner.model.meal.enums.ObligatoryUtensil.POT;
+import static mealplaner.model.meal.enums.Sidedish.NONE;
+import static mealplaner.model.meal.enums.Sidedish.PASTA;
+import static mealplaner.model.meal.enums.Sidedish.RICE;
 import static mealplaner.model.proposal.Proposal.from;
 import static mealplaner.model.proposal.ProposedMenu.mainOnly;
 import static mealplaner.model.recipes.Ingredient.ingredientWithUuid;
@@ -18,7 +35,6 @@ import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitative
 import static mealplaner.model.settings.Settings.from;
 import static mealplaner.model.settings.subsettings.CookingTimeSetting.cookingTimeWithProhibited;
 
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,11 +43,8 @@ import java.util.List;
 import mealplaner.commons.NonnegativeFraction;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
-import mealplaner.model.meal.enums.CookingPreference;
+import mealplaner.model.meal.MealBuilder;
 import mealplaner.model.meal.enums.CookingTime;
-import mealplaner.model.meal.enums.CourseType;
-import mealplaner.model.meal.enums.ObligatoryUtensil;
-import mealplaner.model.meal.enums.Sidedish;
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.recipes.Ingredient;
@@ -49,81 +62,91 @@ public final class CommonFunctions {
   }
 
   public static Meal getMeal1() {
-    return createMeal(nameUUIDFromBytes("Test1Meal".getBytes(StandardCharsets.UTF_8)),
-        "Test1",
-        CookingTime.SHORT,
-        Sidedish.PASTA,
-        ObligatoryUtensil.PAN,
-        CookingPreference.VERY_POPULAR,
-        CourseType.MAIN,
-        nonNegative(5),
-        "no comment",
-        empty());
+    return MealBuilder.meal()
+        .id(nameUUIDFromBytes("Test1Meal".getBytes(UTF_8)))
+        .name("Test1")
+        .cookingTime(SHORT)
+        .sidedish(PASTA)
+        .obligatoryUtensil(PAN)
+        .cookingPreference(VERY_POPULAR)
+        .courseType(MAIN)
+        .daysPassed(FIVE)
+        .comment("no comment")
+        .create();
   }
 
   public static Meal getMeal2() {
-    return createMeal(nameUUIDFromBytes("Test2Meal".getBytes(StandardCharsets.UTF_8)),
-        "Test2",
-        CookingTime.SHORT,
-        Sidedish.NONE,
-        ObligatoryUtensil.POT,
-        CookingPreference.NO_PREFERENCE,
-        CourseType.MAIN,
-        nonNegative(1),
-        "",
-        of(getRecipe1()));
+    return MealBuilder.meal()
+        .id(nameUUIDFromBytes("Test2Meal".getBytes(UTF_8)))
+        .name("Test2")
+        .cookingTime(SHORT)
+        .sidedish(NONE)
+        .obligatoryUtensil(POT)
+        .cookingPreference(NO_PREFERENCE)
+        .courseType(MAIN)
+        .daysPassed(ONE)
+        .comment("")
+        .recipe(getRecipe1())
+        .create();
   }
 
   public static Meal getMeal3() {
-    return createMeal(nameUUIDFromBytes("Test3Meal".getBytes(StandardCharsets.UTF_8)),
-        "Test3",
-        CookingTime.MEDIUM,
-        Sidedish.RICE,
-        ObligatoryUtensil.POT,
-        CookingPreference.NO_PREFERENCE,
-        CourseType.MAIN,
-        nonNegative(2),
-        "",
-        of(getRecipe2()));
+    return MealBuilder.meal()
+        .id(nameUUIDFromBytes("Test3Meal".getBytes(UTF_8)))
+        .name("Test3")
+        .cookingTime(MEDIUM)
+        .sidedish(RICE)
+        .obligatoryUtensil(POT)
+        .cookingPreference(NO_PREFERENCE)
+        .courseType(MAIN)
+        .daysPassed(TWO)
+        .comment("")
+        .recipe(getRecipe2())
+        .create();
   }
 
   public static Meal getMealEntry() {
-    return createMeal(nameUUIDFromBytes("Test4Meal".getBytes(StandardCharsets.UTF_8)),
-        "Test4",
-        CookingTime.LONG,
-        Sidedish.RICE,
-        ObligatoryUtensil.PAN,
-        CookingPreference.NO_PREFERENCE,
-        CourseType.ENTRY,
-        nonNegative(2),
-        "",
-        of(getRecipe2()));
+    return MealBuilder.meal()
+        .id(nameUUIDFromBytes("Test4Meal".getBytes(UTF_8)))
+        .name("Test4")
+        .cookingTime(LONG)
+        .sidedish(RICE)
+        .obligatoryUtensil(PAN)
+        .cookingPreference(NO_PREFERENCE)
+        .courseType(ENTRY)
+        .daysPassed(TWO)
+        .comment("")
+        .recipe(getRecipe2())
+        .create();
   }
 
   public static Meal getMealDesert() {
-    return createMeal(nameUUIDFromBytes("Test5Meal".getBytes(StandardCharsets.UTF_8)),
-        "Test5",
-        CookingTime.VERY_SHORT,
-        Sidedish.RICE,
-        ObligatoryUtensil.POT,
-        CookingPreference.VERY_POPULAR,
-        CourseType.DESERT,
-        nonNegative(2),
-        "",
-        of(getRecipe2()));
+    return MealBuilder.meal()
+        .id(nameUUIDFromBytes("Test5Meal".getBytes(UTF_8)))
+        .name("Test4")
+        .cookingTime(VERY_SHORT)
+        .sidedish(RICE)
+        .obligatoryUtensil(POT)
+        .cookingPreference(VERY_POPULAR)
+        .courseType(DESERT)
+        .daysPassed(TWO)
+        .comment("")
+        .recipe(getRecipe2())
+        .create();
   }
 
   public static Meal getMealEntry2() {
-    return createMeal(nameUUIDFromBytes("Test6Meal".getBytes(StandardCharsets.UTF_8)),
-        "Test6",
-        CookingTime.VERY_SHORT,
-        Sidedish.NONE,
-        ObligatoryUtensil.CASSEROLE,
-        CookingPreference.RARE,
-        CourseType.ENTRY,
-        nonNegative(2),
-        "",
-        empty());
+    return MealBuilder.meal()
+        .id(nameUUIDFromBytes("Test6Meal".getBytes(UTF_8)))
+        .name("Test6")
+        .cookingTime(VERY_SHORT)
+        .sidedish(NONE)
+        .obligatoryUtensil(CASSEROLE)
+        .cookingPreference(RARE)
+        .courseType(ENTRY)
+        .daysPassed(TWO)
+        .comment("")
+        .create();
   }
 
   public static Recipe getRecipe1() {
@@ -154,24 +177,24 @@ public final class CommonFunctions {
   }
 
   public static Ingredient getIngredient1() {
-    return ingredientWithUuid(nameUUIDFromBytes("Test1".getBytes(StandardCharsets.UTF_8)), "Test1",
+    return ingredientWithUuid(nameUUIDFromBytes("Test1".getBytes(UTF_8)), "Test1",
         IngredientType.FRESH_FRUIT, createMeasures(Measure.GRAM));
   }
 
   public static Ingredient getIngredient2() {
-    return ingredientWithUuid(nameUUIDFromBytes("Test2".getBytes(StandardCharsets.UTF_8)), "Test2",
+    return ingredientWithUuid(nameUUIDFromBytes("Test2".getBytes(UTF_8)), "Test2",
         IngredientType.BAKING_GOODS, createMeasures(Measure.MILLILITRE));
   }
 
   public static Ingredient getIngredient3() {
-    return ingredientWithUuid(nameUUIDFromBytes("Test3".getBytes(StandardCharsets.UTF_8)), "Test3",
+    return ingredientWithUuid(nameUUIDFromBytes("Test3".getBytes(UTF_8)), "Test3",
         IngredientType.CANNED_FRUIT, createMeasures(Measure.GRAM));
   }
 
   public static Ingredient getIngredient4() {
     var secondaries = new HashMap<Measure, NonnegativeFraction>();
     secondaries.put(Measure.TEASPOON, fraction(1, 2));
-    return ingredientWithUuid(nameUUIDFromBytes("Test4".getBytes(StandardCharsets.UTF_8)), "Test4",
+    return ingredientWithUuid(nameUUIDFromBytes("Test4".getBytes(UTF_8)), "Test4",
         IngredientType.MEAT_PRODUCTS, createMeasures(Measure.GRAM, secondaries));
   }
 
@@ -181,7 +204,7 @@ public final class CommonFunctions {
   }
 
   public static Settings getSettings2() {
-    return from(cookingTimeWithProhibited(CookingTime.SHORT), nonNegative(4),
+    return from(cookingTimeWithProhibited(SHORT), nonNegative(4),
         CasseroleSettings.POSSIBLE, PreferenceSettings.RARE_PREFERED, CourseSettings.ONLY_MAIN);
   }
 
