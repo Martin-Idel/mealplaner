@@ -4,10 +4,9 @@ package mealplaner.model.settings;
 
 import static java.time.DayOfWeek.SATURDAY;
 import static java.time.DayOfWeek.TUESDAY;
-import static mealplaner.commons.NonnegativeInteger.nonNegative;
+import static mealplaner.commons.NonnegativeInteger.THREE;
 import static mealplaner.model.meal.enums.CookingTime.LONG;
 import static mealplaner.model.settings.DefaultSettings.from;
-import static mealplaner.model.settings.Settings.from;
 import static mealplaner.model.settings.enums.CasseroleSettings.ONLY;
 import static mealplaner.model.settings.enums.PreferenceSettings.RARE_PREFERED;
 import static mealplaner.model.settings.subsettings.CookingTimeSetting.cookingTimeWithProhibited;
@@ -27,12 +26,13 @@ public class DefaultSettingsTest {
   public void constructingFromMapAndGettingAMapCopyWorks() {
     Map<DayOfWeek, Settings> defaultSettings = new HashMap<>();
     defaultSettings.put(TUESDAY, getSettings1());
-    defaultSettings.put(SATURDAY,
-        from(cookingTimeWithProhibited(LONG),
-            nonNegative(3),
-            ONLY,
-            RARE_PREFERED,
-            CourseSettings.ONLY_MAIN));
+    defaultSettings.put(SATURDAY, SettingsBuilder.setting()
+        .time(cookingTimeWithProhibited(LONG))
+        .numberOfPeople(THREE)
+        .casserole(ONLY)
+        .preference(RARE_PREFERED)
+        .course(CourseSettings.ONLY_MAIN)
+        .create());
 
     Map<DayOfWeek, Settings> defaultSettingsActual = from(defaultSettings)
         .getDefaultSettings();

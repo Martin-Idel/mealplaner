@@ -4,7 +4,7 @@ package mealplaner.model.settings;
 
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toMap;
-import static mealplaner.model.settings.Settings.createSettings;
+import static mealplaner.model.settings.SettingsBuilder.defaultSetting;
 
 import java.time.DayOfWeek;
 import java.util.Arrays;
@@ -19,7 +19,7 @@ public final class DefaultSettings {
   private DefaultSettings(Map<DayOfWeek, Settings> defaultSettings) {
     this.defaultSettings = defaultSettings;
     DAYS_OF_WEEK.forEach(dayOfWeek -> this.defaultSettings
-        .computeIfAbsent(dayOfWeek, day -> createSettings()));
+        .computeIfAbsent(dayOfWeek, day -> defaultSetting()));
   }
 
   public static DefaultSettings from(Map<DayOfWeek, Settings> defaultSettings) {

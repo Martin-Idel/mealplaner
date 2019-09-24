@@ -154,22 +154,23 @@ public final class MealBuilder {
     }
     return Meal.createMeal(uuid,
         MealMetaData.createMealMetaData(name,
-        cookingTime,
-        sidedish,
-        obligatoryUtensil,
-        cookingPreference,
-        courseType,
-        comment,
-        mealFactMap,
-        hiddenMealFacts),
+            cookingTime,
+            sidedish,
+            obligatoryUtensil,
+            cookingPreference,
+            courseType,
+            comment,
+            mealFactMap,
+            hiddenMealFacts),
         daysPassed,
         recipe);
   }
 
   private void validateFacts() {
-    Set<Class<? extends Fact>> allRegisteredFacts = validationStore.getRegisteredMealExtensions().getAllRegisteredFacts();
+    Set<Class<? extends Fact>> allRegisteredFacts =
+        validationStore.getRegisteredMealExtensions().getAllRegisteredFacts();
     for (var fact : allRegisteredFacts) {
-      if(!mealFactMap.containsKey(fact)) {
+      if (!mealFactMap.containsKey(fact)) {
         throw new MealException("Class does not contain fact of type " + fact);
       }
     }

@@ -21,11 +21,10 @@ import static mealplaner.model.meal.enums.ObligatoryUtensil.POT;
 import static mealplaner.model.meal.enums.Sidedish.NONE;
 import static mealplaner.model.meal.enums.Sidedish.PASTA;
 import static mealplaner.model.meal.enums.Sidedish.POTATOES;
-import static mealplaner.model.settings.Settings.from;
-import static mealplaner.model.settings.subsettings.CookingTimeSetting.cookingTimeWithProhibited;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.getMeal1;
 import static testcommons.CommonFunctions.getSettings1;
+import static testcommons.CommonFunctions.getSettings4;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,10 +34,6 @@ import java.util.UUID;
 import org.junit.Test;
 
 import mealplaner.model.meal.Meal;
-import mealplaner.model.settings.Settings;
-import mealplaner.model.settings.enums.CasseroleSettings;
-import mealplaner.model.settings.enums.CourseSettings;
-import mealplaner.model.settings.enums.PreferenceSettings;
 
 public class EntryProposalTest {
   private final List<Meal> meals = new ArrayList<>();
@@ -102,9 +97,6 @@ public class EntryProposalTest {
         .create();
     meals.add(meal2);
 
-    Settings settings = from(cookingTimeWithProhibited(), nonNegative(3),
-        CasseroleSettings.NONE, PreferenceSettings.RARE_PREFERED, CourseSettings.ONLY_MAIN);
-
     Meal main = meal()
         .id(nameUUIDFromBytes("TestMain".getBytes(UTF_8)))
         .name("Meal1")
@@ -119,7 +111,7 @@ public class EntryProposalTest {
 
     sut = new EntryProposal(meals, new PreferenceMultiplier(getPreferenceMap()));
 
-    Optional<UUID> proposeNextEntry = sut.proposeNextEntry(settings, main,
+    Optional<UUID> proposeNextEntry = sut.proposeNextEntry(getSettings4(), main,
         new ArrayList<>());
 
     assertThat(proposeNextEntry)
@@ -152,9 +144,6 @@ public class EntryProposalTest {
         .create();
     meals.add(meal2);
 
-    Settings settings = from(cookingTimeWithProhibited(), nonNegative(3),
-        CasseroleSettings.NONE, PreferenceSettings.RARE_PREFERED, CourseSettings.ONLY_MAIN);
-
     Meal main = meal()
         .id(nameUUIDFromBytes("TestMain".getBytes(UTF_8)))
         .name("Meal1")
@@ -169,7 +158,7 @@ public class EntryProposalTest {
 
     sut = new EntryProposal(meals, new PreferenceMultiplier(getPreferenceMap()));
 
-    Optional<UUID> proposeNextEntry = sut.proposeNextEntry(settings, main,
+    Optional<UUID> proposeNextEntry = sut.proposeNextEntry(getSettings4(), main,
         new ArrayList<>());
 
     assertThat(proposeNextEntry)
@@ -202,9 +191,6 @@ public class EntryProposalTest {
         .create();
     meals.add(meal2);
 
-    Settings settings = from(cookingTimeWithProhibited(), nonNegative(3),
-        CasseroleSettings.NONE, PreferenceSettings.RARE_PREFERED, CourseSettings.ONLY_MAIN);
-
     Meal main = meal()
         .id(nameUUIDFromBytes("TestMain".getBytes(UTF_8)))
         .name("Meal1")
@@ -218,7 +204,7 @@ public class EntryProposalTest {
         .create();
     sut = new EntryProposal(meals, new PreferenceMultiplier(getPreferenceMap()));
 
-    Optional<UUID> proposeNextEntry = sut.proposeNextEntry(settings, main,
+    Optional<UUID> proposeNextEntry = sut.proposeNextEntry(getSettings4(), main,
         new ArrayList<>());
 
     assertThat(proposeNextEntry)
@@ -251,9 +237,6 @@ public class EntryProposalTest {
         .create();
     meals.add(meal2);
 
-    Settings settings = from(cookingTimeWithProhibited(), nonNegative(3),
-        CasseroleSettings.NONE, PreferenceSettings.RARE_PREFERED, CourseSettings.ONLY_MAIN);
-
     Meal main = meal()
         .id(nameUUIDFromBytes("TestMain".getBytes(UTF_8)))
         .name("Meal1")
@@ -267,7 +250,7 @@ public class EntryProposalTest {
         .create();
     sut = new EntryProposal(meals, new PreferenceMultiplier(getPreferenceMap()));
 
-    Optional<UUID> proposeNextEntry = sut.proposeNextEntry(settings, main,
+    Optional<UUID> proposeNextEntry = sut.proposeNextEntry(getSettings4(), main,
         new ArrayList<>());
 
     assertThat(proposeNextEntry)

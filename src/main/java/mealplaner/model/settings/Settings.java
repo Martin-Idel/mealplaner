@@ -2,18 +2,11 @@
 
 package mealplaner.model.settings;
 
-import static mealplaner.commons.NonnegativeInteger.TWO;
-import static mealplaner.model.settings.enums.CasseroleSettings.POSSIBLE;
-import static mealplaner.model.settings.enums.CourseSettings.ONLY_MAIN;
-import static mealplaner.model.settings.enums.PreferenceSettings.NORMAL;
 import static mealplaner.model.settings.subsettings.CookingPreferenceSetting.createCookingPreferenceSettings;
 import static mealplaner.model.settings.subsettings.CookingTimeSetting.copyCookingTimeSetting;
-import static mealplaner.model.settings.subsettings.CookingTimeSetting.defaultCookingTime;
 import static mealplaner.model.settings.subsettings.CookingUtensilSetting.copyUtensilSetting;
 import static mealplaner.model.settings.subsettings.CookingUtensilSetting.createCookingUtensilSettings;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,15 +32,15 @@ public final class Settings {
   private final Map<Class, Setting> subSettings;
   private final List<Element> hiddenSubSettings;
 
-  private Settings(
+  Settings(
       CookingTimeSetting cookingTime,
       NonnegativeInteger numberOfPeople,
       CasseroleSettings casseroleSettings,
       PreferenceSettings preferenceSettings,
       CourseSettings courseSettings,
-      Map<Class, Setting> mealFacts,
+      Map<Class, Setting> settingFacts,
       List<Element> hiddenSubSettings) {
-    this.subSettings = mealFacts;
+    this.subSettings = settingFacts;
     this.hiddenSubSettings = hiddenSubSettings;
     this.cookingPreferences = createCookingPreferenceSettings();
     this.cookingTime = cookingTime;
@@ -74,67 +67,8 @@ public final class Settings {
     this.hiddenSubSettings = setting.getHiddenSubSettings();
   }
 
-  public static Settings from(
-      CookingTimeSetting cookingTime,
-      NonnegativeInteger numberOfPeople,
-      CasseroleSettings casseroleSettings,
-      PreferenceSettings preferenceSettings,
-      CourseSettings courseSettings,
-      Map<Class, Setting> subSettings,
-      List<Element> hiddenSubSettings) {
-    return new Settings(cookingTime,
-        numberOfPeople,
-        casseroleSettings,
-        preferenceSettings,
-        courseSettings,
-        subSettings,
-        hiddenSubSettings);
-  }
-
-  public static Settings from(
-      CookingTimeSetting cookingTime,
-      NonnegativeInteger numberOfPeople,
-      CasseroleSettings casseroleSettings,
-      PreferenceSettings preferenceSettings,
-      CourseSettings courseSettings) {
-    return new Settings(cookingTime,
-        numberOfPeople,
-        casseroleSettings,
-        preferenceSettings,
-        courseSettings, new HashMap<>(), new ArrayList<>());
-  }
-
-  public static Settings createSettings() {
-    return new Settings(defaultCookingTime(), TWO, POSSIBLE, NORMAL, ONLY_MAIN, new HashMap<>(), new ArrayList<>());
-  }
-
   public static Settings copy(Settings setting) {
     return new Settings(setting);
-  }
-
-  public Settings changeCookingTime(CookingTimeSetting cookingTime) {
-    return Settings.from(cookingTime, numberOfPeople, casseroleSettings, preference,
-        courseSettings);
-  }
-
-  public Settings changeNumberOfPeople(NonnegativeInteger numberOfPeople) {
-    return Settings.from(cookingTime, numberOfPeople, casseroleSettings, preference,
-        courseSettings);
-  }
-
-  public Settings changeCasserole(CasseroleSettings casseroleSettings) {
-    return Settings.from(cookingTime, numberOfPeople, casseroleSettings, preference,
-        courseSettings);
-  }
-
-  public Settings changePreference(PreferenceSettings preferenceSettings) {
-    return Settings.from(cookingTime, numberOfPeople, casseroleSettings, preferenceSettings,
-        courseSettings);
-  }
-
-  public Settings changeCourseSettings(CourseSettings courseSettings) {
-    return Settings.from(cookingTime, numberOfPeople, casseroleSettings, preference,
-        courseSettings);
   }
 
   public NonnegativeInteger getNumberOfPeople() {
@@ -215,6 +149,6 @@ public final class Settings {
         + ", cookingPreferences=" + cookingPreferences + ", cookingTime=" + cookingTime
         + ", cookingUtensil=" + cookingUtensil + ", courseSettings=" + courseSettings
         + ", numberOfPeople=" + numberOfPeople + ", subSettings=" + subSettings
-        + ", hiddenSubSettins="  + hiddenSubSettings + "]";
+        + ", hiddenSubSettings="  + hiddenSubSettings + "]";
   }
 }

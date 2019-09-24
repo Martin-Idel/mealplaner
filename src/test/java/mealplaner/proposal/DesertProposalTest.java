@@ -21,11 +21,10 @@ import static mealplaner.model.meal.enums.ObligatoryUtensil.POT;
 import static mealplaner.model.meal.enums.Sidedish.NONE;
 import static mealplaner.model.meal.enums.Sidedish.PASTA;
 import static mealplaner.model.meal.enums.Sidedish.POTATOES;
-import static mealplaner.model.settings.Settings.from;
-import static mealplaner.model.settings.subsettings.CookingTimeSetting.cookingTimeWithProhibited;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.getMeal1;
 import static testcommons.CommonFunctions.getSettings1;
+import static testcommons.CommonFunctions.getSettings3;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,10 +34,6 @@ import java.util.UUID;
 import org.junit.Test;
 
 import mealplaner.model.meal.Meal;
-import mealplaner.model.settings.Settings;
-import mealplaner.model.settings.enums.CasseroleSettings;
-import mealplaner.model.settings.enums.CourseSettings;
-import mealplaner.model.settings.enums.PreferenceSettings;
 
 public class DesertProposalTest {
   private final List<Meal> meals = new ArrayList<>();
@@ -102,9 +97,6 @@ public class DesertProposalTest {
         .create();
     meals.add(meal2);
 
-    Settings settings = from(cookingTimeWithProhibited(), nonNegative(3),
-        CasseroleSettings.NONE, PreferenceSettings.RARE_PREFERED, CourseSettings.ONLY_MAIN);
-
     Meal main = meal()
         .id(nameUUIDFromBytes("TestMain".getBytes(UTF_8)))
         .name("Meal1")
@@ -119,7 +111,7 @@ public class DesertProposalTest {
 
     sut = new DesertProposal(meals, new PreferenceMultiplier(getPreferenceMap()));
 
-    Optional<UUID> proposeNextDesert = sut.proposeNextDesert(settings, main,
+    Optional<UUID> proposeNextDesert = sut.proposeNextDesert(getSettings3(), main,
         new ArrayList<>());
 
     assertThat(proposeNextDesert)
@@ -154,9 +146,6 @@ public class DesertProposalTest {
         .create();
     meals.add(meal2);
 
-    Settings settings = from(cookingTimeWithProhibited(), nonNegative(3),
-        CasseroleSettings.NONE, PreferenceSettings.RARE_PREFERED, CourseSettings.ONLY_MAIN);
-
     Meal main = meal()
         .id(nameUUIDFromBytes("TestMain".getBytes(UTF_8)))
         .name("Meal1")
@@ -170,7 +159,7 @@ public class DesertProposalTest {
         .create();
     sut = new DesertProposal(meals, new PreferenceMultiplier(getPreferenceMap()));
 
-    Optional<UUID> proposeNextDesert = sut.proposeNextDesert(settings, main,
+    Optional<UUID> proposeNextDesert = sut.proposeNextDesert(getSettings3(), main,
         new ArrayList<>());
 
     assertThat(proposeNextDesert)
@@ -204,9 +193,6 @@ public class DesertProposalTest {
         .create();
     meals.add(meal2);
 
-    Settings settings = from(cookingTimeWithProhibited(), nonNegative(3),
-        CasseroleSettings.NONE, PreferenceSettings.RARE_PREFERED, CourseSettings.ONLY_MAIN);
-
     Meal main = meal()
         .id(nameUUIDFromBytes("TestMain".getBytes(UTF_8)))
         .name("Meal2")
@@ -221,7 +207,7 @@ public class DesertProposalTest {
 
     sut = new DesertProposal(meals, new PreferenceMultiplier(getPreferenceMap()));
 
-    Optional<UUID> proposeNextDesert = sut.proposeNextDesert(settings, main,
+    Optional<UUID> proposeNextDesert = sut.proposeNextDesert(getSettings3(), main,
         new ArrayList<>());
 
     assertThat(proposeNextDesert)
@@ -255,9 +241,6 @@ public class DesertProposalTest {
         .create();
     meals.add(meal2);
 
-    Settings settings = from(cookingTimeWithProhibited(), nonNegative(3),
-        CasseroleSettings.NONE, PreferenceSettings.RARE_PREFERED, CourseSettings.ONLY_MAIN);
-
     Meal main = meal()
         .id(nameUUIDFromBytes("TestMain".getBytes(UTF_8)))
         .name("Meal1")
@@ -272,7 +255,7 @@ public class DesertProposalTest {
 
     sut = new DesertProposal(meals, new PreferenceMultiplier(getPreferenceMap()));
 
-    Optional<UUID> proposeNextDesert = sut.proposeNextDesert(settings, main,
+    Optional<UUID> proposeNextDesert = sut.proposeNextDesert(getSettings3(), main,
         new ArrayList<>());
 
     assertThat(proposeNextDesert)

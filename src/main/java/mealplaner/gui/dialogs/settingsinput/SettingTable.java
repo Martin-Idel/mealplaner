@@ -12,6 +12,7 @@ import static mealplaner.commons.gui.tables.TableColumnBuilder.withBooleanConten
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withEnumContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withNonnegativeIntegerContent;
+import static mealplaner.model.settings.SettingsBuilder.from;
 import static mealplaner.model.settings.subsettings.CookingTimeSetting.copyCookingTimeSetting;
 
 import java.time.DayOfWeek;
@@ -98,14 +99,14 @@ class SettingTable {
             .withColumnName(BUNDLES.message("manyColumn"))
             .getValueFromOrderedList(settings, Settings::getNumberOfPeople)
             .setValueToOrderedImmutableList(settings,
-                    Settings::changeNumberOfPeople)
+                (setting, numberOfPoeple) -> from(setting).numberOfPeople(numberOfPoeple).create())
             .isEditable()
             .build())
         .addColumn(withEnumContent(CasseroleSettings.class)
             .withColumnName(BUNDLES.message("casseroleColumn"))
             .getValueFromOrderedList(settings, Settings::getCasserole)
             .setValueToOrderedImmutableList(settings,
-                    Settings::changeCasserole)
+                (setting, casserole) -> from(setting).casserole(casserole).create())
             .setPreferredSize(100)
             .isEditable()
             .build())
@@ -113,7 +114,7 @@ class SettingTable {
             .withColumnName(BUNDLES.message("preferenceColumn"))
             .getValueFromOrderedList(settings, Settings::getPreference)
             .setValueToOrderedImmutableList(settings,
-                    Settings::changePreference)
+                (setting, preference) -> from(setting).preference(preference).create())
             .isEditable()
             .setPreferredSize(100)
             .build())
@@ -121,7 +122,7 @@ class SettingTable {
             .withColumnName(BUNDLES.message("courseSettingColumn"))
             .getValueFromOrderedList(settings, Settings::getCourseSettings)
             .setValueToOrderedImmutableList(settings,
-                    Settings::changeCourseSettings)
+                (setting, course) -> from(setting).course(course).create())
             .isEditable()
             .setPreferredSize(120)
             .build());
@@ -150,21 +151,22 @@ class SettingTable {
         .build());
   }
 
-  private void addCookingTimeColumnFor(CookingTime time, String columnName,
-      FlexibleTableBuilder tableBuilder) {
+  private void addCookingTimeColumnFor(
+      CookingTime time, String columnName, FlexibleTableBuilder tableBuilder) {
     tableBuilder.addColumn(withBooleanContent()
         .withColumnName(columnName)
         .getValueFromOrderedList(settings,
             setting -> !setting.getCookingTime().contains(time))
         .setValueToOrderedImmutableList(settings,
-            (element, value) -> element.changeCookingTime(changeStateOf(time, value,
-                copyCookingTimeSetting(element.getCookingTime()))))
+            (element, value) -> from(element).time(changeStateOf(time, value,
+                copyCookingTimeSetting(element.getCookingTime()))).create())
         .isEditable()
         .setPreferredSize(50)
         .build());
   }
 
-  private CookingTimeSetting changeStateOf(CookingTime cookingTime, Object value,
+  private CookingTimeSetting changeStateOf(
+      CookingTime cookingTime, Object value,
       CookingTimeSetting newCookingTimeSetting) {
     if ((Boolean) value) {
       newCookingTimeSetting.allowCookingTime(cookingTime);

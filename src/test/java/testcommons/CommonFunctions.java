@@ -7,7 +7,9 @@ import static java.util.UUID.nameUUIDFromBytes;
 import static mealplaner.commons.NonnegativeFraction.fraction;
 import static mealplaner.commons.NonnegativeFraction.wholeNumber;
 import static mealplaner.commons.NonnegativeInteger.FIVE;
+import static mealplaner.commons.NonnegativeInteger.FOUR;
 import static mealplaner.commons.NonnegativeInteger.ONE;
+import static mealplaner.commons.NonnegativeInteger.THREE;
 import static mealplaner.commons.NonnegativeInteger.TWO;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.MealplanerData.getInstance;
@@ -24,7 +26,6 @@ import static mealplaner.model.meal.enums.CourseType.MAIN;
 import static mealplaner.model.meal.enums.ObligatoryUtensil.CASSEROLE;
 import static mealplaner.model.meal.enums.ObligatoryUtensil.PAN;
 import static mealplaner.model.meal.enums.ObligatoryUtensil.POT;
-import static mealplaner.model.meal.enums.Sidedish.NONE;
 import static mealplaner.model.meal.enums.Sidedish.PASTA;
 import static mealplaner.model.meal.enums.Sidedish.RICE;
 import static mealplaner.model.proposal.Proposal.from;
@@ -32,7 +33,11 @@ import static mealplaner.model.proposal.ProposedMenu.mainOnly;
 import static mealplaner.model.recipes.Ingredient.ingredientWithUuid;
 import static mealplaner.model.recipes.Measures.createMeasures;
 import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitativeIngredient;
-import static mealplaner.model.settings.Settings.from;
+import static mealplaner.model.settings.SettingsBuilder.setting;
+import static mealplaner.model.settings.enums.CasseroleSettings.POSSIBLE;
+import static mealplaner.model.settings.enums.CourseSettings.MAIN_DESERT;
+import static mealplaner.model.settings.enums.CourseSettings.ONLY_MAIN;
+import static mealplaner.model.settings.enums.PreferenceSettings.RARE_PREFERED;
 import static mealplaner.model.settings.subsettings.CookingTimeSetting.cookingTimeWithProhibited;
 
 import java.time.LocalDate;
@@ -44,7 +49,7 @@ import mealplaner.commons.NonnegativeFraction;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.meal.MealBuilder;
-import mealplaner.model.meal.enums.CookingTime;
+import mealplaner.model.meal.enums.Sidedish;
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.recipes.Ingredient;
@@ -53,9 +58,8 @@ import mealplaner.model.recipes.Measure;
 import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 import mealplaner.model.settings.Settings;
+import mealplaner.model.settings.SettingsBuilder;
 import mealplaner.model.settings.enums.CasseroleSettings;
-import mealplaner.model.settings.enums.CourseSettings;
-import mealplaner.model.settings.enums.PreferenceSettings;
 
 public final class CommonFunctions {
   private CommonFunctions() {
@@ -80,7 +84,7 @@ public final class CommonFunctions {
         .id(nameUUIDFromBytes("Test2Meal".getBytes(UTF_8)))
         .name("Test2")
         .cookingTime(SHORT)
-        .sidedish(NONE)
+        .sidedish(Sidedish.NONE)
         .obligatoryUtensil(POT)
         .cookingPreference(NO_PREFERENCE)
         .courseType(MAIN)
@@ -140,7 +144,7 @@ public final class CommonFunctions {
         .id(nameUUIDFromBytes("Test6Meal".getBytes(UTF_8)))
         .name("Test6")
         .cookingTime(VERY_SHORT)
-        .sidedish(NONE)
+        .sidedish(Sidedish.NONE)
         .obligatoryUtensil(CASSEROLE)
         .cookingPreference(RARE)
         .courseType(ENTRY)
@@ -199,13 +203,43 @@ public final class CommonFunctions {
   }
 
   public static Settings getSettings1() {
-    return from(cookingTimeWithProhibited(CookingTime.VERY_SHORT), nonNegative(3),
-        CasseroleSettings.NONE, PreferenceSettings.RARE_PREFERED, CourseSettings.ONLY_MAIN);
+    return setting()
+        .time(cookingTimeWithProhibited(VERY_SHORT))
+        .numberOfPeople(THREE)
+        .casserole(CasseroleSettings.NONE)
+        .preference(RARE_PREFERED)
+        .course(ONLY_MAIN)
+        .create();
   }
 
   public static Settings getSettings2() {
-    return from(cookingTimeWithProhibited(SHORT), nonNegative(4),
-        CasseroleSettings.POSSIBLE, PreferenceSettings.RARE_PREFERED, CourseSettings.ONLY_MAIN);
+    return setting()
+        .time(cookingTimeWithProhibited(SHORT))
+        .numberOfPeople(FOUR)
+        .casserole(POSSIBLE)
+        .preference(RARE_PREFERED)
+        .course(ONLY_MAIN)
+        .create();
+  }
+
+  public static Settings getSettings3() {
+    return setting()
+        .time(cookingTimeWithProhibited())
+        .numberOfPeople(THREE)
+        .casserole(CasseroleSettings.NONE)
+        .preference(RARE_PREFERED)
+        .course(MAIN_DESERT)
+        .create();
+  }
+
+  public static Settings getSettings4() {
+    return setting()
+        .time(cookingTimeWithProhibited())
+        .numberOfPeople(THREE)
+        .casserole(CasseroleSettings.NONE)
+        .preference(RARE_PREFERED)
+        .course(MAIN_DESERT)
+        .create();
   }
 
   public static Proposal getProposal1() {
