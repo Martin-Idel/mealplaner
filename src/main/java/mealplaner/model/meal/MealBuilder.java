@@ -6,7 +6,6 @@ import static mealplaner.commons.NonnegativeInteger.ZERO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -16,6 +15,7 @@ import java.util.UUID;
 import org.w3c.dom.Element;
 
 import mealplaner.commons.NonnegativeInteger;
+import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.meal.enums.CookingPreference;
 import mealplaner.model.meal.enums.CookingTime;
 import mealplaner.model.meal.enums.CourseType;
@@ -23,6 +23,7 @@ import mealplaner.model.meal.enums.ObligatoryUtensil;
 import mealplaner.model.meal.enums.Sidedish;
 import mealplaner.model.recipes.Recipe;
 import mealplaner.plugins.PluginStore;
+import mealplaner.plugins.api.Fact;
 import mealplaner.plugins.api.MealFact;
 
 public final class MealBuilder {
@@ -148,6 +149,9 @@ public final class MealBuilder {
   }
 
   public Meal create() {
+    if (validationStore != null) {
+      validateFacts();
+    }
     return Meal.createMeal(uuid,
         MealMetaData.createMealMetaData(name,
         cookingTime,
@@ -157,8 +161,17 @@ public final class MealBuilder {
         courseType,
         comment,
         mealFactMap,
-        new ArrayList<>()),
+        hiddenMealFacts),
         daysPassed,
         recipe);
+  }
+
+  private void validateFacts() {
+    Set<Class<? extends Fact>> allRegisteredFacts = validationStore.getRegisteredMealExtensions().getAllRegisteredFacts();
+    for (var fact : allRegisteredFacts) {
+      if(!mealFactMap.containsKey(fact)) {
+        throw new MealException("Class does not contain fact of type " + fact);
+      }
+    }
   }
 }

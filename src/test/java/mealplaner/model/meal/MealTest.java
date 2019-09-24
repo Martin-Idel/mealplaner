@@ -18,7 +18,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import mealplaner.commons.errorhandling.MealException;
+import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.MealFact;
+import mealplaner.plugins.api.MealFactXml;
 
 public class MealTest {
   private Meal sut;
@@ -62,6 +64,22 @@ public class MealTest {
     assertThat(sut.getName()).isEqualTo("Test");
   }
 
+  @Test(expected = MealException.class)
+  public void validationFailsForMealWithMissingFacts() throws MealException {
+    var pluginStore = new PluginStore();
+    pluginStore.registerMealExtension(SomeFact.class, SomeFact.class, SomeFact::new);
+    sut = MealBuilder.mealWithValidator(pluginStore)
+        .name("")
+        .cookingTime(SHORT)
+        .sidedish(PASTA)
+        .obligatoryUtensil(POT)
+        .cookingPreference(NO_PREFERENCE)
+        .daysPassed(FIVE)
+        .courseType(MAIN)
+        .comment("")
+        .create();
+  }
+
   @Test
   public void compareToWithName() throws MealException {
     Meal compareMeal = getMeal2();
@@ -93,5 +111,8 @@ public class MealTest {
     TestMealFact(String testString) {
       this.testString = testString;
     }
+  }
+
+  private static class SomeFact implements MealFact, MealFactXml {
   }
 }
