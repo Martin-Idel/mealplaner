@@ -6,7 +6,9 @@ import static java.util.UUID.nameUUIDFromBytes;
 import static mealplaner.commons.NonnegativeFraction.fraction;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.meal.MealBuilder.from;
-import static mealplaner.model.recipes.Ingredient.ingredientWithUuid;
+import static mealplaner.model.recipes.IngredientBuilder.ingredient;
+import static mealplaner.model.recipes.IngredientType.CANNED_FRUIT;
+import static mealplaner.model.recipes.Measure.GRAM;
 import static mealplaner.model.recipes.Measures.createMeasures;
 import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitativeIngredient;
 import static testcommons.CommonFunctions.getIngredient1;
@@ -25,8 +27,6 @@ import guitests.helpers.AssertJMealplanerTestCase;
 import guitests.pageobjects.MealsEditPageObject;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.recipes.Ingredient;
-import mealplaner.model.recipes.IngredientType;
-import mealplaner.model.recipes.Measure;
 import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 
@@ -70,7 +70,11 @@ public class DatabaseEditAddMealsTest extends AssertJMealplanerTestCase {
   }
 
   private static Ingredient getIngredient4() {
-    return ingredientWithUuid(nameUUIDFromBytes("Test4".getBytes(StandardCharsets.UTF_8)), "Test4",
-        IngredientType.CANNED_FRUIT, createMeasures(Measure.GRAM));
+    return ingredient()
+        .withUuid(nameUUIDFromBytes("Test4".getBytes(StandardCharsets.UTF_8)))
+        .withName("Test4")
+        .withType(CANNED_FRUIT)
+        .withMeasures(createMeasures(GRAM))
+        .create();
   }
 }

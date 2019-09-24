@@ -31,15 +31,6 @@ public final class Ingredient {
   private final Map<Class, IngredientFact> ingredientFacts;
   private final List<Element> hiddenIngredientFacts;
 
-  private Ingredient() {
-    this(UUID.randomUUID(),
-        "no name",
-        IngredientType.OTHER,
-        Measures.DEFAULT_MEASURES,
-        new HashMap<>(),
-        new ArrayList<>());
-  }
-
   private Ingredient(
       UUID uuid,
       String name,
@@ -55,20 +46,7 @@ public final class Ingredient {
     this.hiddenIngredientFacts = hiddenIngredientFacts;
   }
 
-  public static Ingredient ingredient(
-      String name,
-      IngredientType type,
-      Measures measures,
-      Map<Class, IngredientFact> ingredientFacts,
-      List<Element> hiddenIngredientFacts) {
-    return new Ingredient(UUID.randomUUID(), name, type, measures, ingredientFacts, hiddenIngredientFacts);
-  }
-
-  public static Ingredient ingredient(String name, IngredientType type, Measures measures) {
-    return new Ingredient(UUID.randomUUID(), name, type, measures, new HashMap<>(), new ArrayList<>());
-  }
-
-  public static Ingredient ingredientWithUuid(
+  static Ingredient ingredientWithUuid(
       UUID uuid,
       String name,
       IngredientType type,
@@ -76,11 +54,6 @@ public final class Ingredient {
       Map<Class, IngredientFact> ingredientFacts,
       List<Element> hiddenIngredientFacts) {
     return new Ingredient(uuid, name, type, measures, ingredientFacts, hiddenIngredientFacts);
-  }
-
-  public static Ingredient ingredientWithUuid(UUID uuid, String name, IngredientType type,
-                                              Measures measures) {
-    return new Ingredient(uuid, name, type, measures, new HashMap<>(), new ArrayList<>());
   }
 
   public static Ingredient emptyIngredient() {

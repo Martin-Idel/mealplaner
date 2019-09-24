@@ -2,13 +2,10 @@
 
 package mealplaner.model;
 
-import static java.util.Optional.empty;
 import static java.util.Optional.of;
-import static java.util.UUID.randomUUID;
 import static mealplaner.commons.NonnegativeFraction.wholeNumber;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.MealData.createData;
-import static mealplaner.model.meal.Meal.createMeal;
 import static mealplaner.model.meal.MealBuilder.from;
 import static mealplaner.model.meal.MealBuilder.meal;
 import static mealplaner.model.meal.enums.CookingPreference.NO_PREFERENCE;
@@ -27,8 +24,7 @@ import static mealplaner.model.meal.enums.Sidedish.RICE;
 import static mealplaner.model.proposal.ProposedMenu.entryAndMain;
 import static mealplaner.model.proposal.ProposedMenu.mainAndDesert;
 import static mealplaner.model.proposal.ProposedMenu.mainOnly;
-import static mealplaner.model.recipes.Ingredient.ingredient;
-import static mealplaner.model.recipes.Ingredient.ingredientWithUuid;
+import static mealplaner.model.recipes.IngredientBuilder.ingredient;
 import static mealplaner.model.recipes.IngredientType.BAKING_GOODS;
 import static mealplaner.model.recipes.Measure.GRAM;
 import static mealplaner.model.recipes.Measures.createMeasures;
@@ -37,7 +33,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.getIngredient1;
 import static testcommons.CommonFunctions.getIngredient2;
 import static testcommons.CommonFunctions.getIngredient3;
-import static testcommons.CommonFunctions.getRecipe1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,13 +44,9 @@ import org.junit.Test;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.meal.MealBuilder;
-import mealplaner.model.meal.enums.CookingPreference;
-import mealplaner.model.meal.enums.CookingTime;
-import mealplaner.model.meal.enums.CourseType;
-import mealplaner.model.meal.enums.ObligatoryUtensil;
-import mealplaner.model.meal.enums.Sidedish;
 import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.recipes.Ingredient;
+import mealplaner.model.recipes.IngredientBuilder;
 import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 
@@ -157,8 +148,12 @@ public class MealDataTest {
     sut = MealData.createData(data);
     sut.setMeals(meals);
 
-    Ingredient changedIngredient = ingredientWithUuid(ingredient2.getId(), "Test3",
-        BAKING_GOODS, createMeasures(GRAM));
+    Ingredient changedIngredient = ingredient()
+        .withUuid(ingredient2.getId())
+        .withName("Test3")
+        .withType(BAKING_GOODS)
+        .withMeasures(createMeasures(GRAM))
+        .create();
 
     ingredients.set(1, changedIngredient);
 
@@ -186,7 +181,11 @@ public class MealDataTest {
     sut = MealData.createData(data);
     sut.setMeals(meals);
 
-    Ingredient changedIngredient = ingredient("Test3", BAKING_GOODS, createMeasures(GRAM));
+    Ingredient changedIngredient = ingredient()
+        .withName("Test3")
+        .withType(BAKING_GOODS)
+        .withMeasures(createMeasures(GRAM))
+        .create();
 
     ingredients.set(1, changedIngredient); // This removes the second ingredient, needed in recipe
 

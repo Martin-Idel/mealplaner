@@ -4,7 +4,7 @@ package guitests.ingredients;
 
 import static mealplaner.commons.NonnegativeFraction.wholeNumber;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
-import static mealplaner.model.recipes.Ingredient.ingredientWithUuid;
+import static mealplaner.model.recipes.IngredientBuilder.ingredient;
 import static mealplaner.model.recipes.IngredientType.FLUID;
 import static mealplaner.model.recipes.Measure.TEASPOON;
 import static mealplaner.model.recipes.Measures.createMeasures;
@@ -20,6 +20,7 @@ import org.junit.Test;
 
 import guitests.helpers.AssertJMealplanerTestCase;
 import mealplaner.model.recipes.Ingredient;
+import mealplaner.model.recipes.IngredientBuilder;
 import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 
@@ -32,8 +33,12 @@ public class IngredientsEditDatabase extends AssertJMealplanerTestCase {
 
   @Test
   public void canChangeAllAspectOfAnIngredient() {
-    Ingredient newIngredient = ingredientWithUuid(
-        getIngredient1().getId(), "New name", FLUID, createMeasures(TEASPOON));
+    var newIngredient = ingredient()
+        .withUuid(getIngredient1().getId())
+        .withName("New name")
+        .withType(FLUID)
+        .withMeasures(createMeasures(TEASPOON))
+        .create();
     List<Ingredient> ingredients = new ArrayList<>();
     ingredients.add(newIngredient);
     ingredients.add(getIngredient2());
@@ -86,9 +91,7 @@ public class IngredientsEditDatabase extends AssertJMealplanerTestCase {
 
   @Test
   public void editingNameReplacesNameInRecipe() {
-    Ingredient newIngredient = ingredientWithUuid(getIngredient1().getId(), "New name",
-        getIngredient1().getType(),
-        getIngredient1().getMeasures());
+    Ingredient newIngredient = IngredientBuilder.from(getIngredient1()).withName("New name").create();
     List<Ingredient> ingredients = new ArrayList<>();
     ingredients.add(newIngredient);
     ingredients.add(getIngredient2());

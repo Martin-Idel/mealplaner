@@ -30,7 +30,13 @@ import static mealplaner.model.meal.enums.Sidedish.PASTA;
 import static mealplaner.model.meal.enums.Sidedish.RICE;
 import static mealplaner.model.proposal.Proposal.from;
 import static mealplaner.model.proposal.ProposedMenu.mainOnly;
-import static mealplaner.model.recipes.Ingredient.ingredientWithUuid;
+import static mealplaner.model.recipes.IngredientBuilder.ingredient;
+import static mealplaner.model.recipes.IngredientType.BAKING_GOODS;
+import static mealplaner.model.recipes.IngredientType.CANNED_FRUIT;
+import static mealplaner.model.recipes.IngredientType.FRESH_FRUIT;
+import static mealplaner.model.recipes.IngredientType.MEAT_PRODUCTS;
+import static mealplaner.model.recipes.Measure.GRAM;
+import static mealplaner.model.recipes.Measure.MILLILITRE;
 import static mealplaner.model.recipes.Measures.createMeasures;
 import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitativeIngredient;
 import static mealplaner.model.settings.SettingsBuilder.setting;
@@ -53,12 +59,10 @@ import mealplaner.model.meal.enums.Sidedish;
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.recipes.Ingredient;
-import mealplaner.model.recipes.IngredientType;
 import mealplaner.model.recipes.Measure;
 import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 import mealplaner.model.settings.Settings;
-import mealplaner.model.settings.SettingsBuilder;
 import mealplaner.model.settings.enums.CasseroleSettings;
 
 public final class CommonFunctions {
@@ -181,25 +185,41 @@ public final class CommonFunctions {
   }
 
   public static Ingredient getIngredient1() {
-    return ingredientWithUuid(nameUUIDFromBytes("Test1".getBytes(UTF_8)), "Test1",
-        IngredientType.FRESH_FRUIT, createMeasures(Measure.GRAM));
+    return ingredient()
+        .withUuid(nameUUIDFromBytes("Test1".getBytes(UTF_8)))
+        .withName("Test1")
+        .withType(FRESH_FRUIT)
+        .withMeasures(createMeasures(GRAM))
+        .create();
   }
 
   public static Ingredient getIngredient2() {
-    return ingredientWithUuid(nameUUIDFromBytes("Test2".getBytes(UTF_8)), "Test2",
-        IngredientType.BAKING_GOODS, createMeasures(Measure.MILLILITRE));
+    return ingredient()
+        .withUuid(nameUUIDFromBytes("Test2".getBytes(UTF_8)))
+        .withName("Test2")
+        .withType(BAKING_GOODS)
+        .withMeasures(createMeasures(MILLILITRE))
+        .create();
   }
 
   public static Ingredient getIngredient3() {
-    return ingredientWithUuid(nameUUIDFromBytes("Test3".getBytes(UTF_8)), "Test3",
-        IngredientType.CANNED_FRUIT, createMeasures(Measure.GRAM));
+    return ingredient()
+        .withUuid(nameUUIDFromBytes("Test3".getBytes(UTF_8)))
+        .withName("Test3")
+        .withType(CANNED_FRUIT)
+        .withMeasures(createMeasures(GRAM))
+        .create();
   }
 
   public static Ingredient getIngredient4() {
     var secondaries = new HashMap<Measure, NonnegativeFraction>();
     secondaries.put(Measure.TEASPOON, fraction(1, 2));
-    return ingredientWithUuid(nameUUIDFromBytes("Test4".getBytes(UTF_8)), "Test4",
-        IngredientType.MEAT_PRODUCTS, createMeasures(Measure.GRAM, secondaries));
+    return ingredient()
+        .withUuid(nameUUIDFromBytes("Test4".getBytes(UTF_8)))
+        .withName("Test4")
+        .withType(MEAT_PRODUCTS)
+        .withMeasures(createMeasures(GRAM, secondaries))
+        .create();
   }
 
   public static Settings getSettings1() {

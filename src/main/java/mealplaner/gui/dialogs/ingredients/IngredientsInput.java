@@ -2,18 +2,16 @@
 
 package mealplaner.gui.dialogs.ingredients;
 
-import static java.util.Arrays.asList;
 import static java.util.Comparator.comparingInt;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.GridPanel.gridPanel;
 import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
 import static mealplaner.commons.gui.dialogs.DialogWindow.window;
-import static mealplaner.model.recipes.Ingredient.ingredient;
+import static mealplaner.model.recipes.IngredientBuilder.ingredientWithValidation;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,7 +31,6 @@ import mealplaner.model.DataStore;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.IngredientType;
 import mealplaner.model.recipes.Measure;
-import mealplaner.model.recipes.Measures;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.IngredientInputDialogExtension;
 
@@ -67,9 +64,12 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
   public List<Ingredient> showDialog(DataStore store, PluginStore pluginStore) {
     setupDialog(action -> {
       if (nameField.getUserInput().isPresent()) {
-        ingredients.add(ingredient(nameField.getUserInput().get(),
-            typeField.getUserInput(),
-            Measures.createMeasures(measureField.getUserInput())));
+        ingredients.add(ingredientWithValidation(
+            pluginStore.getRegisteredIngredientExtensions().getAllRegisteredFacts())
+            .withName(nameField.getUserInput().get())
+            .withType(typeField.getUserInput())
+            .withPrimaryMeasure(measureField.getUserInput())
+            .create());
         resetFields();
       }
     }, pluginStore.getRegisteredIngredientInputGuiExtensions());

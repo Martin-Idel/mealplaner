@@ -6,7 +6,7 @@ import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.tables.FlexibleTableBuilder.createNewTable;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withEnumContent;
-import static mealplaner.model.recipes.Ingredient.ingredientWithUuid;
+import static mealplaner.model.recipes.IngredientBuilder.from;
 
 import java.util.Collection;
 import java.util.List;
@@ -16,7 +16,6 @@ import mealplaner.commons.gui.tables.Table;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.IngredientType;
 import mealplaner.model.recipes.Measure;
-import mealplaner.model.recipes.Measures;
 import mealplaner.plugins.api.IngredientEditExtension;
 
 final class IngredientsEditTable {
@@ -33,11 +32,7 @@ final class IngredientsEditTable {
             .withColumnName(BUNDLES.message("insertIngredientName"))
             .getValueFromOrderedList(ingredients, Ingredient::getName)
             .setValueToOrderedImmutableList(ingredients,
-                (oldIngredient, newName) -> ingredientWithUuid(
-                    oldIngredient.getId(),
-                    newName,
-                    oldIngredient.getType(),
-                    oldIngredient.getMeasures()))
+                (oldIngredient, newName) -> from(oldIngredient).withName(newName).create())
             .isEditable()
             .onChange(buttonPanel::enableButtons)
             .build())
@@ -45,11 +40,7 @@ final class IngredientsEditTable {
             .withColumnName(BUNDLES.message("insertTypeLength"))
             .getValueFromOrderedList(ingredients, Ingredient::getType)
             .setValueToOrderedImmutableList(ingredients,
-                (oldIngredient, newType) -> ingredientWithUuid(
-                    oldIngredient.getId(),
-                    oldIngredient.getName(),
-                    newType,
-                    oldIngredient.getMeasures()))
+                (oldIngredient, newType) -> from(oldIngredient).withType(newType).create())
             .isEditable()
             .onChange(buttonPanel::enableButtons)
             .build())
@@ -57,11 +48,7 @@ final class IngredientsEditTable {
             .withColumnName(BUNDLES.message("insertMeasure"))
             .getValueFromOrderedList(ingredients, Ingredient::getPrimaryMeasure)
             .setValueToOrderedImmutableList(ingredients,
-                (oldIngredient, newMeasure) -> ingredientWithUuid(
-                    oldIngredient.getId(),
-                    oldIngredient.getName(),
-                    oldIngredient.getType(),
-                    Measures.createMeasures(newMeasure)))
+                (oldIngredient, newMeasure) -> from(oldIngredient).withPrimaryMeasure(newMeasure).create())
             .isEditable()
             .onChange(buttonPanel::enableButtons)
             .build());

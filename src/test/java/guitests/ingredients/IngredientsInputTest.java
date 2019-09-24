@@ -2,7 +2,7 @@
 
 package guitests.ingredients;
 
-import static mealplaner.model.recipes.Ingredient.ingredient;
+import static mealplaner.model.recipes.IngredientBuilder.ingredient;
 import static mealplaner.model.recipes.IngredientType.SPICE;
 import static mealplaner.model.recipes.Measure.NONE;
 import static mealplaner.model.recipes.Measures.createMeasures;
@@ -24,7 +24,11 @@ public class IngredientsInputTest extends AssertJMealplanerTestCase {
 
   @Test
   public void createIngredient() {
-    Ingredient ingredient = ingredient("Test4", SPICE, createMeasures(NONE));
+    Ingredient ingredient = ingredient()
+        .withName("Test4")
+        .withType(SPICE)
+        .withMeasures(createMeasures(NONE))
+        .create();
 
     windowHelpers.getIngredientsPane().addIngredient(ingredient);
 

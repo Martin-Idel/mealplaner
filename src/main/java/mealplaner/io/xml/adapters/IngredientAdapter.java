@@ -4,6 +4,8 @@ package mealplaner.io.xml.adapters;
 
 import static mealplaner.io.xml.util.FactsAdapter.extractFacts;
 import static mealplaner.io.xml.util.FactsAdapter.extractUnknownFacts;
+import static mealplaner.model.recipes.IngredientBuilder.ingredientWithValidation;
+import static mealplaner.model.recipes.Measures.createMeasures;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -11,6 +13,7 @@ import java.util.stream.Collectors;
 import mealplaner.io.xml.model.v2.IngredientXml;
 import mealplaner.io.xml.model.v3.MeasuresXml;
 import mealplaner.model.recipes.Ingredient;
+import mealplaner.model.recipes.IngredientBuilder;
 import mealplaner.model.recipes.Measures;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.IngredientFact;
@@ -43,20 +46,25 @@ public final class IngredientAdapter {
   }
 
   public static Ingredient convertIngredientV2FromXml(IngredientXml ingredient) {
-    return Ingredient.ingredientWithUuid(ingredient.uuid,
-        ingredient.name,
-        ingredient.type,
-        Measures.createMeasures(ingredient.measure));
+    return IngredientBuilder.ingredient()
+        .withUuid(ingredient.uuid)
+        .withName(ingredient.name)
+        .withType(ingredient.type)
+        .withPrimaryMeasure(ingredient.measure)
+        .create();
   }
 
   public static Ingredient convertIngredientV3FromXml(
       mealplaner.io.xml.model.v3.IngredientXml ingredient,
       PluginStore plugins) {
-    return Ingredient.ingredientWithUuid(ingredient.uuid,
-        ingredient.name,
-        ingredient.type,
-        Measures.createMeasures(ingredient.measures.primaryMeasure, ingredient.measures.secondaryMeasures),
-        extractFacts(ingredient.ingredientFacts, plugins.getRegisteredIngredientExtensions()),
-        extractUnknownFacts(ingredient.ingredientFacts, plugins.getRegisteredIngredientExtensions()));
+    var registeredExtensions = plugins.getRegisteredIngredientExtensions();
+    return ingredientWithValidation(registeredExtensions.getAllRegisteredFacts())
+        .withUuid(ingredient.uuid)
+        .withName(ingredient.name)
+        .withType(ingredient.type)
+        .withMeasures(createMeasures(ingredient.measures.primaryMeasure, ingredient.measures.secondaryMeasures))
+        .withFacts(extractFacts(ingredient.ingredientFacts, registeredExtensions))
+        .withHiddenFacts(extractUnknownFacts(ingredient.ingredientFacts, registeredExtensions))
+        .create();
   }
 }
