@@ -23,25 +23,31 @@ public enum BundleStore {
   BUNDLES();
 
   private static final Logger logger = LoggerFactory.getLogger(Kochplaner.class);
-  private ResourceBundle messages;
-  private ResourceBundle errors;
+  private MultiResourceBundle messages;
+  private MultiResourceBundle errors;
   private final Locale currentLocale;
 
   BundleStore() {
     currentLocale = getDefault();
+    messages = new MultiResourceBundle();
+    messages.addResourceBundle(loadBundle("MessagesBundle"));
+    errors = new MultiResourceBundle();
+    errors.addResourceBundle(loadBundle("ErrorBundle"));
+  }
+
+  public void addMessageBundle(ResourceBundle resourceBundle) {
+    messages.addResourceBundle(resourceBundle);
+  }
+
+  public void addErrorBundle(ResourceBundle resourceBundle) {
+    errors.addResourceBundle(resourceBundle);
   }
 
   public String message(String message) {
-    if (messages == null) {
-      messages = loadBundle("MessagesBundle");
-    }
     return messages.getString(message);
   }
 
   public String errorMessage(String errorMessage) {
-    if (errors == null) {
-      errors = loadBundle("ErrorBundle");
-    }
     MessageFormat mf = new MessageFormat(errors.getString(errorMessage));
     return mf.format(new Object[0]);
   }

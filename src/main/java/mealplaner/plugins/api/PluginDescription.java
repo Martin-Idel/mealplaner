@@ -1,9 +1,13 @@
 package mealplaner.plugins.api;
 
-import mealplaner.commons.BundleStore;
+import java.util.ResourceBundle;
+
+import mealplaner.plugins.PluginStore;
 
 public interface PluginDescription {
-  void registerPlugins();
+  void registerPlugins(PluginStore pluginStore);
 
-  void registerMessageBundles(BundleStore bundleStore);
+  ResourceBundle getMessageBundle();
+
+  ResourceBundle getErrorBundle();
 }
