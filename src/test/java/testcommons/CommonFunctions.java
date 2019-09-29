@@ -16,10 +16,6 @@ import static mealplaner.model.MealplanerData.getInstance;
 import static mealplaner.model.meal.enums.CookingPreference.NO_PREFERENCE;
 import static mealplaner.model.meal.enums.CookingPreference.RARE;
 import static mealplaner.model.meal.enums.CookingPreference.VERY_POPULAR;
-import static mealplaner.model.meal.enums.CookingTime.LONG;
-import static mealplaner.model.meal.enums.CookingTime.MEDIUM;
-import static mealplaner.model.meal.enums.CookingTime.SHORT;
-import static mealplaner.model.meal.enums.CookingTime.VERY_SHORT;
 import static mealplaner.model.meal.enums.CourseType.DESERT;
 import static mealplaner.model.meal.enums.CourseType.ENTRY;
 import static mealplaner.model.meal.enums.CourseType.MAIN;
@@ -44,13 +40,18 @@ import static mealplaner.model.settings.enums.CasseroleSettings.POSSIBLE;
 import static mealplaner.model.settings.enums.CourseSettings.MAIN_DESERT;
 import static mealplaner.model.settings.enums.CourseSettings.ONLY_MAIN;
 import static mealplaner.model.settings.enums.PreferenceSettings.RARE_PREFERED;
-import static mealplaner.model.settings.subsettings.CookingTimeSetting.cookingTimeWithProhibited;
+import static mealplaner.plugins.plugins.cookingtime.CookingTime.LONG;
+import static mealplaner.plugins.plugins.cookingtime.CookingTime.MEDIUM;
+import static mealplaner.plugins.plugins.cookingtime.CookingTime.SHORT;
+import static mealplaner.plugins.plugins.cookingtime.CookingTime.VERY_SHORT;
+import static mealplaner.plugins.plugins.cookingtime.CookingTimeSetting.cookingTimeWithProhibited;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import mealplaner.Kochplaner;
 import mealplaner.commons.NonnegativeFraction;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
@@ -280,11 +281,12 @@ public final class CommonFunctions {
   }
 
   public static MealplanerData setupMealplanerDataWithAllIngredients() {
+    var pluginStore = Kochplaner.registerPlugins();
     List<Ingredient> ingredients = new ArrayList<>();
     ingredients.add(CommonFunctions.getIngredient1());
     ingredients.add(CommonFunctions.getIngredient2());
     ingredients.add(CommonFunctions.getIngredient3());
-    MealplanerData mealPlan = getInstance();
+    MealplanerData mealPlan = getInstance(pluginStore);
     mealPlan.setIngredients(ingredients);
     return mealPlan;
   }

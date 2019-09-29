@@ -36,7 +36,7 @@ public class DefaultSettingsInput extends SettingsInput implements DialogCreatin
     setup(store.getDefaultSettings(), pluginStore.getRegisteredSettingsInputGuiExtensions());
     dialogWindow.setVisible();
     Optional<Settings[]> changedSettings = getEnteredSettings();
-    return changedSettings.flatMap(this::transformToDefault);
+    return changedSettings.flatMap(setting -> transformToDefault(pluginStore, setting));
   }
 
   private void setup(
@@ -58,11 +58,11 @@ public class DefaultSettingsInput extends SettingsInput implements DialogCreatin
         .build();
   }
 
-  private Optional<DefaultSettings> transformToDefault(Settings... settings) {
+  private Optional<DefaultSettings> transformToDefault(PluginStore pluginStore, Settings... settings) {
     Map<DayOfWeek, Settings> defaultSettings = new HashMap<>();
     for (int i = 0; i < settings.length; i++) {
       defaultSettings.put(MONDAY.plus(i), settings[i]);
     }
-    return of(from(defaultSettings));
+    return of(from(defaultSettings, pluginStore));
   }
 }

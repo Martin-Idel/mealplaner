@@ -3,7 +3,6 @@
 package mealplaner.model.settings;
 
 import static mealplaner.model.settings.subsettings.CookingPreferenceSetting.createCookingPreferenceSettings;
-import static mealplaner.model.settings.subsettings.CookingTimeSetting.copyCookingTimeSetting;
 import static mealplaner.model.settings.subsettings.CookingUtensilSetting.copyUtensilSetting;
 import static mealplaner.model.settings.subsettings.CookingUtensilSetting.createCookingUtensilSettings;
 
@@ -17,15 +16,14 @@ import mealplaner.model.settings.enums.CasseroleSettings;
 import mealplaner.model.settings.enums.CourseSettings;
 import mealplaner.model.settings.enums.PreferenceSettings;
 import mealplaner.model.settings.subsettings.CookingPreferenceSetting;
-import mealplaner.model.settings.subsettings.CookingTimeSetting;
 import mealplaner.model.settings.subsettings.CookingUtensilSetting;
 import mealplaner.plugins.api.Setting;
+import mealplaner.plugins.plugins.cookingtime.CookingTimeSetting;
 
 public final class Settings {
   private final CasseroleSettings casseroleSettings;
   private final PreferenceSettings preference;
   private final CookingPreferenceSetting cookingPreferences;
-  private final CookingTimeSetting cookingTime;
   private final CookingUtensilSetting cookingUtensil;
   private final NonnegativeInteger numberOfPeople;
   private final CourseSettings courseSettings;
@@ -33,7 +31,6 @@ public final class Settings {
   private final List<Element> hiddenSubSettings;
 
   Settings(
-      CookingTimeSetting cookingTime,
       NonnegativeInteger numberOfPeople,
       CasseroleSettings casseroleSettings,
       PreferenceSettings preferenceSettings,
@@ -43,7 +40,6 @@ public final class Settings {
     this.subSettings = settingFacts;
     this.hiddenSubSettings = hiddenSubSettings;
     this.cookingPreferences = createCookingPreferenceSettings();
-    this.cookingTime = cookingTime;
     this.cookingUtensil = createCookingUtensilSettings();
     this.numberOfPeople = numberOfPeople;
     this.cookingUtensil.setNumberOfPeople(numberOfPeople.value);
@@ -60,7 +56,6 @@ public final class Settings {
     this.numberOfPeople = setting.getNumberOfPeople();
     this.cookingPreferences = createCookingPreferenceSettings();
     this.cookingPreferences.setCookingPreferences(this.preference);
-    this.cookingTime = copyCookingTimeSetting(setting.getCookingTime());
     this.cookingUtensil = copyUtensilSetting(setting.getCookingUtensil());
     this.courseSettings = setting.getCourseSettings();
     this.subSettings = setting.getSubSettings();
@@ -73,10 +68,6 @@ public final class Settings {
 
   public NonnegativeInteger getNumberOfPeople() {
     return numberOfPeople;
-  }
-
-  public CookingTimeSetting getCookingTime() {
-    return cookingTime;
   }
 
   public CookingUtensilSetting getCookingUtensil() {
@@ -107,13 +98,28 @@ public final class Settings {
     return hiddenSubSettings;
   }
 
+
+  /**
+   * N.B.: Return value may be null
+   *
+   * @param name class of the meal fact
+   * @return Setting corresponding to the class if available (null otherwise)
+   */
+  public Setting getSubSetting(Class name) {
+    return subSettings.get(name);
+  }
+
+  @SuppressWarnings("unchecked")
+  public <T extends Setting> T getTypedSubSetting(Class<T> name) {
+    return (T) subSettings.get(name);
+  }
+
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
     result = prime * result + casseroleSettings.hashCode();
     result = prime * result + cookingPreferences.hashCode();
-    result = prime * result + cookingTime.hashCode();
     result = prime * result + cookingUtensil.hashCode();
     result = prime * result + preference.hashCode();
     result = prime * result + courseSettings.hashCode();
@@ -134,7 +140,6 @@ public final class Settings {
     Settings other = (Settings) obj;
     return casseroleSettings == other.casseroleSettings
         && cookingPreferences.equals(other.cookingPreferences)
-        && cookingTime.equals(other.cookingTime)
         && cookingUtensil.equals(other.cookingUtensil)
         && preference.equals(other.preference)
         && courseSettings.equals(other.courseSettings)
@@ -146,7 +151,7 @@ public final class Settings {
   @Override
   public String toString() {
     return "Settings [casseroleSettings=" + casseroleSettings + ", preference=" + preference
-        + ", cookingPreferences=" + cookingPreferences + ", cookingTime=" + cookingTime
+        + ", cookingPreferences=" + cookingPreferences
         + ", cookingUtensil=" + cookingUtensil + ", courseSettings=" + courseSettings
         + ", numberOfPeople=" + numberOfPeople + ", subSettings=" + subSettings
         + ", hiddenSubSettings="  + hiddenSubSettings + "]";

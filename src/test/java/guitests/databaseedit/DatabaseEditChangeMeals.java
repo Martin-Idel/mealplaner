@@ -3,10 +3,10 @@
 package guitests.databaseedit;
 
 import static mealplaner.model.meal.MealBuilder.from;
-import static mealplaner.model.meal.enums.CookingTime.MEDIUM;
-import static mealplaner.model.meal.enums.CookingTime.SHORT;
 import static mealplaner.model.meal.enums.CourseType.DESERT;
 import static mealplaner.model.meal.enums.Sidedish.RICE;
+import static mealplaner.plugins.plugins.cookingtime.CookingTime.MEDIUM;
+import static mealplaner.plugins.plugins.cookingtime.CookingTime.SHORT;
 import static testcommons.CommonFunctions.getMeal1;
 import static testcommons.CommonFunctions.getRecipe2;
 
@@ -18,6 +18,7 @@ import org.junit.Test;
 import guitests.helpers.AssertJMealplanerTestCase;
 import guitests.pageobjects.MealsEditPageObject;
 import mealplaner.model.meal.Meal;
+import mealplaner.plugins.plugins.cookingtime.CookingTimeFact;
 
 public class DatabaseEditChangeMeals extends AssertJMealplanerTestCase {
   public DatabaseEditChangeMeals() {
@@ -38,7 +39,7 @@ public class DatabaseEditChangeMeals extends AssertJMealplanerTestCase {
     meals.add(newMeal);
 
     windowHelpers.getMealsPane()
-        .changeCookingTime(0, newMeal.getCookingTime())
+        .changeCookingTime(0, newMeal.getTypedMealFact(CookingTimeFact.class).getCookingTime())
         .changeCourseType(0, newMeal.getCourseType())
         .changeComment(0, newMeal.getComment())
         .enterRecipe(0, newMeal.getRecipe().get())

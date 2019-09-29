@@ -3,8 +3,8 @@
 package mealplaner.model.settings;
 
 import static mealplaner.model.meal.MealBuilder.meal;
-import static mealplaner.model.meal.enums.CookingTime.LONG;
-import static mealplaner.model.meal.enums.CookingTime.SHORT;
+import static mealplaner.plugins.plugins.cookingtime.CookingTime.LONG;
+import static mealplaner.plugins.plugins.cookingtime.CookingTime.SHORT;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -15,8 +15,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import mealplaner.model.meal.Meal;
-import mealplaner.model.meal.enums.CookingTime;
-import mealplaner.model.settings.subsettings.CookingTimeSetting;
+import mealplaner.plugins.plugins.cookingtime.CookingTime;
+import mealplaner.plugins.plugins.cookingtime.CookingTimeSetting;
 
 public class CookingTimeSettingTest {
 
@@ -34,27 +34,18 @@ public class CookingTimeSettingTest {
     Meal mealLong = meal().name("test").cookingTime(LONG).create();
     Meal mealShort = meal().name("test").cookingTime(SHORT).create();
 
-    cookingTimeSetting.prohibitCookingTime(SHORT);
+    var newCookingTimeSetting = cookingTimeSetting.prohibitCookingTime(SHORT);
 
-    assertTrue(cookingTimeSetting.prohibits(mealShort));
-    assertFalse(cookingTimeSetting.prohibits(mealLong));
-  }
-
-  @Test
-  public void reset() {
-    cookingTimeSetting.prohibitCookingTime(CookingTime.MEDIUM);
-
-    cookingTimeSetting.reset();
-
-    assertTrue(prohibitedTime.isEmpty());
+    assertTrue(newCookingTimeSetting.prohibits(mealShort));
+    assertFalse(newCookingTimeSetting.prohibits(mealLong));
   }
 
   @Test
   public void isTimeProhibited() {
-    cookingTimeSetting.prohibitCookingTime(CookingTime.MEDIUM);
+    var newCookingTimeSetting = cookingTimeSetting.prohibitCookingTime(CookingTime.MEDIUM);
 
-    assertTrue(cookingTimeSetting.isTimeProhibited(CookingTime.MEDIUM));
-    assertFalse(cookingTimeSetting.isTimeProhibited(CookingTime.SHORT));
-    assertFalse(cookingTimeSetting.isTimeProhibited(CookingTime.LONG));
+    assertTrue(newCookingTimeSetting.isTimeProhibited(CookingTime.MEDIUM));
+    assertFalse(newCookingTimeSetting.isTimeProhibited(CookingTime.SHORT));
+    assertFalse(newCookingTimeSetting.isTimeProhibited(CookingTime.LONG));
   }
 }

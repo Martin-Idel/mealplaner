@@ -2,6 +2,7 @@
 
 package mealplaner.proposal;
 
+import static mealplaner.Kochplaner.registerPlugins;
 import static mealplaner.commons.NonnegativeInteger.FOUR;
 import static mealplaner.commons.NonnegativeInteger.ONE;
 import static mealplaner.commons.NonnegativeInteger.TWO;
@@ -11,9 +12,6 @@ import static mealplaner.model.meal.MealBuilder.meal;
 import static mealplaner.model.meal.enums.CookingPreference.NO_PREFERENCE;
 import static mealplaner.model.meal.enums.CookingPreference.RARE;
 import static mealplaner.model.meal.enums.CookingPreference.VERY_POPULAR;
-import static mealplaner.model.meal.enums.CookingTime.LONG;
-import static mealplaner.model.meal.enums.CookingTime.MEDIUM;
-import static mealplaner.model.meal.enums.CookingTime.SHORT;
 import static mealplaner.model.meal.enums.CourseType.MAIN;
 import static mealplaner.model.meal.enums.ObligatoryUtensil.CASSEROLE;
 import static mealplaner.model.meal.enums.ObligatoryUtensil.PAN;
@@ -30,8 +28,11 @@ import static mealplaner.model.settings.enums.PreferenceSettings.NORMAL;
 import static mealplaner.model.settings.enums.PreferenceSettings.RARE_NONE;
 import static mealplaner.model.settings.enums.PreferenceSettings.RARE_PREFERED;
 import static mealplaner.model.settings.enums.PreferenceSettings.VERY_POPULAR_ONLY;
-import static mealplaner.model.settings.subsettings.CookingTimeSetting.cookingTimeWithProhibited;
-import static mealplaner.model.settings.subsettings.CookingTimeSetting.defaultCookingTime;
+import static mealplaner.plugins.plugins.cookingtime.CookingTime.LONG;
+import static mealplaner.plugins.plugins.cookingtime.CookingTime.MEDIUM;
+import static mealplaner.plugins.plugins.cookingtime.CookingTime.SHORT;
+import static mealplaner.plugins.plugins.cookingtime.CookingTimeSetting.cookingTimeWithProhibited;
+import static mealplaner.plugins.plugins.cookingtime.CookingTimeSetting.defaultCookingTime;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
@@ -51,7 +52,7 @@ import mealplaner.model.proposal.Proposal;
 import mealplaner.model.proposal.SideDish;
 import mealplaner.model.settings.Settings;
 import mealplaner.model.settings.enums.PreferenceSettings;
-import mealplaner.model.settings.subsettings.CookingTimeSetting;
+import mealplaner.plugins.plugins.cookingtime.CookingTimeSetting;
 
 public class ProposalBuilderTest {
   private List<Meal> meals;
@@ -78,7 +79,8 @@ public class ProposalBuilderTest {
         .numberOfPeople(FOUR)
         .create();
 
-    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish, new ArrayList<>());
+    var steps = registerPlugins().getRegisteredProposalBuilderSteps();
+    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish, steps);
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertEquals(1, proposal.getProposalList().size());
@@ -86,7 +88,7 @@ public class ProposalBuilderTest {
   }
 
   @Test
-  public void proposeOnlyVeryPopoularNoCasserole() throws MealException {
+  public void proposeOnlyVeryPopularNoCasserole() throws MealException {
     addMeals();
     CookingTimeSetting cookingTimeSetting = defaultCookingTime();
     settings[0] = setting()
@@ -97,7 +99,8 @@ public class ProposalBuilderTest {
         .numberOfPeople(TWO)
         .create();
 
-    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish, new ArrayList<>());
+    var steps = registerPlugins().getRegisteredProposalBuilderSteps();
+    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish, steps);
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertThat(meals.get(2).getId()).isEqualTo(proposal.getItem(0).main);
@@ -115,7 +118,8 @@ public class ProposalBuilderTest {
         .numberOfPeople(TWO)
         .create();
 
-    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish, new ArrayList<>());
+    var steps = registerPlugins().getRegisteredProposalBuilderSteps();
+    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish, steps);
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertThat(meals.get(3).getId()).isEqualTo(proposal.getItem(0).main);
@@ -151,7 +155,8 @@ public class ProposalBuilderTest {
         .numberOfPeople(TWO)
         .create();
 
-    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish, new ArrayList<>());
+    var steps = registerPlugins().getRegisteredProposalBuilderSteps();
+    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish, steps);
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertThat(meals.get(1).getId()).isEqualTo(proposal.getItem(0).main);
@@ -169,7 +174,8 @@ public class ProposalBuilderTest {
         .numberOfPeople(TWO)
         .create();
 
-    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish, new ArrayList<>());
+    var steps = registerPlugins().getRegisteredProposalBuilderSteps();
+    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish, steps);
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertThat(meals.get(4).getId()).isEqualTo(proposal.getItem(0).main);
@@ -188,7 +194,8 @@ public class ProposalBuilderTest {
         .numberOfPeople(TWO)
         .create();
 
-    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish, new ArrayList<>());
+    var steps = registerPlugins().getRegisteredProposalBuilderSteps();
+    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish, steps);
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertThat(meals.get(4).getId()).isEqualTo(proposal.getItem(0).main);
@@ -208,7 +215,8 @@ public class ProposalBuilderTest {
         .numberOfPeople(TWO)
         .create();
 
-    proposalBuilder = new ProposalBuilder(meals, preferenceMap, sideDish, new ArrayList<>());
+    var steps = registerPlugins().getRegisteredProposalBuilderSteps();
+    proposalBuilder = new ProposalBuilder(meals, preferenceMap, sideDish, steps);
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertThat(meals.get(1).getId()).isEqualTo(proposal.getItem(0).main);

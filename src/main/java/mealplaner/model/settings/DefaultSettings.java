@@ -12,22 +12,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import mealplaner.plugins.PluginStore;
+
 public final class DefaultSettings {
   private static final List<DayOfWeek> DAYS_OF_WEEK = Arrays.asList(DayOfWeek.values());
   private final Map<DayOfWeek, Settings> defaultSettings;
 
-  private DefaultSettings(Map<DayOfWeek, Settings> defaultSettings) {
+  private DefaultSettings(Map<DayOfWeek, Settings> defaultSettings, PluginStore pluginStore) {
     this.defaultSettings = defaultSettings;
     DAYS_OF_WEEK.forEach(dayOfWeek -> this.defaultSettings
-        .computeIfAbsent(dayOfWeek, day -> defaultSetting()));
+        .computeIfAbsent(dayOfWeek, day -> defaultSetting(pluginStore)));
   }
 
-  public static DefaultSettings from(Map<DayOfWeek, Settings> defaultSettings) {
-    return new DefaultSettings(defaultSettings);
+  public static DefaultSettings from(
+      Map<DayOfWeek, Settings> defaultSettings, PluginStore pluginStore) {
+    return new DefaultSettings(defaultSettings, pluginStore);
   }
 
-  public static DefaultSettings createDefaultSettings() {
-    return new DefaultSettings(new HashMap<>());
+  public static DefaultSettings createDefaultSettings(PluginStore pluginStore) {
+    return new DefaultSettings(new HashMap<>(), pluginStore);
   }
 
   private static Map<DayOfWeek, Settings> copyHashMap(Map<DayOfWeek, Settings> defaultSettings) {

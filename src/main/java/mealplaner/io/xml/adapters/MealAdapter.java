@@ -19,6 +19,7 @@ import mealplaner.model.meal.Meal;
 import mealplaner.model.meal.MealBuilder;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.MealFact;
+import mealplaner.plugins.plugins.cookingtime.CookingTimeFact;
 
 public final class MealAdapter {
   private MealAdapter() {
@@ -28,7 +29,7 @@ public final class MealAdapter {
     return new MealXml(
         meal.getId(),
         meal.getName(),
-        meal.getCookingTime(),
+        meal.getTypedMealFact(CookingTimeFact.class).getCookingTime(),
         meal.getSidedish(),
         meal.getObligatoryUtensil(),
         meal.getCookingPreference(),
@@ -50,7 +51,6 @@ public final class MealAdapter {
     return new mealplaner.io.xml.model.v3.MealXml(
         meal.getId(),
         meal.getName(),
-        meal.getCookingTime(),
         meal.getSidedish(),
         meal.getObligatoryUtensil(),
         meal.getCookingPreference(),
@@ -81,7 +81,6 @@ public final class MealAdapter {
     return MealBuilder.mealWithValidator(plugins)
         .id(meal.uuid)
         .name(meal.name)
-        .cookingTime(meal.cookingTime)
         .sidedish(meal.sidedish)
         .obligatoryUtensil(meal.obligatoryUtensil)
         .cookingPreference(meal.cookingPreference)

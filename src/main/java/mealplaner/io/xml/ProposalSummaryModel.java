@@ -10,15 +10,16 @@ import java.time.LocalDate;
 
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.settings.DefaultSettings;
+import mealplaner.plugins.PluginStore;
 
 public class ProposalSummaryModel {
   public final Proposal lastProposal;
   public final DefaultSettings defaultSettings;
   public final LocalDate time;
 
-  public ProposalSummaryModel() {
+  public ProposalSummaryModel(PluginStore pluginStore) {
     this.lastProposal = createProposal();
-    this.defaultSettings = createDefaultSettings();
+    this.defaultSettings = createDefaultSettings(pluginStore);
     this.time = now();
   }
 

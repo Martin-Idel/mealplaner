@@ -154,7 +154,7 @@ public class ProposalBuilder {
         .map(pair -> preferenceMultiplier.multiplyPrefs(pair, settings.getPreference()))
         .map(this::randomize);
     for (var proposalStep : proposalBuilderSteps) {
-      proposalStep.applyPluginSuggestions(proposalStream);
+      proposalStream = proposalStep.applyPluginSuggestions(proposalStream, settings);
     }
     return proposalStream
         .sorted((pair1, pair2) -> -(pair1.right.compareTo(pair2.right)))

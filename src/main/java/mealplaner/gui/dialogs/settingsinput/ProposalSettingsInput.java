@@ -8,7 +8,6 @@ import static mealplaner.model.settings.SettingsBuilder.defaultSetting;
 
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +20,6 @@ import mealplaner.model.proposal.ProposalOutline;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
 import mealplaner.plugins.PluginStore;
-import mealplaner.plugins.api.SettingsInputDialogExtension;
 
 public class ProposalSettingsInput extends SettingsInput
     implements DialogCreatingWithAdditional<ProposalOutline, Optional<Settings[]>> {
@@ -34,29 +32,30 @@ public class ProposalSettingsInput extends SettingsInput
   @Override
   public Optional<Settings[]> showDialog(
       ProposalOutline outline, DataStore dataStore, PluginStore pluginStore) {
-    setup(dataStore.getDefaultSettings(), outline, pluginStore.getRegisteredSettingsInputGuiExtensions());
+    setup(dataStore.getDefaultSettings(), outline, pluginStore);
     dialogWindow.setVisible();
     return getEnteredSettings();
   }
 
-  private List<Settings> createSettingsForTable(int numberOfDays) {
+  private List<Settings> createSettingsForTable(int numberOfDays, PluginStore pluginStore) {
     Settings[] settings = new Settings[numberOfDays];
-    Arrays.fill(settings, defaultSetting());
+    Arrays.fill(settings, defaultSetting(pluginStore));
     return Arrays.asList(settings);
   }
 
   private void setup(
       DefaultSettings defaultSettings,
       ProposalOutline outline,
-      Collection<SettingsInputDialogExtension> settingsInputDialogExtensions) {
-    List<Settings> tableSettings = createSettingsForTable(outline.getNumberOfDays());
+      PluginStore pluginStore) {
+    List<Settings> tableSettings = createSettingsForTable(outline.getNumberOfDays(), pluginStore);
     LocalDate date = outline.isIncludedToday() ? outline.getDateToday()
         : outline.getDateToday().plusDays(1);
     settingTable = new SettingTable(tableSettings, date);
 
     ButtonPanel buttonPanel = createButtonPanel(defaultSettings);
 
-    settingTable.addJScrollTableToDialogCentre(dialogWindow, settingsInputDialogExtensions);
+    settingTable.addJScrollTableToDialogCentre(
+        dialogWindow, pluginStore.getRegisteredSettingsInputGuiExtensions());
     dialogWindow.addSouth(buttonPanel);
     adjustPanesTo();
   }

@@ -17,7 +17,6 @@ import org.w3c.dom.Element;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.meal.enums.CookingPreference;
-import mealplaner.model.meal.enums.CookingTime;
 import mealplaner.model.meal.enums.CourseType;
 import mealplaner.model.meal.enums.ObligatoryUtensil;
 import mealplaner.model.meal.enums.Sidedish;
@@ -25,12 +24,13 @@ import mealplaner.model.recipes.Recipe;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.Fact;
 import mealplaner.plugins.api.MealFact;
+import mealplaner.plugins.plugins.cookingtime.CookingTime;
+import mealplaner.plugins.plugins.cookingtime.CookingTimeFact;
 
 public final class MealBuilder {
   private PluginStore validationStore;
   private UUID uuid = UUID.randomUUID();
   private String name = "";
-  private CookingTime cookingTime = CookingTime.SHORT;
   private Sidedish sidedish = Sidedish.NONE;
   private ObligatoryUtensil obligatoryUtensil = ObligatoryUtensil.POT;
   private CookingPreference cookingPreference = CookingPreference.NO_PREFERENCE;
@@ -61,7 +61,7 @@ public final class MealBuilder {
     return new MealBuilder()
         .id(meal.getId())
         .name(meal.getName())
-        .cookingTime(meal.getCookingTime())
+        .cookingTime(meal.getTypedMealFact(CookingTimeFact.class).getCookingTime())
         .sidedish(meal.getSidedish())
         .obligatoryUtensil(meal.getObligatoryUtensil())
         .cookingPreference(meal.getCookingPreference())
@@ -84,7 +84,7 @@ public final class MealBuilder {
   }
 
   public MealBuilder cookingTime(CookingTime cookingTime) {
-    this.cookingTime = cookingTime;
+    this.mealFactMap.put(CookingTimeFact.class, new CookingTimeFact(cookingTime));
     return this;
   }
 
@@ -154,7 +154,6 @@ public final class MealBuilder {
     }
     return Meal.createMeal(uuid,
         MealMetaData.createMealMetaData(name,
-            cookingTime,
             sidedish,
             obligatoryUtensil,
             cookingPreference,

@@ -22,6 +22,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import guitests.helpers.AssertJMealplanerTestCase;
+import mealplaner.Kochplaner;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.Pair;
 import mealplaner.model.meal.Meal;
@@ -43,7 +44,7 @@ public class ProposalTest extends AssertJMealplanerTestCase {
     Map<DayOfWeek, Settings> defaultSettingsMap = new HashMap<>();
     defaultSettingsMap.put(TUESDAY, defaultSettingTuesday);
     defaultSettingsMap.put(WEDNESDAY, defaultSettingWednesday);
-    DefaultSettings defaultSettings = DefaultSettings.from(defaultSettingsMap);
+    DefaultSettings defaultSettings = DefaultSettings.from(defaultSettingsMap, Kochplaner.registerPlugins());
 
     windowHelpers.getProposalPane()
         .enterDefaultSettings(defaultSettings)

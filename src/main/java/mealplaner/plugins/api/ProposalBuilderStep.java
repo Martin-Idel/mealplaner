@@ -4,7 +4,8 @@ import java.util.stream.Stream;
 
 import mealplaner.commons.Pair;
 import mealplaner.model.meal.Meal;
+import mealplaner.model.settings.Settings;
 
 public interface ProposalBuilderStep {
-  Stream<Meal> applyPluginSuggestions(Stream<Pair<Meal, Integer>> meal);
+  Stream<Pair<Meal, Integer>> applyPluginSuggestions(Stream<Pair<Meal, Integer>> meal, Settings settings);
 }

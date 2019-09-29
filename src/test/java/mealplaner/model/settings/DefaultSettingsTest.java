@@ -5,11 +5,11 @@ package mealplaner.model.settings;
 import static java.time.DayOfWeek.SATURDAY;
 import static java.time.DayOfWeek.TUESDAY;
 import static mealplaner.commons.NonnegativeInteger.THREE;
-import static mealplaner.model.meal.enums.CookingTime.LONG;
 import static mealplaner.model.settings.DefaultSettings.from;
 import static mealplaner.model.settings.enums.CasseroleSettings.ONLY;
 import static mealplaner.model.settings.enums.PreferenceSettings.RARE_PREFERED;
-import static mealplaner.model.settings.subsettings.CookingTimeSetting.cookingTimeWithProhibited;
+import static mealplaner.plugins.plugins.cookingtime.CookingTime.LONG;
+import static mealplaner.plugins.plugins.cookingtime.CookingTimeSetting.cookingTimeWithProhibited;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.getSettings1;
 
@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import mealplaner.Kochplaner;
 import mealplaner.model.settings.enums.CourseSettings;
 
 public class DefaultSettingsTest {
@@ -34,7 +35,7 @@ public class DefaultSettingsTest {
         .course(CourseSettings.ONLY_MAIN)
         .create());
 
-    Map<DayOfWeek, Settings> defaultSettingsActual = from(defaultSettings)
+    Map<DayOfWeek, Settings> defaultSettingsActual = from(defaultSettings, Kochplaner.registerPlugins())
         .getDefaultSettings();
 
     assertThat(defaultSettingsActual).isEqualTo(defaultSettings);

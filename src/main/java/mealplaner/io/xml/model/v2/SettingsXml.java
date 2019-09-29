@@ -11,10 +11,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import mealplaner.model.meal.enums.CookingTime;
 import mealplaner.model.settings.enums.CasseroleSettings;
 import mealplaner.model.settings.enums.CourseSettings;
 import mealplaner.model.settings.enums.PreferenceSettings;
+import mealplaner.plugins.plugins.cookingtime.CookingTime;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

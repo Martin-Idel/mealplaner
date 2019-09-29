@@ -20,7 +20,6 @@ import java.util.UUID;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.meal.Meal;
-import mealplaner.model.meal.MealBuilder;
 import mealplaner.model.meal.MealMetaData;
 import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.recipes.Ingredient;

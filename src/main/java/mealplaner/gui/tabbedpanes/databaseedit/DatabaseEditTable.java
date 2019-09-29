@@ -19,7 +19,6 @@ import mealplaner.commons.gui.editing.NonemptyTextCellEditor;
 import mealplaner.commons.gui.tables.Table;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.meal.enums.CookingPreference;
-import mealplaner.model.meal.enums.CookingTime;
 import mealplaner.model.meal.enums.CourseType;
 import mealplaner.model.meal.enums.ObligatoryUtensil;
 import mealplaner.model.meal.enums.Sidedish;
@@ -45,15 +44,7 @@ final class DatabaseEditTable {
             .isEditable()
             .onChange(buttonPanel::enableButtons)
             .overwriteTableCellEditor(new NonemptyTextCellEditor())
-            .build())
-        .addColumn(withEnumContent(CookingTime.class)
-            .withColumnName(BUNDLES.message("cookingLengthColumn"))
-            .setValueToOrderedImmutableList(meals,
-                (meal, cookingTime) -> from(meal).cookingTime(cookingTime).create())
-            .getValueFromOrderedList(meals, Meal::getCookingTime)
-            .isEditable()
-            .onChange(buttonPanel::enableButtons)
-            .build())
+            .buildWithOrderNumber(0))
         .addColumn(withEnumContent(Sidedish.class)
             .withColumnName(BUNDLES.message("sidedishColumn"))
             .setValueToOrderedImmutableList(meals,
@@ -118,7 +109,7 @@ final class DatabaseEditTable {
           buttonPanel.enableButtons();
         });
     for (var extension : extensions) {
-      extension.addTableColumns(tableModelBuilder, meals);
+      tableModelBuilder = extension.addTableColumns(tableModelBuilder, meals, buttonPanel);
     }
     return tableModelBuilder.buildTable();
   }

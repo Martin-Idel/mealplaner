@@ -8,12 +8,10 @@ import static java.time.format.FormatStyle.SHORT;
 import static java.time.format.TextStyle.FULL;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.tables.FlexibleTableBuilder.createNewTable;
-import static mealplaner.commons.gui.tables.TableColumnBuilder.withBooleanContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withEnumContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withNonnegativeIntegerContent;
 import static mealplaner.model.settings.SettingsBuilder.from;
-import static mealplaner.model.settings.subsettings.CookingTimeSetting.copyCookingTimeSetting;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -25,13 +23,11 @@ import java.util.Map;
 import mealplaner.commons.gui.dialogs.DialogWindow;
 import mealplaner.commons.gui.tables.FlexibleTableBuilder;
 import mealplaner.commons.gui.tables.Table;
-import mealplaner.model.meal.enums.CookingTime;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
 import mealplaner.model.settings.enums.CasseroleSettings;
 import mealplaner.model.settings.enums.CourseSettings;
 import mealplaner.model.settings.enums.PreferenceSettings;
-import mealplaner.model.settings.subsettings.CookingTimeSetting;
 import mealplaner.plugins.api.SettingsInputDialogExtension;
 
 class SettingTable {
@@ -78,12 +74,6 @@ class SettingTable {
     if (date != null) {
       addDateColumn(tableBuilder);
     }
-    addCookingTimeColumnFor(CookingTime.VERY_SHORT, BUNDLES.message("veryShortColumn"),
-        tableBuilder);
-    addCookingTimeColumnFor(CookingTime.SHORT, BUNDLES.message("shortColumn"), tableBuilder);
-    addCookingTimeColumnFor(CookingTime.MEDIUM, BUNDLES.message("mediumColumn"), tableBuilder);
-    addCookingTimeColumnFor(CookingTime.LONG, BUNDLES.message("longColumn"), tableBuilder);
-
     addOtherSettings(tableBuilder);
     for (var setting : settingsInputDialogExtensions) {
       setting.addTableColumns(tableBuilder, settings);
@@ -139,7 +129,7 @@ class SettingTable {
                 row -> newDate.plusDays(row)
                     .getDayOfWeek()
                     .getDisplayName(FULL, BUNDLES.locale()))
-            .build());
+            .buildWithOrderNumber(0));
   }
 
   private void addDateColumn(FlexibleTableBuilder tableBuilder) {
@@ -148,31 +138,6 @@ class SettingTable {
         .getRowValueFromUnderlyingModel(row -> date.plusDays(row)
             .format(ofLocalizedDate(SHORT).withLocale(BUNDLES.locale())))
         .setPreferredSize(50)
-        .build());
-  }
-
-  private void addCookingTimeColumnFor(
-      CookingTime time, String columnName, FlexibleTableBuilder tableBuilder) {
-    tableBuilder.addColumn(withBooleanContent()
-        .withColumnName(columnName)
-        .getValueFromOrderedList(settings,
-            setting -> !setting.getCookingTime().contains(time))
-        .setValueToOrderedImmutableList(settings,
-            (element, value) -> from(element).time(changeStateOf(time, value,
-                copyCookingTimeSetting(element.getCookingTime()))).create())
-        .isEditable()
-        .setPreferredSize(50)
-        .build());
-  }
-
-  private CookingTimeSetting changeStateOf(
-      CookingTime cookingTime, Object value,
-      CookingTimeSetting newCookingTimeSetting) {
-    if ((Boolean) value) {
-      newCookingTimeSetting.allowCookingTime(cookingTime);
-    } else {
-      newCookingTimeSetting.prohibitCookingTime(cookingTime);
-    }
-    return newCookingTimeSetting;
+        .buildWithOrderNumber(1));
   }
 }

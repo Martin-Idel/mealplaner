@@ -1,15 +1,18 @@
 // SPDX-License-Identifier: MIT
 
-package mealplaner.model.settings.subsettings;
+package mealplaner.plugins.plugins.cookingtime;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import mealplaner.model.meal.Meal;
-import mealplaner.model.meal.enums.CookingTime;
+import mealplaner.model.settings.subsettings.CookingSetting;
+import mealplaner.plugins.api.FactXml;
+import mealplaner.plugins.api.Setting;
 
-public final class CookingTimeSetting implements CookingSetting {
+public final class CookingTimeSetting implements CookingSetting, Setting {
   private final Set<CookingTime> prohibitedCookingTime;
 
   private CookingTimeSetting(CookingTimeSetting cookingTimeSetting) {
@@ -33,16 +36,16 @@ public final class CookingTimeSetting implements CookingSetting {
     this.prohibitedCookingTime = prohibitedCookingTime;
   }
 
-  public void prohibitCookingTime(CookingTime cookingTime) {
-    prohibitedCookingTime.add(cookingTime);
+  public CookingTimeSetting prohibitCookingTime(CookingTime cookingTime) {
+    var newSet = new HashSet<>(prohibitedCookingTime);
+    newSet.add(cookingTime);
+    return new CookingTimeSetting(newSet);
   }
 
-  public void allowCookingTime(CookingTime cookingTime) {
-    prohibitedCookingTime.remove(cookingTime);
-  }
-
-  public void reset() {
-    prohibitedCookingTime.removeAll(Arrays.asList(CookingTime.values()));
+  public CookingTimeSetting allowCookingTime(CookingTime cookingTime) {
+    var newSet = new HashSet<>(prohibitedCookingTime);
+    newSet.remove(cookingTime);
+    return new CookingTimeSetting(newSet);
   }
 
   public boolean isTimeProhibited(CookingTime cookingTime) {
@@ -51,11 +54,16 @@ public final class CookingTimeSetting implements CookingSetting {
 
   @Override
   public boolean prohibits(Meal meal) {
-    return prohibitedCookingTime.contains(meal.getCookingTime());
+    return prohibitedCookingTime.contains(meal.getTypedMealFact(CookingTimeFact.class).getCookingTime());
   }
 
   public boolean contains(CookingTime cookingTime) {
     return prohibitedCookingTime.contains(cookingTime);
+  }
+
+  @Override
+  public FactXml convertToXml() {
+    return new CookingTimeSettingXml(prohibitedCookingTime.stream().collect(Collectors.toUnmodifiableList()));
   }
 
   @Override

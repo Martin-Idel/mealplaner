@@ -11,9 +11,6 @@ import static mealplaner.model.meal.MealBuilder.meal;
 import static mealplaner.model.meal.enums.CookingPreference.NO_PREFERENCE;
 import static mealplaner.model.meal.enums.CookingPreference.RARE;
 import static mealplaner.model.meal.enums.CookingPreference.VERY_POPULAR;
-import static mealplaner.model.meal.enums.CookingTime.LONG;
-import static mealplaner.model.meal.enums.CookingTime.MEDIUM;
-import static mealplaner.model.meal.enums.CookingTime.SHORT;
 import static mealplaner.model.meal.enums.CourseType.MAIN;
 import static mealplaner.model.meal.enums.ObligatoryUtensil.CASSEROLE;
 import static mealplaner.model.meal.enums.ObligatoryUtensil.PAN;
@@ -29,6 +26,9 @@ import static mealplaner.model.recipes.IngredientType.BAKING_GOODS;
 import static mealplaner.model.recipes.Measure.GRAM;
 import static mealplaner.model.recipes.Measures.createMeasures;
 import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitativeIngredient;
+import static mealplaner.plugins.plugins.cookingtime.CookingTime.LONG;
+import static mealplaner.plugins.plugins.cookingtime.CookingTime.MEDIUM;
+import static mealplaner.plugins.plugins.cookingtime.CookingTime.SHORT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.getIngredient1;
 import static testcommons.CommonFunctions.getIngredient2;
@@ -41,14 +41,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import mealplaner.Kochplaner;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.meal.MealBuilder;
 import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.recipes.Ingredient;
-import mealplaner.model.recipes.IngredientBuilder;
 import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
+import mealplaner.plugins.PluginStore;
 
 public class MealDataTest {
   private Meal meal1;
@@ -57,10 +58,11 @@ public class MealDataTest {
   private final List<Meal> meals = new ArrayList<>();
   private MealplanerData data;
   private MealData sut;
+  private final PluginStore pluginStore = Kochplaner.registerPlugins();
 
   @Before
   public void setUp() {
-    data = MealplanerData.getInstance();
+    data = MealplanerData.getInstance(pluginStore);
     data.clear();
     meals.clear();
   }
@@ -73,7 +75,7 @@ public class MealDataTest {
   @Test
   public void putAndGetMealsDoesNotChangeMealsWithoutRecipes() {
     addInitializedMeals();
-    MealplanerData data = MealplanerData.getInstance();
+    MealplanerData data = MealplanerData.getInstance(pluginStore);
     sut = createData(data);
 
     sut.setMeals(meals);
@@ -95,7 +97,7 @@ public class MealDataTest {
         .addDaysPassed(nonNegative(50))
         .create();
     meals.add(meal1);
-    MealplanerData data = MealplanerData.getInstance();
+    MealplanerData data = MealplanerData.getInstance(pluginStore);
     sut = MealData.createData(data);
 
     sut.setMeals(meals);
@@ -195,7 +197,7 @@ public class MealDataTest {
   @Test
   public void updateAddsCorrectNumberOfDays() {
     addInitializedMeals();
-    MealplanerData data = MealplanerData.getInstance();
+    MealplanerData data = MealplanerData.getInstance(pluginStore);
     sut = createData(data);
     sut.setMeals(meals);
     List<ProposedMenu> updatedList = new ArrayList<>();
@@ -215,7 +217,7 @@ public class MealDataTest {
   @Test
   public void updateAddsCorrectNumberOfDaysIncludingEntry() {
     addInitializedMeals();
-    MealplanerData data = MealplanerData.getInstance();
+    MealplanerData data = MealplanerData.getInstance(pluginStore);
     sut = createData(data);
     sut.setMeals(meals);
     List<ProposedMenu> updatedList = new ArrayList<>();
@@ -235,7 +237,7 @@ public class MealDataTest {
   @Test
   public void updateAddsCorrectNumberOfDaysIncludingDesert() {
     addInitializedMeals();
-    MealplanerData data = MealplanerData.getInstance();
+    MealplanerData data = MealplanerData.getInstance(pluginStore);
     sut = createData(data);
     sut.setMeals(meals);
     List<ProposedMenu> updatedList = new ArrayList<>();
@@ -255,7 +257,7 @@ public class MealDataTest {
   @Test
   public void ingredientInUseIdentifiesUsedIngredientId() {
     setupOneMeal(getIngredient1(), getIngredient2());
-    MealplanerData data = MealplanerData.getInstance();
+    MealplanerData data = MealplanerData.getInstance(pluginStore);
     sut = createData(data);
     sut.setMeals(meals);
 
@@ -266,7 +268,7 @@ public class MealDataTest {
   @Test
   public void replaceIngredientReplacesIngredientIfPresent() {
     setupOneMeal(getIngredient1(), getIngredient2());
-    MealplanerData data = MealplanerData.getInstance();
+    MealplanerData data = MealplanerData.getInstance(pluginStore);
     sut = createData(data);
     sut.setMeals(meals);
 
@@ -282,7 +284,7 @@ public class MealDataTest {
   @Test
   public void replaceIngredientReplacesIngredientEvenForSameIngredients() {
     setupOneMeal(getIngredient1(), getIngredient2());
-    MealplanerData data = MealplanerData.getInstance();
+    MealplanerData data = MealplanerData.getInstance(pluginStore);
     sut = createData(data);
     sut.setMeals(meals);
 
@@ -300,7 +302,7 @@ public class MealDataTest {
   @Test
   public void replaceIngredientDoesNothingIfIngredientIsAbsent() {
     setupOneMeal(getIngredient1(), getIngredient3());
-    MealplanerData data = MealplanerData.getInstance();
+    MealplanerData data = MealplanerData.getInstance(pluginStore);
     sut = createData(data);
     sut.setMeals(meals);
 

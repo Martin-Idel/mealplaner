@@ -21,30 +21,32 @@ public final class ProposalSummaryDataReader {
   private ProposalSummaryDataReader() {
   }
 
-  public static ProposalSummaryModel loadXml(MealplanerData data, String filePath, PluginStore knownPlugins) {
+  public static ProposalSummaryModel loadXml(
+      MealplanerData data, String filePath, PluginStore knownPlugins) {
     int versionNumber = getVersion(filePath);
     if (versionNumber == 2) {
       ProposalSummaryDataXml database = read(filePath, ProposalSummaryDataXml.class, knownPlugins);
-      return convertToMealplanerDataV2(database);
+      return convertToMealplanerDataV2(database, knownPlugins);
     } else if (versionNumber == 3) {
       mealplaner.io.xml.model.v3.ProposalSummaryDataXml database =
           read(filePath, mealplaner.io.xml.model.v3.ProposalSummaryDataXml.class, knownPlugins);
-      return convertToMealplanerDataV3(database, knownPlugins.getRegisteredSettingExtensions());
+      return convertToMealplanerDataV3(database, knownPlugins);
     } else {
-      return new ProposalSummaryModel();
+      return new ProposalSummaryModel(knownPlugins);
     }
   }
 
-  private static ProposalSummaryModel convertToMealplanerDataV2(ProposalSummaryDataXml data) {
-    DefaultSettings defaultSettings = convertDefaultSettingsV2FromXml(data.defaultSettings);
+  private static ProposalSummaryModel convertToMealplanerDataV2(
+      ProposalSummaryDataXml data, PluginStore pluginStore) {
+    DefaultSettings defaultSettings = convertDefaultSettingsV2FromXml(data.defaultSettings, pluginStore);
     return new ProposalSummaryModel(convertProposalV2FromXml(data.proposal),
         defaultSettings, data.date);
   }
 
   private static ProposalSummaryModel convertToMealplanerDataV3(
       mealplaner.io.xml.model.v3.ProposalSummaryDataXml data,
-      ModelExtension<Setting, SettingXml> knownExtensions) {
-    DefaultSettings defaultSettings = convertDefaultSettingsV3FromXml(data.defaultSettings, knownExtensions);
+      PluginStore pluginStore) {
+    DefaultSettings defaultSettings = convertDefaultSettingsV3FromXml(data.defaultSettings, pluginStore);
     return new ProposalSummaryModel(convertProposalV3FromXml(data.proposal),
         defaultSettings, data.date);
   }

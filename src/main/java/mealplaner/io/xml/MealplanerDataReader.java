@@ -30,21 +30,21 @@ public final class MealplanerDataReader {
     int versionNumber = getVersion(filePath);
     if (versionNumber == 2) {
       MealplanerDataXml database = read(filePath, MealplanerDataXml.class, knownPlugins);
-      return convertToData(database);
+      return convertToData(database, knownPlugins);
     } else if (versionNumber == 3) {
       mealplaner.io.xml.model.v3.MealplanerDataXml database = read(
           filePath, mealplaner.io.xml.model.v3.MealplanerDataXml.class, knownPlugins);
       return convertToData(database, knownPlugins);
     } else {
-      MealplanerData data = MealplanerData.getInstance();
+      MealplanerData data = MealplanerData.getInstance(knownPlugins);
       data.clear();
       return data;
     }
   }
 
-  private static MealplanerData convertToData(MealplanerDataXml database) {
-    DefaultSettings defaultSettings = convertDefaultSettingsV2FromXml(database.defaultSettings);
-    MealplanerData data = MealplanerData.getInstance();
+  private static MealplanerData convertToData(MealplanerDataXml database, PluginStore pluginStore) {
+    DefaultSettings defaultSettings = convertDefaultSettingsV2FromXml(database.defaultSettings, pluginStore);
+    MealplanerData data = MealplanerData.getInstance(pluginStore);
 
     List<Ingredient> ingredients = database.ingredients.stream()
         .map(IngredientAdapter::convertIngredientV2FromXml)
@@ -65,8 +65,8 @@ public final class MealplanerDataReader {
   private static MealplanerData convertToData(
       mealplaner.io.xml.model.v3.MealplanerDataXml database, PluginStore plugins) {
     DefaultSettings defaultSettings = convertDefaultSettingsV3FromXml(
-        database.defaultSettings, plugins.getRegisteredSettingExtensions());
-    MealplanerData data = MealplanerData.getInstance();
+        database.defaultSettings, plugins);
+    MealplanerData data = MealplanerData.getInstance(plugins);
 
     List<Ingredient> ingredients = database.ingredients.stream()
         .map(ingredient -> IngredientAdapter.convertIngredientV3FromXml(ingredient, plugins))

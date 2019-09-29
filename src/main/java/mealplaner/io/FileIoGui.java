@@ -44,8 +44,8 @@ public class FileIoGui {
     this.knownPlugins = knownPlugins;
   }
 
-  public MealplanerData loadDatabase() {
-    MealplanerData mealPlan = MealplanerData.getInstance();
+  public MealplanerData loadDatabase(PluginStore pluginStore) {
+    MealplanerData mealPlan = MealplanerData.getInstance(pluginStore);
     try {
       mealPlan.clear();
       List<Ingredient> ingredients = IngredientsReader.loadXml(savePath + "ingredients.xml", knownPlugins);
@@ -96,11 +96,11 @@ public class FileIoGui {
 
   }
 
-  public Optional<MealplanerData> loadBackup() {
+  public Optional<MealplanerData> loadBackup(PluginStore pluginStore) {
     String bak = JOptionPane.showInputDialog(frame, BUNDLES.message("createLoadBackup"),
         "*.xml");
     if (bak != null) {
-      MealplanerData mealPlan = MealplanerData.getInstance();
+      MealplanerData mealPlan = MealplanerData.getInstance(pluginStore);
       try {
         mealPlan = MealplanerDataReader.loadXml(bak, knownPlugins);
       } catch (MealException exc) {

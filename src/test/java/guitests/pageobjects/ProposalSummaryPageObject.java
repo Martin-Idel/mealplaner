@@ -5,10 +5,10 @@ package guitests.pageobjects;
 import static guitests.pageobjects.TabbedPanes.PROPOSAL_SUMMARY;
 import static java.time.format.TextStyle.FULL;
 import static mealplaner.commons.BundleStore.BUNDLES;
-import static mealplaner.model.meal.enums.CookingTime.LONG;
-import static mealplaner.model.meal.enums.CookingTime.MEDIUM;
-import static mealplaner.model.meal.enums.CookingTime.SHORT;
-import static mealplaner.model.meal.enums.CookingTime.VERY_SHORT;
+import static mealplaner.plugins.plugins.cookingtime.CookingTime.LONG;
+import static mealplaner.plugins.plugins.cookingtime.CookingTime.MEDIUM;
+import static mealplaner.plugins.plugins.cookingtime.CookingTime.SHORT;
+import static mealplaner.plugins.plugins.cookingtime.CookingTime.VERY_SHORT;
 import static org.assertj.swing.core.MouseButton.LEFT_BUTTON;
 import static org.assertj.swing.data.TableCell.row;
 
@@ -23,10 +23,10 @@ import org.assertj.swing.fixture.JButtonFixture;
 import org.assertj.swing.fixture.JTableFixture;
 
 import mealplaner.commons.NonnegativeInteger;
-import mealplaner.model.meal.enums.CookingTime;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
-import mealplaner.model.settings.subsettings.CookingTimeSetting;
+import mealplaner.plugins.plugins.cookingtime.CookingTime;
+import mealplaner.plugins.plugins.cookingtime.CookingTimeSetting;
 
 public class ProposalSummaryPageObject {
   private static final int NUMBER_OF_DEFAULT_SETTINGS_COLUMNS = 9;
@@ -110,7 +110,7 @@ public class ProposalSummaryPageObject {
   private void enterSettingInDialog(JTableFixture settingsTable, Settings setting, int dayNumber,
       boolean proposal) {
     int firstColumn = proposal ? 2 : 1;
-    CookingTimeSetting timeSetting = setting.getCookingTime();
+    CookingTimeSetting timeSetting = setting.getTypedSubSetting(CookingTimeSetting.class);
     updateCheckBox(settingsTable, row(dayNumber).column(firstColumn++), timeSetting, VERY_SHORT);
     updateCheckBox(settingsTable, row(dayNumber).column(firstColumn++), timeSetting, SHORT);
     updateCheckBox(settingsTable, row(dayNumber).column(firstColumn++), timeSetting, MEDIUM);
@@ -157,10 +157,10 @@ public class ProposalSummaryPageObject {
       Settings setting = settings.get(day);
       int row = day.getValue() - 1;
       content[row][0] = day.getDisplayName(FULL, BUNDLES.locale());
-      content[row][1] = Boolean.toString(!setting.getCookingTime().contains(VERY_SHORT));
-      content[row][2] = Boolean.toString(!setting.getCookingTime().contains(SHORT));
-      content[row][3] = Boolean.toString(!setting.getCookingTime().contains(MEDIUM));
-      content[row][4] = Boolean.toString(!setting.getCookingTime().contains(LONG));
+      content[row][1] = Boolean.toString(!setting.getTypedSubSetting(CookingTimeSetting.class).contains(VERY_SHORT));
+      content[row][2] = Boolean.toString(!setting.getTypedSubSetting(CookingTimeSetting.class).contains(SHORT));
+      content[row][3] = Boolean.toString(!setting.getTypedSubSetting(CookingTimeSetting.class).contains(MEDIUM));
+      content[row][4] = Boolean.toString(!setting.getTypedSubSetting(CookingTimeSetting.class).contains(LONG));
       content[row][5] = setting.getNumberOfPeople().toString();
       content[row][6] = setting.getCasserole().toString();
       content[row][7] = setting.getPreference().toString();

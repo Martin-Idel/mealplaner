@@ -12,6 +12,7 @@ import mealplaner.gui.factories.DialogFactory;
 import mealplaner.io.FileIoGui;
 import mealplaner.model.MealplanerData;
 import mealplaner.plugins.PluginStore;
+import mealplaner.plugins.plugins.cookingtime.CookingTimePlugin;
 
 public final class Kochplaner {
   private static final String SAVE_PATH = "savefiles/";
@@ -26,11 +27,19 @@ public final class Kochplaner {
   private static Runnable createMainGui() {
     return () -> {
       JFrame mainFrame = new JFrame(BUNDLES.message("mainFrameTitle"));
-      PluginStore pluginStore = new PluginStore();
+      PluginStore pluginStore = registerPlugins();
+
       FileIoGui fileIoGui = new FileIoGui(mainFrame, SAVE_PATH, pluginStore);
-      MealplanerData data = fileIoGui.loadDatabase();
+      MealplanerData data = fileIoGui.loadDatabase(pluginStore);
       DialogFactory dialogFactory = new DialogFactory(mainFrame);
       new MainGui(mainFrame, data, dialogFactory, fileIoGui, pluginStore);
     };
+  }
+
+  public static PluginStore registerPlugins() {
+    PluginStore pluginStore = new PluginStore();
+    var cookingTimePlugin = new CookingTimePlugin();
+    cookingTimePlugin.registerPlugins(pluginStore);
+    return pluginStore;
   }
 }

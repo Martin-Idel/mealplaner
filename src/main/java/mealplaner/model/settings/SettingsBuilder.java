@@ -3,7 +3,6 @@ package mealplaner.model.settings;
 import static mealplaner.commons.NonnegativeInteger.TWO;
 import static mealplaner.model.settings.enums.CasseroleSettings.POSSIBLE;
 import static mealplaner.model.settings.enums.PreferenceSettings.NORMAL;
-import static mealplaner.model.settings.subsettings.CookingTimeSetting.defaultCookingTime;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,15 +17,15 @@ import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.settings.enums.CasseroleSettings;
 import mealplaner.model.settings.enums.CourseSettings;
 import mealplaner.model.settings.enums.PreferenceSettings;
-import mealplaner.model.settings.subsettings.CookingTimeSetting;
+import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.Fact;
 import mealplaner.plugins.api.Setting;
+import mealplaner.plugins.plugins.cookingtime.CookingTimeSetting;
 
 public class SettingsBuilder {
   private Set<Class<? extends Fact>> validationStore;
   private CasseroleSettings casseroleSettings = POSSIBLE;
   private PreferenceSettings preference = NORMAL;
-  private CookingTimeSetting cookingTime = defaultCookingTime();
   private NonnegativeInteger numberOfPeople = TWO;
   private CourseSettings courseSettings = CourseSettings.ONLY_MAIN;
   private Map<Class, Setting> subSettings = new HashMap<>();
@@ -39,8 +38,14 @@ public class SettingsBuilder {
     this.validationStore = validationStore;
   }
 
-  public static Settings defaultSetting() {
-    return new SettingsBuilder().create();
+  public static Settings defaultSetting(PluginStore pluginStore) {
+    var facts = pluginStore.getRegisteredSettingExtensions().getAllRegisteredFacts();
+    var settingsBuilder = new SettingsBuilder(facts);
+    for (var settingsFact : facts) {
+      settingsBuilder.addSetting(
+          pluginStore.getRegisteredSettingExtensions().getDefault(settingsFact));
+    }
+    return settingsBuilder.create();
   }
 
   public static SettingsBuilder setting() {
@@ -57,7 +62,6 @@ public class SettingsBuilder {
         .course(settings.getCourseSettings())
         .numberOfPeople(settings.getNumberOfPeople())
         .preference(settings.getPreference())
-        .time(settings.getCookingTime())
         .addSettingsMap(settings.getSubSettings())
         .addHiddenSubSettings(settings.getHiddenSubSettings());
   }
@@ -73,7 +77,7 @@ public class SettingsBuilder {
   }
 
   public SettingsBuilder time(CookingTimeSetting cookingTime) {
-    this.cookingTime = cookingTime;
+    this.subSettings.put(CookingTimeSetting.class, cookingTime);
     return this;
   }
 
@@ -107,7 +111,6 @@ public class SettingsBuilder {
       validateFacts();
     }
     return new Settings(
-        cookingTime,
         numberOfPeople,
         casseroleSettings,
         preference,

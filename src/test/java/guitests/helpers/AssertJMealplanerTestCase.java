@@ -19,6 +19,7 @@ import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
 import org.junit.Assert;
 
 import guitests.pageobjects.GuiMethods;
+import mealplaner.Kochplaner;
 import mealplaner.gui.MainGui;
 import mealplaner.gui.factories.DialogFactory;
 import mealplaner.io.FileIoGui;
@@ -75,10 +76,11 @@ public class AssertJMealplanerTestCase extends AssertJSwingJUnitTestCase {
   private MainGui createMainApplication() {
     try {
       JFrame mainFrame = new JFrame(BUNDLES.message("mainFrameTitle"));
-      FileIoGui fileIoGui = new FileIoGui(mainFrame, useFilePath(), new PluginStore());
-      MealplanerData data = fileIoGui.loadDatabase();
+      PluginStore pluginStore = Kochplaner.registerPlugins();
+      FileIoGui fileIoGui = new FileIoGui(mainFrame, useFilePath(), pluginStore);
+      MealplanerData data = fileIoGui.loadDatabase(pluginStore);
       DialogFactory dialogFactory = new DialogFactory(mainFrame);
-      return new MainGui(mainFrame, data, dialogFactory, fileIoGui, new PluginStore());
+      return new MainGui(mainFrame, data, dialogFactory, fileIoGui, pluginStore);
     } catch (IOException exception) {
       fail("One of the files to use as save files does not exist");
       return null;

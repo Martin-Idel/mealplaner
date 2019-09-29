@@ -14,9 +14,6 @@ import static mealplaner.model.meal.MealBuilder.meal;
 import static mealplaner.model.meal.enums.CookingPreference.NO_PREFERENCE;
 import static mealplaner.model.meal.enums.CookingPreference.RARE;
 import static mealplaner.model.meal.enums.CookingPreference.VERY_POPULAR;
-import static mealplaner.model.meal.enums.CookingTime.LONG;
-import static mealplaner.model.meal.enums.CookingTime.MEDIUM;
-import static mealplaner.model.meal.enums.CookingTime.SHORT;
 import static mealplaner.model.meal.enums.CourseType.MAIN;
 import static mealplaner.model.meal.enums.ObligatoryUtensil.CASSEROLE;
 import static mealplaner.model.meal.enums.ObligatoryUtensil.PAN;
@@ -29,6 +26,9 @@ import static mealplaner.model.proposal.Proposal.createProposal;
 import static mealplaner.model.proposal.Proposal.from;
 import static mealplaner.model.proposal.ProposedMenu.mainOnly;
 import static mealplaner.model.settings.DefaultSettings.createDefaultSettings;
+import static mealplaner.plugins.plugins.cookingtime.CookingTime.LONG;
+import static mealplaner.plugins.plugins.cookingtime.CookingTime.MEDIUM;
+import static mealplaner.plugins.plugins.cookingtime.CookingTime.SHORT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -46,12 +46,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import mealplaner.Kochplaner;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.meal.MealBuilder;
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.recipes.Ingredient;
+import mealplaner.plugins.PluginStore;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MealplanerDataTest {
@@ -63,8 +65,9 @@ public class MealplanerDataTest {
   private DataStoreListener listener;
   private LocalDate date;
   private Proposal proposal;
+  private final PluginStore pluginStore = Kochplaner.registerPlugins();
 
-  private final MealplanerData sut = getInstance();
+  private final MealplanerData sut = getInstance(pluginStore);
 
   @Before
   public void setUp() {
@@ -76,7 +79,7 @@ public class MealplanerDataTest {
     sut.setIngredients(ingredients);
     sut.setMeals(meals);
     sut.setTime(date);
-    sut.setDefaultSettings(createDefaultSettings());
+    sut.setDefaultSettings(createDefaultSettings(pluginStore));
     sut.setLastProposal(proposal);
 
     listener = mock(DataStoreListener.class);
@@ -161,7 +164,7 @@ public class MealplanerDataTest {
   @Test
   public void setDefaultSettingsNotifiesCorrectListeners() {
 
-    sut.setDefaultSettings(createDefaultSettings());
+    sut.setDefaultSettings(createDefaultSettings(pluginStore));
 
     verify(listener).updateData(SETTINGS_CHANGED);
   }

@@ -19,13 +19,14 @@ import org.assertj.swing.fixture.JTableFixture;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.meal.enums.CookingPreference;
-import mealplaner.model.meal.enums.CookingTime;
 import mealplaner.model.meal.enums.CourseType;
 import mealplaner.model.meal.enums.ObligatoryUtensil;
 import mealplaner.model.meal.enums.Sidedish;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
+import mealplaner.plugins.plugins.cookingtime.CookingTime;
+import mealplaner.plugins.plugins.cookingtime.CookingTimeFact;
 
 public class MealsEditPageObject {
   private static final int NUMBER_OF_DATA_COLUMNS = 9;
@@ -180,7 +181,7 @@ public class MealsEditPageObject {
     mealInputDialog.textBox("InputFieldNonemptyTextName")
         .enterText(meal.getName());
     mealInputDialog.comboBox("InputFieldComboBoxCookingTime")
-        .selectItem(meal.getCookingTime().toString());
+        .selectItem(meal.getTypedMealFact(CookingTimeFact.class).getCookingTime().toString());
     mealInputDialog.comboBox("InputFieldComboBoxSidedish")
         .selectItem(meal.getSidedish().toString());
     mealInputDialog.comboBox("InputFieldComboBoxObligatoryUtensil")
@@ -264,7 +265,7 @@ public class MealsEditPageObject {
     for (int i = 0; i < meals.size(); i++) {
       Meal meal = meals.get(i);
       content[i][0] = meal.getName();
-      content[i][1] = meal.getCookingTime().toString();
+      content[i][1] = meal.getTypedMealFact(CookingTimeFact.class).getCookingTime().toString();
       content[i][2] = meal.getSidedish().toString();
       content[i][3] = meal.getObligatoryUtensil().toString();
       content[i][4] = meal.getDaysPassed().toString();

@@ -5,7 +5,6 @@ package mealplaner.model.meal;
 import static java.util.Optional.empty;
 import static java.util.UUID.nameUUIDFromBytes;
 import static mealplaner.commons.NonnegativeInteger.ZERO;
-import static mealplaner.model.meal.MealMetaData.createMealMetaData;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -18,9 +17,7 @@ import java.util.UUID;
 import org.w3c.dom.Element;
 
 import mealplaner.commons.NonnegativeInteger;
-import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.meal.enums.CookingPreference;
-import mealplaner.model.meal.enums.CookingTime;
 import mealplaner.model.meal.enums.CourseType;
 import mealplaner.model.meal.enums.ObligatoryUtensil;
 import mealplaner.model.meal.enums.Sidedish;
@@ -94,7 +91,7 @@ public final class Meal implements Comparable<Meal> {
   }
 
   @SuppressWarnings("unchecked")
-  public <T> T getTypedMealFact(Class<T> name) {
+  public <T extends MealFact> T getTypedMealFact(Class<T> name) {
     return (T) metadata.getMealFacts().get(name);
   }
 
@@ -112,10 +109,6 @@ public final class Meal implements Comparable<Meal> {
 
   public int getDaysPassedAsInteger() {
     return daysPassed.value;
-  }
-
-  public CookingTime getCookingTime() {
-    return metadata.getCookingTime();
   }
 
   public Sidedish getSidedish() {

@@ -51,14 +51,14 @@ public class MainGui {
     dbaseEditPanel.addElements(container, pluginStore);
     ingredientsPanel.addElements(container, pluginStore);
 
-    addToFileMenu();
+    addToFileMenu(pluginStore);
 
     container.setupMainFrame(new SaveExitWindowListener());
   }
 
-  private void addToFileMenu() {
+  private void addToFileMenu(PluginStore pluginStore) {
     container.addToFileMenu(createBackupMenu());
-    container.addToFileMenu(loadBackupMenu());
+    container.addToFileMenu(loadBackupMenu(pluginStore));
     container.addSeparatorToFileMenu();
     container.addToFileMenu(exitMenu());
   }
@@ -70,10 +70,10 @@ public class MainGui {
         .build();
   }
 
-  private JMenuItem loadBackupMenu() {
+  private JMenuItem loadBackupMenu(PluginStore pluginStore) {
     return builder("LoadBackup").addLabelText(BUNDLES.message("menuDataLoadBackup"))
         .addMnemonic(BUNDLES.message("menuDataLoadBackupMnemonic"))
-        .addActionListener(action -> fileIoGui.loadBackup()
+        .addActionListener(action -> fileIoGui.loadBackup(pluginStore)
             .ifPresent(loadedMealPlaner -> {
               this.mealPlan.setMeals(loadedMealPlaner.getMeals());
               this.mealPlan.setIngredients(loadedMealPlaner.getIngredients());

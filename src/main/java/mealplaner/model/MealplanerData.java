@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.apache.logging.log4j.core.config.plugins.Plugin;
+
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.meal.Meal;
@@ -29,6 +31,7 @@ import mealplaner.model.proposal.Proposal;
 import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.settings.DefaultSettings;
+import mealplaner.plugins.PluginStore;
 
 public final class MealplanerData implements DataStore {
   private List<Ingredient> ingredients;
@@ -36,30 +39,36 @@ public final class MealplanerData implements DataStore {
   private DefaultSettings defaultSettings;
   private LocalDate date;
   private Proposal proposal;
+  private PluginStore pluginStore;
 
   private final List<DataStoreListener> listeners = new ArrayList<>();
 
   private static class MealplanerDataHolder {
-    private static final MealplanerData INSTANCE = new MealplanerData(); // NOPMD
+    private static MealplanerData INSTANCE; // NOPMD
   }
 
-  public static MealplanerData getInstance() {
+  // TODO: Revisit interface here
+  public static MealplanerData getInstance(PluginStore pluginStore) {
+    if (MealplanerDataHolder.INSTANCE == null) {
+      MealplanerDataHolder.INSTANCE = new MealplanerData(pluginStore);
+    }
     return MealplanerDataHolder.INSTANCE;
   }
 
-  private MealplanerData() {
+  private MealplanerData(PluginStore pluginStore) {
     ingredients = new ArrayList<>();
     date = now();
-    defaultSettings = createDefaultSettings();
+    defaultSettings = createDefaultSettings(pluginStore);
     proposal = createProposal();
     mealData = MealData.createData(this);
+    this.pluginStore = pluginStore;
   }
 
   public void clear() {
     ingredients = new ArrayList<>();
     mealData.clear();
     date = now();
-    defaultSettings = createDefaultSettings();
+    defaultSettings = createDefaultSettings(pluginStore);
     proposal = createProposal();
   }
 
