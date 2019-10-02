@@ -13,9 +13,6 @@ import static mealplaner.commons.NonnegativeInteger.THREE;
 import static mealplaner.commons.NonnegativeInteger.TWO;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.MealplanerData.getInstance;
-import static mealplaner.model.meal.enums.CookingPreference.NO_PREFERENCE;
-import static mealplaner.model.meal.enums.CookingPreference.RARE;
-import static mealplaner.model.meal.enums.CookingPreference.VERY_POPULAR;
 import static mealplaner.model.meal.enums.CourseType.DESERT;
 import static mealplaner.model.meal.enums.CourseType.ENTRY;
 import static mealplaner.model.meal.enums.CourseType.MAIN;
@@ -39,12 +36,15 @@ import static mealplaner.model.settings.SettingsBuilder.setting;
 import static mealplaner.model.settings.enums.CasseroleSettings.POSSIBLE;
 import static mealplaner.model.settings.enums.CourseSettings.MAIN_DESERT;
 import static mealplaner.model.settings.enums.CourseSettings.ONLY_MAIN;
-import static mealplaner.model.settings.enums.PreferenceSettings.RARE_PREFERED;
 import static mealplaner.plugins.plugins.cookingtime.CookingTime.LONG;
 import static mealplaner.plugins.plugins.cookingtime.CookingTime.MEDIUM;
 import static mealplaner.plugins.plugins.cookingtime.CookingTime.SHORT;
 import static mealplaner.plugins.plugins.cookingtime.CookingTime.VERY_SHORT;
 import static mealplaner.plugins.plugins.cookingtime.CookingTimeSetting.cookingTimeWithProhibited;
+import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.NO_PREFERENCE;
+import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.RARE;
+import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.VERY_POPULAR;
+import static mealplaner.plugins.plugins.preference.setting.PreferenceSettings.RARE_PREFERED;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -65,6 +65,7 @@ import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 import mealplaner.model.settings.Settings;
 import mealplaner.model.settings.enums.CasseroleSettings;
+import mealplaner.plugins.plugins.preference.setting.CookingPreferenceSetting;
 
 public final class CommonFunctions {
   private CommonFunctions() {
@@ -228,7 +229,7 @@ public final class CommonFunctions {
         .time(cookingTimeWithProhibited(VERY_SHORT))
         .numberOfPeople(THREE)
         .casserole(CasseroleSettings.NONE)
-        .preference(RARE_PREFERED)
+        .preference(new CookingPreferenceSetting(RARE_PREFERED))
         .course(ONLY_MAIN)
         .create();
   }
@@ -238,7 +239,7 @@ public final class CommonFunctions {
         .time(cookingTimeWithProhibited(SHORT))
         .numberOfPeople(FOUR)
         .casserole(POSSIBLE)
-        .preference(RARE_PREFERED)
+        .preference(new CookingPreferenceSetting(RARE_PREFERED))
         .course(ONLY_MAIN)
         .create();
   }
@@ -248,7 +249,7 @@ public final class CommonFunctions {
         .time(cookingTimeWithProhibited())
         .numberOfPeople(THREE)
         .casserole(CasseroleSettings.NONE)
-        .preference(RARE_PREFERED)
+        .preference(new CookingPreferenceSetting(RARE_PREFERED))
         .course(MAIN_DESERT)
         .create();
   }
@@ -258,7 +259,7 @@ public final class CommonFunctions {
         .time(cookingTimeWithProhibited())
         .numberOfPeople(THREE)
         .casserole(CasseroleSettings.NONE)
-        .preference(RARE_PREFERED)
+        .preference(new CookingPreferenceSetting(RARE_PREFERED))
         .course(MAIN_DESERT)
         .create();
   }

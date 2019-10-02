@@ -12,10 +12,7 @@ import static mealplaner.io.xml.util.VersionControl.getVersion;
 import mealplaner.io.xml.model.v2.ProposalSummaryDataXml;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.settings.DefaultSettings;
-import mealplaner.plugins.ModelExtension;
 import mealplaner.plugins.PluginStore;
-import mealplaner.plugins.api.Setting;
-import mealplaner.plugins.api.SettingXml;
 
 public final class ProposalSummaryDataReader {
   private ProposalSummaryDataReader() {

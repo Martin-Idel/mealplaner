@@ -30,7 +30,6 @@ import mealplaner.model.proposal.Proposal;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
-import mealplaner.plugins.PluginStore;
 import testcommons.XmlInteraction;
 
 public class BackupInteractionTest extends XmlInteraction {

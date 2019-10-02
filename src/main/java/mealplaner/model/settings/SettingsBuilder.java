@@ -2,7 +2,6 @@ package mealplaner.model.settings;
 
 import static mealplaner.commons.NonnegativeInteger.TWO;
 import static mealplaner.model.settings.enums.CasseroleSettings.POSSIBLE;
-import static mealplaner.model.settings.enums.PreferenceSettings.NORMAL;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,16 +15,15 @@ import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.settings.enums.CasseroleSettings;
 import mealplaner.model.settings.enums.CourseSettings;
-import mealplaner.model.settings.enums.PreferenceSettings;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.Fact;
 import mealplaner.plugins.api.Setting;
 import mealplaner.plugins.plugins.cookingtime.CookingTimeSetting;
+import mealplaner.plugins.plugins.preference.setting.CookingPreferenceSetting;
 
 public class SettingsBuilder {
   private Set<Class<? extends Fact>> validationStore;
   private CasseroleSettings casseroleSettings = POSSIBLE;
-  private PreferenceSettings preference = NORMAL;
   private NonnegativeInteger numberOfPeople = TWO;
   private CourseSettings courseSettings = CourseSettings.ONLY_MAIN;
   private Map<Class, Setting> subSettings = new HashMap<>();
@@ -61,7 +59,6 @@ public class SettingsBuilder {
         .casserole(settings.getCasserole())
         .course(settings.getCourseSettings())
         .numberOfPeople(settings.getNumberOfPeople())
-        .preference(settings.getPreference())
         .addSettingsMap(settings.getSubSettings())
         .addHiddenSubSettings(settings.getHiddenSubSettings());
   }
@@ -71,8 +68,8 @@ public class SettingsBuilder {
     return this;
   }
 
-  public SettingsBuilder preference(PreferenceSettings preference) {
-    this.preference = preference;
+  public SettingsBuilder preference(CookingPreferenceSetting preference) {
+    this.subSettings.put(CookingPreferenceSetting.class, preference);
     return this;
   }
 
@@ -113,7 +110,6 @@ public class SettingsBuilder {
     return new Settings(
         numberOfPeople,
         casseroleSettings,
-        preference,
         courseSettings,
         subSettings,
         hiddenSubSettings);

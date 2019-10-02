@@ -4,13 +4,10 @@ package mealplaner.proposal;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.UUID.nameUUIDFromBytes;
+import static mealplaner.Kochplaner.registerPlugins;
 import static mealplaner.commons.NonnegativeInteger.ZERO;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
-import static mealplaner.model.configuration.PreferenceMap.getPreferenceMap;
 import static mealplaner.model.meal.MealBuilder.meal;
-import static mealplaner.model.meal.enums.CookingPreference.NO_PREFERENCE;
-import static mealplaner.model.meal.enums.CookingPreference.RARE;
-import static mealplaner.model.meal.enums.CookingPreference.VERY_POPULAR;
 import static mealplaner.model.meal.enums.CourseType.DESERT;
 import static mealplaner.model.meal.enums.CourseType.MAIN;
 import static mealplaner.model.meal.enums.ObligatoryUtensil.CASSEROLE;
@@ -21,6 +18,9 @@ import static mealplaner.model.meal.enums.Sidedish.PASTA;
 import static mealplaner.model.meal.enums.Sidedish.POTATOES;
 import static mealplaner.plugins.plugins.cookingtime.CookingTime.SHORT;
 import static mealplaner.plugins.plugins.cookingtime.CookingTime.VERY_SHORT;
+import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.NO_PREFERENCE;
+import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.RARE;
+import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.VERY_POPULAR;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.getMeal1;
 import static testcommons.CommonFunctions.getSettings1;
@@ -41,7 +41,8 @@ public class DesertProposalTest {
 
   @Test
   public void proposalReturnsNothingIfNoEntryIsPresent() {
-    sut = new DesertProposal(meals, new PreferenceMultiplier(getPreferenceMap()));
+    var pluginStore = registerPlugins();
+    sut = new DesertProposal(meals, pluginStore.getRegisteredProposalBuilderSteps());
 
     Optional<UUID> proposeNextDesert = sut.proposeNextDesert(getSettings1(), getMeal1(),
         new ArrayList<>());
@@ -62,7 +63,8 @@ public class DesertProposalTest {
         .comment("")
         .create();
     meals.add(meal1);
-    sut = new DesertProposal(meals, new PreferenceMultiplier(getPreferenceMap()));
+    var pluginStore = registerPlugins();
+    sut = new DesertProposal(meals, pluginStore.getRegisteredProposalBuilderSteps());
 
     Optional<UUID> proposeNextDesert = sut.proposeNextDesert(getSettings1(), getMeal1(),
         new ArrayList<>()); // Settings1 has very short as prohibited setting
@@ -109,7 +111,8 @@ public class DesertProposalTest {
         .comment("")
         .create();
 
-    sut = new DesertProposal(meals, new PreferenceMultiplier(getPreferenceMap()));
+    var pluginStore = registerPlugins();
+    sut = new DesertProposal(meals, pluginStore.getRegisteredProposalBuilderSteps());
 
     Optional<UUID> proposeNextDesert = sut.proposeNextDesert(getSettings3(), main,
         new ArrayList<>());
@@ -157,7 +160,8 @@ public class DesertProposalTest {
         .courseType(MAIN)
         .comment("")
         .create();
-    sut = new DesertProposal(meals, new PreferenceMultiplier(getPreferenceMap()));
+    var pluginStore = registerPlugins();
+    sut = new DesertProposal(meals, pluginStore.getRegisteredProposalBuilderSteps());
 
     Optional<UUID> proposeNextDesert = sut.proposeNextDesert(getSettings3(), main,
         new ArrayList<>());
@@ -205,7 +209,8 @@ public class DesertProposalTest {
         .comment("")
         .create();
 
-    sut = new DesertProposal(meals, new PreferenceMultiplier(getPreferenceMap()));
+    var pluginStore = registerPlugins();
+    sut = new DesertProposal(meals, pluginStore.getRegisteredProposalBuilderSteps());
 
     Optional<UUID> proposeNextDesert = sut.proposeNextDesert(getSettings3(), main,
         new ArrayList<>());
@@ -253,7 +258,8 @@ public class DesertProposalTest {
         .comment("")
         .create();
 
-    sut = new DesertProposal(meals, new PreferenceMultiplier(getPreferenceMap()));
+    var pluginStore = registerPlugins();
+    sut = new DesertProposal(meals, pluginStore.getRegisteredProposalBuilderSteps());
 
     Optional<UUID> proposeNextDesert = sut.proposeNextDesert(getSettings3(), main,
         new ArrayList<>());

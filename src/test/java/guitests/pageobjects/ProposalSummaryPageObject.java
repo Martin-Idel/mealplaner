@@ -27,6 +27,7 @@ import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
 import mealplaner.plugins.plugins.cookingtime.CookingTime;
 import mealplaner.plugins.plugins.cookingtime.CookingTimeSetting;
+import mealplaner.plugins.plugins.preference.setting.CookingPreferenceSetting;
 
 public class ProposalSummaryPageObject {
   private static final int NUMBER_OF_DEFAULT_SETTINGS_COLUMNS = 9;
@@ -120,7 +121,7 @@ public class ProposalSummaryPageObject {
     updateComboBox(settingsTable, row(dayNumber).column(firstColumn++),
         setting.getCasserole().toString());
     updateComboBox(settingsTable, row(dayNumber).column(firstColumn++),
-        setting.getPreference().toString());
+        setting.getTypedSubSetting(CookingPreferenceSetting.class).getPreferences().toString());
     updateComboBox(settingsTable, row(dayNumber).column(firstColumn),
         setting.getCourseSettings().toString());
   }
@@ -163,7 +164,7 @@ public class ProposalSummaryPageObject {
       content[row][4] = Boolean.toString(!setting.getTypedSubSetting(CookingTimeSetting.class).contains(LONG));
       content[row][5] = setting.getNumberOfPeople().toString();
       content[row][6] = setting.getCasserole().toString();
-      content[row][7] = setting.getPreference().toString();
+      content[row][7] = setting.getTypedSubSetting(CookingPreferenceSetting.class).getPreferences().toString();
       content[row][8] = setting.getCourseSettings().toString();
     }
     return content;

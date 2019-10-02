@@ -13,8 +13,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import mealplaner.model.settings.enums.CasseroleSettings;
 import mealplaner.model.settings.enums.CourseSettings;
-import mealplaner.model.settings.enums.PreferenceSettings;
 import mealplaner.plugins.plugins.cookingtime.CookingTime;
+import mealplaner.plugins.plugins.preference.setting.PreferenceSettings;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

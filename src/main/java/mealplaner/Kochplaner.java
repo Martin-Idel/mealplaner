@@ -13,6 +13,7 @@ import mealplaner.io.FileIoGui;
 import mealplaner.model.MealplanerData;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.plugins.cookingtime.CookingTimePlugin;
+import mealplaner.plugins.plugins.preference.CookingPreferencePlugin;
 
 public final class Kochplaner {
   private static final String SAVE_PATH = "savefiles/";
@@ -40,6 +41,8 @@ public final class Kochplaner {
     PluginStore pluginStore = new PluginStore();
     var cookingTimePlugin = new CookingTimePlugin();
     cookingTimePlugin.registerPlugins(pluginStore);
+    var cookingPreferencePlugin = new CookingPreferencePlugin();
+    cookingPreferencePlugin.registerPlugins(pluginStore);
     return pluginStore;
   }
 }

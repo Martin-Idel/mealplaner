@@ -17,7 +17,6 @@ import java.util.UUID;
 import org.w3c.dom.Element;
 
 import mealplaner.commons.NonnegativeInteger;
-import mealplaner.model.meal.enums.CookingPreference;
 import mealplaner.model.meal.enums.CourseType;
 import mealplaner.model.meal.enums.ObligatoryUtensil;
 import mealplaner.model.meal.enums.Sidedish;
@@ -117,10 +116,6 @@ public final class Meal implements Comparable<Meal> {
 
   public ObligatoryUtensil getObligatoryUtensil() {
     return metadata.getObligatoryUtensil();
-  }
-
-  public CookingPreference getCookingPreference() {
-    return metadata.getCookingPreference();
   }
 
   public CourseType getCourseType() {

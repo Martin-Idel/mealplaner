@@ -4,7 +4,6 @@ package mealplaner.io.xml.model.v3;
 
 import static java.util.UUID.nameUUIDFromBytes;
 import static mealplaner.commons.NonnegativeInteger.ZERO;
-import static mealplaner.model.meal.enums.CookingPreference.NO_PREFERENCE;
 import static mealplaner.model.meal.enums.CourseType.MAIN;
 import static mealplaner.model.meal.enums.ObligatoryUtensil.POT;
 import static mealplaner.model.meal.enums.Sidedish.NONE;
@@ -23,7 +22,6 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.io.xml.util.UuidAdapter;
-import mealplaner.model.meal.enums.CookingPreference;
 import mealplaner.model.meal.enums.CourseType;
 import mealplaner.model.meal.enums.ObligatoryUtensil;
 import mealplaner.model.meal.enums.Sidedish;
@@ -36,7 +34,6 @@ public class MealXml {
   public final String name;
   public final Sidedish sidedish;
   public final ObligatoryUtensil obligatoryUtensil;
-  public final CookingPreference cookingPreference;
   public final CourseType courseType;
   public final int daysPassed;
   public final String comment;
@@ -46,7 +43,7 @@ public class MealXml {
 
   public MealXml() {
     this(nameUUIDFromBytes("noname".getBytes(StandardCharsets.UTF_8)),
-        "noname", NONE, POT, NO_PREFERENCE, MAIN, ZERO, "no comment",
+        "noname", NONE, POT, MAIN, ZERO, "no comment",
         new ArrayList<>(), null);
   }
 
@@ -54,7 +51,6 @@ public class MealXml {
       String name,
       Sidedish sideDish,
       ObligatoryUtensil obligatoryUtensil,
-      CookingPreference cookingPreference,
       CourseType courseType,
       NonnegativeInteger daysPassed,
       String comment,
@@ -65,7 +61,6 @@ public class MealXml {
     this.name = name;
     this.sidedish = sideDish;
     this.obligatoryUtensil = obligatoryUtensil;
-    this.cookingPreference = cookingPreference;
     this.courseType = courseType;
     this.daysPassed = daysPassed.value;
     this.comment = comment;

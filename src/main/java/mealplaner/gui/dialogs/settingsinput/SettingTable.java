@@ -27,7 +27,6 @@ import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
 import mealplaner.model.settings.enums.CasseroleSettings;
 import mealplaner.model.settings.enums.CourseSettings;
-import mealplaner.model.settings.enums.PreferenceSettings;
 import mealplaner.plugins.api.SettingsInputDialogExtension;
 
 class SettingTable {
@@ -91,7 +90,7 @@ class SettingTable {
             .setValueToOrderedImmutableList(settings,
                 (setting, numberOfPoeple) -> from(setting).numberOfPeople(numberOfPoeple).create())
             .isEditable()
-            .build())
+            .buildWithOrderNumber(20))
         .addColumn(withEnumContent(CasseroleSettings.class)
             .withColumnName(BUNDLES.message("casseroleColumn"))
             .getValueFromOrderedList(settings, Settings::getCasserole)
@@ -99,15 +98,7 @@ class SettingTable {
                 (setting, casserole) -> from(setting).casserole(casserole).create())
             .setPreferredSize(100)
             .isEditable()
-            .build())
-        .addColumn(withEnumContent(PreferenceSettings.class)
-            .withColumnName(BUNDLES.message("preferenceColumn"))
-            .getValueFromOrderedList(settings, Settings::getPreference)
-            .setValueToOrderedImmutableList(settings,
-                (setting, preference) -> from(setting).preference(preference).create())
-            .isEditable()
-            .setPreferredSize(100)
-            .build())
+            .buildWithOrderNumber(30))
         .addColumn(withEnumContent(CourseSettings.class)
             .withColumnName(BUNDLES.message("courseSettingColumn"))
             .getValueFromOrderedList(settings, Settings::getCourseSettings)
@@ -115,7 +106,7 @@ class SettingTable {
                 (setting, course) -> from(setting).course(course).create())
             .isEditable()
             .setPreferredSize(120)
-            .build());
+            .buildWithOrderNumber(50));
   }
 
   private void addDayOfWeekColumn(FlexibleTableBuilder tableBuilder) {

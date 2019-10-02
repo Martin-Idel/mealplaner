@@ -18,7 +18,6 @@ import mealplaner.commons.gui.buttonpanel.ButtonPanelEnabling;
 import mealplaner.commons.gui.editing.NonemptyTextCellEditor;
 import mealplaner.commons.gui.tables.Table;
 import mealplaner.model.meal.Meal;
-import mealplaner.model.meal.enums.CookingPreference;
 import mealplaner.model.meal.enums.CourseType;
 import mealplaner.model.meal.enums.ObligatoryUtensil;
 import mealplaner.model.meal.enums.Sidedish;
@@ -52,7 +51,7 @@ final class DatabaseEditTable {
             .getValueFromOrderedList(meals, Meal::getSidedish)
             .isEditable()
             .onChange(buttonPanel::enableButtons)
-            .build())
+            .buildWithOrderNumber(20))
         .addColumn(withEnumContent(ObligatoryUtensil.class)
             .withColumnName(BUNDLES.message("utensilColumn"))
             .setValueToOrderedImmutableList(meals,
@@ -60,7 +59,7 @@ final class DatabaseEditTable {
             .getValueFromOrderedList(meals, Meal::getObligatoryUtensil)
             .isEditable()
             .onChange(buttonPanel::enableButtons)
-            .build())
+            .buildWithOrderNumber(30))
         .addColumn(withNonnegativeIntegerContent()
             .withColumnName(BUNDLES.message("cookedLastTimeColumn"))
             .setValueToOrderedImmutableList(meals,
@@ -68,16 +67,7 @@ final class DatabaseEditTable {
             .getValueFromOrderedList(meals, Meal::getDaysPassed)
             .isEditable()
             .onChange(buttonPanel::enableButtons)
-            .build())
-        .addColumn(withEnumContent(CookingPreference.class)
-            .withColumnName(BUNDLES.message("popularityColumn"))
-            .setValueToOrderedImmutableList(meals,
-                (meal, preference) -> from(meal).cookingPreference(preference)
-                    .create())
-            .getValueFromOrderedList(meals, Meal::getCookingPreference)
-            .isEditable()
-            .onChange(buttonPanel::enableButtons)
-            .build())
+            .buildWithOrderNumber(40))
         .addColumn(withEnumContent(CourseType.class)
             .withColumnName(BUNDLES.message("courseTypeColumn"))
             .setValueToOrderedImmutableList(meals,

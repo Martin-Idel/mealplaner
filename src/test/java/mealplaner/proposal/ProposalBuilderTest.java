@@ -9,9 +9,6 @@ import static mealplaner.commons.NonnegativeInteger.TWO;
 import static mealplaner.commons.NonnegativeInteger.ZERO;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.meal.MealBuilder.meal;
-import static mealplaner.model.meal.enums.CookingPreference.NO_PREFERENCE;
-import static mealplaner.model.meal.enums.CookingPreference.RARE;
-import static mealplaner.model.meal.enums.CookingPreference.VERY_POPULAR;
 import static mealplaner.model.meal.enums.CourseType.MAIN;
 import static mealplaner.model.meal.enums.ObligatoryUtensil.CASSEROLE;
 import static mealplaner.model.meal.enums.ObligatoryUtensil.PAN;
@@ -24,15 +21,18 @@ import static mealplaner.model.settings.enums.CasseroleSettings.NONE;
 import static mealplaner.model.settings.enums.CasseroleSettings.ONLY;
 import static mealplaner.model.settings.enums.CasseroleSettings.POSSIBLE;
 import static mealplaner.model.settings.enums.CourseSettings.ONLY_MAIN;
-import static mealplaner.model.settings.enums.PreferenceSettings.NORMAL;
-import static mealplaner.model.settings.enums.PreferenceSettings.RARE_NONE;
-import static mealplaner.model.settings.enums.PreferenceSettings.RARE_PREFERED;
-import static mealplaner.model.settings.enums.PreferenceSettings.VERY_POPULAR_ONLY;
 import static mealplaner.plugins.plugins.cookingtime.CookingTime.LONG;
 import static mealplaner.plugins.plugins.cookingtime.CookingTime.MEDIUM;
 import static mealplaner.plugins.plugins.cookingtime.CookingTime.SHORT;
 import static mealplaner.plugins.plugins.cookingtime.CookingTimeSetting.cookingTimeWithProhibited;
 import static mealplaner.plugins.plugins.cookingtime.CookingTimeSetting.defaultCookingTime;
+import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.NO_PREFERENCE;
+import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.RARE;
+import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.VERY_POPULAR;
+import static mealplaner.plugins.plugins.preference.setting.PreferenceSettings.NORMAL;
+import static mealplaner.plugins.plugins.preference.setting.PreferenceSettings.RARE_NONE;
+import static mealplaner.plugins.plugins.preference.setting.PreferenceSettings.RARE_PREFERED;
+import static mealplaner.plugins.plugins.preference.setting.PreferenceSettings.VERY_POPULAR_ONLY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
@@ -45,14 +45,17 @@ import org.junit.Test;
 
 import mealplaner.commons.Pair;
 import mealplaner.commons.errorhandling.MealException;
-import mealplaner.model.configuration.PreferenceMap;
 import mealplaner.model.meal.Meal;
-import mealplaner.model.meal.enums.CookingPreference;
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.proposal.SideDish;
 import mealplaner.model.settings.Settings;
-import mealplaner.model.settings.enums.PreferenceSettings;
+import mealplaner.plugins.PluginStore;
+import mealplaner.plugins.plugins.cookingtime.CookingTimePlugin;
 import mealplaner.plugins.plugins.cookingtime.CookingTimeSetting;
+import mealplaner.plugins.plugins.preference.CookingPreferencePlugin;
+import mealplaner.plugins.plugins.preference.mealextension.CookingPreference;
+import mealplaner.plugins.plugins.preference.setting.CookingPreferenceSetting;
+import mealplaner.plugins.plugins.preference.setting.PreferenceSettings;
 
 public class ProposalBuilderTest {
   private List<Meal> meals;
@@ -74,13 +77,13 @@ public class ProposalBuilderTest {
     settings[0] = setting()
         .time(cookingTimeSetting)
         .course(ONLY_MAIN)
-        .preference(NORMAL)
+        .preference(new CookingPreferenceSetting(NORMAL))
         .casserole(POSSIBLE)
         .numberOfPeople(FOUR)
         .create();
 
     var steps = registerPlugins().getRegisteredProposalBuilderSteps();
-    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish, steps);
+    proposalBuilder = new ProposalBuilder(meals, sideDish, steps);
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertEquals(1, proposal.getProposalList().size());
@@ -94,13 +97,13 @@ public class ProposalBuilderTest {
     settings[0] = setting()
         .time(cookingTimeSetting)
         .course(ONLY_MAIN)
-        .preference(VERY_POPULAR_ONLY)
+        .preference(new CookingPreferenceSetting(VERY_POPULAR_ONLY))
         .casserole(NONE)
         .numberOfPeople(TWO)
         .create();
 
     var steps = registerPlugins().getRegisteredProposalBuilderSteps();
-    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish, steps);
+    proposalBuilder = new ProposalBuilder(meals, sideDish, steps);
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertThat(meals.get(2).getId()).isEqualTo(proposal.getItem(0).main);
@@ -113,13 +116,13 @@ public class ProposalBuilderTest {
     settings[0] = setting()
         .time(cookingTimeSetting)
         .course(ONLY_MAIN)
-        .preference(RARE_NONE)
+        .preference(new CookingPreferenceSetting(RARE_NONE))
         .casserole(ONLY)
         .numberOfPeople(TWO)
         .create();
 
     var steps = registerPlugins().getRegisteredProposalBuilderSteps();
-    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish, steps);
+    proposalBuilder = new ProposalBuilder(meals, sideDish, steps);
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertThat(meals.get(3).getId()).isEqualTo(proposal.getItem(0).main);
@@ -132,12 +135,13 @@ public class ProposalBuilderTest {
     settings[0] = setting()
         .time(cookingTimeSetting)
         .course(ONLY_MAIN)
-        .preference(NORMAL)
+        .preference(new CookingPreferenceSetting(NORMAL))
         .casserole(POSSIBLE)
         .numberOfPeople(ONE)
         .create();
 
-    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish, new ArrayList<>());
+    var steps = registerPlugins().getRegisteredProposalBuilderSteps();
+    proposalBuilder = new ProposalBuilder(meals, sideDish, steps);
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertThat(meals.get(2).getId()).isEqualTo(proposal.getItem(0).main);
@@ -150,13 +154,13 @@ public class ProposalBuilderTest {
     settings[0] = setting()
         .time(cookingTimeSetting)
         .course(ONLY_MAIN)
-        .preference(RARE_PREFERED)
+        .preference(new CookingPreferenceSetting(RARE_PREFERED))
         .casserole(POSSIBLE)
         .numberOfPeople(TWO)
         .create();
 
     var steps = registerPlugins().getRegisteredProposalBuilderSteps();
-    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish, steps);
+    proposalBuilder = new ProposalBuilder(meals, sideDish, steps);
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertThat(meals.get(1).getId()).isEqualTo(proposal.getItem(0).main);
@@ -169,13 +173,13 @@ public class ProposalBuilderTest {
     settings[0] = setting()
         .time(cookingTimeSetting)
         .course(ONLY_MAIN)
-        .preference(NORMAL)
+        .preference(new CookingPreferenceSetting(NORMAL))
         .casserole(POSSIBLE)
         .numberOfPeople(TWO)
         .create();
 
     var steps = registerPlugins().getRegisteredProposalBuilderSteps();
-    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish, steps);
+    proposalBuilder = new ProposalBuilder(meals, sideDish, steps);
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertThat(meals.get(4).getId()).isEqualTo(proposal.getItem(0).main);
@@ -189,13 +193,13 @@ public class ProposalBuilderTest {
     settings[0] = setting()
         .time(cookingTimeSetting)
         .course(ONLY_MAIN)
-        .preference(RARE_PREFERED)
+        .preference(new CookingPreferenceSetting(RARE_PREFERED))
         .casserole(POSSIBLE)
         .numberOfPeople(TWO)
         .create();
 
     var steps = registerPlugins().getRegisteredProposalBuilderSteps();
-    proposalBuilder = new ProposalBuilder(meals, PreferenceMap.getPreferenceMap(), sideDish, steps);
+    proposalBuilder = new ProposalBuilder(meals, sideDish, steps);
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertThat(meals.get(4).getId()).isEqualTo(proposal.getItem(0).main);
@@ -210,13 +214,17 @@ public class ProposalBuilderTest {
     settings[0] = setting()
         .time(cookingTimeSetting)
         .course(ONLY_MAIN)
-        .preference(NORMAL)
+        .preference(new CookingPreferenceSetting(NORMAL))
         .casserole(POSSIBLE)
         .numberOfPeople(TWO)
         .create();
 
-    var steps = registerPlugins().getRegisteredProposalBuilderSteps();
-    proposalBuilder = new ProposalBuilder(meals, preferenceMap, sideDish, steps);
+    PluginStore pluginStore = new PluginStore();
+    var cookingTimePlugin = new CookingTimePlugin();
+    cookingTimePlugin.registerPlugins(pluginStore);
+    var cookingPreferencePlugin = new CookingPreferencePlugin(preferenceMap);
+    cookingPreferencePlugin.registerPlugins(pluginStore);
+    proposalBuilder = new ProposalBuilder(meals, sideDish, pluginStore.getRegisteredProposalBuilderSteps());
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertThat(meals.get(1).getId()).isEqualTo(proposal.getItem(0).main);

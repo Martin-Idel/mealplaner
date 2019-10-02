@@ -22,8 +22,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.apache.logging.log4j.core.config.plugins.Plugin;
-
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.meal.Meal;

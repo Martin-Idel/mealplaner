@@ -16,7 +16,6 @@ import org.w3c.dom.Element;
 
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.errorhandling.MealException;
-import mealplaner.model.meal.enums.CookingPreference;
 import mealplaner.model.meal.enums.CourseType;
 import mealplaner.model.meal.enums.ObligatoryUtensil;
 import mealplaner.model.meal.enums.Sidedish;
@@ -26,6 +25,8 @@ import mealplaner.plugins.api.Fact;
 import mealplaner.plugins.api.MealFact;
 import mealplaner.plugins.plugins.cookingtime.CookingTime;
 import mealplaner.plugins.plugins.cookingtime.CookingTimeFact;
+import mealplaner.plugins.plugins.preference.mealextension.CookingPreference;
+import mealplaner.plugins.plugins.preference.mealextension.CookingPreferenceFact;
 
 public final class MealBuilder {
   private PluginStore validationStore;
@@ -33,7 +34,6 @@ public final class MealBuilder {
   private String name = "";
   private Sidedish sidedish = Sidedish.NONE;
   private ObligatoryUtensil obligatoryUtensil = ObligatoryUtensil.POT;
-  private CookingPreference cookingPreference = CookingPreference.NO_PREFERENCE;
   private CourseType courseType = CourseType.MAIN;
   private NonnegativeInteger daysPassed = ZERO;
   private String comment = "";
@@ -61,10 +61,8 @@ public final class MealBuilder {
     return new MealBuilder()
         .id(meal.getId())
         .name(meal.getName())
-        .cookingTime(meal.getTypedMealFact(CookingTimeFact.class).getCookingTime())
         .sidedish(meal.getSidedish())
         .obligatoryUtensil(meal.getObligatoryUtensil())
-        .cookingPreference(meal.getCookingPreference())
         .courseType(meal.getCourseType())
         .daysPassed(meal.getDaysPassed())
         .comment(meal.getComment())
@@ -88,6 +86,11 @@ public final class MealBuilder {
     return this;
   }
 
+  public MealBuilder cookingPreference(CookingPreference cookingPreference) {
+    this.mealFactMap.put(CookingPreferenceFact.class, new CookingPreferenceFact(cookingPreference));
+    return this;
+  }
+
   public MealBuilder sidedish(Sidedish sidedish) {
     this.sidedish = sidedish;
     return this;
@@ -100,11 +103,6 @@ public final class MealBuilder {
 
   public MealBuilder courseType(CourseType courseType) {
     this.courseType = courseType;
-    return this;
-  }
-
-  public MealBuilder cookingPreference(CookingPreference cookingPreference) {
-    this.cookingPreference = cookingPreference;
     return this;
   }
 
@@ -156,7 +154,6 @@ public final class MealBuilder {
         MealMetaData.createMealMetaData(name,
             sidedish,
             obligatoryUtensil,
-            cookingPreference,
             courseType,
             comment,
             mealFactMap,

@@ -18,7 +18,6 @@ import org.assertj.swing.fixture.JTableFixture;
 
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.model.meal.Meal;
-import mealplaner.model.meal.enums.CookingPreference;
 import mealplaner.model.meal.enums.CourseType;
 import mealplaner.model.meal.enums.ObligatoryUtensil;
 import mealplaner.model.meal.enums.Sidedish;
@@ -27,6 +26,8 @@ import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 import mealplaner.plugins.plugins.cookingtime.CookingTime;
 import mealplaner.plugins.plugins.cookingtime.CookingTimeFact;
+import mealplaner.plugins.plugins.preference.mealextension.CookingPreference;
+import mealplaner.plugins.plugins.preference.mealextension.CookingPreferenceFact;
 
 public class MealsEditPageObject {
   private static final int NUMBER_OF_DATA_COLUMNS = 9;
@@ -189,7 +190,7 @@ public class MealsEditPageObject {
     mealInputDialog.textBox("InputFieldNonnegativeIntegerDaysPassed")
         .enterText(meal.getDaysPassed().toString());
     mealInputDialog.comboBox("InputFieldComboBoxCookingPreference")
-        .selectItem(meal.getCookingPreference().toString());
+        .selectItem(meal.getTypedMealFact(CookingPreferenceFact.class).getCookingPreference().toString());
     mealInputDialog.comboBox("InputFieldComboBoxCourseType")
         .selectItem(meal.getCourseType().toString());
     mealInputDialog.textBox("InputFieldTextComment")
@@ -269,7 +270,7 @@ public class MealsEditPageObject {
       content[i][2] = meal.getSidedish().toString();
       content[i][3] = meal.getObligatoryUtensil().toString();
       content[i][4] = meal.getDaysPassed().toString();
-      content[i][5] = meal.getCookingPreference().toString();
+      content[i][5] = meal.getTypedMealFact(CookingPreferenceFact.class).getCookingPreference().toString();
       content[i][6] = meal.getCourseType().toString();
       content[i][7] = meal.getComment();
       content[i][8] = meal.getRecipe().isPresent()

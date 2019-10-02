@@ -3,11 +3,11 @@
 package mealplaner.model.settings;
 
 import static mealplaner.model.meal.MealBuilder.meal;
-import static mealplaner.model.meal.enums.CookingPreference.RARE;
-import static mealplaner.model.meal.enums.CookingPreference.VERY_POPULAR;
-import static mealplaner.model.settings.enums.PreferenceSettings.RARE_NONE;
-import static mealplaner.model.settings.subsettings.CookingPreferenceSetting.createCookingPreferenceSettings;
-import static mealplaner.model.settings.subsettings.CookingPreferenceSetting.from;
+import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.RARE;
+import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.VERY_POPULAR;
+import static mealplaner.plugins.plugins.preference.proposal.CookingPreferenceSettings.createCookingPreferenceSettings;
+import static mealplaner.plugins.plugins.preference.proposal.CookingPreferenceSettings.from;
+import static mealplaner.plugins.plugins.preference.setting.PreferenceSettings.RARE_NONE;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
@@ -24,17 +24,17 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import mealplaner.model.meal.Meal;
-import mealplaner.model.meal.enums.CookingPreference;
-import mealplaner.model.settings.enums.PreferenceSettings;
-import mealplaner.model.settings.subsettings.CookingPreferenceSetting;
+import mealplaner.plugins.plugins.preference.mealextension.CookingPreference;
+import mealplaner.plugins.plugins.preference.proposal.CookingPreferenceSettings;
+import mealplaner.plugins.plugins.preference.setting.PreferenceSettings;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CookingPreferenceSettingTest {
+public class CookingPreferenceSettingsTest {
 
   @Mock
   private Set<CookingPreference> prohibitedpreference;
 
-  private CookingPreferenceSetting utensilSetting;
+  private CookingPreferenceSettings utensilSetting;
 
   @Before
   public void setup() {

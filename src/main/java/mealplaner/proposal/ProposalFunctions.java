@@ -27,7 +27,6 @@ final class ProposalFunctions {
   }
 
   public static boolean allows(Meal meal, Settings settings) {
-    return !(settings.getCookingUtensil().prohibits(meal)
-        || settings.getCookingPreference().prohibits(meal));
+    return !settings.getCookingUtensil().prohibits(meal);
   }
 }

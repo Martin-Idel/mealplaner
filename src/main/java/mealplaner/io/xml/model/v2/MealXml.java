@@ -5,11 +5,11 @@ package mealplaner.io.xml.model.v2;
 import static java.nio.charset.Charset.forName;
 import static java.util.UUID.nameUUIDFromBytes;
 import static mealplaner.commons.NonnegativeInteger.ZERO;
-import static mealplaner.model.meal.enums.CookingPreference.NO_PREFERENCE;
 import static mealplaner.model.meal.enums.CourseType.MAIN;
 import static mealplaner.model.meal.enums.ObligatoryUtensil.POT;
 import static mealplaner.model.meal.enums.Sidedish.NONE;
 import static mealplaner.plugins.plugins.cookingtime.CookingTime.VERY_SHORT;
+import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.NO_PREFERENCE;
 
 import java.util.UUID;
 
@@ -21,11 +21,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.io.xml.util.UuidAdapter;
-import mealplaner.model.meal.enums.CookingPreference;
 import mealplaner.model.meal.enums.CourseType;
 import mealplaner.model.meal.enums.ObligatoryUtensil;
 import mealplaner.model.meal.enums.Sidedish;
 import mealplaner.plugins.plugins.cookingtime.CookingTime;
+import mealplaner.plugins.plugins.preference.mealextension.CookingPreference;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

@@ -23,14 +23,11 @@ import java.util.stream.Collectors;
 
 import mealplaner.commons.Pair;
 import mealplaner.commons.errorhandling.MealException;
-import mealplaner.model.configuration.PreferenceMap;
 import mealplaner.model.meal.Meal;
-import mealplaner.model.meal.enums.CookingPreference;
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.proposal.SideDish;
 import mealplaner.model.settings.Settings;
-import mealplaner.model.settings.enums.PreferenceSettings;
 import mealplaner.plugins.api.ProposalBuilderStep;
 
 public class ProposalBuilder {
@@ -38,7 +35,6 @@ public class ProposalBuilder {
   private boolean firstDayIsToday;
   private boolean random;
 
-  private final PreferenceMultiplier preferenceMultiplier;
   private final Random randomIntGenerator = new Random();
   private final Map<UUID, Meal> mealData;
   private final EntryProposal entryProposal;
@@ -48,22 +44,20 @@ public class ProposalBuilder {
   private final Collection<ProposalBuilderStep> proposalBuilderSteps;
 
   public ProposalBuilder(List<Meal> meals, Collection<ProposalBuilderStep> proposalBuilderSteps) {
-    this(meals, PreferenceMap.getPreferenceMap(), new SideDish(), proposalBuilderSteps);
+    this(meals, new SideDish(), proposalBuilderSteps);
   }
 
   public ProposalBuilder(
       List<Meal> meals,
-      Map<Pair<CookingPreference, PreferenceSettings>, Integer> preferenceMap,
       SideDish sideDish,
       Collection<ProposalBuilderStep> proposalBuilderSteps) {
     this.proposalBuilderSteps = proposalBuilderSteps;
     this.mealData = new HashMap<>();
     meals.forEach(meal -> mealData.put(meal.getId(), meal));
     this.sideDish = sideDish;
-    this.preferenceMultiplier = new PreferenceMultiplier(preferenceMap);
     proposalList = new ArrayList<>();
-    this.desertProposal = new DesertProposal(meals, preferenceMultiplier);
-    this.entryProposal = new EntryProposal(meals, preferenceMultiplier);
+    this.desertProposal = new DesertProposal(meals, proposalBuilderSteps);
+    this.entryProposal = new EntryProposal(meals, proposalBuilderSteps);
   }
 
   public ProposalBuilder randomise(boolean randomise) {
@@ -142,21 +136,20 @@ public class ProposalBuilder {
         : sideDish.resetToSideDish(nextProposal.getSidedish());
   }
 
-  private Optional<Meal> proposeNextMain(final List<ProposedMenu> proposalList,
-                                         final Settings settings) {
+  private Optional<Meal> proposeNextMain(
+      final List<ProposedMenu> proposalList, final Settings settings) {
 
     var proposalStream = mealData.values().stream()
         .filter(meal -> meal.getCourseType().equals(MAIN))
         .filter(meal -> allows(meal, settings))
         .map(meal -> Pair.of(meal, meal.getDaysPassedAsInteger()))
         .map(pair -> takeProposalIntoAccount(pair, proposalList))
-        .map(pair -> takeSidedishIntoAccount(pair, sideDish))
-        .map(pair -> preferenceMultiplier.multiplyPrefs(pair, settings.getPreference()))
-        .map(this::randomize);
+        .map(pair -> takeSidedishIntoAccount(pair, sideDish));
     for (var proposalStep : proposalBuilderSteps) {
       proposalStream = proposalStep.applyPluginSuggestions(proposalStream, settings);
     }
     return proposalStream
+        .map(this::randomize)
         .sorted((pair1, pair2) -> -(pair1.right.compareTo(pair2.right)))
         .map(pair -> pair.left)
         .findFirst();

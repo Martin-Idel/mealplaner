@@ -10,7 +10,6 @@ import java.util.Map;
 import org.w3c.dom.Element;
 
 import mealplaner.commons.errorhandling.MealException;
-import mealplaner.model.meal.enums.CookingPreference;
 import mealplaner.model.meal.enums.CourseType;
 import mealplaner.model.meal.enums.ObligatoryUtensil;
 import mealplaner.model.meal.enums.Sidedish;
@@ -21,7 +20,6 @@ public final class MealMetaData {
       "EMPTY",
       Sidedish.NONE,
       ObligatoryUtensil.CASSEROLE,
-      CookingPreference.RARE,
       CourseType.MAIN,
       "",
       new HashMap<>(),
@@ -30,7 +28,6 @@ public final class MealMetaData {
   private String name;
   private final Sidedish sidedish;
   private final ObligatoryUtensil obligatoryUtensil;
-  private final CookingPreference cookingPreference;
   private final CourseType courseType;
   private final String comment;
   private final Map<Class, MealFact> mealFacts;
@@ -40,7 +37,6 @@ public final class MealMetaData {
       String name,
       Sidedish sideDish,
       ObligatoryUtensil obligatoryUtensil,
-      CookingPreference cookingPreference,
       CourseType courseType,
       String comment,
       Map<Class, MealFact> mealFacts,
@@ -49,7 +45,6 @@ public final class MealMetaData {
     setName(name);
     this.sidedish = sideDish;
     this.obligatoryUtensil = obligatoryUtensil;
-    this.cookingPreference = cookingPreference;
     this.courseType = courseType;
     this.comment = comment;
     this.mealFacts = mealFacts;
@@ -60,7 +55,6 @@ public final class MealMetaData {
       String name,
       Sidedish sideDish,
       ObligatoryUtensil obligatoryUtensil,
-      CookingPreference cookingPreference,
       CourseType courseType,
       String comment,
       Map<Class, MealFact> mealFacts,
@@ -68,7 +62,6 @@ public final class MealMetaData {
     return new MealMetaData(name,
         sideDish,
         obligatoryUtensil,
-        cookingPreference,
         courseType,
         comment,
         mealFacts,
@@ -79,7 +72,6 @@ public final class MealMetaData {
     return new MealMetaData(meal.getName(),
         meal.getSidedish(),
         meal.getObligatoryUtensil(),
-        meal.getCookingPreference(),
         meal.getCourseType(),
         meal.getComment(),
         meal.getMealFacts(),
@@ -100,10 +92,6 @@ public final class MealMetaData {
 
   public ObligatoryUtensil getObligatoryUtensil() {
     return obligatoryUtensil;
-  }
-
-  public CookingPreference getCookingPreference() {
-    return cookingPreference;
   }
 
   public CourseType getCourseType() {
@@ -128,7 +116,6 @@ public final class MealMetaData {
         + name + ", "
         + sidedish + ", "
         + obligatoryUtensil + ", "
-        + cookingPreference + ", "
         + courseType + ", "
         + comment + ", "
         + mealFacts + ", "
@@ -141,7 +128,6 @@ public final class MealMetaData {
     final int prime = 31;
     int result = 1;
     result = prime * result + comment.hashCode();
-    result = prime * result + cookingPreference.hashCode();
     result = prime * result + name.hashCode();
     result = prime * result + obligatoryUtensil.hashCode();
     result = prime * result + sidedish.hashCode();
@@ -161,7 +147,6 @@ public final class MealMetaData {
     MealMetaData other = (MealMetaData) obj;
     return name.equals(other.name)
         && comment.equals(other.comment)
-        && cookingPreference == other.cookingPreference
         && obligatoryUtensil == other.obligatoryUtensil
         && courseType == other.courseType
         && sidedish == other.sidedish

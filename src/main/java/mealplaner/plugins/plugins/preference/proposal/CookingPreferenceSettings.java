@@ -1,38 +1,41 @@
 // SPDX-License-Identifier: MIT
 
-package mealplaner.model.settings.subsettings;
+package mealplaner.plugins.plugins.preference.proposal;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 import mealplaner.model.meal.Meal;
-import mealplaner.model.meal.enums.CookingPreference;
-import mealplaner.model.settings.enums.PreferenceSettings;
+import mealplaner.model.settings.subsettings.CookingSetting;
+import mealplaner.plugins.plugins.preference.mealextension.CookingPreference;
+import mealplaner.plugins.plugins.preference.mealextension.CookingPreferenceFact;
+import mealplaner.plugins.plugins.preference.setting.PreferenceSettings;
 
-public final class CookingPreferenceSetting implements CookingSetting {
+public final class CookingPreferenceSettings implements CookingSetting {
   private final Set<CookingPreference> prohibitedCookingPreference;
 
-  private CookingPreferenceSetting(Set<CookingPreference> prohibitedCookingPreference) {
+  private CookingPreferenceSettings(Set<CookingPreference> prohibitedCookingPreference) {
     this.prohibitedCookingPreference = prohibitedCookingPreference;
   }
 
-  public static CookingPreferenceSetting from(
+  public static CookingPreferenceSettings from(
       Set<CookingPreference> prohibitedCookingPreference) {
-    return new CookingPreferenceSetting(prohibitedCookingPreference);
+    return new CookingPreferenceSettings(prohibitedCookingPreference);
   }
 
-  public static CookingPreferenceSetting createCookingPreferenceSettings() {
-    return new CookingPreferenceSetting(new HashSet<>());
+  public static CookingPreferenceSettings createCookingPreferenceSettings() {
+    return new CookingPreferenceSettings(new HashSet<>());
   }
 
-  public void setCookingPreferences(PreferenceSettings preferences) {
+  public CookingPreferenceSettings setCookingPreferences(PreferenceSettings preferences) {
     if (preferences == PreferenceSettings.RARE_NONE) {
       prohibitedCookingPreference.add(CookingPreference.RARE);
     } else if (preferences == PreferenceSettings.VERY_POPULAR_ONLY) {
       prohibitedCookingPreference.addAll(Arrays.asList(CookingPreference.values()));
       prohibitedCookingPreference.remove(CookingPreference.VERY_POPULAR);
     }
+    return this;
   }
 
   public void reset() {
@@ -41,7 +44,8 @@ public final class CookingPreferenceSetting implements CookingSetting {
 
   @Override
   public boolean prohibits(Meal meal) {
-    return prohibitedCookingPreference.contains(meal.getCookingPreference());
+    return prohibitedCookingPreference.contains(
+        meal.getTypedMealFact(CookingPreferenceFact.class).getCookingPreference());
   }
 
   @Override
@@ -58,7 +62,7 @@ public final class CookingPreferenceSetting implements CookingSetting {
     if (obj == null || getClass() != obj.getClass()) {
       return false;
     }
-    CookingPreferenceSetting other = (CookingPreferenceSetting) obj;
+    CookingPreferenceSettings other = (CookingPreferenceSettings) obj;
     return prohibitedCookingPreference.equals(other.prohibitedCookingPreference);
   }
 
