@@ -8,13 +8,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import mealplaner.model.meal.Meal;
-import mealplaner.model.settings.subsettings.CookingSetting;
 import mealplaner.plugins.api.FactXml;
 import mealplaner.plugins.api.Setting;
 import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime;
 import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTimeFact;
 
-public final class CookingTimeSetting implements CookingSetting, Setting {
+public final class CookingTimeSetting implements Setting {
   private final Set<CookingTime> prohibitedCookingTime;
 
   private CookingTimeSetting(CookingTimeSetting cookingTimeSetting) {
@@ -54,7 +53,6 @@ public final class CookingTimeSetting implements CookingSetting, Setting {
     return prohibitedCookingTime.contains(cookingTime);
   }
 
-  @Override
   public boolean prohibits(Meal meal) {
     return prohibitedCookingTime.contains(meal.getTypedMealFact(CookingTimeFact.class).getCookingTime());
   }

@@ -7,12 +7,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import mealplaner.model.meal.Meal;
-import mealplaner.model.settings.subsettings.CookingSetting;
 import mealplaner.plugins.plugins.preference.mealextension.CookingPreference;
 import mealplaner.plugins.plugins.preference.mealextension.CookingPreferenceFact;
 import mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings;
 
-public final class CookingPreferenceSettings implements CookingSetting {
+public final class CookingPreferenceSettings {
   private final Set<CookingPreference> prohibitedCookingPreference;
 
   private CookingPreferenceSettings(Set<CookingPreference> prohibitedCookingPreference) {
@@ -42,7 +41,6 @@ public final class CookingPreferenceSettings implements CookingSetting {
     prohibitedCookingPreference.removeAll(Arrays.asList(CookingPreference.values()));
   }
 
-  @Override
   public boolean prohibits(Meal meal) {
     return prohibitedCookingPreference.contains(
         meal.getTypedMealFact(CookingPreferenceFact.class).getCookingPreference());

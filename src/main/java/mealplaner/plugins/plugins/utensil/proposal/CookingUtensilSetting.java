@@ -8,12 +8,11 @@ import java.util.Set;
 
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.model.meal.Meal;
-import mealplaner.model.settings.subsettings.CookingSetting;
 import mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil;
 import mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensilFact;
 import mealplaner.plugins.plugins.utensil.settingextension.CasseroleSettings;
 
-public final class CookingUtensilSetting implements CookingSetting {
+public final class CookingUtensilSetting {
   private final Set<ObligatoryUtensil> prohibitedUtensil;
 
   private CookingUtensilSetting(Set<ObligatoryUtensil> prohibitedUtensil) {
@@ -58,7 +57,6 @@ public final class CookingUtensilSetting implements CookingSetting {
     return prohibitedUtensil.contains(prohibited);
   }
 
-  @Override
   public boolean prohibits(Meal meal) {
     return prohibitedUtensil.contains(
         meal.getTypedMealFact(ObligatoryUtensilFact.class).getObligatoryUtensil());
