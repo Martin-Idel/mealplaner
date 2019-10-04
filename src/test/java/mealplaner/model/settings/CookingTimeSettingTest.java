@@ -3,8 +3,8 @@
 package mealplaner.model.settings;
 
 import static mealplaner.model.meal.MealBuilder.meal;
-import static mealplaner.plugins.plugins.cookingtime.CookingTime.LONG;
-import static mealplaner.plugins.plugins.cookingtime.CookingTime.SHORT;
+import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.LONG;
+import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.SHORT;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -15,8 +15,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import mealplaner.model.meal.Meal;
-import mealplaner.plugins.plugins.cookingtime.CookingTime;
-import mealplaner.plugins.plugins.cookingtime.CookingTimeSetting;
+import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime;
+import mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSetting;
 
 public class CookingTimeSettingTest {
 

@@ -1,6 +1,6 @@
-package mealplaner.plugins.plugins.cookingtime;
+package mealplaner.plugins.plugins.cookingtime.settingextension;
 
-import static mealplaner.plugins.plugins.cookingtime.CookingTimeSetting.cookingTimeWithProhibited;
+import static mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSetting.cookingTimeWithProhibited;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import mealplaner.plugins.api.Fact;
 import mealplaner.plugins.api.SettingXml;
+import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

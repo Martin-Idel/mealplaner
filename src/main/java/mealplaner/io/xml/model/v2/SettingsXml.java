@@ -12,8 +12,8 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import mealplaner.model.settings.enums.CourseSettings;
-import mealplaner.plugins.plugins.cookingtime.CookingTime;
-import mealplaner.plugins.plugins.preference.setting.PreferenceSettings;
+import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime;
+import mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings;
 import mealplaner.plugins.plugins.utensil.settingextension.CasseroleSettings;
 
 @XmlRootElement

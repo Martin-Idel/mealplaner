@@ -32,15 +32,15 @@ import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitative
 import static mealplaner.model.settings.SettingsBuilder.setting;
 import static mealplaner.model.settings.enums.CourseSettings.MAIN_DESERT;
 import static mealplaner.model.settings.enums.CourseSettings.ONLY_MAIN;
-import static mealplaner.plugins.plugins.cookingtime.CookingTime.LONG;
-import static mealplaner.plugins.plugins.cookingtime.CookingTime.MEDIUM;
-import static mealplaner.plugins.plugins.cookingtime.CookingTime.SHORT;
-import static mealplaner.plugins.plugins.cookingtime.CookingTime.VERY_SHORT;
-import static mealplaner.plugins.plugins.cookingtime.CookingTimeSetting.cookingTimeWithProhibited;
+import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.LONG;
+import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.MEDIUM;
+import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.SHORT;
+import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.VERY_SHORT;
+import static mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSetting.cookingTimeWithProhibited;
 import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.NO_PREFERENCE;
 import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.RARE;
 import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.VERY_POPULAR;
-import static mealplaner.plugins.plugins.preference.setting.PreferenceSettings.RARE_PREFERED;
+import static mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings.RARE_PREFERED;
 import static mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil.CASSEROLE;
 import static mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil.PAN;
 import static mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil.POT;
@@ -64,7 +64,7 @@ import mealplaner.model.recipes.Measure;
 import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 import mealplaner.model.settings.Settings;
-import mealplaner.plugins.plugins.preference.setting.CookingPreferenceSetting;
+import mealplaner.plugins.plugins.preference.settingextension.CookingPreferenceSetting;
 import mealplaner.plugins.plugins.utensil.settingextension.CasseroleSettings;
 
 public final class CommonFunctions {

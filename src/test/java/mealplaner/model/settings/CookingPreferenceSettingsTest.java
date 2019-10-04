@@ -7,7 +7,7 @@ import static mealplaner.plugins.plugins.preference.mealextension.CookingPrefere
 import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.VERY_POPULAR;
 import static mealplaner.plugins.plugins.preference.proposal.CookingPreferenceSettings.createCookingPreferenceSettings;
 import static mealplaner.plugins.plugins.preference.proposal.CookingPreferenceSettings.from;
-import static mealplaner.plugins.plugins.preference.setting.PreferenceSettings.RARE_NONE;
+import static mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings.RARE_NONE;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
@@ -26,7 +26,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import mealplaner.model.meal.Meal;
 import mealplaner.plugins.plugins.preference.mealextension.CookingPreference;
 import mealplaner.plugins.plugins.preference.proposal.CookingPreferenceSettings;
-import mealplaner.plugins.plugins.preference.setting.PreferenceSettings;
+import mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CookingPreferenceSettingsTest {

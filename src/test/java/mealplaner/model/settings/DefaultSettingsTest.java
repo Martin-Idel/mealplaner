@@ -6,9 +6,9 @@ import static java.time.DayOfWeek.SATURDAY;
 import static java.time.DayOfWeek.TUESDAY;
 import static mealplaner.commons.NonnegativeInteger.THREE;
 import static mealplaner.model.settings.DefaultSettings.from;
-import static mealplaner.plugins.plugins.cookingtime.CookingTime.LONG;
-import static mealplaner.plugins.plugins.cookingtime.CookingTimeSetting.cookingTimeWithProhibited;
-import static mealplaner.plugins.plugins.preference.setting.PreferenceSettings.RARE_PREFERED;
+import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.LONG;
+import static mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSetting.cookingTimeWithProhibited;
+import static mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings.RARE_PREFERED;
 import static mealplaner.plugins.plugins.utensil.settingextension.CasseroleSettings.ONLY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.getSettings1;
@@ -21,7 +21,7 @@ import org.junit.Test;
 
 import mealplaner.Kochplaner;
 import mealplaner.model.settings.enums.CourseSettings;
-import mealplaner.plugins.plugins.preference.setting.CookingPreferenceSetting;
+import mealplaner.plugins.plugins.preference.settingextension.CookingPreferenceSetting;
 
 public class DefaultSettingsTest {
   @Test

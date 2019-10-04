@@ -1,6 +1,6 @@
-package mealplaner.plugins.plugins.preference.setting;
+package mealplaner.plugins.plugins.preference.settingextension;
 
-import static mealplaner.plugins.plugins.preference.setting.PreferenceSettings.NORMAL;
+import static mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings.NORMAL;
 
 import java.util.Objects;
 

@@ -5,16 +5,16 @@ package mealplaner.plugins.plugins.preference.proposal;
 import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.NO_PREFERENCE;
 import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.RARE;
 import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.VERY_POPULAR;
-import static mealplaner.plugins.plugins.preference.setting.PreferenceSettings.NORMAL;
-import static mealplaner.plugins.plugins.preference.setting.PreferenceSettings.RARE_NONE;
-import static mealplaner.plugins.plugins.preference.setting.PreferenceSettings.RARE_PREFERED;
+import static mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings.NORMAL;
+import static mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings.RARE_NONE;
+import static mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings.RARE_PREFERED;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import mealplaner.commons.Pair;
 import mealplaner.plugins.plugins.preference.mealextension.CookingPreference;
-import mealplaner.plugins.plugins.preference.setting.PreferenceSettings;
+import mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings;
 
 public final class PreferenceMap {
   private PreferenceMap() {

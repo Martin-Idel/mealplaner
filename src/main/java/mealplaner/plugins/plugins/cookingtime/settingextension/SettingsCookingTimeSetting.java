@@ -1,4 +1,4 @@
-package mealplaner.plugins.plugins.cookingtime;
+package mealplaner.plugins.plugins.cookingtime.settingextension;
 
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withBooleanContent;
@@ -9,6 +9,7 @@ import java.util.List;
 import mealplaner.commons.gui.tables.FlexibleTableBuilder;
 import mealplaner.model.settings.Settings;
 import mealplaner.plugins.api.SettingsInputDialogExtension;
+import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime;
 
 public class SettingsCookingTimeSetting implements SettingsInputDialogExtension {
   @Override

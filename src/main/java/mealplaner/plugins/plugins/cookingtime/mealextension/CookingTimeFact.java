@@ -1,4 +1,4 @@
-package mealplaner.plugins.plugins.cookingtime;
+package mealplaner.plugins.plugins.cookingtime.mealextension;
 
 import java.util.Objects;
 

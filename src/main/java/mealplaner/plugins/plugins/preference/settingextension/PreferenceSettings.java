@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-package mealplaner.plugins.plugins.preference.setting;
+package mealplaner.plugins.plugins.preference.settingextension;
 
 import static mealplaner.commons.BundleStore.BUNDLES;
 

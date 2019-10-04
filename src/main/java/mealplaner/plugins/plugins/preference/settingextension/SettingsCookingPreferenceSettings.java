@@ -1,4 +1,4 @@
-package mealplaner.plugins.plugins.preference.setting;
+package mealplaner.plugins.plugins.preference.settingextension;
 
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withEnumContent;

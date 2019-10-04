@@ -1,4 +1,4 @@
-package mealplaner.plugins.plugins.cookingtime;
+package mealplaner.plugins.plugins.cookingtime.mealextension;
 
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withEnumContent;

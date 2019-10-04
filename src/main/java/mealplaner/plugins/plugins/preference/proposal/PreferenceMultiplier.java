@@ -8,7 +8,7 @@ import mealplaner.commons.Pair;
 import mealplaner.model.meal.Meal;
 import mealplaner.plugins.plugins.preference.mealextension.CookingPreference;
 import mealplaner.plugins.plugins.preference.mealextension.CookingPreferenceFact;
-import mealplaner.plugins.plugins.preference.setting.PreferenceSettings;
+import mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings;
 
 class PreferenceMultiplier {
   private final Map<Pair<CookingPreference, PreferenceSettings>, Integer> preferenceMap;

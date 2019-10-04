@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-package mealplaner.plugins.plugins.cookingtime;
+package mealplaner.plugins.plugins.cookingtime.mealextension;
 
 import static mealplaner.commons.BundleStore.BUNDLES;
 

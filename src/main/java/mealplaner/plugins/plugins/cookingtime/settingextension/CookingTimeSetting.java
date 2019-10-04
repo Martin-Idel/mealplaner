@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-package mealplaner.plugins.plugins.cookingtime;
+package mealplaner.plugins.plugins.cookingtime.settingextension;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -11,6 +11,8 @@ import mealplaner.model.meal.Meal;
 import mealplaner.model.settings.subsettings.CookingSetting;
 import mealplaner.plugins.api.FactXml;
 import mealplaner.plugins.api.Setting;
+import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime;
+import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTimeFact;
 
 public final class CookingTimeSetting implements CookingSetting, Setting {
   private final Set<CookingTime> prohibitedCookingTime;

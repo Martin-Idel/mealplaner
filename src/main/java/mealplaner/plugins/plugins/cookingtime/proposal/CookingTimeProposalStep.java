@@ -1,4 +1,4 @@
-package mealplaner.plugins.plugins.cookingtime;
+package mealplaner.plugins.plugins.cookingtime.proposal;
 
 import java.util.stream.Stream;
 
@@ -6,6 +6,7 @@ import mealplaner.commons.Pair;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.settings.Settings;
 import mealplaner.plugins.api.ProposalBuilderStep;
+import mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSetting;
 
 public class CookingTimeProposalStep implements ProposalBuilderStep {
   @Override

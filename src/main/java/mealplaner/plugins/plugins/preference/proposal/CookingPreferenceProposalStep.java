@@ -10,8 +10,8 @@ import mealplaner.model.meal.Meal;
 import mealplaner.model.settings.Settings;
 import mealplaner.plugins.api.ProposalBuilderStep;
 import mealplaner.plugins.plugins.preference.mealextension.CookingPreference;
-import mealplaner.plugins.plugins.preference.setting.CookingPreferenceSetting;
-import mealplaner.plugins.plugins.preference.setting.PreferenceSettings;
+import mealplaner.plugins.plugins.preference.settingextension.CookingPreferenceSetting;
+import mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings;
 
 public class CookingPreferenceProposalStep implements ProposalBuilderStep {
   private final PreferenceMultiplier preferenceMultiplier;

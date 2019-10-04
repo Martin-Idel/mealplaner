@@ -5,10 +5,10 @@ package guitests.pageobjects;
 import static guitests.pageobjects.TabbedPanes.PROPOSAL_SUMMARY;
 import static java.time.format.TextStyle.FULL;
 import static mealplaner.commons.BundleStore.BUNDLES;
-import static mealplaner.plugins.plugins.cookingtime.CookingTime.LONG;
-import static mealplaner.plugins.plugins.cookingtime.CookingTime.MEDIUM;
-import static mealplaner.plugins.plugins.cookingtime.CookingTime.SHORT;
-import static mealplaner.plugins.plugins.cookingtime.CookingTime.VERY_SHORT;
+import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.LONG;
+import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.MEDIUM;
+import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.SHORT;
+import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.VERY_SHORT;
 import static org.assertj.swing.core.MouseButton.LEFT_BUTTON;
 import static org.assertj.swing.data.TableCell.row;
 
@@ -25,9 +25,9 @@ import org.assertj.swing.fixture.JTableFixture;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
-import mealplaner.plugins.plugins.cookingtime.CookingTime;
-import mealplaner.plugins.plugins.cookingtime.CookingTimeSetting;
-import mealplaner.plugins.plugins.preference.setting.CookingPreferenceSetting;
+import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime;
+import mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSetting;
+import mealplaner.plugins.plugins.preference.settingextension.CookingPreferenceSetting;
 import mealplaner.plugins.plugins.utensil.settingextension.CasseroleSubSetting;
 
 public class ProposalSummaryPageObject {

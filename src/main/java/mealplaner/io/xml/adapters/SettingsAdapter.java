@@ -22,9 +22,9 @@ import mealplaner.plugins.ModelExtension;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.Setting;
 import mealplaner.plugins.api.SettingXml;
-import mealplaner.plugins.plugins.cookingtime.CookingTime;
-import mealplaner.plugins.plugins.cookingtime.CookingTimeSetting;
-import mealplaner.plugins.plugins.preference.setting.CookingPreferenceSetting;
+import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime;
+import mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSetting;
+import mealplaner.plugins.plugins.preference.settingextension.CookingPreferenceSetting;
 import mealplaner.plugins.plugins.utensil.settingextension.CasseroleSubSetting;
 
 public final class SettingsAdapter {

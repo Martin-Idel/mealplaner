@@ -1,12 +1,19 @@
 package mealplaner.plugins.plugins.cookingtime;
 
-import static mealplaner.plugins.plugins.cookingtime.CookingTime.MEDIUM;
+import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.MEDIUM;
 
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.PluginDescription;
+import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTimeFact;
+import mealplaner.plugins.plugins.cookingtime.mealextension.MealEditCookingTime;
+import mealplaner.plugins.plugins.cookingtime.mealextension.MealInputCookingTime;
+import mealplaner.plugins.plugins.cookingtime.proposal.CookingTimeProposalStep;
+import mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSetting;
+import mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSettingXml;
+import mealplaner.plugins.plugins.cookingtime.settingextension.SettingsCookingTimeSetting;
 
 public class CookingTimePlugin implements PluginDescription {
   @Override

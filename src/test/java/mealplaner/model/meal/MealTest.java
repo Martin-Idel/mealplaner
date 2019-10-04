@@ -6,7 +6,7 @@ import static mealplaner.commons.NonnegativeInteger.FIVE;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.meal.enums.CourseType.MAIN;
 import static mealplaner.model.meal.enums.Sidedish.PASTA;
-import static mealplaner.plugins.plugins.cookingtime.CookingTime.SHORT;
+import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.SHORT;
 import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.NO_PREFERENCE;
 import static mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil.POT;
 import static org.assertj.core.api.Assertions.assertThat;

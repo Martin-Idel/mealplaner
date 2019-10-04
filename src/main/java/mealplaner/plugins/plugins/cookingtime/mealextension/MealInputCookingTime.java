@@ -1,4 +1,4 @@
-package mealplaner.plugins.plugins.cookingtime;
+package mealplaner.plugins.plugins.cookingtime.mealextension;
 
 import static java.util.Collections.singletonList;
 import static mealplaner.commons.BundleStore.BUNDLES;

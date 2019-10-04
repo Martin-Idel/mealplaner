@@ -16,8 +16,8 @@ import mealplaner.model.settings.enums.CourseSettings;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.Fact;
 import mealplaner.plugins.api.Setting;
-import mealplaner.plugins.plugins.cookingtime.CookingTimeSetting;
-import mealplaner.plugins.plugins.preference.setting.CookingPreferenceSetting;
+import mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSetting;
+import mealplaner.plugins.plugins.preference.settingextension.CookingPreferenceSetting;
 import mealplaner.plugins.plugins.utensil.settingextension.CasseroleSettings;
 import mealplaner.plugins.plugins.utensil.settingextension.CasseroleSubSetting;
 

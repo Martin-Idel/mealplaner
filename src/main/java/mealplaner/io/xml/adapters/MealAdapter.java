@@ -19,7 +19,7 @@ import mealplaner.model.meal.Meal;
 import mealplaner.model.meal.MealBuilder;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.MealFact;
-import mealplaner.plugins.plugins.cookingtime.CookingTimeFact;
+import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTimeFact;
 import mealplaner.plugins.plugins.preference.mealextension.CookingPreferenceFact;
 import mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensilFact;
 

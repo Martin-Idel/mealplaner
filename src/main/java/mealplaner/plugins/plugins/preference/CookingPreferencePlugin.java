@@ -15,9 +15,9 @@ import mealplaner.plugins.plugins.preference.mealextension.CookingPreferenceFact
 import mealplaner.plugins.plugins.preference.mealextension.MealEditCookingPreference;
 import mealplaner.plugins.plugins.preference.mealextension.MealInputCookingPreference;
 import mealplaner.plugins.plugins.preference.proposal.CookingPreferenceProposalStep;
-import mealplaner.plugins.plugins.preference.setting.CookingPreferenceSetting;
-import mealplaner.plugins.plugins.preference.setting.PreferenceSettings;
-import mealplaner.plugins.plugins.preference.setting.SettingsCookingPreferenceSettings;
+import mealplaner.plugins.plugins.preference.settingextension.CookingPreferenceSetting;
+import mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings;
+import mealplaner.plugins.plugins.preference.settingextension.SettingsCookingPreferenceSettings;
 
 public class CookingPreferencePlugin implements PluginDescription {
   private final Map<Pair<CookingPreference, PreferenceSettings>, Integer> preferenceMap;

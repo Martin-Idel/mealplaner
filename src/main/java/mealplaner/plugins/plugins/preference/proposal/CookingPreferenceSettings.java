@@ -10,7 +10,7 @@ import mealplaner.model.meal.Meal;
 import mealplaner.model.settings.subsettings.CookingSetting;
 import mealplaner.plugins.plugins.preference.mealextension.CookingPreference;
 import mealplaner.plugins.plugins.preference.mealextension.CookingPreferenceFact;
-import mealplaner.plugins.plugins.preference.setting.PreferenceSettings;
+import mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings;
 
 public final class CookingPreferenceSettings implements CookingSetting {
   private final Set<CookingPreference> prohibitedCookingPreference;
