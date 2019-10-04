@@ -14,6 +14,7 @@ import mealplaner.model.MealplanerData;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.plugins.cookingtime.CookingTimePlugin;
 import mealplaner.plugins.plugins.preference.CookingPreferencePlugin;
+import mealplaner.plugins.plugins.utensil.ObligatoryUtensilPlugin;
 
 public final class Kochplaner {
   private static final String SAVE_PATH = "savefiles/";
@@ -43,6 +44,8 @@ public final class Kochplaner {
     cookingTimePlugin.registerPlugins(pluginStore);
     var cookingPreferencePlugin = new CookingPreferencePlugin();
     cookingPreferencePlugin.registerPlugins(pluginStore);
+    var utensilPlugin = new ObligatoryUtensilPlugin();
+    utensilPlugin.registerPlugins(pluginStore);
     return pluginStore;
   }
 }

@@ -10,16 +10,10 @@ import static mealplaner.commons.NonnegativeInteger.ZERO;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.meal.MealBuilder.meal;
 import static mealplaner.model.meal.enums.CourseType.MAIN;
-import static mealplaner.model.meal.enums.ObligatoryUtensil.CASSEROLE;
-import static mealplaner.model.meal.enums.ObligatoryUtensil.PAN;
-import static mealplaner.model.meal.enums.ObligatoryUtensil.POT;
 import static mealplaner.model.meal.enums.Sidedish.PASTA;
 import static mealplaner.model.meal.enums.Sidedish.POTATOES;
 import static mealplaner.model.meal.enums.Sidedish.RICE;
 import static mealplaner.model.settings.SettingsBuilder.setting;
-import static mealplaner.model.settings.enums.CasseroleSettings.NONE;
-import static mealplaner.model.settings.enums.CasseroleSettings.ONLY;
-import static mealplaner.model.settings.enums.CasseroleSettings.POSSIBLE;
 import static mealplaner.model.settings.enums.CourseSettings.ONLY_MAIN;
 import static mealplaner.plugins.plugins.cookingtime.CookingTime.LONG;
 import static mealplaner.plugins.plugins.cookingtime.CookingTime.MEDIUM;
@@ -33,6 +27,12 @@ import static mealplaner.plugins.plugins.preference.setting.PreferenceSettings.N
 import static mealplaner.plugins.plugins.preference.setting.PreferenceSettings.RARE_NONE;
 import static mealplaner.plugins.plugins.preference.setting.PreferenceSettings.RARE_PREFERED;
 import static mealplaner.plugins.plugins.preference.setting.PreferenceSettings.VERY_POPULAR_ONLY;
+import static mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil.CASSEROLE;
+import static mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil.PAN;
+import static mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil.POT;
+import static mealplaner.plugins.plugins.utensil.settingextension.CasseroleSettings.NONE;
+import static mealplaner.plugins.plugins.utensil.settingextension.CasseroleSettings.ONLY;
+import static mealplaner.plugins.plugins.utensil.settingextension.CasseroleSettings.POSSIBLE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
@@ -56,6 +56,7 @@ import mealplaner.plugins.plugins.preference.CookingPreferencePlugin;
 import mealplaner.plugins.plugins.preference.mealextension.CookingPreference;
 import mealplaner.plugins.plugins.preference.setting.CookingPreferenceSetting;
 import mealplaner.plugins.plugins.preference.setting.PreferenceSettings;
+import mealplaner.plugins.plugins.utensil.ObligatoryUtensilPlugin;
 
 public class ProposalBuilderTest {
   private List<Meal> meals;
@@ -224,6 +225,8 @@ public class ProposalBuilderTest {
     cookingTimePlugin.registerPlugins(pluginStore);
     var cookingPreferencePlugin = new CookingPreferencePlugin(preferenceMap);
     cookingPreferencePlugin.registerPlugins(pluginStore);
+    var utensilPlugin = new ObligatoryUtensilPlugin();
+    utensilPlugin.registerPlugins(pluginStore);
     proposalBuilder = new ProposalBuilder(meals, sideDish, pluginStore.getRegisteredProposalBuilderSteps());
     Proposal proposal = proposalBuilder.propose(settings);
 

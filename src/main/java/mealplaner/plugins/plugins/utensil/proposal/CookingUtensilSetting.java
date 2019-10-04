@@ -1,14 +1,17 @@
 // SPDX-License-Identifier: MIT
 
-package mealplaner.model.settings.subsettings;
+package mealplaner.plugins.plugins.utensil.proposal;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import mealplaner.commons.NonnegativeInteger;
 import mealplaner.model.meal.Meal;
-import mealplaner.model.meal.enums.ObligatoryUtensil;
-import mealplaner.model.settings.enums.CasseroleSettings;
+import mealplaner.model.settings.subsettings.CookingSetting;
+import mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil;
+import mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensilFact;
+import mealplaner.plugins.plugins.utensil.settingextension.CasseroleSettings;
 
 public final class CookingUtensilSetting implements CookingSetting {
   private final Set<ObligatoryUtensil> prohibitedUtensil;
@@ -39,8 +42,8 @@ public final class CookingUtensilSetting implements CookingSetting {
     }
   }
 
-  public void setNumberOfPeople(int number) {
-    if (number > 3) {
+  public void setNumberOfPeople(NonnegativeInteger number) {
+    if (number.value > 3) {
       prohibitedUtensil.add(ObligatoryUtensil.PAN);
     } else {
       prohibitedUtensil.remove(ObligatoryUtensil.PAN);
@@ -57,7 +60,8 @@ public final class CookingUtensilSetting implements CookingSetting {
 
   @Override
   public boolean prohibits(Meal meal) {
-    return prohibitedUtensil.contains(meal.getObligatoryUtensil());
+    return prohibitedUtensil.contains(
+        meal.getTypedMealFact(ObligatoryUtensilFact.class).getObligatoryUtensil());
   }
 
   public boolean contains(ObligatoryUtensil obligatoryUtensil) {

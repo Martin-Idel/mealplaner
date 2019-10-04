@@ -25,7 +25,6 @@ import mealplaner.commons.gui.tables.FlexibleTableBuilder;
 import mealplaner.commons.gui.tables.Table;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
-import mealplaner.model.settings.enums.CasseroleSettings;
 import mealplaner.model.settings.enums.CourseSettings;
 import mealplaner.plugins.api.SettingsInputDialogExtension;
 
@@ -91,14 +90,6 @@ class SettingTable {
                 (setting, numberOfPoeple) -> from(setting).numberOfPeople(numberOfPoeple).create())
             .isEditable()
             .buildWithOrderNumber(20))
-        .addColumn(withEnumContent(CasseroleSettings.class)
-            .withColumnName(BUNDLES.message("casseroleColumn"))
-            .getValueFromOrderedList(settings, Settings::getCasserole)
-            .setValueToOrderedImmutableList(settings,
-                (setting, casserole) -> from(setting).casserole(casserole).create())
-            .setPreferredSize(100)
-            .isEditable()
-            .buildWithOrderNumber(30))
         .addColumn(withEnumContent(CourseSettings.class)
             .withColumnName(BUNDLES.message("courseSettingColumn"))
             .getValueFromOrderedList(settings, Settings::getCourseSettings)

@@ -32,14 +32,14 @@ public class CookingPreferenceProposalStep implements ProposalBuilderStep {
 
   @Override
   public Stream<Pair<Meal, Integer>> applyPluginSuggestionsToEntries(
-      Stream<Pair<Meal, Integer>> meals, Settings settings) {
+      Stream<Pair<Meal, Integer>> meals, Settings settings, Meal main) {
     return meals.map(pair -> preferenceMultiplier.multiplyPrefs(
         pair, settings.getTypedSubSetting(CookingPreferenceSetting.class).getPreferences()));
   }
 
   @Override
   public Stream<Pair<Meal, Integer>> applyPluginSuggestionsToDeserts(
-      Stream<Pair<Meal, Integer>> meals, Settings settings) {
+      Stream<Pair<Meal, Integer>> meals, Settings settings, Meal main) {
     return meals.map(pair -> preferenceMultiplier.multiplyPrefs(
         pair, settings.getTypedSubSetting(CookingPreferenceSetting.class).getPreferences()));
   }

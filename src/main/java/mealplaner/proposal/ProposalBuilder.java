@@ -7,7 +7,6 @@ import static java.util.stream.Collectors.toList;
 import static mealplaner.model.meal.enums.CourseType.MAIN;
 import static mealplaner.model.proposal.Proposal.from;
 import static mealplaner.model.proposal.ProposedMenu.proposed;
-import static mealplaner.proposal.ProposalFunctions.allows;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -141,7 +140,6 @@ public class ProposalBuilder {
 
     var proposalStream = mealData.values().stream()
         .filter(meal -> meal.getCourseType().equals(MAIN))
-        .filter(meal -> allows(meal, settings))
         .map(meal -> Pair.of(meal, meal.getDaysPassedAsInteger()))
         .map(pair -> takeProposalIntoAccount(pair, proposalList))
         .map(pair -> takeSidedishIntoAccount(pair, sideDish));

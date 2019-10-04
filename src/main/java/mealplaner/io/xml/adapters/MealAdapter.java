@@ -21,6 +21,7 @@ import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.MealFact;
 import mealplaner.plugins.plugins.cookingtime.CookingTimeFact;
 import mealplaner.plugins.plugins.preference.mealextension.CookingPreferenceFact;
+import mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensilFact;
 
 public final class MealAdapter {
   private MealAdapter() {
@@ -32,7 +33,7 @@ public final class MealAdapter {
         meal.getName(),
         meal.getTypedMealFact(CookingTimeFact.class).getCookingTime(),
         meal.getSidedish(),
-        meal.getObligatoryUtensil(),
+        meal.getTypedMealFact(ObligatoryUtensilFact.class).getObligatoryUtensil(),
         meal.getTypedMealFact(CookingPreferenceFact.class).getCookingPreference(),
         meal.getCourseType(),
         meal.getDaysPassed(),
@@ -53,7 +54,6 @@ public final class MealAdapter {
         meal.getId(),
         meal.getName(),
         meal.getSidedish(),
-        meal.getObligatoryUtensil(),
         meal.getCourseType(),
         meal.getDaysPassed(),
         meal.getComment(),
@@ -82,7 +82,6 @@ public final class MealAdapter {
         .id(meal.uuid)
         .name(meal.name)
         .sidedish(meal.sidedish)
-        .obligatoryUtensil(meal.obligatoryUtensil)
         .courseType(meal.courseType)
         .daysPassed(nonNegative(meal.daysPassed))
         .comment(meal.comment)

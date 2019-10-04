@@ -6,10 +6,10 @@ import static java.time.DayOfWeek.SATURDAY;
 import static java.time.DayOfWeek.TUESDAY;
 import static mealplaner.commons.NonnegativeInteger.THREE;
 import static mealplaner.model.settings.DefaultSettings.from;
-import static mealplaner.model.settings.enums.CasseroleSettings.ONLY;
 import static mealplaner.plugins.plugins.cookingtime.CookingTime.LONG;
 import static mealplaner.plugins.plugins.cookingtime.CookingTimeSetting.cookingTimeWithProhibited;
 import static mealplaner.plugins.plugins.preference.setting.PreferenceSettings.RARE_PREFERED;
+import static mealplaner.plugins.plugins.utensil.settingextension.CasseroleSettings.ONLY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.getSettings1;
 

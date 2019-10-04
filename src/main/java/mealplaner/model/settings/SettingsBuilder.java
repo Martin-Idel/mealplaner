@@ -1,7 +1,6 @@
 package mealplaner.model.settings;
 
 import static mealplaner.commons.NonnegativeInteger.TWO;
-import static mealplaner.model.settings.enums.CasseroleSettings.POSSIBLE;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,17 +12,17 @@ import org.w3c.dom.Element;
 
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.errorhandling.MealException;
-import mealplaner.model.settings.enums.CasseroleSettings;
 import mealplaner.model.settings.enums.CourseSettings;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.Fact;
 import mealplaner.plugins.api.Setting;
 import mealplaner.plugins.plugins.cookingtime.CookingTimeSetting;
 import mealplaner.plugins.plugins.preference.setting.CookingPreferenceSetting;
+import mealplaner.plugins.plugins.utensil.settingextension.CasseroleSettings;
+import mealplaner.plugins.plugins.utensil.settingextension.CasseroleSubSetting;
 
 public class SettingsBuilder {
   private Set<Class<? extends Fact>> validationStore;
-  private CasseroleSettings casseroleSettings = POSSIBLE;
   private NonnegativeInteger numberOfPeople = TWO;
   private CourseSettings courseSettings = CourseSettings.ONLY_MAIN;
   private Map<Class, Setting> subSettings = new HashMap<>();
@@ -56,7 +55,6 @@ public class SettingsBuilder {
 
   public static SettingsBuilder from(Settings settings) {
     return new SettingsBuilder()
-        .casserole(settings.getCasserole())
         .course(settings.getCourseSettings())
         .numberOfPeople(settings.getNumberOfPeople())
         .addSettingsMap(settings.getSubSettings())
@@ -64,7 +62,7 @@ public class SettingsBuilder {
   }
 
   public SettingsBuilder casserole(CasseroleSettings casseroleSettings) {
-    this.casseroleSettings = casseroleSettings;
+    this.subSettings.put(CasseroleSubSetting.class, new CasseroleSubSetting(casseroleSettings));
     return this;
   }
 
@@ -109,7 +107,6 @@ public class SettingsBuilder {
     }
     return new Settings(
         numberOfPeople,
-        casseroleSettings,
         courseSettings,
         subSettings,
         hiddenSubSettings);

@@ -16,9 +16,6 @@ import static mealplaner.model.MealplanerData.getInstance;
 import static mealplaner.model.meal.enums.CourseType.DESERT;
 import static mealplaner.model.meal.enums.CourseType.ENTRY;
 import static mealplaner.model.meal.enums.CourseType.MAIN;
-import static mealplaner.model.meal.enums.ObligatoryUtensil.CASSEROLE;
-import static mealplaner.model.meal.enums.ObligatoryUtensil.PAN;
-import static mealplaner.model.meal.enums.ObligatoryUtensil.POT;
 import static mealplaner.model.meal.enums.Sidedish.PASTA;
 import static mealplaner.model.meal.enums.Sidedish.RICE;
 import static mealplaner.model.proposal.Proposal.from;
@@ -33,7 +30,6 @@ import static mealplaner.model.recipes.Measure.MILLILITRE;
 import static mealplaner.model.recipes.Measures.createMeasures;
 import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitativeIngredient;
 import static mealplaner.model.settings.SettingsBuilder.setting;
-import static mealplaner.model.settings.enums.CasseroleSettings.POSSIBLE;
 import static mealplaner.model.settings.enums.CourseSettings.MAIN_DESERT;
 import static mealplaner.model.settings.enums.CourseSettings.ONLY_MAIN;
 import static mealplaner.plugins.plugins.cookingtime.CookingTime.LONG;
@@ -45,6 +41,10 @@ import static mealplaner.plugins.plugins.preference.mealextension.CookingPrefere
 import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.RARE;
 import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.VERY_POPULAR;
 import static mealplaner.plugins.plugins.preference.setting.PreferenceSettings.RARE_PREFERED;
+import static mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil.CASSEROLE;
+import static mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil.PAN;
+import static mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil.POT;
+import static mealplaner.plugins.plugins.utensil.settingextension.CasseroleSettings.POSSIBLE;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -64,8 +64,8 @@ import mealplaner.model.recipes.Measure;
 import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 import mealplaner.model.settings.Settings;
-import mealplaner.model.settings.enums.CasseroleSettings;
 import mealplaner.plugins.plugins.preference.setting.CookingPreferenceSetting;
+import mealplaner.plugins.plugins.utensil.settingextension.CasseroleSettings;
 
 public final class CommonFunctions {
   private CommonFunctions() {

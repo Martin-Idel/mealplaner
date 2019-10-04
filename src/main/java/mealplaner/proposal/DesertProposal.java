@@ -4,8 +4,6 @@ package mealplaner.proposal;
 
 import static java.util.stream.Collectors.toList;
 import static mealplaner.model.meal.enums.CourseType.DESERT;
-import static mealplaner.proposal.ProposalFunctions.allows;
-import static mealplaner.proposal.ProposalFunctions.useDifferentUtensil;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -34,12 +32,10 @@ class DesertProposal {
       Settings settings, Meal main, List<ProposedMenu> proposalList) {
     var meals = mealData.values().stream()
         .filter(meal -> meal.getCourseType().equals(DESERT))
-        .filter(desert -> allows(desert, settings))
-        .filter(desert -> useDifferentUtensil(desert, main))
         .map(desert -> Pair.of(desert, desert.getDaysPassedAsInteger()))
         .map(desert -> takeProposalIntoAccount(desert, proposalList));
     for (var step : proposalBuilderSteps) {
-      meals = step.applyPluginSuggestionsToDeserts(meals, settings);
+      meals = step.applyPluginSuggestionsToDeserts(meals, settings, main);
     }
     return meals
         .sorted((pair1, pair2) -> -(pair1.right.compareTo(pair2.right)))

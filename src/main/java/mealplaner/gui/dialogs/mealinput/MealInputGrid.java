@@ -28,7 +28,6 @@ import mealplaner.model.DataStore;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.meal.MealBuilder;
 import mealplaner.model.meal.enums.CourseType;
-import mealplaner.model.meal.enums.ObligatoryUtensil;
 import mealplaner.model.meal.enums.Sidedish;
 import mealplaner.model.recipes.Recipe;
 import mealplaner.plugins.PluginStore;
@@ -37,7 +36,6 @@ import mealplaner.plugins.api.MealFact;
 public final class MealInputGrid {
   private InputField<Optional<String>> nameField;
   private InputField<Sidedish> sidedishField;
-  private InputField<ObligatoryUtensil> obligatoryUtensilField;
   private InputField<CourseType> courseTypeField;
   private InputField<NonnegativeInteger> daysPassedField;
   private InputField<String> commentField;
@@ -61,11 +59,6 @@ public final class MealInputGrid {
         "Sidedish",
         Sidedish.class,
         Sidedish.NONE, 20);
-    obligatoryUtensilField = new ComboBoxInputField<>(
-        BUNDLES.message("insertMealUtensil"),
-        "ObligatoryUtensil",
-        ObligatoryUtensil.class,
-        ObligatoryUtensil.POT, 30);
     daysPassedField = new NonnegativeIntegerInputField(
         BUNDLES.message("insertMealLastCooked"),
         "DaysPassed",
@@ -105,8 +98,8 @@ public final class MealInputGrid {
 
   private Stream<InputField<?>> allFields() {
     return Stream.concat(
-        Stream.of(nameField, sidedishField, obligatoryUtensilField,
-            daysPassedField, courseTypeField, commentField, recipeInputField),
+        Stream.of(nameField, sidedishField, daysPassedField,
+            courseTypeField, commentField, recipeInputField),
         mealFactFields.stream())
         .sorted(comparingInt(InputField::getOrdering));
   }
@@ -119,7 +112,6 @@ public final class MealInputGrid {
     var builder = MealBuilder.mealWithValidator(pluginStore)
         .name(nameField.getUserInput().get())
         .sidedish(sidedishField.getUserInput())
-        .obligatoryUtensil(obligatoryUtensilField.getUserInput())
         .courseType(courseTypeField.getUserInput())
         .daysPassed(daysPassedField.getUserInput())
         .comment(commentField.getUserInput())

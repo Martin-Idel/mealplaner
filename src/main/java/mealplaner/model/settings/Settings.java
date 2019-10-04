@@ -2,23 +2,16 @@
 
 package mealplaner.model.settings;
 
-import static mealplaner.model.settings.subsettings.CookingUtensilSetting.copyUtensilSetting;
-import static mealplaner.model.settings.subsettings.CookingUtensilSetting.createCookingUtensilSettings;
-
 import java.util.List;
 import java.util.Map;
 
 import org.w3c.dom.Element;
 
 import mealplaner.commons.NonnegativeInteger;
-import mealplaner.model.settings.enums.CasseroleSettings;
 import mealplaner.model.settings.enums.CourseSettings;
-import mealplaner.model.settings.subsettings.CookingUtensilSetting;
 import mealplaner.plugins.api.Setting;
 
 public final class Settings {
-  private final CasseroleSettings casseroleSettings;
-  private final CookingUtensilSetting cookingUtensil;
   private final NonnegativeInteger numberOfPeople;
   private final CourseSettings courseSettings;
   private final Map<Class, Setting> subSettings;
@@ -26,24 +19,17 @@ public final class Settings {
 
   Settings(
       NonnegativeInteger numberOfPeople,
-      CasseroleSettings casseroleSettings,
       CourseSettings courseSettings,
       Map<Class, Setting> settingFacts,
       List<Element> hiddenSubSettings) {
     this.subSettings = settingFacts;
     this.hiddenSubSettings = hiddenSubSettings;
-    this.cookingUtensil = createCookingUtensilSettings();
     this.numberOfPeople = numberOfPeople;
-    this.cookingUtensil.setNumberOfPeople(numberOfPeople.value);
-    this.casseroleSettings = casseroleSettings;
-    this.cookingUtensil.setCasseroleSettings(casseroleSettings);
     this.courseSettings = courseSettings;
   }
 
   private Settings(Settings setting) {
-    this.casseroleSettings = setting.getCasserole();
     this.numberOfPeople = setting.getNumberOfPeople();
-    this.cookingUtensil = copyUtensilSetting(setting.getCookingUtensil());
     this.courseSettings = setting.getCourseSettings();
     this.subSettings = setting.getSubSettings();
     this.hiddenSubSettings = setting.getHiddenSubSettings();
@@ -55,14 +41,6 @@ public final class Settings {
 
   public NonnegativeInteger getNumberOfPeople() {
     return numberOfPeople;
-  }
-
-  public CookingUtensilSetting getCookingUtensil() {
-    return cookingUtensil;
-  }
-
-  public CasseroleSettings getCasserole() {
-    return casseroleSettings;
   }
 
   public CourseSettings getCourseSettings() {
@@ -97,8 +75,6 @@ public final class Settings {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + casseroleSettings.hashCode();
-    result = prime * result + cookingUtensil.hashCode();
     result = prime * result + courseSettings.hashCode();
     result = prime * result + numberOfPeople.value;
     result = prime * result + subSettings.hashCode();
@@ -115,9 +91,7 @@ public final class Settings {
       return false;
     }
     Settings other = (Settings) obj;
-    return casseroleSettings == other.casseroleSettings
-        && cookingUtensil.equals(other.cookingUtensil)
-        && courseSettings.equals(other.courseSettings)
+    return courseSettings.equals(other.courseSettings)
         && numberOfPeople.equals(other.numberOfPeople)
         && subSettings.equals(other.subSettings)
         && hiddenSubSettings.equals(other.hiddenSubSettings);
@@ -125,9 +99,9 @@ public final class Settings {
 
   @Override
   public String toString() {
-    return "Settings [casseroleSettings=" + casseroleSettings
-        + ", cookingUtensil=" + cookingUtensil + ", courseSettings=" + courseSettings
-        + ", numberOfPeople=" + numberOfPeople + ", subSettings=" + subSettings
-        + ", hiddenSubSettings="  + hiddenSubSettings + "]";
+    return "Settings [courseSettings=" + courseSettings
+        + ", numberOfPeople=" + numberOfPeople
+        + ", subSettings=" + subSettings
+        + ", hiddenSubSettings=" + hiddenSubSettings + "]";
   }
 }

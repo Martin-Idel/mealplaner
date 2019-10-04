@@ -17,7 +17,6 @@ import org.w3c.dom.Element;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.meal.enums.CourseType;
-import mealplaner.model.meal.enums.ObligatoryUtensil;
 import mealplaner.model.meal.enums.Sidedish;
 import mealplaner.model.recipes.Recipe;
 import mealplaner.plugins.PluginStore;
@@ -27,13 +26,14 @@ import mealplaner.plugins.plugins.cookingtime.CookingTime;
 import mealplaner.plugins.plugins.cookingtime.CookingTimeFact;
 import mealplaner.plugins.plugins.preference.mealextension.CookingPreference;
 import mealplaner.plugins.plugins.preference.mealextension.CookingPreferenceFact;
+import mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil;
+import mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensilFact;
 
 public final class MealBuilder {
   private PluginStore validationStore;
   private UUID uuid = UUID.randomUUID();
   private String name = "";
   private Sidedish sidedish = Sidedish.NONE;
-  private ObligatoryUtensil obligatoryUtensil = ObligatoryUtensil.POT;
   private CourseType courseType = CourseType.MAIN;
   private NonnegativeInteger daysPassed = ZERO;
   private String comment = "";
@@ -62,7 +62,6 @@ public final class MealBuilder {
         .id(meal.getId())
         .name(meal.getName())
         .sidedish(meal.getSidedish())
-        .obligatoryUtensil(meal.getObligatoryUtensil())
         .courseType(meal.getCourseType())
         .daysPassed(meal.getDaysPassed())
         .comment(meal.getComment())
@@ -97,7 +96,7 @@ public final class MealBuilder {
   }
 
   public MealBuilder obligatoryUtensil(ObligatoryUtensil obligatoryUtensil) {
-    this.obligatoryUtensil = obligatoryUtensil;
+    this.mealFactMap.put(ObligatoryUtensilFact.class, new ObligatoryUtensilFact(obligatoryUtensil));
     return this;
   }
 
@@ -153,7 +152,6 @@ public final class MealBuilder {
     return Meal.createMeal(uuid,
         MealMetaData.createMealMetaData(name,
             sidedish,
-            obligatoryUtensil,
             courseType,
             comment,
             mealFactMap,

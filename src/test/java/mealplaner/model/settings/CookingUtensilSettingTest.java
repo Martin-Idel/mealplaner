@@ -2,11 +2,12 @@
 
 package mealplaner.model.settings;
 
+import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.meal.MealBuilder.meal;
-import static mealplaner.model.meal.enums.ObligatoryUtensil.PAN;
-import static mealplaner.model.meal.enums.ObligatoryUtensil.POT;
-import static mealplaner.model.settings.subsettings.CookingUtensilSetting.createCookingUtensilSettings;
-import static mealplaner.model.settings.subsettings.CookingUtensilSetting.from;
+import static mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil.PAN;
+import static mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil.POT;
+import static mealplaner.plugins.plugins.utensil.proposal.CookingUtensilSetting.createCookingUtensilSettings;
+import static mealplaner.plugins.plugins.utensil.proposal.CookingUtensilSetting.from;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
@@ -23,9 +24,9 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import mealplaner.model.meal.Meal;
-import mealplaner.model.meal.enums.ObligatoryUtensil;
-import mealplaner.model.settings.enums.CasseroleSettings;
-import mealplaner.model.settings.subsettings.CookingUtensilSetting;
+import mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil;
+import mealplaner.plugins.plugins.utensil.proposal.CookingUtensilSetting;
+import mealplaner.plugins.plugins.utensil.settingextension.CasseroleSettings;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CookingUtensilSettingTest {
@@ -59,14 +60,14 @@ public class CookingUtensilSettingTest {
 
   @Test
   public void setNumberOfPeopleProhibitsPanForMany() {
-    utensilSetting.setNumberOfPeople(5);
+    utensilSetting.setNumberOfPeople(nonNegative(5));
 
     verify(prohibitedUtensil).add(ObligatoryUtensil.PAN);
   }
 
   @Test
   public void setNumberOfPeopleAllowsPanForFew() {
-    utensilSetting.setNumberOfPeople(2);
+    utensilSetting.setNumberOfPeople(nonNegative(2));
 
     verify(prohibitedUtensil).remove(ObligatoryUtensil.PAN);
   }
@@ -87,7 +88,7 @@ public class CookingUtensilSettingTest {
     utensilSetting = createCookingUtensilSettings();
     Meal meal = meal().name("test").obligatoryUtensil(POT).create();
     Meal mealPan = meal().name("test").obligatoryUtensil(PAN).create();
-    utensilSetting.setNumberOfPeople(4);
+    utensilSetting.setNumberOfPeople(nonNegative(4));
 
     assertFalse(utensilSetting.prohibits(meal));
     assertTrue(utensilSetting.prohibits(mealPan));
@@ -96,7 +97,7 @@ public class CookingUtensilSettingTest {
   @Test
   public void isUtensilProhibited() {
     utensilSetting = createCookingUtensilSettings();
-    utensilSetting.setNumberOfPeople(5);
+    utensilSetting.setNumberOfPeople(nonNegative(5));
 
     assertTrue(utensilSetting.isUtensilProhibited(ObligatoryUtensil.PAN));
     assertFalse(utensilSetting.isUtensilProhibited(ObligatoryUtensil.POT));

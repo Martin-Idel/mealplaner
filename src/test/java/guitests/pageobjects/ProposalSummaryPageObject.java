@@ -28,6 +28,7 @@ import mealplaner.model.settings.Settings;
 import mealplaner.plugins.plugins.cookingtime.CookingTime;
 import mealplaner.plugins.plugins.cookingtime.CookingTimeSetting;
 import mealplaner.plugins.plugins.preference.setting.CookingPreferenceSetting;
+import mealplaner.plugins.plugins.utensil.settingextension.CasseroleSubSetting;
 
 public class ProposalSummaryPageObject {
   private static final int NUMBER_OF_DEFAULT_SETTINGS_COLUMNS = 9;
@@ -89,7 +90,7 @@ public class ProposalSummaryPageObject {
   }
 
   private ProposalSummaryPageObject enterSetting(JTableFixture settingsTable, Settings setting,
-      int dayNumber) {
+                                                 int dayNumber) {
     enterSettingInDialog(settingsTable, setting, dayNumber, true);
     return this;
   }
@@ -109,7 +110,7 @@ public class ProposalSummaryPageObject {
   }
 
   private void enterSettingInDialog(JTableFixture settingsTable, Settings setting, int dayNumber,
-      boolean proposal) {
+                                    boolean proposal) {
     int firstColumn = proposal ? 2 : 1;
     CookingTimeSetting timeSetting = setting.getTypedSubSetting(CookingTimeSetting.class);
     updateCheckBox(settingsTable, row(dayNumber).column(firstColumn++), timeSetting, VERY_SHORT);
@@ -119,7 +120,7 @@ public class ProposalSummaryPageObject {
     updateComboBox(settingsTable, row(dayNumber).column(firstColumn++),
         setting.getNumberOfPeople().toString());
     updateComboBox(settingsTable, row(dayNumber).column(firstColumn++),
-        setting.getCasserole().toString());
+        setting.getTypedSubSetting(CasseroleSubSetting.class).getCasseroleSettings().toString());
     updateComboBox(settingsTable, row(dayNumber).column(firstColumn++),
         setting.getTypedSubSetting(CookingPreferenceSetting.class).getPreferences().toString());
     updateComboBox(settingsTable, row(dayNumber).column(firstColumn),
@@ -127,28 +128,28 @@ public class ProposalSummaryPageObject {
   }
 
   private void updateCheckBox(JTableFixture settingsTable,
-      TableCell checkbox,
-      CookingTimeSetting cookingTime,
-      CookingTime time) {
+                              TableCell checkbox,
+                              CookingTimeSetting cookingTime,
+                              CookingTime time) {
     if (checkBoxNeedsUpdate(settingsTable, checkbox, cookingTime, time)) {
       settingsTable.click(checkbox, LEFT_BUTTON);
     }
   }
 
   private void updateComboBox(JTableFixture settingsTable,
-      TableCell cell,
-      String value) {
+                              TableCell cell,
+                              String value) {
     if (!settingsTable.cell(cell).value().equals(value)) {
       settingsTable.enterValue(cell, value);
     }
   }
 
   private boolean checkBoxNeedsUpdate(JTableFixture settingsTable,
-      TableCell checkbox,
-      CookingTimeSetting cookingTime,
-      CookingTime time) {
+                                      TableCell checkbox,
+                                      CookingTimeSetting cookingTime,
+                                      CookingTime time) {
     return cookingTime.contains(time) == settingsTable.valueAt(checkbox)
-            .equals(Boolean.toString(true));
+        .equals(Boolean.toString(true));
   }
 
   private String[][] defaultSettingsTableEntries(DefaultSettings defaultSettings) {
@@ -163,7 +164,7 @@ public class ProposalSummaryPageObject {
       content[row][3] = Boolean.toString(!setting.getTypedSubSetting(CookingTimeSetting.class).contains(MEDIUM));
       content[row][4] = Boolean.toString(!setting.getTypedSubSetting(CookingTimeSetting.class).contains(LONG));
       content[row][5] = setting.getNumberOfPeople().toString();
-      content[row][6] = setting.getCasserole().toString();
+      content[row][6] = setting.getTypedSubSetting(CasseroleSubSetting.class).getCasseroleSettings().toString();
       content[row][7] = setting.getTypedSubSetting(CookingPreferenceSetting.class).getPreferences().toString();
       content[row][8] = setting.getCourseSettings().toString();
     }

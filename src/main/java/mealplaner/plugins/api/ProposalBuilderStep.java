@@ -10,12 +10,12 @@ public interface ProposalBuilderStep {
   Stream<Pair<Meal, Integer>> applyPluginSuggestions(Stream<Pair<Meal, Integer>> meals, Settings settings);
 
   default Stream<Pair<Meal, Integer>> applyPluginSuggestionsToDeserts(
-      Stream<Pair<Meal, Integer>> meals, Settings settings) {
+      Stream<Pair<Meal, Integer>> meals, Settings settings, Meal main) {
     return applyPluginSuggestions(meals, settings);
   }
 
   default Stream<Pair<Meal, Integer>> applyPluginSuggestionsToEntries(
-      Stream<Pair<Meal, Integer>> meals, Settings settings) {
+      Stream<Pair<Meal, Integer>> meals, Settings settings, Meal main) {
     return applyPluginSuggestions(meals, settings);
   }
 }
