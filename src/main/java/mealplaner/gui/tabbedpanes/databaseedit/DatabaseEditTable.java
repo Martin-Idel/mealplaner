@@ -66,22 +66,14 @@ final class DatabaseEditTable {
             .getValueFromOrderedList(meals, Meal::getCourseType)
             .isEditable()
             .onChange(buttonPanel::enableButtons)
-            .build())
-        .addColumn(withContent(String.class)
-            .withColumnName(BUNDLES.message("commentInsertColumn"))
-            .setValueToOrderedImmutableList(meals,
-                (meal, comment) -> from(meal).comment(comment).create())
-            .getValueFromOrderedList(meals, Meal::getComment)
-            .isEditable()
-            .onChange(buttonPanel::enableButtons)
-            .build())
+            .buildWithOrderNumber(70))
         .addColumn(withContent(String.class)
             .withColumnName(BUNDLES.message("recipeEditColum"))
             .getRowValueFromUnderlyingModel(
                 row -> meals.get(row).getRecipe().isPresent()
                     ? BUNDLES.message("editRecipeButtonLabel")
                     : BUNDLES.message("createRecipeButtonLabel"))
-            .build())
+            .buildWithOrderNumber(110))
         .addListenerToThisColumn((row) -> {
           Optional<Recipe> recipe = meals.get(row).getRecipe();
           Optional<Recipe> editedRecipe = editRecipe.apply(recipe);

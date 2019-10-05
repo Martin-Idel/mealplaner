@@ -19,6 +19,7 @@ import mealplaner.model.meal.Meal;
 import mealplaner.model.meal.MealBuilder;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.MealFact;
+import mealplaner.plugins.plugins.comment.mealextension.CommentFact;
 import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTimeFact;
 import mealplaner.plugins.plugins.preference.mealextension.CookingPreferenceFact;
 import mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensilFact;
@@ -37,7 +38,7 @@ public final class MealAdapter {
         meal.getTypedMealFact(CookingPreferenceFact.class).getCookingPreference(),
         meal.getCourseType(),
         meal.getDaysPassed(),
-        meal.getComment(),
+        meal.getTypedMealFact(CommentFact.class).getComment(),
         convertRecipeV2ToXml(meal.getRecipe()));
   }
 
@@ -56,7 +57,6 @@ public final class MealAdapter {
         meal.getSidedish(),
         meal.getCourseType(),
         meal.getDaysPassed(),
-        meal.getComment(),
         mealFacts,
         convertRecipeV3ToXml(meal.getRecipe()));
   }
@@ -84,7 +84,6 @@ public final class MealAdapter {
         .sidedish(meal.sidedish)
         .courseType(meal.courseType)
         .daysPassed(nonNegative(meal.daysPassed))
-        .comment(meal.comment)
         .optionalRecipe(convertRecipeV3FromXml(data, meal.recipe))
         .addMealMap(extractFacts(meal.mealFacts, plugins.getRegisteredMealExtensions()))
         .addHiddenMeals(extractUnknownFacts(meal.mealFacts, plugins.getRegisteredMealExtensions()))

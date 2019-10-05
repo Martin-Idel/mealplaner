@@ -18,6 +18,7 @@ import org.junit.Test;
 import guitests.helpers.AssertJMealplanerTestCase;
 import guitests.pageobjects.MealsEditPageObject;
 import mealplaner.model.meal.Meal;
+import mealplaner.plugins.plugins.comment.mealextension.CommentFact;
 import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTimeFact;
 
 public class DatabaseEditChangeMeals extends AssertJMealplanerTestCase {
@@ -41,7 +42,7 @@ public class DatabaseEditChangeMeals extends AssertJMealplanerTestCase {
     windowHelpers.getMealsPane()
         .changeCookingTime(0, newMeal.getTypedMealFact(CookingTimeFact.class).getCookingTime())
         .changeCourseType(0, newMeal.getCourseType())
-        .changeComment(0, newMeal.getComment())
+        .changeComment(0, newMeal.getTypedMealFact(CommentFact.class).getComment())
         .enterRecipe(0, newMeal.getRecipe().get())
         .compareDatabaseInTable(meals);
   }

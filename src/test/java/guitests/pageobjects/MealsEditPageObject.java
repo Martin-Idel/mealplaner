@@ -23,6 +23,7 @@ import mealplaner.model.meal.enums.Sidedish;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
+import mealplaner.plugins.plugins.comment.mealextension.CommentFact;
 import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime;
 import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTimeFact;
 import mealplaner.plugins.plugins.preference.mealextension.CookingPreference;
@@ -195,7 +196,7 @@ public class MealsEditPageObject {
     mealInputDialog.comboBox("InputFieldComboBoxCourseType")
         .selectItem(meal.getCourseType().toString());
     mealInputDialog.textBox("InputFieldTextComment")
-        .enterText(meal.getComment());
+        .enterText(meal.getTypedMealFact(CommentFact.class).getComment());
     if (meal.getRecipe().isPresent()) {
       mealInputDialog.button("InputFieldButtonRecipe").click();
       enterRecipeInDialog(meal.getRecipe().get(), mealInputDialog, missingIngredients);
@@ -273,7 +274,7 @@ public class MealsEditPageObject {
       content[i][4] = meal.getDaysPassed().toString();
       content[i][5] = meal.getTypedMealFact(CookingPreferenceFact.class).getCookingPreference().toString();
       content[i][6] = meal.getCourseType().toString();
-      content[i][7] = meal.getComment();
+      content[i][7] = meal.getTypedMealFact(CommentFact.class).getComment();
       content[i][8] = meal.getRecipe().isPresent()
           ? BUNDLES.message("editRecipeButtonLabel")
           : BUNDLES.message("createRecipeButtonLabel");

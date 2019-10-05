@@ -22,6 +22,7 @@ import mealplaner.model.recipes.Recipe;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.Fact;
 import mealplaner.plugins.api.MealFact;
+import mealplaner.plugins.plugins.comment.mealextension.CommentFact;
 import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime;
 import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTimeFact;
 import mealplaner.plugins.plugins.preference.mealextension.CookingPreference;
@@ -31,13 +32,15 @@ import mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensilFact;
 
 public final class MealBuilder {
   private PluginStore validationStore;
+
   private UUID uuid = UUID.randomUUID();
   private String name = "";
+
   private Sidedish sidedish = Sidedish.NONE;
   private CourseType courseType = CourseType.MAIN;
   private NonnegativeInteger daysPassed = ZERO;
-  private String comment = "";
   private Optional<Recipe> recipe = Optional.empty();
+
   private Map<Class, MealFact> mealFactMap = new HashMap<>();
   private List<Element> hiddenMealFacts = new ArrayList<>();
 
@@ -64,7 +67,6 @@ public final class MealBuilder {
         .sidedish(meal.getSidedish())
         .courseType(meal.getCourseType())
         .daysPassed(meal.getDaysPassed())
-        .comment(meal.getComment())
         .optionalRecipe(meal.getRecipe())
         .addMealMap(meal.getMealFacts())
         .addHiddenMeals(meal.getHiddenFacts());
@@ -116,7 +118,7 @@ public final class MealBuilder {
   }
 
   public MealBuilder comment(String comment) {
-    this.comment = comment;
+    this.mealFactMap.put(CommentFact.class, new CommentFact(comment));
     return this;
   }
 
@@ -153,7 +155,6 @@ public final class MealBuilder {
         MealMetaData.createMealMetaData(name,
             sidedish,
             courseType,
-            comment,
             mealFactMap,
             hiddenMealFacts),
         daysPassed,

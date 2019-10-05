@@ -2,43 +2,10 @@
 
 package mealplaner.commons.gui.inputfields;
 
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import java.util.function.Function;
 
-import mealplaner.commons.gui.GuiPanel;
-
-public class TextInputField implements InputField<String> {
-  private final String label;
-  private final String name;
-  private JTextField textField;
-  private final int orderNumber;
-
+public class TextInputField extends TextFactInputField<String> {
   public TextInputField(String label, String name, int orderNumber) {
-    this.label = label;
-    this.name = name;
-    this.orderNumber = orderNumber;
-  }
-
-  @Override
-  public void addToPanel(GuiPanel panel) {
-    textField = new JTextField();
-    textField.setName("InputFieldText" + name);
-    panel.getComponent().add(new JLabel(label));
-    panel.getComponent().add(textField);
-  }
-
-  @Override
-  public String getUserInput() {
-    return textField.getText().trim();
-  }
-
-  @Override
-  public void resetField() {
-    textField.setText("");
-  }
-
-  @Override
-  public int getOrdering() {
-    return orderNumber;
+    super(label, name, orderNumber, Function.identity());
   }
 }

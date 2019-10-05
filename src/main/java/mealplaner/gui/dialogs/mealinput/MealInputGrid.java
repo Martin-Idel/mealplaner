@@ -22,7 +22,6 @@ import mealplaner.commons.gui.inputfields.ComboBoxInputField;
 import mealplaner.commons.gui.inputfields.InputField;
 import mealplaner.commons.gui.inputfields.NonEmptyTextInputField;
 import mealplaner.commons.gui.inputfields.NonnegativeIntegerInputField;
-import mealplaner.commons.gui.inputfields.TextInputField;
 import mealplaner.gui.dialogs.recepies.RecipeInput;
 import mealplaner.model.DataStore;
 import mealplaner.model.meal.Meal;
@@ -38,7 +37,6 @@ public final class MealInputGrid {
   private InputField<Sidedish> sidedishField;
   private InputField<CourseType> courseTypeField;
   private InputField<NonnegativeInteger> daysPassedField;
-  private InputField<String> commentField;
   private InputField<Optional<Recipe>> recipeInputField;
   private List<InputField<MealFact>> mealFactFields;
 
@@ -68,7 +66,6 @@ public final class MealInputGrid {
         "CourseType",
         CourseType.class,
         CourseType.MAIN, 60);
-    commentField = new TextInputField(BUNDLES.message("insertMealComment"), "Comment", 70);
     recipeInputField = new ButtonInputField<>(
         BUNDLES.message("createRecipeLabel"),
         "Recipe",
@@ -99,7 +96,7 @@ public final class MealInputGrid {
   private Stream<InputField<?>> allFields() {
     return Stream.concat(
         Stream.of(nameField, sidedishField, daysPassedField,
-            courseTypeField, commentField, recipeInputField),
+            courseTypeField, recipeInputField),
         mealFactFields.stream())
         .sorted(comparingInt(InputField::getOrdering));
   }
@@ -114,7 +111,6 @@ public final class MealInputGrid {
         .sidedish(sidedishField.getUserInput())
         .courseType(courseTypeField.getUserInput())
         .daysPassed(daysPassedField.getUserInput())
-        .comment(commentField.getUserInput())
         .optionalRecipe(recipeInputField.getUserInput());
     for (var mealFactField : mealFactFields) {
       builder.addFact(mealFactField.getUserInput());

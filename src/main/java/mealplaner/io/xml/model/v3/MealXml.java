@@ -33,14 +33,13 @@ public class MealXml {
   public final Sidedish sidedish;
   public final CourseType courseType;
   public final int daysPassed;
-  public final String comment;
   @XmlAnyElement(lax = true)
   public final List<Object> mealFacts;
   public final RecipeXml recipe;
 
   public MealXml() {
     this(nameUUIDFromBytes("noname".getBytes(StandardCharsets.UTF_8)),
-        "noname", NONE, MAIN, ZERO, "no comment",
+        "noname", NONE, MAIN, ZERO,
         new ArrayList<>(), null);
   }
 
@@ -49,7 +48,6 @@ public class MealXml {
       Sidedish sideDish,
       CourseType courseType,
       NonnegativeInteger daysPassed,
-      String comment,
       List<Object> mealFacts,
       RecipeXml recipe)
       throws MealException {
@@ -58,7 +56,6 @@ public class MealXml {
     this.sidedish = sideDish;
     this.courseType = courseType;
     this.daysPassed = daysPassed.value;
-    this.comment = comment;
     this.mealFacts = mealFacts;
     this.recipe = recipe;
   }

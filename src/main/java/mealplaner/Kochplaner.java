@@ -12,6 +12,7 @@ import mealplaner.gui.factories.DialogFactory;
 import mealplaner.io.FileIoGui;
 import mealplaner.model.MealplanerData;
 import mealplaner.plugins.PluginStore;
+import mealplaner.plugins.plugins.comment.mealextension.CommentPlugin;
 import mealplaner.plugins.plugins.cookingtime.CookingTimePlugin;
 import mealplaner.plugins.plugins.preference.CookingPreferencePlugin;
 import mealplaner.plugins.plugins.utensil.ObligatoryUtensilPlugin;
@@ -46,6 +47,8 @@ public final class Kochplaner {
     cookingPreferencePlugin.registerPlugins(pluginStore);
     var utensilPlugin = new ObligatoryUtensilPlugin();
     utensilPlugin.registerPlugins(pluginStore);
+    var commentPlugin = new CommentPlugin();
+    commentPlugin.registerPlugins(pluginStore);
     return pluginStore;
   }
 }

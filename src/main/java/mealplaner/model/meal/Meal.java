@@ -117,10 +117,6 @@ public final class Meal implements Comparable<Meal> {
     return metadata.getCourseType();
   }
 
-  public String getComment() {
-    return metadata.getComment();
-  }
-
   public Optional<Recipe> getRecipe() {
     return recipe;
   }

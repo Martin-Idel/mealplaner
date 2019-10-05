@@ -19,14 +19,12 @@ public final class MealMetaData {
       "EMPTY",
       Sidedish.NONE,
       CourseType.MAIN,
-      "",
       new HashMap<>(),
       new ArrayList<>());
 
   private String name;
   private final Sidedish sidedish;
   private final CourseType courseType;
-  private final String comment;
   private final Map<Class, MealFact> mealFacts;
   private final List<Element> hiddenMealFacts;
 
@@ -34,14 +32,12 @@ public final class MealMetaData {
       String name,
       Sidedish sideDish,
       CourseType courseType,
-      String comment,
       Map<Class, MealFact> mealFacts,
       List<Element> hiddenMealFacts)
       throws MealException {
     setName(name);
     this.sidedish = sideDish;
     this.courseType = courseType;
-    this.comment = comment;
     this.mealFacts = mealFacts;
     this.hiddenMealFacts = hiddenMealFacts;
   }
@@ -50,13 +46,11 @@ public final class MealMetaData {
       String name,
       Sidedish sideDish,
       CourseType courseType,
-      String comment,
       Map<Class, MealFact> mealFacts,
       List<Element> hiddenMealFacts) throws MealException {
     return new MealMetaData(name,
         sideDish,
         courseType,
-        comment,
         mealFacts,
         hiddenMealFacts);
   }
@@ -65,7 +59,6 @@ public final class MealMetaData {
     return new MealMetaData(meal.getName(),
         meal.getSidedish(),
         meal.getCourseType(),
-        meal.getComment(),
         meal.getMealFacts(),
         meal.getHiddenMealFacts());
   }
@@ -86,10 +79,6 @@ public final class MealMetaData {
     return courseType;
   }
 
-  public String getComment() {
-    return comment;
-  }
-
   public Map<Class, MealFact> getMealFacts() {
     return mealFacts;
   }
@@ -104,7 +93,6 @@ public final class MealMetaData {
         + name + ", "
         + sidedish + ", "
         + courseType + ", "
-        + comment + ", "
         + mealFacts + ", "
         + hiddenMealFacts + ", "
         + "]";
@@ -114,7 +102,6 @@ public final class MealMetaData {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + comment.hashCode();
     result = prime * result + name.hashCode();
     result = prime * result + sidedish.hashCode();
     result = prime * result + mealFacts.hashCode();
@@ -132,7 +119,6 @@ public final class MealMetaData {
     }
     MealMetaData other = (MealMetaData) obj;
     return name.equals(other.name)
-        && comment.equals(other.comment)
         && courseType == other.courseType
         && sidedish == other.sidedish
         && mealFacts.equals(other.mealFacts)
