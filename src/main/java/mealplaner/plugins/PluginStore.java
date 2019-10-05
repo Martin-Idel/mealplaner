@@ -1,10 +1,14 @@
 package mealplaner.plugins;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
 
+import mealplaner.commons.errorhandling.MealException;
 import mealplaner.plugins.api.IngredientEditExtension;
 import mealplaner.plugins.api.IngredientFact;
 import mealplaner.plugins.api.IngredientFactXml;
@@ -28,6 +32,8 @@ public class PluginStore {
       = new GuiExtension<>();
   private GuiExtension<SettingsInputDialogExtension, ProposalBuilderStep> registeredProposalExtensions
       = new GuiExtension<>();
+  private Map<Class<? extends ProposalBuilderStep>, ProposalBuilderStep> registeredProposalBuilderSteps
+      = new HashMap<>();
 
   public PluginStore() {
   }
@@ -79,6 +85,13 @@ public class PluginStore {
     );
   }
 
+  public void registerProposalExtension(ProposalBuilderStep proposalBuilderStep) {
+    if (registeredProposalBuilderSteps.containsKey(proposalBuilderStep.getClass())) {
+      throw new MealException("Class " + proposalBuilderStep.getClass() + " already registered.");
+    }
+    registeredProposalBuilderSteps.putIfAbsent(proposalBuilderStep.getClass(), proposalBuilderStep);
+  }
+
   public ModelExtension<MealFact, MealFactXml> getRegisteredMealExtensions() {
     return registeredMealExtensions;
   }
@@ -112,7 +125,10 @@ public class PluginStore {
   }
 
   public Collection<ProposalBuilderStep> getRegisteredProposalBuilderSteps() {
-    return registeredProposalExtensions.getEditExtensions();
+    Set<ProposalBuilderStep> proposalBuilderSteps = new HashSet<>();
+    proposalBuilderSteps.addAll(registeredProposalExtensions.getEditExtensions());
+    proposalBuilderSteps.addAll(registeredProposalBuilderSteps.values());
+    return proposalBuilderSteps;
   }
 
   public Class<?>[] getAllKnownClassesForXmlConversion() {

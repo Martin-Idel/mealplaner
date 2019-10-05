@@ -16,8 +16,6 @@ import static mealplaner.model.MealplanerData.getInstance;
 import static mealplaner.model.meal.enums.CourseType.DESERT;
 import static mealplaner.model.meal.enums.CourseType.ENTRY;
 import static mealplaner.model.meal.enums.CourseType.MAIN;
-import static mealplaner.model.meal.enums.Sidedish.PASTA;
-import static mealplaner.model.meal.enums.Sidedish.RICE;
 import static mealplaner.model.proposal.Proposal.from;
 import static mealplaner.model.proposal.ProposedMenu.mainOnly;
 import static mealplaner.model.recipes.IngredientBuilder.ingredient;
@@ -41,6 +39,8 @@ import static mealplaner.plugins.plugins.preference.mealextension.CookingPrefere
 import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.RARE;
 import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.VERY_POPULAR;
 import static mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings.RARE_PREFERED;
+import static mealplaner.plugins.plugins.sidedish.mealextension.Sidedish.PASTA;
+import static mealplaner.plugins.plugins.sidedish.mealextension.Sidedish.RICE;
 import static mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil.CASSEROLE;
 import static mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil.PAN;
 import static mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil.POT;
@@ -56,7 +56,6 @@ import mealplaner.commons.NonnegativeFraction;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.meal.MealBuilder;
-import mealplaner.model.meal.enums.Sidedish;
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.recipes.Ingredient;
@@ -65,6 +64,7 @@ import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 import mealplaner.model.settings.Settings;
 import mealplaner.plugins.plugins.preference.settingextension.CookingPreferenceSetting;
+import mealplaner.plugins.plugins.sidedish.mealextension.Sidedish;
 import mealplaner.plugins.plugins.utensil.settingextension.CasseroleSettings;
 
 public final class CommonFunctions {

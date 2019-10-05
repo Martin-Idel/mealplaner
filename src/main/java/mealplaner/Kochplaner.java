@@ -15,6 +15,7 @@ import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.plugins.comment.mealextension.CommentPlugin;
 import mealplaner.plugins.plugins.cookingtime.CookingTimePlugin;
 import mealplaner.plugins.plugins.preference.CookingPreferencePlugin;
+import mealplaner.plugins.plugins.sidedish.SideDishPlugin;
 import mealplaner.plugins.plugins.utensil.ObligatoryUtensilPlugin;
 
 public final class Kochplaner {
@@ -49,6 +50,8 @@ public final class Kochplaner {
     utensilPlugin.registerPlugins(pluginStore);
     var commentPlugin = new CommentPlugin();
     commentPlugin.registerPlugins(pluginStore);
+    var sideDishPlugin = new SideDishPlugin();
+    sideDishPlugin.registerPlugins(pluginStore);
     return pluginStore;
   }
 }

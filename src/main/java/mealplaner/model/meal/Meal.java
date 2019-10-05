@@ -18,7 +18,6 @@ import org.w3c.dom.Element;
 
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.model.meal.enums.CourseType;
-import mealplaner.model.meal.enums.Sidedish;
 import mealplaner.model.recipes.Recipe;
 import mealplaner.plugins.api.MealFact;
 
@@ -107,10 +106,6 @@ public final class Meal implements Comparable<Meal> {
 
   public int getDaysPassedAsInteger() {
     return daysPassed.value;
-  }
-
-  public Sidedish getSidedish() {
-    return metadata.getSidedish();
   }
 
   public CourseType getCourseType() {

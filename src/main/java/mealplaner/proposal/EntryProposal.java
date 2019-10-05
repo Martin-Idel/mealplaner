@@ -4,7 +4,6 @@ package mealplaner.proposal;
 
 import static java.util.stream.Collectors.toList;
 import static mealplaner.model.meal.enums.CourseType.ENTRY;
-import static mealplaner.proposal.ProposalFunctions.useDifferentSidedish;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -33,7 +32,6 @@ class EntryProposal {
       Settings settings, Meal main, List<ProposedMenu> proposalList) {
     var meals = mealData.values().stream()
         .filter(meal -> meal.getCourseType().equals(ENTRY))
-        .filter(entry -> useDifferentSidedish(entry, main))
         .map(entry -> Pair.of(entry, entry.getDaysPassedAsInteger()))
         .map(entry -> takeProposalIntoAccount(entry, proposalList));
     for (var step : proposalBuilderSteps) {

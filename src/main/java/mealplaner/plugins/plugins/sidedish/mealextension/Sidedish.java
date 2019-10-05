@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-package mealplaner.model.meal.enums;
+package mealplaner.plugins.plugins.sidedish.mealextension;
 
 import static mealplaner.commons.BundleStore.BUNDLES;
 

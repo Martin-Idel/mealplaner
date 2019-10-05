@@ -17,7 +17,6 @@ import org.w3c.dom.Element;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.meal.enums.CourseType;
-import mealplaner.model.meal.enums.Sidedish;
 import mealplaner.model.recipes.Recipe;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.Fact;
@@ -27,6 +26,8 @@ import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime;
 import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTimeFact;
 import mealplaner.plugins.plugins.preference.mealextension.CookingPreference;
 import mealplaner.plugins.plugins.preference.mealextension.CookingPreferenceFact;
+import mealplaner.plugins.plugins.sidedish.mealextension.Sidedish;
+import mealplaner.plugins.plugins.sidedish.mealextension.SidedishFact;
 import mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil;
 import mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensilFact;
 
@@ -36,7 +37,6 @@ public final class MealBuilder {
   private UUID uuid = UUID.randomUUID();
   private String name = "";
 
-  private Sidedish sidedish = Sidedish.NONE;
   private CourseType courseType = CourseType.MAIN;
   private NonnegativeInteger daysPassed = ZERO;
   private Optional<Recipe> recipe = Optional.empty();
@@ -64,7 +64,6 @@ public final class MealBuilder {
     return new MealBuilder()
         .id(meal.getId())
         .name(meal.getName())
-        .sidedish(meal.getSidedish())
         .courseType(meal.getCourseType())
         .daysPassed(meal.getDaysPassed())
         .optionalRecipe(meal.getRecipe())
@@ -93,7 +92,7 @@ public final class MealBuilder {
   }
 
   public MealBuilder sidedish(Sidedish sidedish) {
-    this.sidedish = sidedish;
+    this.mealFactMap.put(SidedishFact.class, new SidedishFact(sidedish));
     return this;
   }
 
@@ -153,7 +152,6 @@ public final class MealBuilder {
     }
     return Meal.createMeal(uuid,
         MealMetaData.createMealMetaData(name,
-            sidedish,
             courseType,
             mealFactMap,
             hiddenMealFacts),

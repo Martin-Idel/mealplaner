@@ -27,14 +27,12 @@ import mealplaner.model.DataStore;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.meal.MealBuilder;
 import mealplaner.model.meal.enums.CourseType;
-import mealplaner.model.meal.enums.Sidedish;
 import mealplaner.model.recipes.Recipe;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.MealFact;
 
 public final class MealInputGrid {
   private InputField<Optional<String>> nameField;
-  private InputField<Sidedish> sidedishField;
   private InputField<CourseType> courseTypeField;
   private InputField<NonnegativeInteger> daysPassedField;
   private InputField<Optional<Recipe>> recipeInputField;
@@ -52,11 +50,6 @@ public final class MealInputGrid {
 
   public GridPanel initialiseInputFields(DataStore mealPlan, PluginStore pluginStore) {
     nameField = new NonEmptyTextInputField(BUNDLES.message("insertMealName"), "Name", 0);
-    sidedishField = new ComboBoxInputField<>(
-        BUNDLES.message("insertMealSidedish"),
-        "Sidedish",
-        Sidedish.class,
-        Sidedish.NONE, 20);
     daysPassedField = new NonnegativeIntegerInputField(
         BUNDLES.message("insertMealLastCooked"),
         "DaysPassed",
@@ -95,8 +88,7 @@ public final class MealInputGrid {
 
   private Stream<InputField<?>> allFields() {
     return Stream.concat(
-        Stream.of(nameField, sidedishField, daysPassedField,
-            courseTypeField, recipeInputField),
+        Stream.of(nameField, daysPassedField, courseTypeField, recipeInputField),
         mealFactFields.stream())
         .sorted(comparingInt(InputField::getOrdering));
   }
@@ -108,7 +100,6 @@ public final class MealInputGrid {
 
     var builder = MealBuilder.mealWithValidator(pluginStore)
         .name(nameField.getUserInput().get())
-        .sidedish(sidedishField.getUserInput())
         .courseType(courseTypeField.getUserInput())
         .daysPassed(daysPassedField.getUserInput())
         .optionalRecipe(recipeInputField.getUserInput());

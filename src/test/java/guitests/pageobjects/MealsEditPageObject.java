@@ -19,7 +19,6 @@ import org.assertj.swing.fixture.JTableFixture;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.meal.enums.CourseType;
-import mealplaner.model.meal.enums.Sidedish;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
@@ -28,6 +27,8 @@ import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime;
 import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTimeFact;
 import mealplaner.plugins.plugins.preference.mealextension.CookingPreference;
 import mealplaner.plugins.plugins.preference.mealextension.CookingPreferenceFact;
+import mealplaner.plugins.plugins.sidedish.mealextension.Sidedish;
+import mealplaner.plugins.plugins.sidedish.mealextension.SidedishFact;
 import mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil;
 import mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensilFact;
 
@@ -186,7 +187,7 @@ public class MealsEditPageObject {
     mealInputDialog.comboBox("InputFieldComboBoxCookingTime")
         .selectItem(meal.getTypedMealFact(CookingTimeFact.class).getCookingTime().toString());
     mealInputDialog.comboBox("InputFieldComboBoxSidedish")
-        .selectItem(meal.getSidedish().toString());
+        .selectItem(meal.getTypedMealFact(SidedishFact.class).getSidedish().toString());
     mealInputDialog.comboBox("InputFieldComboBoxObligatoryUtensil")
         .selectItem(meal.getTypedMealFact(ObligatoryUtensilFact.class).getObligatoryUtensil().toString());
     mealInputDialog.textBox("InputFieldNonnegativeIntegerDaysPassed")
@@ -269,7 +270,7 @@ public class MealsEditPageObject {
       Meal meal = meals.get(i);
       content[i][0] = meal.getName();
       content[i][1] = meal.getTypedMealFact(CookingTimeFact.class).getCookingTime().toString();
-      content[i][2] = meal.getSidedish().toString();
+      content[i][2] = meal.getTypedMealFact(SidedishFact.class).getSidedish().toString();
       content[i][3] = meal.getTypedMealFact(ObligatoryUtensilFact.class).getObligatoryUtensil().toString();
       content[i][4] = meal.getDaysPassed().toString();
       content[i][5] = meal.getTypedMealFact(CookingPreferenceFact.class).getCookingPreference().toString();

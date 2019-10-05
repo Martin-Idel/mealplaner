@@ -4,9 +4,9 @@ package guitests.databaseedit;
 
 import static mealplaner.model.meal.MealBuilder.from;
 import static mealplaner.model.meal.enums.CourseType.DESERT;
-import static mealplaner.model.meal.enums.Sidedish.RICE;
 import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.MEDIUM;
 import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.SHORT;
+import static mealplaner.plugins.plugins.sidedish.mealextension.Sidedish.RICE;
 import static testcommons.CommonFunctions.getMeal1;
 import static testcommons.CommonFunctions.getRecipe2;
 

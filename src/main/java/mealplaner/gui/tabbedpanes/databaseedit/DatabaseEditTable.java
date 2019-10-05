@@ -19,7 +19,6 @@ import mealplaner.commons.gui.editing.NonemptyTextCellEditor;
 import mealplaner.commons.gui.tables.Table;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.meal.enums.CourseType;
-import mealplaner.model.meal.enums.Sidedish;
 import mealplaner.model.recipes.Recipe;
 import mealplaner.plugins.api.MealEditExtension;
 
@@ -43,14 +42,6 @@ final class DatabaseEditTable {
             .onChange(buttonPanel::enableButtons)
             .overwriteTableCellEditor(new NonemptyTextCellEditor())
             .buildWithOrderNumber(0))
-        .addColumn(withEnumContent(Sidedish.class)
-            .withColumnName(BUNDLES.message("sidedishColumn"))
-            .setValueToOrderedImmutableList(meals,
-                (meal, sidedish) -> from(meal).sidedish(sidedish).create())
-            .getValueFromOrderedList(meals, Meal::getSidedish)
-            .isEditable()
-            .onChange(buttonPanel::enableButtons)
-            .buildWithOrderNumber(20))
         .addColumn(withNonnegativeIntegerContent()
             .withColumnName(BUNDLES.message("cookedLastTimeColumn"))
             .setValueToOrderedImmutableList(meals,

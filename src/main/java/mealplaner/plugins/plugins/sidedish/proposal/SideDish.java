@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 
-package mealplaner.model.proposal;
+package mealplaner.plugins.plugins.sidedish.proposal;
 
-import mealplaner.model.meal.enums.Sidedish;
+import mealplaner.plugins.plugins.sidedish.mealextension.Sidedish;
 
 public class SideDish {
 

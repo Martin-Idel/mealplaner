@@ -11,32 +11,27 @@ import org.w3c.dom.Element;
 
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.meal.enums.CourseType;
-import mealplaner.model.meal.enums.Sidedish;
 import mealplaner.plugins.api.MealFact;
 
 public final class MealMetaData {
   private static final MealMetaData EMPTY_METADATA = new MealMetaData(
       "EMPTY",
-      Sidedish.NONE,
       CourseType.MAIN,
       new HashMap<>(),
       new ArrayList<>());
 
   private String name;
-  private final Sidedish sidedish;
   private final CourseType courseType;
   private final Map<Class, MealFact> mealFacts;
   private final List<Element> hiddenMealFacts;
 
   private MealMetaData(
       String name,
-      Sidedish sideDish,
       CourseType courseType,
       Map<Class, MealFact> mealFacts,
       List<Element> hiddenMealFacts)
       throws MealException {
     setName(name);
-    this.sidedish = sideDish;
     this.courseType = courseType;
     this.mealFacts = mealFacts;
     this.hiddenMealFacts = hiddenMealFacts;
@@ -44,12 +39,10 @@ public final class MealMetaData {
 
   public static MealMetaData createMealMetaData(
       String name,
-      Sidedish sideDish,
       CourseType courseType,
       Map<Class, MealFact> mealFacts,
       List<Element> hiddenMealFacts) throws MealException {
     return new MealMetaData(name,
-        sideDish,
         courseType,
         mealFacts,
         hiddenMealFacts);
@@ -57,7 +50,6 @@ public final class MealMetaData {
 
   public static MealMetaData copy(MealMetaData meal) {
     return new MealMetaData(meal.getName(),
-        meal.getSidedish(),
         meal.getCourseType(),
         meal.getMealFacts(),
         meal.getHiddenMealFacts());
@@ -69,10 +61,6 @@ public final class MealMetaData {
 
   public String getName() {
     return name;
-  }
-
-  public Sidedish getSidedish() {
-    return sidedish;
   }
 
   public CourseType getCourseType() {
@@ -89,9 +77,7 @@ public final class MealMetaData {
 
   @Override
   public String toString() {
-    return "["
-        + name + ", "
-        + sidedish + ", "
+    return "[" + name + ", "
         + courseType + ", "
         + mealFacts + ", "
         + hiddenMealFacts + ", "
@@ -103,7 +89,6 @@ public final class MealMetaData {
     final int prime = 31;
     int result = 1;
     result = prime * result + name.hashCode();
-    result = prime * result + sidedish.hashCode();
     result = prime * result + mealFacts.hashCode();
     result = prime * result + hiddenMealFacts.hashCode();
     return result;
@@ -120,7 +105,6 @@ public final class MealMetaData {
     MealMetaData other = (MealMetaData) obj;
     return name.equals(other.name)
         && courseType == other.courseType
-        && sidedish == other.sidedish
         && mealFacts.equals(other.mealFacts)
         && hiddenMealFacts.equals(other.hiddenMealFacts);
   }

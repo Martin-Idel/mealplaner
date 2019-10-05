@@ -10,27 +10,22 @@ import static mealplaner.model.proposal.ProposedMenu.proposed;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import mealplaner.commons.Pair;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.proposal.ProposedMenu;
-import mealplaner.model.proposal.SideDish;
 import mealplaner.model.settings.Settings;
 import mealplaner.plugins.api.ProposalBuilderStep;
 
 public class ProposalBuilder {
-  private SideDish sideDish;
   private boolean firstDayIsToday;
   private boolean random;
 
@@ -42,18 +37,12 @@ public class ProposalBuilder {
   private final List<ProposedMenu> proposalList;
   private final Collection<ProposalBuilderStep> proposalBuilderSteps;
 
-  public ProposalBuilder(List<Meal> meals, Collection<ProposalBuilderStep> proposalBuilderSteps) {
-    this(meals, new SideDish(), proposalBuilderSteps);
-  }
-
   public ProposalBuilder(
       List<Meal> meals,
-      SideDish sideDish,
       Collection<ProposalBuilderStep> proposalBuilderSteps) {
     this.proposalBuilderSteps = proposalBuilderSteps;
     this.mealData = new HashMap<>();
     meals.forEach(meal -> mealData.put(meal.getId(), meal));
-    this.sideDish = sideDish;
     proposalList = new ArrayList<>();
     this.desertProposal = new DesertProposal(meals, proposalBuilderSteps);
     this.entryProposal = new EntryProposal(meals, proposalBuilderSteps);
@@ -70,7 +59,9 @@ public class ProposalBuilder {
   }
 
   public Proposal propose(Settings[] settings) { // NOPMD
-    setCurrentSideDishFromHistory();
+    for (var step : proposalBuilderSteps) {
+      step.setupProposalStep(mealData);
+    }
     if (!mealData.isEmpty()) {
       for (int today = 0; today < settings.length; today++) {
         makeNextProposal(settings, today);
@@ -107,32 +98,9 @@ public class ProposalBuilder {
         throw new MealException("Internal Error: This should not happen");
     }
     proposalList.add(proposed(entry, main, desert, settings[today].getNumberOfPeople()));
-    updateCurrentSidedish(mealData.get(main));
-  }
-
-  private void setCurrentSideDishFromHistory() {
-    sideDish.reset();
-    Iterator<Meal> mealList = getLastCookedDishes().iterator();
-    if (mealList.hasNext()) {
-      sideDish.current = mealList.next().getSidedish();
-      while (sideDish.inARow < 3 && mealList.hasNext()
-          && mealList.next().getSidedish() == sideDish.current) {
-        sideDish.incrementInARow();
-      }
+    for (var step : proposalBuilderSteps) {
+      step.incrementProposalStepBetweenMeals(mealData.get(main));
     }
-  }
-
-  private List<Meal> getLastCookedDishes() {
-    return mealData.values().stream()
-        .sorted(Comparator.comparing(Meal::getDaysPassed))
-        .limit(3)
-        .collect(Collectors.toList());
-  }
-
-  private void updateCurrentSidedish(Meal nextProposal) {
-    sideDish = (sideDish.current == nextProposal.getSidedish())
-        ? sideDish.incrementInARow()
-        : sideDish.resetToSideDish(nextProposal.getSidedish());
   }
 
   private Optional<Meal> proposeNextMain(
@@ -141,8 +109,7 @@ public class ProposalBuilder {
     var proposalStream = mealData.values().stream()
         .filter(meal -> meal.getCourseType().equals(MAIN))
         .map(meal -> Pair.of(meal, meal.getDaysPassedAsInteger()))
-        .map(pair -> takeProposalIntoAccount(pair, proposalList))
-        .map(pair -> takeSidedishIntoAccount(pair, sideDish));
+        .map(pair -> takeProposalIntoAccount(pair, proposalList));
     for (var proposalStep : proposalBuilderSteps) {
       proposalStream = proposalStep.applyPluginSuggestions(proposalStream, settings);
     }
@@ -161,13 +128,6 @@ public class ProposalBuilder {
         .collect(toList());
     return proposedMeals.contains(pair.left)
         ? Pair.of(pair.left, proposalList.size() - proposedMeals.indexOf(pair.left) - 1)
-        : pair;
-  }
-
-  private Pair<Meal, Integer> takeSidedishIntoAccount(Pair<Meal, Integer> pair,
-      SideDish sideDish) {
-    return (pair.left.getSidedish() == sideDish.current)
-        ? Pair.of(pair.left, (int) (pair.right * (3f - sideDish.inARow) / 2))
         : pair;
   }
 

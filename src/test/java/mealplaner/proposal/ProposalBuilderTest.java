@@ -10,9 +10,6 @@ import static mealplaner.commons.NonnegativeInteger.ZERO;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.meal.MealBuilder.meal;
 import static mealplaner.model.meal.enums.CourseType.MAIN;
-import static mealplaner.model.meal.enums.Sidedish.PASTA;
-import static mealplaner.model.meal.enums.Sidedish.POTATOES;
-import static mealplaner.model.meal.enums.Sidedish.RICE;
 import static mealplaner.model.settings.SettingsBuilder.setting;
 import static mealplaner.model.settings.enums.CourseSettings.ONLY_MAIN;
 import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.LONG;
@@ -27,6 +24,9 @@ import static mealplaner.plugins.plugins.preference.settingextension.PreferenceS
 import static mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings.RARE_NONE;
 import static mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings.RARE_PREFERED;
 import static mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings.VERY_POPULAR_ONLY;
+import static mealplaner.plugins.plugins.sidedish.mealextension.Sidedish.PASTA;
+import static mealplaner.plugins.plugins.sidedish.mealextension.Sidedish.POTATOES;
+import static mealplaner.plugins.plugins.sidedish.mealextension.Sidedish.RICE;
 import static mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil.CASSEROLE;
 import static mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil.PAN;
 import static mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil.POT;
@@ -47,7 +47,6 @@ import mealplaner.commons.Pair;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.proposal.Proposal;
-import mealplaner.model.proposal.SideDish;
 import mealplaner.model.settings.Settings;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.plugins.cookingtime.CookingTimePlugin;
@@ -61,13 +60,11 @@ import mealplaner.plugins.plugins.utensil.ObligatoryUtensilPlugin;
 public class ProposalBuilderTest {
   private List<Meal> meals;
   private ProposalBuilder proposalBuilder;
-  private SideDish sideDish;
   private Settings[] settings;
 
   @Before
   public void setup() {
     meals = new ArrayList<>();
-    sideDish = new SideDish();
     settings = new Settings[1];
   }
 
@@ -84,7 +81,7 @@ public class ProposalBuilderTest {
         .create();
 
     var steps = registerPlugins().getRegisteredProposalBuilderSteps();
-    proposalBuilder = new ProposalBuilder(meals, sideDish, steps);
+    proposalBuilder = new ProposalBuilder(meals, steps);
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertEquals(1, proposal.getProposalList().size());
@@ -104,7 +101,7 @@ public class ProposalBuilderTest {
         .create();
 
     var steps = registerPlugins().getRegisteredProposalBuilderSteps();
-    proposalBuilder = new ProposalBuilder(meals, sideDish, steps);
+    proposalBuilder = new ProposalBuilder(meals, steps);
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertThat(meals.get(2).getId()).isEqualTo(proposal.getItem(0).main);
@@ -123,7 +120,7 @@ public class ProposalBuilderTest {
         .create();
 
     var steps = registerPlugins().getRegisteredProposalBuilderSteps();
-    proposalBuilder = new ProposalBuilder(meals, sideDish, steps);
+    proposalBuilder = new ProposalBuilder(meals, steps);
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertThat(meals.get(3).getId()).isEqualTo(proposal.getItem(0).main);
@@ -142,7 +139,7 @@ public class ProposalBuilderTest {
         .create();
 
     var steps = registerPlugins().getRegisteredProposalBuilderSteps();
-    proposalBuilder = new ProposalBuilder(meals, sideDish, steps);
+    proposalBuilder = new ProposalBuilder(meals, steps);
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertThat(meals.get(2).getId()).isEqualTo(proposal.getItem(0).main);
@@ -161,7 +158,7 @@ public class ProposalBuilderTest {
         .create();
 
     var steps = registerPlugins().getRegisteredProposalBuilderSteps();
-    proposalBuilder = new ProposalBuilder(meals, sideDish, steps);
+    proposalBuilder = new ProposalBuilder(meals, steps);
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertThat(meals.get(1).getId()).isEqualTo(proposal.getItem(0).main);
@@ -180,7 +177,7 @@ public class ProposalBuilderTest {
         .create();
 
     var steps = registerPlugins().getRegisteredProposalBuilderSteps();
-    proposalBuilder = new ProposalBuilder(meals, sideDish, steps);
+    proposalBuilder = new ProposalBuilder(meals, steps);
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertThat(meals.get(4).getId()).isEqualTo(proposal.getItem(0).main);
@@ -200,7 +197,7 @@ public class ProposalBuilderTest {
         .create();
 
     var steps = registerPlugins().getRegisteredProposalBuilderSteps();
-    proposalBuilder = new ProposalBuilder(meals, sideDish, steps);
+    proposalBuilder = new ProposalBuilder(meals, steps);
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertThat(meals.get(4).getId()).isEqualTo(proposal.getItem(0).main);
@@ -227,7 +224,7 @@ public class ProposalBuilderTest {
     cookingPreferencePlugin.registerPlugins(pluginStore);
     var utensilPlugin = new ObligatoryUtensilPlugin();
     utensilPlugin.registerPlugins(pluginStore);
-    proposalBuilder = new ProposalBuilder(meals, sideDish, pluginStore.getRegisteredProposalBuilderSteps());
+    proposalBuilder = new ProposalBuilder(meals, pluginStore.getRegisteredProposalBuilderSteps());
     Proposal proposal = proposalBuilder.propose(settings);
 
     assertThat(meals.get(1).getId()).isEqualTo(proposal.getItem(0).main);
