@@ -8,29 +8,24 @@ import java.util.Map;
 import org.w3c.dom.Element;
 
 import mealplaner.commons.NonnegativeInteger;
-import mealplaner.model.settings.enums.CourseSettings;
 import mealplaner.plugins.api.Setting;
 
 public final class Settings {
   private final NonnegativeInteger numberOfPeople;
-  private final CourseSettings courseSettings;
   private final Map<Class, Setting> subSettings;
   private final List<Element> hiddenSubSettings;
 
   Settings(
       NonnegativeInteger numberOfPeople,
-      CourseSettings courseSettings,
       Map<Class, Setting> settingFacts,
       List<Element> hiddenSubSettings) {
     this.subSettings = settingFacts;
     this.hiddenSubSettings = hiddenSubSettings;
     this.numberOfPeople = numberOfPeople;
-    this.courseSettings = courseSettings;
   }
 
   private Settings(Settings setting) {
     this.numberOfPeople = setting.getNumberOfPeople();
-    this.courseSettings = setting.getCourseSettings();
     this.subSettings = setting.getSubSettings();
     this.hiddenSubSettings = setting.getHiddenSubSettings();
   }
@@ -41,10 +36,6 @@ public final class Settings {
 
   public NonnegativeInteger getNumberOfPeople() {
     return numberOfPeople;
-  }
-
-  public CourseSettings getCourseSettings() {
-    return courseSettings;
   }
 
   public Map<Class, Setting> getSubSettings() {
@@ -71,11 +62,15 @@ public final class Settings {
     return (T) subSettings.get(name);
   }
 
+  public <T extends Setting> T getTypedSubSettingOrDefault(Class<T> name, T defaultObject) {
+    T typedSubSetting = getTypedSubSetting(name);
+    return typedSubSetting != null ? typedSubSetting : defaultObject;
+  }
+
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + courseSettings.hashCode();
     result = prime * result + numberOfPeople.value;
     result = prime * result + subSettings.hashCode();
     result = prime * result + hiddenSubSettings.hashCode();
@@ -91,16 +86,15 @@ public final class Settings {
       return false;
     }
     Settings other = (Settings) obj;
-    return courseSettings.equals(other.courseSettings)
-        && numberOfPeople.equals(other.numberOfPeople)
+    return numberOfPeople.equals(other.numberOfPeople)
         && subSettings.equals(other.subSettings)
         && hiddenSubSettings.equals(other.hiddenSubSettings);
   }
 
   @Override
   public String toString() {
-    return "Settings [courseSettings=" + courseSettings
-        + ", numberOfPeople=" + numberOfPeople
+    return "Settings ["
+        + "numberOfPeople=" + numberOfPeople
         + ", subSettings=" + subSettings
         + ", hiddenSubSettings=" + hiddenSubSettings + "]";
   }

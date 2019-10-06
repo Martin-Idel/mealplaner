@@ -25,6 +25,7 @@ import org.assertj.swing.fixture.JTableFixture;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
+import mealplaner.plugins.builtins.courses.CourseTypeSetting;
 import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime;
 import mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSetting;
 import mealplaner.plugins.plugins.preference.settingextension.CookingPreferenceSetting;
@@ -124,7 +125,7 @@ public class ProposalSummaryPageObject {
     updateComboBox(settingsTable, row(dayNumber).column(firstColumn++),
         setting.getTypedSubSetting(CookingPreferenceSetting.class).getPreferences().toString());
     updateComboBox(settingsTable, row(dayNumber).column(firstColumn),
-        setting.getCourseSettings().toString());
+        setting.getTypedSubSetting(CourseTypeSetting.class).getCourseSetting().toString());
   }
 
   private void updateCheckBox(JTableFixture settingsTable,
@@ -166,7 +167,7 @@ public class ProposalSummaryPageObject {
       content[row][5] = setting.getNumberOfPeople().toString();
       content[row][6] = setting.getTypedSubSetting(CasseroleSubSetting.class).getCasseroleSettings().toString();
       content[row][7] = setting.getTypedSubSetting(CookingPreferenceSetting.class).getPreferences().toString();
-      content[row][8] = setting.getCourseSettings().toString();
+      content[row][8] = setting.getTypedSubSetting(CourseTypeSetting.class).getCourseSetting().toString();
     }
     return content;
   }

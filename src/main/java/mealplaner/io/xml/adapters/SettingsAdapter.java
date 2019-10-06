@@ -22,6 +22,7 @@ import mealplaner.plugins.ModelExtension;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.Setting;
 import mealplaner.plugins.api.SettingXml;
+import mealplaner.plugins.builtins.courses.CourseTypeSetting;
 import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime;
 import mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSetting;
 import mealplaner.plugins.plugins.preference.settingextension.CookingPreferenceSetting;
@@ -42,7 +43,7 @@ public final class SettingsAdapter {
         setting.getNumberOfPeople().value,
         setting.getTypedSubSetting(CasseroleSubSetting.class).getCasseroleSettings(),
         setting.getTypedSubSetting(CookingPreferenceSetting.class).getPreferences(),
-        setting.getCourseSettings());
+        setting.getTypedSubSetting(CourseTypeSetting.class).getCourseSetting());
   }
 
   public static mealplaner.io.xml.model.v3.SettingsXml convertSettingsV3ToXml(Settings setting) {
@@ -56,7 +57,6 @@ public final class SettingsAdapter {
     settings.addAll(setting.getHiddenSubSettings());
     return new mealplaner.io.xml.model.v3.SettingsXml(
         setting.getNumberOfPeople().value,
-        setting.getCourseSettings(),
         settings);
   }
 
@@ -76,7 +76,6 @@ public final class SettingsAdapter {
       mealplaner.io.xml.model.v3.SettingsXml setting, ModelExtension<Setting, SettingXml> knownExtensions) {
     return settingsWithValidation(knownExtensions.getAllRegisteredFacts())
         .numberOfPeople(nonNegative(setting.numberOfPeople))
-        .course(setting.courseSettings)
         .addSettingsMap(FactsAdapter.extractFacts(setting.settings, knownExtensions))
         .addHiddenSubSettings(FactsAdapter.extractUnknownFacts(setting.settings, knownExtensions))
         .create();

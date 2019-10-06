@@ -12,10 +12,11 @@ import org.w3c.dom.Element;
 
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.errorhandling.MealException;
-import mealplaner.model.settings.enums.CourseSettings;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.Fact;
 import mealplaner.plugins.api.Setting;
+import mealplaner.plugins.builtins.courses.CourseSettings;
+import mealplaner.plugins.builtins.courses.CourseTypeSetting;
 import mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSetting;
 import mealplaner.plugins.plugins.preference.settingextension.CookingPreferenceSetting;
 import mealplaner.plugins.plugins.utensil.settingextension.CasseroleSettings;
@@ -24,7 +25,6 @@ import mealplaner.plugins.plugins.utensil.settingextension.CasseroleSubSetting;
 public class SettingsBuilder {
   private Set<Class<? extends Fact>> validationStore;
   private NonnegativeInteger numberOfPeople = TWO;
-  private CourseSettings courseSettings = CourseSettings.ONLY_MAIN;
   private Map<Class, Setting> subSettings = new HashMap<>();
   private List<Element> hiddenSubSettings = new ArrayList<>();
 
@@ -55,7 +55,6 @@ public class SettingsBuilder {
 
   public static SettingsBuilder from(Settings settings) {
     return new SettingsBuilder()
-        .course(settings.getCourseSettings())
         .numberOfPeople(settings.getNumberOfPeople())
         .addSettingsMap(settings.getSubSettings())
         .addHiddenSubSettings(settings.getHiddenSubSettings());
@@ -82,7 +81,7 @@ public class SettingsBuilder {
   }
 
   public SettingsBuilder course(CourseSettings courseSettings) {
-    this.courseSettings = courseSettings;
+    this.subSettings.put(CourseTypeSetting.class, new CourseTypeSetting(courseSettings));
     return this;
   }
 
@@ -105,11 +104,7 @@ public class SettingsBuilder {
     if (validationStore != null) {
       validateFacts();
     }
-    return new Settings(
-        numberOfPeople,
-        courseSettings,
-        subSettings,
-        hiddenSubSettings);
+    return new Settings(numberOfPeople, subSettings, hiddenSubSettings);
   }
 
   private void validateFacts() {

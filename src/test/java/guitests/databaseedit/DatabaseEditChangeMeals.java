@@ -3,7 +3,7 @@
 package guitests.databaseedit;
 
 import static mealplaner.model.meal.MealBuilder.from;
-import static mealplaner.model.meal.enums.CourseType.DESERT;
+import static mealplaner.plugins.builtins.courses.CourseType.DESERT;
 import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.MEDIUM;
 import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.SHORT;
 import static mealplaner.plugins.plugins.sidedish.mealextension.Sidedish.RICE;
@@ -18,6 +18,7 @@ import org.junit.Test;
 import guitests.helpers.AssertJMealplanerTestCase;
 import guitests.pageobjects.MealsEditPageObject;
 import mealplaner.model.meal.Meal;
+import mealplaner.plugins.builtins.courses.CourseTypeFact;
 import mealplaner.plugins.plugins.comment.mealextension.CommentFact;
 import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTimeFact;
 
@@ -41,7 +42,7 @@ public class DatabaseEditChangeMeals extends AssertJMealplanerTestCase {
 
     windowHelpers.getMealsPane()
         .changeCookingTime(0, newMeal.getTypedMealFact(CookingTimeFact.class).getCookingTime())
-        .changeCourseType(0, newMeal.getCourseType())
+        .changeCourseType(0, newMeal.getTypedMealFact(CourseTypeFact.class).getCourseType())
         .changeComment(0, newMeal.getTypedMealFact(CommentFact.class).getComment())
         .enterRecipe(0, newMeal.getRecipe().get())
         .compareDatabaseInTable(meals);

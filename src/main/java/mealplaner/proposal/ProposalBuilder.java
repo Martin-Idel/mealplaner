@@ -4,9 +4,9 @@ package mealplaner.proposal;
 
 import static java.util.Optional.empty;
 import static java.util.stream.Collectors.toList;
-import static mealplaner.model.meal.enums.CourseType.MAIN;
 import static mealplaner.model.proposal.Proposal.from;
 import static mealplaner.model.proposal.ProposedMenu.proposed;
+import static mealplaner.plugins.builtins.courses.CourseSettings.ONLY_MAIN;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,6 +24,7 @@ import mealplaner.model.proposal.Proposal;
 import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.settings.Settings;
 import mealplaner.plugins.api.ProposalBuilderStep;
+import mealplaner.plugins.builtins.courses.CourseTypeSetting;
 
 public class ProposalBuilder {
   private boolean firstDayIsToday;
@@ -75,7 +76,9 @@ public class ProposalBuilder {
     UUID main = mealData.entrySet().iterator().next().getKey();
     Meal defaultMeal = mealData.get(main);
     Optional<UUID> desert = empty();
-    switch (settings[today].getCourseSettings()) {
+    switch (settings[today]
+        .getTypedSubSettingOrDefault(CourseTypeSetting.class, new CourseTypeSetting(ONLY_MAIN))
+        .getCourseSetting()) {
       case ONLY_MAIN:
         main = proposeNextMain(proposalList, settings[today]).orElse(defaultMeal).getId();
         break;
@@ -105,9 +108,7 @@ public class ProposalBuilder {
 
   private Optional<Meal> proposeNextMain(
       final List<ProposedMenu> proposalList, final Settings settings) {
-
     var proposalStream = mealData.values().stream()
-        .filter(meal -> meal.getCourseType().equals(MAIN))
         .map(meal -> Pair.of(meal, meal.getDaysPassedAsInteger()))
         .map(pair -> takeProposalIntoAccount(pair, proposalList));
     for (var proposalStep : proposalBuilderSteps) {
@@ -120,8 +121,8 @@ public class ProposalBuilder {
         .findFirst();
   }
 
-  private Pair<Meal, Integer> takeProposalIntoAccount(Pair<Meal, Integer> pair,
-      List<ProposedMenu> proposalList) {
+  private Pair<Meal, Integer> takeProposalIntoAccount(
+      Pair<Meal, Integer> pair, List<ProposedMenu> proposalList) {
     List<Meal> proposedMeals = proposalList.stream()
         .filter(menu -> mealData.containsKey(menu.main))
         .map(menu -> mealData.get(menu.main))

@@ -19,6 +19,7 @@ import mealplaner.model.meal.Meal;
 import mealplaner.model.meal.MealBuilder;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.MealFact;
+import mealplaner.plugins.builtins.courses.CourseTypeFact;
 import mealplaner.plugins.plugins.comment.mealextension.CommentFact;
 import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTimeFact;
 import mealplaner.plugins.plugins.preference.mealextension.CookingPreferenceFact;
@@ -37,7 +38,7 @@ public final class MealAdapter {
         meal.getTypedMealFact(SidedishFact.class).getSidedish(),
         meal.getTypedMealFact(ObligatoryUtensilFact.class).getObligatoryUtensil(),
         meal.getTypedMealFact(CookingPreferenceFact.class).getCookingPreference(),
-        meal.getCourseType(),
+        meal.getTypedMealFact(CourseTypeFact.class).getCourseType(),
         meal.getDaysPassed(),
         meal.getTypedMealFact(CommentFact.class).getComment(),
         convertRecipeV2ToXml(meal.getRecipe()));
@@ -55,7 +56,6 @@ public final class MealAdapter {
     return new mealplaner.io.xml.model.v3.MealXml(
         meal.getId(),
         meal.getName(),
-        meal.getCourseType(),
         meal.getDaysPassed(),
         mealFacts,
         convertRecipeV3ToXml(meal.getRecipe()));
@@ -81,7 +81,6 @@ public final class MealAdapter {
     return MealBuilder.mealWithValidator(plugins)
         .id(meal.uuid)
         .name(meal.name)
-        .courseType(meal.courseType)
         .daysPassed(nonNegative(meal.daysPassed))
         .optionalRecipe(convertRecipeV3FromXml(data, meal.recipe))
         .addMealMap(extractFacts(meal.mealFacts, plugins.getRegisteredMealExtensions()))

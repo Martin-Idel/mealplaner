@@ -18,10 +18,11 @@ import org.assertj.swing.fixture.JTableFixture;
 
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.model.meal.Meal;
-import mealplaner.model.meal.enums.CourseType;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
+import mealplaner.plugins.builtins.courses.CourseType;
+import mealplaner.plugins.builtins.courses.CourseTypeFact;
 import mealplaner.plugins.plugins.comment.mealextension.CommentFact;
 import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime;
 import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTimeFact;
@@ -195,7 +196,7 @@ public class MealsEditPageObject {
     mealInputDialog.comboBox("InputFieldComboBoxCookingPreference")
         .selectItem(meal.getTypedMealFact(CookingPreferenceFact.class).getCookingPreference().toString());
     mealInputDialog.comboBox("InputFieldComboBoxCourseType")
-        .selectItem(meal.getCourseType().toString());
+        .selectItem(meal.getTypedMealFact(CourseTypeFact.class).getCourseType().toString());
     mealInputDialog.textBox("InputFieldTextComment")
         .enterText(meal.getTypedMealFact(CommentFact.class).getComment());
     if (meal.getRecipe().isPresent()) {
@@ -274,7 +275,7 @@ public class MealsEditPageObject {
       content[i][3] = meal.getTypedMealFact(ObligatoryUtensilFact.class).getObligatoryUtensil().toString();
       content[i][4] = meal.getDaysPassed().toString();
       content[i][5] = meal.getTypedMealFact(CookingPreferenceFact.class).getCookingPreference().toString();
-      content[i][6] = meal.getCourseType().toString();
+      content[i][6] = meal.getTypedMealFact(CourseTypeFact.class).getCourseType().toString();
       content[i][7] = meal.getTypedMealFact(CommentFact.class).getComment();
       content[i][8] = meal.getRecipe().isPresent()
           ? BUNDLES.message("editRecipeButtonLabel")

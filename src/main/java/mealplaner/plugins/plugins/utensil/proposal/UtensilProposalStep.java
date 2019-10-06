@@ -33,9 +33,9 @@ public class UtensilProposalStep implements ProposalBuilderStep {
 
   private static CookingUtensilSetting createCookingUtensilSettings(Settings settings) {
     var casseroleSettings = CookingUtensilSetting.createCookingUtensilSettings();
+    casseroleSettings.setNumberOfPeople(settings.getNumberOfPeople());
     casseroleSettings.setCasseroleSettings(
         settings.getTypedSubSetting(CasseroleSubSetting.class).getCasseroleSettings());
-    casseroleSettings.setNumberOfPeople(settings.getNumberOfPeople());
     return casseroleSettings;
   }
 

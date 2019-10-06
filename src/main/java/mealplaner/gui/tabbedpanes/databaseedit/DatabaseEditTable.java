@@ -5,7 +5,6 @@ package mealplaner.gui.tabbedpanes.databaseedit;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.tables.FlexibleTableBuilder.createNewTable;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
-import static mealplaner.commons.gui.tables.TableColumnBuilder.withEnumContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withNonnegativeIntegerContent;
 import static mealplaner.model.meal.MealBuilder.from;
 
@@ -18,7 +17,6 @@ import mealplaner.commons.gui.buttonpanel.ButtonPanelEnabling;
 import mealplaner.commons.gui.editing.NonemptyTextCellEditor;
 import mealplaner.commons.gui.tables.Table;
 import mealplaner.model.meal.Meal;
-import mealplaner.model.meal.enums.CourseType;
 import mealplaner.model.recipes.Recipe;
 import mealplaner.plugins.api.MealEditExtension;
 
@@ -50,14 +48,6 @@ final class DatabaseEditTable {
             .isEditable()
             .onChange(buttonPanel::enableButtons)
             .buildWithOrderNumber(40))
-        .addColumn(withEnumContent(CourseType.class)
-            .withColumnName(BUNDLES.message("courseTypeColumn"))
-            .setValueToOrderedImmutableList(meals,
-                (meal, courseType) -> from(meal).courseType(courseType).create())
-            .getValueFromOrderedList(meals, Meal::getCourseType)
-            .isEditable()
-            .onChange(buttonPanel::enableButtons)
-            .buildWithOrderNumber(70))
         .addColumn(withContent(String.class)
             .withColumnName(BUNDLES.message("recipeEditColum"))
             .getRowValueFromUnderlyingModel(

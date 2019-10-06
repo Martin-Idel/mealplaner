@@ -16,11 +16,12 @@ import org.w3c.dom.Element;
 
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.errorhandling.MealException;
-import mealplaner.model.meal.enums.CourseType;
 import mealplaner.model.recipes.Recipe;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.Fact;
 import mealplaner.plugins.api.MealFact;
+import mealplaner.plugins.builtins.courses.CourseType;
+import mealplaner.plugins.builtins.courses.CourseTypeFact;
 import mealplaner.plugins.plugins.comment.mealextension.CommentFact;
 import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime;
 import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTimeFact;
@@ -36,8 +37,6 @@ public final class MealBuilder {
 
   private UUID uuid = UUID.randomUUID();
   private String name = "";
-
-  private CourseType courseType = CourseType.MAIN;
   private NonnegativeInteger daysPassed = ZERO;
   private Optional<Recipe> recipe = Optional.empty();
 
@@ -64,7 +63,6 @@ public final class MealBuilder {
     return new MealBuilder()
         .id(meal.getId())
         .name(meal.getName())
-        .courseType(meal.getCourseType())
         .daysPassed(meal.getDaysPassed())
         .optionalRecipe(meal.getRecipe())
         .addMealMap(meal.getMealFacts())
@@ -102,7 +100,7 @@ public final class MealBuilder {
   }
 
   public MealBuilder courseType(CourseType courseType) {
-    this.courseType = courseType;
+    this.mealFactMap.put(CourseTypeFact.class, new CourseTypeFact(courseType));
     return this;
   }
 
@@ -152,7 +150,6 @@ public final class MealBuilder {
     }
     return Meal.createMeal(uuid,
         MealMetaData.createMealMetaData(name,
-            courseType,
             mealFactMap,
             hiddenMealFacts),
         daysPassed,

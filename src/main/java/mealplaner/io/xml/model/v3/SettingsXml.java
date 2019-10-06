@@ -10,26 +10,21 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import mealplaner.model.settings.enums.CourseSettings;
-
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SettingsXml {
-  public final CourseSettings courseSettings;
   public final int numberOfPeople;
   @XmlAnyElement(lax = true)
   public final List<Object> settings;
 
   public SettingsXml() {
-    this(1, CourseSettings.ONLY_MAIN, new ArrayList<>());
+    this(1, new ArrayList<>());
   }
 
   public SettingsXml(
       int numberOfPeople,
-      CourseSettings courseSettings,
       List<Object> settings) {
     this.numberOfPeople = numberOfPeople;
-    this.courseSettings = courseSettings;
     this.settings = settings;
   }
 }

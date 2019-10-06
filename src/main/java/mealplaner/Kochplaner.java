@@ -12,8 +12,10 @@ import mealplaner.gui.factories.DialogFactory;
 import mealplaner.io.FileIoGui;
 import mealplaner.model.MealplanerData;
 import mealplaner.plugins.PluginStore;
+import mealplaner.plugins.builtins.courses.BuiltinCoursesPlugin;
 import mealplaner.plugins.plugins.comment.mealextension.CommentPlugin;
 import mealplaner.plugins.plugins.cookingtime.CookingTimePlugin;
+import mealplaner.plugins.plugins.courses.CoursesPlugin;
 import mealplaner.plugins.plugins.preference.CookingPreferencePlugin;
 import mealplaner.plugins.plugins.sidedish.SideDishPlugin;
 import mealplaner.plugins.plugins.utensil.ObligatoryUtensilPlugin;
@@ -42,6 +44,10 @@ public final class Kochplaner {
 
   public static PluginStore registerPlugins() {
     PluginStore pluginStore = new PluginStore();
+    var coursesBuiltin = new BuiltinCoursesPlugin();
+    coursesBuiltin.registerPlugins(pluginStore);
+    var coursesPlugin = new CoursesPlugin();
+    coursesPlugin.registerPlugins(pluginStore);
     var cookingTimePlugin = new CookingTimePlugin();
     cookingTimePlugin.registerPlugins(pluginStore);
     var cookingPreferencePlugin = new CookingPreferencePlugin();

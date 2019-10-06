@@ -4,7 +4,7 @@ package mealplaner.model.meal;
 
 import static mealplaner.commons.NonnegativeInteger.FIVE;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
-import static mealplaner.model.meal.enums.CourseType.MAIN;
+import static mealplaner.plugins.builtins.courses.CourseType.MAIN;
 import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.SHORT;
 import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.NO_PREFERENCE;
 import static mealplaner.plugins.plugins.sidedish.mealextension.Sidedish.PASTA;

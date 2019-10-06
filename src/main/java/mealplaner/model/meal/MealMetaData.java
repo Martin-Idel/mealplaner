@@ -10,47 +10,39 @@ import java.util.Map;
 import org.w3c.dom.Element;
 
 import mealplaner.commons.errorhandling.MealException;
-import mealplaner.model.meal.enums.CourseType;
 import mealplaner.plugins.api.MealFact;
 
 public final class MealMetaData {
   private static final MealMetaData EMPTY_METADATA = new MealMetaData(
       "EMPTY",
-      CourseType.MAIN,
       new HashMap<>(),
       new ArrayList<>());
 
   private String name;
-  private final CourseType courseType;
   private final Map<Class, MealFact> mealFacts;
   private final List<Element> hiddenMealFacts;
 
   private MealMetaData(
       String name,
-      CourseType courseType,
       Map<Class, MealFact> mealFacts,
       List<Element> hiddenMealFacts)
       throws MealException {
     setName(name);
-    this.courseType = courseType;
     this.mealFacts = mealFacts;
     this.hiddenMealFacts = hiddenMealFacts;
   }
 
   public static MealMetaData createMealMetaData(
       String name,
-      CourseType courseType,
       Map<Class, MealFact> mealFacts,
       List<Element> hiddenMealFacts) throws MealException {
     return new MealMetaData(name,
-        courseType,
         mealFacts,
         hiddenMealFacts);
   }
 
   public static MealMetaData copy(MealMetaData meal) {
     return new MealMetaData(meal.getName(),
-        meal.getCourseType(),
         meal.getMealFacts(),
         meal.getHiddenMealFacts());
   }
@@ -63,10 +55,6 @@ public final class MealMetaData {
     return name;
   }
 
-  public CourseType getCourseType() {
-    return courseType;
-  }
-
   public Map<Class, MealFact> getMealFacts() {
     return mealFacts;
   }
@@ -77,11 +65,7 @@ public final class MealMetaData {
 
   @Override
   public String toString() {
-    return "[" + name + ", "
-        + courseType + ", "
-        + mealFacts + ", "
-        + hiddenMealFacts + ", "
-        + "]";
+    return "[" + name + ", " + mealFacts + ", " + hiddenMealFacts + "]";
   }
 
   @Override
@@ -104,7 +88,6 @@ public final class MealMetaData {
     }
     MealMetaData other = (MealMetaData) obj;
     return name.equals(other.name)
-        && courseType == other.courseType
         && mealFacts.equals(other.mealFacts)
         && hiddenMealFacts.equals(other.hiddenMealFacts);
   }

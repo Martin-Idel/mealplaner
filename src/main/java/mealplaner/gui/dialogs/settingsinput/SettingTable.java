@@ -9,7 +9,6 @@ import static java.time.format.TextStyle.FULL;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.tables.FlexibleTableBuilder.createNewTable;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
-import static mealplaner.commons.gui.tables.TableColumnBuilder.withEnumContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withNonnegativeIntegerContent;
 import static mealplaner.model.settings.SettingsBuilder.from;
 
@@ -25,7 +24,6 @@ import mealplaner.commons.gui.tables.FlexibleTableBuilder;
 import mealplaner.commons.gui.tables.Table;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
-import mealplaner.model.settings.enums.CourseSettings;
 import mealplaner.plugins.api.SettingsInputDialogExtension;
 
 class SettingTable {
@@ -87,17 +85,9 @@ class SettingTable {
             .withColumnName(BUNDLES.message("manyColumn"))
             .getValueFromOrderedList(settings, Settings::getNumberOfPeople)
             .setValueToOrderedImmutableList(settings,
-                (setting, numberOfPoeple) -> from(setting).numberOfPeople(numberOfPoeple).create())
+                (setting, numberOfPeople) -> from(setting).numberOfPeople(numberOfPeople).create())
             .isEditable()
-            .buildWithOrderNumber(20))
-        .addColumn(withEnumContent(CourseSettings.class)
-            .withColumnName(BUNDLES.message("courseSettingColumn"))
-            .getValueFromOrderedList(settings, Settings::getCourseSettings)
-            .setValueToOrderedImmutableList(settings,
-                (setting, course) -> from(setting).course(course).create())
-            .isEditable()
-            .setPreferredSize(120)
-            .buildWithOrderNumber(50));
+            .buildWithOrderNumber(20));
   }
 
   private void addDayOfWeekColumn(FlexibleTableBuilder tableBuilder) {

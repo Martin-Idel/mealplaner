@@ -20,7 +20,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import mealplaner.Kochplaner;
-import mealplaner.model.settings.enums.CourseSettings;
+import mealplaner.plugins.builtins.courses.CourseSettings;
 import mealplaner.plugins.plugins.preference.settingextension.CookingPreferenceSetting;
 
 public class DefaultSettingsTest {
