@@ -63,8 +63,8 @@ public class DatabaseEditAddMealsTest extends AssertJMealplanerTestCase {
 
   private static Meal getMealWithNewIngredient() {
     List<QuantitativeIngredient> recipeMap = new ArrayList<>();
-    recipeMap.add(createQuantitativeIngredient(getIngredient1(), fraction(10, 3)));
-    recipeMap.add(createQuantitativeIngredient(getIngredient4(), fraction(2, 4)));
+    recipeMap.add(createQuantitativeIngredient(getIngredient1(), fraction(3, 1)));
+    recipeMap.add(createQuantitativeIngredient(getIngredient4(), fraction(2, 1)));
     Recipe recipe = Recipe.from(nonNegative(1), recipeMap);
     return from(getMeal2()).recipe(recipe).create();
   }
