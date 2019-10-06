@@ -16,6 +16,7 @@ import static testcommons.CommonFunctions.getIngredient3;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import guitests.helpers.AssertJMealplanerTestCase;
@@ -31,6 +32,7 @@ public class IngredientsEditDatabase extends AssertJMealplanerTestCase {
         "src/test/resources/ingredientsXmlV2.xml");
   }
 
+  @Ignore
   @Test
   public void canChangeAllAspectOfAnIngredient() {
     var newIngredient = ingredient()
