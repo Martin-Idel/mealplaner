@@ -30,22 +30,22 @@ public class SettingsCookingTimeSetting implements SettingsInputDialogExtension 
     tableBuilder.addColumn(withBooleanContent()
         .withColumnName(columnName)
         .getValueFromOrderedList(settings,
-            setting -> !setting.getTypedSubSetting(CookingTimeSetting.class).contains(time))
+            setting -> !setting.getTypedSubSetting(CookingTimeSubSetting.class).contains(time))
         .setValueToOrderedImmutableList(settings,
             (element, value) -> from(element).time(changeStateOf(time, value,
-                element.getTypedSubSetting(CookingTimeSetting.class))).create())
+                element.getTypedSubSetting(CookingTimeSubSetting.class))).create())
         .isEditable()
         .setPreferredSize(50)
         .buildWithOrderNumber(orderNumber));
   }
 
-  private CookingTimeSetting changeStateOf(
+  private CookingTimeSubSetting changeStateOf(
       CookingTime cookingTime, Object value,
-      CookingTimeSetting cookingTimeSetting) {
+      CookingTimeSubSetting cookingTimeSubSetting) {
     if ((Boolean) value) {
-      return cookingTimeSetting.allowCookingTime(cookingTime);
+      return cookingTimeSubSetting.allowCookingTime(cookingTime);
     } else {
-      return cookingTimeSetting.prohibitCookingTime(cookingTime);
+      return cookingTimeSubSetting.prohibitCookingTime(cookingTime);
     }
   }
 }

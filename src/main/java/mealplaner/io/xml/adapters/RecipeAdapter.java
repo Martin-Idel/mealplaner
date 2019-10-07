@@ -64,7 +64,8 @@ final class RecipeAdapter {
         .collect(toMap(Ingredient::getId, identity()));
     for (UUID id : recipe.uuid.keySet()) {
       if (ingredients.get(id) == null) {
-        throw new MealException("Save file corrupted. Ingredient was not present in list.");
+        throw new MealException("Save file corrupted. Ingredient with id " + id.toString()
+            + " was not present in list.");
       }
     }
     List<QuantitativeIngredient> quantitativeIngredients = recipe.uuid

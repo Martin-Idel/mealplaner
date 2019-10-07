@@ -17,8 +17,8 @@ import mealplaner.plugins.api.Fact;
 import mealplaner.plugins.api.Setting;
 import mealplaner.plugins.builtins.courses.CourseSettings;
 import mealplaner.plugins.builtins.courses.CourseTypeSetting;
-import mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSetting;
-import mealplaner.plugins.plugins.preference.settingextension.CookingPreferenceSetting;
+import mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSubSetting;
+import mealplaner.plugins.plugins.preference.settingextension.CookingPreferenceSubSetting;
 import mealplaner.plugins.plugins.utensil.settingextension.CasseroleSettings;
 import mealplaner.plugins.plugins.utensil.settingextension.CasseroleSubSetting;
 
@@ -65,13 +65,13 @@ public class SettingsBuilder {
     return this;
   }
 
-  public SettingsBuilder preference(CookingPreferenceSetting preference) {
-    this.subSettings.put(CookingPreferenceSetting.class, preference);
+  public SettingsBuilder preference(CookingPreferenceSubSetting preference) {
+    this.subSettings.put(CookingPreferenceSubSetting.class, preference);
     return this;
   }
 
-  public SettingsBuilder time(CookingTimeSetting cookingTime) {
-    this.subSettings.put(CookingTimeSetting.class, cookingTime);
+  public SettingsBuilder time(CookingTimeSubSetting cookingTime) {
+    this.subSettings.put(CookingTimeSubSetting.class, cookingTime);
     return this;
   }
 

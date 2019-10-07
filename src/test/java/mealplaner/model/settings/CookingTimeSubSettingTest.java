@@ -16,17 +16,17 @@ import org.junit.Test;
 
 import mealplaner.model.meal.Meal;
 import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime;
-import mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSetting;
+import mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSubSetting;
 
-public class CookingTimeSettingTest {
+public class CookingTimeSubSettingTest {
 
   private Set<CookingTime> prohibitedTime;
-  private CookingTimeSetting cookingTimeSetting;
+  private CookingTimeSubSetting cookingTimeSubSetting;
 
   @Before
   public void setup() {
     prohibitedTime = new HashSet<>();
-    cookingTimeSetting = new CookingTimeSetting(prohibitedTime);
+    cookingTimeSubSetting = new CookingTimeSubSetting(prohibitedTime);
   }
 
   @Test
@@ -34,7 +34,7 @@ public class CookingTimeSettingTest {
     Meal mealLong = meal().name("test").cookingTime(LONG).create();
     Meal mealShort = meal().name("test").cookingTime(SHORT).create();
 
-    var newCookingTimeSetting = cookingTimeSetting.prohibitCookingTime(SHORT);
+    var newCookingTimeSetting = cookingTimeSubSetting.prohibitCookingTime(SHORT);
 
     assertTrue(newCookingTimeSetting.prohibits(mealShort));
     assertFalse(newCookingTimeSetting.prohibits(mealLong));
@@ -42,7 +42,7 @@ public class CookingTimeSettingTest {
 
   @Test
   public void isTimeProhibited() {
-    var newCookingTimeSetting = cookingTimeSetting.prohibitCookingTime(CookingTime.MEDIUM);
+    var newCookingTimeSetting = cookingTimeSubSetting.prohibitCookingTime(CookingTime.MEDIUM);
 
     assertTrue(newCookingTimeSetting.isTimeProhibited(CookingTime.MEDIUM));
     assertFalse(newCookingTimeSetting.isTimeProhibited(CookingTime.SHORT));

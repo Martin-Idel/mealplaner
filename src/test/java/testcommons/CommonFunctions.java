@@ -34,7 +34,7 @@ import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.L
 import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.MEDIUM;
 import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.SHORT;
 import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.VERY_SHORT;
-import static mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSetting.cookingTimeWithProhibited;
+import static mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSubSetting.cookingTimeWithProhibited;
 import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.NO_PREFERENCE;
 import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.RARE;
 import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.VERY_POPULAR;
@@ -63,7 +63,7 @@ import mealplaner.model.recipes.Measure;
 import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 import mealplaner.model.settings.Settings;
-import mealplaner.plugins.plugins.preference.settingextension.CookingPreferenceSetting;
+import mealplaner.plugins.plugins.preference.settingextension.CookingPreferenceSubSetting;
 import mealplaner.plugins.plugins.sidedish.mealextension.Sidedish;
 import mealplaner.plugins.plugins.utensil.settingextension.CasseroleSettings;
 
@@ -229,7 +229,7 @@ public final class CommonFunctions {
         .time(cookingTimeWithProhibited(VERY_SHORT))
         .numberOfPeople(THREE)
         .casserole(CasseroleSettings.NONE)
-        .preference(new CookingPreferenceSetting(RARE_PREFERED))
+        .preference(new CookingPreferenceSubSetting(RARE_PREFERED))
         .course(ONLY_MAIN)
         .create();
   }
@@ -239,7 +239,7 @@ public final class CommonFunctions {
         .time(cookingTimeWithProhibited(SHORT))
         .numberOfPeople(FOUR)
         .casserole(POSSIBLE)
-        .preference(new CookingPreferenceSetting(RARE_PREFERED))
+        .preference(new CookingPreferenceSubSetting(RARE_PREFERED))
         .course(ONLY_MAIN)
         .create();
   }
@@ -249,7 +249,7 @@ public final class CommonFunctions {
         .time(cookingTimeWithProhibited())
         .numberOfPeople(THREE)
         .casserole(CasseroleSettings.NONE)
-        .preference(new CookingPreferenceSetting(RARE_PREFERED))
+        .preference(new CookingPreferenceSubSetting(RARE_PREFERED))
         .course(MAIN_DESERT)
         .create();
   }
@@ -259,7 +259,7 @@ public final class CommonFunctions {
         .time(cookingTimeWithProhibited())
         .numberOfPeople(THREE)
         .casserole(CasseroleSettings.NONE)
-        .preference(new CookingPreferenceSetting(RARE_PREFERED))
+        .preference(new CookingPreferenceSubSetting(RARE_PREFERED))
         .course(MAIN_DESERT)
         .create();
   }

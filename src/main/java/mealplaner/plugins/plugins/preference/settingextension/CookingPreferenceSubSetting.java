@@ -15,14 +15,14 @@ import mealplaner.plugins.api.SettingXml;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CookingPreferenceSetting implements Setting, SettingXml {
+public class CookingPreferenceSubSetting implements Setting, SettingXml {
   private final PreferenceSettings preferences;
 
-  public CookingPreferenceSetting() {
+  public CookingPreferenceSubSetting() {
     this.preferences = NORMAL;
   }
 
-  public CookingPreferenceSetting(PreferenceSettings preferences) {
+  public CookingPreferenceSubSetting(PreferenceSettings preferences) {
     this.preferences = preferences;
   }
 
@@ -53,7 +53,7 @@ public class CookingPreferenceSetting implements Setting, SettingXml {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    CookingPreferenceSetting that = (CookingPreferenceSetting) o;
+    CookingPreferenceSubSetting that = (CookingPreferenceSubSetting) o;
     return preferences == that.preferences;
   }
 

@@ -10,7 +10,7 @@ import mealplaner.model.meal.Meal;
 import mealplaner.model.settings.Settings;
 import mealplaner.plugins.api.ProposalBuilderStep;
 import mealplaner.plugins.plugins.preference.mealextension.CookingPreference;
-import mealplaner.plugins.plugins.preference.settingextension.CookingPreferenceSetting;
+import mealplaner.plugins.plugins.preference.settingextension.CookingPreferenceSubSetting;
 import mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings;
 
 public class CookingPreferenceProposalStep implements ProposalBuilderStep {
@@ -24,23 +24,23 @@ public class CookingPreferenceProposalStep implements ProposalBuilderStep {
   @Override
   public Stream<Pair<Meal, Integer>> applyPluginSuggestions(Stream<Pair<Meal, Integer>> meals, Settings settings) {
     var cookingPreferenceSettings = createCookingPreferenceSettings()
-        .setCookingPreferences(settings.getTypedSubSetting(CookingPreferenceSetting.class).getPreferences());
+        .setCookingPreferences(settings.getTypedSubSetting(CookingPreferenceSubSetting.class).getPreferences());
     return meals.filter(meal -> !cookingPreferenceSettings.prohibits(meal.left))
         .map(pair -> preferenceMultiplier.multiplyPrefs(
-            pair, settings.getTypedSubSetting(CookingPreferenceSetting.class).getPreferences()));
+            pair, settings.getTypedSubSetting(CookingPreferenceSubSetting.class).getPreferences()));
   }
 
   @Override
   public Stream<Pair<Meal, Integer>> applyPluginSuggestionsToEntries(
       Stream<Pair<Meal, Integer>> meals, Settings settings, Meal main) {
     return meals.map(pair -> preferenceMultiplier.multiplyPrefs(
-        pair, settings.getTypedSubSetting(CookingPreferenceSetting.class).getPreferences()));
+        pair, settings.getTypedSubSetting(CookingPreferenceSubSetting.class).getPreferences()));
   }
 
   @Override
   public Stream<Pair<Meal, Integer>> applyPluginSuggestionsToDeserts(
       Stream<Pair<Meal, Integer>> meals, Settings settings, Meal main) {
     return meals.map(pair -> preferenceMultiplier.multiplyPrefs(
-        pair, settings.getTypedSubSetting(CookingPreferenceSetting.class).getPreferences()));
+        pair, settings.getTypedSubSetting(CookingPreferenceSubSetting.class).getPreferences()));
   }
 }

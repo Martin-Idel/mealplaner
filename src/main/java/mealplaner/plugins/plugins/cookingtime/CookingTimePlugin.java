@@ -11,8 +11,8 @@ import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTimeFact;
 import mealplaner.plugins.plugins.cookingtime.mealextension.MealEditCookingTime;
 import mealplaner.plugins.plugins.cookingtime.mealextension.MealInputCookingTime;
 import mealplaner.plugins.plugins.cookingtime.proposal.CookingTimeProposalStep;
-import mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSetting;
-import mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSettingXml;
+import mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSubSetting;
+import mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSubSettingXml;
 import mealplaner.plugins.plugins.cookingtime.settingextension.SettingsCookingTimeSetting;
 
 public class CookingTimePlugin implements PluginDescription {
@@ -21,7 +21,7 @@ public class CookingTimePlugin implements PluginDescription {
     pluginStore.registerMealExtension(
         CookingTimeFact.class, CookingTimeFact.class, () -> new CookingTimeFact(MEDIUM));
     pluginStore.registerSettingExtension(
-        CookingTimeSetting.class, CookingTimeSettingXml.class, CookingTimeSetting::defaultCookingTime);
+        CookingTimeSubSetting.class, CookingTimeSubSettingXml.class, CookingTimeSubSetting::defaultCookingTime);
     pluginStore.registerMealGuiExtension(new MealInputCookingTime(), new MealEditCookingTime());
     pluginStore.registerProposalExtension(new SettingsCookingTimeSetting(), new CookingTimeProposalStep());
   }

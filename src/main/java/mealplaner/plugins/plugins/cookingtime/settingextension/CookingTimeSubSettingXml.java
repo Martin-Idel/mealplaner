@@ -1,6 +1,6 @@
 package mealplaner.plugins.plugins.cookingtime.settingextension;
 
-import static mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSetting.cookingTimeWithProhibited;
+import static mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSubSetting.cookingTimeWithProhibited;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,16 +17,16 @@ import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CookingTimeSettingXml implements SettingXml {
+public class CookingTimeSubSettingXml implements SettingXml {
   @XmlElementWrapper(name = "cookingTimes")
   @XmlElement(name = "cookingTime")
   public final List<CookingTime> cookingTimes;
 
-  public CookingTimeSettingXml() {
+  public CookingTimeSubSettingXml() {
     cookingTimes = new ArrayList<>();
   }
 
-  public CookingTimeSettingXml(List<CookingTime> cookingTimes) {
+  public CookingTimeSubSettingXml(List<CookingTime> cookingTimes) {
     this.cookingTimes = cookingTimes;
   }
 

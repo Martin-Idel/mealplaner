@@ -27,8 +27,8 @@ import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
 import mealplaner.plugins.builtins.courses.CourseTypeSetting;
 import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime;
-import mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSetting;
-import mealplaner.plugins.plugins.preference.settingextension.CookingPreferenceSetting;
+import mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSubSetting;
+import mealplaner.plugins.plugins.preference.settingextension.CookingPreferenceSubSetting;
 import mealplaner.plugins.plugins.utensil.settingextension.CasseroleSubSetting;
 
 public class ProposalSummaryPageObject {
@@ -113,7 +113,7 @@ public class ProposalSummaryPageObject {
   private void enterSettingInDialog(JTableFixture settingsTable, Settings setting, int dayNumber,
                                     boolean proposal) {
     int firstColumn = proposal ? 2 : 1;
-    CookingTimeSetting timeSetting = setting.getTypedSubSetting(CookingTimeSetting.class);
+    CookingTimeSubSetting timeSetting = setting.getTypedSubSetting(CookingTimeSubSetting.class);
     updateCheckBox(settingsTable, row(dayNumber).column(firstColumn++), timeSetting, VERY_SHORT);
     updateCheckBox(settingsTable, row(dayNumber).column(firstColumn++), timeSetting, SHORT);
     updateCheckBox(settingsTable, row(dayNumber).column(firstColumn++), timeSetting, MEDIUM);
@@ -123,14 +123,14 @@ public class ProposalSummaryPageObject {
     updateComboBox(settingsTable, row(dayNumber).column(firstColumn++),
         setting.getTypedSubSetting(CasseroleSubSetting.class).getCasseroleSettings().toString());
     updateComboBox(settingsTable, row(dayNumber).column(firstColumn++),
-        setting.getTypedSubSetting(CookingPreferenceSetting.class).getPreferences().toString());
+        setting.getTypedSubSetting(CookingPreferenceSubSetting.class).getPreferences().toString());
     updateComboBox(settingsTable, row(dayNumber).column(firstColumn),
         setting.getTypedSubSetting(CourseTypeSetting.class).getCourseSetting().toString());
   }
 
   private void updateCheckBox(JTableFixture settingsTable,
                               TableCell checkbox,
-                              CookingTimeSetting cookingTime,
+                              CookingTimeSubSetting cookingTime,
                               CookingTime time) {
     if (checkBoxNeedsUpdate(settingsTable, checkbox, cookingTime, time)) {
       settingsTable.click(checkbox, LEFT_BUTTON);
@@ -147,7 +147,7 @@ public class ProposalSummaryPageObject {
 
   private boolean checkBoxNeedsUpdate(JTableFixture settingsTable,
                                       TableCell checkbox,
-                                      CookingTimeSetting cookingTime,
+                                      CookingTimeSubSetting cookingTime,
                                       CookingTime time) {
     return cookingTime.contains(time) == settingsTable.valueAt(checkbox)
         .equals(Boolean.toString(true));
@@ -160,13 +160,13 @@ public class ProposalSummaryPageObject {
       Settings setting = settings.get(day);
       int row = day.getValue() - 1;
       content[row][0] = day.getDisplayName(FULL, BUNDLES.locale());
-      content[row][1] = Boolean.toString(!setting.getTypedSubSetting(CookingTimeSetting.class).contains(VERY_SHORT));
-      content[row][2] = Boolean.toString(!setting.getTypedSubSetting(CookingTimeSetting.class).contains(SHORT));
-      content[row][3] = Boolean.toString(!setting.getTypedSubSetting(CookingTimeSetting.class).contains(MEDIUM));
-      content[row][4] = Boolean.toString(!setting.getTypedSubSetting(CookingTimeSetting.class).contains(LONG));
+      content[row][1] = Boolean.toString(!setting.getTypedSubSetting(CookingTimeSubSetting.class).contains(VERY_SHORT));
+      content[row][2] = Boolean.toString(!setting.getTypedSubSetting(CookingTimeSubSetting.class).contains(SHORT));
+      content[row][3] = Boolean.toString(!setting.getTypedSubSetting(CookingTimeSubSetting.class).contains(MEDIUM));
+      content[row][4] = Boolean.toString(!setting.getTypedSubSetting(CookingTimeSubSetting.class).contains(LONG));
       content[row][5] = setting.getNumberOfPeople().toString();
       content[row][6] = setting.getTypedSubSetting(CasseroleSubSetting.class).getCasseroleSettings().toString();
-      content[row][7] = setting.getTypedSubSetting(CookingPreferenceSetting.class).getPreferences().toString();
+      content[row][7] = setting.getTypedSubSetting(CookingPreferenceSubSetting.class).getPreferences().toString();
       content[row][8] = setting.getTypedSubSetting(CourseTypeSetting.class).getCourseSetting().toString();
     }
     return content;

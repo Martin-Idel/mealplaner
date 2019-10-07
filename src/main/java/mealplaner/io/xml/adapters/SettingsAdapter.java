@@ -24,8 +24,8 @@ import mealplaner.plugins.api.Setting;
 import mealplaner.plugins.api.SettingXml;
 import mealplaner.plugins.builtins.courses.CourseTypeSetting;
 import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime;
-import mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSetting;
-import mealplaner.plugins.plugins.preference.settingextension.CookingPreferenceSetting;
+import mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSubSetting;
+import mealplaner.plugins.plugins.preference.settingextension.CookingPreferenceSubSetting;
 import mealplaner.plugins.plugins.utensil.settingextension.CasseroleSubSetting;
 
 public final class SettingsAdapter {
@@ -33,7 +33,7 @@ public final class SettingsAdapter {
   }
 
   public static SettingsXml convertSettingsV2ToXml(Settings setting) {
-    CookingTimeSetting cookingTimes = setting.getTypedSubSetting(CookingTimeSetting.class);
+    CookingTimeSubSetting cookingTimes = setting.getTypedSubSetting(CookingTimeSubSetting.class);
     List<CookingTime> prohibitedTimes = new ArrayList<>();
     Arrays.stream(CookingTime.values())
         .filter(cookingTimes::contains)
@@ -42,7 +42,7 @@ public final class SettingsAdapter {
     return new SettingsXml(prohibitedTimes,
         setting.getNumberOfPeople().value,
         setting.getTypedSubSetting(CasseroleSubSetting.class).getCasseroleSettings(),
-        setting.getTypedSubSetting(CookingPreferenceSetting.class).getPreferences(),
+        setting.getTypedSubSetting(CookingPreferenceSubSetting.class).getPreferences(),
         setting.getTypedSubSetting(CourseTypeSetting.class).getCourseSetting());
   }
 
@@ -61,13 +61,13 @@ public final class SettingsAdapter {
   }
 
   public static Settings convertSettingsV2FromXml(SettingsXml setting) {
-    CookingTimeSetting times = CookingTimeSetting.cookingTimeWithProhibited(
+    CookingTimeSubSetting times = CookingTimeSubSetting.cookingTimeWithProhibited(
         setting.cookingTime.toArray(new CookingTime[0]));  // NOPMD
     return SettingsBuilder.setting()
         .time(times)
         .numberOfPeople(nonNegative(setting.numberOfPeople))
         .casserole(setting.casseroleSettings)
-        .preference(new CookingPreferenceSetting(setting.preferenceSettings))
+        .preference(new CookingPreferenceSubSetting(setting.preferenceSettings))
         .course(setting.courseSettings)
         .create();
   }

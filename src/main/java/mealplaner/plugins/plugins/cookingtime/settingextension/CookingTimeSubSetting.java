@@ -13,40 +13,40 @@ import mealplaner.plugins.api.Setting;
 import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime;
 import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTimeFact;
 
-public final class CookingTimeSetting implements Setting {
+public final class CookingTimeSubSetting implements Setting {
   private final Set<CookingTime> prohibitedCookingTime;
 
-  private CookingTimeSetting(CookingTimeSetting cookingTimeSetting) {
-    this(new HashSet<>(cookingTimeSetting.prohibitedCookingTime));
+  private CookingTimeSubSetting(CookingTimeSubSetting cookingTimeSubSetting) {
+    this(new HashSet<>(cookingTimeSubSetting.prohibitedCookingTime));
   }
 
-  public static CookingTimeSetting cookingTimeWithProhibited(CookingTime... cookingTime) {
+  public static CookingTimeSubSetting cookingTimeWithProhibited(CookingTime... cookingTime) {
     HashSet<CookingTime> prohibitedCookingTime = new HashSet<>(Arrays.asList(cookingTime));
-    return new CookingTimeSetting(prohibitedCookingTime);
+    return new CookingTimeSubSetting(prohibitedCookingTime);
   }
 
-  public static CookingTimeSetting defaultCookingTime() {
-    return new CookingTimeSetting(new HashSet<>());
+  public static CookingTimeSubSetting defaultCookingTime() {
+    return new CookingTimeSubSetting(new HashSet<>());
   }
 
-  public static CookingTimeSetting copyCookingTimeSetting(CookingTimeSetting cookingTimeSetting) {
-    return new CookingTimeSetting(cookingTimeSetting);
+  public static CookingTimeSubSetting copyCookingTimeSetting(CookingTimeSubSetting cookingTimeSubSetting) {
+    return new CookingTimeSubSetting(cookingTimeSubSetting);
   }
 
-  public CookingTimeSetting(Set<CookingTime> prohibitedCookingTime) {
+  public CookingTimeSubSetting(Set<CookingTime> prohibitedCookingTime) {
     this.prohibitedCookingTime = prohibitedCookingTime;
   }
 
-  public CookingTimeSetting prohibitCookingTime(CookingTime cookingTime) {
+  public CookingTimeSubSetting prohibitCookingTime(CookingTime cookingTime) {
     var newSet = new HashSet<>(prohibitedCookingTime);
     newSet.add(cookingTime);
-    return new CookingTimeSetting(newSet);
+    return new CookingTimeSubSetting(newSet);
   }
 
-  public CookingTimeSetting allowCookingTime(CookingTime cookingTime) {
+  public CookingTimeSubSetting allowCookingTime(CookingTime cookingTime) {
     var newSet = new HashSet<>(prohibitedCookingTime);
     newSet.remove(cookingTime);
-    return new CookingTimeSetting(newSet);
+    return new CookingTimeSubSetting(newSet);
   }
 
   public boolean isTimeProhibited(CookingTime cookingTime) {
@@ -63,7 +63,7 @@ public final class CookingTimeSetting implements Setting {
 
   @Override
   public FactXml convertToXml() {
-    return new CookingTimeSettingXml(prohibitedCookingTime.stream().collect(Collectors.toUnmodifiableList()));
+    return new CookingTimeSubSettingXml(prohibitedCookingTime.stream().collect(Collectors.toUnmodifiableList()));
   }
 
   @Override
@@ -84,7 +84,7 @@ public final class CookingTimeSetting implements Setting {
     if (obj == null || getClass() != obj.getClass()) {
       return false;
     }
-    CookingTimeSetting other = (CookingTimeSetting) obj;
+    CookingTimeSubSetting other = (CookingTimeSubSetting) obj;
     return prohibitedCookingTime.equals(other.prohibitedCookingTime);
   }
 }

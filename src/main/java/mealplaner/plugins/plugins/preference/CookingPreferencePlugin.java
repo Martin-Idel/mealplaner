@@ -15,7 +15,7 @@ import mealplaner.plugins.plugins.preference.mealextension.CookingPreferenceFact
 import mealplaner.plugins.plugins.preference.mealextension.MealEditCookingPreference;
 import mealplaner.plugins.plugins.preference.mealextension.MealInputCookingPreference;
 import mealplaner.plugins.plugins.preference.proposal.CookingPreferenceProposalStep;
-import mealplaner.plugins.plugins.preference.settingextension.CookingPreferenceSetting;
+import mealplaner.plugins.plugins.preference.settingextension.CookingPreferenceSubSetting;
 import mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings;
 import mealplaner.plugins.plugins.preference.settingextension.SettingsCookingPreferenceSettings;
 
@@ -37,9 +37,9 @@ public class CookingPreferencePlugin implements PluginDescription {
         CookingPreferenceFact.class,
         () -> new CookingPreferenceFact(NO_PREFERENCE));
     pluginStore.registerSettingExtension(
-        CookingPreferenceSetting.class,
-        CookingPreferenceSetting.class,
-        CookingPreferenceSetting::new);
+        CookingPreferenceSubSetting.class,
+        CookingPreferenceSubSetting.class,
+        CookingPreferenceSubSetting::new);
     pluginStore.registerMealGuiExtension(
         new MealInputCookingPreference(),
         new MealEditCookingPreference());

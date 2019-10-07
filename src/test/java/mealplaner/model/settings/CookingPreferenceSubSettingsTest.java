@@ -29,7 +29,7 @@ import mealplaner.plugins.plugins.preference.proposal.CookingPreferenceSettings;
 import mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CookingPreferenceSettingsTest {
+public class CookingPreferenceSubSettingsTest {
 
   @Mock
   private Set<CookingPreference> prohibitedpreference;

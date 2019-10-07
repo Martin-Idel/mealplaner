@@ -16,9 +16,9 @@ public class SettingsCookingPreferenceSettings implements SettingsInputDialogExt
     return table.addColumn(withEnumContent(PreferenceSettings.class)
         .withColumnName(BUNDLES.message("preferenceColumn"))
         .getValueFromOrderedList(settings,
-            setting -> setting.getTypedSubSetting(CookingPreferenceSetting.class).getPreferences())
+            setting -> setting.getTypedSubSetting(CookingPreferenceSubSetting.class).getPreferences())
         .setValueToOrderedImmutableList(settings,
-            (setting, preference) -> from(setting).preference(new CookingPreferenceSetting(preference)).create())
+            (setting, preference) -> from(setting).preference(new CookingPreferenceSubSetting(preference)).create())
         .isEditable()
         .setPreferredSize(100)
         .buildWithOrderNumber(40));
