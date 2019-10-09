@@ -20,15 +20,14 @@ import mealplaner.model.MealplanerData;
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
-import mealplaner.plugins.PluginStore;
 import testcommons.XmlInteraction;
 
 public class ProposalSummaryDataXmlInteractionTest extends XmlInteraction {
-  private static final String RESOURCE_FILE_WITH_THREE_MEALS_V2 = "src/test/resources/proposalSummaryXmlV2.xml";
+  private static final String RESOURCE_FILE_WITH_PROPOSAL_V3 = "src/test/resources/proposalSummaryXmlV3.xml";
 
   @Test
   public void loadingProposalSummaryWorksCorrectlyForV2() {
-    loadingProposalSummaryWorksCorrectlyFor(RESOURCE_FILE_WITH_THREE_MEALS_V2);
+    loadingProposalSummaryWorksCorrectlyFor(RESOURCE_FILE_WITH_PROPOSAL_V3);
   }
 
   @Test
@@ -59,7 +58,7 @@ public class ProposalSummaryDataXmlInteractionTest extends XmlInteraction {
     MealplanerData mealPlan = setupMealplanerDataWithAllMealsAndIngredients();
 
     ProposalSummaryModel loadedProposalSummaryData = ProposalSummaryDataReader
-        .loadXml(mealPlan, DESTINATION_FILE_PATH, new PluginStore());
+        .loadXml(mealPlan, DESTINATION_FILE_PATH, Kochplaner.registerPlugins());
 
     assertThat(loadedProposalSummaryData.lastProposal).isEqualTo(proposal);
     assertThat(loadedProposalSummaryData.time).isEqualTo(time);

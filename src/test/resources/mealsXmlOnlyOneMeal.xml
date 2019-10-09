@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <MealData>
-    <version>2</version>
+    <version>3</version>
     <meals>
         <meal>
             <uuid>0e6db2d7-8818-31ff-80d4-c21e0f2f4a7b</uuid>
             <name>Test1</name>
-            <cookingTime>SHORT</cookingTime>
-            <sidedish>PASTA</sidedish>
-            <obligatoryUtensil>PAN</obligatoryUtensil>
-            <cookingPreference>VERY_POPULAR</cookingPreference>
-            <courseType>MAIN</courseType>
             <daysPassed>5</daysPassed>
-            <comment>no comment</comment>
+            <courseTypeFact>
+                <courseType>MAIN</courseType>
+            </courseTypeFact>
+            <cookingTimeFact>
+                <cookingTime>SHORT</cookingTime>
+            </cookingTimeFact>
+            <commentFact>
+                <comment>no comment</comment>
+            </commentFact>
+            <obligatoryUtensilFact>
+                <obligatoryUtensil>PAN</obligatoryUtensil>
+            </obligatoryUtensilFact>
+            <sidedishFact>
+                <sidedish>PASTA</sidedish>
+            </sidedishFact>
+            <cookingPreferenceFact>
+                <cookingPreference>VERY_POPULAR</cookingPreference>
+            </cookingPreferenceFact>
         </meal>
     </meals>
 </MealData>

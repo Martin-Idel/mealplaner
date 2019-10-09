@@ -1,24 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <IngredientData>
-    <version>2</version>
+    <version>3</version>
     <ingredients>
         <ingredient>
             <uuid>e1b849f9-631f-3c18-a9b2-e31402373e3c</uuid>
             <name>Test1</name>
             <type>FRESH_FRUIT</type>
-            <measure>GRAM</measure>
+            <measures>
+                <primaryMeasure>GRAM</primaryMeasure>
+                <secondaryMeasures/>
+            </measures>
         </ingredient>
         <ingredient>
             <uuid>c454552d-52d5-3d3e-b564-08742887362b</uuid>
             <name>Test2</name>
             <type>BAKING_GOODS</type>
-            <measure>MILLILITRE</measure>
+            <measures>
+                <primaryMeasure>MILLILITRE</primaryMeasure>
+                <secondaryMeasures/>
+            </measures>
         </ingredient>
         <ingredient>
             <uuid>b3f66ec1-535d-3770-ac38-e94408fa4a17</uuid>
             <name>Test3</name>
             <type>CANNED_FRUIT</type>
-            <measure>GRAM</measure>
+            <measures>
+                <primaryMeasure>GRAM</primaryMeasure>
+                <secondaryMeasures/>
+            </measures>
         </ingredient>
     </ingredients>
 </IngredientData>

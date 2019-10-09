@@ -20,7 +20,7 @@ public class VersionControlTest extends XmlInteraction {
 
     int version = VersionControl.getVersion(DESTINATION_FILE_PATH);
 
-    assertThat(version).isEqualTo(5);
+    assertThat(version).isEqualTo(1);
   }
 
   @Test

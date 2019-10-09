@@ -32,7 +32,7 @@ import mealplaner.model.settings.Settings;
 
 public class ProposalTest extends AssertJMealplanerTestCase {
   public ProposalTest() {
-    super("src/test/resources/mealsXmlV2.xml",
+    super("src/test/resources/mealsXmlV3.xml",
         "src/test/resources/save.xml",
         "src/test/resources/ingredients.xml");
   }

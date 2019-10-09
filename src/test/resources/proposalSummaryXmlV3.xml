@@ -3,7 +3,81 @@
     <version>3</version>
     <defaultSettings>
         <entry>
+            <key>SUNDAY</key>
+            <value>
+                <numberOfPeople>2</numberOfPeople>
+                <casseroleSubSetting>
+                    <casseroleSettings>POSSIBLE</casseroleSettings>
+                </casseroleSubSetting>
+                <cookingTimeSubSettingXml>
+                    <cookingTimes/>
+                </cookingTimeSubSettingXml>
+                <courseTypeSetting>
+                    <courseSetting>ONLY_MAIN</courseSetting>
+                </courseTypeSetting>
+                <cookingPreferenceSubSetting>
+                    <preferences>NORMAL</preferences>
+                </cookingPreferenceSubSetting>
+            </value>
+        </entry>
+        <entry>
             <key>WEDNESDAY</key>
+            <value>
+                <numberOfPeople>4</numberOfPeople>
+                <casseroleSubSetting>
+                    <casseroleSettings>POSSIBLE</casseroleSettings>
+                </casseroleSubSetting>
+                <cookingTimeSubSettingXml>
+                    <cookingTimes>
+                        <cookingTime>SHORT</cookingTime>
+                    </cookingTimes>
+                </cookingTimeSubSettingXml>
+                <courseTypeSetting>
+                    <courseSetting>ONLY_MAIN</courseSetting>
+                </courseTypeSetting>
+                <cookingPreferenceSubSetting>
+                    <preferences>RARE_PREFERED</preferences>
+                </cookingPreferenceSubSetting>
+            </value>
+        </entry>
+        <entry>
+            <key>SATURDAY</key>
+            <value>
+                <numberOfPeople>2</numberOfPeople>
+                <casseroleSubSetting>
+                    <casseroleSettings>POSSIBLE</casseroleSettings>
+                </casseroleSubSetting>
+                <cookingTimeSubSettingXml>
+                    <cookingTimes/>
+                </cookingTimeSubSettingXml>
+                <courseTypeSetting>
+                    <courseSetting>ONLY_MAIN</courseSetting>
+                </courseTypeSetting>
+                <cookingPreferenceSubSetting>
+                    <preferences>NORMAL</preferences>
+                </cookingPreferenceSubSetting>
+            </value>
+        </entry>
+        <entry>
+            <key>THURSDAY</key>
+            <value>
+                <numberOfPeople>2</numberOfPeople>
+                <casseroleSubSetting>
+                    <casseroleSettings>POSSIBLE</casseroleSettings>
+                </casseroleSubSetting>
+                <cookingTimeSubSettingXml>
+                    <cookingTimes/>
+                </cookingTimeSubSettingXml>
+                <courseTypeSetting>
+                    <courseSetting>ONLY_MAIN</courseSetting>
+                </courseTypeSetting>
+                <cookingPreferenceSubSetting>
+                    <preferences>NORMAL</preferences>
+                </cookingPreferenceSubSetting>
+            </value>
+        </entry>
+        <entry>
+            <key>TUESDAY</key>
             <value>
                 <numberOfPeople>2</numberOfPeople>
                 <casseroleSubSetting>
@@ -23,128 +97,57 @@
         <entry>
             <key>MONDAY</key>
             <value>
-                <numberOfPeople>2</numberOfPeople>
+                <numberOfPeople>3</numberOfPeople>
                 <casseroleSubSetting>
-                    <casseroleSettings>POSSIBLE</casseroleSettings>
+                    <casseroleSettings>NONE</casseroleSettings>
                 </casseroleSubSetting>
                 <cookingTimeSubSettingXml>
                     <cookingTimes>
-                        <cookingTime/>
+                        <cookingTime>VERY_SHORT</cookingTime>
                     </cookingTimes>
                 </cookingTimeSubSettingXml>
                 <courseTypeSetting>
                     <courseSetting>ONLY_MAIN</courseSetting>
                 </courseTypeSetting>
                 <cookingPreferenceSubSetting>
-                    <preferences>NORMAL</preferences>
+                    <preferences>RARE_PREFERED</preferences>
                 </cookingPreferenceSubSetting>
             </value>
         </entry>
         <entry>
             <key>FRIDAY</key>
             <value>
-                <numberOfPeople>2</numberOfPeople>
+                <numberOfPeople>3</numberOfPeople>
                 <casseroleSubSetting>
-                    <casseroleSettings>POSSIBLE</casseroleSettings>
+                    <casseroleSettings>NONE</casseroleSettings>
                 </casseroleSubSetting>
                 <cookingTimeSubSettingXml>
                     <cookingTimes>
-                        <cookingTime/>
+                        <cookingTime>VERY_SHORT</cookingTime>
                     </cookingTimes>
                 </cookingTimeSubSettingXml>
                 <courseTypeSetting>
                     <courseSetting>ONLY_MAIN</courseSetting>
                 </courseTypeSetting>
                 <cookingPreferenceSubSetting>
-                    <preferences>NORMAL</preferences>
-                </cookingPreferenceSubSetting>
-            </value>
-        </entry>
-        <entry>
-            <key>THURSDAY</key>
-            <value>
-                <numberOfPeople>2</numberOfPeople>
-                <casseroleSubSetting>
-                    <casseroleSettings>POSSIBLE</casseroleSettings>
-                </casseroleSubSetting>
-                <cookingTimeSubSettingXml>
-                    <cookingTimes>
-                        <cookingTime/>
-                    </cookingTimes>
-                </cookingTimeSubSettingXml>
-                <courseTypeSetting>
-                    <courseSetting>ONLY_MAIN</courseSetting>
-                </courseTypeSetting>
-                <cookingPreferenceSubSetting>
-                    <preferences>NORMAL</preferences>
-                </cookingPreferenceSubSetting>
-            </value>
-        </entry>
-        <entry>
-            <key>TUESDAY</key>
-            <value>
-                <numberOfPeople>2</numberOfPeople>
-                <casseroleSubSetting>
-                    <casseroleSettings>POSSIBLE</casseroleSettings>
-                </casseroleSubSetting>
-                <cookingTimeSubSettingXml>
-                    <cookingTimes>
-                        <cookingTime/>
-                    </cookingTimes>
-                </cookingTimeSubSettingXml>
-                <courseTypeSetting>
-                    <courseSetting>ONLY_MAIN</courseSetting>
-                </courseTypeSetting>
-                <cookingPreferenceSubSetting>
-                    <preferences>NORMAL</preferences>
-                </cookingPreferenceSubSetting>
-            </value>
-        </entry>
-        <entry>
-            <key>SATURDAY</key>
-            <value>
-                <numberOfPeople>2</numberOfPeople>
-                <casseroleSubSetting>
-                    <casseroleSettings>POSSIBLE</casseroleSettings>
-                </casseroleSubSetting>
-                <cookingTimeSubSettingXml>
-                    <cookingTimes>
-                        <cookingTime/>
-                    </cookingTimes>
-                </cookingTimeSubSettingXml>
-                <courseTypeSetting>
-                    <courseSetting>ONLY_MAIN</courseSetting>
-                </courseTypeSetting>
-                <cookingPreferenceSubSetting>
-                    <preferences>NORMAL</preferences>
-                </cookingPreferenceSubSetting>
-            </value>
-        </entry>
-        <entry>
-            <key>SUNDAY</key>
-            <value>
-                <numberOfPeople>2</numberOfPeople>
-                <casseroleSubSetting>
-                    <casseroleSettings>POSSIBLE</casseroleSettings>
-                </casseroleSubSetting>
-                <cookingTimeSubSettingXml>
-                    <cookingTimes>
-                        <cookingTime/>
-                    </cookingTimes>
-                </cookingTimeSubSettingXml>
-                <courseTypeSetting>
-                    <courseSetting>ONLY_MAIN</courseSetting>
-                </courseTypeSetting>
-                <cookingPreferenceSubSetting>
-                    <preferences>NORMAL</preferences>
+                    <preferences>RARE_PREFERED</preferences>
                 </cookingPreferenceSubSetting>
             </value>
         </entry>
     </defaultSettings>
-    <dateSinceUpdate>2019-08-19</dateSinceUpdate>
+    <dateSinceUpdate>2017-05-03</dateSinceUpdate>
     <proposal>
-        <meals/>
-        <date>2019-08-21</date>
+        <meals>
+            <meal>
+                <main>0e6db2d7-8818-31ff-80d4-c21e0f2f4a7b</main>
+                <numberOfPeople>3</numberOfPeople>
+            </meal>
+            <meal>
+                <main>a2a597ca-6beb-36d3-b7bd-7a90e57e1438</main>
+                <numberOfPeople>4</numberOfPeople>
+            </meal>
+        </meals>
+        <date>2017-07-05</date>
         <includeToday>true</includeToday>
     </proposal>
 </MealplanerData>

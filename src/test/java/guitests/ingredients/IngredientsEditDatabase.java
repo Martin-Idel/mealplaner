@@ -27,9 +27,9 @@ import mealplaner.model.recipes.Recipe;
 
 public class IngredientsEditDatabase extends AssertJMealplanerTestCase {
   public IngredientsEditDatabase() {
-    super("src/test/resources/mealsXmlV2.xml",
+    super("src/test/resources/mealsXmlV3.xml",
         "src/test/resources/save.xml",
-        "src/test/resources/ingredientsXmlV2.xml");
+        "src/test/resources/ingredientsXmlV3.xml");
   }
 
   @Ignore

@@ -15,7 +15,7 @@ import mealplaner.model.meal.Meal;
 
 public class DatabaseEditRemoveMealsTest extends AssertJMealplanerTestCase {
   public DatabaseEditRemoveMealsTest() {
-    super("src/test/resources/mealsXmlV2.xml",
+    super("src/test/resources/mealsXmlV3.xml",
         "src/test/resources/save.xml",
         "src/test/resources/ingredients.xml");
   }

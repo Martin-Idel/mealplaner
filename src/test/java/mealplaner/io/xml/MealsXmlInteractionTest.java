@@ -22,16 +22,16 @@ import mealplaner.plugins.PluginStore;
 import testcommons.XmlInteraction;
 
 public class MealsXmlInteractionTest extends XmlInteraction {
-  private static final String RESOURCE_FILE_WITH_THREE_MEALS_V2 = "src/test/resources/mealsXmlV2.xml";
+  private static final String RESOURCE_FILE_WITH_THREE_MEALS_V3 = "src/test/resources/mealsXmlV3.xml";
 
   @Test
   public void loadingMealsWorksCorrectlyForVersion2() {
     MealplanerData mealPlan = setupMealplanerDataWithAllIngredients();
     List<Meal> meals = fillListWithThreeMeals();
 
-    loadFileWithName(RESOURCE_FILE_WITH_THREE_MEALS_V2);
+    loadFileWithName(RESOURCE_FILE_WITH_THREE_MEALS_V3);
 
-    List<Meal> database = loadXml(mealPlan, DESTINATION_FILE_PATH, new PluginStore());
+    List<Meal> database = loadXml(mealPlan, DESTINATION_FILE_PATH, Kochplaner.registerPlugins());
 
     database.sort(Meal::compareTo);
 
