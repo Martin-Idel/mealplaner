@@ -4,8 +4,8 @@ package mealplaner.io.xml.adapters;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
-import static mealplaner.io.xml.adapters.RecipeAdapter.convertRecipeV2FromXml;
-import static mealplaner.io.xml.adapters.RecipeAdapter.convertRecipeV2ToXml;
+import static mealplaner.io.xml.adapters.RecipeAdapter.convertRecipeV3FromXml;
+import static mealplaner.io.xml.adapters.RecipeAdapter.convertRecipeV3ToXml;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.getRecipe1;
 import static testcommons.CommonFunctions.getRecipe2;
@@ -25,10 +25,10 @@ public class RecipeAdapterTest {
     Optional<Recipe> recipe1 = of(getRecipe1());
     Optional<Recipe> recipe2 = of(getRecipe2());
 
-    Optional<Recipe> convertedRecipes1 = convertRecipeV2FromXml(mealplan,
-        convertRecipeV2ToXml(recipe1));
-    Optional<Recipe> convertedRecipes2 = convertRecipeV2FromXml(mealplan,
-        convertRecipeV2ToXml(recipe2));
+    Optional<Recipe> convertedRecipes1 = convertRecipeV3FromXml(mealplan,
+        convertRecipeV3ToXml(recipe1));
+    Optional<Recipe> convertedRecipes2 = convertRecipeV3FromXml(mealplan,
+        convertRecipeV3ToXml(recipe2));
 
     assertThat(convertedRecipes1).isEqualTo(recipe1);
     assertThat(convertedRecipes2).isEqualTo(recipe2);
@@ -39,8 +39,8 @@ public class RecipeAdapterTest {
     MealplanerData mealplan = setupMealplanerDataWithAllIngredients();
     Optional<Recipe> emptyRecipe = empty();
 
-    Optional<Recipe> empty = convertRecipeV2FromXml(mealplan,
-        convertRecipeV2ToXml(emptyRecipe));
+    Optional<Recipe> empty = convertRecipeV3FromXml(mealplan,
+        convertRecipeV3ToXml(emptyRecipe));
 
     assertThat(empty).isEqualTo(emptyRecipe);
   }

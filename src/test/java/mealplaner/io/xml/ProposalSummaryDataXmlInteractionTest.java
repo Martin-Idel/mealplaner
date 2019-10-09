@@ -43,7 +43,7 @@ public class ProposalSummaryDataXmlInteractionTest extends XmlInteraction {
 
     ProposalSummaryDataWriter.saveXml(mealPlan, DESTINATION_FILE_PATH, pluginStore);
     ProposalSummaryModel roundTripModel = ProposalSummaryDataReader
-        .loadXml(MealplanerData.getInstance(pluginStore), DESTINATION_FILE_PATH, pluginStore);
+        .loadXml(DESTINATION_FILE_PATH, pluginStore);
 
     assertThat(roundTripModel.lastProposal).isEqualTo(proposal);
     assertThat(roundTripModel.time).isEqualTo(time);
@@ -58,7 +58,7 @@ public class ProposalSummaryDataXmlInteractionTest extends XmlInteraction {
     MealplanerData mealPlan = setupMealplanerDataWithAllMealsAndIngredients();
 
     ProposalSummaryModel loadedProposalSummaryData = ProposalSummaryDataReader
-        .loadXml(mealPlan, DESTINATION_FILE_PATH, Kochplaner.registerPlugins());
+        .loadXml(DESTINATION_FILE_PATH, Kochplaner.registerPlugins());
 
     assertThat(loadedProposalSummaryData.lastProposal).isEqualTo(proposal);
     assertThat(loadedProposalSummaryData.time).isEqualTo(time);

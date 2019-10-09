@@ -52,7 +52,7 @@ public class FileIoGui {
       mealPlan.setIngredients(ingredients);
       List<Meal> meals = MealsReader.loadXml(mealPlan, savePath + "meals.xml", knownPlugins);
       mealPlan.setMeals(meals);
-      ProposalSummaryModel proposalData = ProposalSummaryDataReader.loadXml(mealPlan,
+      ProposalSummaryModel proposalData = ProposalSummaryDataReader.loadXml(
           savePath + "save.xml", knownPlugins);
       mealPlan.setDefaultSettings(proposalData.defaultSettings);
       mealPlan.setLastProposal(proposalData.lastProposal);
