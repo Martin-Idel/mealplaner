@@ -32,7 +32,7 @@ public class SettingsCookingTimeSetting implements SettingsInputDialogExtension 
         .getValueFromOrderedList(settings,
             setting -> !setting.getTypedSubSetting(CookingTimeSubSetting.class).contains(time))
         .setValueToOrderedImmutableList(settings,
-            (element, value) -> from(element).time(changeStateOf(time, value,
+            (element, value) -> from(element).changeSetting(changeStateOf(time, value,
                 element.getTypedSubSetting(CookingTimeSubSetting.class))).create())
         .isEditable()
         .setPreferredSize(50)

@@ -15,12 +15,6 @@ import mealplaner.commons.errorhandling.MealException;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.Fact;
 import mealplaner.plugins.api.Setting;
-import mealplaner.plugins.builtins.courses.CourseSettings;
-import mealplaner.plugins.builtins.courses.CourseTypeSetting;
-import mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSubSetting;
-import mealplaner.plugins.plugins.preference.settingextension.CookingPreferenceSubSetting;
-import mealplaner.plugins.plugins.utensil.settingextension.CasseroleSettings;
-import mealplaner.plugins.plugins.utensil.settingextension.CasseroleSubSetting;
 
 public class SettingsBuilder {
   private Set<Class<? extends Fact>> validationStore;
@@ -60,28 +54,8 @@ public class SettingsBuilder {
         .addHiddenSubSettings(settings.getHiddenSubSettings());
   }
 
-  public SettingsBuilder casserole(CasseroleSettings casseroleSettings) {
-    this.subSettings.put(CasseroleSubSetting.class, new CasseroleSubSetting(casseroleSettings));
-    return this;
-  }
-
-  public SettingsBuilder preference(CookingPreferenceSubSetting preference) {
-    this.subSettings.put(CookingPreferenceSubSetting.class, preference);
-    return this;
-  }
-
-  public SettingsBuilder time(CookingTimeSubSetting cookingTime) {
-    this.subSettings.put(CookingTimeSubSetting.class, cookingTime);
-    return this;
-  }
-
   public SettingsBuilder numberOfPeople(NonnegativeInteger numberOfPeople) {
     this.numberOfPeople = numberOfPeople;
-    return this;
-  }
-
-  public SettingsBuilder course(CourseSettings courseSettings) {
-    this.subSettings.put(CourseTypeSetting.class, new CourseTypeSetting(courseSettings));
     return this;
   }
 
@@ -91,6 +65,11 @@ public class SettingsBuilder {
   }
 
   public SettingsBuilder addSetting(Setting subSetting) {
+    this.subSettings.putIfAbsent(subSetting.getClass(), subSetting);
+    return this;
+  }
+
+  public SettingsBuilder changeSetting(Setting subSetting) {
     this.subSettings.put(subSetting.getClass(), subSetting);
     return this;
   }

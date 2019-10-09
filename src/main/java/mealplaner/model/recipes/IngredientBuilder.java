@@ -66,6 +66,11 @@ public class IngredientBuilder {
   }
 
   public IngredientBuilder addFact(IngredientFact fact) {
+    this.facts.putIfAbsent(fact.getClass(), fact);
+    return this;
+  }
+
+  public IngredientBuilder changeFact(IngredientFact fact) {
     this.facts.put(fact.getClass(), fact);
     return this;
   }

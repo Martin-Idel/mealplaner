@@ -19,7 +19,7 @@ public class SettingsCasseroleSetting implements SettingsInputDialogExtension {
             settings,
             setting -> setting.getTypedSubSetting(CasseroleSubSetting.class).getCasseroleSettings())
         .setValueToOrderedImmutableList(settings,
-            (setting, casserole) -> from(setting).addSetting(new CasseroleSubSetting(casserole)).create())
+            (setting, casserole) -> from(setting).changeSetting(new CasseroleSubSetting(casserole)).create())
         .setPreferredSize(100)
         .isEditable()
         .buildWithOrderNumber(30));

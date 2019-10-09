@@ -18,7 +18,7 @@ public class SettingsCookingPreferenceSettings implements SettingsInputDialogExt
         .getValueFromOrderedList(settings,
             setting -> setting.getTypedSubSetting(CookingPreferenceSubSetting.class).getPreferences())
         .setValueToOrderedImmutableList(settings,
-            (setting, preference) -> from(setting).preference(new CookingPreferenceSubSetting(preference)).create())
+            (setting, preference) -> from(setting).changeSetting(new CookingPreferenceSubSetting(preference)).create())
         .isEditable()
         .setPreferredSize(100)
         .buildWithOrderNumber(40));

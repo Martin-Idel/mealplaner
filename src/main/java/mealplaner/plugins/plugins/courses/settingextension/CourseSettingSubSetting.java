@@ -20,7 +20,7 @@ public class CourseSettingSubSetting implements SettingsInputDialogExtension {
         .getValueFromOrderedList(settings,
             setting -> setting.getTypedSubSetting(CourseTypeSetting.class).getCourseSetting())
         .setValueToOrderedImmutableList(settings,
-            (setting, course) -> from(setting).course(course).create())
+            (setting, course) -> from(setting).changeSetting(new CourseTypeSetting(course)).create())
         .isEditable()
         .setPreferredSize(120)
         .buildWithOrderNumber(50));

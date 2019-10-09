@@ -39,12 +39,12 @@ import static mealplaner.plugins.plugins.preference.mealextension.CookingPrefere
 import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.RARE;
 import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.VERY_POPULAR;
 import static mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings.RARE_PREFERED;
-import static mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings.VERY_POPULAR_ONLY;
 import static mealplaner.plugins.plugins.sidedish.mealextension.Sidedish.PASTA;
 import static mealplaner.plugins.plugins.sidedish.mealextension.Sidedish.RICE;
 import static mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil.CASSEROLE;
 import static mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil.PAN;
 import static mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil.POT;
+import static mealplaner.plugins.plugins.utensil.settingextension.CasseroleSettings.NONE;
 import static mealplaner.plugins.plugins.utensil.settingextension.CasseroleSettings.POSSIBLE;
 
 import java.time.LocalDate;
@@ -65,6 +65,7 @@ import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 import mealplaner.model.settings.Settings;
 import mealplaner.plugins.builtins.courses.CourseTypeFact;
+import mealplaner.plugins.builtins.courses.CourseTypeSetting;
 import mealplaner.plugins.plugins.comment.mealextension.CommentFact;
 import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTimeFact;
 import mealplaner.plugins.plugins.preference.mealextension.CookingPreferenceFact;
@@ -73,6 +74,7 @@ import mealplaner.plugins.plugins.sidedish.mealextension.Sidedish;
 import mealplaner.plugins.plugins.sidedish.mealextension.SidedishFact;
 import mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensilFact;
 import mealplaner.plugins.plugins.utensil.settingextension.CasseroleSettings;
+import mealplaner.plugins.plugins.utensil.settingextension.CasseroleSubSetting;
 
 public final class CommonFunctions {
   private CommonFunctions() {
@@ -233,41 +235,41 @@ public final class CommonFunctions {
 
   public static Settings getSettings1() {
     return setting()
-        .time(cookingTimeWithProhibited(VERY_SHORT))
+        .addSetting(cookingTimeWithProhibited(VERY_SHORT))
+        .addSetting(new CasseroleSubSetting(CasseroleSettings.NONE))
+        .addSetting(new CookingPreferenceSubSetting(RARE_PREFERED))
+        .addSetting(new CourseTypeSetting(ONLY_MAIN))
         .numberOfPeople(THREE)
-        .casserole(CasseroleSettings.NONE)
-        .preference(new CookingPreferenceSubSetting(RARE_PREFERED))
-        .course(ONLY_MAIN)
         .create();
   }
 
   public static Settings getSettings2() {
     return setting()
-        .time(cookingTimeWithProhibited(SHORT))
+        .addSetting(cookingTimeWithProhibited(SHORT))
+        .addSetting(new CasseroleSubSetting(POSSIBLE))
+        .addSetting(new CookingPreferenceSubSetting(RARE_PREFERED))
+        .addSetting(new CourseTypeSetting(ONLY_MAIN))
         .numberOfPeople(FOUR)
-        .casserole(POSSIBLE)
-        .preference(new CookingPreferenceSubSetting(RARE_PREFERED))
-        .course(ONLY_MAIN)
         .create();
   }
 
   public static Settings getSettings3() {
     return setting()
-        .time(cookingTimeWithProhibited())
+        .addSetting(cookingTimeWithProhibited())
+        .addSetting(new CasseroleSubSetting(NONE))
+        .addSetting(new CookingPreferenceSubSetting(RARE_PREFERED))
+        .addSetting(new CourseTypeSetting(MAIN_DESERT))
         .numberOfPeople(THREE)
-        .casserole(CasseroleSettings.NONE)
-        .preference(new CookingPreferenceSubSetting(RARE_PREFERED))
-        .course(MAIN_DESERT)
         .create();
   }
 
   public static Settings getSettings4() {
     return setting()
-        .time(cookingTimeWithProhibited())
+        .addSetting(cookingTimeWithProhibited())
+        .addSetting(new CasseroleSubSetting(NONE))
+        .addSetting(new CookingPreferenceSubSetting(RARE_PREFERED))
+        .addSetting(new CourseTypeSetting(MAIN_DESERT))
         .numberOfPeople(THREE)
-        .casserole(CasseroleSettings.NONE)
-        .preference(new CookingPreferenceSubSetting(RARE_PREFERED))
-        .course(MAIN_DESERT)
         .create();
   }
 

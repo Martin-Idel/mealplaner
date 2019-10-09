@@ -50,6 +50,7 @@ import mealplaner.model.proposal.Proposal;
 import mealplaner.model.settings.Settings;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.builtins.courses.CourseTypeFact;
+import mealplaner.plugins.builtins.courses.CourseTypeSetting;
 import mealplaner.plugins.plugins.comment.mealextension.CommentFact;
 import mealplaner.plugins.plugins.cookingtime.CookingTimePlugin;
 import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTimeFact;
@@ -62,6 +63,7 @@ import mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings
 import mealplaner.plugins.plugins.sidedish.mealextension.SidedishFact;
 import mealplaner.plugins.plugins.utensil.ObligatoryUtensilPlugin;
 import mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensilFact;
+import mealplaner.plugins.plugins.utensil.settingextension.CasseroleSubSetting;
 
 public class ProposalBuilderTest {
   private List<Meal> meals;
@@ -79,10 +81,10 @@ public class ProposalBuilderTest {
     addMeals();
     CookingTimeSubSetting cookingTimeSubSetting = cookingTimeWithProhibited(SHORT);
     settings[0] = setting()
-        .time(cookingTimeSubSetting)
-        .course(ONLY_MAIN)
-        .preference(new CookingPreferenceSubSetting(NORMAL))
-        .casserole(POSSIBLE)
+        .addSetting(cookingTimeSubSetting)
+        .addSetting(new CasseroleSubSetting(POSSIBLE))
+        .addSetting(new CookingPreferenceSubSetting(NORMAL))
+        .addSetting(new CourseTypeSetting(ONLY_MAIN))
         .numberOfPeople(FOUR)
         .create();
 
@@ -99,10 +101,10 @@ public class ProposalBuilderTest {
     addMeals();
     CookingTimeSubSetting cookingTimeSubSetting = defaultCookingTime();
     settings[0] = setting()
-        .time(cookingTimeSubSetting)
-        .course(ONLY_MAIN)
-        .preference(new CookingPreferenceSubSetting(VERY_POPULAR_ONLY))
-        .casserole(NONE)
+        .addSetting(cookingTimeSubSetting)
+        .addSetting(new CasseroleSubSetting(NONE))
+        .addSetting(new CookingPreferenceSubSetting(VERY_POPULAR_ONLY))
+        .addSetting(new CourseTypeSetting(ONLY_MAIN))
         .numberOfPeople(TWO)
         .create();
 
@@ -118,10 +120,10 @@ public class ProposalBuilderTest {
     addMeals();
     CookingTimeSubSetting cookingTimeSubSetting = defaultCookingTime();
     settings[0] = setting()
-        .time(cookingTimeSubSetting)
-        .course(ONLY_MAIN)
-        .preference(new CookingPreferenceSubSetting(RARE_NONE))
-        .casserole(ONLY)
+        .addSetting(cookingTimeSubSetting)
+        .addSetting(new CasseroleSubSetting(ONLY))
+        .addSetting(new CookingPreferenceSubSetting(RARE_NONE))
+        .addSetting(new CourseTypeSetting(ONLY_MAIN))
         .numberOfPeople(TWO)
         .create();
 
@@ -137,10 +139,10 @@ public class ProposalBuilderTest {
     addMealsToTestMultipliers();
     CookingTimeSubSetting cookingTimeSubSetting = defaultCookingTime();
     settings[0] = setting()
-        .time(cookingTimeSubSetting)
-        .course(ONLY_MAIN)
-        .preference(new CookingPreferenceSubSetting(NORMAL))
-        .casserole(POSSIBLE)
+        .addSetting(cookingTimeSubSetting)
+        .addSetting(new CasseroleSubSetting(POSSIBLE))
+        .addSetting(new CookingPreferenceSubSetting(NORMAL))
+        .addSetting(new CourseTypeSetting(ONLY_MAIN))
         .numberOfPeople(ONE)
         .create();
 
@@ -156,10 +158,10 @@ public class ProposalBuilderTest {
     addMeals();
     CookingTimeSubSetting cookingTimeSubSetting = defaultCookingTime();
     settings[0] = setting()
-        .time(cookingTimeSubSetting)
-        .course(ONLY_MAIN)
-        .preference(new CookingPreferenceSubSetting(RARE_PREFERED))
-        .casserole(POSSIBLE)
+        .addSetting(cookingTimeSubSetting)
+        .addSetting(new CasseroleSubSetting(POSSIBLE))
+        .addSetting(new CookingPreferenceSubSetting(RARE_PREFERED))
+        .addSetting(new CourseTypeSetting(ONLY_MAIN))
         .numberOfPeople(TWO)
         .create();
 
@@ -175,10 +177,10 @@ public class ProposalBuilderTest {
     addMeals();
     CookingTimeSubSetting cookingTimeSubSetting = defaultCookingTime();
     settings[0] = setting()
-        .time(cookingTimeSubSetting)
-        .course(ONLY_MAIN)
-        .preference(new CookingPreferenceSubSetting(NORMAL))
-        .casserole(POSSIBLE)
+        .addSetting(cookingTimeSubSetting)
+        .addSetting(new CasseroleSubSetting(POSSIBLE))
+        .addSetting(new CookingPreferenceSubSetting(NORMAL))
+        .addSetting(new CourseTypeSetting(ONLY_MAIN))
         .numberOfPeople(TWO)
         .create();
 
@@ -195,10 +197,10 @@ public class ProposalBuilderTest {
     addMealsToTestMultipliers();
     CookingTimeSubSetting cookingTimeSubSetting = defaultCookingTime();
     settings[0] = setting()
-        .time(cookingTimeSubSetting)
-        .course(ONLY_MAIN)
-        .preference(new CookingPreferenceSubSetting(RARE_PREFERED))
-        .casserole(POSSIBLE)
+        .addSetting(cookingTimeSubSetting)
+        .addSetting(new CasseroleSubSetting(POSSIBLE))
+        .addSetting(new CookingPreferenceSubSetting(RARE_PREFERED))
+        .addSetting(new CourseTypeSetting(ONLY_MAIN))
         .numberOfPeople(TWO)
         .create();
 
@@ -216,10 +218,10 @@ public class ProposalBuilderTest {
     preferenceMap.put(Pair.of(RARE, NORMAL), 10);
     CookingTimeSubSetting cookingTimeSubSetting = defaultCookingTime();
     settings[0] = setting()
-        .time(cookingTimeSubSetting)
-        .course(ONLY_MAIN)
-        .preference(new CookingPreferenceSubSetting(NORMAL))
-        .casserole(POSSIBLE)
+        .addSetting(cookingTimeSubSetting)
+        .addSetting(new CasseroleSubSetting(POSSIBLE))
+        .addSetting(new CookingPreferenceSubSetting(NORMAL))
+        .addSetting(new CourseTypeSetting(ONLY_MAIN))
         .numberOfPeople(TWO)
         .create();
 
