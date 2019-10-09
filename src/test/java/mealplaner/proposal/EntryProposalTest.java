@@ -34,6 +34,12 @@ import java.util.UUID;
 import org.junit.Test;
 
 import mealplaner.model.meal.Meal;
+import mealplaner.plugins.builtins.courses.CourseTypeFact;
+import mealplaner.plugins.plugins.comment.mealextension.CommentFact;
+import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTimeFact;
+import mealplaner.plugins.plugins.preference.mealextension.CookingPreferenceFact;
+import mealplaner.plugins.plugins.sidedish.mealextension.SidedishFact;
+import mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensilFact;
 
 public class EntryProposalTest {
   private final List<Meal> meals = new ArrayList<>();
@@ -54,13 +60,13 @@ public class EntryProposalTest {
   public void proposalReturnsNothingIfNoEntryFulfilsRequirements() {
     Meal meal1 = meal()
         .name("Meal1")
-        .cookingTime(VERY_SHORT)
-        .sidedish(PASTA)
-        .obligatoryUtensil(PAN)
-        .cookingPreference(NO_PREFERENCE)
+        .addFact(new CookingTimeFact(VERY_SHORT))
+        .addFact(new SidedishFact(PASTA))
+        .addFact(new ObligatoryUtensilFact(PAN))
+        .addFact(new CookingPreferenceFact(NO_PREFERENCE))
+        .addFact(new CourseTypeFact(ENTRY))
+        .addFact(new CommentFact(""))
         .daysPassed(nonNegative(50))
-        .courseType(ENTRY)
-        .comment("")
         .create();
     meals.add(meal1);
     var pluginStore = registerPlugins();
@@ -77,38 +83,38 @@ public class EntryProposalTest {
     Meal meal1 = meal()
         .id(nameUUIDFromBytes("Test1Meal".getBytes(UTF_8)))
         .name("Meal5")
-        .cookingTime(SHORT)
-        .sidedish(PASTA)
-        .obligatoryUtensil(POT)
-        .cookingPreference(NO_PREFERENCE)
+        .addFact(new CookingTimeFact(SHORT))
+        .addFact(new SidedishFact(PASTA))
+        .addFact(new ObligatoryUtensilFact(POT))
+        .addFact(new CookingPreferenceFact(NO_PREFERENCE))
+        .addFact(new CourseTypeFact(ENTRY))
+        .addFact(new CommentFact(""))
         .daysPassed(nonNegative(100))
-        .courseType(ENTRY)
-        .comment("")
         .create();
     meals.add(meal1);
     Meal meal2 = meal()
         .id(nameUUIDFromBytes("Test2Meal".getBytes(UTF_8)))
         .name("Meal1")
-        .cookingTime(VERY_SHORT)
-        .sidedish(PASTA)
-        .obligatoryUtensil(PAN)
-        .cookingPreference(NO_PREFERENCE)
+        .addFact(new CookingTimeFact(VERY_SHORT))
+        .addFact(new SidedishFact(PASTA))
+        .addFact(new ObligatoryUtensilFact(PAN))
+        .addFact(new CookingPreferenceFact(NO_PREFERENCE))
+        .addFact(new CourseTypeFact(ENTRY))
+        .addFact(new CommentFact(""))
         .daysPassed(nonNegative(50))
-        .courseType(ENTRY)
-        .comment("")
         .create();
     meals.add(meal2);
 
     Meal main = meal()
         .id(nameUUIDFromBytes("TestMain".getBytes(UTF_8)))
         .name("Meal1")
-        .cookingTime(SHORT)
-        .sidedish(NONE)
-        .obligatoryUtensil(CASSEROLE)
-        .cookingPreference(NO_PREFERENCE)
+        .addFact(new CookingTimeFact(SHORT))
+        .addFact(new SidedishFact(NONE))
+        .addFact(new ObligatoryUtensilFact(CASSEROLE))
+        .addFact(new CookingPreferenceFact(NO_PREFERENCE))
+        .addFact(new CourseTypeFact(MAIN))
+        .addFact(new CommentFact(""))
         .daysPassed(ZERO)
-        .courseType(MAIN)
-        .comment("")
         .create();
 
     var pluginStore = registerPlugins();
@@ -125,38 +131,38 @@ public class EntryProposalTest {
   public void proposalProhibitsSameSidedish() {
     Meal meal1 = meal()
         .name("Meal5")
-        .cookingTime(SHORT)
-        .sidedish(PASTA)
-        .obligatoryUtensil(POT)
-        .cookingPreference(NO_PREFERENCE)
+        .addFact(new CookingTimeFact(SHORT))
+        .addFact(new SidedishFact(PASTA))
+        .addFact(new ObligatoryUtensilFact(POT))
+        .addFact(new CookingPreferenceFact(NO_PREFERENCE))
+        .addFact(new CourseTypeFact(ENTRY))
+        .addFact(new CommentFact(""))
         .daysPassed(nonNegative(100))
-        .courseType(ENTRY)
-        .comment("")
         .create();
     meals.add(meal1);
     Meal meal2 = meal()
         .id(nameUUIDFromBytes("Test2Meal".getBytes(UTF_8)))
         .name("Meal1")
-        .cookingTime(VERY_SHORT)
-        .sidedish(POTATOES)
-        .obligatoryUtensil(PAN)
-        .cookingPreference(NO_PREFERENCE)
+        .addFact(new CookingTimeFact(VERY_SHORT))
+        .addFact(new SidedishFact(POTATOES))
+        .addFact(new ObligatoryUtensilFact(PAN))
+        .addFact(new CookingPreferenceFact(NO_PREFERENCE))
+        .addFact(new CourseTypeFact(ENTRY))
+        .addFact(new CommentFact(""))
         .daysPassed(nonNegative(50))
-        .courseType(ENTRY)
-        .comment("")
         .create();
     meals.add(meal2);
 
     Meal main = meal()
         .id(nameUUIDFromBytes("TestMain".getBytes(UTF_8)))
         .name("Meal1")
-        .cookingTime(SHORT)
-        .sidedish(PASTA)
-        .obligatoryUtensil(CASSEROLE)
-        .cookingPreference(NO_PREFERENCE)
+        .addFact(new CookingTimeFact(SHORT))
+        .addFact(new SidedishFact(PASTA))
+        .addFact(new ObligatoryUtensilFact(CASSEROLE))
+        .addFact(new CookingPreferenceFact(NO_PREFERENCE))
+        .addFact(new CourseTypeFact(MAIN))
+        .addFact(new CommentFact(""))
         .daysPassed(ZERO)
-        .courseType(MAIN)
-        .comment("")
         .create();
 
     var pluginStore = registerPlugins();
@@ -173,38 +179,38 @@ public class EntryProposalTest {
   public void proposalProhibitsSameUtensilIfCasserole() {
     Meal meal1 = meal()
         .name("Meal5")
-        .cookingTime(SHORT)
-        .sidedish(PASTA)
-        .obligatoryUtensil(CASSEROLE)
-        .cookingPreference(NO_PREFERENCE)
+        .addFact(new CookingTimeFact(SHORT))
+        .addFact(new SidedishFact(PASTA))
+        .addFact(new ObligatoryUtensilFact(CASSEROLE))
+        .addFact(new CookingPreferenceFact(NO_PREFERENCE))
+        .addFact(new CourseTypeFact(ENTRY))
+        .addFact(new CommentFact(""))
         .daysPassed(nonNegative(100))
-        .courseType(ENTRY)
-        .comment("")
         .create();
     meals.add(meal1);
     Meal meal2 = meal()
         .id(nameUUIDFromBytes("Test2Meal".getBytes(UTF_8)))
         .name("Meal1")
-        .cookingTime(VERY_SHORT)
-        .sidedish(POTATOES)
-        .obligatoryUtensil(PAN)
-        .cookingPreference(NO_PREFERENCE)
+        .addFact(new CookingTimeFact(VERY_SHORT))
+        .addFact(new SidedishFact(POTATOES))
+        .addFact(new ObligatoryUtensilFact(PAN))
+        .addFact(new CookingPreferenceFact(NO_PREFERENCE))
+        .addFact(new CourseTypeFact(ENTRY))
+        .addFact(new CommentFact(""))
         .daysPassed(nonNegative(50))
-        .courseType(ENTRY)
-        .comment("")
         .create();
     meals.add(meal2);
 
     Meal main = meal()
         .id(nameUUIDFromBytes("TestMain".getBytes(UTF_8)))
         .name("Meal1")
-        .cookingTime(SHORT)
-        .sidedish(NONE)
-        .obligatoryUtensil(CASSEROLE)
-        .cookingPreference(NO_PREFERENCE)
+        .addFact(new CookingTimeFact(SHORT))
+        .addFact(new SidedishFact(NONE))
+        .addFact(new ObligatoryUtensilFact(CASSEROLE))
+        .addFact(new CookingPreferenceFact(NO_PREFERENCE))
+        .addFact(new CourseTypeFact(MAIN))
+        .addFact(new CommentFact(""))
         .daysPassed(ZERO)
-        .courseType(MAIN)
-        .comment("")
         .create();
     var pluginStore = registerPlugins();
     sut = new EntryProposal(meals, pluginStore.getRegisteredProposalBuilderSteps());
@@ -220,38 +226,38 @@ public class EntryProposalTest {
   public void proposalTakesPreferenceIntoAccount() {
     Meal meal1 = meal()
         .name("Meal5")
-        .cookingTime(SHORT)
-        .sidedish(PASTA)
-        .obligatoryUtensil(CASSEROLE)
-        .cookingPreference(RARE)
+        .addFact(new CookingTimeFact(SHORT))
+        .addFact(new SidedishFact(PASTA))
+        .addFact(new ObligatoryUtensilFact(CASSEROLE))
+        .addFact(new CookingPreferenceFact(RARE))
+        .addFact(new CourseTypeFact(ENTRY))
+        .addFact(new CommentFact(""))
         .daysPassed(nonNegative(100))
-        .courseType(ENTRY)
-        .comment("")
         .create();
     meals.add(meal1);
     Meal meal2 = meal()
         .id(nameUUIDFromBytes("Test2Meal".getBytes(UTF_8)))
         .name("Meal1")
-        .cookingTime(VERY_SHORT)
-        .sidedish(POTATOES)
-        .obligatoryUtensil(PAN)
-        .cookingPreference(VERY_POPULAR)
+        .addFact(new CookingTimeFact(VERY_SHORT))
+        .addFact(new SidedishFact(POTATOES))
+        .addFact(new ObligatoryUtensilFact(PAN))
+        .addFact(new CookingPreferenceFact(VERY_POPULAR))
+        .addFact(new CourseTypeFact(ENTRY))
+        .addFact(new CommentFact(""))
         .daysPassed(nonNegative(50))
-        .courseType(ENTRY)
-        .comment("")
         .create();
     meals.add(meal2);
 
     Meal main = meal()
         .id(nameUUIDFromBytes("TestMain".getBytes(UTF_8)))
         .name("Meal1")
-        .cookingTime(SHORT)
-        .sidedish(NONE)
-        .obligatoryUtensil(POT)
-        .cookingPreference(NO_PREFERENCE)
+        .addFact(new CookingTimeFact(SHORT))
+        .addFact(new SidedishFact(NONE))
+        .addFact(new ObligatoryUtensilFact(POT))
+        .addFact(new CookingPreferenceFact(NO_PREFERENCE))
+        .addFact(new CourseTypeFact(MAIN))
+        .addFact(new CommentFact(""))
         .daysPassed(ZERO)
-        .courseType(MAIN)
-        .comment("")
         .create();
     var pluginStore = registerPlugins();
     sut = new EntryProposal(meals, pluginStore.getRegisteredProposalBuilderSteps());

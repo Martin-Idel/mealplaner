@@ -25,6 +25,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import mealplaner.model.meal.Meal;
 import mealplaner.plugins.plugins.preference.mealextension.CookingPreference;
+import mealplaner.plugins.plugins.preference.mealextension.CookingPreferenceFact;
 import mealplaner.plugins.plugins.preference.proposal.CookingPreferenceSettings;
 import mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings;
 
@@ -72,8 +73,8 @@ public class CookingPreferenceSubSettingsTest {
   @Test
   public void prohibit() {
     utensilSetting = createCookingPreferenceSettings();
-    Meal rareMeal = meal().name("test").cookingPreference(RARE).create();
-    Meal veryPopularMeal = meal().name("test").cookingPreference(VERY_POPULAR).create();
+    Meal rareMeal = meal().name("test").addFact(new CookingPreferenceFact(RARE)).create();
+    Meal veryPopularMeal = meal().name("test").addFact(new CookingPreferenceFact(VERY_POPULAR)).create();
     utensilSetting.setCookingPreferences(RARE_NONE);
 
     assertTrue(utensilSetting.prohibits(rareMeal));

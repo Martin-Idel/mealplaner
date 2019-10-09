@@ -20,7 +20,7 @@ public class MealEditCourseType implements MealEditExtension {
     return table.addColumn(withEnumContent(CourseType.class)
         .withColumnName(BUNDLES.message("courseTypeColumn"))
         .setValueToOrderedImmutableList(meals,
-            (meal, courseType) -> from(meal).courseType(courseType).create())
+            (meal, courseType) -> from(meal).changeFact(new CourseTypeFact(courseType)).create())
         .getValueFromOrderedList(meals, meal -> meal.getTypedMealFact(CourseTypeFact.class).getCourseType())
         .isEditable()
         .onChange(buttonPanelEnabling::enableButtons)

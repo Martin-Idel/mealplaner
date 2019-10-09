@@ -3,16 +3,11 @@
 package mealplaner.model.meal;
 
 import static mealplaner.commons.NonnegativeInteger.FIVE;
-import static mealplaner.commons.NonnegativeInteger.nonNegative;
+import static mealplaner.model.meal.MealBuilder.meal;
+import static mealplaner.model.meal.MealBuilder.mealWithValidator;
 import static mealplaner.plugins.builtins.courses.CourseType.MAIN;
-import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.SHORT;
-import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.NO_PREFERENCE;
-import static mealplaner.plugins.plugins.sidedish.mealextension.Sidedish.PASTA;
-import static mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil.POT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.getMeal2;
-
-import java.util.HashMap;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,44 +16,25 @@ import mealplaner.commons.errorhandling.MealException;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.MealFact;
 import mealplaner.plugins.api.MealFactXml;
+import mealplaner.plugins.builtins.courses.CourseTypeFact;
 
 public class MealTest {
   private Meal sut;
 
   @Before
   public void setup() throws MealException {
-    var mealFacts = new HashMap<Class, MealFact>();
-    mealFacts.put(TestMealFact.class, new TestMealFact("unmodifiable"));
-    sut = MealBuilder.meal()
+    sut = meal()
         .name("Test")
-        .cookingTime(SHORT)
-        .sidedish(PASTA)
-        .obligatoryUtensil(POT)
-        .cookingPreference(NO_PREFERENCE)
         .daysPassed(FIVE)
-        .courseType(MAIN)
-        .comment("")
-        .addMealMap(mealFacts)
+        .addFact(new TestMealFact("unmodifiable"))
         .create();
   }
 
-  @Test
-  public void valuesWithLimitationsWorkCorrectly() throws MealException {
-    assertThat(sut.getName()).isEqualTo("Test");
-    assertThat(sut.getDaysPassed()).isEqualTo(nonNegative(5));
-  }
-
   @Test(expected = MealException.class)
-  public void setNameWithOnlyWhitespace() throws MealException {
-    sut = MealBuilder.meal()
+  public void setNameThrowsForEmptyNames() throws MealException {
+    sut = meal()
         .name("")
-        .cookingTime(SHORT)
-        .sidedish(PASTA)
-        .obligatoryUtensil(POT)
-        .cookingPreference(NO_PREFERENCE)
         .daysPassed(FIVE)
-        .courseType(MAIN)
-        .comment("")
         .create();
 
     assertThat(sut.getName()).isEqualTo("Test");
@@ -68,15 +44,9 @@ public class MealTest {
   public void validationFailsForMealWithMissingFacts() throws MealException {
     var pluginStore = new PluginStore();
     pluginStore.registerMealExtension(SomeFact.class, SomeFact.class, SomeFact::new);
-    sut = MealBuilder.mealWithValidator(pluginStore)
+    sut = mealWithValidator(pluginStore)
         .name("")
-        .cookingTime(SHORT)
-        .sidedish(PASTA)
-        .obligatoryUtensil(POT)
-        .cookingPreference(NO_PREFERENCE)
-        .daysPassed(FIVE)
-        .courseType(MAIN)
-        .comment("")
+        .addFact(new CourseTypeFact(MAIN))
         .create();
   }
 
@@ -106,7 +76,7 @@ public class MealTest {
   }
 
   private static class TestMealFact implements MealFact {
-    public final String testString;
+    final String testString;
 
     TestMealFact(String testString) {
       this.testString = testString;

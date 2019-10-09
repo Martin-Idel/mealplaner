@@ -5,7 +5,6 @@ package guitests.databaseedit;
 import static mealplaner.model.meal.MealBuilder.from;
 import static mealplaner.plugins.builtins.courses.CourseType.DESERT;
 import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.MEDIUM;
-import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.SHORT;
 import static mealplaner.plugins.plugins.sidedish.mealextension.Sidedish.RICE;
 import static testcommons.CommonFunctions.getMeal1;
 import static testcommons.CommonFunctions.getRecipe2;
@@ -32,9 +31,8 @@ public class DatabaseEditChangeMeals extends AssertJMealplanerTestCase {
   @Test
   public void canChangeAllAspectsOfAMeal() {
     Meal newMeal = from(getMeal1())
-        .cookingTime(SHORT)
-        .courseType(DESERT)
-        .comment("New comment")
+        .changeFact(new CourseTypeFact(DESERT))
+        .changeFact(new CommentFact("New comment"))
         .recipe(getRecipe2())
         .create();
     List<Meal> meals = new ArrayList<>();

@@ -18,7 +18,7 @@ public class MealEditCookingTime implements MealEditExtension {
     return table.addColumn(withEnumContent(CookingTime.class)
         .withColumnName(BUNDLES.message("cookingLengthColumn"))
         .setValueToOrderedImmutableList(meals,
-            (meal, cookingTime) -> from(meal).cookingTime(cookingTime).create())
+            (meal, cookingTime) -> from(meal).changeFact(new CookingTimeFact(cookingTime)).create())
         .getValueFromOrderedList(meals, meal -> meal.getTypedMealFact(CookingTimeFact.class).getCookingTime())
         .isEditable()
         .onChange(buttonPanel::enableButtons)

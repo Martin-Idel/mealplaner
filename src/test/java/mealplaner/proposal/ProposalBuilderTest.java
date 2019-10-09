@@ -49,13 +49,19 @@ import mealplaner.model.meal.Meal;
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.settings.Settings;
 import mealplaner.plugins.PluginStore;
+import mealplaner.plugins.builtins.courses.CourseTypeFact;
+import mealplaner.plugins.plugins.comment.mealextension.CommentFact;
 import mealplaner.plugins.plugins.cookingtime.CookingTimePlugin;
+import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTimeFact;
 import mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSubSetting;
 import mealplaner.plugins.plugins.preference.CookingPreferencePlugin;
 import mealplaner.plugins.plugins.preference.mealextension.CookingPreference;
+import mealplaner.plugins.plugins.preference.mealextension.CookingPreferenceFact;
 import mealplaner.plugins.plugins.preference.settingextension.CookingPreferenceSubSetting;
 import mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings;
+import mealplaner.plugins.plugins.sidedish.mealextension.SidedishFact;
 import mealplaner.plugins.plugins.utensil.ObligatoryUtensilPlugin;
+import mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensilFact;
 
 public class ProposalBuilderTest {
   private List<Meal> meals;
@@ -233,57 +239,57 @@ public class ProposalBuilderTest {
   private void addMeals() throws MealException {
     Meal meal1 = meal()
         .name("Meal1")
-        .cookingTime(SHORT)
-        .sidedish(PASTA)
-        .obligatoryUtensil(PAN)
-        .cookingPreference(NO_PREFERENCE)
-        .courseType(MAIN)
+        .addFact(new CookingTimeFact(SHORT))
+        .addFact(new SidedishFact(PASTA))
+        .addFact(new ObligatoryUtensilFact(PAN))
+        .addFact(new CookingPreferenceFact(NO_PREFERENCE))
+        .addFact(new CourseTypeFact(MAIN))
+        .addFact(new CommentFact(""))
         .addDaysPassed(nonNegative(50))
-        .comment("")
         .create();
     meals.add(meal1);
     Meal meal2 = meal()
         .name("Meal2")
-        .cookingTime(MEDIUM)
-        .sidedish(PASTA)
-        .obligatoryUtensil(CASSEROLE)
-        .cookingPreference(RARE)
-        .courseType(MAIN)
+        .addFact(new CookingTimeFact(MEDIUM))
+        .addFact(new SidedishFact(PASTA))
+        .addFact(new ObligatoryUtensilFact(CASSEROLE))
+        .addFact(new CookingPreferenceFact(RARE))
+        .addFact(new CourseTypeFact(MAIN))
+        .addFact(new CommentFact(""))
         .addDaysPassed(nonNegative(101))
-        .comment("")
         .create();
     meals.add(meal2);
     Meal meal3 = meal()
         .name("Meal3")
-        .cookingTime(LONG)
-        .sidedish(RICE)
-        .obligatoryUtensil(POT)
-        .cookingPreference(VERY_POPULAR)
-        .courseType(MAIN)
+        .addFact(new CookingTimeFact(LONG))
+        .addFact(new SidedishFact(RICE))
+        .addFact(new ObligatoryUtensilFact(POT))
+        .addFact(new CookingPreferenceFact(VERY_POPULAR))
+        .addFact(new CourseTypeFact(MAIN))
+        .addFact(new CommentFact(""))
         .addDaysPassed(nonNegative(20))
-        .comment("")
         .create();
     meals.add(meal3);
     Meal meal4 = meal()
         .name("Meal4")
-        .cookingTime(MEDIUM)
-        .sidedish(POTATOES)
-        .obligatoryUtensil(CASSEROLE)
-        .cookingPreference(VERY_POPULAR)
-        .courseType(MAIN)
+        .addFact(new CookingTimeFact(MEDIUM))
+        .addFact(new SidedishFact(POTATOES))
+        .addFact(new ObligatoryUtensilFact(CASSEROLE))
+        .addFact(new CookingPreferenceFact(VERY_POPULAR))
+        .addFact(new CourseTypeFact(MAIN))
+        .addFact(new CommentFact(""))
         .addDaysPassed(nonNegative(25))
-        .comment("")
         .create();
     meals.add(meal4);
     Meal meal5 = meal()
         .name("Meal5")
-        .cookingTime(SHORT)
-        .sidedish(PASTA)
-        .obligatoryUtensil(POT)
-        .cookingPreference(NO_PREFERENCE)
-        .courseType(MAIN)
+        .addFact(new CookingTimeFact(SHORT))
+        .addFact(new SidedishFact(PASTA))
+        .addFact(new ObligatoryUtensilFact(POT))
+        .addFact(new CookingPreferenceFact(NO_PREFERENCE))
+        .addFact(new CourseTypeFact(MAIN))
+        .addFact(new CommentFact(""))
         .addDaysPassed(nonNegative(100))
-        .comment("")
         .create();
     meals.add(meal5);
   }
@@ -291,51 +297,56 @@ public class ProposalBuilderTest {
   private void addMealsToTestMultipliers() throws MealException {
     Meal meal1 = meal()
         .name("Meal1")
-        .cookingTime(SHORT)
-        .sidedish(PASTA)
-        .obligatoryUtensil(PAN)
-        .cookingPreference(NO_PREFERENCE)
-        .courseType(MAIN)
+        .addFact(new CookingTimeFact(SHORT))
+        .addFact(new SidedishFact(PASTA))
+        .addFact(new ObligatoryUtensilFact(PAN))
+        .addFact(new CookingPreferenceFact(NO_PREFERENCE))
+        .addFact(new CourseTypeFact(MAIN))
+        .addFact(new CommentFact(""))
         .addDaysPassed(ZERO)
         .create();
     meals.add(meal1);
     Meal meal2 = meal()
         .name("Meal2")
-        .cookingTime(MEDIUM)
-        .sidedish(PASTA)
-        .obligatoryUtensil(CASSEROLE)
-        .cookingPreference(RARE)
-        .courseType(MAIN)
+        .addFact(new CookingTimeFact(MEDIUM))
+        .addFact(new SidedishFact(PASTA))
+        .addFact(new ObligatoryUtensilFact(CASSEROLE))
+        .addFact(new CookingPreferenceFact(RARE))
+        .addFact(new CourseTypeFact(MAIN))
+        .addFact(new CommentFact(""))
         .addDaysPassed(nonNegative(10))
         .create();
     meals.add(meal2);
     Meal meal3 = meal()
         .name("Meal3")
-        .cookingTime(LONG)
-        .sidedish(RICE)
-        .obligatoryUtensil(POT)
-        .cookingPreference(VERY_POPULAR)
-        .courseType(MAIN)
+        .addFact(new CookingTimeFact(LONG))
+        .addFact(new SidedishFact(RICE))
+        .addFact(new ObligatoryUtensilFact(POT))
+        .addFact(new CookingPreferenceFact(VERY_POPULAR))
+        .addFact(new CourseTypeFact(MAIN))
+        .addFact(new CommentFact(""))
         .addDaysPassed(nonNegative(20))
         .create();
     meals.add(meal3);
     Meal meal4 = meal()
         .name("Meal4")
-        .cookingTime(MEDIUM)
-        .sidedish(POTATOES)
-        .obligatoryUtensil(CASSEROLE)
-        .cookingPreference(NO_PREFERENCE)
-        .courseType(MAIN)
+        .addFact(new CookingTimeFact(MEDIUM))
+        .addFact(new SidedishFact(POTATOES))
+        .addFact(new ObligatoryUtensilFact(CASSEROLE))
+        .addFact(new CookingPreferenceFact(NO_PREFERENCE))
+        .addFact(new CourseTypeFact(MAIN))
+        .addFact(new CommentFact(""))
         .addDaysPassed(nonNegative(30))
         .create();
     meals.add(meal4);
     Meal meal5 = meal()
         .name("Meal5")
-        .cookingTime(SHORT)
-        .sidedish(PASTA)
-        .obligatoryUtensil(POT)
-        .cookingPreference(NO_PREFERENCE)
-        .courseType(MAIN)
+        .addFact(new CookingTimeFact(SHORT))
+        .addFact(new SidedishFact(PASTA))
+        .addFact(new ObligatoryUtensilFact(POT))
+        .addFact(new CookingPreferenceFact(NO_PREFERENCE))
+        .addFact(new CourseTypeFact(MAIN))
+        .addFact(new CommentFact(""))
         .addDaysPassed(nonNegative(70))
         .create();
     meals.add(meal5);

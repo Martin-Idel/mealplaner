@@ -25,6 +25,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import mealplaner.model.meal.Meal;
 import mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil;
+import mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensilFact;
 import mealplaner.plugins.plugins.utensil.proposal.CookingUtensilSetting;
 import mealplaner.plugins.plugins.utensil.settingextension.CasseroleSettings;
 
@@ -86,8 +87,8 @@ public class CookingUtensilSettingTest {
   @Test
   public void prohibit() {
     utensilSetting = createCookingUtensilSettings();
-    Meal meal = meal().name("test").obligatoryUtensil(POT).create();
-    Meal mealPan = meal().name("test").obligatoryUtensil(PAN).create();
+    Meal meal = meal().name("test").addFact(new ObligatoryUtensilFact(POT)).create();
+    Meal mealPan = meal().name("test").addFact(new ObligatoryUtensilFact(PAN)).create();
     utensilSetting.setNumberOfPeople(nonNegative(4));
 
     assertFalse(utensilSetting.prohibits(meal));

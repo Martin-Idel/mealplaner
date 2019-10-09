@@ -79,31 +79,6 @@ public final class MealBuilder {
     return this;
   }
 
-  public MealBuilder cookingTime(CookingTime cookingTime) {
-    this.mealFactMap.put(CookingTimeFact.class, new CookingTimeFact(cookingTime));
-    return this;
-  }
-
-  public MealBuilder cookingPreference(CookingPreference cookingPreference) {
-    this.mealFactMap.put(CookingPreferenceFact.class, new CookingPreferenceFact(cookingPreference));
-    return this;
-  }
-
-  public MealBuilder sidedish(Sidedish sidedish) {
-    this.mealFactMap.put(SidedishFact.class, new SidedishFact(sidedish));
-    return this;
-  }
-
-  public MealBuilder obligatoryUtensil(ObligatoryUtensil obligatoryUtensil) {
-    this.mealFactMap.put(ObligatoryUtensilFact.class, new ObligatoryUtensilFact(obligatoryUtensil));
-    return this;
-  }
-
-  public MealBuilder courseType(CourseType courseType) {
-    this.mealFactMap.put(CourseTypeFact.class, new CourseTypeFact(courseType));
-    return this;
-  }
-
   public MealBuilder daysPassed(NonnegativeInteger daysPassed) {
     this.daysPassed = daysPassed;
     return this;
@@ -111,11 +86,6 @@ public final class MealBuilder {
 
   public MealBuilder addDaysPassed(NonnegativeInteger daysPassed) {
     this.daysPassed = this.daysPassed.add(daysPassed);
-    return this;
-  }
-
-  public MealBuilder comment(String comment) {
-    this.mealFactMap.put(CommentFact.class, new CommentFact(comment));
     return this;
   }
 
@@ -131,6 +101,11 @@ public final class MealBuilder {
 
   public MealBuilder addFact(MealFact mealFact) {
     mealFactMap.putIfAbsent(mealFact.getClass(), mealFact);
+    return this;
+  }
+
+  public MealBuilder changeFact(MealFact mealFact) {
+    mealFactMap.put(mealFact.getClass(), mealFact);
     return this;
   }
 

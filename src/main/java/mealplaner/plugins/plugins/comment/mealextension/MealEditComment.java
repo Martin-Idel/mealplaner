@@ -18,7 +18,7 @@ public class MealEditComment implements MealEditExtension {
     return table.addColumn(withContent(String.class)
         .withColumnName(BUNDLES.message("commentInsertColumn"))
         .setValueToOrderedImmutableList(meals,
-            (meal, comment) -> from(meal).comment(comment).create())
+            (meal, comment) -> from(meal).changeFact(new CommentFact(comment)).create())
         .getValueFromOrderedList(meals, meal -> meal.getTypedMealFact(CommentFact.class).getComment())
         .isEditable()
         .onChange(buttonPanelEnabling::enableButtons)

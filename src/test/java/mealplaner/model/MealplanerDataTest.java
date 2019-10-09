@@ -239,31 +239,16 @@ public class MealplanerDataTest {
   private void addInitializedMeals() throws MealException {
     meal1 = MealBuilder.meal()
         .name("Meal1")
-        .cookingTime(SHORT)
-        .sidedish(NONE)
-        .obligatoryUtensil(PAN)
-        .cookingPreference(NO_PREFERENCE)
-        .courseType(MAIN)
         .addDaysPassed(nonNegative(50))
         .create();
     meals.add(meal1);
     Meal meal2 = meal()
         .name("Meal2")
-        .cookingTime(MEDIUM)
-        .sidedish(PASTA)
-        .obligatoryUtensil(CASSEROLE)
-        .cookingPreference(RARE)
-        .courseType(MAIN)
         .addDaysPassed(nonNegative(101))
         .create();
     meals.add(meal2);
     meal4 = meal()
         .name("Meal4")
-        .cookingTime(LONG)
-        .sidedish(RICE)
-        .obligatoryUtensil(POT)
-        .cookingPreference(VERY_POPULAR)
-        .courseType(MAIN)
         .addDaysPassed(nonNegative(20))
         .create();
     meals.add(meal4);
@@ -272,11 +257,6 @@ public class MealplanerDataTest {
   private Meal initializeNewMeal() {
     return meal()
         .name("Meal3")
-        .cookingTime(SHORT)
-        .sidedish(POTATOES)
-        .obligatoryUtensil(PAN)
-        .cookingPreference(NO_PREFERENCE)
-        .courseType(MAIN)
         .addDaysPassed(nonNegative(10))
         .create();
   }

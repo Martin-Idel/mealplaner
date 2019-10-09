@@ -18,7 +18,7 @@ public class MealEditSidedish implements MealEditExtension {
     return table.addColumn(withEnumContent(Sidedish.class)
         .withColumnName(BUNDLES.message("sidedishColumn"))
         .setValueToOrderedImmutableList(meals,
-            (meal, sidedish) -> from(meal).sidedish(sidedish).create())
+            (meal, sidedish) -> from(meal).changeFact(new SidedishFact(sidedish)).create())
         .getValueFromOrderedList(meals, meal -> meal.getTypedMealFact(SidedishFact.class).getSidedish())
         .isEditable()
         .onChange(buttonPanelEnabling::enableButtons)

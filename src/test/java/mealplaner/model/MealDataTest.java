@@ -16,19 +16,6 @@ import static mealplaner.model.recipes.IngredientType.BAKING_GOODS;
 import static mealplaner.model.recipes.Measure.GRAM;
 import static mealplaner.model.recipes.Measures.createMeasures;
 import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitativeIngredient;
-import static mealplaner.plugins.builtins.courses.CourseType.MAIN;
-import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.LONG;
-import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.MEDIUM;
-import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.SHORT;
-import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.NO_PREFERENCE;
-import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.RARE;
-import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.VERY_POPULAR;
-import static mealplaner.plugins.plugins.sidedish.mealextension.Sidedish.NONE;
-import static mealplaner.plugins.plugins.sidedish.mealextension.Sidedish.PASTA;
-import static mealplaner.plugins.plugins.sidedish.mealextension.Sidedish.RICE;
-import static mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil.CASSEROLE;
-import static mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil.PAN;
-import static mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil.POT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonFunctions.getIngredient1;
 import static testcommons.CommonFunctions.getIngredient2;
@@ -89,11 +76,6 @@ public class MealDataTest {
   public void putAndGetMealWithRecipeDoesNotChangeRecipe() {
     meal1 = meal()
         .name("Meal1")
-        .cookingTime(SHORT)
-        .sidedish(NONE)
-        .obligatoryUtensil(PAN)
-        .cookingPreference(NO_PREFERENCE)
-        .courseType(MAIN)
         .addDaysPassed(nonNegative(50))
         .create();
     meals.add(meal1);
@@ -324,11 +306,6 @@ public class MealDataTest {
   private void setupOneMeal(Ingredient ingredient1, Ingredient ingredient2) {
     meal1 = meal()
         .name("Meal1")
-        .cookingTime(SHORT)
-        .sidedish(NONE)
-        .obligatoryUtensil(PAN)
-        .cookingPreference(NO_PREFERENCE)
-        .courseType(MAIN)
         .addDaysPassed(nonNegative(50))
         .optionalRecipe(of(getRecipe(ingredient1, ingredient2)))
         .create();
@@ -347,31 +324,16 @@ public class MealDataTest {
   private void addInitializedMeals() throws MealException {
     meal1 = meal()
         .name("Meal1")
-        .cookingTime(SHORT)
-        .sidedish(NONE)
-        .obligatoryUtensil(PAN)
-        .cookingPreference(NO_PREFERENCE)
-        .courseType(MAIN)
         .addDaysPassed(nonNegative(50))
         .create();
     meals.add(meal1);
     meal2 = meal()
         .name("Meal2")
-        .cookingTime(MEDIUM)
-        .sidedish(PASTA)
-        .obligatoryUtensil(CASSEROLE)
-        .cookingPreference(RARE)
-        .courseType(MAIN)
         .addDaysPassed(nonNegative(101))
         .create();
     meals.add(meal2);
     meal3 = meal()
         .name("Meal4")
-        .cookingTime(LONG)
-        .sidedish(RICE)
-        .obligatoryUtensil(POT)
-        .cookingPreference(VERY_POPULAR)
-        .courseType(MAIN)
         .addDaysPassed(nonNegative(20))
         .create();
     meals.add(meal3);

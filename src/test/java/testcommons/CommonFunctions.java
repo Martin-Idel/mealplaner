@@ -39,6 +39,7 @@ import static mealplaner.plugins.plugins.preference.mealextension.CookingPrefere
 import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.RARE;
 import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.VERY_POPULAR;
 import static mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings.RARE_PREFERED;
+import static mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings.VERY_POPULAR_ONLY;
 import static mealplaner.plugins.plugins.sidedish.mealextension.Sidedish.PASTA;
 import static mealplaner.plugins.plugins.sidedish.mealextension.Sidedish.RICE;
 import static mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil.CASSEROLE;
@@ -63,8 +64,14 @@ import mealplaner.model.recipes.Measure;
 import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 import mealplaner.model.settings.Settings;
+import mealplaner.plugins.builtins.courses.CourseTypeFact;
+import mealplaner.plugins.plugins.comment.mealextension.CommentFact;
+import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTimeFact;
+import mealplaner.plugins.plugins.preference.mealextension.CookingPreferenceFact;
 import mealplaner.plugins.plugins.preference.settingextension.CookingPreferenceSubSetting;
 import mealplaner.plugins.plugins.sidedish.mealextension.Sidedish;
+import mealplaner.plugins.plugins.sidedish.mealextension.SidedishFact;
+import mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensilFact;
 import mealplaner.plugins.plugins.utensil.settingextension.CasseroleSettings;
 
 public final class CommonFunctions {
@@ -75,13 +82,13 @@ public final class CommonFunctions {
     return MealBuilder.meal()
         .id(nameUUIDFromBytes("Test1Meal".getBytes(UTF_8)))
         .name("Test1")
-        .cookingTime(SHORT)
-        .sidedish(PASTA)
-        .obligatoryUtensil(PAN)
-        .cookingPreference(VERY_POPULAR)
-        .courseType(MAIN)
+        .addFact(new CookingTimeFact(SHORT))
+        .addFact(new SidedishFact(PASTA))
+        .addFact(new ObligatoryUtensilFact(PAN))
+        .addFact(new CookingPreferenceFact(VERY_POPULAR))
+        .addFact(new CourseTypeFact(MAIN))
+        .addFact(new CommentFact("no comment"))
         .daysPassed(FIVE)
-        .comment("no comment")
         .create();
   }
 
@@ -89,13 +96,13 @@ public final class CommonFunctions {
     return MealBuilder.meal()
         .id(nameUUIDFromBytes("Test2Meal".getBytes(UTF_8)))
         .name("Test2")
-        .cookingTime(SHORT)
-        .sidedish(Sidedish.NONE)
-        .obligatoryUtensil(POT)
-        .cookingPreference(NO_PREFERENCE)
-        .courseType(MAIN)
+        .addFact(new CookingTimeFact(SHORT))
+        .addFact(new SidedishFact(Sidedish.NONE))
+        .addFact(new ObligatoryUtensilFact(POT))
+        .addFact(new CookingPreferenceFact(NO_PREFERENCE))
+        .addFact(new CourseTypeFact(MAIN))
+        .addFact(new CommentFact(""))
         .daysPassed(ONE)
-        .comment("")
         .recipe(getRecipe1())
         .create();
   }
@@ -104,13 +111,13 @@ public final class CommonFunctions {
     return MealBuilder.meal()
         .id(nameUUIDFromBytes("Test3Meal".getBytes(UTF_8)))
         .name("Test3")
-        .cookingTime(MEDIUM)
-        .sidedish(RICE)
-        .obligatoryUtensil(POT)
-        .cookingPreference(NO_PREFERENCE)
-        .courseType(MAIN)
+        .addFact(new CookingTimeFact(MEDIUM))
+        .addFact(new SidedishFact(RICE))
+        .addFact(new ObligatoryUtensilFact(POT))
+        .addFact(new CookingPreferenceFact(NO_PREFERENCE))
+        .addFact(new CourseTypeFact(MAIN))
+        .addFact(new CommentFact(""))
         .daysPassed(TWO)
-        .comment("")
         .recipe(getRecipe2())
         .create();
   }
@@ -119,13 +126,13 @@ public final class CommonFunctions {
     return MealBuilder.meal()
         .id(nameUUIDFromBytes("Test4Meal".getBytes(UTF_8)))
         .name("Test4")
-        .cookingTime(LONG)
-        .sidedish(RICE)
-        .obligatoryUtensil(PAN)
-        .cookingPreference(NO_PREFERENCE)
-        .courseType(ENTRY)
+        .addFact(new CookingTimeFact(LONG))
+        .addFact(new SidedishFact(RICE))
+        .addFact(new ObligatoryUtensilFact(PAN))
+        .addFact(new CookingPreferenceFact(NO_PREFERENCE))
+        .addFact(new CourseTypeFact(ENTRY))
+        .addFact(new CommentFact(""))
         .daysPassed(TWO)
-        .comment("")
         .recipe(getRecipe2())
         .create();
   }
@@ -134,13 +141,13 @@ public final class CommonFunctions {
     return MealBuilder.meal()
         .id(nameUUIDFromBytes("Test5Meal".getBytes(UTF_8)))
         .name("Test4")
-        .cookingTime(VERY_SHORT)
-        .sidedish(RICE)
-        .obligatoryUtensil(POT)
-        .cookingPreference(VERY_POPULAR)
-        .courseType(DESERT)
+        .addFact(new CookingTimeFact(VERY_SHORT))
+        .addFact(new SidedishFact(RICE))
+        .addFact(new ObligatoryUtensilFact(POT))
+        .addFact(new CookingPreferenceFact(VERY_POPULAR))
+        .addFact(new CourseTypeFact(DESERT))
+        .addFact(new CommentFact(""))
         .daysPassed(TWO)
-        .comment("")
         .recipe(getRecipe2())
         .create();
   }
@@ -149,13 +156,13 @@ public final class CommonFunctions {
     return MealBuilder.meal()
         .id(nameUUIDFromBytes("Test6Meal".getBytes(UTF_8)))
         .name("Test6")
-        .cookingTime(VERY_SHORT)
-        .sidedish(Sidedish.NONE)
-        .obligatoryUtensil(CASSEROLE)
-        .cookingPreference(RARE)
-        .courseType(ENTRY)
+        .addFact(new CookingTimeFact(VERY_SHORT))
+        .addFact(new SidedishFact(Sidedish.NONE))
+        .addFact(new ObligatoryUtensilFact(CASSEROLE))
+        .addFact(new CookingPreferenceFact(RARE))
+        .addFact(new CourseTypeFact(ENTRY))
+        .addFact(new CommentFact(""))
         .daysPassed(TWO)
-        .comment("")
         .create();
   }
 
