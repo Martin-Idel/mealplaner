@@ -15,8 +15,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RecipeXml {
   public final int numberOfPortions;
-  @XmlElementWrapper(name = "meals")
-  @XmlElement(name = "meal")
+  @XmlElementWrapper(name = "ingredients")
+  @XmlElement(name = "ingredient")
   public final List<QuantitativeIngredientXml> quantitativeIngredients;
 
   public RecipeXml() {
