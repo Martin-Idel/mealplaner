@@ -7,6 +7,7 @@ import static java.util.stream.Collectors.toList;
 import static mealplaner.model.proposal.Proposal.from;
 import static mealplaner.model.proposal.ProposedMenu.proposed;
 import static mealplaner.plugins.builtins.courses.CourseSettings.ONLY_MAIN;
+import static mealplaner.plugins.builtins.courses.CourseType.MAIN;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,11 +25,12 @@ import mealplaner.model.proposal.Proposal;
 import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.settings.Settings;
 import mealplaner.plugins.api.ProposalBuilderStep;
+import mealplaner.plugins.builtins.courses.CourseTypeFact;
 import mealplaner.plugins.builtins.courses.CourseTypeSetting;
 
 public class ProposalBuilder {
-  private boolean firstDayIsToday;
-  private boolean random;
+  private boolean firstDayIsToday = false;
+  private boolean random = false;
 
   private final Random randomIntGenerator = new Random();
   private final Map<UUID, Meal> mealData;
@@ -63,7 +65,7 @@ public class ProposalBuilder {
     for (var step : proposalBuilderSteps) {
       step.setupProposalStep(mealData);
     }
-    if (!mealData.isEmpty()) {
+    if (mealDataContainsAtLeastOneMain()) {
       for (int today = 0; today < settings.length; today++) {
         makeNextProposal(settings, today);
       }
@@ -73,7 +75,12 @@ public class ProposalBuilder {
 
   private void makeNextProposal(Settings[] settings, int today) {
     Optional<UUID> entry = empty();
-    UUID main = mealData.entrySet().iterator().next().getKey();
+    UUID main = mealData.entrySet()
+        .stream()
+        .filter(meal -> meal.getValue().getTypedMealFact(CourseTypeFact.class).getCourseType().equals(MAIN))
+        .findFirst()
+        .map(Map.Entry::getKey)
+        .get();
     Meal defaultMeal = mealData.get(main);
     Optional<UUID> desert = empty();
     switch (settings[today]
@@ -109,6 +116,7 @@ public class ProposalBuilder {
   private Optional<Meal> proposeNextMain(
       final List<ProposedMenu> proposalList, final Settings settings) {
     var proposalStream = mealData.values().stream()
+        .filter(meal -> meal.getTypedMealFact(CourseTypeFact.class).getCourseType().equals(MAIN))
         .map(meal -> Pair.of(meal, meal.getDaysPassedAsInteger()))
         .map(pair -> takeProposalIntoAccount(pair, proposalList));
     for (var proposalStep : proposalBuilderSteps) {
@@ -129,10 +137,16 @@ public class ProposalBuilder {
         .collect(toList());
     return proposedMeals.contains(pair.left)
         ? Pair.of(pair.left, proposalList.size() - proposedMeals.indexOf(pair.left) - 1)
-        : pair;
+        : Pair.of(pair.left, pair.right + proposalList.size());
   }
 
   private Pair<Meal, Integer> randomize(Pair<Meal, Integer> pair) {
     return random ? Pair.of(pair.left, pair.right + randomIntGenerator.nextInt(7)) : pair;
+  }
+
+  private boolean mealDataContainsAtLeastOneMain() {
+    return mealData.entrySet()
+        .stream()
+        .anyMatch(meal -> meal.getValue().getTypedMealFact(CourseTypeFact.class).getCourseType().equals(MAIN));
   }
 }

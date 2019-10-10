@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-package mealplaner.model.settings;
+package mealplaner.plugins.plugins.cookingtime;
 
 import static mealplaner.model.meal.MealBuilder.meal;
 import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.LONG;

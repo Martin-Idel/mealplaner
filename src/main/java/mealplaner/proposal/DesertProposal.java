@@ -3,6 +3,7 @@
 package mealplaner.proposal;
 
 import static java.util.stream.Collectors.toList;
+import static mealplaner.plugins.builtins.courses.CourseType.DESERT;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import mealplaner.model.meal.Meal;
 import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.settings.Settings;
 import mealplaner.plugins.api.ProposalBuilderStep;
+import mealplaner.plugins.builtins.courses.CourseTypeFact;
 
 class DesertProposal {
   private final Map<UUID, Meal> mealData;
@@ -30,6 +32,7 @@ class DesertProposal {
   public Optional<UUID> proposeNextDesert(
       Settings settings, Meal main, List<ProposedMenu> proposalList) {
     var meals = mealData.values().stream()
+        .filter(meal -> meal.getTypedMealFact(CourseTypeFact.class).getCourseType().equals(DESERT))
         .map(desert -> Pair.of(desert, desert.getDaysPassedAsInteger()))
         .map(desert -> takeProposalIntoAccount(desert, proposalList));
     for (var step : proposalBuilderSteps) {

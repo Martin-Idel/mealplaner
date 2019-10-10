@@ -252,27 +252,6 @@ public final class CommonFunctions {
         .numberOfPeople(FOUR)
         .create();
   }
-
-  public static Settings getSettings3() {
-    return setting()
-        .addSetting(cookingTimeWithProhibited())
-        .addSetting(new CasseroleSubSetting(NONE))
-        .addSetting(new CookingPreferenceSubSetting(RARE_PREFERED))
-        .addSetting(new CourseTypeSetting(MAIN_DESERT))
-        .numberOfPeople(THREE)
-        .create();
-  }
-
-  public static Settings getSettings4() {
-    return setting()
-        .addSetting(cookingTimeWithProhibited())
-        .addSetting(new CasseroleSubSetting(NONE))
-        .addSetting(new CookingPreferenceSubSetting(RARE_PREFERED))
-        .addSetting(new CourseTypeSetting(MAIN_DESERT))
-        .numberOfPeople(THREE)
-        .create();
-  }
-
   public static Proposal getProposal1() {
     List<ProposedMenu> meals = new ArrayList<>();
     meals.add(mainOnly(getMeal1().getId(), getSettings1().getNumberOfPeople()));

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-package mealplaner.model.settings;
+package mealplaner.plugins.plugins.preference;
 
 import static mealplaner.model.meal.MealBuilder.meal;
 import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.RARE;
@@ -30,33 +30,33 @@ import mealplaner.plugins.plugins.preference.proposal.CookingPreferenceSettings;
 import mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CookingPreferenceSubSettingsTest {
+public class CookingPreferenceSettingsTest {
 
   @Mock
-  private Set<CookingPreference> prohibitedpreference;
+  private Set<CookingPreference> prohibitedPreference;
 
   private CookingPreferenceSettings utensilSetting;
 
   @Before
   public void setup() {
-    utensilSetting = from(prohibitedpreference);
+    utensilSetting = from(prohibitedPreference);
   }
 
   @Test
   public void setCookingPreference() {
     utensilSetting.setCookingPreferences(PreferenceSettings.RARE_NONE);
 
-    verify(prohibitedpreference).add(CookingPreference.RARE);
-    verify(prohibitedpreference, never()).add(CookingPreference.NO_PREFERENCE);
-    verify(prohibitedpreference, never()).add(CookingPreference.VERY_POPULAR);
+    verify(prohibitedPreference).add(CookingPreference.RARE);
+    verify(prohibitedPreference, never()).add(CookingPreference.NO_PREFERENCE);
+    verify(prohibitedPreference, never()).add(CookingPreference.VERY_POPULAR);
   }
 
   @Test
   public void setCasseroleSettingsOnly() {
     utensilSetting.setCookingPreferences(PreferenceSettings.VERY_POPULAR_ONLY);
 
-    verify(prohibitedpreference).addAll(any());
-    verify(prohibitedpreference).remove(CookingPreference.VERY_POPULAR);
+    verify(prohibitedPreference).addAll(any());
+    verify(prohibitedPreference).remove(CookingPreference.VERY_POPULAR);
   }
 
   @Test

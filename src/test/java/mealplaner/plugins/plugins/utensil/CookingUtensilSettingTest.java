@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-package mealplaner.model.settings;
+package mealplaner.plugins.plugins.utensil;
 
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.meal.MealBuilder.meal;
@@ -64,13 +64,6 @@ public class CookingUtensilSettingTest {
     utensilSetting.setNumberOfPeople(nonNegative(5));
 
     verify(prohibitedUtensil).add(ObligatoryUtensil.PAN);
-  }
-
-  @Test
-  public void setNumberOfPeopleAllowsPanForFew() {
-    utensilSetting.setNumberOfPeople(nonNegative(2));
-
-    verify(prohibitedUtensil).remove(ObligatoryUtensil.PAN);
   }
 
   @Test

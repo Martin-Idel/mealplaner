@@ -27,11 +27,6 @@ public final class CookingUtensilSetting {
     return new CookingUtensilSetting(utensils);
   }
 
-  public static CookingUtensilSetting copyUtensilSetting(
-      CookingUtensilSetting cookingUtensilSetting) {
-    return new CookingUtensilSetting(new HashSet<>(cookingUtensilSetting.prohibitedUtensil));
-  }
-
   public void setCasseroleSettings(CasseroleSettings casserole) {
     if (casserole == CasseroleSettings.NONE) {
       prohibitedUtensil.add(ObligatoryUtensil.CASSEROLE);
@@ -44,8 +39,6 @@ public final class CookingUtensilSetting {
   public void setNumberOfPeople(NonnegativeInteger number) {
     if (number.value > 3) {
       prohibitedUtensil.add(ObligatoryUtensil.PAN);
-    } else {
-      prohibitedUtensil.remove(ObligatoryUtensil.PAN);
     }
   }
 

@@ -3,6 +3,7 @@
 package mealplaner.proposal;
 
 import static java.util.stream.Collectors.toList;
+import static mealplaner.plugins.builtins.courses.CourseType.ENTRY;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import mealplaner.model.meal.Meal;
 import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.settings.Settings;
 import mealplaner.plugins.api.ProposalBuilderStep;
+import mealplaner.plugins.builtins.courses.CourseTypeFact;
 
 // TODO: This can be unified with DesertProposal and ProposalBuilder
 class EntryProposal {
@@ -31,6 +33,7 @@ class EntryProposal {
   public Optional<UUID> proposeNextEntry(
       Settings settings, Meal main, List<ProposedMenu> proposalList) {
     var meals = mealData.values().stream()
+        .filter(meal -> meal.getTypedMealFact(CourseTypeFact.class).getCourseType().equals(ENTRY))
         .map(entry -> Pair.of(entry, entry.getDaysPassedAsInteger()))
         .map(entry -> takeProposalIntoAccount(entry, proposalList));
     for (var step : proposalBuilderSteps) {
