@@ -4,25 +4,34 @@ package mealplaner.io.xml.adapters;
 
 import static mealplaner.io.xml.adapters.IngredientAdapter.convertIngredientV3FromXml;
 import static mealplaner.io.xml.adapters.IngredientAdapter.convertIngredientV3ToXml;
+import static mealplaner.model.recipes.IngredientBuilder.ingredient;
+import static mealplaner.model.recipes.IngredientType.MEAT_PRODUCTS;
+import static mealplaner.model.recipes.Measures.DEFAULT_MEASURES;
 import static org.assertj.core.api.Assertions.assertThat;
-import static testcommons.CommonFunctions.getIngredient1;
-import static testcommons.CommonFunctions.getIngredient2;
+import static testcommons.TestIngredientFact.TestEnum.TEST1;
 
 import org.junit.Test;
 
-import mealplaner.Kochplaner;
 import mealplaner.model.recipes.Ingredient;
+import mealplaner.plugins.PluginStore;
+import testcommons.TestIngredientFact;
 
 public class IngredientAdapterTest {
 
   @Test
   public void adapterTest() {
-    Ingredient convertedIngredients1 = convertIngredientV3FromXml(
-        convertIngredientV3ToXml(getIngredient1()), Kochplaner.registerPlugins());
-    Ingredient convertedIngredients2 = convertIngredientV3FromXml(
-        convertIngredientV3ToXml(getIngredient2()), Kochplaner.registerPlugins());
+    Ingredient ingredient = ingredient()
+        .withName("Test1")
+        .withType(MEAT_PRODUCTS)
+        .withMeasures(DEFAULT_MEASURES)
+        .addFact(new TestIngredientFact(TEST1))
+        .create();
 
-    assertThat(convertedIngredients1).isEqualTo(getIngredient1());
-    assertThat(convertedIngredients2).isEqualTo(getIngredient2());
+    var pluginStore = new PluginStore();
+    pluginStore.registerIngredientExtension(
+        TestIngredientFact.class, TestIngredientFact.class, TestIngredientFact::new);
+    Ingredient convertedIngredients1 = convertIngredientV3FromXml(convertIngredientV3ToXml(ingredient), pluginStore);
+
+    assertThat(convertedIngredients1).isEqualTo(ingredient);
   }
 }

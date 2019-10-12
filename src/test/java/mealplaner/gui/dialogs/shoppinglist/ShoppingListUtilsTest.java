@@ -10,11 +10,11 @@ import static mealplaner.gui.dialogs.shopping.ShoppingListUtils.someRecipesMissi
 import static mealplaner.model.MealplanerData.getInstance;
 import static mealplaner.model.shoppinglist.ShoppingList.from;
 import static org.assertj.core.api.Assertions.assertThat;
-import static testcommons.CommonFunctions.getMeal1;
-import static testcommons.CommonFunctions.getMeal2;
-import static testcommons.CommonFunctions.getMeal3;
-import static testcommons.CommonFunctions.getProposal1;
-import static testcommons.CommonFunctions.getProposal2;
+import static testcommons.CommonBaseFunctions.getMeal1;
+import static testcommons.CommonBaseFunctions.getMeal2;
+import static testcommons.CommonBaseFunctions.getMeal3;
+import static testcommons.CommonBaseFunctions.getProposal1;
+import static testcommons.CommonBaseFunctions.getProposal2;
 
 import java.util.ArrayList;
 import java.util.List;

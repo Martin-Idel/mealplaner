@@ -8,9 +8,9 @@ import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitativeIngredient;
 import static mealplaner.model.recipes.Recipe.from;
 import static org.assertj.core.api.Assertions.assertThat;
-import static testcommons.CommonFunctions.getIngredient1;
-import static testcommons.CommonFunctions.getIngredient2;
-import static testcommons.CommonFunctions.getIngredient4;
+import static testcommons.CommonBaseFunctions.getIngredient1;
+import static testcommons.CommonBaseFunctions.getIngredient2;
+import static testcommons.CommonBaseFunctions.getIngredient4;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,6 @@ public class RecipeTest {
   private Ingredient anIngredient3;
   private QuantitativeIngredient quantitativeIngredient1;
   private QuantitativeIngredient quantitativeIngredient2;
-  private QuantitativeIngredient quantitativeIngredient3;
 
   @Before
   public void setUp() {
@@ -33,7 +32,6 @@ public class RecipeTest {
     anIngredient3 = getIngredient4();
     quantitativeIngredient1 = createQuantitativeIngredient(anIngredient1, wholeNumber(nonNegative(1)));
     quantitativeIngredient2 = createQuantitativeIngredient(anIngredient2, wholeNumber(nonNegative(10)));
-    quantitativeIngredient3 = createQuantitativeIngredient(anIngredient1, wholeNumber(nonNegative(10)));
   }
 
   @Test

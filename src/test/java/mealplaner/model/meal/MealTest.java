@@ -7,7 +7,7 @@ import static mealplaner.model.meal.MealBuilder.meal;
 import static mealplaner.model.meal.MealBuilder.mealWithValidator;
 import static mealplaner.plugins.builtins.courses.CourseType.MAIN;
 import static org.assertj.core.api.Assertions.assertThat;
-import static testcommons.CommonFunctions.getMeal2;
+import static testcommons.CommonBaseFunctions.getMeal2;
 
 import org.junit.Before;
 import org.junit.Test;

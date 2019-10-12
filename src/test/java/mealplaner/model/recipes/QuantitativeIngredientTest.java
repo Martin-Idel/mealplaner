@@ -3,7 +3,7 @@ package mealplaner.model.recipes;
 import static mealplaner.commons.NonnegativeFraction.fraction;
 import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitativeIngredient;
 import static org.assertj.core.api.Assertions.assertThat;
-import static testcommons.CommonFunctions.getIngredient4;
+import static testcommons.CommonBaseFunctions.getIngredient4;
 
 import org.junit.Test;
 

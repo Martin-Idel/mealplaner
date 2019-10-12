@@ -17,9 +17,9 @@ import static mealplaner.model.recipes.Measure.GRAM;
 import static mealplaner.model.recipes.Measures.createMeasures;
 import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitativeIngredient;
 import static org.assertj.core.api.Assertions.assertThat;
-import static testcommons.CommonFunctions.getIngredient1;
-import static testcommons.CommonFunctions.getIngredient2;
-import static testcommons.CommonFunctions.getIngredient3;
+import static testcommons.CommonBaseFunctions.getIngredient1;
+import static testcommons.CommonBaseFunctions.getIngredient2;
+import static testcommons.CommonBaseFunctions.getIngredient3;
 
 import java.util.ArrayList;
 import java.util.List;

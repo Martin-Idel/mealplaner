@@ -2,18 +2,20 @@
 
 package mealplaner.io.xml.adapters;
 
+import static mealplaner.commons.NonnegativeInteger.ONE;
 import static mealplaner.io.xml.adapters.MealAdapter.convertMealV3FromXml;
 import static mealplaner.io.xml.adapters.MealAdapter.convertMealV3ToXml;
+import static mealplaner.model.meal.MealBuilder.meal;
 import static org.assertj.core.api.Assertions.assertThat;
-import static testcommons.CommonFunctions.getMeal1;
-import static testcommons.CommonFunctions.getMeal2;
 import static testcommons.CommonFunctions.setupMealplanerDataWithAllIngredients;
+import static testcommons.TestMealFact.TestEnum.TEST1;
 
 import org.junit.Test;
 
-import mealplaner.Kochplaner;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
+import mealplaner.plugins.PluginStore;
+import testcommons.TestMealFact;
 
 public class MealAdapterTest {
 
@@ -21,15 +23,16 @@ public class MealAdapterTest {
   public void adapterTest() {
     MealplanerData mealPlan = setupMealplanerDataWithAllIngredients();
 
-    Meal meal1 = getMeal1();
-    Meal meal2 = getMeal2();
+    Meal meal1 = meal()
+        .name("Test1")
+        .addDaysPassed(ONE)
+        .addFact(new TestMealFact(TEST1))
+        .create();
 
-    Meal convertedMeals1 = convertMealV3FromXml(mealPlan,
-        convertMealV3ToXml(meal1), Kochplaner.registerPlugins());
-    Meal convertedMeals2 = convertMealV3FromXml(mealPlan,
-        convertMealV3ToXml(meal2), Kochplaner.registerPlugins());
+    var pluginStore = new PluginStore();
+    pluginStore.registerMealExtension(TestMealFact.class, TestMealFact.class, TestMealFact::new);
+    Meal convertedMeals1 = convertMealV3FromXml(mealPlan, convertMealV3ToXml(meal1), pluginStore);
 
     assertThat(convertedMeals1).isEqualTo(meal1);
-    assertThat(convertedMeals2).isEqualTo(meal2);
   }
 }

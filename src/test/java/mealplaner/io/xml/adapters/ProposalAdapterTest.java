@@ -5,19 +5,19 @@ package mealplaner.io.xml.adapters;
 import static mealplaner.io.xml.adapters.ProposalAdapter.convertProposalV3FromXml;
 import static mealplaner.io.xml.adapters.ProposalAdapter.convertProposalV3ToXml;
 import static org.assertj.core.api.Assertions.assertThat;
-import static testcommons.CommonFunctions.getProposal1;
+import static testcommons.CommonBaseFunctions.getProposal1;
+import static testcommons.CommonBaseFunctions.getProposal2;
 
 import org.junit.Test;
 
 import mealplaner.model.proposal.Proposal;
-import testcommons.CommonFunctions;
 
 public class ProposalAdapterTest {
 
   @Test
   public void adapterTest() {
     Proposal proposal1 = getProposal1();
-    Proposal proposal2 = CommonFunctions.getProposal2();
+    Proposal proposal2 = getProposal2();
 
     Proposal convertedProposal1 = convertProposalV3FromXml(convertProposalV3ToXml(proposal1));
     Proposal convertedProposal2 = convertProposalV3FromXml(convertProposalV3ToXml(proposal2));
