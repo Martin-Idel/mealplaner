@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: MIT
 
-package guitests.helpers;
+package etoetests.guitests.helpers;
 
-import static guitests.pageobjects.GuiMethods.create;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static org.junit.Assert.fail;
@@ -18,7 +17,7 @@ import org.assertj.swing.fixture.FrameFixture;
 import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
 import org.junit.Assert;
 
-import guitests.pageobjects.GuiMethods;
+import etoetests.guitests.pageobjects.GuiMethods;
 import mealplaner.Kochplaner;
 import mealplaner.gui.MainGui;
 import mealplaner.gui.factories.DialogFactory;
@@ -56,7 +55,7 @@ public class AssertJMealplanerTestCase extends AssertJSwingJUnitTestCase {
     MainGui frame = GuiActionRunner.execute(this::createMainApplication);
     FrameFixture window = new FrameFixture(robot(), frame.getFrame());
     window.show();
-    windowHelpers = create(window);
+    windowHelpers = GuiMethods.create(window);
   }
 
   @Override

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-package guitests.databaseedit;
+package etoetests.guitests.databaseedit;
 
 import static mealplaner.model.meal.MealBuilder.from;
 import static mealplaner.plugins.builtins.courses.CourseType.DESERT;
@@ -14,8 +14,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import guitests.helpers.AssertJMealplanerTestCase;
-import guitests.pageobjects.MealsEditPageObject;
+import etoetests.guitests.helpers.AssertJMealplanerTestCase;
+import etoetests.guitests.pageobjects.MealsEditPageObject;
 import mealplaner.model.meal.Meal;
 import mealplaner.plugins.builtins.courses.CourseTypeFact;
 import mealplaner.plugins.plugins.comment.mealextension.CommentFact;

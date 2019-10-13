@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-package guitests.pageobjects;
+package etoetests.guitests.pageobjects;
 
 import static java.time.LocalDate.now;
 import static java.time.format.DateTimeFormatter.ofLocalizedDate;

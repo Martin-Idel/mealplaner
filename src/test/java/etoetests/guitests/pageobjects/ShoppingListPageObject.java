@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-package guitests.pageobjects;
+package etoetests.guitests.pageobjects;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-package guitests.databaseedit;
+package etoetests.guitests.databaseedit;
 
 import static testcommons.CommonFunctions.getMeal3;
 
@@ -9,8 +9,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import guitests.helpers.AssertJMealplanerTestCase;
-import guitests.pageobjects.MealsEditPageObject;
+import etoetests.guitests.helpers.AssertJMealplanerTestCase;
+import etoetests.guitests.pageobjects.MealsEditPageObject;
 import mealplaner.model.meal.Meal;
 
 public class DatabaseEditRemoveMealsTest extends AssertJMealplanerTestCase {

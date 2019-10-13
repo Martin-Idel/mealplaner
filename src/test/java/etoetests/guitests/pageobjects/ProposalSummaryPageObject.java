@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: MIT
 
-package guitests.pageobjects;
+package etoetests.guitests.pageobjects;
 
-import static guitests.pageobjects.TabbedPanes.PROPOSAL_SUMMARY;
 import static java.time.format.TextStyle.FULL;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.LONG;
@@ -42,7 +41,7 @@ public class ProposalSummaryPageObject {
   }
 
   public ProposalSummaryPageObject proposalTabbedPane() {
-    window.tabbedPane().selectTab(PROPOSAL_SUMMARY.number());
+    window.tabbedPane().selectTab(TabbedPanes.PROPOSAL_SUMMARY.number());
     return this;
   }
 

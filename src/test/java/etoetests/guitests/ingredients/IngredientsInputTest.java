@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-package guitests.ingredients;
+package etoetests.guitests.ingredients;
 
 import static mealplaner.model.recipes.IngredientBuilder.ingredient;
 import static mealplaner.model.recipes.IngredientType.SPICE;
@@ -15,7 +15,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import guitests.helpers.AssertJMealplanerTestCase;
+import etoetests.guitests.helpers.AssertJMealplanerTestCase;
 import mealplaner.io.xml.IngredientsReader;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.plugins.PluginStore;

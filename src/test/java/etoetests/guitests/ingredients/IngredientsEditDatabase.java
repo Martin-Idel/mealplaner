@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-package guitests.ingredients;
+package etoetests.guitests.ingredients;
 
 import static mealplaner.commons.NonnegativeFraction.wholeNumber;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
@@ -19,7 +19,7 @@ import java.util.List;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import guitests.helpers.AssertJMealplanerTestCase;
+import etoetests.guitests.helpers.AssertJMealplanerTestCase;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.IngredientBuilder;
 import mealplaner.model.recipes.QuantitativeIngredient;

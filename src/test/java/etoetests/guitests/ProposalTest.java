@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-package guitests;
+package etoetests.guitests;
 
 import static java.time.DayOfWeek.TUESDAY;
 import static java.time.DayOfWeek.WEDNESDAY;
@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import guitests.helpers.AssertJMealplanerTestCase;
+import etoetests.guitests.helpers.AssertJMealplanerTestCase;
 import mealplaner.Kochplaner;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.Pair;

@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 
-package guitests.pageobjects;
+package etoetests.guitests.pageobjects;
 
-import static guitests.pageobjects.IngredientsEditPageObject.enterIngredient;
-import static guitests.pageobjects.TabbedPanes.DATABASE_EDIT;
+import static etoetests.guitests.pageobjects.IngredientsEditPageObject.enterIngredient;
+import static etoetests.guitests.pageobjects.TabbedPanes.DATABASE_EDIT;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.swing.data.TableCell.row;
