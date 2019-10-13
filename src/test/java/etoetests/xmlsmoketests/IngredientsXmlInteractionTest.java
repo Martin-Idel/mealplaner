@@ -2,11 +2,11 @@
 
 package etoetests.xmlsmoketests;
 
+import static etoetests.CommonFunctions.getIngredient1;
+import static etoetests.CommonFunctions.getIngredient2;
+import static etoetests.CommonFunctions.getIngredient3;
 import static mealplaner.io.xml.IngredientsReader.loadXml;
 import static org.assertj.core.api.Assertions.assertThat;
-import static testcommons.CommonFunctions.getIngredient1;
-import static testcommons.CommonFunctions.getIngredient2;
-import static testcommons.CommonFunctions.getIngredient3;
 
 import java.util.ArrayList;
 import java.util.List;

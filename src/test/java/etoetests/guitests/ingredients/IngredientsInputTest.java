@@ -2,14 +2,14 @@
 
 package etoetests.guitests.ingredients;
 
+import static etoetests.CommonFunctions.getIngredient1;
+import static etoetests.CommonFunctions.getIngredient2;
+import static etoetests.CommonFunctions.getIngredient3;
 import static mealplaner.model.recipes.IngredientBuilder.ingredient;
 import static mealplaner.model.recipes.IngredientType.SPICE;
 import static mealplaner.model.recipes.Measure.NONE;
 import static mealplaner.model.recipes.Measures.createMeasures;
 import static org.assertj.core.api.Assertions.assertThat;
-import static testcommons.CommonFunctions.getIngredient1;
-import static testcommons.CommonFunctions.getIngredient2;
-import static testcommons.CommonFunctions.getIngredient3;
 
 import java.util.List;
 

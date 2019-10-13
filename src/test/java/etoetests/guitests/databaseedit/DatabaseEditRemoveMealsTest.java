@@ -2,7 +2,7 @@
 
 package etoetests.guitests.databaseedit;
 
-import static testcommons.CommonFunctions.getMeal3;
+import static etoetests.CommonFunctions.getMeal3;
 
 import java.util.ArrayList;
 import java.util.List;

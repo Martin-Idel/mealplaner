@@ -3,20 +3,20 @@
 package mealplaner.io.xml.adapters;
 
 import static mealplaner.commons.NonnegativeInteger.TWO;
+import static mealplaner.io.xml.TestSubSetting.TestSetting.TEST1;
+import static mealplaner.io.xml.TestSubSetting.TestSetting.TEST2;
 import static mealplaner.io.xml.adapters.SettingsAdapter.convertSettingsV3FromXml;
 import static mealplaner.io.xml.adapters.SettingsAdapter.convertSettingsV3ToXml;
 import static mealplaner.model.settings.SettingsBuilder.setting;
 import static org.assertj.core.api.Assertions.assertThat;
-import static testcommons.TestSubSetting.TestSetting.TEST1;
-import static testcommons.TestSubSetting.TestSetting.TEST2;
 
 import org.junit.Test;
 
+import mealplaner.io.xml.TestSubSetting;
 import mealplaner.model.settings.Settings;
 import mealplaner.plugins.ModelExtension;
 import mealplaner.plugins.api.Setting;
 import mealplaner.plugins.api.SettingXml;
-import testcommons.TestSubSetting;
 
 public class SettingsAdapterTest {
 

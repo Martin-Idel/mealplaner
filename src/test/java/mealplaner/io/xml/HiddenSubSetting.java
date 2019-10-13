@@ -1,4 +1,4 @@
-package testcommons;
+package mealplaner.io.xml;
 
 import java.util.Objects;
 
@@ -13,32 +13,32 @@ import mealplaner.plugins.api.SettingXml;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TestSubSetting implements Setting, SettingXml {
-  public enum TestSetting {
-    TEST1, TEST2
+public class HiddenSubSetting implements Setting, SettingXml {
+  public enum HiddenEnum {
+    TEST1, TEST2;
   }
 
-  private final TestSetting setting;
+  private final HiddenEnum hiddenEnum;
 
-  public TestSubSetting() {
-    this.setting = TestSetting.TEST1;
+  public HiddenSubSetting(HiddenEnum hiddenEnum) {
+    this.hiddenEnum = hiddenEnum;
   }
 
-  public TestSubSetting(TestSetting setting) {
-    this.setting = setting;
+  public HiddenSubSetting() {
+    this.hiddenEnum = HiddenEnum.TEST1;
   }
 
-  public TestSetting getSetting() {
-    return setting;
-  }
-
-  @Override
-  public FactXml convertToXml() {
-    return this;
+  public HiddenEnum getHiddenEnum() {
+    return hiddenEnum;
   }
 
   @Override
   public Fact convertToFact() {
+    return this;
+  }
+
+  @Override
+  public FactXml convertToXml() {
     return this;
   }
 
@@ -50,17 +50,17 @@ public class TestSubSetting implements Setting, SettingXml {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    TestSubSetting that = (TestSubSetting) o;
-    return setting == that.setting;
+    HiddenSubSetting that = (HiddenSubSetting) o;
+    return hiddenEnum == that.hiddenEnum;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(setting);
+    return Objects.hash(hiddenEnum);
   }
 
   @Override
   public String toString() {
-    return "[setting=" + setting + ']';
+    return "[hiddenEnum=" + hiddenEnum + "]";
   }
 }

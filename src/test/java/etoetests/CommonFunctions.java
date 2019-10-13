@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-package testcommons;
+package etoetests;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.UUID.nameUUIDFromBytes;

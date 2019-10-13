@@ -2,6 +2,11 @@
 
 package etoetests.guitests.databaseedit;
 
+import static etoetests.CommonFunctions.getIngredient1;
+import static etoetests.CommonFunctions.getIngredient2;
+import static etoetests.CommonFunctions.getIngredient3;
+import static etoetests.CommonFunctions.getMeal1;
+import static etoetests.CommonFunctions.getMeal2;
 import static java.util.UUID.nameUUIDFromBytes;
 import static mealplaner.commons.NonnegativeFraction.fraction;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
@@ -11,11 +16,6 @@ import static mealplaner.model.recipes.IngredientType.CANNED_FRUIT;
 import static mealplaner.model.recipes.Measure.GRAM;
 import static mealplaner.model.recipes.Measures.createMeasures;
 import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitativeIngredient;
-import static testcommons.CommonFunctions.getIngredient1;
-import static testcommons.CommonFunctions.getIngredient2;
-import static testcommons.CommonFunctions.getIngredient3;
-import static testcommons.CommonFunctions.getMeal1;
-import static testcommons.CommonFunctions.getMeal2;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;

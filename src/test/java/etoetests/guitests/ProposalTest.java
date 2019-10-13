@@ -2,16 +2,16 @@
 
 package etoetests.guitests;
 
+import static etoetests.CommonFunctions.getMeal1;
+import static etoetests.CommonFunctions.getMeal2;
+import static etoetests.CommonFunctions.getMeal3;
+import static etoetests.CommonFunctions.getSettings1;
+import static etoetests.CommonFunctions.getSettings2;
 import static java.time.DayOfWeek.TUESDAY;
 import static java.time.DayOfWeek.WEDNESDAY;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.commons.Pair.of;
 import static mealplaner.model.shoppinglist.ShoppingList.from;
-import static testcommons.CommonFunctions.getMeal1;
-import static testcommons.CommonFunctions.getMeal2;
-import static testcommons.CommonFunctions.getMeal3;
-import static testcommons.CommonFunctions.getSettings1;
-import static testcommons.CommonFunctions.getSettings2;
 
 import java.time.DayOfWeek;
 import java.util.ArrayList;

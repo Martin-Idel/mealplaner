@@ -1,4 +1,4 @@
-package testcommons;
+package mealplaner.io.xml;
 
 import java.util.Objects;
 
@@ -6,38 +6,28 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import mealplaner.plugins.api.IngredientFact;
-import mealplaner.plugins.api.IngredientFactXml;
+import mealplaner.plugins.api.MealFact;
+import mealplaner.plugins.api.MealFactXml;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class HiddenIngredientFact implements IngredientFact, IngredientFactXml {
-  public enum HiddenEnum {
+public class TestMealFact implements MealFact, MealFactXml {
+  public enum TestEnum {
     TEST1, TEST2;
   }
 
-  private final HiddenEnum testEnum;
+  private final TestEnum testEnum;
 
-  public HiddenIngredientFact() {
-    this.testEnum = HiddenEnum.TEST1;
+  public TestMealFact() {
+    this.testEnum = TestEnum.TEST1;
   }
 
-  public HiddenIngredientFact(HiddenEnum testEnum) {
+  public TestMealFact(TestEnum testEnum) {
     this.testEnum = testEnum;
   }
 
-  public HiddenEnum getTestEnum() {
+  public TestEnum getTestEnum() {
     return testEnum;
-  }
-
-  @Override
-  public IngredientFactXml convertToXml() {
-    return this;
-  }
-
-  @Override
-  public IngredientFact convertToFact() {
-    return this;
   }
 
   @Override
@@ -48,7 +38,7 @@ public class HiddenIngredientFact implements IngredientFact, IngredientFactXml {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    HiddenIngredientFact that = (HiddenIngredientFact) o;
+    TestMealFact that = (TestMealFact) o;
     return testEnum == that.testEnum;
   }
 
@@ -62,3 +52,4 @@ public class HiddenIngredientFact implements IngredientFact, IngredientFactXml {
     return "[testEnum=" + testEnum + "]";
   }
 }
+

@@ -2,6 +2,9 @@
 
 package etoetests.guitests.ingredients;
 
+import static etoetests.CommonFunctions.getIngredient1;
+import static etoetests.CommonFunctions.getIngredient2;
+import static etoetests.CommonFunctions.getIngredient3;
 import static mealplaner.commons.NonnegativeFraction.wholeNumber;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.recipes.IngredientBuilder.ingredient;
@@ -9,9 +12,6 @@ import static mealplaner.model.recipes.IngredientType.FLUID;
 import static mealplaner.model.recipes.Measure.TEASPOON;
 import static mealplaner.model.recipes.Measures.createMeasures;
 import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitativeIngredient;
-import static testcommons.CommonFunctions.getIngredient1;
-import static testcommons.CommonFunctions.getIngredient2;
-import static testcommons.CommonFunctions.getIngredient3;
 
 import java.util.ArrayList;
 import java.util.List;

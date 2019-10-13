@@ -2,19 +2,19 @@
 
 package mealplaner.io.xml.adapters;
 
+import static mealplaner.io.xml.TestIngredientFact.TestEnum.TEST1;
 import static mealplaner.io.xml.adapters.IngredientAdapter.convertIngredientV3FromXml;
 import static mealplaner.io.xml.adapters.IngredientAdapter.convertIngredientV3ToXml;
 import static mealplaner.model.recipes.IngredientBuilder.ingredient;
 import static mealplaner.model.recipes.IngredientType.MEAT_PRODUCTS;
 import static mealplaner.model.recipes.Measures.DEFAULT_MEASURES;
 import static org.assertj.core.api.Assertions.assertThat;
-import static testcommons.TestIngredientFact.TestEnum.TEST1;
 
 import org.junit.Test;
 
+import mealplaner.io.xml.TestIngredientFact;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.plugins.PluginStore;
-import testcommons.TestIngredientFact;
 
 public class IngredientAdapterTest {
 

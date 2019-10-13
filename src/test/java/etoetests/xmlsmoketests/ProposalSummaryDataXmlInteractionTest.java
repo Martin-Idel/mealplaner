@@ -2,11 +2,11 @@
 
 package etoetests.xmlsmoketests;
 
+import static etoetests.CommonFunctions.getProposal1;
+import static etoetests.CommonFunctions.getSettings1;
+import static etoetests.CommonFunctions.getSettings2;
 import static mealplaner.io.xml.ProposalSummaryDataReader.loadXml;
 import static org.assertj.core.api.Assertions.assertThat;
-import static testcommons.CommonFunctions.getProposal1;
-import static testcommons.CommonFunctions.getSettings1;
-import static testcommons.CommonFunctions.getSettings2;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;

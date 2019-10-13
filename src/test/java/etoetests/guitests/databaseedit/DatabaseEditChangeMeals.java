@@ -2,12 +2,12 @@
 
 package etoetests.guitests.databaseedit;
 
+import static etoetests.CommonFunctions.getMeal1;
+import static etoetests.CommonFunctions.getRecipe2;
 import static mealplaner.model.meal.MealBuilder.from;
 import static mealplaner.plugins.builtins.courses.CourseType.DESERT;
 import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.MEDIUM;
 import static mealplaner.plugins.plugins.sidedish.mealextension.Sidedish.RICE;
-import static testcommons.CommonFunctions.getMeal1;
-import static testcommons.CommonFunctions.getRecipe2;
 
 import java.util.ArrayList;
 import java.util.List;
