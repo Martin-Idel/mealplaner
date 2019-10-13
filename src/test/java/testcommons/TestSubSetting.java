@@ -2,11 +2,17 @@ package testcommons;
 
 import java.util.Objects;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import mealplaner.plugins.api.Fact;
 import mealplaner.plugins.api.FactXml;
 import mealplaner.plugins.api.Setting;
 import mealplaner.plugins.api.SettingXml;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class TestSubSetting implements Setting, SettingXml {
   public enum TestSetting {
     TEST1, TEST2

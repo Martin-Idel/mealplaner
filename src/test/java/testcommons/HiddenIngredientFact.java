@@ -8,8 +8,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import mealplaner.plugins.api.IngredientFact;
 import mealplaner.plugins.api.IngredientFactXml;
-import mealplaner.plugins.api.MealFact;
-import mealplaner.plugins.api.MealFactXml;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

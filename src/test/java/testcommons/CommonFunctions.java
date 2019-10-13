@@ -4,7 +4,6 @@ package testcommons;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.UUID.nameUUIDFromBytes;
-import static mealplaner.commons.NonnegativeFraction.fraction;
 import static mealplaner.commons.NonnegativeFraction.wholeNumber;
 import static mealplaner.commons.NonnegativeInteger.FIVE;
 import static mealplaner.commons.NonnegativeInteger.FOUR;
@@ -19,48 +18,37 @@ import static mealplaner.model.recipes.IngredientBuilder.ingredient;
 import static mealplaner.model.recipes.IngredientType.BAKING_GOODS;
 import static mealplaner.model.recipes.IngredientType.CANNED_FRUIT;
 import static mealplaner.model.recipes.IngredientType.FRESH_FRUIT;
-import static mealplaner.model.recipes.IngredientType.MEAT_PRODUCTS;
 import static mealplaner.model.recipes.Measure.GRAM;
 import static mealplaner.model.recipes.Measure.MILLILITRE;
 import static mealplaner.model.recipes.Measures.createMeasures;
 import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitativeIngredient;
 import static mealplaner.model.settings.SettingsBuilder.setting;
-import static mealplaner.plugins.builtins.courses.CourseSettings.MAIN_DESERT;
 import static mealplaner.plugins.builtins.courses.CourseSettings.ONLY_MAIN;
-import static mealplaner.plugins.builtins.courses.CourseType.DESERT;
-import static mealplaner.plugins.builtins.courses.CourseType.ENTRY;
 import static mealplaner.plugins.builtins.courses.CourseType.MAIN;
-import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.LONG;
 import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.MEDIUM;
 import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.SHORT;
 import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.VERY_SHORT;
 import static mealplaner.plugins.plugins.cookingtime.settingextension.CookingTimeSubSetting.cookingTimeWithProhibited;
 import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.NO_PREFERENCE;
-import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.RARE;
 import static mealplaner.plugins.plugins.preference.mealextension.CookingPreference.VERY_POPULAR;
 import static mealplaner.plugins.plugins.preference.settingextension.PreferenceSettings.RARE_PREFERED;
 import static mealplaner.plugins.plugins.sidedish.mealextension.Sidedish.PASTA;
 import static mealplaner.plugins.plugins.sidedish.mealextension.Sidedish.RICE;
-import static mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil.CASSEROLE;
 import static mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil.PAN;
 import static mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil.POT;
-import static mealplaner.plugins.plugins.utensil.settingextension.CasseroleSettings.NONE;
 import static mealplaner.plugins.plugins.utensil.settingextension.CasseroleSettings.POSSIBLE;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import mealplaner.Kochplaner;
-import mealplaner.commons.NonnegativeFraction;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.meal.MealBuilder;
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.recipes.Ingredient;
-import mealplaner.model.recipes.Measure;
 import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 import mealplaner.model.settings.Settings;
@@ -142,15 +130,6 @@ public final class CommonFunctions {
     return Recipe.from(nonNegative(4), ingredients);
   }
 
-  public static Recipe getRecipe3() {
-    var ingredients = new ArrayList<QuantitativeIngredient>();
-    ingredients.add(createQuantitativeIngredient(
-        getIngredient1(), getIngredient1().getPrimaryMeasure(), wholeNumber(nonNegative(100))));
-    ingredients.add(createQuantitativeIngredient(
-        getIngredient2(), getIngredient2().getPrimaryMeasure(), wholeNumber(nonNegative(50))));
-    return Recipe.from(nonNegative(1), ingredients);
-  }
-
   public static Ingredient getIngredient1() {
     return ingredient()
         .withUuid(nameUUIDFromBytes("Test1".getBytes(UTF_8)))
@@ -214,16 +193,6 @@ public final class CommonFunctions {
     ingredients.add(CommonFunctions.getIngredient3());
     MealplanerData mealPlan = getInstance(pluginStore);
     mealPlan.setIngredients(ingredients);
-    return mealPlan;
-  }
-
-  public static MealplanerData setupMealplanerDataWithAllMealsAndIngredients() {
-    List<Meal> meals = new ArrayList<>();
-    meals.add(getMeal1());
-    meals.add(getMeal2());
-    meals.add(getMeal3());
-    MealplanerData mealPlan = setupMealplanerDataWithAllIngredients();
-    mealPlan.setMeals(meals);
     return mealPlan;
   }
 }
