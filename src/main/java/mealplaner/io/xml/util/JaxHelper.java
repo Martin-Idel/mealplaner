@@ -41,7 +41,8 @@ public final class JaxHelper {
       marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
       marshaller.marshal(data, outputStream);
     } catch (JAXBException e) {
-      throw new MealException("File " + filePath + " could not be parsed: " + e.getMessage(), e);
+      throw new MealException("File " + filePath + " could not be marshalled: "
+          + e.getLinkedException().getMessage(), e);
     } catch (FileNotFoundException e) {
       throw new MealException("File " + filePath + " was not be found: " + e.getMessage(), e);
     } catch (IOException e) {
