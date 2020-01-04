@@ -8,6 +8,8 @@ import static javax.swing.JOptionPane.showInputDialog;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.MessageDialog.errorMessages;
 
+import java.io.File;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,6 +67,13 @@ public class FileIoGui {
   }
 
   public void saveDatabase(MealplanerData mealPlan) {
+    if (!new File(savePath).exists()) {
+      boolean created = new File(savePath).mkdir();
+      if (!created) {
+        errorMessages(frame, BUNDLES.errorMessage("MSG_SAVING_ERROR"));
+        logger.error("Could not create savegame folder and folder does not exist");
+      }
+    }
     try {
       ProposalSummaryDataWriter.saveXml(mealPlan, savePath + "save.xml", knownPlugins);
       MealsWriter.saveXml(mealPlan.getMeals(), savePath + "meals.xml", knownPlugins);

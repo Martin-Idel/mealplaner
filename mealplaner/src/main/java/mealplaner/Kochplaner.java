@@ -28,7 +28,6 @@ public final class Kochplaner {
     invokeLater(createMainGui());
   }
 
-  // TODO: Create savegame folder if not already present
   private static Runnable createMainGui() {
     return () -> {
       JFrame mainFrame = new JFrame(BUNDLES.message("mainFrameTitle"));
