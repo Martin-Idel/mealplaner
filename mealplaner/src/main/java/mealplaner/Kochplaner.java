@@ -2,8 +2,11 @@
 
 package mealplaner;
 
+import static java.util.ServiceLoader.load;
 import static javax.swing.SwingUtilities.invokeLater;
 import static mealplaner.commons.BundleStore.BUNDLES;
+
+import java.util.ServiceLoader;
 
 import javax.swing.JFrame;
 
@@ -12,6 +15,7 @@ import mealplaner.gui.factories.DialogFactory;
 import mealplaner.io.FileIoGui;
 import mealplaner.model.MealplanerData;
 import mealplaner.plugins.PluginStore;
+import mealplaner.plugins.api.PluginDescription;
 import mealplaner.plugins.builtins.courses.BuiltinCoursesPlugin;
 
 public final class Kochplaner {
@@ -24,6 +28,7 @@ public final class Kochplaner {
     invokeLater(createMainGui());
   }
 
+  // TODO: Create savegame folder if not already present
   private static Runnable createMainGui() {
     return () -> {
       JFrame mainFrame = new JFrame(BUNDLES.message("mainFrameTitle"));
@@ -40,6 +45,10 @@ public final class Kochplaner {
     PluginStore pluginStore = new PluginStore();
     var coursesBuiltin = new BuiltinCoursesPlugin();
     coursesBuiltin.registerPlugins(pluginStore);
+    ServiceLoader<PluginDescription> loader = load(PluginDescription.class);
+    for (var plugin : loader) {
+      plugin.registerPlugins(pluginStore);
+    }
     return pluginStore;
   }
 }

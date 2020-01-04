@@ -1,21 +1,24 @@
 apply plugin: "java"
+apply plugin: "application"
 
 apply plugin: "checkstyle"
-apply plugin: "pmd"
+// TODO: reenable
+// apply plugin: "pmd"
+
+mainClassName = "mealplaner.Kochplaner"
+
+// TODO: Add licenses and stuff - see https://stackoverflow.com/questions/5743036/deploy-additional-files-in-gradle-application-plugin
 
 dependencies {
-    compile "org.slf4j:slf4j-api:1.7.22"
-    compile group: "org.apache.logging.log4j", name: "log4j-slf4j-impl", version: "2.9.1"
-    compile group: "org.apache.logging.log4j", name: "log4j-api", version: "2.9.1"
-    compile group: "org.apache.logging.log4j", name: "log4j-core", version: "2.9.1"
-    compile project(":mealplaner-commons")
-    compile project(":mealplaner-gui-commons")
-    compile project(":mealplaner-model")
-    compile project(":mealplaner-core")
-    compile project(":mealplaner-gui")
-
-    testCompileOnly "org.assertj:assertj-core:3.8.0"
-    testImplementation "junit:junit:4.12"
+    implementation "org.slf4j:slf4j-api:1.7.22"
+    implementation group: "org.apache.logging.log4j", name: "log4j-slf4j-impl", version: "2.9.1"
+    implementation group: "org.apache.logging.log4j", name: "log4j-api", version: "2.9.1"
+    implementation group: "org.apache.logging.log4j", name: "log4j-core", version: "2.9.1"
+    implementation project(":mealplaner-commons")
+    implementation project(":mealplaner-gui-commons")
+    implementation project(":mealplaner-model")
+    implementation project(":mealplaner-core")
+    implementation project(":mealplaner-gui")
 }
 
 sourceSets {

@@ -1,5 +1,4 @@
 apply plugin: "java"
-apply plugin: "application"
 apply plugin: "eclipse"
 
 apply plugin: "checkstyle"
@@ -31,41 +30,17 @@ dependencies {
     compile group: "javax.xml.bind", name: "jaxb-api", version: "2.4.0-b180830.0359"
 
     runtime "org.glassfish.jaxb:jaxb-runtime:2.4.0-b180830.0438"
-
-    testCompile "org.assertj:assertj-swing-junit:3.8.0"
-    testCompile "org.assertj:assertj-core:3.8.0"
-    testCompile "junit:junit:4.12"
-    testCompile "org.mockito:mockito-core:1.10.19"
-    
     runtime "org.swinglabs.swingx:swingx-all:1.6.5-1"
-    configurations.runtimeLibraries.extendsFrom(configurations.runtime)
-}
 
-task copyRuntimeLibs(type: Copy) {
-    into "build/libs/lib"
-    from configurations.runtimeLibraries
+    testImplementation "org.assertj:assertj-swing-junit:3.8.0"
+    testImplementation "org.assertj:assertj-core:3.8.0"
+    testImplementation "junit:junit:4.12"
+    testImplementation "org.mockito:mockito-core:1.10.19"
 }
 
 task copyLicenses(type: Copy) {
 	into "build/libs/licenses/"
 	from "licenses/"
-}
-
-sourceSets {
-    main {
-        java {
-            srcDirs "src/main/java"
-        }
-        resources {
-        	srcDirs "src/test/resources"
-        }
-    }
-    
-    test {
-    	java {
-    		srcDirs "src/test/java"
-    	}
-    }
 }
 
 allprojects {
@@ -127,32 +102,3 @@ allprojects {
 // 	effort = "max"
 // 	excludeFilter = file("config/findbugs/exclude.xml")
 // }
-
-mainClassName = "mealplaner.Kochplaner"
-
-jar {
-	manifest {
-		attributes(
-			"Manifest-Version": "1.0",
-			"Main-Class": "mealplaner.Kochplaner",
-			"Class-Path": "lib/swingx-all-1.6.5-1.jar " +
-                    "lib/slf4j-api-1.7.25.jar " +
-                    "lib/log4j-slf4j-impl-2.9.1.jar " +
-                    "lib/log4j-core-2.9.1.jar " +
-                    "lib/log4j-api-2.9.1.jar " +
-                    "lib/FastInfoset-1.2.15.jar " +
-                    "lib/istack-commons-runtime-3.0.7.jar " +
-                    "lib/javax.activation-api-1.2.0.jar " +
-                    "lib/jaxb-api-2.4.0-b180830.0359.jar " +
-                    "lib/jaxb-runtime-2.4.0-b180830.0438.jar " +
-                    "lib/stax-ex-1.8.jar " +
-                    "lib/txw2-2.4.0-b180830.0438.jar"
-		)
-	}
-}
-
-task createApplication(dependsOn: ["build", "jar", "copyRuntimeLibs", "copyLicenses"]) {
-	doLast {
-		println "Assembled and distributed"
-	}
-}
