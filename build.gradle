@@ -6,9 +6,15 @@ apply plugin: "checkstyle"
 apply plugin: "pmd"
 // apply plugin: "findbugs"
 
-repositories {
-    jcenter()
-    mavenCentral()
+allprojects {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+}
+
+subprojects {
+    version = '1.0'
 }
 
 configurations {
@@ -61,52 +67,58 @@ sourceSets {
     	}
     }
 }
- 
- test {
-    testLogging {
-        events "PASSED", "FAILED", "SKIPPED"
-    }
-    
-    afterSuite { desc, result ->
-    	if (!desc.parent) {
-        	println "Test results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
-		}
-	}
-}
 
-checkstyle {
-    toolVersion = "8.5"
-    ignoreFailures = false
-}
+allprojects {
+    test {
+        testLogging {
+            events "PASSED", "FAILED", "SKIPPED"
+        }
 
-tasks.withType(Checkstyle).each { checkstyleTask ->
-    checkstyleTask.doLast {
-        reports.all { report ->
-            def outputFile = report.destination
-            if (outputFile.exists() && outputFile.text.contains("<error ")) {
-                throw new GradleException("There were checkstyle warnings! For more info check $outputFile")
+        afterSuite { desc, result ->
+            if (!desc.parent) {
+                println "Test results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
             }
         }
     }
 }
 
-pmd {
-	toolVersion = "5.8.1"
-	ignoreFailures = false
-	reportsDir = file("$project.buildDir/reports/pmd")
-	ruleSets = [
-        "java-basic",
-        "java-braces",
-        "java-clone",
-        "java-empty",
-        "java-finalizers",
-        "java-strictexception",
-        "java-sunsecure",        
-        "java-typeresolution",
-        "java-unnecessary",
-        "java-unusedcode",
-        "java-design",     
-		]
+allprojects {
+    checkstyle {
+        toolVersion = "8.5"
+        ignoreFailures = false
+    }
+
+    tasks.withType(Checkstyle).each { checkstyleTask ->
+        checkstyleTask.doLast {
+            reports.all { report ->
+                def outputFile = report.destination
+                if (outputFile.exists() && outputFile.text.contains("<error ")) {
+                    throw new GradleException("There were checkstyle warnings! For more info check $outputFile")
+                }
+            }
+        }
+    }
+}
+
+allprojects {
+    pmd {
+        toolVersion = "5.8.1"
+        ignoreFailures = false
+        reportsDir = file("$project.buildDir/reports/pmd")
+        ruleSets = [
+                "java-basic",
+                "java-braces",
+                "java-clone",
+                "java-empty",
+                "java-finalizers",
+                "java-strictexception",
+                "java-sunsecure",
+                "java-typeresolution",
+                "java-unnecessary",
+                "java-unusedcode",
+                "java-design",
+        ]
+    }
 }
 
 // findbugs {

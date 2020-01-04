@@ -20,17 +20,6 @@ import mealplaner.model.recipes.Recipe;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.Fact;
 import mealplaner.plugins.api.MealFact;
-import mealplaner.plugins.builtins.courses.CourseType;
-import mealplaner.plugins.builtins.courses.CourseTypeFact;
-import mealplaner.plugins.plugins.comment.mealextension.CommentFact;
-import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime;
-import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTimeFact;
-import mealplaner.plugins.plugins.preference.mealextension.CookingPreference;
-import mealplaner.plugins.plugins.preference.mealextension.CookingPreferenceFact;
-import mealplaner.plugins.plugins.sidedish.mealextension.Sidedish;
-import mealplaner.plugins.plugins.sidedish.mealextension.SidedishFact;
-import mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensil;
-import mealplaner.plugins.plugins.utensil.mealextension.ObligatoryUtensilFact;
 
 public final class MealBuilder {
   private PluginStore validationStore;

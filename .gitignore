@@ -1,6 +1,6 @@
 /bin/
 /.gradle/
-/build/
+**/build/**
 /.project/
 /.settings/
 /logs/

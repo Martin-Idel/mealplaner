@@ -16,13 +16,12 @@ import javax.swing.JOptionPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import mealplaner.Kochplaner;
 import mealplaner.commons.errorhandling.MealException;
 
 public enum BundleStore {
   BUNDLES();
 
-  private static final Logger logger = LoggerFactory.getLogger(Kochplaner.class);
+  private static final Logger logger = LoggerFactory.getLogger(BundleStore.class);
   private MultiResourceBundle messages;
   private MultiResourceBundle errors;
   private final Locale currentLocale;

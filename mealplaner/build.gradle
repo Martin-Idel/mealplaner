@@ -1,0 +1,36 @@
+apply plugin: "java"
+
+apply plugin: "checkstyle"
+apply plugin: "pmd"
+
+dependencies {
+    compile "org.slf4j:slf4j-api:1.7.22"
+    compile group: "org.apache.logging.log4j", name: "log4j-slf4j-impl", version: "2.9.1"
+    compile group: "org.apache.logging.log4j", name: "log4j-api", version: "2.9.1"
+    compile group: "org.apache.logging.log4j", name: "log4j-core", version: "2.9.1"
+    compile project(":mealplaner-commons")
+    compile project(":mealplaner-gui-commons")
+    compile project(":mealplaner-model")
+    compile project(":mealplaner-core")
+    compile project(":mealplaner-gui")
+
+    testCompileOnly "org.assertj:assertj-core:3.8.0"
+    testImplementation "junit:junit:4.12"
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs "src/main/java"
+        }
+        resources {
+            srcDirs "src/test/resources"
+        }
+    }
+
+    test {
+        java {
+            srcDirs "src/test/java"
+        }
+    }
+}

@@ -22,7 +22,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import mealplaner.Kochplaner;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.Pair;
 import mealplaner.model.MealplanerData;
@@ -30,9 +29,10 @@ import mealplaner.model.meal.Meal;
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.recipes.Recipe;
 import mealplaner.model.shoppinglist.ShoppingList;
+import mealplaner.plugins.PluginStore;
 
 public class ShoppingListUtilsTest {
-  private final MealplanerData data = getInstance(Kochplaner.registerPlugins());
+  private final MealplanerData data = getInstance(new PluginStore());
 
   @Before
   public void setUp() {

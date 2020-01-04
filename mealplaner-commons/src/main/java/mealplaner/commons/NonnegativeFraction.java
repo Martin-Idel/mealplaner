@@ -63,9 +63,8 @@ public final class NonnegativeFraction {
 
   private static NonnegativeFraction parseFractionString(String matchedString) {
     String numeratorString = matchedString.substring(0, matchedString.indexOf("/"));
-    String denominatorString = matchedString.substring(matchedString.indexOf("/") + 1
-    );
-    return fraction("".equals(numeratorString) ? 1 : parseInt(numeratorString),
+    String denominatorString = matchedString.substring(matchedString.indexOf("/") + 1);
+    return fraction("".equals(numeratorString) ? 0 : parseInt(numeratorString),
         "".equals(denominatorString) ? 1 : parseInt(denominatorString));
   }
 
