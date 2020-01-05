@@ -5,8 +5,8 @@ package mealplaner.io.xml.adapters;
 import static mealplaner.io.xml.adapters.ProposalAdapter.convertProposalV3FromXml;
 import static mealplaner.io.xml.adapters.ProposalAdapter.convertProposalV3ToXml;
 import static org.assertj.core.api.Assertions.assertThat;
-import static testcommons.CommonBaseFunctions.getProposal1;
-import static testcommons.CommonBaseFunctions.getProposal2;
+import static testcommonsmodel.CommonBaseFunctions.getProposal1;
+import static testcommonsmodel.CommonBaseFunctions.getProposal2;
 
 import org.junit.Test;
 

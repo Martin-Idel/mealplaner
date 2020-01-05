@@ -7,9 +7,9 @@ import static java.util.Optional.of;
 import static mealplaner.io.xml.adapters.RecipeAdapter.convertRecipeV3FromXml;
 import static mealplaner.io.xml.adapters.RecipeAdapter.convertRecipeV3ToXml;
 import static org.assertj.core.api.Assertions.assertThat;
-import static testcommons.CommonBaseFunctions.getRecipe1;
-import static testcommons.CommonBaseFunctions.getRecipe2;
-import static testcommons.CommonBaseFunctions.setupMealplanerDataWithAllIngredients;
+import static testcommonsmodel.CommonBaseFunctions.getRecipe1;
+import static testcommonsmodel.CommonBaseFunctions.getRecipe2;
+import static testcommonsmodel.CommonBaseFunctions.setupMealplanerDataWithAllIngredients;
 
 import java.util.Optional;
 

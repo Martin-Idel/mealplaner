@@ -1,4 +1,5 @@
 apply plugin: "java"
+apply plugin: "java-test-fixtures"
 
 apply plugin: "checkstyle"
 // TODO: reactivate
@@ -16,7 +17,11 @@ dependencies {
     testCompile "org.assertj:assertj-core:3.8.0"
     testCompile "junit:junit:4.12"
     testCompile "org.mockito:mockito-core:1.10.19"
-    testCompile project(path: ':mealplaner-model', configuration: 'testRuntime')
+
+    testFixturesApi "org.assertj:assertj-core:3.8.0"
+    testFixturesImplementation "org.assertj:assertj-core:3.8.0"
+    testFixturesApi "junit:junit:4.12"
+    testFixturesApi "org.mockito:mockito-core:1.10.19"
 }
 
 sourceSets {

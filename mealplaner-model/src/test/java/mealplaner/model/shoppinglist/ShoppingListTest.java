@@ -7,10 +7,10 @@ import static mealplaner.commons.NonnegativeFraction.wholeNumber;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitativeIngredient;
 import static org.assertj.core.api.Assertions.assertThat;
-import static testcommons.CommonBaseFunctions.getIngredient1;
-import static testcommons.CommonBaseFunctions.getIngredient2;
-import static testcommons.CommonBaseFunctions.getIngredient3;
-import static testcommons.CommonBaseFunctions.getRecipe1;
+import static testcommonsmodel.CommonBaseFunctions.getIngredient1;
+import static testcommonsmodel.CommonBaseFunctions.getIngredient2;
+import static testcommonsmodel.CommonBaseFunctions.getIngredient3;
+import static testcommonsmodel.CommonBaseFunctions.getRecipe1;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -6,7 +6,7 @@ import static mealplaner.commons.NonnegativeInteger.FIVE;
 import static mealplaner.model.meal.MealBuilder.meal;
 import static mealplaner.model.meal.MealBuilder.mealWithValidator;
 import static org.assertj.core.api.Assertions.assertThat;
-import static testcommons.CommonBaseFunctions.getMeal2;
+import static testcommonsmodel.CommonBaseFunctions.getMeal2;
 
 import org.junit.Before;
 import org.junit.Test;

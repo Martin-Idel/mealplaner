@@ -18,10 +18,10 @@ import static mealplaner.model.settings.DefaultSettings.createDefaultSettings;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static testcommons.CommonBaseFunctions.getIngredient1;
-import static testcommons.CommonBaseFunctions.getIngredient2;
-import static testcommons.CommonBaseFunctions.getIngredient3;
-import static testcommons.CommonBaseFunctions.getMeal2;
+import static testcommonsmodel.CommonBaseFunctions.getIngredient1;
+import static testcommonsmodel.CommonBaseFunctions.getIngredient2;
+import static testcommonsmodel.CommonBaseFunctions.getIngredient3;
+import static testcommonsmodel.CommonBaseFunctions.getMeal2;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

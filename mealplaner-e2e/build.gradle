@@ -25,21 +25,19 @@ dependencies {
     testImplementation project(":mealplaner-plugins:preference")
     testImplementation project(":mealplaner-plugins:sidedish")
     testImplementation project(":mealplaner-plugins:utensil")
+    testImplementation(testFixtures(project(":mealplaner-core")))
 }
 
 sourceSets {
-    main {
-        java {
-            srcDirs "src/main/java"
-        }
-        resources {
-            srcDirs "src/test/resources"
-        }
-    }
-
     test {
         java {
             srcDirs "src/test/java"
         }
+    }
+}
+
+test {
+    if(! Boolean.parseBoolean(System.getProperty("rune2etests").toString())) {
+        exclude '**/guitests/**'
     }
 }

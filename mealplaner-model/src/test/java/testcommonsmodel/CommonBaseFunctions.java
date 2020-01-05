@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-package testcommons;
+package testcommonsmodel;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.UUID.nameUUIDFromBytes;
@@ -25,10 +25,6 @@ import static mealplaner.model.recipes.Measure.MILLILITRE;
 import static mealplaner.model.recipes.Measures.createMeasures;
 import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitativeIngredient;
 import static mealplaner.model.settings.SettingsBuilder.setting;
-import static mealplaner.plugins.builtins.courses.CourseSettings.ONLY_MAIN;
-import static mealplaner.plugins.builtins.courses.CourseType.DESERT;
-import static mealplaner.plugins.builtins.courses.CourseType.ENTRY;
-import static mealplaner.plugins.builtins.courses.CourseType.MAIN;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -47,8 +43,6 @@ import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 import mealplaner.model.settings.Settings;
 import mealplaner.plugins.PluginStore;
-import mealplaner.plugins.builtins.courses.CourseTypeFact;
-import mealplaner.plugins.builtins.courses.CourseTypeSetting;
 
 public final class CommonBaseFunctions {
   private CommonBaseFunctions() {
@@ -58,7 +52,6 @@ public final class CommonBaseFunctions {
     return MealBuilder.meal()
         .id(nameUUIDFromBytes("Test1Meal".getBytes(UTF_8)))
         .name("Test1")
-        .addFact(new CourseTypeFact(MAIN))
         .daysPassed(FIVE)
         .create();
   }
@@ -67,7 +60,6 @@ public final class CommonBaseFunctions {
     return MealBuilder.meal()
         .id(nameUUIDFromBytes("Test2Meal".getBytes(UTF_8)))
         .name("Test2")
-        .addFact(new CourseTypeFact(MAIN))
         .daysPassed(ONE)
         .recipe(getRecipe1())
         .create();
@@ -77,7 +69,6 @@ public final class CommonBaseFunctions {
     return MealBuilder.meal()
         .id(nameUUIDFromBytes("Test3Meal".getBytes(UTF_8)))
         .name("Test3")
-        .addFact(new CourseTypeFact(MAIN))
         .daysPassed(TWO)
         .recipe(getRecipe2())
         .create();
@@ -87,7 +78,6 @@ public final class CommonBaseFunctions {
     return MealBuilder.meal()
         .id(nameUUIDFromBytes("Test4Meal".getBytes(UTF_8)))
         .name("Test4")
-        .addFact(new CourseTypeFact(ENTRY))
         .daysPassed(TWO)
         .recipe(getRecipe2())
         .create();
@@ -97,7 +87,6 @@ public final class CommonBaseFunctions {
     return MealBuilder.meal()
         .id(nameUUIDFromBytes("Test5Meal".getBytes(UTF_8)))
         .name("Test4")
-        .addFact(new CourseTypeFact(DESERT))
         .daysPassed(TWO)
         .recipe(getRecipe2())
         .create();
@@ -107,7 +96,6 @@ public final class CommonBaseFunctions {
     return MealBuilder.meal()
         .id(nameUUIDFromBytes("Test6Meal".getBytes(UTF_8)))
         .name("Test6")
-        .addFact(new CourseTypeFact(ENTRY))
         .daysPassed(TWO)
         .create();
   }
@@ -179,14 +167,12 @@ public final class CommonBaseFunctions {
 
   public static Settings getSettings1() {
     return setting()
-        .addSetting(new CourseTypeSetting(ONLY_MAIN))
         .numberOfPeople(THREE)
         .create();
   }
 
   public static Settings getSettings2() {
     return setting()
-        .addSetting(new CourseTypeSetting(ONLY_MAIN))
         .numberOfPeople(FOUR)
         .create();
   }
@@ -211,9 +197,9 @@ public final class CommonBaseFunctions {
   public static MealplanerData setupMealplanerDataWithAllIngredients() {
     var pluginStore = new PluginStore();
     List<Ingredient> ingredients = new ArrayList<>();
-    ingredients.add(CommonBaseFunctions.getIngredient1());
-    ingredients.add(CommonBaseFunctions.getIngredient2());
-    ingredients.add(CommonBaseFunctions.getIngredient3());
+    ingredients.add(getIngredient1());
+    ingredients.add(getIngredient2());
+    ingredients.add(getIngredient3());
     MealplanerData mealPlan = getInstance(pluginStore);
     mealPlan.setIngredients(ingredients);
     return mealPlan;
