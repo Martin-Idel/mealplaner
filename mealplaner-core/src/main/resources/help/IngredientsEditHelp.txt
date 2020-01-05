@@ -1,9 +1,0 @@
-The Ingredients panel
-
-The third available panel is a panel organizing the ingredients. Here, you can easily add, remove and edit ingredients and they will be organised in an alphabetical list.
-
-Note: Changing anything requires saving if you want to keep the database. Otherwise, changes will be discarded when closing the application.
-
-While it is always possible to also add ingredients when you enter recipes, it might be helpful to enter a few ingredients up front. Any ingredient consists of three aspects: a name, a measure (e.g. grams or litres) and a type. At the moment, the ingredient type is only relevant for sorting the shopping list, such that fresh fruit are located next to fresh fruit, etc. This will make shopping easier, since it's easier to make sure that you didn't miss anything.
-
-You can also remove ingredients, for example when you later on find out that you already entered the ingredient some time ago. Clearly, removing an ingredient is problematic when you still use it in a meal. But don't worry, you'll get the opportunity to either not remove the ingredient from the list or replace it by some other ingredient from the list. This will then automatically update your meals and recipes.
