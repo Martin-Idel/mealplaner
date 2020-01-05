@@ -96,7 +96,12 @@ public class AssertJMealplanerTestCase extends AssertJSwingJUnitTestCase {
   private void copyFile(String filename, String destinationPath) throws IOException {
     File originalFile = new File(filename);
     File temporaryFile = new File(destinationPath);
-    temporaryFile.getParentFile().mkdirs();
+    if (!temporaryFile.getParentFile().exists()) {
+      var mkdirs = temporaryFile.getParentFile().mkdirs();
+      if (!mkdirs) {
+        fail("Could not create temporary directories");
+      }
+    }
     Files.copy(originalFile.toPath(), temporaryFile.toPath(), REPLACE_EXISTING);
   }
 }

@@ -29,11 +29,21 @@ public class XmlInteraction {
   protected void loadFileWithName(String fileName) {
     File originalFile = new File(fileName);
     File temporaryFile = new File(DESTINATION_FILE_PATH);
-    temporaryFile.mkdirs();
+    makeTemporaryDirectory(DESTINATION_FILE_PATH);
     try {
       Files.copy(originalFile.toPath(), temporaryFile.toPath(), REPLACE_EXISTING);
     } catch (IOException exc) {
       fail("Could not load file");
+    }
+  }
+
+  private static void makeTemporaryDirectory(String filepath) {
+    var tempdir = new File(filepath).getParentFile();
+    if (!tempdir.getParentFile().exists()) {
+      var mkdirs = tempdir.getParentFile().mkdirs();
+      if (!mkdirs) {
+        fail("Could not create temporary directories");
+      }
     }
   }
 }

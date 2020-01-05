@@ -1,0 +1,27 @@
+<FindBugsFilter>
+    <Match>
+        <Class name="mealplaner.commons.gui.HelpPanel"/>
+        <Method name="scrollPaneWithTextFrom"/>
+        <Bug pattern="RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE"/>
+    </Match>
+    <Match>
+        <Class name="mealplaner.io.xml.model.v3.IngredientdatabaseXml"/>
+        <Field name="version"/>
+        <Bug pattern="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"/>
+    </Match>
+    <Match>
+        <Class name="mealplaner.io.xml.model.v3.MealdatabaseXml"/>
+        <Field name="version"/>
+        <Bug pattern="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"/>
+    </Match>
+    <Match>
+        <Class name="mealplaner.io.xml.model.v3.MealplanerDataXml"/>
+        <Field name="version"/>
+        <Bug pattern="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"/>
+    </Match>
+    <Match>
+        <Class name="mealplaner.io.xml.model.v3.ProposalSummaryDataXml"/>
+        <Field name="version"/>
+        <Bug pattern="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"/>
+    </Match>
+</FindBugsFilter>

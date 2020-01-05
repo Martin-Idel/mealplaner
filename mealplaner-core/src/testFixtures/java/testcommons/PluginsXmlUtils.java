@@ -6,6 +6,7 @@ import static mealplaner.io.xml.MealsReader.loadXml;
 import static mealplaner.io.xml.MealsWriter.saveXml;
 import static mealplaner.model.MealplanerData.getInstance;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.time.DayOfWeek;
@@ -13,6 +14,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.junit.Assert;
 
 import mealplaner.io.xml.MealplanerDataReader;
 import mealplaner.io.xml.MealplanerDataWriter;
@@ -31,7 +34,7 @@ public final class PluginsXmlUtils {
   public static void assertSaveAndReloadMealWorksCorrectly(Meal meal, String filepath, PluginDescription plugin) {
     var pluginStore = new PluginStore();
     plugin.registerPlugins(pluginStore);
-    new File(filepath).getParentFile().mkdirs();
+    makeTemporaryDirectory(filepath);
     saveXml(singletonList(meal), filepath, pluginStore);
 
     var savedMeals = loadXml(getInstance(pluginStore), filepath, pluginStore);
@@ -42,7 +45,7 @@ public final class PluginsXmlUtils {
 
   public static void assertSaveAndReloadSettingWorksCorrectly(
       Settings settings, PluginDescription plugin, String filepath) {
-    new File(filepath).getParentFile().mkdirs();
+    makeTemporaryDirectory(filepath);
     Map<DayOfWeek, Settings> defaultSettings = new HashMap<>();
     defaultSettings.put(MONDAY, settings);
 
@@ -60,5 +63,15 @@ public final class PluginsXmlUtils {
     var reloadedProposal = MealplanerDataReader.loadXml(filepath, pluginStore);
 
     assertThat(reloadedProposal.getDefaultSettings().getDefaultSettings().get(MONDAY)).isEqualTo(settings);
+  }
+
+  private static void makeTemporaryDirectory(String filepath) {
+    var tempdir = new File(filepath).getParentFile();
+    if (!tempdir.getParentFile().exists()) {
+      var mkdirs = tempdir.getParentFile().mkdirs();
+      if (!mkdirs) {
+        fail("Could not create temporary directories");
+      }
+    }
   }
 }

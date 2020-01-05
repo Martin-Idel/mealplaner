@@ -157,7 +157,7 @@ public class ProposalBuilder {
   private Optional<UUID> pickMeal(Stream<Pair<Meal, Integer>> meals) {
     return meals
         .map(this::randomize)
-        .sorted((pair1, pair2) -> -(pair1.right.compareTo(pair2.right)))
+        .sorted((pair1, pair2) -> pair2.right.compareTo(pair1.right))
         .map(pair -> pair.left.getId())
         .findFirst();
   }
