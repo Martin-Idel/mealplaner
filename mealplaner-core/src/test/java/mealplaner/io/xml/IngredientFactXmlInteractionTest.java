@@ -7,11 +7,11 @@ import static java.util.Collections.singletonList;
 import static java.util.UUID.nameUUIDFromBytes;
 import static mealplaner.io.xml.IngredientsReader.loadXml;
 import static mealplaner.io.xml.IngredientsWriter.saveXml;
-import static mealplaner.io.xml.TestIngredientFact.TestEnum.TEST1;
 import static mealplaner.model.recipes.IngredientBuilder.ingredient;
 import static mealplaner.model.recipes.IngredientType.MEAT_PRODUCTS;
 import static mealplaner.model.recipes.Measures.DEFAULT_MEASURES;
 import static org.assertj.core.api.Assertions.assertThat;
+import static xmlcommons.TestIngredientFact.TestEnum.TEST1;
 
 import java.util.List;
 
@@ -20,6 +20,8 @@ import org.junit.Test;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.plugins.PluginStore;
 import testcommons.XmlInteraction;
+import xmlcommons.HiddenIngredientFact;
+import xmlcommons.TestIngredientFact;
 
 public class IngredientFactXmlInteractionTest extends XmlInteraction {
   @Test

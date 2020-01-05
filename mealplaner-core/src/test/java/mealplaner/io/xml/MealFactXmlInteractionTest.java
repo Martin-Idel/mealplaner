@@ -6,10 +6,10 @@ import static java.util.UUID.nameUUIDFromBytes;
 import static mealplaner.commons.NonnegativeInteger.ONE;
 import static mealplaner.io.xml.MealsReader.loadXml;
 import static mealplaner.io.xml.MealsWriter.saveXml;
-import static mealplaner.io.xml.TestMealFact.TestEnum.TEST1;
 import static mealplaner.model.MealplanerData.getInstance;
 import static mealplaner.model.meal.MealBuilder.meal;
 import static org.assertj.core.api.Assertions.assertThat;
+import static xmlcommons.TestMealFact.TestEnum.TEST1;
 
 import java.util.List;
 
@@ -18,6 +18,8 @@ import org.junit.Test;
 import mealplaner.model.meal.Meal;
 import mealplaner.plugins.PluginStore;
 import testcommons.XmlInteraction;
+import xmlcommons.HiddenMealFact;
+import xmlcommons.TestMealFact;
 
 public class MealFactXmlInteractionTest extends XmlInteraction {
   @Test

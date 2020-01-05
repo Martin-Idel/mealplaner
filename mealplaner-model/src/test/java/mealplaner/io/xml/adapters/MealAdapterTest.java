@@ -3,19 +3,19 @@
 package mealplaner.io.xml.adapters;
 
 import static mealplaner.commons.NonnegativeInteger.ONE;
-import static mealplaner.io.xml.TestMealFact.TestEnum.TEST1;
 import static mealplaner.io.xml.adapters.MealAdapter.convertMealV3FromXml;
 import static mealplaner.io.xml.adapters.MealAdapter.convertMealV3ToXml;
 import static mealplaner.model.meal.MealBuilder.meal;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommonsmodel.CommonBaseFunctions.setupMealplanerDataWithAllIngredients;
+import static xmlcommons.TestMealFact.TestEnum.TEST1;
 
 import org.junit.Test;
 
-import mealplaner.io.xml.TestMealFact;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
 import mealplaner.plugins.PluginStore;
+import xmlcommons.TestMealFact;
 
 public class MealAdapterTest {
 

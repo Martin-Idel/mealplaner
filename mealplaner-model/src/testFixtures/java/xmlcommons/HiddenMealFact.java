@@ -1,4 +1,4 @@
-package mealplaner.io.xml;
+package xmlcommons;
 
 import java.util.Objects;
 
@@ -11,22 +11,22 @@ import mealplaner.plugins.api.MealFactXml;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TestMealFact implements MealFact, MealFactXml {
-  public enum TestEnum {
+public class HiddenMealFact implements MealFact, MealFactXml {
+  public enum HiddenEnum {
     TEST1, TEST2;
   }
 
-  private final TestEnum testEnum;
+  private final HiddenEnum testEnum;
 
-  public TestMealFact() {
-    this.testEnum = TestEnum.TEST1;
+  public HiddenMealFact() {
+    this.testEnum = HiddenEnum.TEST1;
   }
 
-  public TestMealFact(TestEnum testEnum) {
+  public HiddenMealFact(HiddenEnum testEnum) {
     this.testEnum = testEnum;
   }
 
-  public TestEnum getTestEnum() {
+  public HiddenEnum getTestEnum() {
     return testEnum;
   }
 
@@ -38,7 +38,7 @@ public class TestMealFact implements MealFact, MealFactXml {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    TestMealFact that = (TestMealFact) o;
+    HiddenMealFact that = (HiddenMealFact) o;
     return testEnum == that.testEnum;
   }
 
@@ -52,4 +52,3 @@ public class TestMealFact implements MealFact, MealFactXml {
     return "[testEnum=" + testEnum + "]";
   }
 }
-

@@ -1,4 +1,4 @@
-package mealplaner.io.xml;
+package xmlcommons;
 
 import java.util.Objects;
 

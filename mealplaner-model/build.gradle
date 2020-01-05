@@ -1,4 +1,5 @@
 apply plugin: "java"
+apply plugin: "java-test-fixtures"
 
 apply plugin: "checkstyle"
 // TODO reenable

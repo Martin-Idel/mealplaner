@@ -5,10 +5,10 @@ package mealplaner.io.xml;
 import static mealplaner.commons.NonnegativeInteger.TWO;
 import static mealplaner.io.xml.ProposalSummaryDataReader.loadXml;
 import static mealplaner.io.xml.ProposalSummaryDataWriter.saveXml;
-import static mealplaner.io.xml.TestSubSetting.TestSetting.TEST1;
-import static mealplaner.io.xml.TestSubSetting.TestSetting.TEST2;
 import static mealplaner.model.settings.SettingsBuilder.setting;
 import static org.assertj.core.api.Assertions.assertThat;
+import static xmlcommons.TestSubSetting.TestSetting.TEST1;
+import static xmlcommons.TestSubSetting.TestSetting.TEST2;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -24,6 +24,8 @@ import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
 import mealplaner.plugins.PluginStore;
 import testcommons.XmlInteraction;
+import xmlcommons.HiddenSubSetting;
+import xmlcommons.TestSubSetting;
 
 public class SubSettingsXmlInteractionTest extends XmlInteraction {
   @Test
