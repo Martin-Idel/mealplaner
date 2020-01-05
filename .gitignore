@@ -3,6 +3,6 @@
 **/build/**
 /.project/
 /.settings/
-/logs/
+**/logs/**
 /savefiles/
 /.idea/
