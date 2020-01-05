@@ -1,23 +1,30 @@
-apply plugin: "java"
+apply plugin: "java-library"
 apply plugin: "java-test-fixtures"
 
 dependencies {
-    compile "org.slf4j:slf4j-api:1.7.22"
-    compile group: "org.apache.logging.log4j", name: "log4j-slf4j-impl", version: "2.9.1"
-    compile group: "org.apache.logging.log4j", name: "log4j-api", version: "2.9.1"
-    compile group: "org.apache.logging.log4j", name: "log4j-core", version: "2.9.1"
-    compile project(":mealplaner-commons")
-    compile project(":mealplaner-model")
+    api group: "org.slf4j", name: "slf4j-api", version: "1.7.30"
+    implementation group: "org.apache.logging.log4j", name: "log4j-slf4j-impl", version: "2.13.0"
+    implementation group: "org.apache.logging.log4j", name: "log4j-api", version: "2.13.0"
+    implementation group: "org.apache.logging.log4j", name: "log4j-core", version: "2.13.0"
+    api project(":mealplaner-commons")
+    api project(":mealplaner-model")
 
-    testCompile "org.assertj:assertj-swing-junit:3.8.0"
-    testCompile "org.assertj:assertj-core:3.8.0"
-    testCompile "junit:junit:4.12"
-    testCompile "org.mockito:mockito-core:1.10.19"
+    compileOnly group: "javax.xml.bind", name: "jaxb-api", version: "2.4.0-b180830.0359"
+    runtimeOnly "org.glassfish.jaxb:jaxb-runtime:2.4.0-b180830.0438"
 
-    testFixturesApi "org.assertj:assertj-core:3.8.0"
-    testFixturesImplementation "org.assertj:assertj-core:3.8.0"
-    testFixturesApi "junit:junit:4.12"
-    testFixturesApi "org.mockito:mockito-core:1.10.19"
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.5.2'
+    testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.5.2'
+    testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.14.0'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.2.4'
+    testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.2.4'
+    testRuntimeOnly "org.glassfish.jaxb:jaxb-runtime:2.4.0-b180830.0438"
+
+    testFixturesApi group: 'org.assertj', name: 'assertj-core', version: '3.14.0'
+    testFixturesApi group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.5.2'
+    testFixturesApi group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.5.2'
+    testFixturesApi group: 'org.mockito', name: 'mockito-core', version: '3.2.4'
+    testFixturesApi group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.2.4'
+    testFixturesApi group: "javax.xml.bind", name: "jaxb-api", version: "2.4.0-b180830.0359"
 }
 
 sourceSets {

@@ -16,8 +16,8 @@ import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitative
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import etoetests.guitests.helpers.AssertJMealplanerTestCase;
 import mealplaner.model.recipes.Ingredient;
@@ -32,7 +32,7 @@ public class IngredientsEditDatabase extends AssertJMealplanerTestCase {
         "src/test/resources/ingredientsXmlV3.xml");
   }
 
-  @Ignore
+  @Disabled("Mysteriously fails on Ubuntu although it looks correct")
   @Test
   public void canChangeAllAspectOfAnIngredient() {
     var newIngredient = ingredient()

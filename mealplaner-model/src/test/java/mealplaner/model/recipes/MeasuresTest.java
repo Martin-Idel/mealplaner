@@ -6,10 +6,11 @@ import static mealplaner.model.recipes.Measure.MILLILITRE;
 import static mealplaner.model.recipes.Measure.TABLESPOON;
 import static mealplaner.model.recipes.Measures.createMeasures;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.HashMap;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import mealplaner.commons.NonnegativeFraction;
 import mealplaner.commons.errorhandling.MealException;
@@ -47,12 +48,12 @@ public class MeasuresTest {
         .isEqualTo(fraction(1, 2));
   }
 
-  @Test(expected = MealException.class)
+  @Test
   public void getConversionFactorThrowsExceptionWhenFromMeasureIsNotContainedInMeasures() {
     var secondaries = new HashMap<Measure, NonnegativeFraction>();
     secondaries.put(TABLESPOON, fraction(1, 2));
     Measures measures = createMeasures(MILLILITRE, secondaries);
 
-    measures.getConversionFactor(GRAM, TABLESPOON);
+    assertThrows(MealException.class, () -> measures.getConversionFactor(GRAM, TABLESPOON));
   }
 }

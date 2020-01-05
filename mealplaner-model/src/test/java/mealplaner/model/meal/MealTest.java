@@ -6,10 +6,11 @@ import static mealplaner.commons.NonnegativeInteger.FIVE;
 import static mealplaner.model.meal.MealBuilder.meal;
 import static mealplaner.model.meal.MealBuilder.mealWithValidator;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static testcommonsmodel.CommonBaseFunctions.getMeal2;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.plugins.PluginStore;
@@ -19,7 +20,7 @@ import mealplaner.plugins.api.MealFactXml;
 public class MealTest {
   private Meal sut;
 
-  @Before
+  @BeforeEach
   public void setup() throws MealException {
     sut = meal()
         .name("Test")
@@ -28,24 +29,22 @@ public class MealTest {
         .create();
   }
 
-  @Test(expected = MealException.class)
+  @Test
   public void setNameThrowsForEmptyNames() throws MealException {
-    sut = meal()
+    assertThrows(MealException.class, () -> meal()
         .name("")
         .daysPassed(FIVE)
-        .create();
-
-    assertThat(sut.getName()).isEqualTo("Test");
+        .create());
   }
 
-  @Test(expected = MealException.class)
+  @Test
   public void validationFailsForMealWithMissingFacts() throws MealException {
     var pluginStore = new PluginStore();
     pluginStore.registerMealExtension(SomeFact.class, SomeFact.class, SomeFact::new);
-    sut = mealWithValidator(pluginStore)
+    assertThrows(MealException.class, () -> mealWithValidator(pluginStore)
         .name("")
         .addFact(new HiddenMealFact(HiddenMealFact.HiddenEnum.TEST1))
-        .create();
+        .create());
   }
 
   @Test

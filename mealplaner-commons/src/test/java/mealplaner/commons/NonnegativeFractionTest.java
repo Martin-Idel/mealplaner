@@ -9,7 +9,8 @@ import static mealplaner.commons.NonnegativeInteger.TWO;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class NonnegativeFractionTest {
   @Test
@@ -28,18 +29,14 @@ public class NonnegativeFractionTest {
     assertThat(fraction.getDenominator()).isEqualTo(1);
   }
 
-  @Test(expected = NumberFormatException.class)
+  @Test
   public void negativeFractionThrowsException() {
-    NonnegativeFraction fraction = fraction(10, -4);
-
-    assertThat(fraction.getDenominator()).isEqualTo(2);
+    Assertions.assertThrows(NumberFormatException.class, () -> fraction(10, -4));
   }
 
-  @Test(expected = NumberFormatException.class)
+  @Test
   public void zeroDenominatorThrowsException() {
-    NonnegativeFraction fraction = fraction(10, 0);
-
-    assertThat(fraction.getDenominator()).isEqualTo(2);
+    Assertions.assertThrows(NumberFormatException.class, () -> fraction(10, 0));
   }
 
   @Test

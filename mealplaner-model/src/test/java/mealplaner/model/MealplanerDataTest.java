@@ -27,10 +27,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.meal.Meal;
@@ -40,7 +41,7 @@ import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.plugins.PluginStore;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class MealplanerDataTest {
   private final List<Meal> meals = new ArrayList<>();
   private Meal meal1;
@@ -54,7 +55,7 @@ public class MealplanerDataTest {
 
   private final MealplanerData sut = getInstance(pluginStore);
 
-  @Before
+  @BeforeEach
   public void setUp() {
     addInitializedMeals();
     date = of(2017, 5, 7);
@@ -178,11 +179,11 @@ public class MealplanerDataTest {
     assertThat(testAgainst).containsAll(sut.getIngredients());
   }
 
-  @Test(expected = MealException.class)
+  @Test
   public void setIngredientsThrowsExceptionIfIngredientIsDeletedButStillInUse() {
     sut.addMeal(getMeal2());
 
-    sut.setIngredients(new ArrayList<>());
+    Assertions.assertThrows(MealException.class, () -> sut.setIngredients(new ArrayList<>()));
   }
 
   @Test

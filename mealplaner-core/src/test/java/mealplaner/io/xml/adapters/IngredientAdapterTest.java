@@ -10,7 +10,7 @@ import static mealplaner.model.recipes.Measures.DEFAULT_MEASURES;
 import static org.assertj.core.api.Assertions.assertThat;
 import static xmlcommons.TestIngredientFact.TestEnum.TEST1;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.plugins.PluginStore;

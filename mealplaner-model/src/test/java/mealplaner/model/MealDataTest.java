@@ -17,6 +17,7 @@ import static mealplaner.model.recipes.Measure.GRAM;
 import static mealplaner.model.recipes.Measures.createMeasures;
 import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitativeIngredient;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static testcommonsmodel.CommonBaseFunctions.getIngredient1;
 import static testcommonsmodel.CommonBaseFunctions.getIngredient2;
 import static testcommonsmodel.CommonBaseFunctions.getIngredient3;
@@ -24,9 +25,10 @@ import static testcommonsmodel.CommonBaseFunctions.getIngredient3;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.meal.Meal;
@@ -46,14 +48,14 @@ public class MealDataTest {
   private MealData sut;
   private final PluginStore pluginStore = new PluginStore();
 
-  @Before
+  @BeforeEach
   public void setUp() {
     data = MealplanerData.getInstance(pluginStore);
     data.clear();
     meals.clear();
   }
 
-  @After
+  @AfterEach
   public void tearDown() {
     data.deregister(sut);
   }
@@ -151,7 +153,7 @@ public class MealDataTest {
     assertThat(mealsList).containsExactly(changedMeal);
   }
 
-  @Test(expected = MealException.class)
+  @Test
   public void throwsExceptionIfSomethingWentWrongWithIngredients() {
     List<Ingredient> ingredients = new ArrayList<>();
     Ingredient ingredient1 = getIngredient1();
@@ -172,7 +174,7 @@ public class MealDataTest {
 
     ingredients.set(1, changedIngredient); // This removes the second ingredient, needed in recipe
 
-    data.setIngredients(ingredients);
+    assertThrows(MealException.class, () -> data.setIngredients(ingredients));
   }
 
   @Test

@@ -4,7 +4,7 @@ package etoetests.guitests.helpers;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static mealplaner.commons.BundleStore.BUNDLES;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +14,6 @@ import javax.swing.JFrame;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
 import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
-import org.junit.Assert;
 
 import etoetests.CommonFunctions;
 import etoetests.guitests.pageobjects.GuiMethods;
@@ -67,7 +66,7 @@ public class AssertJMealplanerTestCase extends AssertJSwingJUnitTestCase {
       File ingredientFile = new File(DESTINATION_INGREDIENT_FILE_PATH);
       Files.delete(ingredientFile.toPath());
     } catch (IOException ioex) {
-      Assert.fail("One of the files used as save files does not exist");
+      fail("One of the files used as save files does not exist");
     }
   }
 

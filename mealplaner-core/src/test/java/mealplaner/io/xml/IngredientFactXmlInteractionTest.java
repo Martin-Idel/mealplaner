@@ -15,7 +15,7 @@ import static xmlcommons.TestIngredientFact.TestEnum.TEST1;
 
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.plugins.PluginStore;

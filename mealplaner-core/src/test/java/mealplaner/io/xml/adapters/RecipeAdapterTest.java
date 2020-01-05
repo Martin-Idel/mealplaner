@@ -13,7 +13,7 @@ import static testcommons.CommonBaseFunctions.setupMealplanerDataWithAllIngredie
 
 import java.util.Optional;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import mealplaner.model.MealplanerData;
 import mealplaner.model.recipes.Recipe;

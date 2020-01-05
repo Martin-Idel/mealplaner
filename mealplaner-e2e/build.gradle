@@ -1,15 +1,15 @@
 apply plugin: "java"
 
 dependencies {
-    testImplementation "org.slf4j:slf4j-api:1.7.22"
-    testImplementation group: "org.apache.logging.log4j", name: "log4j-slf4j-impl", version: "2.9.1"
-    testImplementation group: "org.apache.logging.log4j", name: "log4j-api", version: "2.9.1"
-    testImplementation group: "org.apache.logging.log4j", name: "log4j-core", version: "2.9.1"
+    testImplementation group: "org.slf4j", name: "slf4j-api", version: "1.7.30"
+    testImplementation group: "org.apache.logging.log4j", name: "log4j-slf4j-impl", version: "2.13.0"
+    testImplementation group: "org.apache.logging.log4j", name: "log4j-api", version: "2.13.0"
+    testImplementation group: "org.apache.logging.log4j", name: "log4j-core", version: "2.13.0"
 
-    testImplementation "org.assertj:assertj-swing-junit:3.8.0"
-    testImplementation "org.assertj:assertj-core:3.8.0"
-    testImplementation "junit:junit:4.12"
-    testImplementation "org.mockito:mockito-core:1.10.19"
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.5.2'
+    testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.5.2'
+    testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.14.0'
+    testImplementation group: "org.assertj", name: "assertj-swing-junit", version: "3.9.2"
     testImplementation project(":mealplaner-commons")
     testImplementation project(":mealplaner-gui-commons")
     testImplementation project(":mealplaner-model")

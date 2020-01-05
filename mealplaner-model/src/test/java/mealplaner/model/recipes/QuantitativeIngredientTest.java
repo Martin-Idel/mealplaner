@@ -5,7 +5,7 @@ import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitative
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommonsmodel.CommonBaseFunctions.getIngredient4;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class QuantitativeIngredientTest {
 

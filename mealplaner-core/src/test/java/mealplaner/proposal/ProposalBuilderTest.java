@@ -18,14 +18,14 @@ import static mealplaner.plugins.builtins.courses.CourseType.DESERT;
 import static mealplaner.plugins.builtins.courses.CourseType.ENTRY;
 import static mealplaner.plugins.builtins.courses.CourseType.MAIN;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
 import org.mockito.stubbing.Answer;

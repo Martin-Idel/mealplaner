@@ -8,20 +8,20 @@ import static mealplaner.plugins.preference.mealextension.CookingPreference.VERY
 import static mealplaner.plugins.preference.proposal.CookingPreferenceSettings.createCookingPreferenceSettings;
 import static mealplaner.plugins.preference.proposal.CookingPreferenceSettings.from;
 import static mealplaner.plugins.preference.settingextension.PreferenceSettings.RARE_NONE;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import mealplaner.model.meal.Meal;
 import mealplaner.plugins.preference.mealextension.CookingPreference;
@@ -29,7 +29,7 @@ import mealplaner.plugins.preference.mealextension.CookingPreferenceFact;
 import mealplaner.plugins.preference.proposal.CookingPreferenceSettings;
 import mealplaner.plugins.preference.settingextension.PreferenceSettings;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class CookingPreferenceSettingsTest {
 
   @Mock
@@ -37,7 +37,7 @@ public class CookingPreferenceSettingsTest {
 
   private CookingPreferenceSettings utensilSetting;
 
-  @Before
+  @BeforeEach
   public void setup() {
     utensilSetting = from(prohibitedPreference);
   }

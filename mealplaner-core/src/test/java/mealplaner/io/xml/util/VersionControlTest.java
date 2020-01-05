@@ -4,7 +4,7 @@ package mealplaner.io.xml.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import testcommons.XmlInteraction;
 

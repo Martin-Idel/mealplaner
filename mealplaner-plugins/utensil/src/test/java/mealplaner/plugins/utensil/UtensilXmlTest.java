@@ -9,7 +9,7 @@ import static mealplaner.plugins.utensil.settingextension.CasseroleSettings.ONLY
 import static testcommons.PluginsXmlUtils.assertSaveAndReloadMealWorksCorrectly;
 import static testcommons.PluginsXmlUtils.assertSaveAndReloadSettingWorksCorrectly;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import mealplaner.model.meal.Meal;
 import mealplaner.model.settings.Settings;

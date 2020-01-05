@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.MealFact;
@@ -15,7 +15,7 @@ public class FactsAdapterTest {
   private ArrayList<Object> unmarshalledFacts;
   private PluginStore knownPlugins;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     unmarshalledFacts = new ArrayList<>();
     unmarshalledFacts.add(new SomeTestFactXml("known"));

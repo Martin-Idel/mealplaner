@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Optional;
 import javax.swing.JTable;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.Measure;
@@ -29,7 +29,7 @@ public class RecipeTableTest {
   private RecipeTable recipeTable;
   private List<Ingredient> ingredients;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     ingredients = Arrays.asList(getIngredient1(), getIngredient2(),
         getIngredient3());

@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static xmlcommons.TestSubSetting.TestSetting.TEST1;
 import static xmlcommons.TestSubSetting.TestSetting.TEST2;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import mealplaner.model.settings.Settings;
 import mealplaner.plugins.ModelExtension;

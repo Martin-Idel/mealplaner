@@ -3,18 +3,18 @@
 package testcommons;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
 
 public class XmlInteraction {
   protected static final String DESTINATION_FILE_PATH = "src/test/resources/saveTemp.xml";
 
-  @After
+  @AfterEach
   public void tearDown() {
     try {
       File file = new File(DESTINATION_FILE_PATH);

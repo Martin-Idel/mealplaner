@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import etoetests.guitests.helpers.AssertJMealplanerTestCase;
 import mealplaner.io.xml.IngredientsReader;

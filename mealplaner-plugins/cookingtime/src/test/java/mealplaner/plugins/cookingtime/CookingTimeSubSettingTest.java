@@ -5,13 +5,13 @@ package mealplaner.plugins.cookingtime;
 import static mealplaner.model.meal.MealBuilder.meal;
 import static mealplaner.plugins.cookingtime.mealextension.CookingTime.LONG;
 import static mealplaner.plugins.cookingtime.mealextension.CookingTime.SHORT;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashSet;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import mealplaner.model.meal.Meal;
 import mealplaner.plugins.cookingtime.mealextension.CookingTime;
@@ -21,7 +21,7 @@ import mealplaner.plugins.cookingtime.settingextension.CookingTimeSubSetting;
 public class CookingTimeSubSettingTest {
   private CookingTimeSubSetting cookingTimeSubSetting;
 
-  @Before
+  @BeforeEach
   public void setup() {
     cookingTimeSubSetting = new CookingTimeSubSetting(new HashSet<>());
   }

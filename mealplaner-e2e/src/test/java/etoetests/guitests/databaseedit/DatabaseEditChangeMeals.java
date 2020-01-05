@@ -12,7 +12,7 @@ import static mealplaner.plugins.sidedish.mealextension.Sidedish.RICE;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import etoetests.guitests.helpers.AssertJMealplanerTestCase;
 import etoetests.guitests.pageobjects.MealsEditPageObject;

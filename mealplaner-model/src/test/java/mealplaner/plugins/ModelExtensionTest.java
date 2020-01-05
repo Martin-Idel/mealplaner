@@ -1,8 +1,9 @@
 package mealplaner.plugins;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.plugins.api.MealFact;
@@ -38,11 +39,11 @@ public class ModelExtensionTest {
     assertThat(modelExtension.obtainFactClass(SomeTestFactXml.class)).isEqualTo(SomeTestFactXml.class);
   }
 
-  @Test(expected = MealException.class)
+  @Test
   public void obtainFactClassThrowsIfClassUnknown() {
     modelExtension.registerClass(SomeTestFactXml.class, SomeTestFactXml.class, () -> new SomeTestFactXml("test"));
 
-    assertThat(modelExtension.obtainFactClass(SomeUnknownTestFactXml.class)).isNull();
+    assertThrows(MealException.class, () -> modelExtension.obtainFactClass(SomeUnknownTestFactXml.class));
   }
 
   @Test

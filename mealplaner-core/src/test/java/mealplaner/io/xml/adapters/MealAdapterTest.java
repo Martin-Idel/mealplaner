@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonBaseFunctions.setupMealplanerDataWithAllIngredients;
 import static xmlcommons.TestMealFact.TestEnum.TEST1;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;

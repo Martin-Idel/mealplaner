@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JTable;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import mealplaner.commons.gui.buttonpanel.ButtonPanelEnabling;
 

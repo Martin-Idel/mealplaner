@@ -15,8 +15,8 @@ import static testcommonsmodel.CommonBaseFunctions.getIngredient4;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class RecipeTest {
   private Ingredient anIngredient1;
@@ -25,7 +25,7 @@ public class RecipeTest {
   private QuantitativeIngredient quantitativeIngredient1;
   private QuantitativeIngredient quantitativeIngredient2;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     anIngredient1 = getIngredient1();
     anIngredient2 = getIngredient2();

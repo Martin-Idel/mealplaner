@@ -17,7 +17,7 @@ import static mealplaner.plugins.preference.settingextension.PreferenceSettings.
 import static mealplaner.plugins.preference.settingextension.PreferenceSettings.RARE_NONE;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.settings.Settings;

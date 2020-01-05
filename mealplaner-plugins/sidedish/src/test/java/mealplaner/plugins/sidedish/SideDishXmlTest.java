@@ -5,7 +5,7 @@ import static mealplaner.model.meal.MealBuilder.meal;
 import static mealplaner.plugins.sidedish.mealextension.Sidedish.PASTA;
 import static testcommons.PluginsXmlUtils.assertSaveAndReloadMealWorksCorrectly;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import mealplaner.model.meal.Meal;
 import mealplaner.plugins.sidedish.mealextension.SidedishFact;

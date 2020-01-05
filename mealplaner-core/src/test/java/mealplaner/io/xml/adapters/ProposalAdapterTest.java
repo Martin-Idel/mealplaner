@@ -8,7 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static testcommons.CommonBaseFunctions.getProposal1;
 import static testcommons.CommonBaseFunctions.getProposal2;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import mealplaner.model.proposal.Proposal;
 

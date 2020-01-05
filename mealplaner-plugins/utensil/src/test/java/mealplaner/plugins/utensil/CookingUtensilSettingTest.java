@@ -8,20 +8,20 @@ import static mealplaner.plugins.utensil.mealextension.ObligatoryUtensil.PAN;
 import static mealplaner.plugins.utensil.mealextension.ObligatoryUtensil.POT;
 import static mealplaner.plugins.utensil.proposal.CookingUtensilSetting.createCookingUtensilSettings;
 import static mealplaner.plugins.utensil.proposal.CookingUtensilSetting.from;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import mealplaner.model.meal.Meal;
 import mealplaner.plugins.utensil.mealextension.ObligatoryUtensil;
@@ -29,7 +29,7 @@ import mealplaner.plugins.utensil.mealextension.ObligatoryUtensilFact;
 import mealplaner.plugins.utensil.proposal.CookingUtensilSetting;
 import mealplaner.plugins.utensil.settingextension.CasseroleSettings;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class CookingUtensilSettingTest {
 
   @Mock
@@ -37,7 +37,7 @@ public class CookingUtensilSettingTest {
 
   private CookingUtensilSetting utensilSetting;
 
-  @Before
+  @BeforeEach
   public void setup() {
     utensilSetting = from(prohibitedUtensil);
   }

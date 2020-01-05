@@ -13,7 +13,7 @@ import static xmlcommons.TestMealFact.TestEnum.TEST1;
 
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import mealplaner.model.meal.Meal;
 import mealplaner.plugins.PluginStore;

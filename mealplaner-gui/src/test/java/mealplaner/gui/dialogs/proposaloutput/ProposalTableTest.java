@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JTable;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import mealplaner.model.MealplanerData;
 import mealplaner.model.proposal.Proposal;
