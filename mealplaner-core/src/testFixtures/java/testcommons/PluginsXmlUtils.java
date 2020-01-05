@@ -7,6 +7,7 @@ import static mealplaner.io.xml.MealsWriter.saveXml;
 import static mealplaner.model.MealplanerData.getInstance;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.io.File;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public final class PluginsXmlUtils {
   public static void assertSaveAndReloadMealWorksCorrectly(Meal meal, String filepath, PluginDescription plugin) {
     var pluginStore = new PluginStore();
     plugin.registerPlugins(pluginStore);
+    new File(filepath).getParentFile().mkdirs();
     saveXml(singletonList(meal), filepath, pluginStore);
 
     var savedMeals = loadXml(getInstance(pluginStore), filepath, pluginStore);
@@ -40,6 +42,7 @@ public final class PluginsXmlUtils {
 
   public static void assertSaveAndReloadSettingWorksCorrectly(
       Settings settings, PluginDescription plugin, String filepath) {
+    new File(filepath).getParentFile().mkdirs();
     Map<DayOfWeek, Settings> defaultSettings = new HashMap<>();
     defaultSettings.put(MONDAY, settings);
 

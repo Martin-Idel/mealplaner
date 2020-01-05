@@ -29,6 +29,7 @@ public class XmlInteraction {
   protected void loadFileWithName(String fileName) {
     File originalFile = new File(fileName);
     File temporaryFile = new File(DESTINATION_FILE_PATH);
+    temporaryFile.mkdirs();
     try {
       Files.copy(originalFile.toPath(), temporaryFile.toPath(), REPLACE_EXISTING);
     } catch (IOException exc) {
