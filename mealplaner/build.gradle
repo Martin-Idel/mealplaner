@@ -1,10 +1,6 @@
 apply plugin: "java"
 apply plugin: "application"
 
-apply plugin: "checkstyle"
-// TODO: reenable
-// apply plugin: "pmd"
-
 mainClassName = "mealplaner.Kochplaner"
 
 // TODO: Add licenses and stuff - see https://stackoverflow.com/questions/5743036/deploy-additional-files-in-gradle-application-plugin

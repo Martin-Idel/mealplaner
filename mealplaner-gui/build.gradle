@@ -1,9 +1,5 @@
 apply plugin: "java"
 
-apply plugin: "checkstyle"
-// TODO reenable
-// apply plugin: "pmd"
-
 dependencies {
     compile "org.slf4j:slf4j-api:1.7.22"
     compile "org.swinglabs.swingx:swingx-all:1.6.5-1"
