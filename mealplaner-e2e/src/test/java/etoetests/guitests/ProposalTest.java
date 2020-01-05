@@ -23,14 +23,12 @@ import org.junit.Test;
 
 import etoetests.CommonFunctions;
 import etoetests.guitests.helpers.AssertJMealplanerTestCase;
-import etoetests.xmlsmoketests.IngredientsXmlInteractionTest;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.Pair;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.recipes.Recipe;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
-import testcommons.PluginsXmlUtils;
 
 public class ProposalTest extends AssertJMealplanerTestCase {
   public ProposalTest() {

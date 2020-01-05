@@ -3,7 +3,6 @@ package mealplaner.plugins.preference.mealextension;
 import static mealplaner.plugins.preference.mealextension.CookingPreference.NO_PREFERENCE;
 
 import java.util.Objects;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;

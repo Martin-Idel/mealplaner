@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
-
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 

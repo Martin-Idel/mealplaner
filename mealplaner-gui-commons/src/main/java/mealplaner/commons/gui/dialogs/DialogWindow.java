@@ -4,7 +4,6 @@ package mealplaner.commons.gui.dialogs;
 
 import java.awt.BorderLayout;
 import java.awt.Window;
-
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;

@@ -3,7 +3,6 @@
 package mealplaner.commons.gui.tables;
 
 import java.awt.Component;
-
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 

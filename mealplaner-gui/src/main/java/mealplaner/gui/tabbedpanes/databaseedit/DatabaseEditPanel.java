@@ -7,7 +7,6 @@ import static mealplaner.commons.gui.HelpPanel.mealPlanerHelpScrollPane;
 import static mealplaner.commons.gui.JMenuBuilder.builder;
 
 import java.util.List;
-
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;

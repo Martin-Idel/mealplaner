@@ -7,7 +7,6 @@ import static mealplaner.commons.NonnegativeInteger.nonNegative;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.text.PlainDocument;

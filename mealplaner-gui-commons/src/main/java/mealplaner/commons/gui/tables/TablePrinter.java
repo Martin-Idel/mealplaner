@@ -6,7 +6,6 @@ import static mealplaner.commons.BundleStore.BUNDLES;
 
 import java.awt.Component;
 import java.awt.print.PrinterException;
-
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 

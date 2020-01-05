@@ -12,7 +12,6 @@ import static mealplaner.commons.gui.inputfields.ComboBoxTextInputField.inputFie
 
 import java.util.List;
 import java.util.Optional;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 

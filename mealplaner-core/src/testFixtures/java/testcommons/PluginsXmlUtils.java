@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Assert;
-
 import mealplaner.io.xml.MealplanerDataReader;
 import mealplaner.io.xml.MealplanerDataWriter;
 import mealplaner.model.MealplanerData;

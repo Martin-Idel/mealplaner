@@ -3,7 +3,6 @@
 package mealplaner.io.xml.util;
 
 import java.util.UUID;
-
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 public class UuidAdapter extends XmlAdapter<String, UUID> {

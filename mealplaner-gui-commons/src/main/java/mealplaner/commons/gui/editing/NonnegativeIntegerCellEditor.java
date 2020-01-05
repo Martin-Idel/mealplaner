@@ -7,7 +7,6 @@ import static mealplaner.commons.NonnegativeInteger.nonNegative;
 
 import java.awt.Color;
 import java.awt.Component;
-
 import javax.swing.DefaultCellEditor;
 import javax.swing.JTable;
 import javax.swing.JTextField;

@@ -11,7 +11,6 @@ import static mealplaner.commons.gui.MessageDialog.errorMessages;
 import java.io.File;
 import java.util.List;
 import java.util.Optional;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 

@@ -5,7 +5,6 @@ package mealplaner.commons.gui;
 import static javax.swing.KeyStroke.getKeyStroke;
 
 import java.awt.event.ActionListener;
-
 import javax.swing.JMenuItem;
 
 public final class JMenuBuilder {

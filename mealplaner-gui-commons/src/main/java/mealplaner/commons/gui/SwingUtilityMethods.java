@@ -7,7 +7,6 @@ import static javax.swing.KeyStroke.getKeyStroke;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.function.Function;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 

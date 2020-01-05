@@ -3,7 +3,6 @@ package mealplaner.plugins.sidedish.mealextension;
 import static mealplaner.plugins.sidedish.mealextension.Sidedish.NONE;
 
 import java.util.Objects;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;

@@ -3,7 +3,6 @@
 package mealplaner.commons.gui.buttonpanel;
 
 import java.awt.Component;
-
 import javax.swing.JPanel;
 
 import mealplaner.commons.gui.GuiComponent;

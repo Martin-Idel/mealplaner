@@ -10,7 +10,6 @@ import static mealplaner.commons.gui.dialogs.DialogWindow.window;
 
 import java.util.List;
 import java.util.Optional;
-
 import javax.swing.JFrame;
 
 import mealplaner.commons.gui.buttonpanel.ButtonPanel;

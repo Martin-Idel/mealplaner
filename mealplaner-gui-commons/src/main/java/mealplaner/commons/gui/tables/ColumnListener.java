@@ -5,7 +5,6 @@ package mealplaner.commons.gui.tables;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.function.Consumer;
-
 import javax.swing.JTable;
 
 public final class ColumnListener extends MouseAdapter {

@@ -7,7 +7,6 @@ import static java.util.Arrays.asList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
-
 import javax.swing.table.AbstractTableModel;
 
 /**

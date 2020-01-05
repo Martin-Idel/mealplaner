@@ -9,7 +9,6 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-
 import javax.swing.JFrame;
 
 import org.assertj.swing.edt.GuiActionRunner;

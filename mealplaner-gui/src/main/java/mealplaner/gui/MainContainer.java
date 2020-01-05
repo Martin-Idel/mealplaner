@@ -7,7 +7,6 @@ import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 import static mealplaner.commons.BundleStore.BUNDLES;
 
 import java.awt.event.WindowListener;
-
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;

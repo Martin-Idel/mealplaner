@@ -8,7 +8,6 @@ import static mealplaner.commons.gui.dialogs.DialogWindow.window;
 import static mealplaner.gui.dialogs.mealinput.MealInputGrid.inputGrid;
 
 import java.util.Optional;
-
 import javax.swing.JFrame;
 
 import mealplaner.commons.gui.GridPanel;

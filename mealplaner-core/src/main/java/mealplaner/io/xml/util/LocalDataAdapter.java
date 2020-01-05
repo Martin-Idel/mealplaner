@@ -4,7 +4,6 @@ package mealplaner.io.xml.util;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 public class LocalDataAdapter extends XmlAdapter<String, LocalDate> {

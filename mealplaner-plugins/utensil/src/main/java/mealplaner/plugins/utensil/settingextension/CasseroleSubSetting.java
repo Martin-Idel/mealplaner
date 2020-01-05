@@ -3,7 +3,6 @@ package mealplaner.plugins.utensil.settingextension;
 import static mealplaner.plugins.utensil.settingextension.CasseroleSettings.POSSIBLE;
 
 import java.util.Objects;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;

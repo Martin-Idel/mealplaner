@@ -7,7 +7,6 @@ import static javax.swing.SwingUtilities.invokeLater;
 import static mealplaner.commons.BundleStore.BUNDLES;
 
 import java.util.ServiceLoader;
-
 import javax.swing.JFrame;
 
 import mealplaner.gui.MainGui;

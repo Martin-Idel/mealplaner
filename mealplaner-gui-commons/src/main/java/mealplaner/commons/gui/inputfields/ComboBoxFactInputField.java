@@ -3,7 +3,6 @@
 package mealplaner.commons.gui.inputfields;
 
 import java.util.function.Function;
-
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 

@@ -11,7 +11,6 @@ import static mealplaner.gui.dialogs.shopping.ShoppingListUtils.createShoppingLi
 import static mealplaner.gui.dialogs.shopping.ShoppingListUtils.someRecipesMissingForCompleteList;
 
 import java.util.List;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 

@@ -5,7 +5,6 @@ package mealplaner.commons.gui;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.io.Serializable;
-
 import javax.swing.JPanel;
 
 public final class GridPanel implements Serializable, GuiPanel {

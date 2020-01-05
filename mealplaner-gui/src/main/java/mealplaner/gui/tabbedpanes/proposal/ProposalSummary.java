@@ -11,7 +11,6 @@ import static mealplaner.commons.gui.SwingUtilityMethods.createButton;
 
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 

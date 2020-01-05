@@ -6,7 +6,6 @@ import static java.util.stream.Collectors.toMap;
 
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import mealplaner.commons.NonnegativeFraction;

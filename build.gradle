@@ -11,8 +11,6 @@ buildscript {
 
 apply plugin: "java"
 
-// apply plugin: "findbugs"
-
 allprojects {
     repositories {
         jcenter()
@@ -21,7 +19,7 @@ allprojects {
 }
 
 subprojects {
-    version = '1.0'
+    version = '2.1.0'
 }
 
 dependencies {
@@ -50,7 +48,7 @@ task copyLicenses(type: Copy) {
 subprojects {
     apply plugin: 'checkstyle'
     checkstyle {
-        toolVersion = "8.5"
+        toolVersion = "8.28"
         ignoreFailures = false
     }
 
