@@ -64,7 +64,7 @@ public final class PluginsXmlUtils {
   }
 
   private static void makeTemporaryDirectory(String filepath) {
-    var tempdir = new File(filepath).getParentFile();
+    var tempdir = new File(filepath);
     if (!tempdir.getParentFile().exists()) {
       var mkdirs = tempdir.getParentFile().mkdirs();
       if (!mkdirs) {

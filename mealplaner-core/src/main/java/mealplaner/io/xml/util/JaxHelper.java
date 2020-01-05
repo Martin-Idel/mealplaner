@@ -43,7 +43,7 @@ public final class JaxHelper {
       throw new MealException("File " + filePath + " could not be marshalled: "
           + e.getLinkedException().getMessage(), e);
     } catch (FileNotFoundException e) {
-      throw new MealException("File " + filePath + " was not be found: " + e.getMessage(), e);
+      throw new MealException("File " + filePath + " could not be found: " + e.getMessage(), e);
     } catch (IOException e) {
       throw new MealException("File " + filePath + " could not be loaded: " + e.getMessage(), e);
     }
