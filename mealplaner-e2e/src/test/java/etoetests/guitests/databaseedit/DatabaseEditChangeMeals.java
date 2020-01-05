@@ -6,8 +6,8 @@ import static etoetests.CommonFunctions.getMeal1;
 import static etoetests.CommonFunctions.getRecipe2;
 import static mealplaner.model.meal.MealBuilder.from;
 import static mealplaner.plugins.builtins.courses.CourseType.DESERT;
-import static mealplaner.plugins.plugins.cookingtime.mealextension.CookingTime.MEDIUM;
-import static mealplaner.plugins.plugins.sidedish.mealextension.Sidedish.RICE;
+import static mealplaner.plugins.cookingtime.mealextension.CookingTime.MEDIUM;
+import static mealplaner.plugins.sidedish.mealextension.Sidedish.RICE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +18,8 @@ import etoetests.guitests.helpers.AssertJMealplanerTestCase;
 import etoetests.guitests.pageobjects.MealsEditPageObject;
 import mealplaner.model.meal.Meal;
 import mealplaner.plugins.builtins.courses.CourseTypeFact;
-import mealplaner.plugins.plugins.comment.mealextension.CommentFact;
-import mealplaner.plugins.plugins.cookingtime.mealextension.CookingTimeFact;
+import mealplaner.plugins.comment.mealextension.CommentFact;
+import mealplaner.plugins.cookingtime.mealextension.CookingTimeFact;
 
 public class DatabaseEditChangeMeals extends AssertJMealplanerTestCase {
   public DatabaseEditChangeMeals() {

@@ -15,7 +15,7 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import mealplaner.Kochplaner;
+import etoetests.CommonFunctions;
 import mealplaner.io.xml.ProposalSummaryModel;
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.settings.Settings;
@@ -30,7 +30,7 @@ public class ProposalSummaryDataXmlInteractionTest extends XmlInteraction {
     LocalDate time = LocalDate.of(2017, 5, 3);
     loadFileWithName(RESOURCE_FILE_WITH_PROPOSAL_V3);
 
-    ProposalSummaryModel loadedProposalSummaryData = loadXml(DESTINATION_FILE_PATH, Kochplaner.registerPlugins());
+    ProposalSummaryModel loadedProposalSummaryData = loadXml(DESTINATION_FILE_PATH, CommonFunctions.registerPlugins());
 
     assertThat(loadedProposalSummaryData.lastProposal).isEqualTo(proposal);
     assertThat(loadedProposalSummaryData.time).isEqualTo(time);

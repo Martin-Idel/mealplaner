@@ -127,7 +127,8 @@ public class MessageBundleTest {
     try {
       List<String> keys = getKeysFromResourceBundle(resourceBundleName, locale);
       List<String> allLines = Files
-          .find(Paths.get("src/main/java/"), 999, (p, bfa) -> bfa.isRegularFile())
+          .find(Paths.get(".."), 999,
+              (p, bfa) -> bfa.isRegularFile() && p.getFileName().toString().endsWith(".java"))
           .flatMap(path -> readAllLines(path).stream())
           .collect(Collectors.toList());
       List<String> potentialMatches = keys.stream()
@@ -145,7 +146,8 @@ public class MessageBundleTest {
     try {
       List<String> keys = getKeysFromResourceBundle(bundleName, locale);
       List<Pair<Path, String>> potentialMatches = Files
-          .find(Paths.get("src/main/java/"), 1000, (p, bfa) -> bfa.isRegularFile())
+          .find(Paths.get(".."), 999,
+              (p, bfa) -> bfa.isRegularFile() && p.getFileName().toString().endsWith(".java"))
           .flatMap(path -> findCallsToResourceBundle(path, bundleCalls))
           .flatMap(pair -> findAllCallsToMissingKey(pair, keys, bundleCalls))
           .collect(Collectors.toList());
@@ -262,6 +264,7 @@ public class MessageBundleTest {
 
   private static void assertEmptyKeyList(List<String> strings) {
     if (!strings.isEmpty()) {
+      System.out.println("Size: " + strings.size());
       System.out.println(strings);
     }
     assertTrue(strings.isEmpty());

@@ -17,8 +17,8 @@ import org.assertj.swing.fixture.FrameFixture;
 import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
 import org.junit.Assert;
 
+import etoetests.CommonFunctions;
 import etoetests.guitests.pageobjects.GuiMethods;
-import mealplaner.Kochplaner;
 import mealplaner.gui.MainGui;
 import mealplaner.gui.factories.DialogFactory;
 import mealplaner.io.FileIoGui;
@@ -75,7 +75,7 @@ public class AssertJMealplanerTestCase extends AssertJSwingJUnitTestCase {
   private MainGui createMainApplication() {
     try {
       JFrame mainFrame = new JFrame(BUNDLES.message("mainFrameTitle"));
-      PluginStore pluginStore = Kochplaner.registerPlugins();
+      PluginStore pluginStore = CommonFunctions.registerPlugins();
       FileIoGui fileIoGui = new FileIoGui(mainFrame, useFilePath(), pluginStore);
       MealplanerData data = fileIoGui.loadDatabase(pluginStore);
       DialogFactory dialogFactory = new DialogFactory(mainFrame);

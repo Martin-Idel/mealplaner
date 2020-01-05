@@ -14,7 +14,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import mealplaner.Kochplaner;
+import etoetests.CommonFunctions;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
 import testcommons.XmlInteraction;
@@ -33,7 +33,7 @@ public class MealsXmlInteractionTest extends XmlInteraction {
     loadFileWithName(RESOURCE_FILE_WITH_THREE_MEALS_V3);
 
     MealplanerData mealPlan = setupMealplanerDataWithAllIngredients();
-    List<Meal> database = loadXml(mealPlan, DESTINATION_FILE_PATH, Kochplaner.registerPlugins());
+    List<Meal> database = loadXml(mealPlan, DESTINATION_FILE_PATH, CommonFunctions.registerPlugins());
 
     database.sort(Meal::compareTo);
 

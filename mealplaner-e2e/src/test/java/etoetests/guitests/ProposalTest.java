@@ -21,14 +21,16 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import etoetests.CommonFunctions;
 import etoetests.guitests.helpers.AssertJMealplanerTestCase;
-import mealplaner.Kochplaner;
+import etoetests.xmlsmoketests.IngredientsXmlInteractionTest;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.Pair;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.recipes.Recipe;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
+import testcommons.PluginsXmlUtils;
 
 public class ProposalTest extends AssertJMealplanerTestCase {
   public ProposalTest() {
@@ -44,7 +46,7 @@ public class ProposalTest extends AssertJMealplanerTestCase {
     Map<DayOfWeek, Settings> defaultSettingsMap = new HashMap<>();
     defaultSettingsMap.put(TUESDAY, defaultSettingTuesday);
     defaultSettingsMap.put(WEDNESDAY, defaultSettingWednesday);
-    DefaultSettings defaultSettings = DefaultSettings.from(defaultSettingsMap, Kochplaner.registerPlugins());
+    DefaultSettings defaultSettings = DefaultSettings.from(defaultSettingsMap, CommonFunctions.registerPlugins());
 
     windowHelpers.getProposalPane()
         .enterDefaultSettings(defaultSettings)
