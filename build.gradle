@@ -1,18 +1,25 @@
-apply plugin: "java"
-apply plugin: "application"
-apply plugin: "eclipse"
-
-apply plugin: "checkstyle"
-apply plugin: "pmd"
-// apply plugin: "findbugs"
-
-repositories {
-    jcenter()
-    mavenCentral()
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.github.spotbugs:spotbugs-gradle-plugin:3.0.0"
+    }
 }
 
-configurations {
-	runtimeLibraries
+apply plugin: "java"
+
+allprojects {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+}
+
+subprojects {
+    version = '2.1.0-SNAPSHOT'
 }
 
 dependencies {
@@ -25,19 +32,12 @@ dependencies {
     compile group: "javax.xml.bind", name: "jaxb-api", version: "2.4.0-b180830.0359"
 
     runtime "org.glassfish.jaxb:jaxb-runtime:2.4.0-b180830.0438"
-
-    testCompile "org.assertj:assertj-swing-junit:3.8.0"
-    testCompile "org.assertj:assertj-core:3.8.0"
-    testCompile "junit:junit:4.12"
-    testCompile "org.mockito:mockito-core:1.10.19"
-    
     runtime "org.swinglabs.swingx:swingx-all:1.6.5-1"
-    configurations.runtimeLibraries.extendsFrom(configurations.runtime)
-}
 
-task copyRuntimeLibs(type: Copy) {
-    into "build/libs/lib"
-    from configurations.runtimeLibraries
+    testImplementation "org.assertj:assertj-swing-junit:3.8.0"
+    testImplementation "org.assertj:assertj-core:3.8.0"
+    testImplementation "junit:junit:4.12"
+    testImplementation "org.mockito:mockito-core:1.10.19"
 }
 
 task copyLicenses(type: Copy) {
@@ -45,102 +45,53 @@ task copyLicenses(type: Copy) {
 	from "licenses/"
 }
 
-sourceSets {
-    main {
-        java {
-            srcDirs "src/main/java"
-        }
-        resources {
-        	srcDirs "src/test/resources"
-        }
+subprojects {
+    apply plugin: 'checkstyle'
+    checkstyle {
+        toolVersion = "8.28"
+        ignoreFailures = false
     }
-    
-    test {
-    	java {
-    		srcDirs "src/test/java"
-    	}
-    }
-}
- 
- test {
-    testLogging {
-        events "PASSED", "FAILED", "SKIPPED"
-    }
-    
-    afterSuite { desc, result ->
-    	if (!desc.parent) {
-        	println "Test results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
-		}
-	}
-}
 
-checkstyle {
-    toolVersion = "8.5"
-    ignoreFailures = false
-}
-
-tasks.withType(Checkstyle).each { checkstyleTask ->
-    checkstyleTask.doLast {
-        reports.all { report ->
-            def outputFile = report.destination
-            if (outputFile.exists() && outputFile.text.contains("<error ")) {
-                throw new GradleException("There were checkstyle warnings! For more info check $outputFile")
+    tasks.withType(Checkstyle).each { checkstyleTask ->
+        checkstyleTask.doLast {
+            reports.all { report ->
+                def outputFile = report.destination
+                if (outputFile.exists() && outputFile.text.contains("<error ")) {
+                    throw new GradleException("There were checkstyle warnings! For more info check $outputFile")
+                }
             }
         }
     }
 }
 
-pmd {
-	toolVersion = "5.8.1"
-	ignoreFailures = false
-	reportsDir = file("$project.buildDir/reports/pmd")
-	ruleSets = [
-        "java-basic",
-        "java-braces",
-        "java-clone",
-        "java-empty",
-        "java-finalizers",
-        "java-strictexception",
-        "java-sunsecure",        
-        "java-typeresolution",
-        "java-unnecessary",
-        "java-unusedcode",
-        "java-design",     
-		]
+subprojects {
+    apply plugin: 'pmd'
+    pmd {
+        toolVersion = "5.8.1"
+        ignoreFailures = false
+        reportsDir = file("$project.buildDir/reports/pmd")
+        ruleSets = [
+                "java-basic",
+                "java-braces",
+                "java-clone",
+                "java-empty",
+                "java-finalizers",
+                "java-strictexception",
+                "java-sunsecure",
+                "java-typeresolution",
+                "java-unnecessary",
+                "java-unusedcode",
+                "java-design",
+        ]
+    }
 }
 
-// findbugs {
-// 	toolVersion = "3.0.1"
-// 	ignoreFailures = false
-// 	effort = "max"
-// 	excludeFilter = file("config/findbugs/exclude.xml")
-// }
-
-mainClassName = "mealplaner.Kochplaner"
-
-jar {
-	manifest {
-		attributes(
-			"Manifest-Version": "1.0",
-			"Main-Class": "mealplaner.Kochplaner",
-			"Class-Path": "lib/swingx-all-1.6.5-1.jar " +
-                    "lib/slf4j-api-1.7.25.jar " +
-                    "lib/log4j-slf4j-impl-2.9.1.jar " +
-                    "lib/log4j-core-2.9.1.jar " +
-                    "lib/log4j-api-2.9.1.jar " +
-                    "lib/FastInfoset-1.2.15.jar " +
-                    "lib/istack-commons-runtime-3.0.7.jar " +
-                    "lib/javax.activation-api-1.2.0.jar " +
-                    "lib/jaxb-api-2.4.0-b180830.0359.jar " +
-                    "lib/jaxb-runtime-2.4.0-b180830.0438.jar " +
-                    "lib/stax-ex-1.8.jar " +
-                    "lib/txw2-2.4.0-b180830.0438.jar"
-		)
-	}
-}
-
-task createApplication(dependsOn: ["build", "jar", "copyRuntimeLibs", "copyLicenses"]) {
-	doLast {
-		println "Assembled and distributed"
-	}
+subprojects {
+    apply plugin: 'com.github.spotbugs'
+    spotbugs {
+        toolVersion = "3.1.12"
+        ignoreFailures = false
+        effort = "max"
+        excludeFilter = file("$rootProject.projectDir/config/spotbugs/excludeFilter.xml")
+    }
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<MealData>
+    <meals>
+        <meal>
+            <name>Test1</name>
+            <cookingTime>SHORT</cookingTime>
+            <sidedish>PASTA</sidedish>
+            <obligatoryUtensil>PAN</obligatoryUtensil>
+            <cookingPreference>VERY_POPULAR</cookingPreference>
+            <daysPassed>5</daysPassed>
+            <comment>no comment</comment>
+        </meal>
+    </meals>
+    <version>5</version>
+</MealData>

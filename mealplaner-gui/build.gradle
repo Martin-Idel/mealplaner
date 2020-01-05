@@ -1,0 +1,35 @@
+apply plugin: "java"
+
+dependencies {
+    compile "org.slf4j:slf4j-api:1.7.22"
+    compile "org.swinglabs.swingx:swingx-all:1.6.5-1"
+    compile group: "org.apache.logging.log4j", name: "log4j-slf4j-impl", version: "2.9.1"
+    compile group: "org.apache.logging.log4j", name: "log4j-api", version: "2.9.1"
+    compile group: "org.apache.logging.log4j", name: "log4j-core", version: "2.9.1"
+    compile project(":mealplaner-commons")
+    compile project(":mealplaner-gui-commons")
+    compile project(":mealplaner-model")
+    // TODO: Can we get rid of this? We should split an API package from core?
+    compile project(":mealplaner-core")
+
+    testImplementation "org.assertj:assertj-core:3.8.0"
+    testImplementation "junit:junit:4.12"
+    testImplementation(testFixtures(project(":mealplaner-core")))
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs "src/main/java"
+        }
+        resources {
+            srcDirs "src/test/resources"
+        }
+    }
+
+    test {
+        java {
+            srcDirs "src/test/java"
+        }
+    }
+}

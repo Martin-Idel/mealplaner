@@ -1,0 +1,42 @@
+apply plugin: "java"
+apply plugin: "application"
+
+mainClassName = "mealplaner.Kochplaner"
+
+// TODO: Add licenses and stuff - see https://stackoverflow.com/questions/5743036/deploy-additional-files-in-gradle-application-plugin
+
+dependencies {
+    implementation "org.slf4j:slf4j-api:1.7.22"
+    implementation group: "org.apache.logging.log4j", name: "log4j-slf4j-impl", version: "2.9.1"
+    implementation group: "org.apache.logging.log4j", name: "log4j-api", version: "2.9.1"
+    implementation group: "org.apache.logging.log4j", name: "log4j-core", version: "2.9.1"
+    implementation project(":mealplaner-commons")
+    implementation project(":mealplaner-gui-commons")
+    implementation project(":mealplaner-model")
+    implementation project(":mealplaner-core")
+    implementation project(":mealplaner-gui")
+    // TODO Try to get rid of these by using other scripts
+    implementation project(":mealplaner-plugins:comment")
+    implementation project(":mealplaner-plugins:cookingtime")
+    implementation project(":mealplaner-plugins:courses")
+    implementation project(":mealplaner-plugins:preference")
+    implementation project(":mealplaner-plugins:sidedish")
+    implementation project(":mealplaner-plugins:utensil")
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs "src/main/java"
+        }
+        resources {
+            srcDirs "src/test/resources"
+        }
+    }
+}
+
+// Add all other libraries inside the lib-folder (currently using a subfolder is not possible)
+// This allows dropping in plugins
+startScripts {
+    classpath  += files('$APP_HOME/lib/*')
+}
