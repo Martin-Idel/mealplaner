@@ -15,7 +15,6 @@ import mealplaner.commons.errorhandling.MealException;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.MealFact;
 import mealplaner.plugins.api.MealFactXml;
-import xmlcommons.HiddenMealFact;
 
 public class MealTest {
   private Meal sut;

@@ -13,7 +13,6 @@ dependencies {
     testCompile "org.assertj:assertj-core:3.8.0"
     testCompile "junit:junit:4.12"
     testCompile "org.mockito:mockito-core:1.10.19"
-    testImplementation testFixtures(project(":mealplaner-model"))
 
     testFixturesApi "org.assertj:assertj-core:3.8.0"
     testFixturesImplementation "org.assertj:assertj-core:3.8.0"

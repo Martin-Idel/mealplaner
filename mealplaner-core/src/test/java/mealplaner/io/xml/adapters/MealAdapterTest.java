@@ -7,7 +7,7 @@ import static mealplaner.io.xml.adapters.MealAdapter.convertMealV3FromXml;
 import static mealplaner.io.xml.adapters.MealAdapter.convertMealV3ToXml;
 import static mealplaner.model.meal.MealBuilder.meal;
 import static org.assertj.core.api.Assertions.assertThat;
-import static testcommonsmodel.CommonBaseFunctions.setupMealplanerDataWithAllIngredients;
+import static testcommons.CommonBaseFunctions.setupMealplanerDataWithAllIngredients;
 import static xmlcommons.TestMealFact.TestEnum.TEST1;
 
 import org.junit.Test;
