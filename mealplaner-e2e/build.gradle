@@ -31,8 +31,8 @@ sourceSets {
     }
 }
 
+// AssertJ Swing test need junit 4 runner. Upgrade if available
 test {
-    useJUnitPlatform()
     if(! Boolean.parseBoolean(System.getProperty("rune2etests").toString())) {
         exclude '**/guitests/**'
     }

@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import etoetests.CommonFunctions;
 import mealplaner.io.xml.ProposalSummaryModel;

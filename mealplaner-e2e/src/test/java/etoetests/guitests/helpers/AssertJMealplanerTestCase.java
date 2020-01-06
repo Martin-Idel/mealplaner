@@ -4,7 +4,7 @@ package etoetests.guitests.helpers;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static mealplaner.commons.BundleStore.BUNDLES;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
