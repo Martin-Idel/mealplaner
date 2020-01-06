@@ -44,7 +44,7 @@ public class SettingsCookingTimeSetting implements SettingsInputDialogExtension 
   private CookingTimeSubSetting changeStateOf(
       CookingTime cookingTime, Object value,
       CookingTimeSubSetting cookingTimeSubSetting) {
-    if ((Boolean) value) {
+    if (Boolean.TRUE.equals(value)) {
       return cookingTimeSubSetting.allowCookingTime(cookingTime);
     } else {
       return cookingTimeSubSetting.prohibitCookingTime(cookingTime);

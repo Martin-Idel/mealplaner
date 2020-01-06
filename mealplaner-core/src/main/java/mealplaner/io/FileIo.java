@@ -35,6 +35,10 @@ import mealplaner.model.recipes.Ingredient;
 import mealplaner.plugins.PluginStore;
 
 public class FileIo implements FileIoInterface {
+  private static final String INGREDIENT_FILE = "ingredients.xml";
+  private static final String MEAL_FILE = "meals.xml";
+  private static final String SAVE_FILE = "save.xml";
+
   private final JFrame frame;
   private final String savePath;
   private final PluginStore knownPlugins;
@@ -51,12 +55,12 @@ public class FileIo implements FileIoInterface {
     MealplanerData mealPlan = MealplanerData.getInstance(pluginStore);
     try {
       mealPlan.clear();
-      List<Ingredient> ingredients = IngredientsReader.loadXml(savePath + "ingredients.xml", knownPlugins);
+      List<Ingredient> ingredients = IngredientsReader.loadXml(savePath + INGREDIENT_FILE, knownPlugins);
       mealPlan.setIngredients(ingredients);
-      List<Meal> meals = MealsReader.loadXml(mealPlan, savePath + "meals.xml", knownPlugins);
+      List<Meal> meals = MealsReader.loadXml(mealPlan, savePath + MEAL_FILE, knownPlugins);
       mealPlan.setMeals(meals);
       ProposalSummaryModel proposalData = ProposalSummaryDataReader.loadXml(
-          savePath + "save.xml", knownPlugins);
+          savePath + SAVE_FILE, knownPlugins);
       mealPlan.setDefaultSettings(proposalData.defaultSettings);
       mealPlan.setLastProposal(proposalData.lastProposal);
       mealPlan.setTime(proposalData.time);
@@ -77,9 +81,9 @@ public class FileIo implements FileIoInterface {
       }
     }
     try {
-      ProposalSummaryDataWriter.saveXml(mealPlan, savePath + "save.xml", knownPlugins);
-      MealsWriter.saveXml(mealPlan.getMeals(), savePath + "meals.xml", knownPlugins);
-      IngredientsWriter.saveXml(mealPlan.getIngredients(), savePath + "ingredients.xml", knownPlugins);
+      ProposalSummaryDataWriter.saveXml(mealPlan, savePath + SAVE_FILE, knownPlugins);
+      MealsWriter.saveXml(mealPlan.getMeals(), savePath + MEAL_FILE, knownPlugins);
+      IngredientsWriter.saveXml(mealPlan.getIngredients(), savePath + INGREDIENT_FILE, knownPlugins);
     } catch (MealException exc) {
       errorMessages(frame, BUNDLES.errorMessage("MSG_SAVING_ERROR"));
       logger.error("Could not save database: ", exc);
@@ -91,13 +95,13 @@ public class FileIo implements FileIoInterface {
     try {
       switch (part) {
         case INGREDIENTS:
-          IngredientsWriter.saveXml(mealPlan.getIngredients(), savePath + "ingredients.xml", knownPlugins);
+          IngredientsWriter.saveXml(mealPlan.getIngredients(), savePath + INGREDIENT_FILE, knownPlugins);
           break;
         case MEALS:
-          MealsWriter.saveXml(mealPlan.getMeals(), savePath + "meals.xml", knownPlugins);
+          MealsWriter.saveXml(mealPlan.getMeals(), savePath + MEAL_FILE, knownPlugins);
           break;
         case PROPOSAL:
-          ProposalSummaryDataWriter.saveXml(mealPlan, savePath + "save.xml", knownPlugins);
+          ProposalSummaryDataWriter.saveXml(mealPlan, savePath + SAVE_FILE, knownPlugins);
           break;
         default: // do nothing
       }

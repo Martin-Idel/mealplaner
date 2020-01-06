@@ -14,7 +14,7 @@ import java.util.function.Supplier;
  */
 public final class DynamicSizeTableModel extends FlexibleTableModel {
   private static final long serialVersionUID = 1L;
-  private final Runnable addValue;
+  private final transient Runnable addValue;
 
   private DynamicSizeTableModel(List<TableColumnData<?>> tableColumns,
                                 Supplier<Integer> rowCount,

@@ -55,8 +55,8 @@ public class SideDishProposalStep implements ProposalBuilderStep {
   }
 
   private Pair<Meal, Integer> takeSideDishIntoAccount(Pair<Meal, Integer> pair, SideDish sideDish) {
-    return (pair.left.getTypedMealFact(SidedishFact.class).getSidedish() == sideDish.current)
-        ? Pair.of(pair.left, (int) (pair.right * (3f - sideDish.inARow) / 2))
+    return (pair.left.getTypedMealFact(SidedishFact.class).getSidedish() == sideDish.getCurrent())
+        ? Pair.of(pair.left, (int) (pair.right * (3f - sideDish.getInARow()) / 2))
         : pair;
   }
 
@@ -64,9 +64,9 @@ public class SideDishProposalStep implements ProposalBuilderStep {
     sideDish.reset();
     Iterator<Meal> mealList = getLastCookedDishes(mealData).iterator();
     if (mealList.hasNext()) {
-      sideDish.current = mealList.next().getTypedMealFact(SidedishFact.class).getSidedish();
-      while (sideDish.inARow < 3 && mealList.hasNext()
-          && mealList.next().getTypedMealFact(SidedishFact.class).getSidedish() == sideDish.current) {
+      sideDish.setCurrent(mealList.next().getTypedMealFact(SidedishFact.class).getSidedish());
+      while (sideDish.getInARow() < 3 && mealList.hasNext()
+          && mealList.next().getTypedMealFact(SidedishFact.class).getSidedish() == sideDish.getCurrent()) {
         sideDish.incrementInARow();
       }
     }
@@ -80,7 +80,7 @@ public class SideDishProposalStep implements ProposalBuilderStep {
   }
 
   private void updateCurrentSideDish(Meal nextProposal) {
-    sideDish = (sideDish.current == nextProposal.getTypedMealFact(SidedishFact.class).getSidedish())
+    sideDish = (sideDish.getCurrent() == nextProposal.getTypedMealFact(SidedishFact.class).getSidedish())
         ? sideDish.incrementInARow()
         : sideDish.resetToSideDish(nextProposal.getTypedMealFact(SidedishFact.class).getSidedish());
   }

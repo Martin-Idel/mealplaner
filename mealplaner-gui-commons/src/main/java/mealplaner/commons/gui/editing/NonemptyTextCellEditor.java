@@ -7,6 +7,7 @@ import java.awt.Component;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
@@ -19,7 +20,7 @@ public class NonemptyTextCellEditor extends DefaultCellEditor {
   public NonemptyTextCellEditor() {
     super(new JTextField());
     textField = (JTextField) getComponent();
-    textField.setHorizontalAlignment(JTextField.LEFT);
+    textField.setHorizontalAlignment(SwingConstants.LEFT);
   }
 
   @Override

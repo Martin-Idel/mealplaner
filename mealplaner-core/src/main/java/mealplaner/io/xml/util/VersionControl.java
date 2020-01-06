@@ -12,7 +12,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -47,7 +46,7 @@ public final class VersionControl {
       NodeList allChildren = modelNode.getChildNodes();
       for (int i = 0; i < allChildren.getLength(); i++) {
         Node potentialVersionNode = allChildren.item(i);
-        if (potentialVersionNode.getNodeType() == Element.ELEMENT_NODE
+        if (potentialVersionNode.getNodeType() == Node.ELEMENT_NODE
             && potentialVersionNode.getNodeName().equals("version")) {
           try {
             return Integer.parseInt(potentialVersionNode.getTextContent());

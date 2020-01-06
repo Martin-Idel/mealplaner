@@ -215,7 +215,7 @@ public final class FlexibleTableBuilder {
     private static final long serialVersionUID = 1L;
     private final FlexibleTableModel tableModel;
     private final JTable table;
-    private final Consumer<Integer> deleteRow;
+    private final transient Consumer<Integer> deleteRow;
 
     DeleteAction(FlexibleTableModel tableModel, JTable table, Consumer<Integer> deleteRow) {
       this.tableModel = tableModel;

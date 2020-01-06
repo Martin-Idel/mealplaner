@@ -5,9 +5,8 @@ package mealplaner.plugins.sidedish.proposal;
 import mealplaner.plugins.sidedish.mealextension.Sidedish;
 
 public class SideDish {
-
-  public Sidedish current;
-  public int inARow;
+  private Sidedish current;
+  private int inARow;
 
   public SideDish() {
     current = Sidedish.NONE;
@@ -30,4 +29,15 @@ public class SideDish {
     return this;
   }
 
+  public Sidedish getCurrent() {
+    return current;
+  }
+
+  public void setCurrent(Sidedish current) {
+    this.current = current;
+  }
+
+  public int getInARow() {
+    return inARow;
+  }
 }

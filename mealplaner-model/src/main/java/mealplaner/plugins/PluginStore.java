@@ -36,9 +36,6 @@ public class PluginStore {
   private Map<Class<? extends ProposalBuilderStep>, ProposalBuilderStep> registeredProposalBuilderSteps
       = new HashMap<>();
 
-  public PluginStore() {
-  }
-
   public <T extends MealFact> void registerMealExtension(
       Class<T> mealFact,
       Class<? extends MealFactXml> mealFactXml,

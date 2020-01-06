@@ -13,7 +13,11 @@ import mealplaner.plugins.ModelExtension;
 import mealplaner.plugins.api.Fact;
 import mealplaner.plugins.api.FactXml;
 
-public class FactsAdapter {
+public final class FactsAdapter {
+
+  private FactsAdapter() {
+  }
+
   public static <FactT extends Fact, FactXmlT extends FactXml> Map<Class, FactT> extractFacts(
       List<Object> facts, ModelExtension<FactT, FactXmlT> knownExtensions) {
     var mealFactMap = new HashMap<Class, FactT>();

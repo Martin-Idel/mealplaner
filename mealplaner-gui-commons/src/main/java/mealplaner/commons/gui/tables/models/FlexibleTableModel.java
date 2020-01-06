@@ -18,9 +18,9 @@ import javax.swing.table.AbstractTableModel;
 public abstract class FlexibleTableModel extends AbstractTableModel {
   private static final long serialVersionUID = 1L;
 
-  final List<TableColumnData<?>> columns;
+  final transient List<TableColumnData<?>> columns;
 
-  private final Supplier<Integer> rowCount;
+  private final transient Supplier<Integer> rowCount;
 
   FlexibleTableModel(List<TableColumnData<?>> tableColumns, Supplier<Integer> rowCount) {
     columns = tableColumns;
@@ -68,6 +68,6 @@ public abstract class FlexibleTableModel extends AbstractTableModel {
     Optional<Integer[]> fireOtherCellsUpdated = columns.get(col).setValue(value, row);
     fireTableCellUpdated(row, col);
     fireOtherCellsUpdated.ifPresent(otherColumns -> asList(otherColumns)
-            .forEach(column -> fireTableCellUpdated(row, column)));
+        .forEach(column -> fireTableCellUpdated(row, column)));
   }
 }
