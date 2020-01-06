@@ -1,3 +1,3 @@
 MealPlaner
 
-Copyright 2009-2018 Martin Idel
+Copyright 2009-2020 Martin Idel
