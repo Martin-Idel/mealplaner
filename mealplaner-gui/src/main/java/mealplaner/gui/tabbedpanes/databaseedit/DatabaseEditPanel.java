@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import mealplaner.gui.MainContainer;
-import mealplaner.io.FileIoGui;
+import mealplaner.ioapi.FileIoInterface;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
 import mealplaner.plugins.PluginStore;
@@ -21,14 +21,14 @@ import mealplaner.plugins.PluginStore;
 public class DatabaseEditPanel {
   private final MealplanerData mealPlan;
   private final JFrame frame;
-  private final FileIoGui fileIoGui;
+  private final FileIoInterface fileIo;
   private DatabaseEdit dbaseEdit;
 
   public DatabaseEditPanel(MealplanerData mealPlan,
-      JFrame frame, FileIoGui fileIoGui) {
+      JFrame frame, FileIoInterface fileIo) {
     this.mealPlan = mealPlan;
     this.frame = frame;
-    this.fileIoGui = fileIoGui;
+    this.fileIo = fileIo;
   }
 
   public void addElements(MainContainer container, PluginStore pluginStore) {
@@ -47,7 +47,7 @@ public class DatabaseEditPanel {
 
   private JPanel setupDatabasePanel(PluginStore pluginStore) {
     JPanel databasePanel = new JPanel();
-    dbaseEdit = new DatabaseEdit(this.mealPlan, frame, databasePanel, fileIoGui);
+    dbaseEdit = new DatabaseEdit(this.mealPlan, frame, databasePanel, fileIo);
     dbaseEdit.setupPane(mealPlan::setMeals, pluginStore);
     return databasePanel;
   }

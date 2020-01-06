@@ -27,23 +27,26 @@ import mealplaner.io.xml.MealsWriter;
 import mealplaner.io.xml.ProposalSummaryDataReader;
 import mealplaner.io.xml.ProposalSummaryDataWriter;
 import mealplaner.io.xml.ProposalSummaryModel;
+import mealplaner.ioapi.DataParts;
+import mealplaner.ioapi.FileIoInterface;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.plugins.PluginStore;
 
-public class FileIoGui {
+public class FileIo implements FileIoInterface {
   private final JFrame frame;
   private final String savePath;
   private final PluginStore knownPlugins;
-  private static final Logger logger = LoggerFactory.getLogger(FileIoGui.class);
+  private static final Logger logger = LoggerFactory.getLogger(FileIo.class);
 
-  public FileIoGui(JFrame frame, String savePath, PluginStore knownPlugins) {
+  public FileIo(JFrame frame, String savePath, PluginStore knownPlugins) {
     this.frame = frame;
     this.savePath = savePath;
     this.knownPlugins = knownPlugins;
   }
 
+  @Override
   public MealplanerData loadDatabase(PluginStore pluginStore) {
     MealplanerData mealPlan = MealplanerData.getInstance(pluginStore);
     try {
@@ -64,6 +67,7 @@ public class FileIoGui {
     return mealPlan;
   }
 
+  @Override
   public void saveDatabase(MealplanerData mealPlan) {
     if (!new File(savePath).exists()) {
       boolean created = new File(savePath).mkdir();
@@ -82,6 +86,7 @@ public class FileIoGui {
     }
   }
 
+  @Override
   public void savePart(MealplanerData mealPlan, DataParts part) {
     try {
       switch (part) {
@@ -103,6 +108,7 @@ public class FileIoGui {
 
   }
 
+  @Override
   public Optional<MealplanerData> loadBackup(PluginStore pluginStore) {
     String bak = JOptionPane.showInputDialog(frame, BUNDLES.message("createLoadBackup"),
         "*.xml");
@@ -119,6 +125,7 @@ public class FileIoGui {
     return empty();
   }
 
+  @Override
   public void createBackup(MealplanerData mealPlan) {
     String bak = showInputDialog(frame, BUNDLES.message("createLoadBackup"),
         "*.xml");

@@ -11,11 +11,12 @@ import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 
+import mealplaner.api.ProposalBuilderFactory;
 import mealplaner.gui.factories.DialogFactory;
 import mealplaner.gui.tabbedpanes.databaseedit.DatabaseEditPanel;
 import mealplaner.gui.tabbedpanes.ingredientsedit.IngredientsEditPanel;
 import mealplaner.gui.tabbedpanes.proposal.ProposalSummaryPanel;
-import mealplaner.io.FileIoGui;
+import mealplaner.ioapi.FileIoInterface;
 import mealplaner.model.MealplanerData;
 import mealplaner.plugins.PluginStore;
 
@@ -25,22 +26,22 @@ public class MainGui {
 
   private final MealplanerData mealPlan;
 
-  private final FileIoGui fileIoGui;
+  private final FileIoInterface fileIo;
   private final DatabaseEditPanel dbaseEditPanel;
   private final ProposalSummaryPanel mealPanel;
   private final IngredientsEditPanel ingredientsPanel;
 
   public MainGui(JFrame mainFrame, MealplanerData mealPlan, DialogFactory dialogFactory,
-      FileIoGui fileIoGui, PluginStore pluginStore) {
+                 FileIoInterface fileIo, ProposalBuilderFactory proposalFactory, PluginStore pluginStore) {
     this.frame = mainFrame;
     this.mealPlan = mealPlan;
-    this.fileIoGui = fileIoGui;
+    this.fileIo = fileIo;
 
     this.container = new MainContainer(frame);
     mealPanel = new ProposalSummaryPanel(this.mealPlan, dialogFactory,
-        mainFrame, fileIoGui);
-    dbaseEditPanel = new DatabaseEditPanel(this.mealPlan, frame, fileIoGui);
-    ingredientsPanel = new IngredientsEditPanel(this.mealPlan, frame, fileIoGui);
+        mainFrame, fileIo, proposalFactory);
+    dbaseEditPanel = new DatabaseEditPanel(this.mealPlan, frame, fileIo);
+    ingredientsPanel = new IngredientsEditPanel(this.mealPlan, frame, fileIo);
     setupTabbedPanes(pluginStore);
   }
 
@@ -65,14 +66,14 @@ public class MainGui {
   private JMenuItem createBackupMenu() {
     return builder("CreateBackup").addLabelText(BUNDLES.message("menuDataCreateBackup"))
         .addMnemonic(BUNDLES.message("menuDataCreateBackupMnemonic"))
-        .addActionListener(action -> fileIoGui.createBackup(mealPlan))
+        .addActionListener(action -> fileIo.createBackup(mealPlan))
         .build();
   }
 
   private JMenuItem loadBackupMenu(PluginStore pluginStore) {
     return builder("LoadBackup").addLabelText(BUNDLES.message("menuDataLoadBackup"))
         .addMnemonic(BUNDLES.message("menuDataLoadBackupMnemonic"))
-        .addActionListener(action -> fileIoGui.loadBackup(pluginStore)
+        .addActionListener(action -> fileIo.loadBackup(pluginStore)
             .ifPresent(loadedMealPlaner -> {
               this.mealPlan.setMeals(loadedMealPlaner.getMeals());
               this.mealPlan.setIngredients(loadedMealPlaner.getIngredients());
@@ -88,7 +89,7 @@ public class MainGui {
         .addLabelText(BUNDLES.message("menuDataExit"))
         .addMnemonic(BUNDLES.message("menuDataExitMnemonic"))
         .addActionListener(action -> showSaveExitDialog(frame, BUNDLES.message("saveYesNoQuestion"),
-            () -> fileIoGui.saveDatabase(mealPlan)))
+            () -> fileIo.saveDatabase(mealPlan)))
         .build();
   }
 
@@ -99,7 +100,7 @@ public class MainGui {
   void saveDataBase() {
     dbaseEditPanel.saveDatabase();
     ingredientsPanel.saveDatabase();
-    fileIoGui.saveDatabase(mealPlan);
+    fileIo.saveDatabase(mealPlan);
   }
 
   class SaveExitWindowListener extends WindowAdapter {

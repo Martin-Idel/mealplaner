@@ -9,7 +9,7 @@ import static mealplaner.commons.gui.tables.TableHelpers.deleteSelectedRows;
 import static mealplaner.gui.dialogs.ingredients.IngredientsInput.ingredientsInput;
 import static mealplaner.gui.tabbedpanes.ingredientsedit.IngredientsEditTable.createTable;
 import static mealplaner.gui.tabbedpanes.ingredientsedit.ReplaceIngredientDialog.showReplaceDialog;
-import static mealplaner.io.DataParts.INGREDIENTS;
+import static mealplaner.ioapi.DataParts.INGREDIENTS;
 import static mealplaner.model.DataStoreEventType.INGREDIENTS_CHANGED;
 
 import java.awt.BorderLayout;
@@ -23,7 +23,7 @@ import javax.swing.JPanel;
 
 import mealplaner.commons.gui.buttonpanel.ButtonPanelEnabling;
 import mealplaner.commons.gui.tables.Table;
-import mealplaner.io.FileIoGui;
+import mealplaner.ioapi.FileIoInterface;
 import mealplaner.model.DataStoreEventType;
 import mealplaner.model.DataStoreListener;
 import mealplaner.model.MealplanerData;
@@ -34,7 +34,7 @@ public class IngredientsEdit implements DataStoreListener {
   private final MealplanerData mealPlan;
   private final JFrame frame;
   private final JPanel dataPanel;
-  private final FileIoGui fileIoGui;
+  private final FileIoInterface fileIo;
 
   private final List<Ingredient> ingredients = new ArrayList<>();
 
@@ -42,11 +42,11 @@ public class IngredientsEdit implements DataStoreListener {
   private ButtonPanelEnabling buttonPanel;
 
   public IngredientsEdit(MealplanerData mealPlan, JFrame frame, JPanel ingredientsPanel,
-      FileIoGui fileIoGui) {
+      FileIoInterface fileIo) {
     this.mealPlan = mealPlan;
     this.frame = frame;
     this.dataPanel = ingredientsPanel;
-    this.fileIoGui = fileIoGui;
+    this.fileIo = fileIo;
     this.mealPlan.register(this);
 
     dataPanel.setLayout(new BorderLayout());
@@ -85,7 +85,7 @@ public class IngredientsEdit implements DataStoreListener {
         .deletedIngredientsStillInUse(ingredients);
     deletedIngredientsStillInUse.forEach(replaceIngredientOrDoNotDelete());
     mealPlan.setIngredients(ingredients);
-    fileIoGui.savePart(mealPlan, INGREDIENTS);
+    fileIo.savePart(mealPlan, INGREDIENTS);
   }
 
   private Consumer<Ingredient> replaceIngredientOrDoNotDelete() {

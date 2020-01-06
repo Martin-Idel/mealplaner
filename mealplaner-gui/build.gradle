@@ -9,8 +9,6 @@ dependencies {
     api project(":mealplaner-commons")
     api project(":mealplaner-gui-commons")
     api project(":mealplaner-model")
-    // TODO: Can we get rid of this? We should split an API package from core?
-    api project(":mealplaner-core")
 
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: "${jupyterVersion}"
     testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher', version: "${jupyterPlatformVersion}"

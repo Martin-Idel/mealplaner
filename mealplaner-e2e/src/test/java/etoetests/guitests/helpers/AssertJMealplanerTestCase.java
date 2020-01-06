@@ -17,11 +17,13 @@ import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
 
 import etoetests.CommonFunctions;
 import etoetests.guitests.pageobjects.GuiMethods;
+import mealplaner.api.ProposalBuilderFactory;
 import mealplaner.gui.MainGui;
 import mealplaner.gui.factories.DialogFactory;
-import mealplaner.io.FileIoGui;
+import mealplaner.io.FileIo;
 import mealplaner.model.MealplanerData;
 import mealplaner.plugins.PluginStore;
+import mealplaner.proposal.ProposalBuilderFactoryImpl;
 
 public class AssertJMealplanerTestCase extends AssertJSwingJUnitTestCase {
   protected GuiMethods windowHelpers;
@@ -74,10 +76,10 @@ public class AssertJMealplanerTestCase extends AssertJSwingJUnitTestCase {
     try {
       JFrame mainFrame = new JFrame(BUNDLES.message("mainFrameTitle"));
       PluginStore pluginStore = CommonFunctions.registerPlugins();
-      FileIoGui fileIoGui = new FileIoGui(mainFrame, useFilePath(), pluginStore);
-      MealplanerData data = fileIoGui.loadDatabase(pluginStore);
+      FileIo fileIo = new FileIo(mainFrame, useFilePath(), pluginStore);
+      MealplanerData data = fileIo.loadDatabase(pluginStore);
       DialogFactory dialogFactory = new DialogFactory(mainFrame);
-      return new MainGui(mainFrame, data, dialogFactory, fileIoGui, pluginStore);
+      return new MainGui(mainFrame, data, dialogFactory, fileIo, new ProposalBuilderFactoryImpl(), pluginStore);
     } catch (IOException exception) {
       fail("One of the files to use as save files does not exist");
       return null;

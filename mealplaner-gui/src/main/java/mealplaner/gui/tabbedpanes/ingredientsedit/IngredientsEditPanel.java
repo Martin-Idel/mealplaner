@@ -12,21 +12,21 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import mealplaner.gui.MainContainer;
-import mealplaner.io.FileIoGui;
+import mealplaner.ioapi.FileIoInterface;
 import mealplaner.model.MealplanerData;
 import mealplaner.plugins.PluginStore;
 
 public class IngredientsEditPanel {
   private final MealplanerData mealPlan;
   private final JFrame frame;
-  private final FileIoGui fileIoGui;
+  private final FileIoInterface fileIo;
   private IngredientsEdit ingredientsEdit;
 
   public IngredientsEditPanel(MealplanerData mealPlan,
-      JFrame frame, FileIoGui fileIoGui) {
+      JFrame frame, FileIoInterface fileIo) {
     this.mealPlan = mealPlan;
     this.frame = frame;
-    this.fileIoGui = fileIoGui;
+    this.fileIo = fileIo;
   }
 
   public void addElements(MainContainer container, PluginStore pluginStore) {
@@ -37,7 +37,7 @@ public class IngredientsEditPanel {
   private JPanel setupIngredientsPanel(PluginStore pluginStore) {
     JPanel databasePanel = new JPanel();
     ingredientsEdit = new IngredientsEdit(this.mealPlan, frame, databasePanel,
-        fileIoGui);
+        fileIo);
     ingredientsEdit.setupPane(pluginStore);
     return databasePanel;
   }

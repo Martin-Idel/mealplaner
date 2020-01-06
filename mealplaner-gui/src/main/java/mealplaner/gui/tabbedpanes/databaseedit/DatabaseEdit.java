@@ -20,8 +20,8 @@ import javax.swing.JPanel;
 
 import mealplaner.commons.gui.buttonpanel.ButtonPanelEnabling;
 import mealplaner.commons.gui.tables.Table;
-import mealplaner.io.DataParts;
-import mealplaner.io.FileIoGui;
+import mealplaner.ioapi.DataParts;
+import mealplaner.ioapi.FileIoInterface;
 import mealplaner.model.DataStoreEventType;
 import mealplaner.model.DataStoreListener;
 import mealplaner.model.MealplanerData;
@@ -34,15 +34,15 @@ public class DatabaseEdit implements DataStoreListener {
   private Table table;
 
   private ButtonPanelEnabling buttonPanel;
-  private final FileIoGui fileIoGui;
+  private final FileIoInterface fileIo;
 
   private final MealplanerData mealplanerData;
   private final List<Meal> meals;
 
   public DatabaseEdit(MealplanerData mealPlan, JFrame parentFrame, JPanel parentPanel,
-      FileIoGui fileIoGui) {
+      FileIoInterface fileIo) {
     this.mealplanerData = mealPlan;
-    this.fileIoGui = fileIoGui;
+    this.fileIo = fileIo;
     this.meals = new ArrayList<>(mealPlan.getMeals());
     mealPlan.register(this);
 
@@ -71,7 +71,7 @@ public class DatabaseEdit implements DataStoreListener {
             action -> deleteSelectedRows(table, number -> meals.remove((int) number)))
         .addSaveButton(action -> {
           setData.accept(meals);
-          fileIoGui.savePart(mealplanerData, DataParts.MEALS);
+          fileIo.savePart(mealplanerData, DataParts.MEALS);
           buttonPanel.disableButtons();
         })
         .makeLastButtonEnabling()

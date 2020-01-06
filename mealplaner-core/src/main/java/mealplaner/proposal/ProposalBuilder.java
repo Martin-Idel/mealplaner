@@ -22,6 +22,7 @@ import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import mealplaner.api.ProposalBuilderInterface;
 import mealplaner.commons.Pair;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.meal.Meal;
@@ -32,7 +33,7 @@ import mealplaner.plugins.api.ProposalBuilderStep;
 import mealplaner.plugins.builtins.courses.CourseTypeFact;
 import mealplaner.plugins.builtins.courses.CourseTypeSetting;
 
-public class ProposalBuilder {
+public class ProposalBuilder implements ProposalBuilderInterface {
   private boolean firstDayIsToday = false;
   private boolean random = false;
 
@@ -60,16 +61,19 @@ public class ProposalBuilder {
     proposalList = new ArrayList<>();
   }
 
+  @Override
   public ProposalBuilder randomise(boolean randomise) {
     random = randomise;
     return this;
   }
 
+  @Override
   public ProposalBuilder firstProposal(boolean today) {
     firstDayIsToday = today;
     return this;
   }
 
+  @Override
   public Proposal propose(Settings[] settings) { // NOPMD
     for (var step : proposalBuilderSteps) {
       step.setupProposalStep(mealDataMain);

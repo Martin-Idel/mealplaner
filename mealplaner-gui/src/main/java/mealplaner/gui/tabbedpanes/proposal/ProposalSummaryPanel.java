@@ -19,11 +19,12 @@ import java.util.Optional;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import mealplaner.api.ProposalBuilderFactory;
 import mealplaner.commons.gui.buttonpanel.ButtonPanel;
 import mealplaner.gui.MainContainer;
 import mealplaner.gui.dialogs.proposaloutput.ProposalTable;
 import mealplaner.gui.factories.DialogFactory;
-import mealplaner.io.FileIoGui;
+import mealplaner.ioapi.FileIoInterface;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.proposal.ProposalOutline;
@@ -32,13 +33,13 @@ import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.ProposalBuilderStep;
-import mealplaner.proposal.ProposalBuilder;
 
 public class ProposalSummaryPanel {
   private final MealplanerData mealPlan;
   private final DialogFactory dialogs;
   private final JFrame frame;
-  private final FileIoGui fileIoGui;
+  private final FileIoInterface fileIo;
+  private final ProposalBuilderFactory proposalFactory;
 
   private ProposalSummary proposalSummary;
   private JPanel mealPanel;
@@ -47,11 +48,12 @@ public class ProposalSummaryPanel {
       MealplanerData mealPlan,
       DialogFactory dialogs,
       JFrame frame,
-      FileIoGui fileIoGui) {
+      FileIoInterface fileIo, ProposalBuilderFactory proposalFactory) {
     this.mealPlan = mealPlan;
     this.dialogs = dialogs;
     this.frame = frame;
-    this.fileIoGui = fileIoGui;
+    this.fileIo = fileIo;
+    this.proposalFactory = proposalFactory;
   }
 
   public void setupPanel(PluginStore pluginStore) {
@@ -119,7 +121,7 @@ public class ProposalSummaryPanel {
 
   private Proposal propose(
       Settings[] set, boolean today, boolean random, Collection<ProposalBuilderStep> proposalBuilderSteps) {
-    return new ProposalBuilder(mealPlan.getMeals(), proposalBuilderSteps)
+    return proposalFactory.createProposalBuilder(mealPlan.getMeals(), proposalBuilderSteps)
         .firstProposal(today)
         .randomise(random)
         .propose(set);
@@ -137,12 +139,12 @@ public class ProposalSummaryPanel {
         .addButton(BUNDLES.message("saveExitButton"),
             BUNDLES.message("saveExitMnemonic"),
             action -> {
-              fileIoGui.saveDatabase(mealPlan);
+              fileIo.saveDatabase(mealPlan);
               frame.dispose();
             })
         .addExitButton(
             action -> showSaveExitDialog(frame, BUNDLES.message("saveYesNoQuestion"),
-                () -> fileIoGui.saveDatabase(mealPlan)))
+                () -> fileIo.saveDatabase(mealPlan)))
         .build();
   }
 
