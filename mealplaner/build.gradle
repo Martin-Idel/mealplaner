@@ -6,10 +6,10 @@ mainClassName = "mealplaner.Kochplaner"
 // TODO: Add licenses and stuff - see https://stackoverflow.com/questions/5743036/deploy-additional-files-in-gradle-application-plugin
 
 dependencies {
-    implementation group: "org.slf4j", name: "slf4j-api", version: "1.7.30"
-    implementation group: "org.apache.logging.log4j", name: "log4j-slf4j-impl", version: "2.13.0"
-    implementation group: "org.apache.logging.log4j", name: "log4j-api", version: "2.13.0"
-    implementation group: "org.apache.logging.log4j", name: "log4j-core", version: "2.13.0"
+    implementation group: "org.slf4j", name: "slf4j-api", version: "${slf4jVersion}"
+    implementation group: "org.apache.logging.log4j", name: "log4j-slf4j-impl", version: "${log4jVersion}"
+    implementation group: "org.apache.logging.log4j", name: "log4j-api", version: "${log4jVersion}"
+    implementation group: "org.apache.logging.log4j", name: "log4j-core", version: "${log4jVersion}"
     implementation project(":mealplaner-commons")
     implementation project(":mealplaner-gui-commons")
     implementation project(":mealplaner-model")

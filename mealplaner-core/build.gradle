@@ -2,29 +2,29 @@ apply plugin: "java-library"
 apply plugin: "java-test-fixtures"
 
 dependencies {
-    api group: "org.slf4j", name: "slf4j-api", version: "1.7.30"
-    implementation group: "org.apache.logging.log4j", name: "log4j-slf4j-impl", version: "2.13.0"
-    implementation group: "org.apache.logging.log4j", name: "log4j-api", version: "2.13.0"
-    implementation group: "org.apache.logging.log4j", name: "log4j-core", version: "2.13.0"
+    api group: "org.slf4j", name: "slf4j-api", version: "${slf4jVersion}"
+    implementation group: "org.apache.logging.log4j", name: "log4j-slf4j-impl", version: "${log4jVersion}"
+    implementation group: "org.apache.logging.log4j", name: "log4j-api", version: "${log4jVersion}"
+    implementation group: "org.apache.logging.log4j", name: "log4j-core", version: "${log4jVersion}"
     api project(":mealplaner-commons")
     api project(":mealplaner-model")
 
-    compileOnly group: "javax.xml.bind", name: "jaxb-api", version: "2.4.0-b180830.0359"
-    runtimeOnly "org.glassfish.jaxb:jaxb-runtime:2.4.0-b180830.0438"
+    compileOnly group: "javax.xml.bind", name: "jaxb-api", version: "${jaxbVersion}"
+    runtimeOnly group: "org.glassfish.jaxb", name: "jaxb-runtime", version: "${jaxbRuntime}"
 
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.5.2'
-    testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.5.2'
-    testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.14.0'
-    testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.2.4'
-    testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.2.4'
-    testRuntimeOnly "org.glassfish.jaxb:jaxb-runtime:2.4.0-b180830.0438"
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: "${jupyterVersion}"
+    testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher', version: "${jupyterPlatformVersion}"
+    testImplementation group: 'org.assertj', name: 'assertj-core', version: "${assertjVersion}"
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: "${mockitoVersion}"
+    testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: "${mockitoVersion}"
+    testRuntimeOnly group: "org.glassfish.jaxb", name: "jaxb-runtime", version: "${jaxbVersion}"
 
-    testFixturesApi group: 'org.assertj', name: 'assertj-core', version: '3.14.0'
-    testFixturesApi group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.5.2'
-    testFixturesApi group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.5.2'
-    testFixturesApi group: 'org.mockito', name: 'mockito-core', version: '3.2.4'
-    testFixturesApi group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.2.4'
-    testFixturesApi group: "javax.xml.bind", name: "jaxb-api", version: "2.4.0-b180830.0359"
+    testFixturesApi group: 'org.junit.jupiter', name: 'junit-jupiter', version: "${jupyterVersion}"
+    testFixturesApi group: 'org.junit.platform', name: 'junit-platform-launcher', version: "${jupyterPlatformVersion}"
+    testFixturesApi group: 'org.assertj', name: 'assertj-core', version: "${assertjVersion}"
+    testFixturesApi group: 'org.mockito', name: 'mockito-core', version: "${mockitoVersion}"
+    testFixturesApi group: 'org.mockito', name: 'mockito-junit-jupiter', version: "${mockitoVersion}"
+    testFixturesApi group: "javax.xml.bind", name: "jaxb-api", version: "${jaxbVersion}"
 }
 
 sourceSets {
