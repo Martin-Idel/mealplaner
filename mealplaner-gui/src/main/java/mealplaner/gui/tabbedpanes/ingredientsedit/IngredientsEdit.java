@@ -10,6 +10,7 @@ import static mealplaner.gui.dialogs.ingredients.IngredientsInput.ingredientsInp
 import static mealplaner.gui.tabbedpanes.ingredientsedit.IngredientsEditTable.createTable;
 import static mealplaner.gui.tabbedpanes.ingredientsedit.ReplaceIngredientDialog.showReplaceDialog;
 import static mealplaner.ioapi.DataParts.INGREDIENTS;
+import static mealplaner.ioapi.DataParts.MEALS;
 import static mealplaner.model.DataStoreEventType.INGREDIENTS_CHANGED;
 
 import java.awt.BorderLayout;
@@ -23,6 +24,7 @@ import javax.swing.JPanel;
 
 import mealplaner.commons.gui.buttonpanel.ButtonPanelEnabling;
 import mealplaner.commons.gui.tables.Table;
+import mealplaner.ioapi.DataParts;
 import mealplaner.ioapi.FileIoInterface;
 import mealplaner.model.DataStoreEventType;
 import mealplaner.model.DataStoreListener;
@@ -86,6 +88,7 @@ public class IngredientsEdit implements DataStoreListener {
     deletedIngredientsStillInUse.forEach(replaceIngredientOrDoNotDelete());
     mealPlan.setIngredients(ingredients);
     fileIo.savePart(mealPlan, INGREDIENTS);
+    fileIo.savePart(mealPlan, MEALS);
   }
 
   private Consumer<Ingredient> replaceIngredientOrDoNotDelete() {
