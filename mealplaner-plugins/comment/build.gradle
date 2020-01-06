@@ -9,7 +9,6 @@ dependencies {
     compileOnly group: "javax.xml.bind", name: "jaxb-api", version: "${jaxbVersion}"
     runtimeOnly group: "org.glassfish.jaxb", name: "jaxb-runtime", version: "${jaxbRuntime}"
     api project(":mealplaner-commons")
-    api project(":mealplaner-core")
     api project(":mealplaner-model")
     api project(":mealplaner-gui-commons")
 }
