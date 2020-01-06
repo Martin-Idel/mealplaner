@@ -37,3 +37,7 @@ sourceSets {
         }
     }
 }
+
+test {
+    useJUnitPlatform()
+}

@@ -32,6 +32,7 @@ sourceSets {
 }
 
 test {
+    useJUnitPlatform()
     if(! Boolean.parseBoolean(System.getProperty("rune2etests").toString())) {
         exclude '**/guitests/**'
     }
