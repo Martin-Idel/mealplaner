@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.plugins.builtins.courses;
 
 import java.util.Optional;

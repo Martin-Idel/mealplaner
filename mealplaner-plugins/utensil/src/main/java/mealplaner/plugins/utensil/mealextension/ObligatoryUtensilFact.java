@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.plugins.utensil.mealextension;
 
 import static mealplaner.plugins.utensil.mealextension.ObligatoryUtensil.POT;

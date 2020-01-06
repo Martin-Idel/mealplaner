@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.plugins.cookingtime.mealextension;
 
 import static java.util.Collections.singletonList;

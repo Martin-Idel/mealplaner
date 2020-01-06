@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.plugins.courses.proposal;
 
 import static mealplaner.plugins.builtins.courses.CourseType.DESERT;

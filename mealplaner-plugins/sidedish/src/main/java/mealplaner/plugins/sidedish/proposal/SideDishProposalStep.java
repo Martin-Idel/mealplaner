@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.plugins.sidedish.proposal;
 
 import static java.util.Comparator.comparing;

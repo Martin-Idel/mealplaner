@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.io.xml;
 
 import static java.nio.charset.StandardCharsets.UTF_8;

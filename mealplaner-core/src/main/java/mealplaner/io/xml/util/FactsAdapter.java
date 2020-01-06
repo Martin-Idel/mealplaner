@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.io.xml.util;
 
 import java.util.ArrayList;

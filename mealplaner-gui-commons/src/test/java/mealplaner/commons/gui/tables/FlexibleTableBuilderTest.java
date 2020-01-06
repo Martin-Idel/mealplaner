@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.commons.gui.tables;
 
 import static mealplaner.commons.NonnegativeInteger.FOUR;

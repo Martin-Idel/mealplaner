@@ -167,7 +167,8 @@ public class MessageBundleTest {
   private void noCallsToResourceBundleAreLineBroken(final Pattern bundleCallAtEndOfLine) {
     try {
       List<Pair<Path, String>> filesWithErrors = Files
-          .find(Paths.get("src/main/java/"), 1000, (p, bfa) -> bfa.isRegularFile())
+          .find(Paths.get(".."), 999,
+              (p, bfa) -> bfa.isRegularFile() && p.getFileName().toString().endsWith(".java"))
           .flatMap(path -> findWronglyFormattedLines(path, bundleCallAtEndOfLine))
           .collect(Collectors.toList());
       assertEmpty(filesWithErrors);
@@ -185,7 +186,8 @@ public class MessageBundleTest {
   private void noCallsToResourceBundleUseStringParameters(final Pattern parameterCall) {
     try {
       List<Pair<Path, String>> filesWithErrors = Files
-          .find(Paths.get("src/main/java/"), 1000, (p, bfa) -> bfa.isRegularFile())
+          .find(Paths.get(".."), 999,
+              (p, bfa) -> bfa.isRegularFile() && p.getFileName().toString().endsWith(".java"))
           .flatMap(path -> findLinesWithParameterCalls(path, parameterCall))
           .collect(Collectors.toList());
       assertEmpty(filesWithErrors);

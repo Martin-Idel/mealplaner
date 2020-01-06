@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.plugins.comment.mealextension;
 
 import java.util.Optional;

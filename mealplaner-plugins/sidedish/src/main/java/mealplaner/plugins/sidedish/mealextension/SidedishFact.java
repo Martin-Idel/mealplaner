@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.plugins.sidedish.mealextension;
 
 import static mealplaner.plugins.sidedish.mealextension.Sidedish.NONE;

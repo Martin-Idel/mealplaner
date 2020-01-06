@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.plugins.utensil;
 
 import static mealplaner.commons.NonnegativeInteger.ONE;

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.plugins.cookingtime.proposal;
 
 import java.util.stream.Stream;

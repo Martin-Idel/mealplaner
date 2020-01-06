@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.plugins.cookingtime;
 
 import static mealplaner.plugins.cookingtime.mealextension.CookingTime.MEDIUM;

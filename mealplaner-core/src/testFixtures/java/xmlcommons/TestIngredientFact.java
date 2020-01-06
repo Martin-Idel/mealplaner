@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package xmlcommons;
 
 import java.util.Objects;

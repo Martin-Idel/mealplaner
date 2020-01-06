@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.plugins.preference.proposal;
 
 import static mealplaner.plugins.preference.proposal.CookingPreferenceSettings.createCookingPreferenceSettings;

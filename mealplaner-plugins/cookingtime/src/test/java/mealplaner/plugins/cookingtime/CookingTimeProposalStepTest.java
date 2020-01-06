@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.plugins.cookingtime;
 
 import static java.util.Arrays.asList;
