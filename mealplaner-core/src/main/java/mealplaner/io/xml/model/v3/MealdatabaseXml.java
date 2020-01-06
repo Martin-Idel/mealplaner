@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "MealData")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MealdatabaseXml {
-  public int version = 3;
+  private int version = 3;
   @XmlElementWrapper(name = "meals")
   @XmlElement(name = "meal")
   public final List<MealXml> meals;
@@ -24,5 +24,13 @@ public class MealdatabaseXml {
 
   public MealdatabaseXml(List<MealXml> meals) {
     this.meals = meals;
+  }
+
+  public int getVersion() {
+    return version;
+  }
+
+  public void setVersion(int version) {
+    this.version = version;
   }
 }

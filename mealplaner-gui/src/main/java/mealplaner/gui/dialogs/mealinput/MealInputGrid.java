@@ -91,7 +91,7 @@ public final class MealInputGrid {
     }
 
     var builder = MealBuilder.mealWithValidator(pluginStore)
-        .name(nameField.getUserInput().get())
+        .name(nameField.getUserInput().orElse(""))
         .daysPassed(daysPassedField.getUserInput())
         .optionalRecipe(recipeInputField.getUserInput());
     for (var mealFactField : mealFactFields) {

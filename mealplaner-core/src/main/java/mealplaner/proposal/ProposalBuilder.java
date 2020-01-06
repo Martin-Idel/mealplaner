@@ -92,7 +92,7 @@ public class ProposalBuilder implements ProposalBuilderInterface {
         .stream()
         .findFirst()
         .map(Map.Entry::getKey)
-        .get();
+        .orElseThrow();
     Optional<UUID> desert = empty();
     switch (settings[today]
         .getTypedSubSettingOrDefault(CourseTypeSetting.class, new CourseTypeSetting(ONLY_MAIN))

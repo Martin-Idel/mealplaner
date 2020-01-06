@@ -9,7 +9,11 @@ buildscript {
     }
 }
 
-// TODO: split property files & tests
+plugins {
+    id "org.sonarqube" version "2.8"
+    // id "de.aaschmid.cpd" version "3.1"
+}
+
 allprojects {
     repositories {
         jcenter()
@@ -33,11 +37,6 @@ ext {
     assertjVersion = '3.14.0'
     mockitoVersion = '3.2.4'
     assertjSwingVersion = '3.9.2'
-}
-
-task copyLicenses(type: Copy) {
-	into "build/libs/licenses/"
-	from "licenses/"
 }
 
 subprojects {
@@ -88,5 +87,34 @@ subprojects {
         ignoreFailures = false
         effort = "max"
         excludeFilter = file("$rootProject.projectDir/config/spotbugs/excludeFilter.xml")
+    }
+}
+
+subprojects {
+    apply plugin: 'jacoco'
+    apply plugin: 'java'
+    // TODO: apply plugin: 'de.aaschmid.cpd'
+
+    // check.dependsOn(rootProject.cpdCheck)
+
+    jacoco {
+        toolVersion = "0.8.5"
+    }
+
+    jacocoTestReport {
+        reports {
+            html.enabled = true
+            xml.enabled = true
+            csv.enabled = false
+        }
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "Martin-Idel_mealplaner"
+        property "sonar.organization", "db6325a72edfe68173ffc6f44eb2b28a219c24f6899c4e7dc6595c3eadf9fcb4"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.login", "a67374f1a27e906ec29af1a22cc63b745147c93c"
     }
 }

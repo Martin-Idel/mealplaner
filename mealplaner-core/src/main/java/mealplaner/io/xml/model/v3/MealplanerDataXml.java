@@ -20,7 +20,7 @@ import mealplaner.io.xml.util.LocalDataAdapter;
 @XmlRootElement(name = "MealplanerData")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MealplanerDataXml {
-  public int version = 3;
+  private int version = 3;
 
   @XmlElementWrapper(name = "defaultSettings")
   @XmlElement(name = "setting")
@@ -47,5 +47,13 @@ public class MealplanerDataXml {
     this.proposal = proposal;
     this.meals = meals;
     this.ingredients = ingredients;
+  }
+
+  public int getVersion() {
+    return version;
+  }
+
+  public void setVersion(int version) {
+    this.version = version;
   }
 }

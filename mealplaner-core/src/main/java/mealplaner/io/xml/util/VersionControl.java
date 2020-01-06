@@ -4,6 +4,7 @@ package mealplaner.io.xml.util;
 
 import java.io.File;
 import java.io.IOException;
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -26,6 +27,7 @@ public final class VersionControl {
     try {
       File inputFile = new File(filePath);
       DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+      docFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
       DocumentBuilder documentBuilder = docFactory.newDocumentBuilder();
       Document parsedDocument = documentBuilder.parse(inputFile);
       parsedDocument.getDocumentElement().normalize();
