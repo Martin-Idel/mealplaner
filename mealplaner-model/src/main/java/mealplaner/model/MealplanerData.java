@@ -45,7 +45,6 @@ public final class MealplanerData implements DataStore {
     private static MealplanerData INSTANCE; // NOPMD
   }
 
-  // TODO: Revisit interface here
   public static MealplanerData getInstance(PluginStore pluginStore) {
     if (MealplanerDataHolder.INSTANCE == null) {
       MealplanerDataHolder.INSTANCE = new MealplanerData(pluginStore);

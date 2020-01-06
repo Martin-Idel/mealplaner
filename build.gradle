@@ -9,11 +9,7 @@ buildscript {
     }
 }
 
-// TODO: wrong formatting of German resource files
 // TODO: split property files & tests
-// TODO: This is probably irrelevant
-apply plugin: "java"
-
 allprojects {
     repositories {
         jcenter()

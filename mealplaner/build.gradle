@@ -3,9 +3,6 @@ apply plugin: "application"
 
 mainClassName = "mealplaner.Kochplaner"
 
-// TODO: Add licenses and stuff - see https://stackoverflow.com/questions/5743036/deploy-additional-files-in-gradle-application-plugin
-
-
 distributions {
     main {
         contents {
