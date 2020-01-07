@@ -14,10 +14,8 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import mealplaner.model.recipes.Ingredient;
-import mealplaner.plugins.PluginStore;
-import testcommons.XmlInteraction;
 
-public class IngredientsXmlInteractionTest extends XmlInteraction {
+public class IngredientsXmlInteractionTest extends EtoeXmlInteraction {
   private static final String RESOURCE_FILE_WITH_THREE_INGREDIENTS_V3 = "src/test/resources/ingredientsXmlV3.xml";
 
   @Test
@@ -29,7 +27,7 @@ public class IngredientsXmlInteractionTest extends XmlInteraction {
 
     loadFileWithName(RESOURCE_FILE_WITH_THREE_INGREDIENTS_V3);
 
-    List<Ingredient> database = loadXml(DESTINATION_FILE_PATH, new PluginStore());
+    List<Ingredient> database = loadXml(DESTINATION_FILE_PATH, pluginStore);
 
     assertThat(database).containsExactlyElementsOf(ingredients);
   }

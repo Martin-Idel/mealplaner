@@ -26,10 +26,12 @@ import mealplaner.plugins.cookingtime.mealextension.CookingTimeFact;
 import mealplaner.plugins.cookingtime.proposal.CookingTimeProposalStep;
 import mealplaner.plugins.cookingtime.settingextension.CookingTimeSubSetting;
 import mealplaner.proposal.ProposalBuilder;
+import testcommons.PluginsUtils;
 
 public class CookingTimeProposalStepTest {
   @Test
   public void applyPluginSuggestionsEliminatesUnwantedCookingTimes() {
+    PluginsUtils.setupMessageBundles(new CookingTimePlugin());
     var meal1 = meal()
         .name("Test1")
         .daysPassed(nonNegative(100))

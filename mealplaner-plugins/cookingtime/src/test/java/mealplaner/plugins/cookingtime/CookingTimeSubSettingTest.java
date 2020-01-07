@@ -17,12 +17,14 @@ import mealplaner.model.meal.Meal;
 import mealplaner.plugins.cookingtime.mealextension.CookingTime;
 import mealplaner.plugins.cookingtime.mealextension.CookingTimeFact;
 import mealplaner.plugins.cookingtime.settingextension.CookingTimeSubSetting;
+import testcommons.PluginsUtils;
 
 public class CookingTimeSubSettingTest {
   private CookingTimeSubSetting cookingTimeSubSetting;
 
   @BeforeEach
   public void setup() {
+    PluginsUtils.setupMessageBundles(new CookingTimePlugin());
     cookingTimeSubSetting = new CookingTimeSubSetting(new HashSet<>());
   }
 

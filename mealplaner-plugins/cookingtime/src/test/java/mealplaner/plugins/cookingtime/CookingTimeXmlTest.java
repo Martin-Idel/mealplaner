@@ -11,15 +11,22 @@ import static mealplaner.plugins.cookingtime.settingextension.CookingTimeSubSett
 import static testcommons.PluginsXmlUtils.assertSaveAndReloadMealWorksCorrectly;
 import static testcommons.PluginsXmlUtils.assertSaveAndReloadSettingWorksCorrectly;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import mealplaner.model.meal.Meal;
 import mealplaner.model.settings.Settings;
 import mealplaner.model.settings.SettingsBuilder;
 import mealplaner.plugins.cookingtime.mealextension.CookingTimeFact;
+import testcommons.PluginsUtils;
 import testcommons.XmlInteraction;
 
 public class CookingTimeXmlTest extends XmlInteraction {
+  @BeforeEach
+  public void setUp() {
+    PluginsUtils.setupMessageBundles(new CookingTimePlugin());
+  }
+
   @Test
   public void roundTripWithCookingTimeCanBeSavedCorrectly() {
     Meal meal = meal()

@@ -14,12 +14,10 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import etoetests.CommonFunctions;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
-import testcommons.XmlInteraction;
 
-public class MealsXmlInteractionTest extends XmlInteraction {
+public class MealsXmlInteractionTest extends EtoeXmlInteraction {
   private static final String RESOURCE_FILE_WITH_THREE_MEALS_V3 = "src/test/resources/mealsXmlV3.xml";
 
   @Test
@@ -33,7 +31,7 @@ public class MealsXmlInteractionTest extends XmlInteraction {
     loadFileWithName(RESOURCE_FILE_WITH_THREE_MEALS_V3);
 
     MealplanerData mealPlan = setupMealplanerDataWithAllIngredients();
-    List<Meal> database = loadXml(mealPlan, DESTINATION_FILE_PATH, CommonFunctions.registerPlugins());
+    List<Meal> database = loadXml(mealPlan, DESTINATION_FILE_PATH, pluginStore);
 
     database.sort(Meal::compareTo);
 

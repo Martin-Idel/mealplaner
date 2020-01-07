@@ -4,9 +4,11 @@ package mealplaner.plugins.cookingtime;
 
 import static mealplaner.plugins.cookingtime.mealextension.CookingTime.MEDIUM;
 
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import mealplaner.commons.BundleUtils;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.PluginDescription;
 import mealplaner.plugins.cookingtime.mealextension.CookingTimeFact;
@@ -29,12 +31,12 @@ public class CookingTimePlugin implements PluginDescription {
   }
 
   @Override
-  public Optional<ResourceBundle> getMessageBundle() {
-    return Optional.empty();
+  public Optional<ResourceBundle> getMessageBundle(Locale locale) {
+    return Optional.of(BundleUtils.loadBundle("CookingTimeMessagesBundle", locale));
   }
 
   @Override
-  public Optional<ResourceBundle> getErrorBundle() {
+  public Optional<ResourceBundle> getErrorBundle(Locale locale) {
     return Optional.empty();
   }
 }

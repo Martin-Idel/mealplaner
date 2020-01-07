@@ -4,6 +4,7 @@ package etoetests;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.UUID.nameUUIDFromBytes;
+import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.NonnegativeFraction.wholeNumber;
 import static mealplaner.commons.NonnegativeInteger.FIVE;
 import static mealplaner.commons.NonnegativeInteger.FOUR;
@@ -42,6 +43,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import mealplaner.commons.BundleStore;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.meal.MealBuilder;
@@ -211,6 +213,7 @@ public final class CommonFunctions {
     coursesPlugin.registerPlugins(pluginStore);
     var cookingTimePlugin = new CookingTimePlugin();
     cookingTimePlugin.registerPlugins(pluginStore);
+    cookingTimePlugin.getMessageBundle(BUNDLES.locale()).ifPresent(BUNDLES::addMessageBundle);
     var cookingPreferencePlugin = new CookingPreferencePlugin();
     cookingPreferencePlugin.registerPlugins(pluginStore);
     var utensilPlugin = new ObligatoryUtensilPlugin();

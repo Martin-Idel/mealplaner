@@ -4,6 +4,7 @@ package testcommons;
 
 import static java.time.DayOfWeek.MONDAY;
 import static java.util.Collections.singletonList;
+import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.io.xml.MealsReader.loadXml;
 import static mealplaner.io.xml.MealsWriter.saveXml;
 import static mealplaner.model.MealplanerData.getInstance;

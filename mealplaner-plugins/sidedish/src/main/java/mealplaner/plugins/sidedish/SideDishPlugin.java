@@ -2,6 +2,7 @@
 
 package mealplaner.plugins.sidedish;
 
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -21,12 +22,12 @@ public class SideDishPlugin implements PluginDescription {
   }
 
   @Override
-  public Optional<ResourceBundle> getMessageBundle() {
+  public Optional<ResourceBundle> getMessageBundle(Locale locale) {
     return Optional.empty();
   }
 
   @Override
-  public Optional<ResourceBundle> getErrorBundle() {
+  public Optional<ResourceBundle> getErrorBundle(Locale locale) {
     return Optional.empty();
   }
 }

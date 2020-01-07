@@ -1,4 +1,5 @@
 apply plugin: "java-library"
+apply plugin: "java-test-fixtures"
 
 dependencies {
     api group: "org.slf4j", name: "slf4j-api", version: "${slf4jVersion}"
@@ -9,6 +10,10 @@ dependencies {
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: "${jupyterVersion}"
     testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher', version: "${jupyterPlatformVersion}"
     testImplementation group: 'org.assertj', name: 'assertj-core', version: "${assertjVersion}"
+
+    testFixturesApi group: 'org.junit.jupiter', name: 'junit-jupiter', version: "${jupyterVersion}"
+    testFixturesApi group: 'org.junit.platform', name: 'junit-platform-launcher', version: "${jupyterPlatformVersion}"
+    testFixturesApi group: 'org.assertj', name: 'assertj-core', version: "${assertjVersion}"
 }
 
 sourceSets {

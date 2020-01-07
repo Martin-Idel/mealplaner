@@ -3,24 +3,15 @@
 package mealplaner.commons;
 
 import static java.util.Locale.getDefault;
-import static java.util.ResourceBundle.getBundle;
-import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static mealplaner.commons.BundleUtils.loadBundle;
 
 import java.text.MessageFormat;
 import java.util.Locale;
-import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import javax.swing.JOptionPane;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import mealplaner.commons.errorhandling.MealException;
 
 public enum BundleStore {
   BUNDLES();
 
-  private static final Logger logger = LoggerFactory.getLogger(BundleStore.class);
   private MultiResourceBundle messages;
   private MultiResourceBundle errors;
   private final Locale currentLocale;
@@ -28,9 +19,9 @@ public enum BundleStore {
   BundleStore() {
     currentLocale = getDefault();
     messages = new MultiResourceBundle();
-    messages.addResourceBundle(loadBundle("MessagesBundle"));
+    messages.addResourceBundle(loadBundle("MessagesBundle", currentLocale));
     errors = new MultiResourceBundle();
-    errors.addResourceBundle(loadBundle("ErrorBundle"));
+    errors.addResourceBundle(loadBundle("ErrorBundle", currentLocale));
   }
 
   public void addMessageBundle(ResourceBundle resourceBundle) {
@@ -52,20 +43,5 @@ public enum BundleStore {
 
   public Locale locale() {
     return currentLocale;
-  }
-
-  private ResourceBundle loadBundle(String bundleName) {
-    ResourceBundle bundle;
-    try {
-      bundle = getBundle(bundleName, currentLocale);
-    } catch (MissingResourceException exc) {
-      logger.error(
-          "Fatal error: Resource bundles could not be found. No localisation possible.",
-          exc);
-      JOptionPane.showMessageDialog(null, "Fatal error: Resource Bundles not found", "Error",
-          ERROR_MESSAGE);
-      throw new MealException("Fatal error: Resource Bundles not found", exc);
-    }
-    return bundle;
   }
 }

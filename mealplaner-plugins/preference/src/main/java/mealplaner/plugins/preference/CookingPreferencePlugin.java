@@ -5,6 +5,7 @@ package mealplaner.plugins.preference;
 import static mealplaner.plugins.preference.mealextension.CookingPreference.NO_PREFERENCE;
 import static mealplaner.plugins.preference.proposal.PreferenceMap.getPreferenceMap;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -51,12 +52,12 @@ public class CookingPreferencePlugin implements PluginDescription {
   }
 
   @Override
-  public Optional<ResourceBundle> getMessageBundle() {
+  public Optional<ResourceBundle> getMessageBundle(Locale locale) {
     return Optional.empty();
   }
 
   @Override
-  public Optional<ResourceBundle> getErrorBundle() {
+  public Optional<ResourceBundle> getErrorBundle(Locale locale) {
     return Optional.empty();
   }
 }

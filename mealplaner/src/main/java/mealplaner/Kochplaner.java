@@ -47,6 +47,8 @@ public final class Kochplaner {
     ServiceLoader<PluginDescription> loader = load(PluginDescription.class);
     for (var plugin : loader) {
       plugin.registerPlugins(pluginStore);
+      plugin.getMessageBundle(BUNDLES.locale()).ifPresent(BUNDLES::addMessageBundle);
+      plugin.getErrorBundle(BUNDLES.locale()).ifPresent(BUNDLES::addErrorBundle);
     }
     return pluginStore;
   }

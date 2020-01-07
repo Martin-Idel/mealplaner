@@ -15,13 +15,11 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-import etoetests.CommonFunctions;
 import mealplaner.io.xml.ProposalSummaryModel;
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.settings.Settings;
-import testcommons.XmlInteraction;
 
-public class ProposalSummaryDataXmlInteractionTest extends XmlInteraction {
+public class ProposalSummaryDataXmlInteractionTest extends EtoeXmlInteraction {
   private static final String RESOURCE_FILE_WITH_PROPOSAL_V3 = "src/test/resources/proposalSummaryXmlV3.xml";
 
   @Test
@@ -30,7 +28,7 @@ public class ProposalSummaryDataXmlInteractionTest extends XmlInteraction {
     LocalDate time = LocalDate.of(2017, 5, 3);
     loadFileWithName(RESOURCE_FILE_WITH_PROPOSAL_V3);
 
-    ProposalSummaryModel loadedProposalSummaryData = loadXml(DESTINATION_FILE_PATH, CommonFunctions.registerPlugins());
+    ProposalSummaryModel loadedProposalSummaryData = loadXml(DESTINATION_FILE_PATH, pluginStore);
 
     assertThat(loadedProposalSummaryData.lastProposal).isEqualTo(proposal);
     assertThat(loadedProposalSummaryData.time).isEqualTo(time);
