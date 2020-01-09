@@ -210,17 +210,22 @@ public final class CommonFunctions {
     var coursesBuiltin = new BuiltinCoursesPlugin();
     coursesBuiltin.registerPlugins(pluginStore);
     var coursesPlugin = new CoursesPlugin();
+    coursesPlugin.getMessageBundle(BUNDLES.locale()).ifPresent(BUNDLES::addMessageBundle);
     coursesPlugin.registerPlugins(pluginStore);
     var cookingTimePlugin = new CookingTimePlugin();
-    cookingTimePlugin.registerPlugins(pluginStore);
     cookingTimePlugin.getMessageBundle(BUNDLES.locale()).ifPresent(BUNDLES::addMessageBundle);
+    cookingTimePlugin.registerPlugins(pluginStore);
     var cookingPreferencePlugin = new CookingPreferencePlugin();
+    cookingPreferencePlugin.getMessageBundle(BUNDLES.locale()).ifPresent(BUNDLES::addMessageBundle);
     cookingPreferencePlugin.registerPlugins(pluginStore);
     var utensilPlugin = new ObligatoryUtensilPlugin();
+    utensilPlugin.getMessageBundle(BUNDLES.locale()).ifPresent(BUNDLES::addMessageBundle);
     utensilPlugin.registerPlugins(pluginStore);
     var commentPlugin = new CommentPlugin();
+    commentPlugin.getMessageBundle(BUNDLES.locale()).ifPresent(BUNDLES::addMessageBundle);
     commentPlugin.registerPlugins(pluginStore);
     var sideDishPlugin = new SideDishPlugin();
+    sideDishPlugin.getMessageBundle(BUNDLES.locale()).ifPresent(BUNDLES::addMessageBundle);
     sideDishPlugin.registerPlugins(pluginStore);
     return pluginStore;
   }

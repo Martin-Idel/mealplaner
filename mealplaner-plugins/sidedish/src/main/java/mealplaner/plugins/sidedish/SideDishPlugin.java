@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import mealplaner.commons.BundleUtils;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.PluginDescription;
 import mealplaner.plugins.sidedish.mealextension.MealEditSidedish;
@@ -23,7 +24,7 @@ public class SideDishPlugin implements PluginDescription {
 
   @Override
   public Optional<ResourceBundle> getMessageBundle(Locale locale) {
-    return Optional.empty();
+    return Optional.of(BundleUtils.loadBundle("SideDishMessagesBundle", locale));
   }
 
   @Override

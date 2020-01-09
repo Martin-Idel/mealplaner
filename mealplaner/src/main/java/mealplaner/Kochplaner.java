@@ -46,9 +46,9 @@ public final class Kochplaner {
     coursesBuiltin.registerPlugins(pluginStore);
     ServiceLoader<PluginDescription> loader = load(PluginDescription.class);
     for (var plugin : loader) {
-      plugin.registerPlugins(pluginStore);
       plugin.getMessageBundle(BUNDLES.locale()).ifPresent(BUNDLES::addMessageBundle);
       plugin.getErrorBundle(BUNDLES.locale()).ifPresent(BUNDLES::addErrorBundle);
+      plugin.registerPlugins(pluginStore);
     }
     return pluginStore;
   }

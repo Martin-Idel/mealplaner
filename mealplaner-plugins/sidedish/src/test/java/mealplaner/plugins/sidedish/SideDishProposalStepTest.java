@@ -16,6 +16,7 @@ import static mealplaner.plugins.sidedish.mealextension.Sidedish.PASTA;
 import static mealplaner.plugins.sidedish.mealextension.Sidedish.RICE;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import mealplaner.model.proposal.Proposal;
@@ -24,8 +25,14 @@ import mealplaner.plugins.builtins.courses.CourseTypeFact;
 import mealplaner.plugins.sidedish.mealextension.SidedishFact;
 import mealplaner.plugins.sidedish.proposal.SideDishProposalStep;
 import mealplaner.proposal.ProposalBuilder;
+import testcommons.PluginsUtils;
 
 public class SideDishProposalStepTest {
+  @BeforeEach
+  public void setUp() {
+    PluginsUtils.setupMessageBundles(new SideDishPlugin());
+  }
+
   @Test
   public void applyPluginSuggestionsDoesNotAllowForTimesSameSideDishInARow() {
     var meal1 = meal()

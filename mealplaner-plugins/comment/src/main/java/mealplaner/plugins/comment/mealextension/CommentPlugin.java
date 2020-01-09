@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import mealplaner.commons.BundleUtils;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.PluginDescription;
 
@@ -18,7 +19,7 @@ public class CommentPlugin implements PluginDescription {
 
   @Override
   public Optional<ResourceBundle> getMessageBundle(Locale locale) {
-    return Optional.empty();
+    return Optional.of(BundleUtils.loadBundle("CommentMessagesBundle", locale));
   }
 
   @Override

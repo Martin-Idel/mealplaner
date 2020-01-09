@@ -19,6 +19,7 @@ import static mealplaner.plugins.preference.settingextension.PreferenceSettings.
 import static mealplaner.plugins.preference.settingextension.PreferenceSettings.RARE_NONE;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import mealplaner.model.proposal.Proposal;
@@ -28,8 +29,14 @@ import mealplaner.plugins.preference.mealextension.CookingPreferenceFact;
 import mealplaner.plugins.preference.proposal.CookingPreferenceProposalStep;
 import mealplaner.plugins.preference.settingextension.CookingPreferenceSubSetting;
 import mealplaner.proposal.ProposalBuilder;
+import testcommons.PluginsUtils;
 
 public class CookingPreferenceProposalStepTest {
+  @BeforeEach
+  public void setUp() {
+    PluginsUtils.setupMessageBundles(new CookingPreferencePlugin());
+  }
+
   @Test
   public void applyPluginSuggestionsEliminatesUnwantedPreferences() {
     var meal1 = meal()
@@ -44,7 +51,7 @@ public class CookingPreferenceProposalStepTest {
         .addFact(new CourseTypeFact(MAIN))
         .addFact(new CookingPreferenceFact(NO_PREFERENCE))
         .create();
-    var settings = new Settings[] {setting()
+    var settings = new Settings[]{setting()
         .numberOfPeople(TWO)
         .addSetting(new CookingPreferenceSubSetting(RARE_NONE))
         .create()};
@@ -73,7 +80,7 @@ public class CookingPreferenceProposalStepTest {
         .addFact(new CourseTypeFact(MAIN))
         .addFact(new CookingPreferenceFact(VERY_POPULAR))
         .create();
-    var settings = new Settings[] {setting()
+    var settings = new Settings[]{setting()
         .numberOfPeople(TWO)
         .addSetting(new CookingPreferenceSubSetting(NORMAL))
         .create()};

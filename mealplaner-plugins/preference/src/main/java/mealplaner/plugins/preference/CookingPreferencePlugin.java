@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import mealplaner.commons.BundleUtils;
 import mealplaner.commons.Pair;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.PluginDescription;
@@ -23,18 +24,17 @@ import mealplaner.plugins.preference.settingextension.PreferenceSettings;
 import mealplaner.plugins.preference.settingextension.SettingsCookingPreferenceSettings;
 
 public class CookingPreferencePlugin implements PluginDescription {
-  private final Map<Pair<CookingPreference, PreferenceSettings>, Integer> preferenceMap;
+  private Map<Pair<CookingPreference, PreferenceSettings>, Integer> preferenceMap;
 
   public CookingPreferencePlugin() {
-    this.preferenceMap = getPreferenceMap();
   }
 
   public CookingPreferencePlugin(Map<Pair<CookingPreference, PreferenceSettings>, Integer> preferenceMap) {
-    this.preferenceMap = preferenceMap;
   }
 
   @Override
   public void registerPlugins(PluginStore pluginStore) {
+    this.preferenceMap = getPreferenceMap();
     pluginStore.registerMealExtension(
         CookingPreferenceFact.class,
         CookingPreferenceFact.class,
@@ -53,7 +53,7 @@ public class CookingPreferencePlugin implements PluginDescription {
 
   @Override
   public Optional<ResourceBundle> getMessageBundle(Locale locale) {
-    return Optional.empty();
+    return Optional.of(BundleUtils.loadBundle("CookingPreferenceMessagesBundle", locale));
   }
 
   @Override

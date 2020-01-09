@@ -28,6 +28,7 @@ import mealplaner.plugins.utensil.mealextension.ObligatoryUtensil;
 import mealplaner.plugins.utensil.mealextension.ObligatoryUtensilFact;
 import mealplaner.plugins.utensil.proposal.CookingUtensilSetting;
 import mealplaner.plugins.utensil.settingextension.CasseroleSettings;
+import testcommons.PluginsUtils;
 
 @ExtendWith(MockitoExtension.class)
 public class CookingUtensilSettingTest {
@@ -39,6 +40,7 @@ public class CookingUtensilSettingTest {
 
   @BeforeEach
   public void setup() {
+    PluginsUtils.setupMessageBundles(new ObligatoryUtensilPlugin());
     utensilSetting = from(prohibitedUtensil);
   }
 

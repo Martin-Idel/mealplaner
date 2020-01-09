@@ -20,6 +20,7 @@ import static mealplaner.plugins.utensil.settingextension.CasseroleSettings.NONE
 import static mealplaner.plugins.utensil.settingextension.CasseroleSettings.POSSIBLE;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import mealplaner.model.proposal.Proposal;
@@ -30,8 +31,14 @@ import mealplaner.plugins.utensil.mealextension.ObligatoryUtensilFact;
 import mealplaner.plugins.utensil.proposal.UtensilProposalStep;
 import mealplaner.plugins.utensil.settingextension.CasseroleSubSetting;
 import mealplaner.proposal.ProposalBuilder;
+import testcommons.PluginsUtils;
 
 public class UtensilProposalStepTest {
+  @BeforeEach
+  public void setUp() {
+    PluginsUtils.setupMessageBundles(new ObligatoryUtensilPlugin());
+  }
+
   @Test
   public void applyPluginSuggestionsEliminatesCasseroleDishesIfNoCasserolesAllowed() {
     var meal1 = meal()

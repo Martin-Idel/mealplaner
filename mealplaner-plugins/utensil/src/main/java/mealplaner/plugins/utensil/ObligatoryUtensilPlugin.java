@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import mealplaner.commons.BundleUtils;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.PluginDescription;
 import mealplaner.plugins.utensil.mealextension.MealEditObligatoryUtensil;
@@ -28,7 +29,7 @@ public class ObligatoryUtensilPlugin implements PluginDescription {
 
   @Override
   public Optional<ResourceBundle> getMessageBundle(Locale locale) {
-    return Optional.empty();
+    return Optional.of(BundleUtils.loadBundle("ObligatoryUtensilMessagesBundle", locale));
   }
 
   @Override

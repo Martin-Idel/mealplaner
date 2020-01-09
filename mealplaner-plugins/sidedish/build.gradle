@@ -16,6 +16,7 @@ dependencies {
     testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher', version: "${jupyterPlatformVersion}"
     testImplementation group: 'org.assertj', name: 'assertj-core', version: "${assertjVersion}"
     testImplementation(testFixtures(project(":mealplaner-core")))
+    testImplementation(testFixtures(project(":mealplaner-commons")))
 }
 
 sourceSets {

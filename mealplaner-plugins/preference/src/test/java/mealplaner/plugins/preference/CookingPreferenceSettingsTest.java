@@ -28,6 +28,7 @@ import mealplaner.plugins.preference.mealextension.CookingPreference;
 import mealplaner.plugins.preference.mealextension.CookingPreferenceFact;
 import mealplaner.plugins.preference.proposal.CookingPreferenceSettings;
 import mealplaner.plugins.preference.settingextension.PreferenceSettings;
+import testcommons.PluginsUtils;
 
 @ExtendWith(MockitoExtension.class)
 public class CookingPreferenceSettingsTest {
@@ -39,6 +40,7 @@ public class CookingPreferenceSettingsTest {
 
   @BeforeEach
   public void setup() {
+    PluginsUtils.setupMessageBundles(new CookingPreferencePlugin());
     utensilSetting = from(prohibitedPreference);
   }
 

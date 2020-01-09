@@ -7,8 +7,7 @@ import static mealplaner.commons.BundleStore.BUNDLES;
 public enum Sidedish {
   POTATOES(BUNDLES.message("potatoes")),
   PASTA(BUNDLES.message("pasta")),
-  RICE(
-      BUNDLES.message("rice")),
+  RICE(BUNDLES.message("rice")),
   NONE(BUNDLES.message("none"));
 
   private final String message;

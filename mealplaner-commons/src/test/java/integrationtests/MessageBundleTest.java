@@ -21,50 +21,20 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import bundletests.BundleCommons;
 
 public class MessageBundleTest {
   @ParameterizedTest
-  @ValueSource(strings = {"MessagesBundle", "ErrorBundle"})
-  public void allLinesInMessageBundleAreMatchedInJavaFiles(String bundle) {
-    allLinesInResourceBundleAreMatchedInJavaFiles(bundle, Locale.ROOT, BundleCommons::allJavaFiles);
-  }
-
-  @ParameterizedTest
   @MethodSource("bundles")
-  public void allCallsInJavaFilesAreMatchedInMessageBundle(String bundle, Pattern pattern) {
-    allCallsInJavaFilesAreMatchedInResourceBundle(
-        bundle, Locale.ROOT, pattern, BundleCommons::allJavaFiles);
+  public void allLinesInMessageBundleAreMatchedInJavaFiles(String bundle, Locale locale) {
+    allLinesInResourceBundleAreMatchedInJavaFiles(bundle, locale, BundleCommons::allJavaFiles);
   }
 
   @ParameterizedTest
-  @ValueSource(strings = {"MessagesBundle", "ErrorBundle"})
-  public void allLinesInMessageBundleAreMatchedInJavaFilesGerman(String bundle) {
-    allLinesInResourceBundleAreMatchedInJavaFiles(
-        bundle, Locale.GERMAN, BundleCommons::allJavaFiles);
-  }
-
-  @ParameterizedTest
-  @MethodSource("bundles")
-  public void allCallsInJavaFilesAreMatchedInMessageBundleGerman(String bundle, Pattern pattern) {
-    allCallsInJavaFilesAreMatchedInResourceBundle(
-        bundle, Locale.GERMAN, pattern, BundleCommons::allJavaFiles);
-  }
-
-  @ParameterizedTest
-  @ValueSource(strings = {"MessagesBundle", "ErrorBundle"})
-  public void allLinesInMessageBundleAreMatchedInJavaFilesEnglish(String bundle) {
-    allLinesInResourceBundleAreMatchedInJavaFiles(
-        bundle, Locale.UK, BundleCommons::allJavaFiles);
-  }
-
-  @ParameterizedTest
-  @MethodSource("bundles")
-  public void allCallsInJavaFilesAreMatchedInMessageBundleEnglish(String bundle, Pattern pattern) {
-    allCallsInJavaFilesAreMatchedInResourceBundle(
-        bundle, Locale.UK, pattern, BundleCommons::allJavaFiles);
+  @MethodSource("bundlesPatterns")
+  public void allCallsInJavaFilesAreMatchedInMessageBundle(String bundle, Locale locale, Pattern pattern) {
+    allCallsInJavaFilesAreMatchedInResourceBundle(bundle, locale, pattern, BundleCommons::allJavaFiles);
   }
 
   @Test
@@ -91,7 +61,23 @@ public class MessageBundleTest {
 
   private static Stream<Arguments> bundles() {
     return Stream.of(
-        Arguments.of("MessagesBundle", GET_STRING_PATTERN),
-        Arguments.of("ErrorBundle", GET_ERROR_PATTERN));
+        Arguments.of("MessagesBundle", Locale.ROOT),
+        Arguments.of("ErrorBundle", Locale.ROOT),
+        Arguments.of("MessagesBundle", Locale.UK),
+        Arguments.of("ErrorBundle", Locale.UK),
+        Arguments.of("MessagesBundle", Locale.GERMAN),
+        Arguments.of("ErrorBundle", Locale.GERMAN)
+    );
+  }
+
+  private static Stream<Arguments> bundlesPatterns() {
+    return Stream.of(
+        Arguments.of("MessagesBundle", Locale.ROOT, GET_STRING_PATTERN),
+        Arguments.of("ErrorBundle", Locale.ROOT, GET_ERROR_PATTERN),
+        Arguments.of("MessagesBundle", Locale.UK, GET_STRING_PATTERN),
+        Arguments.of("ErrorBundle", Locale.UK, GET_ERROR_PATTERN),
+        Arguments.of("MessagesBundle", Locale.GERMAN, GET_STRING_PATTERN),
+        Arguments.of("ErrorBundle", Locale.GERMAN, GET_ERROR_PATTERN)
+    );
   }
 }

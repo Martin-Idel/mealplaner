@@ -11,11 +11,13 @@ import org.junit.jupiter.api.Test;
 
 import mealplaner.model.meal.Meal;
 import mealplaner.plugins.sidedish.mealextension.SidedishFact;
+import testcommons.PluginsUtils;
 import testcommons.XmlInteraction;
 
 public class SideDishXmlTest extends XmlInteraction {
   @Test
   public void roundTripWithCookingTimeCanBeSavedCorrectly() {
+    PluginsUtils.setupMessageBundles(new SideDishPlugin());
     Meal meal = meal()
         .name("Test1")
         .daysPassed(ONE)
