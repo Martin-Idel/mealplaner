@@ -16,23 +16,6 @@ dependencies {
     testFixturesApi group: 'org.assertj', name: 'assertj-core', version: "${assertjVersion}"
 }
 
-sourceSets {
-    main {
-        java {
-            srcDirs "src/main/java"
-        }
-        resources {
-            srcDirs "src/test/resources"
-        }
-    }
-
-    test {
-        java {
-            srcDirs "src/test/java"
-        }
-    }
-}
-
 test {
     useJUnitPlatform()
 }

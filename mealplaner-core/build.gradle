@@ -27,23 +27,6 @@ dependencies {
     testFixturesApi group: "javax.xml.bind", name: "jaxb-api", version: "${jaxbVersion}"
 }
 
-sourceSets {
-    main {
-        java {
-            srcDirs "src/main/java"
-        }
-        resources {
-            srcDirs "src/test/resources"
-        }
-    }
-
-    test {
-        java {
-            srcDirs "src/test/java"
-        }
-    }
-}
-
 test {
     useJUnitPlatform()
 }

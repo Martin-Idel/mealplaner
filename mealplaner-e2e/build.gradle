@@ -23,14 +23,6 @@ dependencies {
     testImplementation(testFixtures(project(":mealplaner-core")))
 }
 
-sourceSets {
-    test {
-        java {
-            srcDirs "src/test/java"
-        }
-    }
-}
-
 // AssertJ Swing test need junit 4 runner. Upgrade if available
 test {
     if(! Boolean.parseBoolean(System.getProperty("rune2etests").toString())) {

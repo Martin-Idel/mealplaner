@@ -14,23 +14,6 @@ dependencies {
     testImplementation group: 'org.mockito', name: 'mockito-core', version: "${mockitoVersion}"
 }
 
-sourceSets {
-    main {
-        java {
-            srcDirs "src/main/java"
-        }
-        resources {
-            srcDirs "src/test/resources"
-        }
-    }
-
-    test {
-        java {
-            srcDirs "src/test/java"
-        }
-    }
-}
-
 test {
     useJUnitPlatform()
 }

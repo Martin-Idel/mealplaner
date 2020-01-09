@@ -17,23 +17,6 @@ dependencies {
     testRuntimeOnly group: "org.glassfish.jaxb", name: "jaxb-runtime", version: "${jaxbRuntime}"
 }
 
-sourceSets {
-    main {
-        java {
-            srcDirs "src/main/java"
-        }
-        resources {
-            srcDirs "src/test/resources"
-        }
-    }
-
-    test {
-        java {
-            srcDirs "src/test/java"
-        }
-    }
-}
-
 test {
     useJUnitPlatform()
 }
