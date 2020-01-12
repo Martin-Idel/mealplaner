@@ -16,7 +16,6 @@ import org.junit.jupiter.api.Test;
 
 import mealplaner.commons.NonnegativeFraction;
 import mealplaner.commons.errorhandling.MealException;
-import mealplaner.model.meal.Meal;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 

@@ -4,7 +4,6 @@ package mealplaner.model.proposal;
 
 import org.junit.jupiter.api.Test;
 
-import mealplaner.model.meal.MealMetaData;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 

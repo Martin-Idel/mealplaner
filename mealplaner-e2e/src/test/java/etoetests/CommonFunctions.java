@@ -43,7 +43,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import mealplaner.commons.BundleStore;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.meal.MealBuilder;

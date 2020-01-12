@@ -16,7 +16,6 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-import mealplaner.model.recipes.Recipe;
 import mealplaner.plugins.PluginStore;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;

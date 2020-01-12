@@ -17,7 +17,6 @@ import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
 
 import etoetests.CommonFunctions;
 import etoetests.guitests.pageobjects.GuiMethods;
-import mealplaner.api.ProposalBuilderFactory;
 import mealplaner.gui.MainGui;
 import mealplaner.gui.factories.DialogFactory;
 import mealplaner.io.FileIo;
