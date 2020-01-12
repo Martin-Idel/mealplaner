@@ -25,6 +25,9 @@ import mealplaner.commons.Pair;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
+import mealplaner.model.settings.DefaultSettings;
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 
 public class ShoppingListTest {
 
@@ -82,6 +85,13 @@ public class ShoppingListTest {
     expected.put(getIngredient3(), fraction(18, 5)); // 2*4 from recipe1 + 2*5 from recipe2
     assertThat(shoppingList.getMap()).containsAllEntriesOf(expected);
     assertThat(expected).containsAllEntriesOf(shoppingList.getMap());
+  }
+
+  @Test
+  public void equalsContract() {
+    EqualsVerifier.forClass(ShoppingList.class)
+        .suppress(Warning.NULL_FIELDS)
+        .verify();
   }
 
   private List<Pair<Recipe, NonnegativeInteger>> getRecipeListForShoppingList() {

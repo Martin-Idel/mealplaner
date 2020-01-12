@@ -2,14 +2,14 @@
 
 package mealplaner.commons;
 
-import static mealplaner.commons.Utils.getLocalizedResource;
+import static mealplaner.commons.BundleUtils.getLocalizedResource;
 
 import java.util.Locale;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class UtilsTest {
+public class BundleUtilsTest {
 
   @Test
   public void getLocalizedResourceWithGermanLocaleReturnsGermanFile() {

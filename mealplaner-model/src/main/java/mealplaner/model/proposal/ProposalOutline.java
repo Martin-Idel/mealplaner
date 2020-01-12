@@ -3,6 +3,7 @@
 package mealplaner.model.proposal;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public final class ProposalOutline {
   private final int numberOfDays;
@@ -12,7 +13,7 @@ public final class ProposalOutline {
   private final boolean takeDefaultSettings;
 
   private ProposalOutline(int numberOfDays, boolean includedToday, boolean shallBeRandomised,
-      boolean takeDefaultSettings, LocalDate dateToday) {
+                          boolean takeDefaultSettings, LocalDate dateToday) {
     this.numberOfDays = numberOfDays;
     this.includedToday = includedToday;
     this.shallBeRandomised = shallBeRandomised;
@@ -81,5 +82,26 @@ public final class ProposalOutline {
       return outline(numberOfDays, includedToday, shallBeRandomised, takeDefaultSettings,  // NOPMD
           dateToday);  // NOPMD
     }
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    ProposalOutline that = (ProposalOutline) o;
+    return numberOfDays == that.numberOfDays
+        && includedToday == that.includedToday
+        && shallBeRandomised == that.shallBeRandomised
+        && takeDefaultSettings == that.takeDefaultSettings
+        && Objects.equals(dateToday, that.dateToday);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(numberOfDays, includedToday, shallBeRandomised, dateToday, takeDefaultSettings);
   }
 }

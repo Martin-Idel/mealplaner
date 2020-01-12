@@ -12,6 +12,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
+
 public class NonnegativeFractionTest {
   @Test
   public void nonnegativeFractionsGetStoredCorrectly() {
@@ -175,5 +178,12 @@ public class NonnegativeFractionTest {
 
     assertThat(invertedFraction.getNumerator()).isEqualTo(3);
     assertThat(invertedFraction.getDenominator()).isEqualTo(5);
+  }
+
+  @Test
+  public void equalsContract() {
+    EqualsVerifier.forClass(NonnegativeFraction.class)
+        .suppress(Warning.NULL_FIELDS)
+        .verify();
   }
 }

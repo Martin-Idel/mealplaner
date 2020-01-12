@@ -3,7 +3,7 @@
 package mealplaner.gui.tabbedpanes.databaseedit;
 
 import static java.util.stream.Collectors.toList;
-import static mealplaner.commons.Utils.not;
+import static mealplaner.commons.BundleUtils.not;
 import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
 import static mealplaner.commons.gui.tables.TableHelpers.deleteSelectedRows;
 import static mealplaner.gui.dialogs.mealinput.MealInput.mealinput;

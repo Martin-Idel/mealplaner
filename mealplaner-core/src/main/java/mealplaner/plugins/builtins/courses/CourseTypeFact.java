@@ -12,7 +12,7 @@ import mealplaner.plugins.api.MealFactXml;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CourseTypeFact implements MealFact, MealFactXml {
+public final class CourseTypeFact implements MealFact, MealFactXml {
   private final CourseType courseType;
 
   public CourseTypeFact() {

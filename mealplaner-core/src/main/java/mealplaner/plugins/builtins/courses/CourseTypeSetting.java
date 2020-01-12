@@ -14,7 +14,7 @@ import mealplaner.plugins.api.SettingXml;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CourseTypeSetting implements Setting, SettingXml {
+public final class CourseTypeSetting implements Setting, SettingXml {
   private final CourseSettings courseSetting;
 
   public CourseTypeSetting() {

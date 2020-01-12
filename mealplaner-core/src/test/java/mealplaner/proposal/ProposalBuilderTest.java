@@ -37,6 +37,7 @@ import mealplaner.model.settings.Settings;
 import mealplaner.plugins.api.ProposalBuilderStep;
 import mealplaner.plugins.builtins.courses.CourseTypeFact;
 import mealplaner.plugins.builtins.courses.CourseTypeSetting;
+import mealplaner.plugins.builtins.courses.CourseTypeSettingTest;
 
 public class ProposalBuilderTest {
 

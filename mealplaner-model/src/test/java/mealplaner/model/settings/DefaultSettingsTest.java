@@ -16,7 +16,10 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
+import mealplaner.model.recipes.Recipe;
 import mealplaner.plugins.PluginStore;
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 
 public class DefaultSettingsTest {
   @Test
@@ -29,5 +32,12 @@ public class DefaultSettingsTest {
         .getDefaultSettings();
 
     assertThat(defaultSettingsActual).isEqualTo(defaultSettings);
+  }
+
+  @Test
+  public void equalsContract() {
+    EqualsVerifier.forClass(DefaultSettings.class)
+        .suppress(Warning.NULL_FIELDS)
+        .verify();
   }
 }

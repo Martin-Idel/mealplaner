@@ -14,6 +14,7 @@ dependencies {
     testImplementation group: 'org.mockito', name: 'mockito-core', version: "${mockitoVersion}"
     testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: "${mockitoVersion}"
     testImplementation group: "javax.xml.bind", name: "jaxb-api", version: "${jaxbVersion}"
+    testImplementation group: "nl.jqno.equalsverifier", name: "equalsverifier", version: "${eqVerVersion}"
     testRuntimeOnly group: "org.glassfish.jaxb", name: "jaxb-runtime", version: "${jaxbRuntime}"
 }
 

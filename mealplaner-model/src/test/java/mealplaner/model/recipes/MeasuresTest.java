@@ -16,6 +16,9 @@ import org.junit.jupiter.api.Test;
 
 import mealplaner.commons.NonnegativeFraction;
 import mealplaner.commons.errorhandling.MealException;
+import mealplaner.model.meal.Meal;
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 
 public class MeasuresTest {
 
@@ -57,5 +60,12 @@ public class MeasuresTest {
     Measures measures = createMeasures(MILLILITRE, secondaries);
 
     assertThrows(MealException.class, () -> measures.getConversionFactor(GRAM, TABLESPOON));
+  }
+
+  @Test
+  public void equalsContract() {
+    EqualsVerifier.forClass(Measures.class)
+        .suppress(Warning.NULL_FIELDS)
+        .verify();
   }
 }

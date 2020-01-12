@@ -3,7 +3,7 @@
 package mealplaner.commons.gui;
 
 import static mealplaner.commons.BundleStore.BUNDLES;
-import static mealplaner.commons.Utils.getLocalizedResource;
+import static mealplaner.commons.BundleUtils.getLocalizedResource;
 
 import java.io.BufferedReader;
 import java.io.IOException;

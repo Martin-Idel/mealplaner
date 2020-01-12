@@ -9,6 +9,9 @@ import static testcommonsmodel.CommonBaseFunctions.getIngredient4;
 
 import org.junit.jupiter.api.Test;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
+
 public class QuantitativeIngredientTest {
 
   @Test
@@ -20,5 +23,12 @@ public class QuantitativeIngredientTest {
 
     assertThat(quantitativeIngredient.convertToPrimaryMeasure())
         .isEqualTo(createQuantitativeIngredient(ingredient, Measure.GRAM, fraction(50, 1)));
+  }
+
+  @Test
+  public void equalsContract() {
+    EqualsVerifier.forClass(QuantitativeIngredient.class)
+        .suppress(Warning.NULL_FIELDS)
+        .verify();
   }
 }

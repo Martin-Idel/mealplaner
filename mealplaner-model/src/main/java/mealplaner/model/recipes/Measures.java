@@ -11,7 +11,7 @@ import java.util.Objects;
 import mealplaner.commons.NonnegativeFraction;
 import mealplaner.commons.errorhandling.MealException;
 
-public class Measures {
+public final class Measures {
   public static final Measures DEFAULT_MEASURES = new Measures();
   private final Measure primary;
   private final Map<Measure, NonnegativeFraction> secondaries;

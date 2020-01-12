@@ -3,7 +3,7 @@
 package mealplaner.gui.tabbedpanes.ingredientsedit;
 
 import static java.util.stream.Collectors.toList;
-import static mealplaner.commons.Utils.not;
+import static mealplaner.commons.BundleUtils.not;
 import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
 import static mealplaner.commons.gui.tables.TableHelpers.deleteSelectedRows;
 import static mealplaner.gui.dialogs.ingredients.IngredientsInput.ingredientsInput;
@@ -24,7 +24,6 @@ import javax.swing.JPanel;
 
 import mealplaner.commons.gui.buttonpanel.ButtonPanelEnabling;
 import mealplaner.commons.gui.tables.Table;
-import mealplaner.ioapi.DataParts;
 import mealplaner.ioapi.FileIoInterface;
 import mealplaner.model.DataStoreEventType;
 import mealplaner.model.DataStoreListener;

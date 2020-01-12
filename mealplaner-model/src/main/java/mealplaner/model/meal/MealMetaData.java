@@ -18,7 +18,7 @@ public final class MealMetaData {
       new HashMap<>(),
       new ArrayList<>());
 
-  private String name;
+  private final String name;
   private final Map<Class, MealFact> mealFacts;
   private final List<Element> hiddenMealFacts;
 
@@ -27,7 +27,11 @@ public final class MealMetaData {
       Map<Class, MealFact> mealFacts,
       List<Element> hiddenMealFacts)
       throws MealException {
-    setName(name);
+    if (name.trim().isEmpty()) {
+      throw new MealException("Name is empty or consists only of whitespace");
+    } else {
+      this.name = name.trim();
+    }
     this.mealFacts = mealFacts;
     this.hiddenMealFacts = hiddenMealFacts;
   }
@@ -90,13 +94,5 @@ public final class MealMetaData {
     return name.equals(other.name)
         && mealFacts.equals(other.mealFacts)
         && hiddenMealFacts.equals(other.hiddenMealFacts);
-  }
-
-  private void setName(String name) throws MealException {
-    if (name.trim().isEmpty()) {
-      throw new MealException("Name is empty or consists only of whitespace");
-    } else {
-      this.name = name.trim();
-    }
   }
 }

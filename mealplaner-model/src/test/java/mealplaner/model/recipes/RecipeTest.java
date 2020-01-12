@@ -18,6 +18,9 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
+
 public class RecipeTest {
   private Ingredient anIngredient1;
   private Ingredient anIngredient2;
@@ -91,5 +94,12 @@ public class RecipeTest {
     assertThat(ingredientsForOnePerson).containsExactlyInAnyOrder(
         createQuantitativeIngredient(anIngredient1, fraction(100, 2)),
         createQuantitativeIngredient(anIngredient3, fraction(300, 2 * 2)));
+  }
+
+  @Test
+  public void equalsContract() {
+    EqualsVerifier.forClass(Recipe.class)
+        .suppress(Warning.NULL_FIELDS)
+        .verify();
   }
 }

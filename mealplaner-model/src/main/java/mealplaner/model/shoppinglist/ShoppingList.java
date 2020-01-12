@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import mealplaner.commons.NonnegativeFraction;
 import mealplaner.commons.NonnegativeInteger;
@@ -45,5 +46,22 @@ public final class ShoppingList {
 
   public Map<Ingredient, NonnegativeFraction> getMap() {
     return shoppingList;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    ShoppingList that = (ShoppingList) o;
+    return Objects.equals(shoppingList, that.shoppingList);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(shoppingList);
   }
 }

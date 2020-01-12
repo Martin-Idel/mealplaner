@@ -30,7 +30,7 @@ public final class Meal implements Comparable<Meal> {
   private final UUID uuid;
   private final MealMetaData metadata;
   private final NonnegativeInteger daysPassed;
-  private Optional<Recipe> recipe;
+  private final Optional<Recipe> recipe;
 
   private Meal(
       UUID uuid,
@@ -71,9 +71,7 @@ public final class Meal implements Comparable<Meal> {
   }
 
   public Meal addRecipe(Optional<Recipe> recipe) {
-    Meal newMeal = copy(this);
-    newMeal.recipe = recipe;
-    return newMeal;
+    return createMeal(this.uuid, this.metadata, this.daysPassed, recipe);
   }
 
   /**
@@ -131,6 +129,7 @@ public final class Meal implements Comparable<Meal> {
     result = prime * result + uuid.hashCode();
     result = prime * result + metadata.hashCode();
     result = prime * result + daysPassed.value;
+    result = prime * result + recipe.hashCode();
     return result;
   }
 

@@ -16,6 +16,8 @@ import mealplaner.commons.errorhandling.MealException;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.MealFact;
 import mealplaner.plugins.api.MealFactXml;
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 
 public class MealTest {
   private Meal sut;
@@ -70,6 +72,13 @@ public class MealTest {
     mealFacts.computeIfPresent(TestMealFact.class, (clazz, mealFact) -> new TestMealFact("modified"));
 
     assertThat(sut.getTypedMealFact(TestMealFact.class).testString).startsWith("unmodifiable");
+  }
+
+  @Test
+  public void equalsContract() {
+    EqualsVerifier.forClass(Meal.class)
+        .suppress(Warning.NULL_FIELDS)
+        .verify();
   }
 
   private static class TestMealFact implements MealFact {
