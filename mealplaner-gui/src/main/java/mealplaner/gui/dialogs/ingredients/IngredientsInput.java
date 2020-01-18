@@ -24,6 +24,7 @@ import mealplaner.commons.NonnegativeFraction;
 import mealplaner.commons.gui.GridPanel;
 import mealplaner.commons.gui.buttonpanel.ButtonPanel;
 import mealplaner.commons.gui.dialogs.DialogWindow;
+import mealplaner.commons.gui.inputfields.ButtonInputField;
 import mealplaner.commons.gui.inputfields.ComboBoxInputField;
 import mealplaner.commons.gui.inputfields.InputField;
 import mealplaner.commons.gui.inputfields.NonEmptyTextInputField;
@@ -41,7 +42,7 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
   private InputField<Optional<String>> nameField;
   private InputField<IngredientType> typeField;
   private InputField<Measure> primaryMeasureField;
-  // private InputField<EnumMap<Measure, NonnegativeFraction>> secondaryMeasuresField;
+  private InputField<EnumMap<Measure, NonnegativeFraction>> secondaryMeasuresField;
   private List<InputField<?>> factInputFields;
 
   private final List<Ingredient> ingredients;
@@ -71,17 +72,22 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
             .withName(nameField.getUserInput().get())
             .withType(typeField.getUserInput())
             .withPrimaryMeasure(primaryMeasureField.getUserInput())
+            .withSecondaryMeasures(secondaryMeasuresField.getUserInput())
             .create());
         resetFields();
       }
-    }, pluginStore.getRegisteredIngredientInputGuiExtensions());
+    },
+        store,
+        pluginStore);
     dialogWindow.dispose();
     return ingredients;
   }
 
   private void setupDialog(
-      ActionListener saveListener, Collection<IngredientInputDialogExtension> ingredientInputDialogExtensions) {
-    setupInputFields(ingredientInputDialogExtensions);
+      ActionListener saveListener,
+      DataStore dataStore,
+      PluginStore pluginStore) {
+    setupInputFields(pluginStore.getRegisteredIngredientInputGuiExtensions(), dataStore, pluginStore);
     GridPanel ingredientCreationPanel = gridPanel(0, 2);
     allFields().forEach(field -> field.addToPanel(ingredientCreationPanel));
 
@@ -94,7 +100,10 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
     dialogWindow.setVisible();
   }
 
-  private void setupInputFields(Collection<IngredientInputDialogExtension> ingredientInputDialogExtensions) {
+  private void setupInputFields(
+      Collection<IngredientInputDialogExtension> ingredientInputDialogExtensions,
+      DataStore dataStore,
+      PluginStore pluginStore) {
     nameField = new NonEmptyTextInputField(
         BUNDLES.message("insertIngredientName"),
         "IngredientName", 0);
@@ -108,10 +117,24 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
         "IngredientMeasure",
         Measure.class,
         Measure.NONE, 2);
+    secondaryMeasuresField = new ButtonInputField<>(
+        BUNDLES.message("insertSecondaryMeasures"),
+        "IngredientMeasures",
+        BUNDLES.message("insertSecondaryMeasuresButtonLabel"),
+        BUNDLES.message("insertSecondaryMeasuresButtonDefaultLabel"),
+        new EnumMap<>(Measure.class),
+        content -> createMeasuresDialog(dataStore, content, pluginStore),
+        3);
     factInputFields = ingredientInputDialogExtensions.stream()
         .flatMap(extension -> extension.createInputElements().stream())
         .sorted(comparingInt(InputField::getOrdering))
         .collect(Collectors.toList());
+  }
+
+  private EnumMap<Measure, NonnegativeFraction> createMeasuresDialog(
+      DataStore mealPlan, EnumMap<Measure, NonnegativeFraction> measures, PluginStore pluginStore) {
+    var measuresInput = MeasureInputDialog.measureInput(dialogWindow);
+    return measuresInput.showDialog(measures, mealPlan, pluginStore);
   }
 
   private ButtonPanel setupButtonPanel(ActionListener saveListener) {
@@ -126,6 +149,8 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
   }
 
   private Stream<InputField<?>> allFields() {
-    return Stream.concat(Stream.of(nameField, typeField, primaryMeasureField), factInputFields.stream());
+    return Stream.concat(
+        Stream.of(nameField, typeField, primaryMeasureField, secondaryMeasuresField),
+        factInputFields.stream());
   }
 }

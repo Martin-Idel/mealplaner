@@ -28,7 +28,7 @@ import static mealplaner.model.settings.SettingsBuilder.setting;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 
 import mealplaner.commons.NonnegativeFraction;
@@ -155,7 +155,7 @@ public final class CommonBaseFunctions {
   }
 
   public static Ingredient getIngredient4() {
-    var secondaries = new HashMap<Measure, NonnegativeFraction>();
+    var secondaries = new EnumMap<Measure, NonnegativeFraction>(Measure.class);
     secondaries.put(Measure.TEASPOON, fraction(1, 2));
     return ingredient()
         .withUuid(nameUUIDFromBytes("Test4".getBytes(UTF_8)))

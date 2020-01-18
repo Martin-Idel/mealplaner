@@ -32,6 +32,7 @@ import static mealplaner.plugins.builtins.courses.CourseType.MAIN;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 
@@ -167,7 +168,7 @@ public final class CommonBaseFunctions {
   }
 
   public static Ingredient getIngredient4() {
-    var secondaries = new HashMap<Measure, NonnegativeFraction>();
+    var secondaries = new EnumMap<Measure, NonnegativeFraction>(Measure.class);
     secondaries.put(Measure.TEASPOON, fraction(1, 2));
     return ingredient()
         .withUuid(nameUUIDFromBytes("Test4".getBytes(UTF_8)))

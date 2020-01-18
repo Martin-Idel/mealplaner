@@ -4,8 +4,7 @@ package mealplaner.model.recipes;
 
 import static mealplaner.commons.NonnegativeFraction.ONE;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.EnumMap;
 import java.util.Objects;
 
 import mealplaner.commons.NonnegativeFraction;
@@ -14,22 +13,22 @@ import mealplaner.commons.errorhandling.MealException;
 public final class Measures {
   public static final Measures DEFAULT_MEASURES = new Measures();
   private final Measure primary;
-  private final Map<Measure, NonnegativeFraction> secondaries;
+  private final EnumMap<Measure, NonnegativeFraction> secondaries;
 
   private Measures() {
-    this(Measure.NONE, new HashMap<>());
+    this(Measure.NONE, new EnumMap<>(Measure.class));
   }
 
-  private Measures(Measure primary, Map<Measure, NonnegativeFraction> secondaries) {
+  private Measures(Measure primary, EnumMap<Measure, NonnegativeFraction> secondaries) {
     this.primary = primary;
     this.secondaries = secondaries;
   }
 
   public static Measures createMeasures(Measure primary) {
-    return new Measures(primary, new HashMap<>());
+    return new Measures(primary, new EnumMap<>(Measure.class));
   }
 
-  public static Measures createMeasures(Measure primary, Map<Measure, NonnegativeFraction> secondaries) {
+  public static Measures createMeasures(Measure primary, EnumMap<Measure, NonnegativeFraction> secondaries) {
     return new Measures(primary, secondaries);
   }
 
@@ -37,7 +36,7 @@ public final class Measures {
     return primary;
   }
 
-  public Map<Measure, NonnegativeFraction> getSecondaries() {
+  public EnumMap<Measure, NonnegativeFraction> getSecondaries() {
     return secondaries;
   }
 

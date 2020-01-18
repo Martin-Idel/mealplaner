@@ -8,6 +8,7 @@ import static mealplaner.model.recipes.IngredientType.OTHER;
 import static mealplaner.model.recipes.Measures.createMeasures;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,7 @@ public class IngredientBuilder {
   private String name = "";
   private IngredientType type = OTHER;
   private Measure primaryMeasure = Measure.NONE;
-  private Map<Measure, NonnegativeFraction> secondaryMeasures = new HashMap<>();
+  private EnumMap<Measure, NonnegativeFraction> secondaryMeasures = new EnumMap<>(Measure.class);
   private Map<Class, IngredientFact> facts = new HashMap<>();
   private List<Element> hiddenFacts = new ArrayList<>();
 
@@ -97,6 +98,11 @@ public class IngredientBuilder {
 
   public SecondaryMeasureBuilder withSecondaryMeasure(Measure measure) {
     return new SecondaryMeasureBuilder(measure, this);
+  }
+
+  public IngredientBuilder withSecondaryMeasures(EnumMap<Measure, NonnegativeFraction> measures) {
+    this.secondaryMeasures = measures;
+    return this;
   }
 
   public IngredientBuilder withMeasures(Measures measures) {

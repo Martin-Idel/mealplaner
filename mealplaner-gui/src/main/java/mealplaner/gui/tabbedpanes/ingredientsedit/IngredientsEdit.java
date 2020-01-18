@@ -16,19 +16,23 @@ import static mealplaner.model.DataStoreEventType.INGREDIENTS_CHANGED;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import mealplaner.commons.NonnegativeFraction;
 import mealplaner.commons.gui.buttonpanel.ButtonPanelEnabling;
 import mealplaner.commons.gui.tables.Table;
+import mealplaner.gui.dialogs.ingredients.MeasureInputDialog;
 import mealplaner.ioapi.FileIoInterface;
 import mealplaner.model.DataStoreEventType;
 import mealplaner.model.DataStoreListener;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.recipes.Ingredient;
+import mealplaner.model.recipes.Measure;
 import mealplaner.plugins.PluginStore;
 
 public class IngredientsEdit implements DataStoreListener {
@@ -42,8 +46,8 @@ public class IngredientsEdit implements DataStoreListener {
   private Table table;
   private ButtonPanelEnabling buttonPanel;
 
-  public IngredientsEdit(MealplanerData mealPlan, JFrame frame, JPanel ingredientsPanel,
-      FileIoInterface fileIo) {
+  public IngredientsEdit(
+      MealplanerData mealPlan, JFrame frame, JPanel ingredientsPanel, FileIoInterface fileIo) {
     this.mealPlan = mealPlan;
     this.frame = frame;
     this.dataPanel = ingredientsPanel;
@@ -58,7 +62,11 @@ public class IngredientsEdit implements DataStoreListener {
     buttonPanel.disableButtons();
 
     ingredients.addAll(mealPlan.getIngredients());
-    table = createTable(ingredients, buttonPanel, pluginStore.getRegisteredIngredientEditGuiExtensions());
+    table = createTable(
+        ingredients,
+        buttonPanel,
+        secondaryMeasures -> editSecondaryMeasures(secondaryMeasures, pluginStore),
+        pluginStore.getRegisteredIngredientEditGuiExtensions());
 
     dataPanel.add(table.getComponent(), BorderLayout.CENTER);
     dataPanel.add(buttonPanel.getPanel(), BorderLayout.SOUTH);
@@ -129,6 +137,13 @@ public class IngredientsEdit implements DataStoreListener {
     ingredients.add(row, ingredient);
     table.insertRows(row, row);
     buttonPanel.enableButtons();
+  }
+
+  private EnumMap<Measure, NonnegativeFraction> editSecondaryMeasures(
+      EnumMap<Measure, NonnegativeFraction> secondaries,
+      PluginStore pluginStore) {
+    MeasureInputDialog measureInputDialog = MeasureInputDialog.measureInput(frame);
+    return measureInputDialog.showDialog(secondaries, mealPlan, pluginStore);
   }
 
   @Override

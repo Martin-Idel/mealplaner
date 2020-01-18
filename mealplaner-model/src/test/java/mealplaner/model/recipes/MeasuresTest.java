@@ -10,7 +10,7 @@ import static mealplaner.model.recipes.Measures.createMeasures;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +23,7 @@ public class MeasuresTest {
 
   @Test
   public void getConversionFactorConvertsCorrectlyToPrimaryMeasure() {
-    var secondaries = new HashMap<Measure, NonnegativeFraction>();
+    var secondaries = new EnumMap<Measure, NonnegativeFraction>(Measure.class);
     secondaries.put(TABLESPOON, fraction(1, 2));
     Measures measures = createMeasures(MILLILITRE, secondaries);
 
@@ -33,7 +33,7 @@ public class MeasuresTest {
 
   @Test
   public void getConversionFactorConvertsCorrectlyFromPrimaryMeasure() {
-    var secondaries = new HashMap<Measure, NonnegativeFraction>();
+    var secondaries = new EnumMap<Measure, NonnegativeFraction>(Measure.class);
     secondaries.put(TABLESPOON, fraction(1, 2));
     Measures measures = createMeasures(MILLILITRE, secondaries);
 
@@ -43,7 +43,7 @@ public class MeasuresTest {
 
   @Test
   public void getConversionFactorConvertsCorrectlyBetweenMeasures() {
-    var secondaries = new HashMap<Measure, NonnegativeFraction>();
+    var secondaries = new EnumMap<Measure, NonnegativeFraction>(Measure.class);
     secondaries.put(TABLESPOON, fraction(1, 2));
     secondaries.put(GRAM, fraction(1, 4));
     Measures measures = createMeasures(MILLILITRE, secondaries);
@@ -54,7 +54,7 @@ public class MeasuresTest {
 
   @Test
   public void getConversionFactorThrowsExceptionWhenFromMeasureIsNotContainedInMeasures() {
-    var secondaries = new HashMap<Measure, NonnegativeFraction>();
+    var secondaries = new EnumMap<Measure, NonnegativeFraction>(Measure.class);
     secondaries.put(TABLESPOON, fraction(1, 2));
     Measures measures = createMeasures(MILLILITRE, secondaries);
 
