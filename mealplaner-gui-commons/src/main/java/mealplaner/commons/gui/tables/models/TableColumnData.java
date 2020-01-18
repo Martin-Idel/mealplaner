@@ -13,7 +13,6 @@ import javax.swing.table.TableCellRenderer;
 public final class TableColumnData<T> {
   private final String name;
   private final Class<T> classType;
-  private final T defaultValue;
 
   private final BiFunction<T, Integer, Optional<Integer[]>> setValue;
   private final Function<Integer, T> getValue;
@@ -27,7 +26,6 @@ public final class TableColumnData<T> {
   private TableColumnData(
       Class<T> classType,
       String name,
-      T defaultValue,
       BiFunction<T, Integer, Optional<Integer[]>> setValue,
       Function<Integer, T> getValue,
       Predicate<Integer> isEditableIf,
@@ -37,7 +35,6 @@ public final class TableColumnData<T> {
       Optional<Integer> orderNumber) {
     this.classType = classType;
     this.name = name;
-    this.defaultValue = defaultValue;
     this.setValue = setValue;
     this.getValue = getValue;
     this.isEditableIf = isEditableIf;
@@ -50,7 +47,6 @@ public final class TableColumnData<T> {
   public static <S> TableColumnData<S> createTableColumn(
       Class<S> classType,
       String name,
-      S defaultValue,
       BiFunction<S, Integer, Optional<Integer[]>> setValue,
       Function<Integer, S> getValue,
       Predicate<Integer> isEditableIf,
@@ -58,12 +54,12 @@ public final class TableColumnData<T> {
       Optional<TableCellEditor> tableCellEditor,
       Optional<TableCellRenderer> tableCellRenderer,
       Optional<Integer> orderNumber) {
-    return new TableColumnData<>(classType, name, defaultValue, setValue, getValue,
+    return new TableColumnData<>(classType, name, setValue, getValue,
         isEditableIf, preferredSize, tableCellEditor, tableCellRenderer, orderNumber);
   }
 
   public TableColumnData<T> addOrderNumber(int orderNumber) {
-    return new TableColumnData<>(classType, name, defaultValue, setValue, getValue,
+    return new TableColumnData<>(classType, name, setValue, getValue,
         isEditableIf, preferredSize, tableCellEditor, tableCellRenderer, Optional.of(orderNumber));
   }
 
@@ -97,10 +93,6 @@ public final class TableColumnData<T> {
 
   public Optional<TableCellRenderer> getTableCellRenderer() {
     return tableCellRenderer;
-  }
-
-  public T getDefaultValue() {
-    return defaultValue;
   }
 
   public int getOrderNumber() {

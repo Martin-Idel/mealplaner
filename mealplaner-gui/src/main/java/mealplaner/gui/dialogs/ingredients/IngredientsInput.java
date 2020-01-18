@@ -12,6 +12,7 @@ import static mealplaner.model.recipes.IngredientBuilder.ingredientWithValidatio
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -19,6 +20,7 @@ import java.util.stream.Stream;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
+import mealplaner.commons.NonnegativeFraction;
 import mealplaner.commons.gui.GridPanel;
 import mealplaner.commons.gui.buttonpanel.ButtonPanel;
 import mealplaner.commons.gui.dialogs.DialogWindow;
@@ -38,7 +40,8 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
 
   private InputField<Optional<String>> nameField;
   private InputField<IngredientType> typeField;
-  private InputField<Measure> measureField;
+  private InputField<Measure> primaryMeasureField;
+  // private InputField<EnumMap<Measure, NonnegativeFraction>> secondaryMeasuresField;
   private List<InputField<?>> factInputFields;
 
   private final List<Ingredient> ingredients;
@@ -67,7 +70,7 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
             pluginStore.getRegisteredIngredientExtensions().getAllRegisteredFacts())
             .withName(nameField.getUserInput().get())
             .withType(typeField.getUserInput())
-            .withPrimaryMeasure(measureField.getUserInput())
+            .withPrimaryMeasure(primaryMeasureField.getUserInput())
             .create());
         resetFields();
       }
@@ -100,7 +103,7 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
         "IngredientType",
         IngredientType.class,
         IngredientType.OTHER, 1);
-    measureField = new ComboBoxInputField<>(
+    primaryMeasureField = new ComboBoxInputField<>(
         BUNDLES.message("insertMeasure"),
         "IngredientMeasure",
         Measure.class,
@@ -123,6 +126,6 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
   }
 
   private Stream<InputField<?>> allFields() {
-    return Stream.concat(Stream.of(nameField, typeField, measureField), factInputFields.stream());
+    return Stream.concat(Stream.of(nameField, typeField, primaryMeasureField), factInputFields.stream());
   }
 }

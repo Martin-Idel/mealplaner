@@ -47,7 +47,7 @@ public final class DynamicSizeTableModel extends FlexibleTableModel {
   @Override
   public Object getValueAt(int row, int col) {
     return (row == getRowCount() - 1)
-        ? columns.get(col).getDefaultValue()
+        ? ""
         : columns.get(col).getValue(row);
   }
 }

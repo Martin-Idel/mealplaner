@@ -19,8 +19,8 @@ public final class UpdateSizeTableModel extends FlexibleTableModel {
     super(tableColumns, rowCount);
   }
 
-  public static UpdateSizeTableModel from(List<TableColumnData<?>> tableColumns,
-      Supplier<Integer> rowCount) {
+  public static UpdateSizeTableModel from(
+      List<TableColumnData<?>> tableColumns, Supplier<Integer> rowCount) {
     return new UpdateSizeTableModel(tableColumns, rowCount);
   }
 
@@ -31,6 +31,6 @@ public final class UpdateSizeTableModel extends FlexibleTableModel {
 
   @Override
   public Object getValueAt(int row, int col) {
-    return columns.get(col).getValue(row);
+    return (row - 1 == getRowCount()) ? "" : columns.get(col).getValue(row);
   }
 }

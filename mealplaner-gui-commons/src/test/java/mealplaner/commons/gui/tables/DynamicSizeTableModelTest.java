@@ -23,7 +23,7 @@ public class DynamicSizeTableModelTest {
 
     assertThat(table.getValueAt(0, 0)).isEqualTo(columnContent.get(0));
     assertThat(table.getValueAt(1, 0)).isEqualTo(columnContent.get(1));
-    assertThat(table.getValueAt(2, 0)).isEqualTo("defaultString");
+    assertThat(table.getValueAt(2, 0)).isEqualTo("");
   }
 
   @Test
@@ -58,8 +58,8 @@ public class DynamicSizeTableModelTest {
     assertThat(table.getValueAt(0, 1)).isEqualTo(secondColumnContent.get(0));
     assertThat(table.getValueAt(1, 0)).isEqualTo(firstColumnContent.get(1));
     assertThat(table.getValueAt(1, 1)).isEqualTo(TestEnum.TEST3);
-    assertThat(table.getValueAt(2, 0)).isEqualTo("defaultString");
-    assertThat(table.getValueAt(2, 1)).isEqualTo(TestEnum.TEST1);
+    assertThat(table.getValueAt(2, 0)).isEqualTo("");
+    assertThat(table.getValueAt(2, 1)).isEqualTo("");
   }
 
   @Test
@@ -82,14 +82,12 @@ public class DynamicSizeTableModelTest {
             .alsoUpdatesCellsOfColumns(1)
             .getRowValueFromUnderlyingModel(firstColumnContent::get)
             .isEditable()
-            .setDefaultValueForEmptyRow("defaultString")
             .build())
         .addColumn(withEnumContent(TestEnum.class)
             .withColumnName("Column2")
             .getRowValueFromUnderlyingModel(secondColumnContent::get)
             .setRowValueToUnderlyingModel(
                 (value, row) -> secondColumnContent.set(row, value))
-            .setDefaultValueForEmptyRow(TestEnum.TEST1)
             .isEditable()
             .build())
         .buildDynamicTable()
@@ -101,8 +99,8 @@ public class DynamicSizeTableModelTest {
     assertThat(table.getValueAt(0, 1)).isEqualTo(TestEnum.TEST3);
     assertThat(table.getValueAt(1, 0)).isEqualTo(firstColumnContent.get(1));
     assertThat(table.getValueAt(1, 1)).isEqualTo(secondColumnContent.get(1));
-    assertThat(table.getValueAt(2, 0)).isEqualTo("defaultString");
-    assertThat(table.getValueAt(2, 1)).isEqualTo(TestEnum.TEST1);
+    assertThat(table.getValueAt(2, 0)).isEqualTo("");
+    assertThat(table.getValueAt(2, 1)).isEqualTo("");
   }
 
   @Test
@@ -129,8 +127,8 @@ public class DynamicSizeTableModelTest {
     assertThat(table.getValueAt(1, 1)).isEqualTo(secondColumnContent.get(1));
     assertThat(table.getValueAt(2, 0)).isEqualTo(firstColumnContent.get(2));
     assertThat(table.getValueAt(2, 1)).isEqualTo(secondColumnContent.get(2));
-    assertThat(table.getValueAt(3, 0)).isEqualTo("defaultString");
-    assertThat(table.getValueAt(3, 1)).isEqualTo(TestEnum.TEST1);
+    assertThat(table.getValueAt(3, 0)).isEqualTo("");
+    assertThat(table.getValueAt(3, 1)).isEqualTo("");
   }
 
   private JTable createTableWithTwoEditableColumns(List<String> firstColumn,
@@ -142,14 +140,12 @@ public class DynamicSizeTableModelTest {
             .setRowValueToUnderlyingModel((value, row) -> firstColumn.set(row, value))
             .getRowValueFromUnderlyingModel(firstColumn::get)
             .isEditable()
-            .setDefaultValueForEmptyRow("defaultString")
             .build())
         .addColumn(withEnumContent(TestEnum.class)
             .withColumnName("Column2")
             .getRowValueFromUnderlyingModel(secondColumn::get)
             .setRowValueToUnderlyingModel((value, row) -> secondColumn.set(row, value))
             .isEditable()
-            .setDefaultValueForEmptyRow(TestEnum.TEST1)
             .build())
         .addDefaultRowToUnderlyingModel(() -> {
           firstColumn.add("defaultString");
@@ -166,7 +162,6 @@ public class DynamicSizeTableModelTest {
             withContent(String.class)
                 .withColumnName("Column")
                 .getRowValueFromUnderlyingModel(tableContent::get)
-                .setDefaultValueForEmptyRow("defaultString")
                 .build())
         .buildDynamicTable()
         .getTable();

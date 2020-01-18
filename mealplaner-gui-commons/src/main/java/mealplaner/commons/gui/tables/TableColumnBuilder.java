@@ -34,7 +34,6 @@ import mealplaner.commons.gui.tables.models.TableColumnData;
 public final class TableColumnBuilder<T> {
   private final Class<T> classType;
   private String name = "";
-  private T defaultValue = null;
 
   private BiFunction<T, Integer, Optional<Integer[]>> setValue = (value, row) -> empty();
   private Function<Integer, T> getValue = (integer) -> null;
@@ -308,20 +307,6 @@ public final class TableColumnBuilder<T> {
   }
 
   /**
-   * Set a default value for an empty row. This is necessary if the column is part
-   * of an UpdateSizeTableModel as this value gets displayed for the last "empty"
-   * row. See the table model for further clarification.
-   *
-   * @param defaultValue
-   *          Value to display for the last row of an UpdateSizeTableModel
-   * @return the current builder
-   */
-  public TableColumnBuilder<T> setDefaultValueForEmptyRow(T defaultValue) {
-    this.defaultValue = defaultValue;
-    return this;
-  }
-
-  /**
    * Perform another action when a column is changed, e.g. run a save action, etc.
    * N.B: This function must be called after calling one of the functions above
    * setting values to the table.
@@ -352,7 +337,6 @@ public final class TableColumnBuilder<T> {
     return createTableColumn(
         classType,
         name,
-        defaultValue,
         setValue,
         getValue,
         isEditableIf,
@@ -372,7 +356,6 @@ public final class TableColumnBuilder<T> {
     return createTableColumn(
         classType,
         name,
-        defaultValue,
         setValue,
         getValue,
         isEditableIf,

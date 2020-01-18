@@ -19,11 +19,9 @@ public class FlexibleTableBuilderTest {
     var table = createNewTable()
         .addColumn(withContent(String.class)
             .withColumnName("new Column")
-            .setDefaultValueForEmptyRow("some row")
             .buildWithOrderNumber(2))
         .addColumn(withNonnegativeIntegerContent()
             .withColumnName("new Column 2")
-            .setDefaultValueForEmptyRow(FOUR)
             .buildWithOrderNumber(1))
         .buildTable();
 
@@ -36,11 +34,9 @@ public class FlexibleTableBuilderTest {
     var table = createNewTable()
         .addColumn(withContent(String.class)
             .withColumnName("new Column")
-            .setDefaultValueForEmptyRow("some row")
             .build())
         .addColumn(withNonnegativeIntegerContent()
             .withColumnName("new Column 2")
-            .setDefaultValueForEmptyRow(FOUR)
             .build())
         .buildTable();
 
@@ -53,13 +49,11 @@ public class FlexibleTableBuilderTest {
     var table = createNewTable()
         .addColumn(withContent(String.class)
             .withColumnName("new Column")
-            .setDefaultValueForEmptyRow("some row")
             .buildWithOrderNumber(2))
         .addListenerToThisColumn(click -> {
         })
         .addColumn(withNonnegativeIntegerContent()
             .withColumnName("new Column 2")
-            .setDefaultValueForEmptyRow(FOUR)
             .buildWithOrderNumber(1))
         .buildTable();
 
