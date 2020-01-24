@@ -3,16 +3,22 @@
 package mealplaner.gui.dialogs.recepies;
 
 import static mealplaner.commons.BundleStore.BUNDLES;
-import static mealplaner.commons.gui.SwingUtilityMethods.autoCompleteCellEditor;
 import static mealplaner.commons.gui.tables.FlexibleTableBuilder.createNewTable;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
-import static mealplaner.commons.gui.tables.TableColumnBuilder.withEnumContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withNonnegativeFractionContent;
 import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitativeIngredient;
 
+import java.awt.Component;
 import java.util.List;
+import java.util.Vector;
+import javax.swing.JComboBox;
+import javax.swing.JList;
+import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
-import mealplaner.commons.NonnegativeFraction;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
+import org.jdesktop.swingx.autocomplete.ObjectToStringConverter;
+
 import mealplaner.commons.gui.tables.Table;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.Measure;
@@ -22,46 +28,80 @@ public final class IngredientsTable {
   private IngredientsTable() {
   }
 
-  public static Table setupTable(List<QuantitativeIngredient> ingredients,
-      List<Ingredient> ingredientList) {
+  // TODO: We can get a null value if we don't select anything in the combobox. We should handle this gracefully
+  public static Table setupTable(
+      List<QuantitativeIngredient> ingredients, List<Ingredient> ingredientList) {
     return createNewTable()
         .withRowCount(ingredients::size)
-        .addColumn(withContent(String.class)
+        .addColumn(withContent(Ingredient.class)
             .isEditable()
             .withColumnName(BUNDLES.message("ingredientNameColumn"))
             .setValueToOrderedImmutableList(ingredients,
-                (ingredient, name) -> {
-                  Ingredient newIngredient = ingredientList
-                      .stream()
-                      .filter(ing -> ing.getName().equals(name))
-                      .findAny()
-                      .orElse(Ingredient.emptyIngredient());
-                  return createQuantitativeIngredient(
-                      newIngredient, newIngredient.getPrimaryMeasure(), ingredient.getAmount());
-                })
+                (quantitativeIngredient, ingredient) -> createQuantitativeIngredient(
+                    ingredient, ingredient.getPrimaryMeasure(), quantitativeIngredient.getAmount())
+            )
             .alsoUpdatesCellsOfColumns(2)
-            .getValueFromOrderedList(ingredients,
-                ingredient -> ingredient.getIngredient().getName())
+            .getValueFromOrderedList(ingredients, QuantitativeIngredient::getIngredient)
             .isEditable()
             .overwriteTableCellEditor(
-                autoCompleteCellEditor(ingredientList, Ingredient::getName))
+                autoCompleteCellEditor(ingredientList))
+            .overwriteTableCellRenderer(new FlexibleClassRenderer())
             .build())
         .addColumn(withNonnegativeFractionContent()
             .withColumnName(BUNDLES.message("ingredientAmountColumn"))
             .getValueFromOrderedList(ingredients,
-                    QuantitativeIngredient::getAmount)
+                QuantitativeIngredient::getAmount)
             .setValueToOrderedImmutableList(ingredients,
                 (ingredient, amount) -> createQuantitativeIngredient(
                     ingredient.getIngredient(), ingredient.getMeasure(), amount))
             .isEditable()
             .build())
-        .addColumn(withEnumContent(Measure.class)
+        .addColumn(withContent(Measure.class)
             .withColumnName(BUNDLES.message("ingredientMeasureColumn"))
-            .getValueFromOrderedList(ingredients,
-                ingredient -> ingredient.getIngredient().getPrimaryMeasure())
+            .getValueFromOrderedList(ingredients, QuantitativeIngredient::getMeasure)
+            .setValueToOrderedImmutableList(ingredients, (ingredient, measure) -> createQuantitativeIngredient(
+                ingredient.getIngredient(), measure, ingredient.getAmount()
+            ))
+            .overwriteTableCellEditor(new FlexibleJComboBoxEditor(0))
+            .isEditableIf(row -> (row < ingredients.size())
+                && !ingredients.get(row).getIngredient().getMeasures().getSecondaries().isEmpty())
             .build())
         .addDefaultRowToUnderlyingModel(() -> ingredients.add(QuantitativeIngredient.DEFAULT))
         .deleteRowsOnDelete(row -> ingredients.remove((int) row))
         .buildDynamicTable();
+  }
+
+  // TODO: Make generic
+  public static <T> ComboBoxCellEditor autoCompleteCellEditor(List<T> list) {
+    JComboBox<T> autoCompleteBox = new JComboBox<>(new Vector<>(list));
+    autoCompleteBox.setRenderer(new ObjectRenderer());
+    AutoCompleteDecorator.decorate(autoCompleteBox, new ObjectToStringConverter() {
+      @Override
+      public String getPreferredStringForItem(Object item) {
+        if (item instanceof Ingredient) {
+          return ((Ingredient) item).getName();
+        } else {
+          return "";
+        }
+      }
+    });
+    return new ComboBoxCellEditor(autoCompleteBox);
+  }
+
+  // TODO: Make generic
+  public static class ObjectRenderer extends BasicComboBoxRenderer {
+    @Override
+    public Component getListCellRendererComponent(
+        JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+      super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+
+      if (value instanceof Ingredient) {
+        setText(((Ingredient) value).getName());
+      } else {
+        setText("");
+      }
+
+      return this;
+    }
   }
 }

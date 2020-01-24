@@ -43,9 +43,9 @@ public class RecipeTableTest {
     JTable table = recipeTable.setupTable().getTable();
 
     assertThat(table.getRowCount()).isEqualTo(3);
-    assertThat(table.getValueAt(0, 0)).isEqualTo(getIngredient1().getName());
+    assertThat(table.getValueAt(0, 0)).isEqualTo(getIngredient1());
     assertThat(table.getValueAt(0, 1)).isEqualTo(wholeNumber(nonNegative(100)));
-    assertThat(table.getValueAt(1, 0)).isEqualTo(getIngredient2().getName());
+    assertThat(table.getValueAt(1, 0)).isEqualTo(getIngredient2());
     assertThat(table.getValueAt(1, 1)).isEqualTo(wholeNumber(nonNegative(50)));
   }
 
@@ -66,7 +66,7 @@ public class RecipeTableTest {
     recipeTable = new RecipeTable(recipe, ingredients);
     JTable table = recipeTable.setupTable().getTable();
 
-    table.setValueAt("Test3", 2, 0);
+    table.setValueAt(getIngredient3(), 2, 0);
 
     List<QuantitativeIngredient> recipeIngredients = new ArrayList<>();
     recipeIngredients.add(createQuantitativeIngredient(
@@ -87,7 +87,7 @@ public class RecipeTableTest {
     recipeTable = new RecipeTable(recipe, ingredients);
     JTable table = recipeTable.setupTable().getTable();
 
-    table.setValueAt("Test3", 1, 0);
+    table.setValueAt(getIngredient3(), 1, 0);
 
     List<QuantitativeIngredient> recipeIngredients = new ArrayList<>();
     recipeIngredients.add(createQuantitativeIngredient(

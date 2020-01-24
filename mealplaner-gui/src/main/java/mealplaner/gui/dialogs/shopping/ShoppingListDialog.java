@@ -6,7 +6,6 @@ import static javax.swing.JOptionPane.showConfirmDialog;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.buttonpanel.ButtonPanelBuilder.builder;
 import static mealplaner.commons.gui.dialogs.DialogWindow.window;
-import static mealplaner.gui.dialogs.recepies.IngredientsTable.setupTable;
 import static mealplaner.gui.dialogs.shopping.ShoppingListUtils.createShoppingList;
 import static mealplaner.gui.dialogs.shopping.ShoppingListUtils.someRecipesMissingForCompleteList;
 
@@ -17,6 +16,7 @@ import javax.swing.JOptionPane;
 import mealplaner.commons.gui.buttonpanel.ButtonPanel;
 import mealplaner.commons.gui.dialogs.DialogWindow;
 import mealplaner.commons.gui.tables.Table;
+import mealplaner.gui.dialogs.recepies.IngredientsTable;
 import mealplaner.model.DataStore;
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.recipes.Ingredient;
@@ -50,7 +50,7 @@ public class ShoppingListDialog {
   }
 
   private void display(ShoppingList shoppingList, List<Ingredient> ingredients) {
-    table = setupTable(shoppingList.getList(), ingredients);
+    table = IngredientsTable.setupTable(shoppingList.getList(), ingredients);
 
     ButtonPanel buttonPanel = displayButtons();
 
