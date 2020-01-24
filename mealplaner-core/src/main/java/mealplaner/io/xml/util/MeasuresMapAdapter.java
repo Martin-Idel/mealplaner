@@ -17,15 +17,15 @@ public class MeasuresMapAdapter extends XmlAdapter<MeasuresMap, EnumMap<Measure,
   @Override
   public MeasuresMap marshal(EnumMap<Measure, NonnegativeFraction> recipe) {
     return new MeasuresMap(recipe.entrySet().stream()
-        .map(entry -> new MeasuresMap.KeyValuePair(entry.getKey().toString(),
+        .map(entry -> new MeasuresMap.KeyValuePair(entry.getKey(),
             entry.getValue().toString()))
         .collect(Collectors.toList()));
   }
 
   @Override
   public EnumMap<Measure, NonnegativeFraction> unmarshal(MeasuresMap map) {
-    return map.recipeList.stream()
-        .collect(toMap(entry -> Measure.valueOf(entry.measureKey),
+    return map.secondaryMeasures.stream()
+        .collect(toMap(entry -> entry.measureKey,
             entry -> NonnegativeFraction.parse(entry.value),
             (l, r) -> l,
             () -> new EnumMap<>(Measure.class)));

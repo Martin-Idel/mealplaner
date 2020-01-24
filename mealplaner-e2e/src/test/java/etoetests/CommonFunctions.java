@@ -41,14 +41,17 @@ import static mealplaner.plugins.utensil.settingextension.CasseroleSettings.POSS
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
 
+import mealplaner.commons.NonnegativeFraction;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.meal.MealBuilder;
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.recipes.Ingredient;
+import mealplaner.model.recipes.Measure;
 import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 import mealplaner.model.settings.Settings;
@@ -157,11 +160,13 @@ public final class CommonFunctions {
   }
 
   public static Ingredient getIngredient3() {
+    var secondaryMeasures = new EnumMap<Measure, NonnegativeFraction>(Measure.class);
+    secondaryMeasures.put(MILLILITRE, NonnegativeFraction.ONE);
     return ingredient()
         .withUuid(nameUUIDFromBytes("Test3".getBytes(UTF_8)))
         .withName("Test3")
         .withType(CANNED_FRUIT)
-        .withMeasures(createMeasures(GRAM))
+        .withMeasures(createMeasures(GRAM, secondaryMeasures))
         .create();
   }
 

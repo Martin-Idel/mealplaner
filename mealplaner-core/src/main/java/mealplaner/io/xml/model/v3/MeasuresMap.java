@@ -13,25 +13,25 @@ import mealplaner.model.recipes.Measure;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MeasuresMap {
-  public final List<KeyValuePair> recipeList;
+  public final List<KeyValuePair> secondaryMeasures;
 
   public MeasuresMap() {
     this(new ArrayList<>());
   }
 
   public MeasuresMap(List<KeyValuePair> recipeList) {
-    this.recipeList = recipeList;
+    this.secondaryMeasures = recipeList;
   }
 
   public static class KeyValuePair {
-    public final String measureKey;
+    public final Measure measureKey;
     public final String value;
 
     public KeyValuePair() {
-      this(Measure.NONE.toString(), "0");
+      this(Measure.NONE, "0");
     }
 
-    public KeyValuePair(String key, String value) {
+    public KeyValuePair(Measure key, String value) {
       this.measureKey = key;
       this.value = value;
     }
