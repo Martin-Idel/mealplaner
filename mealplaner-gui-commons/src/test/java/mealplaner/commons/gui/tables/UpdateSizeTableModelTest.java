@@ -67,6 +67,23 @@ public class UpdateSizeTableModelTest {
   }
 
   @Test
+  public void settingNullValueDoesNothing() {
+    List<String> columnContent = new ArrayList<>();
+    columnContent.add("Test1");
+    columnContent.add("Test2");
+
+    List<TestEnum> enumContent = new ArrayList<>();
+    enumContent.add(TestEnum.TEST1);
+    enumContent.add(TestEnum.TEST2);
+    JTable table = createTableWithTwoEditableColumns(columnContent, enumContent);
+
+    table.setValueAt(null, 0, 0);
+
+    assertThat(table.getValueAt(0, 0)).isEqualTo("Test1");
+    assertThat(table.getValueAt(1, 0)).isEqualTo("Test2");
+  }
+
+  @Test
   public void oneStringColumnArrayListWorksWithConvenienceMethods() {
     List<TestClass> columnContent = new ArrayList<>();
     columnContent.add(new TestClass("Test1"));
@@ -78,7 +95,7 @@ public class UpdateSizeTableModelTest {
                 .withColumnName("Column")
                 .getValueFromOrderedList(columnContent, TestClass::getString)
                 .setValueToOrderedList(columnContent,
-                        TestClass::setString)
+                    TestClass::setString)
                 .isEditable()
                 .build())
         .buildTable();
@@ -372,7 +389,7 @@ public class UpdateSizeTableModelTest {
   }
 
   private JTable createTableWithTwoEditableColumns(List<String> firstColumn,
-      List<TestEnum> secondColumn) {
+                                                   List<TestEnum> secondColumn) {
     return createNewTable()
         .withRowCount(firstColumn::size)
         .addColumn(withContent(String.class)

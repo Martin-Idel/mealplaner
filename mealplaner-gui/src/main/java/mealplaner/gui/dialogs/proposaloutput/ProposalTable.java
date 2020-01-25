@@ -8,9 +8,9 @@ import static java.time.format.TextStyle.FULL;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static mealplaner.commons.BundleStore.BUNDLES;
-import static mealplaner.commons.gui.SwingUtilityMethods.autoCompleteCellEditor;
 import static mealplaner.commons.gui.tables.FlexibleTableBuilder.createNewTable;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
+import static mealplaner.commons.gui.tables.cells.AutoCompleteEditors.autoCompleteCellEditor;
 import static mealplaner.model.meal.Meal.EMPTY_MEAL;
 import static mealplaner.model.proposal.Proposal.from;
 

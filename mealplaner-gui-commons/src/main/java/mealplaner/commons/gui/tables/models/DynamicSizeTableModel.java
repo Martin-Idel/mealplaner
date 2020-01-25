@@ -35,12 +35,14 @@ public final class DynamicSizeTableModel extends FlexibleTableModel {
 
   @Override
   public void setValueAt(Object value, int row, int col) {
-    if (row == getRowCount() - 1) {
-      addValue.run();
-      insertRows(getRowCount(), getRowCount());
-      setValueAt(value, row, col);
-    } else {
-      usualSetValueAt(value, row, col);
+    if (value != null) {
+      if (row == getRowCount() - 1) {
+        addValue.run();
+        insertRows(getRowCount(), getRowCount());
+        setValueAt(value, row, col);
+      } else {
+        usualSetValueAt(value, row, col);
+      }
     }
   }
 

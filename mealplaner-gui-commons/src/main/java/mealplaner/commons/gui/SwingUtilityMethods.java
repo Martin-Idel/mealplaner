@@ -28,15 +28,4 @@ public final class SwingUtilityMethods {
     return button;
   }
 
-  public static <T> ComboBoxCellEditor autoCompleteCellEditor(List<T> list,
-      Function<T, String> label) {
-    String[] listAndEmptyElement = new String[list.size() + 1];
-    for (int i = 0; i < list.size(); i++) {
-      listAndEmptyElement[i] = label.apply(list.get(i));
-    }
-    listAndEmptyElement[listAndEmptyElement.length - 1] = "";
-    JComboBox<String> autoCompleteBox = new JComboBox<>(listAndEmptyElement);
-    AutoCompleteDecorator.decorate(autoCompleteBox);
-    return new ComboBoxCellEditor(autoCompleteBox);
-  }
 }
