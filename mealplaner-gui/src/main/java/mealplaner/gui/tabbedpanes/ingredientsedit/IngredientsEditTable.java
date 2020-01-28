@@ -20,6 +20,7 @@ import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.IngredientBuilder;
 import mealplaner.model.recipes.IngredientType;
 import mealplaner.model.recipes.Measure;
+import mealplaner.model.recipes.Measures;
 import mealplaner.plugins.api.IngredientEditExtension;
 
 final class IngredientsEditTable {
@@ -29,7 +30,7 @@ final class IngredientsEditTable {
   public static Table createTable(
       List<Ingredient> ingredients,
       ButtonPanelEnabling buttonPanel,
-      Function<EnumMap<Measure, NonnegativeFraction>, EnumMap<Measure, NonnegativeFraction>> measuresEdit,
+      Function<Measures, EnumMap<Measure, NonnegativeFraction>> measuresEdit,
       Collection<IngredientEditExtension> ingredientEditExtensions) {
     var tableModelBuilder = createNewTable()
         .withRowCount(ingredients::size)
@@ -65,7 +66,7 @@ final class IngredientsEditTable {
                     : BUNDLES.message("insertSecondaryMeasuresButtonLabel"))
             .buildWithOrderNumber(80))
         .addListenerToThisColumn((row) -> {
-          var measures = ingredients.get(row).getMeasures().getSecondaries();
+          var measures = ingredients.get(row).getMeasures();
           EnumMap<Measure, NonnegativeFraction> editedMeasures = measuresEdit.apply(measures);
           Ingredient newIngredient = IngredientBuilder.from(ingredients.get(row))
               .withSecondaryMeasures(editedMeasures)

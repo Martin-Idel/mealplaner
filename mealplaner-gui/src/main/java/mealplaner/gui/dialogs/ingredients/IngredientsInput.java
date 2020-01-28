@@ -133,7 +133,7 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
 
   private EnumMap<Measure, NonnegativeFraction> createMeasuresDialog(
       DataStore mealPlan, EnumMap<Measure, NonnegativeFraction> measures, PluginStore pluginStore) {
-    var measuresInput = MeasureInputDialog.measureInput(dialogWindow);
+    var measuresInput = MeasureInputDialog.measureInput(dialogWindow, primaryMeasureField.getUserInput());
     return measuresInput.showDialog(measures, mealPlan, pluginStore);
   }
 

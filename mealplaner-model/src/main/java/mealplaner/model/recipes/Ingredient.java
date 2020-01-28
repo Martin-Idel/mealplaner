@@ -13,12 +13,13 @@ import java.util.UUID;
 
 import org.w3c.dom.Element;
 
+import mealplaner.commons.BundleStore;
 import mealplaner.plugins.api.IngredientFact;
 
 public final class Ingredient {
   private static final Ingredient EMPTY_INGREDIENT = new Ingredient(
-      nameUUIDFromBytes("".getBytes(StandardCharsets.UTF_8)),
-      "",
+      nameUUIDFromBytes("<EMPTY>".getBytes(StandardCharsets.UTF_8)),
+      BundleStore.BUNDLES.message("emptyIngredient"),
       IngredientType.OTHER,
       Measures.DEFAULT_MEASURES,
       new HashMap<>(),

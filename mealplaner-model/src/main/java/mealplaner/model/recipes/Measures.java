@@ -29,6 +29,7 @@ public final class Measures {
   }
 
   public static Measures createMeasures(Measure primary, EnumMap<Measure, NonnegativeFraction> secondaries) {
+    secondaries.remove(primary);
     return new Measures(primary, secondaries);
   }
 

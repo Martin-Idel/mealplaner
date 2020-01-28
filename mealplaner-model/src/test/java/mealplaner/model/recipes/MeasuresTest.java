@@ -62,6 +62,18 @@ public class MeasuresTest {
   }
 
   @Test
+  public void createMeasuresRemovesPrimaryMeasuresFromSecondaries() {
+    var secondaries = new EnumMap<Measure, NonnegativeFraction>(Measure.class);
+    secondaries.put(TABLESPOON, fraction(1, 2));
+    secondaries.put(MILLILITRE, fraction(1, 2));
+    Measures measures = createMeasures(MILLILITRE, secondaries);
+
+    assertThat(measures.getSecondaries()).hasSize(1);
+    assertThat(measures.getSecondaries()).containsKey(TABLESPOON);
+  }
+
+
+  @Test
   public void equalsContract() {
     EqualsVerifier.forClass(Measures.class)
         .suppress(Warning.NULL_FIELDS)

@@ -26,6 +26,7 @@ public final class UpdateSizeTableModel extends FlexibleTableModel {
 
   @Override
   public void setValueAt(Object value, int row, int col) {
+    System.out.println(value);
     if (value != null) {
       usualSetValueAt(value, row, col);
     }

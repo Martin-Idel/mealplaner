@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
@@ -62,7 +63,11 @@ public class RecipeInput implements DialogEditing<Optional<Recipe>> {
     enteredRecipe = recipe;
     display(recipe, store, pluginStore);
     dialogWindow.dispose();
-    return enteredRecipe;
+    return enteredRecipe.map(recipeValue -> Recipe.from(recipeValue.getNumberOfPortions(),
+        recipeValue.getIngredientListAsIs()
+            .stream()
+            .filter(ingredient -> !ingredient.getIngredient().equals(Ingredient.emptyIngredient()))
+            .collect(Collectors.toList())));
   }
 
   private void display(Optional<Recipe> recipe, DataStore store, PluginStore pluginStore) {

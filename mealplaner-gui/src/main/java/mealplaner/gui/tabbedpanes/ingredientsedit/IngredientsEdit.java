@@ -33,6 +33,7 @@ import mealplaner.model.DataStoreListener;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.Measure;
+import mealplaner.model.recipes.Measures;
 import mealplaner.plugins.PluginStore;
 
 public class IngredientsEdit implements DataStoreListener {
@@ -65,7 +66,7 @@ public class IngredientsEdit implements DataStoreListener {
     table = createTable(
         ingredients,
         buttonPanel,
-        secondaryMeasures -> editSecondaryMeasures(secondaryMeasures, pluginStore),
+        measures -> editSecondaryMeasures(measures, pluginStore),
         pluginStore.getRegisteredIngredientEditGuiExtensions());
 
     dataPanel.add(table.getComponent(), BorderLayout.CENTER);
@@ -140,10 +141,9 @@ public class IngredientsEdit implements DataStoreListener {
   }
 
   private EnumMap<Measure, NonnegativeFraction> editSecondaryMeasures(
-      EnumMap<Measure, NonnegativeFraction> secondaries,
-      PluginStore pluginStore) {
-    MeasureInputDialog measureInputDialog = MeasureInputDialog.measureInput(frame);
-    return measureInputDialog.showDialog(secondaries, mealPlan, pluginStore);
+      Measures measures, PluginStore pluginStore) {
+    MeasureInputDialog measureInputDialog = MeasureInputDialog.measureInput(frame, measures.getPrimaryMeasure());
+    return measureInputDialog.showDialog(measures.getSecondaries(), mealPlan, pluginStore);
   }
 
   @Override

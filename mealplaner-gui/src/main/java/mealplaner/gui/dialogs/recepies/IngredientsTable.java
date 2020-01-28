@@ -35,9 +35,8 @@ public final class IngredientsTable {
             .isEditable()
             .withColumnName(BUNDLES.message("ingredientNameColumn"))
             .setValueToOrderedImmutableList(ingredients,
-                (quantitativeIngredient, ingredient) ->
-                    createQuantitativeIngredient(
-                        ingredient, ingredient.getPrimaryMeasure(), quantitativeIngredient.getAmount())
+                (quantitativeIngredient, ingredient) -> createQuantitativeIngredient(
+                    ingredient, ingredient.getPrimaryMeasure(), quantitativeIngredient.getAmount())
             )
             .alsoUpdatesCellsOfColumns(2)
             .getValueFromOrderedList(ingredients, QuantitativeIngredient::getIngredient)
