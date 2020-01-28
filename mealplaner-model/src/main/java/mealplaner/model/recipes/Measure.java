@@ -9,6 +9,8 @@ public enum Measure {
   MILLILITRE(BUNDLES.message("MILLILITRE")),
   TEASPOON(BUNDLES.message("TEASPOON")),
   TABLESPOON(BUNDLES.message("TABLESPOON")),
+  AMOUNT(BUNDLES.message("AMOUNT")),
+  BUNDLE(BUNDLES.message("BUNDLE")),
   NONE(BUNDLES.message("NONE"));
 
   private final String message;

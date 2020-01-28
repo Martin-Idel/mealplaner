@@ -52,7 +52,8 @@ public final class IngredientsTable {
             .setValueToOrderedImmutableList(ingredients,
                 (ingredient, amount) -> createQuantitativeIngredient(
                     ingredient.getIngredient(), ingredient.getMeasure(), amount))
-            .isEditable()
+            .isEditableIf(row -> (row < ingredients.size())
+                && !ingredients.get(row).getIngredient().getPrimaryMeasure().equals(Measure.NONE))
             .build())
         .addColumn(withContent(Measure.class)
             .withColumnName(BUNDLES.message("ingredientMeasureColumn"))
