@@ -260,8 +260,8 @@ public class MealsEditPageObject {
       content[i][2] = ingredient.getIngredient().getPrimaryMeasure().toString();
     }
     content[ingredients.size()][0] = "";
-    content[ingredients.size()][1] = "0";
-    content[ingredients.size()][2] = "-";
+    content[ingredients.size()][1] = "";
+    content[ingredients.size()][2] = "";
     return content;
   }
 

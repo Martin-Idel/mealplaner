@@ -36,8 +36,8 @@ public class ShoppingListPageObject {
       contents[row][2] = ingredient.getIngredient().getPrimaryMeasure().toString();
     }
     contents[shoppings.size()][0] = "";
-    contents[shoppings.size()][1] = "0";
-    contents[shoppings.size()][2] = "-";
+    contents[shoppings.size()][1] = "";
+    contents[shoppings.size()][2] = "";
     return contents;
   }
 }

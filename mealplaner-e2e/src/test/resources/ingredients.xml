@@ -26,7 +26,12 @@
             <type>CANNED_FRUIT</type>
             <measures>
                 <primaryMeasure>GRAM</primaryMeasure>
-                <secondaryMeasures/>
+                <secondaryMeasures>
+                    <secondaryMeasures>
+                        <measureKey>MILLILITRE</measureKey>
+                        <value>1</value>
+                    </secondaryMeasures>
+                </secondaryMeasures>
             </measures>
         </ingredient>
     </ingredients>
