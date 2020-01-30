@@ -71,7 +71,7 @@ public class MeasureInputDialog implements DialogEditing<EnumMap<Measure, Nonneg
   }
 
   private ButtonPanel displayButtons() {
-    return builder("RecipeInput")
+    return builder("MeasuresInput")
         .addCancelButton(action -> {
           tableMeasures = toList(oldMeasures);
           dialogWindow.dispose();
