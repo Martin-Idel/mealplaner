@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-package mealplaner.model.meal;
+package testcommonsmodel;
 
 import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;

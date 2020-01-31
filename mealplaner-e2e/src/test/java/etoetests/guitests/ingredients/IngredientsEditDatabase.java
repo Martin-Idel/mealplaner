@@ -32,7 +32,6 @@ public class IngredientsEditDatabase extends AssertJMealplanerTestCase {
         "src/test/resources/ingredientsXmlV3.xml");
   }
 
-  @Ignore
   @Test
   public void canChangeAllAspectOfAnIngredient() {
     var newIngredient = ingredient()

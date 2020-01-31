@@ -50,6 +50,7 @@ public class IngredientBuilder {
   public static IngredientBuilder from(Ingredient ingredient) {
     return new IngredientBuilder()
         .withUuid(ingredient.getId())
+        .withName(ingredient.getName())
         .withType(ingredient.getType())
         .withMeasures(ingredient.getMeasures())
         .withFacts(ingredient.getIngredientFacts())

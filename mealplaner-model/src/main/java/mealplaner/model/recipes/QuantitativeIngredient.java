@@ -78,9 +78,9 @@ public final class QuantitativeIngredient {
   @Override
   public int hashCode() {
     int result = 1;
-    result = 31 * result + ((amount == null) ? 0 : amount.hashCode());
-    result = 31 * result + ((measure == null) ? 0 : measure.hashCode());
-    result = 31 * result + ((ingredient == null) ? 0 : ingredient.hashCode());
+    result = 31 * result + amount.hashCode();
+    result = 31 * result + measure.hashCode();
+    result = 31 * result + ingredient.hashCode();
     return result;
   }
 

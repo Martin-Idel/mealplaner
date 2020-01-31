@@ -18,6 +18,7 @@ import mealplaner.plugins.api.MealFact;
 import mealplaner.plugins.api.MealFactXml;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
+import testcommonsmodel.HiddenMealFact;
 
 public class MealTest {
   private Meal sut;
