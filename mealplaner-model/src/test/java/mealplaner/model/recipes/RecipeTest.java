@@ -38,7 +38,7 @@ public class RecipeTest {
   }
 
   @Test
-  public void initialiserCreatesCorrectMapWithDistinctEntries() {
+  public void initializerCreatesCorrectMapWithDistinctEntries() {
     List<QuantitativeIngredient> ingredientList = new ArrayList<>();
     ingredientList.add(quantitativeIngredient1);
     ingredientList.add(quantitativeIngredient2);
@@ -81,6 +81,20 @@ public class RecipeTest {
   }
 
   @Test
+  public void getIngredientsListCombinesIngredientsCorrectly() {
+    List<QuantitativeIngredient> ingredients = new ArrayList<>();
+    ingredients.add(createQuantitativeIngredient(anIngredient1, wholeNumber(nonNegative(100))));
+    ingredients.add(createQuantitativeIngredient(anIngredient1, wholeNumber(nonNegative(300))));
+    Recipe recipe = from(nonNegative(2), ingredients);
+
+    List<QuantitativeIngredient> ingredientListFor = recipe
+        .getIngredientsWithPrimaryMeasureFor(nonNegative(2));
+
+    assertThat(ingredientListFor).containsExactlyInAnyOrder(
+        createQuantitativeIngredient(anIngredient1, wholeNumber(nonNegative(400))));
+  }
+
+  @Test
   public void getIngredientsWithPrimaryMeasureForReturnsAmountInPrimaryMeasure() {
     List<QuantitativeIngredient> ingredients = new ArrayList<>();
     ingredients.add(createQuantitativeIngredient(anIngredient1, wholeNumber(nonNegative(100))));
@@ -101,5 +115,12 @@ public class RecipeTest {
     EqualsVerifier.forClass(Recipe.class)
         .suppress(Warning.NULL_FIELDS)
         .verify();
+  }
+
+  @Test
+  public void testToString() {
+    Recipe recipe = Recipe.createRecipe();
+
+    assertThat(recipe.toString()).isEqualTo("Recipe{numberOfPortions=1, ingredients=[]}");
   }
 }

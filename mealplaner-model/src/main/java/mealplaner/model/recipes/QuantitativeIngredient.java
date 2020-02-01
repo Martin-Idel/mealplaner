@@ -18,11 +18,7 @@ public final class QuantitativeIngredient {
   private final Measure measure;
   private final NonnegativeFraction amount;
 
-  private QuantitativeIngredient(
-      Ingredient ingredient, Measure measure, NonnegativeFraction amount) {
-    if (!ingredient.getMeasures().contains(measure)) {
-      throw new InvalidParameterException("Measure must be a valid measure for Ingredients");
-    }
+  private QuantitativeIngredient(Ingredient ingredient, Measure measure, NonnegativeFraction amount) {
     this.ingredient = ingredient;
     this.measure = measure;
     this.amount = amount;
@@ -30,6 +26,9 @@ public final class QuantitativeIngredient {
 
   public static QuantitativeIngredient createQuantitativeIngredient(
       Ingredient ingredient, Measure measure, NonnegativeFraction amount) {
+    if (!ingredient.getMeasures().contains(measure)) {
+      throw new InvalidParameterException("Measure must be a valid measure for Ingredients");
+    }
     return new QuantitativeIngredient(ingredient, measure, amount);
   }
 
@@ -70,9 +69,8 @@ public final class QuantitativeIngredient {
 
   @Override
   public String toString() {
-    return "[ " + ingredient.toString() + ", "
-        + measure.toString() + ", "
-        + amount.toString() + "]";
+    return "QuantitativeIngredient{ingredient=" + ingredient.toString() + ", measure="
+        + measure.toString() + ", amount=" + amount.toString() + "}";
   }
 
   @Override

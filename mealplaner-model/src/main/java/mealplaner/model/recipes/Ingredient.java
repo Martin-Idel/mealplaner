@@ -111,9 +111,9 @@ public final class Ingredient {
 
   @Override
   public String toString() {
-    return "Ingredient [uuid=" + uuid.toString() + ", name=" + name + ", type=" + type
-        + ", measures=" + measures.toString() + ", ingredientfacts=" + ingredientFacts.toString()
-        + ", hiddenFacts=" + hiddenIngredientFacts.toString() + "]";
+    return "Ingredient{" + "uuid=" + uuid
+        + ", name='" + name + '\'' + ", type=" + type + ", measures=" + measures
+        + ", ingredientFacts=" + ingredientFacts + ", hiddenIngredientFacts=" + hiddenIngredientFacts + '}';
   }
 
   @Override

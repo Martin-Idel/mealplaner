@@ -31,4 +31,9 @@ public class TestIngredientFact implements IngredientFactXml, IngredientFact {
   public enum TestIngredientEnum {
     TEST_INGREDIENT_1, TEST_INGREDIENT_2
   }
+
+  @Override
+  public String toString() {
+    return testEnum.toString();
+  }
 }

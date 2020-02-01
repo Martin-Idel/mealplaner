@@ -62,6 +62,15 @@ public class MeasuresTest {
   }
 
   @Test
+  public void getConversionFactorThrowsExceptionWhenToMeasureIsNotContainedInMeasures() {
+    var secondaries = new EnumMap<Measure, NonnegativeFraction>(Measure.class);
+    secondaries.put(TABLESPOON, fraction(1, 2));
+    Measures measures = createMeasures(MILLILITRE, secondaries);
+
+    assertThrows(MealException.class, () -> measures.getConversionFactor(TABLESPOON, GRAM));
+  }
+
+  @Test
   public void createMeasuresRemovesPrimaryMeasuresFromSecondaries() {
     var secondaries = new EnumMap<Measure, NonnegativeFraction>(Measure.class);
     secondaries.put(TABLESPOON, fraction(1, 2));

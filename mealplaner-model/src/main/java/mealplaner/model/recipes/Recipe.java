@@ -18,11 +18,11 @@ import mealplaner.commons.NonnegativeInteger;
 
 public final class Recipe {
   private final NonnegativeInteger numberOfPortions;
-  private final List<QuantitativeIngredient> ingredients;
+  private final List<QuantitativeIngredient> ingredients = new ArrayList<>();
 
   private Recipe(NonnegativeInteger numberOfPortions, List<QuantitativeIngredient> ingredients) {
     this.numberOfPortions = numberOfPortions;
-    this.ingredients = ingredients;
+    this.ingredients.addAll(ingredients);
   }
 
   public static Recipe from(NonnegativeInteger numberOfPortions, List<QuantitativeIngredient> ingredients) {
@@ -85,15 +85,15 @@ public final class Recipe {
 
   @Override
   public String toString() {
-    return "Recipe [numberOfPortions=" + numberOfPortions + ", ingredients=" + ingredients
-        + "]";
+    return "Recipe{numberOfPortions=" + numberOfPortions + ", ingredients=" + ingredients
+        + "}";
   }
 
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + (ingredients == null ? 0 : ingredients.hashCode());
+    result = prime * result + ingredients.hashCode();
     result = prime * result + numberOfPortions.value;
     return result;
   }
