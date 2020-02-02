@@ -24,7 +24,7 @@ public final class NonnegativeInteger implements Comparable<NonnegativeInteger> 
 
   public static NonnegativeInteger nonNegative(int nonnegative) {
     if (nonnegative < 0) {
-      throw new MealException("Integer must be nonnegative");
+      throw new NumberFormatException("Integer must be nonnegative");
     }
     return new NonnegativeInteger(nonnegative);
   }

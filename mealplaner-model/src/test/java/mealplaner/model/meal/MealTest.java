@@ -67,6 +67,19 @@ public class MealTest {
   }
 
   @Test
+  public void validationSucceedsIfAllFactsArePresent() throws MealException {
+    var pluginStore = new PluginStore();
+    pluginStore.registerMealExtension(SomeFact.class, SomeFact.class, SomeFact::new);
+
+    var meal = mealWithValidator(pluginStore)
+        .name("Test")
+        .addFact(new SomeFact())
+        .create();
+
+    assertThat(meal.getMetaData().getName()).isEqualTo("Test");
+  }
+
+  @Test
   public void compareToWithName() throws MealException {
     Meal compareMeal = getMeal2();
 

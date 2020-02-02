@@ -59,9 +59,9 @@ public final class Proposal {
 
   @Override
   public String toString() {
-    return "Proposal [mealList=" + mealList
+    return "Proposal{mealList=" + mealList
         + ", calendar=" + date
-        + ", includeToday=" + includeToday + "]";
+        + ", includeToday=" + includeToday + "}";
   }
 
   @Override

@@ -8,8 +8,8 @@ import static mealplaner.commons.NonnegativeFraction.wholeNumber;
 import static mealplaner.commons.NonnegativeInteger.TWO;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -33,13 +33,18 @@ public class NonnegativeFractionTest {
   }
 
   @Test
+  public void parseThrowsOnUnparseableString() {
+    assertThrows(NumberFormatException.class, () -> parse("not_correct"));
+  }
+
+  @Test
   public void negativeFractionThrowsException() {
-    Assertions.assertThrows(NumberFormatException.class, () -> fraction(10, -4));
+    assertThrows(NumberFormatException.class, () -> fraction(10, -4));
   }
 
   @Test
   public void zeroDenominatorThrowsException() {
-    Assertions.assertThrows(NumberFormatException.class, () -> fraction(10, 0));
+    assertThrows(NumberFormatException.class, () -> fraction(10, 0));
   }
 
   @Test
@@ -62,6 +67,13 @@ public class NonnegativeFractionTest {
     NonnegativeFraction fraction = fraction(1, 2);
 
     assertThat(fraction.toString()).isEqualTo("1/2");
+  }
+
+  @Test
+  public void parseIdentifiesEmptyStringAsZero() {
+    NonnegativeFraction fraction = parse(" ");
+
+    assertThat(fraction).isEqualTo(NonnegativeFraction.ZERO);
   }
 
   @Test
@@ -115,6 +127,22 @@ public class NonnegativeFractionTest {
   @Test
   public void parseIdentifiesFractionsWithTrailingDot() {
     NonnegativeFraction fraction = parse("3.");
+
+    assertThat(fraction.getNumerator()).isEqualTo(3);
+    assertThat(fraction.getDenominator()).isEqualTo(1);
+  }
+
+  @Test
+  public void parseIdentifiesFractionsWithStartingSlash() {
+    NonnegativeFraction fraction = parse("/3");
+
+    assertThat(fraction.getNumerator()).isEqualTo(0);
+    assertThat(fraction.getDenominator()).isEqualTo(1);
+  }
+
+  @Test
+  public void parseIdentifiesFractionsWithTrailingSlash() {
+    NonnegativeFraction fraction = parse("3/");
 
     assertThat(fraction.getNumerator()).isEqualTo(3);
     assertThat(fraction.getDenominator()).isEqualTo(1);

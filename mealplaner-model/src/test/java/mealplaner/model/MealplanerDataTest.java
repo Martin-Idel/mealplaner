@@ -113,6 +113,23 @@ public class MealplanerDataTest {
   }
 
   @Test
+  public void proposalsAreCorrectlyAdded() {
+    addInitializedMeals();
+    List<ProposedMenu> proposalMeals = new ArrayList<>();
+    proposalMeals.add(mainOnly(meal1.getId(), TWO));
+    proposalMeals.add(mainOnly(meal4.getId(), TWO));
+    proposal = from(true, proposalMeals);
+    var defaultSettings = createDefaultSettings(pluginStore);
+
+    sut.setProposalSummary(defaultSettings, proposal, LocalDate.of(2020, 1, 1));
+
+    assertThat(sut.getTime()).isEqualTo(LocalDate.of(2020, 1, 1));
+    assertThat(sut.getLastProposal()).isEqualTo(proposal);
+    assertThat(sut.getDefaultSettings()).isEqualTo(defaultSettings);
+    assertThat(sut.getDaysPassed()).isGreaterThan(31);
+  }
+
+  @Test
   public void updateMealCorrectlyUpdatesCookedMeals() {
     List<ProposedMenu> proposalMeals = new ArrayList<>();
     proposalMeals.add(mainOnly(meal1.getId(), TWO));

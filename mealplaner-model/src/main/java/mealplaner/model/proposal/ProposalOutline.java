@@ -104,4 +104,14 @@ public final class ProposalOutline {
   public int hashCode() {
     return Objects.hash(numberOfDays, includedToday, shallBeRandomised, dateToday, takeDefaultSettings);
   }
+
+  @Override
+  public String toString() {
+    return "ProposalOutline{"
+        + "numberOfDays=" + numberOfDays
+        + ", includedToday=" + includedToday
+        + ", shallBeRandomised=" + shallBeRandomised
+        + ", dateToday=" + dateToday
+        + ", takeDefaultSettings=" + takeDefaultSettings + '}';
+  }
 }

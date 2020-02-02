@@ -54,8 +54,8 @@ public final class ProposedMenu {
 
   @Override
   public String toString() {
-    return "[entry: " + entry + ", main: " + main + ", desert: " + desert + " for: "
-        + numberOfPeople + "]";
+    return "ProposedMenu{entry=" + entry + ", main=" + main + ", desert=" + desert + " for="
+        + numberOfPeople + "}";
   }
 
   @Override
