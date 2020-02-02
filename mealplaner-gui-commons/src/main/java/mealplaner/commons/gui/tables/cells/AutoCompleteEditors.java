@@ -45,7 +45,7 @@ public final class AutoCompleteEditors {
   }
 
   public static class ObjectRenderer extends BasicComboBoxRenderer {
-    private final Function<Object, String> getStringRepresentation;
+    private transient final Function<Object, String> getStringRepresentation;
 
     public ObjectRenderer(Function<Object, String> getStringRepresentation) {
       this.getStringRepresentation = getStringRepresentation;

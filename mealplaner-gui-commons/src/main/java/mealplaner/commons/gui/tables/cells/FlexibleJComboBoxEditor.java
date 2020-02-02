@@ -10,11 +10,10 @@ import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 
-// TODO: Make generic
 public class FlexibleJComboBoxEditor<T> extends AbstractCellEditor implements TableCellEditor {
   private JComboBox<T> editor;
   private final int columnToGetValues;
-  private BiConsumer<DefaultComboBoxModel<T>, Object> addValuesToModel;
+  private transient BiConsumer<DefaultComboBoxModel<T>, Object> addValuesToModel;
 
   public FlexibleJComboBoxEditor(int columnToGetValues, BiConsumer<DefaultComboBoxModel<T>, Object> addValuesToModel) {
     this.columnToGetValues = columnToGetValues;
