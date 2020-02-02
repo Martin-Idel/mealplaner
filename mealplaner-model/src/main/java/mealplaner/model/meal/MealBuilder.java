@@ -35,7 +35,6 @@ public final class MealBuilder {
   private List<Element> hiddenMealFacts = new ArrayList<>();
 
   private MealBuilder() {
-    validationStore = new PluginStore();
   }
 
   private MealBuilder(PluginStore validationStore) {

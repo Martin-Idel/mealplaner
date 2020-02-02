@@ -2,7 +2,10 @@
 
 package mealplaner.model;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Optional.of;
+import static java.util.UUID.nameUUIDFromBytes;
+import static mealplaner.commons.NonnegativeFraction.fraction;
 import static mealplaner.commons.NonnegativeFraction.wholeNumber;
 import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.MealData.createData;
@@ -13,7 +16,9 @@ import static mealplaner.model.proposal.ProposedMenu.mainAndDesert;
 import static mealplaner.model.proposal.ProposedMenu.mainOnly;
 import static mealplaner.model.recipes.IngredientBuilder.ingredient;
 import static mealplaner.model.recipes.IngredientType.BAKING_GOODS;
+import static mealplaner.model.recipes.IngredientType.MEAT_PRODUCTS;
 import static mealplaner.model.recipes.Measure.GRAM;
+import static mealplaner.model.recipes.Measure.TEASPOON;
 import static mealplaner.model.recipes.Measures.createMeasures;
 import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitativeIngredient;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,20 +28,24 @@ import static testcommonsmodel.CommonBaseFunctions.getIngredient2;
 import static testcommonsmodel.CommonBaseFunctions.getIngredient3;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import mealplaner.commons.NonnegativeFraction;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.meal.MealBuilder;
 import mealplaner.model.proposal.ProposedMenu;
 import mealplaner.model.recipes.Ingredient;
+import mealplaner.model.recipes.Measure;
 import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 import mealplaner.plugins.PluginStore;
+import testcommonsmodel.CommonBaseFunctions;
 
 public class MealDataTest {
   private Meal meal1;
@@ -87,6 +96,21 @@ public class MealDataTest {
     List<Meal> mealsList = sut.getMealsInList();
 
     assertThat(mealsList).containsExactly(meal1);
+  }
+
+  @Test
+  public void getMealReturnsCorrectMealIfItCanBeFound() {
+    addInitializedMeals();
+    MealplanerData data = MealplanerData.getInstance(pluginStore);
+    sut = MealData.createData(data);
+
+    sut.setMeals(meals);
+
+    var meal = sut.getMeal(meal1.getId());
+
+    assertThat(meal.isPresent()).isTrue();
+    assertThat(meal.get()).isEqualTo(meal1);
+    assertThat(sut.getMeal(CommonBaseFunctions.getMeal3().getId())).isEmpty();
   }
 
   @Test
@@ -301,6 +325,37 @@ public class MealDataTest {
 
     assertThat(sut.getMealsInList().get(0).getRecipe().get())
         .isEqualTo(getRecipe(getIngredient1(), getIngredient3()));
+  }
+
+  @Test
+  public void replaceIngredientKeepsMeasureIfReplacingIngredientHasSameMeasure() {
+    var secondaries = new EnumMap<Measure, NonnegativeFraction>(Measure.class);
+    secondaries.put(Measure.GRAM, fraction(1, 2));
+    setupOneMeal(getIngredient1(), getIngredient3());
+    MealplanerData data = MealplanerData.getInstance(pluginStore);
+    sut = createData(data);
+    sut.setMeals(meals);
+
+    var ingredient4 = ingredient()
+        .withUuid(nameUUIDFromBytes("Test4".getBytes(UTF_8)))
+        .withName("Test4")
+        .withType(MEAT_PRODUCTS)
+        .withMeasures(createMeasures(TEASPOON, secondaries))
+        .create();
+
+    sut.replaceIngredient(getIngredient3(), ingredient4);
+
+    assertThat(sut.ingredientInUse(getIngredient3())).isFalse();
+    assertThat(sut.ingredientInUse(ingredient4)).isTrue();
+
+    // Ingredient 4 has GRAM within its secondaries. So keep it
+    List<QuantitativeIngredient> ingredients = new ArrayList<>();
+    ingredients.add(createQuantitativeIngredient(
+        getIngredient1(), wholeNumber(nonNegative(100))));
+    ingredients.add(createQuantitativeIngredient(
+        ingredient4, GRAM, wholeNumber(nonNegative(200))));
+    assertThat(sut.getMealsInList().get(0).getRecipe().get())
+        .isEqualTo(Recipe.from(nonNegative(2), ingredients));
   }
 
   private void setupOneMeal(Ingredient ingredient1, Ingredient ingredient2) {

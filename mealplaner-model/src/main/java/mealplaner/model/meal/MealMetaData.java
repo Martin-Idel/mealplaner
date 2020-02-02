@@ -45,12 +45,6 @@ public final class MealMetaData {
         hiddenMealFacts);
   }
 
-  public static MealMetaData copy(MealMetaData meal) {
-    return new MealMetaData(meal.getName(),
-        meal.getMealFacts(),
-        meal.getHiddenMealFacts());
-  }
-
   public static MealMetaData createEmptyMealMetaData() {
     return EMPTY_METADATA;
   }
@@ -69,7 +63,7 @@ public final class MealMetaData {
 
   @Override
   public String toString() {
-    return "[" + name + ", " + mealFacts + ", " + hiddenMealFacts + "]";
+    return "MealMetaData{name=" + name + ", mealFacts=" + mealFacts + ", hiddenMealFacts=" + hiddenMealFacts + "}";
   }
 
   @Override

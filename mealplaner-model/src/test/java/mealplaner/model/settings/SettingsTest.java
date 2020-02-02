@@ -2,16 +2,101 @@
 
 package mealplaner.model.settings;
 
+import static mealplaner.commons.NonnegativeInteger.TWO;
+import static org.assertj.core.api.Assertions.assertThat;
+import static testcommonsmodel.CommonBaseFunctions.getSettings1;
+
+import java.util.HashSet;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import mealplaner.commons.NonnegativeInteger;
+import mealplaner.commons.errorhandling.MealException;
+import mealplaner.plugins.PluginStore;
+import mealplaner.plugins.api.Fact;
+import mealplaner.plugins.api.Setting;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
+import testcommonsmodel.CommonBaseFunctions;
+import testcommonsmodel.TestSubSetting;
 
 public class SettingsTest {
+  @Test
+  public void validationThrowsExceptionIfNotAllFactsArePresent() {
+    var settingMap = new HashSet<Class<? extends Fact>>();
+    settingMap.add(TestSubSetting.class);
+
+    Assertions.assertThrows(MealException.class, () -> SettingsBuilder
+        .settingsWithValidation(settingMap)
+        .numberOfPeople(TWO)
+        .create());
+  }
+
+  @Test
+  public void getTypedSettingsOrDefaultDefaultsIfSettingIsMissing() {
+    Settings settings = SettingsBuilder.setting()
+        .numberOfPeople(TWO)
+        .create();
+
+    assertThat(settings
+        .getTypedSubSettingOrDefault(
+            TestSubSetting.class,
+            new TestSubSetting(TestSubSetting.SettingEnum.TEST_SETTING_2))
+        .getSettingEnum())
+        .isEqualTo(TestSubSetting.SettingEnum.TEST_SETTING_2);
+  }
+
+  @Test
+  public void defaultSettingsProvidesValidSettings() {
+    var pluginStore = new PluginStore();
+    pluginStore.registerSettingExtension(TestSubSetting.class, TestSubSetting.class, TestSubSetting::new);
+
+    Settings settings = SettingsBuilder.defaultSetting(pluginStore);
+
+    assertThat(settings.getNumberOfPeople()).isEqualTo(TWO);
+    assertThat(settings.getSubSettings()).hasSize(1);
+    assertThat(settings.getTypedSubSetting(TestSubSetting.class).getSettingEnum())
+        .isEqualTo(TestSubSetting.SettingEnum.TEST_SETTING_1);
+    assertThat(settings
+        .getTypedSubSettingOrDefault(
+            TestSubSetting.class,
+            new TestSubSetting(TestSubSetting.SettingEnum.TEST_SETTING_2))
+        .getSettingEnum())
+        .isEqualTo(TestSubSetting.SettingEnum.TEST_SETTING_1);
+    assertThat(((TestSubSetting) settings.getSubSetting(TestSubSetting.class)).getSettingEnum())
+        .isEqualTo(TestSubSetting.SettingEnum.TEST_SETTING_1);
+  }
+
+  @Test
+  public void copyingAndChangingSubSettingsDoesNotModifyOriginalSetting() {
+    var pluginStore = new PluginStore();
+    pluginStore.registerSettingExtension(TestSubSetting.class, TestSubSetting.class, TestSubSetting::new);
+
+    Settings originalSettings = SettingsBuilder.defaultSetting(pluginStore);
+    Settings changedSettings = SettingsBuilder.from(originalSettings)
+        .changeSetting(new TestSubSetting(TestSubSetting.SettingEnum.TEST_SETTING_2))
+        .create();
+
+    assertThat(changedSettings.getNumberOfPeople()).isEqualTo(TWO);
+    assertThat(changedSettings.getSubSettings()).hasSize(1);
+    assertThat(changedSettings.getTypedSubSetting(TestSubSetting.class).getSettingEnum())
+        .isEqualTo(TestSubSetting.SettingEnum.TEST_SETTING_2);
+    assertThat(originalSettings.getTypedSubSetting(TestSubSetting.class).getSettingEnum())
+        .isEqualTo(TestSubSetting.SettingEnum.TEST_SETTING_1);
+  }
+
   @Test
   public void equalsContract() {
     EqualsVerifier.forClass(Settings.class)
         .suppress(Warning.NULL_FIELDS)
         .verify();
+  }
+
+  @Test
+  public void testToString() {
+    assertThat(getSettings1().toString())
+        .isEqualTo("Settings{numberOfPeople=3, subSettings={}, hiddenSubSettings=[]}");
+    assertThat(Settings.class.getDeclaredFields().length).isEqualTo(3);
   }
 }

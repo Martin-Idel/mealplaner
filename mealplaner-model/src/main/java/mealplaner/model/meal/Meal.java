@@ -51,13 +51,6 @@ public final class Meal implements Comparable<Meal> {
     return new Meal(uuid, metadata, daysPassed, recipe);
   }
 
-  public static Meal copy(Meal meal) {
-    return new Meal(meal.getId(),
-        MealMetaData.copy(meal.getMetaData()),
-        meal.getDaysPassed(),
-        meal.getRecipe());
-  }
-
   public MealMetaData getMetaData() {
     return metadata;
   }
@@ -68,10 +61,6 @@ public final class Meal implements Comparable<Meal> {
 
   public List<Element> getHiddenFacts() {
     return new ArrayList<>(metadata.getHiddenMealFacts());
-  }
-
-  public Meal addRecipe(Optional<Recipe> recipe) {
-    return createMeal(this.uuid, this.metadata, this.daysPassed, recipe);
   }
 
   /**
@@ -116,10 +105,10 @@ public final class Meal implements Comparable<Meal> {
 
   @Override
   public String toString() {
-    return "[" + "uuid=" + uuid + ", "
+    return "Meal{" + "uuid=" + uuid + ", "
         + "metadata=" + metadata + ", "
         + "daysPassed=" + daysPassed + ", "
-        + "recipe=" + recipe + ", " + "]";
+        + "recipe=" + recipe + "}";
   }
 
   @Override

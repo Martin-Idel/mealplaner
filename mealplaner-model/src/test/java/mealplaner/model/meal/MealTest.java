@@ -7,17 +7,20 @@ import static mealplaner.model.meal.MealBuilder.meal;
 import static mealplaner.model.meal.MealBuilder.mealWithValidator;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static testcommonsmodel.CommonBaseFunctions.getMeal1;
 import static testcommonsmodel.CommonBaseFunctions.getMeal2;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import mealplaner.commons.errorhandling.MealException;
+import mealplaner.model.recipes.Recipe;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.MealFact;
 import mealplaner.plugins.api.MealFactXml;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
+import testcommonsmodel.HiddenIngredientFact;
 import testcommonsmodel.HiddenMealFact;
 
 public class MealTest {
@@ -41,11 +44,24 @@ public class MealTest {
   }
 
   @Test
+  public void copyingMealCopiesAllAspects() throws MealException {
+    var meal = getMeal1();
+    var copiedMeal = MealBuilder.from(meal).changeFact(new SomeFact()).create();
+
+    assertThat(copiedMeal.getId()).isEqualTo(meal.getId());
+    assertThat(copiedMeal.getDaysPassed()).isEqualTo(meal.getDaysPassed());
+    assertThat(copiedMeal.getDaysPassedAsInteger()).isEqualTo(meal.getDaysPassed().value);
+    assertThat(copiedMeal.getMetaData().getName()).isEqualTo(meal.getMetaData().getName());
+    assertThat(copiedMeal.getMealFact(SomeFact.class)).isNotNull();
+  }
+
+  @Test
   public void validationFailsForMealWithMissingFacts() throws MealException {
     var pluginStore = new PluginStore();
     pluginStore.registerMealExtension(SomeFact.class, SomeFact.class, SomeFact::new);
+    pluginStore.registerMealExtension(HiddenMealFact.class, HiddenMealFact.class, HiddenMealFact::new);
     assertThrows(MealException.class, () -> mealWithValidator(pluginStore)
-        .name("")
+        .name("Test")
         .addFact(new HiddenMealFact(HiddenMealFact.HiddenEnum.TEST1))
         .create());
   }
@@ -73,6 +89,15 @@ public class MealTest {
     mealFacts.computeIfPresent(TestMealFact.class, (clazz, mealFact) -> new TestMealFact("modified"));
 
     assertThat(sut.getTypedMealFact(TestMealFact.class).testString).startsWith("unmodifiable");
+  }
+
+  @Test
+  public void testToString() {
+    assertThat(getMeal1().toString())
+        .isEqualTo("Meal{uuid=0e6db2d7-8818-31ff-80d4-c21e0f2f4a7b, "
+            + "metadata=MealMetaData{name=Test1, mealFacts={}, hiddenMealFacts=[]}, "
+            + "daysPassed=5, recipe=Optional.empty}");
+    assertThat(Meal.class.getDeclaredFields().length).isEqualTo(4 + 1);  // one static field
   }
 
   @Test

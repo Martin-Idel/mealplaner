@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package testcommonsmodel;
 
 import mealplaner.plugins.api.IngredientFact;

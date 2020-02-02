@@ -16,10 +16,10 @@ import mealplaner.plugins.PluginStore;
 
 public final class DefaultSettings {
   private static final List<DayOfWeek> DAYS_OF_WEEK = Arrays.asList(DayOfWeek.values());
-  private final Map<DayOfWeek, Settings> defaultSettings;
+  private final Map<DayOfWeek, Settings> defaultSettings = new HashMap<>();
 
   private DefaultSettings(Map<DayOfWeek, Settings> defaultSettings, PluginStore pluginStore) {
-    this.defaultSettings = defaultSettings;
+    this.defaultSettings.putAll(defaultSettings);
     DAYS_OF_WEEK.forEach(dayOfWeek -> this.defaultSettings
         .computeIfAbsent(dayOfWeek, day -> defaultSetting(pluginStore)));
   }
@@ -44,14 +44,14 @@ public final class DefaultSettings {
 
   @Override
   public String toString() {
-    return "[" + DAYS_OF_WEEK.stream()
-        .map(day -> day.toString() + " " + defaultSettings.get(day).toString())
-        .collect(joining(",")) + "]";
+    return "DefaultSettings{" + DAYS_OF_WEEK.stream()
+        .map(day -> "day=" + day.toString() + ", " + "settings=" + defaultSettings.get(day).toString())
+        .collect(joining(",")) + "}";
   }
 
   @Override
   public int hashCode() {
-    return 31 + ((defaultSettings == null) ? 0 : defaultSettings.hashCode());
+    return 31 + defaultSettings.hashCode();
   }
 
   @Override

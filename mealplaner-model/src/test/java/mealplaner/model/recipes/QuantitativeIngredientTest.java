@@ -12,6 +12,7 @@ import java.security.InvalidParameterException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import mealplaner.model.settings.Settings;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 
@@ -54,5 +55,6 @@ public class QuantitativeIngredientTest {
         "QuantitativeIngredient{ingredient=Ingredient{uuid=41d5e808-720c-3ee7-9257-214e952a6721, "
             + "name='Test4', type=Meat products, measures=Measures{primary=g, secondaries={tsp=1/2}}, "
             + "ingredientFacts={}, hiddenIngredientFacts=[]}, measure=tsp, amount=100}");
+    assertThat(QuantitativeIngredient.class.getDeclaredFields().length).isEqualTo(3 + 1); // one static field
   }
 }

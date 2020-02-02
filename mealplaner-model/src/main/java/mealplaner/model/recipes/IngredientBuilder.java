@@ -116,10 +116,14 @@ public class IngredientBuilder {
     if (validationStore != null) {
       validateFacts();
     }
+    if ("".equals(name.trim())) {
+      throw new MealException("Name must not be empty");
+    }
     return ingredientWithUuid(
         uuid == null ? randomUUID() : uuid,
         name,
-        type, createMeasures(primaryMeasure, secondaryMeasures),
+        type,
+        createMeasures(primaryMeasure, secondaryMeasures),
         facts,
         hiddenFacts);
   }

@@ -9,6 +9,7 @@ import static mealplaner.commons.gui.tables.TableHelpers.deleteSelectedRows;
 import static mealplaner.gui.dialogs.mealinput.MealInput.mealinput;
 import static mealplaner.gui.dialogs.recepies.RecipeInput.recipeInput;
 import static mealplaner.gui.tabbedpanes.databaseedit.DatabaseEditTable.createTable;
+import static mealplaner.model.meal.MealBuilder.from;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;
@@ -98,7 +99,7 @@ public class DatabaseEdit implements DataStoreListener {
     // We have to update the reference meals as it is not replaceable in the table
     List<Meal> newMeals = mealplanerData.getMeals();
     meals.removeAll(meals.stream().filter(not(newMeals::contains)).collect(toList()));
-    newMeals.stream().filter(not(meals::contains)).map(Meal::copy).forEach(meals::add);
+    newMeals.stream().filter(not(meals::contains)).map(meal -> from(meal).create()).forEach(meals::add);
     meals.sort(Meal::compareTo);
     table.update();
     buttonPanel.disableButtons();

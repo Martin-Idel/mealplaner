@@ -93,9 +93,9 @@ public final class Settings {
 
   @Override
   public String toString() {
-    return "Settings ["
+    return "Settings{"
         + "numberOfPeople=" + numberOfPeople
         + ", subSettings=" + subSettings
-        + ", hiddenSubSettings=" + hiddenSubSettings + "]";
+        + ", hiddenSubSettings=" + hiddenSubSettings + "}";
   }
 }

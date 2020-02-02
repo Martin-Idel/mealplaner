@@ -88,4 +88,10 @@ public class MeasuresTest {
         .suppress(Warning.NULL_FIELDS)
         .verify();
   }
+
+  @Test
+  public void testToString() {
+    assertThat(Measures.DEFAULT_MEASURES.toString()).isEqualTo("Measures{primary=-, secondaries={}}");
+    assertThat(Measures.class.getDeclaredFields().length).isEqualTo(2 + 1); // one static field
+  }
 }

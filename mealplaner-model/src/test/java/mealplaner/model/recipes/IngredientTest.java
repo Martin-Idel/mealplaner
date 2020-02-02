@@ -56,6 +56,15 @@ public class IngredientTest {
   }
 
   @Test
+  public void nameMustNotBeEmpty() {
+    assertThrows(MealException.class, () -> ingredient()
+        .withName("")
+        .withType(BAKING_GOODS)
+        .withPrimaryMeasure(AMOUNT)
+        .create());
+  }
+
+  @Test
   public void validationPassesIfAdditionalFactsArePresent() {
     var set = new HashSet<Class<? extends Fact>>();
     set.add(TestIngredientFact.class);
