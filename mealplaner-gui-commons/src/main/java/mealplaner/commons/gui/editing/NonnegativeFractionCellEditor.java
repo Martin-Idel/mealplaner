@@ -6,6 +6,8 @@ import static mealplaner.commons.NonnegativeFraction.parse;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -26,6 +28,12 @@ public class NonnegativeFractionCellEditor extends DefaultCellEditor {
     super(new JTextField());
     textField = (JTextField) getComponent();
     textField.setHorizontalAlignment(SwingConstants.RIGHT);
+    textField.addFocusListener(new FocusAdapter() {
+      @Override
+      public void focusGained(FocusEvent e) {
+        textField.selectAll();
+      }
+    });
   }
 
   @Override
