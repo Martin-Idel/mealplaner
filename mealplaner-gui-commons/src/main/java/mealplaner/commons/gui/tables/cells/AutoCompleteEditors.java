@@ -2,6 +2,7 @@
 
 package mealplaner.commons.gui.tables.cells;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.util.List;
 import java.util.Vector;
@@ -34,7 +35,7 @@ public final class AutoCompleteEditors {
       List<T> list, T emptyObject, Function<Object, String> toRepresentation) {
     JComboBox<T> autoCompleteBox = new JComboBox<>(new Vector<>(list));
     autoCompleteBox.addItem(emptyObject);
-    autoCompleteBox.setRenderer(new ObjectRenderer(toRepresentation));
+    autoCompleteBox.setRenderer(new ObjectRenderer(toRepresentation, emptyObject));
     AutoCompleteDecorator.decorate(autoCompleteBox, new ObjectToStringConverter() {
       @Override
       public String getPreferredStringForItem(Object item) {
@@ -45,10 +46,12 @@ public final class AutoCompleteEditors {
   }
 
   public static class ObjectRenderer extends BasicComboBoxRenderer {
-    private transient final Function<Object, String> getStringRepresentation;
+    private final transient Function<Object, String> getStringRepresentation;
+    private final Object emptyObject;
 
-    public ObjectRenderer(Function<Object, String> getStringRepresentation) {
+    public ObjectRenderer(Function<Object, String> getStringRepresentation, Object emptyObject) {
       this.getStringRepresentation = getStringRepresentation;
+      this.emptyObject = emptyObject;
     }
 
     @Override
@@ -57,6 +60,9 @@ public final class AutoCompleteEditors {
       super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
       setText(getStringRepresentation.apply(value));
+      if (emptyObject.equals(value)) {
+        setForeground(Color.GRAY);
+      }
 
       return this;
     }

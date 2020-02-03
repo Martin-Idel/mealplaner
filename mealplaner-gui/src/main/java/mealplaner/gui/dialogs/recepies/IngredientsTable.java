@@ -7,6 +7,7 @@ import static mealplaner.commons.gui.tables.FlexibleTableBuilder.createNewTable;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withNonnegativeFractionContent;
 import static mealplaner.commons.gui.tables.cells.AutoCompleteEditors.autoCompleteCellEditor;
+import static mealplaner.model.recipes.Ingredient.emptyIngredient;
 import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitativeIngredient;
 
 import java.util.Arrays;
@@ -24,9 +25,6 @@ public final class IngredientsTable {
   private IngredientsTable() {
   }
 
-  // TODO: Exclude primary measure from secondary measure dialog
-  // TODO: Fix class cast exception and not being able to assign the empty value...
-  // TODO: We can get a null value if we don't select anything in the combobox. We should handle this gracefully
   public static Table setupTable(
       List<QuantitativeIngredient> ingredients, List<Ingredient> ingredientList) {
     return createNewTable()
@@ -42,8 +40,9 @@ public final class IngredientsTable {
             .getValueFromOrderedList(ingredients, QuantitativeIngredient::getIngredient)
             .isEditable()
             .overwriteTableCellEditor(autoCompleteCellEditor(
-                ingredientList, Ingredient.emptyIngredient(), IngredientsTable::ingredientToStringRepresentation))
-            .overwriteTableCellRenderer(new FlexibleClassRenderer(IngredientsTable::ingredientToStringRepresentation))
+                ingredientList, emptyIngredient(), IngredientsTable::ingredientToStringRepresentation))
+            .overwriteTableCellRenderer(new FlexibleClassRenderer(
+                IngredientsTable::ingredientToStringRepresentation, emptyIngredient()))
             .build())
         .addColumn(withNonnegativeFractionContent()
             .withColumnName(BUNDLES.message("ingredientAmountColumn"))
