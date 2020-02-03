@@ -8,6 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -52,7 +53,7 @@ public class ProposalTest {
   @Test
   public void testToString() {
     assertThat(Proposal.class.getDeclaredFields().length).isEqualTo(3);
-    assertThat(Proposal.createProposal().toString())
+    assertThat(Proposal.from(false, new ArrayList<>(), LocalDate.of(2020, 2, 2)).toString())
         .isEqualTo("Proposal{mealList=[], calendar=2020-02-02, includeToday=false}");
   }
 

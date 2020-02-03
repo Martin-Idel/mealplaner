@@ -189,6 +189,7 @@ public class BundleCommons {
       return Files.find(Paths.get(".."), 999,
           (p, bfa) -> bfa.isRegularFile()
               && p.getFileName().toString().endsWith(".java")
+              && !p.toString().contains("/test/")
               && !p.toString().contains("/mealplaner-plugins/")
       );
     } catch (IOException e) {
