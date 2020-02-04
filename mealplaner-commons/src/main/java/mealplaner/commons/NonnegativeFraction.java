@@ -100,12 +100,25 @@ public final class NonnegativeFraction {
     return fraction(numerator, denominator * divisor.value);
   }
 
+  public NonnegativeFraction invert() {
+    return fraction(denominator, numerator);
+  }
+
   public int getNumerator() {
     return numerator;
   }
 
   public int getDenominator() {
     return denominator;
+  }
+
+  public String toRoundedString() {
+    if (numerator > 3 * denominator || denominator > 5) {
+      var roundUp = (numerator % denominator > 0) ? 1 : 0;
+      var roundedNumber = (numerator / denominator) + roundUp;
+      return "" + roundedNumber;
+    }
+    return toString();
   }
 
   @Override
@@ -136,9 +149,5 @@ public final class NonnegativeFraction {
     NonnegativeFraction other = (NonnegativeFraction) obj;
     return this.numerator == other.numerator
         && this.denominator == other.denominator;
-  }
-
-  public NonnegativeFraction invert() {
-    return fraction(denominator, numerator);
   }
 }

@@ -56,6 +56,27 @@ public class NonnegativeFractionTest {
   }
 
   @Test
+  public void toRoundedStringRoundsUpIfTheNumberIsHigh() {
+    NonnegativeFraction fraction = fraction(16, 3);
+
+    assertThat(fraction.toRoundedString()).isEqualTo("6");
+  }
+
+  @Test
+  public void toRoundedStringRoundsUpDenominatorGetsTooLarge() {
+    NonnegativeFraction fraction = fraction(33, 7);
+
+    assertThat(fraction.toRoundedString()).isEqualTo("5");
+  }
+
+  @Test
+  public void toRoundedStringRevertsToNormalToStringForSmallNumbers() {
+    NonnegativeFraction fraction = fraction(2, 3);
+
+    assertThat(fraction.toString()).isEqualTo("2/3");
+  }
+
+  @Test
   public void toStringDoesNotShowDenominatorIfOne() {
     NonnegativeFraction fraction = fraction(3, 1);
 

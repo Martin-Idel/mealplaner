@@ -22,14 +22,14 @@ import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.gui.buttonpanel.ButtonPanelEnabling;
 import mealplaner.commons.gui.editing.NonnegativeFractionCellEditor;
 import mealplaner.commons.gui.editing.NonnegativeIntegerCellEditor;
+import mealplaner.commons.gui.tables.cells.FlexibleClassRenderer;
 import mealplaner.commons.gui.tables.models.TableColumnData;
 
 /**
  * TableColumnBuilder to provide type safe access to an underlying data
  * structure.
  *
- * @param <T>
- *          Content type of the column to be constructed
+ * @param <T> Content type of the column to be constructed
  */
 public final class TableColumnBuilder<T> {
   private final Class<T> classType;
@@ -80,11 +80,15 @@ public final class TableColumnBuilder<T> {
   /**
    * Obtain a builder for a column with nonnegativeFraction type. This column will
    * automatically come with an editor which only allows nonnegative fractions as
-   * input.
+   * input and a renderer which will round up the number if it is very large or fractured.
    */
   public static TableColumnBuilder<NonnegativeFraction> withNonnegativeFractionContent() {
     return new TableColumnBuilder<>(NonnegativeFraction.class)
         .setPreferredSize(50)
+        .overwriteTableCellRenderer(new FlexibleClassRenderer(
+            object -> (object instanceof NonnegativeFraction)
+                ? ((NonnegativeFraction) object).toRoundedString()
+                : object.toString()))
         .overwriteTableCellEditor(new NonnegativeFractionCellEditor());
   }
 
@@ -110,18 +114,16 @@ public final class TableColumnBuilder<T> {
    * java.utils.List (ordered in the sense that row i will be entry i in the
    * list). Note that the data structure cannot be reassigned.
    *
-   * @param orderedList
-   *          The ordered list which provides the data structure of this column
-   * @param setValue
-   *          A function which given an element of your list and an object of the
-   *          TableColumn's type, sets the corresponding element to the element of
-   *          your list. In the table, when the user sets an entry, this function
-   *          ensures that this will set the corresponding data inside the list at
-   *          the correct row.
+   * @param orderedList The ordered list which provides the data structure of this column
+   * @param setValue    A function which given an element of your list and an object of the
+   *                    TableColumn's type, sets the corresponding element to the element of
+   *                    your list. In the table, when the user sets an entry, this function
+   *                    ensures that this will set the corresponding data inside the list at
+   *                    the correct row.
    * @return the current builder
    */
   public <S> TableColumnBuilder<T> setValueToOrderedList(List<S> orderedList,
-      BiConsumer<S, T> setValue) {
+                                                         BiConsumer<S, T> setValue) {
     this.setValue = (value, row) -> {
       setValue.accept(orderedList.get(row), value);
       return empty();
@@ -135,19 +137,17 @@ public final class TableColumnBuilder<T> {
    * where the entries are immutable. Note that the list data structure cannot be
    * reassigned and must be mutable.
    *
-   * @param orderedList
-   *          The ordered list of immutables which provides the data structure of
-   *          this column
-   * @param setValue
-   *          A bifunction which given an element of your list and an object of
-   *          the TableColumn's type, returns an element of type of your list
-   *          where the corresponding aspect is changed. In the table, when the
-   *          user sets an entry, this function ensures that this will set the
-   *          corresponding data inside the list at the correct row.
+   * @param orderedList The ordered list of immutables which provides the data structure of
+   *                    this column
+   * @param setValue    A bifunction which given an element of your list and an object of
+   *                    the TableColumn's type, returns an element of type of your list
+   *                    where the corresponding aspect is changed. In the table, when the
+   *                    user sets an entry, this function ensures that this will set the
+   *                    corresponding data inside the list at the correct row.
    * @return the current builder
    */
   public <S> TableColumnBuilder<T> setValueToOrderedImmutableList(List<S> orderedList,
-      BiFunction<S, T, S> setValue) {
+                                                                  BiFunction<S, T, S> setValue) {
     this.setValue = (value, row) -> {
       orderedList.set(row, setValue.apply(orderedList.get(row), value));
       return empty();
@@ -160,9 +160,8 @@ public final class TableColumnBuilder<T> {
    * function which when the user changes this column at row i changes the
    * corresponding entry in your data.
    *
-   * @param setValue
-   *          Function which, when given a row number and the new value of that
-   *          row, sets the data structure of the table correspondingly.
+   * @param setValue Function which, when given a row number and the new value of that
+   *                 row, sets the data structure of the table correspondingly.
    * @return the current builder
    */
   public TableColumnBuilder<T> setRowValueToUnderlyingModel(BiConsumer<T, Integer> setValue) {
@@ -178,17 +177,15 @@ public final class TableColumnBuilder<T> {
    * java.utils.List (ordered in the sense that row i will be entry i in the
    * list). Note that the data structure cannot be reassigned.
    *
-   * @param orderedList
-   *          The ordered list which provides the data structure of this column
-   * @param getValue
-   *          A function which given an element of your list, returns the
-   *          corresponding entry in this column. In the table, this will make
-   *          sure that row i will contain the content of the ith entry of your
-   *          list.
+   * @param orderedList The ordered list which provides the data structure of this column
+   * @param getValue    A function which given an element of your list, returns the
+   *                    corresponding entry in this column. In the table, this will make
+   *                    sure that row i will contain the content of the ith entry of your
+   *                    list.
    * @return the current builder
    */
   public <S> TableColumnBuilder<T> getValueFromOrderedList(List<S> orderedList,
-      Function<S, T> getValue) {
+                                                           Function<S, T> getValue) {
     this.getValue = row -> getValue.apply(orderedList.get(row));
     return this;
   }
@@ -197,9 +194,8 @@ public final class TableColumnBuilder<T> {
    * Call this function for an arbitrary data structure. This function provides
    * the link between the data structure and the representation in the table.
    *
-   * @param getValue
-   *          A function which given the row number, provides a value to be shown
-   *          in the table.
+   * @param getValue A function which given the row number, provides a value to be shown
+   *                 in the table.
    * @return the current builder
    */
   public TableColumnBuilder<T> getRowValueFromUnderlyingModel(Function<Integer, T> getValue) {
@@ -211,9 +207,8 @@ public final class TableColumnBuilder<T> {
    * Call this function if you want to enable buttons when a value of the table is
    * set to a new value.
    *
-   * @param onSet
-   *          An object of type ButtonPanelEnabling, which contains buttons which
-   *          can be enabled or disabled.
+   * @param onSet An object of type ButtonPanelEnabling, which contains buttons which
+   *              can be enabled or disabled.
    * @return the current builder
    */
   public TableColumnBuilder<T> enableButtonsOnSet(ButtonPanelEnabling onSet) {
@@ -231,9 +226,8 @@ public final class TableColumnBuilder<T> {
    * in other cells of the same row. This might be the case if e.g. some columns
    * are read only and depend on other aspects of the list.
    *
-   * @param cells
-   *          Additional cells in the same row to repaint when a row of this
-   *          column is changed.
+   * @param cells Additional cells in the same row to repaint when a row of this
+   *              column is changed.
    * @return the current builder
    */
   public TableColumnBuilder<T> alsoUpdatesCellsOfColumns(Integer... cells) {
@@ -261,8 +255,7 @@ public final class TableColumnBuilder<T> {
    * Make the row editable if a condition is fulfiled. This can be used to
    * activate/deactivate editing based on other cells content
    *
-   * @param predicate
-   *          The predicate to test against.
+   * @param predicate The predicate to test against.
    * @return the current builder
    */
   public TableColumnBuilder<T> isEditableIf(Predicate<Integer> predicate) {
@@ -273,8 +266,7 @@ public final class TableColumnBuilder<T> {
   /**
    * Set the preferred horizontal size of the column
    *
-   * @param preferredSize
-   *          The preferred size in pixels
+   * @param preferredSize The preferred size in pixels
    * @return the current builder
    */
   public TableColumnBuilder<T> setPreferredSize(int preferredSize) {
@@ -285,8 +277,7 @@ public final class TableColumnBuilder<T> {
   /**
    * Add a custom TableCellEditor to this column.
    *
-   * @param editor
-   *          The table cell editor for this column
+   * @param editor The table cell editor for this column
    * @return the current builder
    */
   public TableColumnBuilder<T> overwriteTableCellEditor(TableCellEditor editor) {
@@ -297,8 +288,7 @@ public final class TableColumnBuilder<T> {
   /**
    * Add a custom TableCellRenderer to this column.
    *
-   * @param renderer
-   *          The renderer for this column
+   * @param renderer The renderer for this column
    * @return the current builder
    */
   public TableColumnBuilder<T> overwriteTableCellRenderer(TableCellRenderer renderer) {
@@ -311,9 +301,8 @@ public final class TableColumnBuilder<T> {
    * N.B: This function must be called after calling one of the functions above
    * setting values to the table.
    *
-   * @param changeAction
-   *          Runnable containing the action to be processed when changing a row's
-   *          entry.
+   * @param changeAction Runnable containing the action to be processed when changing a row's
+   *                     entry.
    * @return the current builder
    */
   public TableColumnBuilder<T> onChange(Runnable changeAction) {
