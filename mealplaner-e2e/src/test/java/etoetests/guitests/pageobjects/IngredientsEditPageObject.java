@@ -9,8 +9,6 @@ import static org.assertj.swing.data.TableCell.row;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.assertj.swing.fixture.DialogFixture;
 import org.assertj.swing.fixture.FrameFixture;
@@ -21,7 +19,6 @@ import mealplaner.commons.NonnegativeFraction;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.IngredientType;
 import mealplaner.model.recipes.Measure;
-import mealplaner.model.recipes.QuantitativeIngredient;
 
 public class IngredientsEditPageObject {
   private static final int NUMBER_OF_INGREDIENT_DATA_COLUMNS = 4;
@@ -139,7 +136,6 @@ public class IngredientsEditPageObject {
       enterIngredientDialog.button("InputFieldButtonIngredientMeasures").click();
       enterIngredientSecondaryMeasures(ingredient.getMeasures().getSecondaries(), enterIngredientDialog);
     }
-    enterIngredientDialog.button("ButtonPanelIngredientsInput0").click();
     enterIngredientDialog.button("ButtonPanelIngredientsInput1").click();
   }
 

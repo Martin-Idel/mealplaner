@@ -41,6 +41,13 @@ public final class ButtonPanelBuilder {
     return this;
   }
 
+  public ButtonPanelBuilder addNextButton(ActionListener listener) {
+    buttonList.add(createButton(BUNDLES.message("nextButton"),
+        BUNDLES.message("nextButtonMnemonic"),
+        listener));
+    return this;
+  }
+
   public ButtonPanelBuilder addSaveButton(ActionListener listener) {
     buttonList.add(createButton(BUNDLES.message("saveButton"),
         BUNDLES.message("saveButtonMnemonic"),

@@ -65,18 +65,8 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
 
   @Override
   public List<Ingredient> showDialog(DataStore store, PluginStore pluginStore) {
-    setupDialog(action -> {
-      if (nameField.getUserInput().isPresent()) {
-        ingredients.add(ingredientWithValidation(
-            pluginStore.getRegisteredIngredientExtensions().getAllRegisteredFacts())
-            .withName(nameField.getUserInput().get())
-            .withType(typeField.getUserInput())
-            .withPrimaryMeasure(primaryMeasureField.getUserInput())
-            .withSecondaryMeasures(secondaryMeasuresField.getUserInput())
-            .create());
-        resetFields();
-      }
-    },
+    setupDialog(action -> saveIngredient(pluginStore, this::resetFields),
+        action -> saveIngredient(pluginStore, this::disposeWindow),
         store,
         pluginStore);
     dialogWindow.dispose();
@@ -84,6 +74,7 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
   }
 
   private void setupDialog(
+      ActionListener nextListener,
       ActionListener saveListener,
       DataStore dataStore,
       PluginStore pluginStore) {
@@ -91,7 +82,7 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
     GridPanel ingredientCreationPanel = gridPanel(0, 2);
     allFields().forEach(field -> field.addToPanel(ingredientCreationPanel));
 
-    ButtonPanel buttonPanel = setupButtonPanel(saveListener);
+    ButtonPanel buttonPanel = setupButtonPanel(nextListener, saveListener);
 
     dialogWindow.addCentral(ingredientCreationPanel);
     dialogWindow.addSouth(buttonPanel);
@@ -137,11 +128,30 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
     return measuresInput.showDialog(measures, mealPlan, pluginStore);
   }
 
-  private ButtonPanel setupButtonPanel(ActionListener saveListener) {
+  private ButtonPanel setupButtonPanel(ActionListener nextListener, ActionListener saveListener) {
     return builder("IngredientsInput")
+        .addNextButton(nextListener)
         .addSaveButton(saveListener)
         .addCancelDialogButton(dialogWindow)
         .build();
+  }
+
+  private void saveIngredient(PluginStore pluginStore, Runnable postSaveAction) {
+    if (nameField.getUserInput().isPresent()) {
+      ingredients.add(ingredientWithValidation(
+          pluginStore.getRegisteredIngredientExtensions().getAllRegisteredFacts())
+          .withName(nameField.getUserInput().get())
+          .withType(typeField.getUserInput())
+          .withPrimaryMeasure(primaryMeasureField.getUserInput())
+          .withSecondaryMeasures(secondaryMeasuresField.getUserInput())
+          .create());
+      postSaveAction.run();
+    }
+  }
+
+  private void disposeWindow() {
+    dialogWindow.setVisible(false);
+    dialogWindow.dispose();
   }
 
   private void resetFields() {
