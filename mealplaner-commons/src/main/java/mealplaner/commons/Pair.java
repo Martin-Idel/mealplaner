@@ -38,4 +38,9 @@ public final class Pair<L, R> {
   public int hashCode() {
     return left.hashCode() ^ right.hashCode();
   }
+
+  @Override
+  public String toString() {
+    return "{left: " + left + ", right: " + right + "}";
+  }
 }

@@ -2,7 +2,7 @@
 
 package mealplaner.commons.gui.inputfields;
 
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
@@ -15,14 +15,14 @@ public class ButtonInputField<T> implements InputField<T> {
   private final String buttonLabel;
   private final String buttonLabelForDefaultContent;
   private final T defaultContent;
-  private final Function<T, T> changeContent;
+  private final UnaryOperator<T> changeContent;
   private T content;
   private final int orderNumber;
 
 
   public ButtonInputField(String label, String name, String buttonLabel,
       String buttonLabelForDefaultContent,
-      T defaultContent, Function<T, T> changeContent, int orderNumber) {
+      T defaultContent, UnaryOperator<T> changeContent, int orderNumber) {
     this.label = label;
     this.name = name;
     this.buttonLabel = buttonLabel;

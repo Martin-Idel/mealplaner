@@ -16,7 +16,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import mealplaner.commons.NonnegativeInteger;
-import mealplaner.commons.errorhandling.MealException;
 import mealplaner.io.xml.util.UuidAdapter;
 
 @XmlRootElement
@@ -40,7 +39,7 @@ public class MealXml {
       String name,
       NonnegativeInteger daysPassed,
       List<Object> mealFacts,
-      RecipeXml recipe) throws MealException {
+      RecipeXml recipe) {
     this.uuid = uuid;
     this.name = name;
     this.daysPassed = daysPassed.value;

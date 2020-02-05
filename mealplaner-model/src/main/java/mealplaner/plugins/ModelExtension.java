@@ -48,7 +48,7 @@ public class ModelExtension<FactT extends Fact, FactXmlT extends FactXml> {
   }
 
   public FactT getDefault(Class<? extends Fact> fact) {
-    return (FactT) defaultFactories.get(fact).get();
+    return defaultFactories.get(fact).get();
   }
 
   public <T extends FactT> void registerClass(

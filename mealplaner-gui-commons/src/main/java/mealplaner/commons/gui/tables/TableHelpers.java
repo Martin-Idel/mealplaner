@@ -4,7 +4,7 @@ package mealplaner.commons.gui.tables;
 
 import java.util.ArrayDeque;
 import java.util.Arrays;
-import java.util.function.Consumer;
+import java.util.function.IntConsumer;
 
 public final class TableHelpers {
   private TableHelpers() {
@@ -21,7 +21,7 @@ public final class TableHelpers {
    *          A consumer that when given an integer deletes the row corresponding
    *          to this integer from the underlying model.
    */
-  public static void deleteSelectedRows(Table table, Consumer<Integer> remove) {
+  public static void deleteSelectedRows(Table table, IntConsumer remove) {
     Arrays.stream(table.getSelectedRows())
         .collect(ArrayDeque::new, ArrayDeque<Integer>::add,
             ArrayDeque<Integer>::addAll)

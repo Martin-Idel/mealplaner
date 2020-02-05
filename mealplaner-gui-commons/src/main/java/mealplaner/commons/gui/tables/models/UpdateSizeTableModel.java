@@ -3,7 +3,7 @@
 package mealplaner.commons.gui.tables.models;
 
 import java.util.List;
-import java.util.function.Supplier;
+import java.util.function.IntSupplier;
 
 /**
  * This class provides a table model to be built by the FlexibleTableBuilder. It
@@ -14,13 +14,13 @@ import java.util.function.Supplier;
 public final class UpdateSizeTableModel extends FlexibleTableModel {
   private static final long serialVersionUID = 1L;
 
-  private UpdateSizeTableModel(List<TableColumnData<?>> tableColumns,
-                               Supplier<Integer> rowCount) {
+  private UpdateSizeTableModel(
+      List<TableColumnData<?>> tableColumns, IntSupplier rowCount) {
     super(tableColumns, rowCount);
   }
 
   public static UpdateSizeTableModel from(
-      List<TableColumnData<?>> tableColumns, Supplier<Integer> rowCount) {
+      List<TableColumnData<?>> tableColumns, IntSupplier rowCount) {
     return new UpdateSizeTableModel(tableColumns, rowCount);
   }
 

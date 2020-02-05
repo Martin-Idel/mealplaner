@@ -5,8 +5,8 @@ package mealplaner.commons.gui.tables.models;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.function.IntFunction;
+import java.util.function.IntPredicate;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
@@ -15,8 +15,8 @@ public final class TableColumnData<T> {
   private final Class<T> classType;
 
   private final BiFunction<T, Integer, Optional<Integer[]>> setValueFunction;
-  private final Function<Integer, T> getValueFunction;
-  private final Predicate<Integer> isEditableIf;
+  private final IntFunction<T> getValueFunction;
+  private final IntPredicate isEditableIf;
 
   private final int preferredSize;
   private final Optional<TableCellEditor> tableCellEditor;
@@ -27,8 +27,8 @@ public final class TableColumnData<T> {
       Class<T> classType,
       String name,
       BiFunction<T, Integer, Optional<Integer[]>> setValueFunction,
-      Function<Integer, T> getValueFunction,
-      Predicate<Integer> isEditableIf,
+      IntFunction<T> getValueFunction,
+      IntPredicate isEditableIf,
       int preferredSize,
       Optional<TableCellEditor> tableCellEditor,
       Optional<TableCellRenderer> tableCellRenderer,
@@ -48,8 +48,8 @@ public final class TableColumnData<T> {
       Class<S> classType,
       String name,
       BiFunction<S, Integer, Optional<Integer[]>> setValue,
-      Function<Integer, S> getValue,
-      Predicate<Integer> isEditableIf,
+      IntFunction<S> getValue,
+      IntPredicate isEditableIf,
       int preferredSize,
       Optional<TableCellEditor> tableCellEditor,
       Optional<TableCellRenderer> tableCellRenderer,

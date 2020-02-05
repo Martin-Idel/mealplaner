@@ -6,7 +6,7 @@ import static java.util.Arrays.asList;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
+import java.util.function.IntSupplier;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -20,9 +20,9 @@ public abstract class FlexibleTableModel extends AbstractTableModel {
 
   final transient List<TableColumnData<?>> columns;
 
-  private final transient Supplier<Integer> rowCount;
+  private final transient IntSupplier rowCount;
 
-  FlexibleTableModel(List<TableColumnData<?>> tableColumns, Supplier<Integer> rowCount) {
+  FlexibleTableModel(List<TableColumnData<?>> tableColumns, IntSupplier rowCount) {
     columns = tableColumns;
     this.rowCount = rowCount;
   }
@@ -34,7 +34,7 @@ public abstract class FlexibleTableModel extends AbstractTableModel {
 
   @Override
   public int getRowCount() {
-    return rowCount.get();
+    return rowCount.getAsInt();
   }
 
   @Override

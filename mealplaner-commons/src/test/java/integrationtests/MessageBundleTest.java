@@ -12,51 +12,62 @@ import static bundletests.BundleCommons.allCallsInJavaFilesAreMatchedInResourceB
 import static bundletests.BundleCommons.allLinesInResourceBundleAreMatchedInJavaFiles;
 import static bundletests.BundleCommons.noCallsToResourceBundleAreLineBroken;
 import static bundletests.BundleCommons.noCallsToResourceBundleUseStringParameters;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Locale;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import org.assertj.core.presentation.Representation;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import bundletests.BundleCommons;
+import bundletests.MessageBundleRepresentation;
 
 public class MessageBundleTest {
+  private final Representation errorText = new MessageBundleRepresentation();
+
   @ParameterizedTest
   @MethodSource("bundles")
   public void allLinesInMessageBundleAreMatchedInJavaFiles(String bundle, Locale locale) {
-    allLinesInResourceBundleAreMatchedInJavaFiles(bundle, locale, BundleCommons::allJavaFiles);
+    assertThat(allLinesInResourceBundleAreMatchedInJavaFiles(bundle, locale, BundleCommons::allJavaFiles))
+        .withRepresentation(errorText).isEmpty();
   }
 
   @ParameterizedTest
   @MethodSource("bundlesPatterns")
   public void allCallsInJavaFilesAreMatchedInMessageBundle(String bundle, Locale locale, Pattern pattern) {
-    allCallsInJavaFilesAreMatchedInResourceBundle(bundle, locale, pattern, BundleCommons::allJavaFiles);
+    assertThat(allCallsInJavaFilesAreMatchedInResourceBundle(bundle, locale, pattern, BundleCommons::allJavaFiles))
+        .withRepresentation(errorText).isEmpty();
   }
 
   @Test
   public void noCallsToMessageBundleAreLineBroken() {
-    noCallsToResourceBundleAreLineBroken(GET_STRING_AT_FILE_END, BundleCommons::allJavaFiles);
+    assertThat(noCallsToResourceBundleAreLineBroken(GET_STRING_AT_FILE_END, BundleCommons::allJavaFiles))
+        .withRepresentation(errorText).isEmpty();
   }
 
   @Test
   public void noCallsToMessageBundleUseStringParameters() {
-    noCallsToResourceBundleUseStringParameters(
-        GET_STRING_WITHOUT_QUOTE_PATTERN, BundleCommons::allJavaFiles);
+    assertThat(noCallsToResourceBundleUseStringParameters(
+        GET_STRING_WITHOUT_QUOTE_PATTERN, BundleCommons::allJavaFiles))
+        .withRepresentation(errorText).isEmpty();
   }
 
   @Test
   public void noCallsToErrorBundleAreLineBroken() {
-    noCallsToResourceBundleAreLineBroken(GET_ERROR_AT_FILE_END, BundleCommons::allJavaFiles);
+    assertThat(noCallsToResourceBundleAreLineBroken(GET_ERROR_AT_FILE_END, BundleCommons::allJavaFiles))
+        .withRepresentation(errorText).isEmpty();
   }
 
   @Test
   public void noCallsToErrorBundleUseStringParameters() {
-    noCallsToResourceBundleUseStringParameters(
-        GET_ERROR_WITHOUT_QUOTE_PATTERN, BundleCommons::allJavaFiles);
+    assertThat(noCallsToResourceBundleUseStringParameters(
+        GET_ERROR_WITHOUT_QUOTE_PATTERN, BundleCommons::allJavaFiles))
+        .withRepresentation(errorText).isEmpty();
   }
 
   private static Stream<Arguments> bundles() {

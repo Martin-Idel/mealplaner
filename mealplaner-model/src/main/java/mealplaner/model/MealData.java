@@ -50,10 +50,10 @@ public final class MealData implements DataStoreListener {
     List<Meal> meals = new ArrayList<>();
     for (Entry<UUID, MealMetaData> entry : metadata.entrySet()) {
       UUID id = entry.getKey();
-      MealMetaData data = entry.getValue();
+      MealMetaData metaData = entry.getValue();
       NonnegativeInteger daysSinceCooked = daysPassedSinceLastUpdate.get(id);
       Optional<Recipe> recipe = recipeData.get(id);
-      Meal meal = Meal.createMeal(id, data, daysSinceCooked, recipe);
+      Meal meal = Meal.createMeal(id, metaData, daysSinceCooked, recipe);
       meals.add(meal);
     }
     meals.sort(Meal::compareTo);
@@ -158,10 +158,10 @@ public final class MealData implements DataStoreListener {
 
   public Optional<Meal> getMeal(UUID uuid) {
     return ofNullable(metadata.get(uuid))
-        .map(metadata -> {
+        .map(metaData -> {
           NonnegativeInteger daysSinceCooked = daysPassedSinceLastUpdate.get(uuid);
           Optional<Recipe> recipe = recipeData.get(uuid);
-          return createMeal(uuid, metadata, daysSinceCooked, recipe);
+          return createMeal(uuid, metaData, daysSinceCooked, recipe);
         });
   }
 

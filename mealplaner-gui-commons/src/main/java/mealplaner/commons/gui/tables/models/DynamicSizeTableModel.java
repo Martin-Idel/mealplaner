@@ -3,28 +3,26 @@
 package mealplaner.commons.gui.tables.models;
 
 import java.util.List;
-import java.util.function.Supplier;
+import java.util.function.IntSupplier;
 
 /**
  * This class provides a table model to be built by the FlexibleTableBuilder. It
  * allows to have a table with an arbitrary amount of columns and rows, backed
  * by an arbitrary data structure which allows the user to enter new entries by
  * editing the last (empty) row.
- *
  */
 public final class DynamicSizeTableModel extends FlexibleTableModel {
   private static final long serialVersionUID = 1L;
   private final transient Runnable addValue;
 
-  private DynamicSizeTableModel(List<TableColumnData<?>> tableColumns,
-                                Supplier<Integer> rowCount,
-                                Runnable addValue) {
+  private DynamicSizeTableModel(
+      List<TableColumnData<?>> tableColumns, IntSupplier rowCount, Runnable addValue) {
     super(tableColumns, rowCount);
     this.addValue = addValue;
   }
 
   public static DynamicSizeTableModel from(List<TableColumnData<?>> tableColumns,
-      Supplier<Integer> rowCount, Runnable addValue) {
+                                           IntSupplier rowCount, Runnable addValue) {
     return new DynamicSizeTableModel(tableColumns, rowCount, addValue);
   }
 

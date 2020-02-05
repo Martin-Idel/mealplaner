@@ -25,8 +25,7 @@ public final class MealMetaData {
   private MealMetaData(
       String name,
       Map<Class, MealFact> mealFacts,
-      List<Element> hiddenMealFacts)
-      throws MealException {
+      List<Element> hiddenMealFacts) {
     if (checkTrimEmpty(name)) {
       throw new MealException("Name is empty or consists only of whitespace");
     } else {
@@ -39,7 +38,7 @@ public final class MealMetaData {
   public static MealMetaData createMealMetaData(
       String name,
       Map<Class, MealFact> mealFacts,
-      List<Element> hiddenMealFacts) throws MealException {
+      List<Element> hiddenMealFacts) {
     return new MealMetaData(name,
         mealFacts,
         hiddenMealFacts);

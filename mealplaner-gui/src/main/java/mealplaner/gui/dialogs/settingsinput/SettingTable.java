@@ -32,12 +32,12 @@ class SettingTable {
   private LocalDate date;
 
   public SettingTable(DefaultSettings defaultSettings) {
-    List<Settings> settings = new ArrayList<>(7);
+    List<Settings> newSettings = new ArrayList<>(7);
     for (DayOfWeek dayOfWeek : DayOfWeek.values()) {
-      settings.add(defaultSettings.getDefaultSettingsMap()
+      newSettings.add(defaultSettings.getDefaultSettingsMap()
           .get(dayOfWeek));
     }
-    this.settings = settings;
+    this.settings = newSettings;
   }
 
   public SettingTable(List<Settings> settings, LocalDate date) {
@@ -51,15 +51,15 @@ class SettingTable {
   }
 
   public void useDefaultSettings(DefaultSettings defaultSettings) {
-    List<Settings> settings = new ArrayList<>(this.settings.size());
+    List<Settings> newSettings = new ArrayList<>(this.settings.size());
     Map<DayOfWeek, Settings> defaults = defaultSettings.getDefaultSettingsMap();
     DayOfWeek dayOfWeek = date.getDayOfWeek();
     for (int i = 0; i < this.settings.size(); i++) {
-      settings.add(defaults.get(dayOfWeek));
+      newSettings.add(defaults.get(dayOfWeek));
       dayOfWeek = dayOfWeek.plus(1);
     }
     this.settings.clear();
-    this.settings.addAll(settings);
+    this.settings.addAll(newSettings);
     table.update();
   }
 

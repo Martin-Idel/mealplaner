@@ -11,7 +11,7 @@ import static mealplaner.model.meal.MealBuilder.from;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 import mealplaner.commons.gui.buttonpanel.ButtonPanelEnabling;
 import mealplaner.commons.gui.editing.NonemptyTextCellEditor;
@@ -27,7 +27,7 @@ final class DatabaseEditTable {
   public static Table createTable(
       ButtonPanelEnabling buttonPanel,
       List<Meal> meals,
-      Function<Optional<Recipe>, Optional<Recipe>> editRecipe,
+      UnaryOperator<Optional<Recipe>> editRecipe,
       Collection<MealEditExtension> extensions) {
     var tableModelBuilder = createNewTable()
         .withRowCount(meals::size)
@@ -55,7 +55,7 @@ final class DatabaseEditTable {
                     ? BUNDLES.message("editRecipeButtonLabel")
                     : BUNDLES.message("createRecipeButtonLabel"))
             .buildWithOrderNumber(110))
-        .addListenerToThisColumn((row) -> {
+        .addListenerToThisColumn(row -> {
           Optional<Recipe> recipe = meals.get(row).getRecipe();
           Optional<Recipe> editedRecipe = editRecipe.apply(recipe);
           Meal newMeal = from(meals.get(row)).optionalRecipe(editedRecipe).create();

@@ -32,10 +32,9 @@ public final class VersionControl {
       parsedDocument.getDocumentElement().normalize();
       return getVersionNumberFromTopLevelVersionNode(parsedDocument);
     } catch (ParserConfigurationException | SAXException ex) {
-      logger.warn("Exception on parsing XML with relative path " + filePath + ".");
+      logger.warn("Exception on parsing XML with relative path {}.", filePath);
     } catch (IOException ex) {
-      logger.warn("Exception on parsing XML with relative path " + filePath
-          + " Maybe the file is missing?");
+      logger.warn("Exception on parsing XML with relative path {}. Maybe the file is missing?", filePath);
     }
     return 0;
   }
@@ -52,8 +51,8 @@ public final class VersionControl {
             return Integer.parseInt(potentialVersionNode.getTextContent());
           } catch (NumberFormatException ex) {
             logger.warn("There is a top-level node with name \"version\" "
-                + " which does not contain a version number but instead contains: "
-                + potentialVersionNode.getTextContent());
+                + " which does not contain a version number but instead contains: {}",
+                potentialVersionNode.getTextContent());
           }
         }
       }

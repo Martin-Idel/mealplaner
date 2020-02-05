@@ -12,8 +12,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
+import java.util.function.IntConsumer;
+import java.util.function.IntSupplier;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
@@ -38,10 +38,10 @@ public final class FlexibleTableBuilder {
   private final List<ColumnListener> columnListeners;
   private int counter = 100;
   private JTable table;
-  private Supplier<Integer> rowCount = () -> 0;
+  private IntSupplier rowCount = () -> 0;
   private Runnable addRow = () -> {
   };
-  private Consumer<Integer> deleteRow = number -> {
+  private IntConsumer deleteRow = number -> {
   };
 
   private FlexibleTableBuilder() {
@@ -80,7 +80,7 @@ public final class FlexibleTableBuilder {
    *                 work with lists)
    * @return the current builder
    */
-  public FlexibleTableBuilder withRowCount(Supplier<Integer> rowCount) {
+  public FlexibleTableBuilder withRowCount(IntSupplier rowCount) {
     this.rowCount = rowCount;
     return this;
   }
@@ -94,7 +94,7 @@ public final class FlexibleTableBuilder {
    *                by that row number.
    * @return the current builder
    */
-  public FlexibleTableBuilder addListenerToThisColumn(Consumer<Integer> onClick) {
+  public FlexibleTableBuilder addListenerToThisColumn(IntConsumer onClick) {
     columnListeners.add(ColumnListener.createColumnListener(columns.size() - 1, onClick));
     return this;
   }
@@ -125,7 +125,7 @@ public final class FlexibleTableBuilder {
    *                   data structure
    * @return the current builder
    */
-  public FlexibleTableBuilder deleteRowsOnDelete(Consumer<Integer> deleteRows) {
+  public FlexibleTableBuilder deleteRowsOnDelete(IntConsumer deleteRows) {
     this.deleteRow = deleteRows;
     return this;
   }
@@ -215,9 +215,9 @@ public final class FlexibleTableBuilder {
     private static final long serialVersionUID = 1L;
     private final FlexibleTableModel tableModel;
     private final JTable table;
-    private final transient Consumer<Integer> deleteRow;
+    private final transient IntConsumer deleteRow;
 
-    DeleteAction(FlexibleTableModel tableModel, JTable table, Consumer<Integer> deleteRow) {
+    DeleteAction(FlexibleTableModel tableModel, JTable table, IntConsumer deleteRow) {
       this.tableModel = tableModel;
       this.table = table;
       this.deleteRow = deleteRow;

@@ -3,12 +3,11 @@
 package mealplaner.io.xml.util;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 public class LocalDataAdapter extends XmlAdapter<String, LocalDate> {
   @Override
-  public LocalDate unmarshal(String v) throws DateTimeParseException {
+  public LocalDate unmarshal(String v) {
     return LocalDate.parse(v);
   }
 

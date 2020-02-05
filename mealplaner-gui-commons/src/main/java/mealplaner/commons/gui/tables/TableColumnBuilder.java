@@ -11,7 +11,9 @@ import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.function.IntFunction;
+import java.util.function.IntPredicate;
+import java.util.function.ObjIntConsumer;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.table.TableCellEditor;
@@ -36,8 +38,8 @@ public final class TableColumnBuilder<T> {
   private String name = "";
 
   private BiFunction<T, Integer, Optional<Integer[]>> setValue = (value, row) -> empty();
-  private Function<Integer, T> getValue = (integer) -> null;
-  private Predicate<Integer> isEditableIfPredicate = (bool) -> false;
+  private IntFunction<T> getValue = integer -> null;
+  private IntPredicate isEditableIfPredicate = bool -> false;
   private int preferredSize = 100;
   private Optional<TableCellEditor> editor = empty();
   private Optional<TableCellRenderer> renderer = empty();
@@ -146,8 +148,8 @@ public final class TableColumnBuilder<T> {
    *                    corresponding data inside the list at the correct row.
    * @return the current builder
    */
-  public <S> TableColumnBuilder<T> setValueToOrderedImmutableList(List<S> orderedList,
-                                                                  BiFunction<S, T, S> setValue) {
+  public <S> TableColumnBuilder<T> setValueToOrderedImmutableList(
+      List<S> orderedList, BiFunction<S, T, S> setValue) {
     this.setValue = (value, row) -> {
       orderedList.set(row, setValue.apply(orderedList.get(row), value));
       return empty();
@@ -164,7 +166,7 @@ public final class TableColumnBuilder<T> {
    *                 row, sets the data structure of the table correspondingly.
    * @return the current builder
    */
-  public TableColumnBuilder<T> setRowValueToUnderlyingModel(BiConsumer<T, Integer> setValue) {
+  public TableColumnBuilder<T> setRowValueToUnderlyingModel(ObjIntConsumer<T> setValue) {
     this.setValue = (value, row) -> {
       setValue.accept(value, row);
       return empty();
@@ -198,7 +200,7 @@ public final class TableColumnBuilder<T> {
    *                 in the table.
    * @return the current builder
    */
-  public TableColumnBuilder<T> getRowValueFromUnderlyingModel(Function<Integer, T> getValue) {
+  public TableColumnBuilder<T> getRowValueFromUnderlyingModel(IntFunction<T> getValue) {
     this.getValue = getValue;
     return this;
   }
@@ -247,7 +249,7 @@ public final class TableColumnBuilder<T> {
    * @return the current builder
    */
   public TableColumnBuilder<T> isEditable() {
-    this.isEditableIfPredicate = (bool) -> true;
+    this.isEditableIfPredicate = bool -> true;
     return this;
   }
 
@@ -258,7 +260,7 @@ public final class TableColumnBuilder<T> {
    * @param predicate The predicate to test against.
    * @return the current builder
    */
-  public TableColumnBuilder<T> isEditableIf(Predicate<Integer> predicate) {
+  public TableColumnBuilder<T> isEditableIf(IntPredicate predicate) {
     this.isEditableIfPredicate = predicate;
     return this;
   }

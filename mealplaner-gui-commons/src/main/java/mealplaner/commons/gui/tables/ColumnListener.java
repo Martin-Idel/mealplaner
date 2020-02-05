@@ -4,19 +4,19 @@ package mealplaner.commons.gui.tables;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.function.Consumer;
+import java.util.function.IntConsumer;
 import javax.swing.JTable;
 
 public final class ColumnListener extends MouseAdapter {
   private int columnNumber;
-  private final Consumer<Integer> onClick;
+  private final IntConsumer onClick;
 
-  private ColumnListener(int columnNumber, Consumer<Integer> onClick) {
+  private ColumnListener(int columnNumber, IntConsumer onClick) {
     this.columnNumber = columnNumber;
     this.onClick = onClick;
   }
 
-  public static ColumnListener createColumnListener(int columnNumber, Consumer<Integer> onClick) {
+  public static ColumnListener createColumnListener(int columnNumber, IntConsumer onClick) {
     return new ColumnListener(columnNumber, onClick);
   }
 

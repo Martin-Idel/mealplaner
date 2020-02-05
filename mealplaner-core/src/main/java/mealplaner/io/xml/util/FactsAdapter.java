@@ -48,7 +48,6 @@ public final class FactsAdapter {
     }
   }
 
-  // TODO probably add test
   public static <FactT extends Fact, FactXmlT extends FactXml> List<Element> extractUnknownFacts(
       List<Object> facts, ModelExtension<FactT, FactXmlT> knownExtensions) {
     var potentialFact = new ArrayList<Element>();

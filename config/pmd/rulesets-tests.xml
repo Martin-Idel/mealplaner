@@ -10,7 +10,7 @@
         <exclude name="JUnitTestContainsTooManyAsserts"/>
         <exclude name="JUnitAssertionsShouldIncludeMessage"/>
         <exclude name="UnusedPrivateMethod"/>
-        <exclude name="JUnitTestsShouldIncludeAssert"/> <!--TODO remove this exclusion -->
+        <exclude name="JUnitTestsShouldIncludeAssert"/>
     </rule>
     <rule ref="category/java/errorprone.xml">
         <exclude name="BeanMembersShouldSerialize"/>

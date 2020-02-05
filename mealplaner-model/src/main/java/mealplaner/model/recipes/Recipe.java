@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 import mealplaner.commons.NonnegativeFraction;
@@ -70,11 +70,11 @@ public final class Recipe {
   }
 
   public List<QuantitativeIngredient> getIngredientListAsIs() {
-    return getIngredientListWithMultipliedAmount(Function.identity());
+    return getIngredientListWithMultipliedAmount(UnaryOperator.identity());
   }
 
   private List<QuantitativeIngredient> getIngredientListWithMultipliedAmount(
-      Function<NonnegativeFraction, NonnegativeFraction> mapValues) {
+      UnaryOperator<NonnegativeFraction> mapValues) {
     return ingredients.stream()
         .map(ingredient -> createQuantitativeIngredient(
             ingredient.getIngredient(),

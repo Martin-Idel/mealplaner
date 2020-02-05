@@ -20,8 +20,11 @@ import org.slf4j.LoggerFactory;
 
 import mealplaner.commons.errorhandling.MealException;
 
-public class BundleUtils {
+public final class BundleUtils {
   private static final Logger logger = LoggerFactory.getLogger(BundleUtils.class);
+
+  private BundleUtils() {
+  }
 
   public static ResourceBundle loadBundle(String bundleName, Locale locale) {
     try {

@@ -65,7 +65,7 @@ final class IngredientsEditTable {
                     ? BUNDLES.message("insertSecondaryMeasuresButtonDefaultLabel")
                     : BUNDLES.message("insertSecondaryMeasuresButtonLabel"))
             .buildWithOrderNumber(80))
-        .addListenerToThisColumn((row) -> {
+        .addListenerToThisColumn(row -> {
           var measures = ingredients.get(row).getMeasures();
           EnumMap<Measure, NonnegativeFraction> editedMeasures = measuresEdit.apply(measures);
           Ingredient newIngredient = IngredientBuilder.from(ingredients.get(row))

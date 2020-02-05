@@ -2,6 +2,7 @@
 
 package bundletests;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -36,42 +37,49 @@ public class BundleCommons {
   private static final Pattern STRING_PATTERN = Pattern.compile("\".*?\"");
 
   public static void allMessageTests(String bundle, String plugin) {
-    allLinesInResourceBundleAreMatchedInJavaFiles(bundle, Locale.ROOT, () -> pluginJavaFiles(plugin));
-    allCallsInJavaFilesAreMatchedInResourceBundle(
-        bundle, Locale.ROOT, GET_STRING_PATTERN, () -> pluginJavaFiles(plugin));
-    allLinesInResourceBundleAreMatchedInJavaFiles(
-        bundle, Locale.GERMAN, () -> pluginJavaFiles(plugin));
-    allCallsInJavaFilesAreMatchedInResourceBundle(
-        bundle, Locale.GERMAN, GET_STRING_PATTERN, () -> pluginJavaFiles(plugin));
-    allLinesInResourceBundleAreMatchedInJavaFiles(
-        bundle, Locale.UK, () -> pluginJavaFiles(plugin));
-    allCallsInJavaFilesAreMatchedInResourceBundle(
-        bundle, Locale.UK, GET_STRING_PATTERN, () -> pluginJavaFiles(plugin));
-    noCallsToResourceBundleAreLineBroken(GET_STRING_AT_FILE_END, () -> pluginJavaFiles(plugin));
-    noCallsToResourceBundleUseStringParameters(
-        GET_STRING_WITHOUT_QUOTE_PATTERN, () -> pluginJavaFiles(plugin));
+    MessageBundleRepresentation messageBundleRepresentation = new MessageBundleRepresentation();
+    assertThat(allLinesInResourceBundleAreMatchedInJavaFiles(bundle, Locale.ROOT, () -> pluginJavaFiles(plugin)))
+        .withRepresentation(messageBundleRepresentation).isEmpty();
+    assertThat(allCallsInJavaFilesAreMatchedInResourceBundle(
+        bundle, Locale.ROOT, GET_STRING_PATTERN, () -> pluginJavaFiles(plugin)))
+        .withRepresentation(messageBundleRepresentation).isEmpty();
+    assertThat(allLinesInResourceBundleAreMatchedInJavaFiles(
+        bundle, Locale.GERMAN, () -> pluginJavaFiles(plugin)))
+        .withRepresentation(messageBundleRepresentation).isEmpty();
+    assertThat(allCallsInJavaFilesAreMatchedInResourceBundle(
+        bundle, Locale.GERMAN, GET_STRING_PATTERN, () -> pluginJavaFiles(plugin)))
+        .withRepresentation(messageBundleRepresentation).isEmpty();
+    assertThat(allLinesInResourceBundleAreMatchedInJavaFiles(
+        bundle, Locale.UK, () -> pluginJavaFiles(plugin)))
+        .withRepresentation(messageBundleRepresentation).isEmpty();
+    assertThat(allCallsInJavaFilesAreMatchedInResourceBundle(
+        bundle, Locale.UK, GET_STRING_PATTERN, () -> pluginJavaFiles(plugin)))
+        .withRepresentation(messageBundleRepresentation).isEmpty();
+    assertThat(noCallsToResourceBundleAreLineBroken(GET_STRING_AT_FILE_END, () -> pluginJavaFiles(plugin)))
+        .withRepresentation(messageBundleRepresentation).isEmpty();
+    assertThat(noCallsToResourceBundleUseStringParameters(
+        GET_STRING_WITHOUT_QUOTE_PATTERN, () -> pluginJavaFiles(plugin)))
+        .withRepresentation(messageBundleRepresentation).isEmpty();
   }
 
-  public static void allLinesInResourceBundleAreMatchedInJavaFiles(
+  public static List<String> allLinesInResourceBundleAreMatchedInJavaFiles(
       String resourceBundleName, Locale locale, Supplier<Stream<Path>> files) {
     List<String> keys = getKeysFromResourceBundle(resourceBundleName, locale);
     List<String> allLines = files.get()
         .flatMap(path -> readAllLines(path).stream())
         .collect(Collectors.toList());
-    List<String> potentialMatches = keys.stream()
+    return keys.stream()
         .filter(key -> !keyIsContainedIn(key, allLines))
         .collect(Collectors.toList());
-    assertEmptyKeyList(potentialMatches);
   }
 
-  public static void allCallsInJavaFilesAreMatchedInResourceBundle(
+  public static List<Pair<Path, String>> allCallsInJavaFilesAreMatchedInResourceBundle(
       String bundleName, Locale locale, final Pattern bundleCalls, Supplier<Stream<Path>> files) {
     List<String> keys = getKeysFromResourceBundle(bundleName, locale);
-    List<Pair<Path, String>> potentialMatches = files.get()
+    return files.get()
         .flatMap(path -> findCallsToResourceBundle(path, bundleCalls))
         .flatMap(pair -> findAllCallsToMissingKey(pair, keys, bundleCalls))
         .collect(Collectors.toList());
-    assertEmpty(potentialMatches);
   }
 
   /*
@@ -80,12 +88,11 @@ public class BundleCommons {
    * anyways, this is also crucial to have a more complete check for calls to
    * ResourceBundles, since I parse line-wise.
    */
-  public static void noCallsToResourceBundleAreLineBroken(
+  public static List<Pair<Path, String>> noCallsToResourceBundleAreLineBroken(
       final Pattern bundleCallAtEndOfLine, Supplier<Stream<Path>> files) {
-    List<Pair<Path, String>> filesWithErrors = files.get()
+    return files.get()
         .flatMap(path -> findWronglyFormattedLines(path, bundleCallAtEndOfLine))
         .collect(Collectors.toList());
-    assertEmpty(filesWithErrors);
   }
 
   /*
@@ -93,12 +100,11 @@ public class BundleCommons {
    * to the BundleStore is passed as a parameter. This is a necessary to be able
    * to detect all calls to the BundleStore.
    */
-  public static void noCallsToResourceBundleUseStringParameters(
+  public static List<Pair<Path, String>> noCallsToResourceBundleUseStringParameters(
       final Pattern parameterCall, Supplier<Stream<Path>> files) {
-    List<Pair<Path, String>> filesWithErrors = files.get()
+    return files.get()
         .flatMap(path -> findLinesWithParameterCalls(path, parameterCall))
         .collect(Collectors.toList());
-    assertEmpty(filesWithErrors);
   }
 
   private static boolean keyIsContainedIn(String key, List<String> lines) {

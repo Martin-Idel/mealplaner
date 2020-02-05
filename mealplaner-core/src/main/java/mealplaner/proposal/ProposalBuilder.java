@@ -20,6 +20,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import mealplaner.api.ProposalBuilderInterface;
@@ -173,11 +174,11 @@ public class ProposalBuilder implements ProposalBuilderInterface {
   private Pair<Meal, Integer> takeProposalIntoAccount(
       Pair<Meal, Integer> pair,
       List<ProposedMenu> proposalList,
-      Function<ProposedMenu, Boolean> presentCheck,
+      Predicate<ProposedMenu> presentCheck,
       Function<ProposedMenu, UUID> menuGetter,
       Map<UUID, Meal> mealData) {
     List<Meal> proposedMeals = proposalList.stream()
-        .filter(presentCheck::apply)
+        .filter(presentCheck)
         .filter(menu -> mealData.containsKey(menuGetter.apply(menu)))
         .map(menu -> mealData.get(menuGetter.apply(menu)))
         .collect(toList());

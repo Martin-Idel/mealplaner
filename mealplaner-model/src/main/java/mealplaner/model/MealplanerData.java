@@ -42,14 +42,14 @@ public final class MealplanerData implements DataStore {
   private final List<DataStoreListener> listeners = new ArrayList<>();
 
   private static class MealplanerDataHolder {
-    private static MealplanerData INSTANCE; // NOPMD
+    private static MealplanerData instance; // NOPMD
   }
 
   public static MealplanerData getInstance(PluginStore pluginStore) {
-    if (MealplanerDataHolder.INSTANCE == null) {
-      MealplanerDataHolder.INSTANCE = new MealplanerData(pluginStore);
+    if (MealplanerDataHolder.instance == null) {
+      MealplanerDataHolder.instance = new MealplanerData(pluginStore);
     }
-    return MealplanerDataHolder.INSTANCE;
+    return MealplanerDataHolder.instance;
   }
 
   private MealplanerData(PluginStore pluginStore) {
