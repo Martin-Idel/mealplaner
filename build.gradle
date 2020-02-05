@@ -42,7 +42,7 @@ ext {
 subprojects {
     apply plugin: 'checkstyle'
     checkstyle {
-        toolVersion = "8.28"
+        toolVersion = "8.29"
         ignoreFailures = false
     }
 
