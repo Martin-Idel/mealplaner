@@ -39,7 +39,7 @@ public class CookingPreferenceSettingsTest {
   private CookingPreferenceSettings utensilSetting;
 
   @BeforeEach
-  public void setup() {
+  public void setUp() {
     PluginsUtils.setupMessageBundles(new CookingPreferencePlugin());
     utensilSetting = from(prohibitedPreference);
   }

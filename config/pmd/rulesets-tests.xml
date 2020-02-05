@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<ruleset name="myruleset"
+         xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
+    <description>Mealplaner ruleset</description>
+    <exclude-pattern>.*/src/main/.*</exclude-pattern>
+    <exclude-pattern>.*/BundleCommons.java</exclude-pattern>
+    <rule ref="category/java/bestpractices.xml">
+        <exclude name="JUnitTestContainsTooManyAsserts"/>
+        <exclude name="JUnitAssertionsShouldIncludeMessage"/>
+        <exclude name="UnusedPrivateMethod"/>
+        <exclude name="JUnitTestsShouldIncludeAssert"/> <!--TODO remove this exclusion -->
+    </rule>
+    <rule ref="category/java/errorprone.xml">
+        <exclude name="BeanMembersShouldSerialize"/>
+        <exclude name="AvoidDuplicateLiterals"/>
+        <exclude name="DataflowAnomalyAnalysis"/>
+    </rule>
+    <rule ref="category/java/performance.xml">
+    </rule>
+    <rule ref="category/java/security.xml">
+    </rule>
+</ruleset>

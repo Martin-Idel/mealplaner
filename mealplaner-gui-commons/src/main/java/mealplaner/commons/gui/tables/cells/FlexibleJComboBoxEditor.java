@@ -11,6 +11,7 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 
 public class FlexibleJComboBoxEditor<T> extends AbstractCellEditor implements TableCellEditor {
+  private static final long serialVersionUID = 1L;
   private JComboBox<T> editor;
   private final int columnToGetValues;
   private transient BiConsumer<DefaultComboBoxModel<T>, Object> addValuesToModel;

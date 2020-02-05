@@ -14,8 +14,8 @@ public final class TableColumnData<T> {
   private final String name;
   private final Class<T> classType;
 
-  private final BiFunction<T, Integer, Optional<Integer[]>> setValue;
-  private final Function<Integer, T> getValue;
+  private final BiFunction<T, Integer, Optional<Integer[]>> setValueFunction;
+  private final Function<Integer, T> getValueFunction;
   private final Predicate<Integer> isEditableIf;
 
   private final int preferredSize;
@@ -26,8 +26,8 @@ public final class TableColumnData<T> {
   private TableColumnData(
       Class<T> classType,
       String name,
-      BiFunction<T, Integer, Optional<Integer[]>> setValue,
-      Function<Integer, T> getValue,
+      BiFunction<T, Integer, Optional<Integer[]>> setValueFunction,
+      Function<Integer, T> getValueFunction,
       Predicate<Integer> isEditableIf,
       int preferredSize,
       Optional<TableCellEditor> tableCellEditor,
@@ -35,8 +35,8 @@ public final class TableColumnData<T> {
       Optional<Integer> orderNumber) {
     this.classType = classType;
     this.name = name;
-    this.setValue = setValue;
-    this.getValue = getValue;
+    this.setValueFunction = setValueFunction;
+    this.getValueFunction = getValueFunction;
     this.isEditableIf = isEditableIf;
     this.preferredSize = preferredSize;
     this.tableCellEditor = tableCellEditor;
@@ -59,7 +59,7 @@ public final class TableColumnData<T> {
   }
 
   public TableColumnData<T> addOrderNumber(int orderNumber) {
-    return new TableColumnData<>(classType, name, setValue, getValue,
+    return new TableColumnData<>(classType, name, setValueFunction, getValueFunction,
         isEditableIf, preferredSize, tableCellEditor, tableCellRenderer, Optional.of(orderNumber));
   }
 
@@ -72,11 +72,11 @@ public final class TableColumnData<T> {
   }
 
   public Optional<Integer[]> setValue(Object value, int row) {
-    return setValue.apply(classType.cast(value), row);
+    return setValueFunction.apply(classType.cast(value), row);
   }
 
   public T getValue(int row) {
-    return getValue.apply(row);
+    return getValueFunction.apply(row);
   }
 
   public boolean isEditable(int row) {

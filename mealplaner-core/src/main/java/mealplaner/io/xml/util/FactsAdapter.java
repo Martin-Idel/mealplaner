@@ -28,7 +28,7 @@ public final class FactsAdapter {
 
   @SuppressWarnings("unchecked")
   private static <FactT extends Fact, FactXmlT extends FactXml> void addSavedFacts(
-      List<Object> mealFacts, ModelExtension<FactT, FactXmlT> knownExtensions, HashMap<Class, FactT> mealFactMap) {
+      List<Object> mealFacts, ModelExtension<FactT, FactXmlT> knownExtensions, Map<Class, FactT> mealFactMap) {
     for (var potentialKnownMealFact : mealFacts) {
       if (knownExtensions.containsFactXml(potentialKnownMealFact.getClass())) {
         var castMealFactXml = (FactXmlT) potentialKnownMealFact;
@@ -40,7 +40,7 @@ public final class FactsAdapter {
   }
 
   private static <FactT extends Fact, FactXmlT extends FactXml> void defaultUnsavedMealFacts(
-      ModelExtension<FactT, FactXmlT> knownPlugins, HashMap<Class, FactT> mealFactMap) {
+      ModelExtension<FactT, FactXmlT> knownPlugins, Map<Class, FactT> mealFactMap) {
     for (var extension : knownPlugins.getAllRegisteredFacts()) {
       if (!mealFactMap.containsKey(extension)) {
         mealFactMap.put(extension, knownPlugins.getDefault(extension));

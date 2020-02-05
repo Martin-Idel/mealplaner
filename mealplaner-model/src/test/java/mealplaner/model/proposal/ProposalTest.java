@@ -3,14 +3,12 @@
 package mealplaner.model.proposal;
 
 import static java.util.UUID.nameUUIDFromBytes;
-import static mealplaner.model.proposal.ProposalOutline.ProposalOutlineBuilder.of;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 

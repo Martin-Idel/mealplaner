@@ -16,6 +16,8 @@ import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 import org.jdesktop.swingx.autocomplete.ObjectToStringConverter;
 
 public final class AutoCompleteEditors {
+  private static final long serialVersionUID = 1L;
+
   private AutoCompleteEditors() {
   }
 
@@ -46,6 +48,7 @@ public final class AutoCompleteEditors {
   }
 
   public static class ObjectRenderer extends BasicComboBoxRenderer {
+    private static final long serialVersionUID = 1L;
     private final transient Function<Object, String> getStringRepresentation;
     private final Object emptyObject;
 

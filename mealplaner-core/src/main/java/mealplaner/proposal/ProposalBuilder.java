@@ -74,7 +74,7 @@ public class ProposalBuilder implements ProposalBuilderInterface {
   }
 
   @Override
-  public Proposal propose(Settings[] settings) { // NOPMD
+  public Proposal propose(Settings... settings) { // NOPMD
     for (var step : proposalBuilderSteps) {
       step.setupProposalStep(mealDataMain);
     }

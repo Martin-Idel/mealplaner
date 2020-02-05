@@ -2,9 +2,9 @@
 
 package mealplaner.commons;
 
+import static java.util.Collections.list;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.Collections;
 import java.util.TreeMap;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -58,6 +58,6 @@ public class MultiResourceBundleTest {
     multiResourceBundle.addResourceBundle(firstBundle);
     multiResourceBundle.addResourceBundle(secondBundle);
 
-    assertThat(Collections.list(multiResourceBundle.getKeys())).containsExactlyInAnyOrder("key", "otherKey");
+    assertThat(list(multiResourceBundle.getKeys())).containsExactlyInAnyOrder("key", "otherKey");
   }
 }

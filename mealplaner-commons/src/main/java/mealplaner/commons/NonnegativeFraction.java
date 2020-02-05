@@ -116,7 +116,7 @@ public final class NonnegativeFraction {
     if (numerator > 3 * denominator || denominator > 5) {
       var roundUp = (numerator % denominator > 0) ? 1 : 0;
       var roundedNumber = (numerator / denominator) + roundUp;
-      return "" + roundedNumber;
+      return Integer.toString(roundedNumber);
     }
     return toString();
   }
@@ -124,9 +124,9 @@ public final class NonnegativeFraction {
   @Override
   public String toString() {
     if (denominator == 1) {
-      return "" + numerator;
+      return Integer.toString(numerator);
     }
-    return "" + numerator + "/" + denominator;
+    return numerator + "/" + denominator;
   }
 
   @Override

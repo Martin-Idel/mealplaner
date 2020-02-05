@@ -4,14 +4,14 @@ package mealplaner.commons;
 
 import java.util.Collections;
 import java.util.Enumeration;
-import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 
 public class ResourceBundleMock extends ResourceBundle {
-  private final TreeMap<String, String> tm = new TreeMap<>();
+  private final transient Map<String, String> tm = new TreeMap<>();
 
-  public ResourceBundleMock(TreeMap<String, String> properties) {
+  public ResourceBundleMock(Map<String, String> properties) {
     tm.putAll(properties);
   }
 

@@ -34,7 +34,7 @@ class SettingTable {
   public SettingTable(DefaultSettings defaultSettings) {
     List<Settings> settings = new ArrayList<>(7);
     for (DayOfWeek dayOfWeek : DayOfWeek.values()) {
-      settings.add(defaultSettings.getDefaultSettings()
+      settings.add(defaultSettings.getDefaultSettingsMap()
           .get(dayOfWeek));
     }
     this.settings = settings;
@@ -52,7 +52,7 @@ class SettingTable {
 
   public void useDefaultSettings(DefaultSettings defaultSettings) {
     List<Settings> settings = new ArrayList<>(this.settings.size());
-    Map<DayOfWeek, Settings> defaults = defaultSettings.getDefaultSettings();
+    Map<DayOfWeek, Settings> defaults = defaultSettings.getDefaultSettingsMap();
     DayOfWeek dayOfWeek = date.getDayOfWeek();
     for (int i = 0; i < this.settings.size(); i++) {
       settings.add(defaults.get(dayOfWeek));

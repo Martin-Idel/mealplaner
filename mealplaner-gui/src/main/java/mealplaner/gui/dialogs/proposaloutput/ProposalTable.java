@@ -32,7 +32,7 @@ public final class ProposalTable {
   private final List<Meal> meals = new ArrayList<>();
   private LocalDate newDate;
   private Proposal lastProposal;
-  private Table proposalTable;
+  private Table actualTable;
 
   private ProposalTable() {
   }
@@ -103,7 +103,7 @@ public final class ProposalTable {
           .overwriteTableCellEditor(autoCompleteCellEditor(meals, Meal::getName))
           .build());
     }
-    proposalTable = builder.buildTable();
+    actualTable = builder.buildTable();
   }
 
   private boolean needsDesertColumn() {
@@ -115,7 +115,7 @@ public final class ProposalTable {
   }
 
   public Table getTable() {
-    return proposalTable;
+    return actualTable;
   }
 
   public Proposal getProposal() {

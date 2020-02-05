@@ -2,7 +2,6 @@
 
 package mealplaner.commons.gui.tables;
 
-import static mealplaner.commons.NonnegativeInteger.FOUR;
 import static mealplaner.commons.gui.tables.FlexibleTableBuilder.createNewTable;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withContent;
 import static mealplaner.commons.gui.tables.TableColumnBuilder.withNonnegativeIntegerContent;

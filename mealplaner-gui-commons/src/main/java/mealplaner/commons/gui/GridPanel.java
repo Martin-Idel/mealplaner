@@ -10,11 +10,11 @@ import javax.swing.JPanel;
 public final class GridPanel implements Serializable, GuiPanel {
   private static final long serialVersionUID = 1L;
 
-  private final JPanel gridPanel;
+  private final JPanel grid;
 
   private GridPanel(int rows, int columns) {
-    gridPanel = new JPanel();
-    gridPanel.setLayout(new GridLayout(rows, columns));
+    grid = new JPanel();
+    grid.setLayout(new GridLayout(rows, columns));
   }
 
   public static GridPanel gridPanel(int rows, int columns) {
@@ -23,10 +23,10 @@ public final class GridPanel implements Serializable, GuiPanel {
 
   @Override
   public JPanel getComponent() {
-    return gridPanel;
+    return grid;
   }
 
   public void add(Component panel) {
-    gridPanel.add(panel);
+    grid.add(panel);
   }
 }

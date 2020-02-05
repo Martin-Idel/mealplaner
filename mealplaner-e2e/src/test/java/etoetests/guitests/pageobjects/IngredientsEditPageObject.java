@@ -26,7 +26,6 @@ public class IngredientsEditPageObject {
   private static final int INGREDIENTS_NAME_COLUMN = 0;
   private static final int INGREDIENTS_TYPE_COLUMN = 1;
   private static final int INGREDIENTS_MEASURE_COLUMN = 2;
-  private static final int INGREDIENTS_SECONDARY_MEASURES_COLUMN = 2;
 
   private final FrameFixture window;
 

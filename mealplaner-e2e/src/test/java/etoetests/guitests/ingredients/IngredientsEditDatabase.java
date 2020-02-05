@@ -16,7 +16,6 @@ import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitative
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import etoetests.guitests.helpers.AssertJMealplanerTestCase;

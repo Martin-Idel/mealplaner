@@ -25,13 +25,13 @@ import mealplaner.model.proposal.ProposedMenu;
 
 class UpdateTable {
   private List<ProposedMenu> meals;
-  private Table updateTable;
+  private Table actualTable;
 
   public void createTable(Proposal lastProposal, DataStore store, int daySince) {
     List<Meal> mealList = store.getMeals();
     setupMeals(lastProposal, daySince);
     LocalDate date = lastProposal.getDateOfFirstProposedItem();
-    updateTable = createNewTable()
+    actualTable = createNewTable()
         .withRowCount(() -> lastProposal.isToday() ? daySince + 1 : daySince)
         .addColumn(withContent(String.class)
             .withColumnName(BUNDLES.message("date"))
@@ -69,7 +69,7 @@ class UpdateTable {
   }
 
   public Table getTable() {
-    return updateTable;
+    return actualTable;
   }
 
   public List<ProposedMenu> returnContent() {

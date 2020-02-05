@@ -23,7 +23,7 @@ public class CookingTimeSubSettingTest {
   private CookingTimeSubSetting cookingTimeSubSetting;
 
   @BeforeEach
-  public void setup() {
+  public void setUp() {
     PluginsUtils.setupMessageBundles(new CookingTimePlugin());
     cookingTimeSubSetting = new CookingTimeSubSetting(new HashSet<>());
   }

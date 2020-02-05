@@ -27,7 +27,7 @@ public final class MealMetaData {
       Map<Class, MealFact> mealFacts,
       List<Element> hiddenMealFacts)
       throws MealException {
-    if (name.trim().isEmpty()) {
+    if (checkTrimEmpty(name)) {
       throw new MealException("Name is empty or consists only of whitespace");
     } else {
       this.name = name.trim();
@@ -88,5 +88,14 @@ public final class MealMetaData {
     return name.equals(other.name)
         && mealFacts.equals(other.mealFacts)
         && hiddenMealFacts.equals(other.hiddenMealFacts);
+  }
+
+  private boolean checkTrimEmpty(String str) {
+    for (int i = 0; i < str.length(); i++) {
+      if (!Character.isWhitespace(str.charAt(i))) {
+        return false;
+      }
+    }
+    return true;
   }
 }

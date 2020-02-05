@@ -10,6 +10,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
 public class FlexibleClassRenderer extends DefaultTableCellRenderer {
+  private static final long serialVersionUID = 1L;
   private transient Function<Object, String> getStringRepresentation;
   private final transient Optional<Object> defaultObject;
 
@@ -23,6 +24,7 @@ public class FlexibleClassRenderer extends DefaultTableCellRenderer {
     this.defaultObject = Optional.empty();
   }
 
+  @Override
   protected void setValue(Object value) {
     this.setText(getStringRepresentation.apply(value));
   }

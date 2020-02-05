@@ -91,7 +91,7 @@ public class ProposalSummaryPanel {
   private Settings[] setDefaultSettings(ProposalOutline outline) {
     Settings[] settings = new Settings[outline.getNumberOfDays()];
     Map<DayOfWeek, Settings> defaultSettings = mealPlan.getDefaultSettings()
-        .getDefaultSettings();
+        .getDefaultSettingsMap();
     DayOfWeek dayOfWeek = outline.isIncludedToday()
         ? mealPlan.getTime().getDayOfWeek()
         : mealPlan.getTime().getDayOfWeek().plus(1);

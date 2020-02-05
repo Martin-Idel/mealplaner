@@ -24,9 +24,8 @@ public class BundleUtils {
   private static final Logger logger = LoggerFactory.getLogger(BundleUtils.class);
 
   public static ResourceBundle loadBundle(String bundleName, Locale locale) {
-    ResourceBundle bundle;
     try {
-      bundle = getBundle(bundleName, locale);
+      return getBundle(bundleName, locale);
     } catch (MissingResourceException exc) {
       logger.error(
           "Fatal error: Resource bundles could not be found. No localisation possible.",
@@ -35,7 +34,6 @@ public class BundleUtils {
           ERROR_MESSAGE);
       throw new MealException("Fatal error: Resource Bundles not found", exc);
     }
-    return bundle;
   }
 
   public static <T> Predicate<T> not(Predicate<T> p) {

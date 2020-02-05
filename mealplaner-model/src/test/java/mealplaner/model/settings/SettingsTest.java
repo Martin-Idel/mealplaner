@@ -11,14 +11,11 @@ import java.util.HashSet;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.Fact;
-import mealplaner.plugins.api.Setting;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
-import testcommonsmodel.CommonBaseFunctions;
 import testcommonsmodel.TestSubSetting;
 
 public class SettingsTest {

@@ -64,14 +64,14 @@ public class SubSettingsXmlInteractionTest extends XmlInteraction {
         savedProposalSummary.lastProposal,
         savedProposalSummary.time);
 
-    Settings loadedSetting = savedProposalSummary.defaultSettings.getDefaultSettings().get(DayOfWeek.MONDAY);
+    Settings loadedSetting = savedProposalSummary.defaultSettings.getDefaultSettingsMap().get(DayOfWeek.MONDAY);
     assertThat(loadedSetting.getHiddenSubSettings()).hasSize(1);
     assertThat(loadedSetting.getTypedSubSetting(TestSubSetting.class).getSetting()).isEqualByComparingTo(TEST2);
 
     saveXml(newMealPlan, DESTINATION_FILE_PATH, smallerPluginStore);
     var reloadedProposalSummary = loadXml(DESTINATION_FILE_PATH, pluginStore);
 
-    Settings reloadedSetting = reloadedProposalSummary.defaultSettings.getDefaultSettings().get(DayOfWeek.MONDAY);
+    Settings reloadedSetting = reloadedProposalSummary.defaultSettings.getDefaultSettingsMap().get(DayOfWeek.MONDAY);
     assertThat(reloadedSetting).isEqualTo(settings);
   }
 
@@ -99,7 +99,7 @@ public class SubSettingsXmlInteractionTest extends XmlInteraction {
 
     var savedProposalSummary = loadXml(DESTINATION_FILE_PATH, pluginStore);
 
-    Settings reloadedSetting = savedProposalSummary.defaultSettings.getDefaultSettings().get(DayOfWeek.MONDAY);
+    Settings reloadedSetting = savedProposalSummary.defaultSettings.getDefaultSettingsMap().get(DayOfWeek.MONDAY);
     Settings expected = setting()
         .numberOfPeople(TWO)
         .addSetting(new TestSubSetting(TEST1))

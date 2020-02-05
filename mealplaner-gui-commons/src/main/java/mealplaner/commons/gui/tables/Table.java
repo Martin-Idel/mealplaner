@@ -15,11 +15,11 @@ import mealplaner.commons.gui.tables.models.FlexibleTableModel;
  */
 public final class Table implements GuiComponent {
   private final FlexibleTableModel tableModel;
-  private final JTable table;
+  private final JTable jtable;
 
   private Table(FlexibleTableModel tableModel, JTable table) {
     this.tableModel = tableModel;
-    this.table = table;
+    this.jtable = table;
   }
 
   public static Table from(FlexibleTableModel tableModel, JTable table) {
@@ -28,11 +28,11 @@ public final class Table implements GuiComponent {
 
   @Override
   public JScrollPane getComponent() {
-    return new JScrollPane(table);
+    return new JScrollPane(jtable);
   }
 
   public JTable getTable() {
-    return table;
+    return jtable;
   }
 
   /**
@@ -42,7 +42,7 @@ public final class Table implements GuiComponent {
    *          The parent component of the printer message dialog. Can be null.
    */
   public void printTable(Component frame) {
-    TablePrinter.printTable(table, frame);
+    TablePrinter.printTable(jtable, frame);
   }
 
   /**
@@ -73,6 +73,6 @@ public final class Table implements GuiComponent {
    * rows.
    */
   public int[] getSelectedRows() {
-    return table.getSelectedRows();
+    return jtable.getSelectedRows();
   }
 }

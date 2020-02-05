@@ -16,11 +16,11 @@ import mealplaner.plugins.PluginStore;
 
 public final class DefaultSettings {
   private static final List<DayOfWeek> DAYS_OF_WEEK = Arrays.asList(DayOfWeek.values());
-  private final Map<DayOfWeek, Settings> defaultSettings = new HashMap<>();
+  private final Map<DayOfWeek, Settings> defaultSettingsMap = new HashMap<>();
 
-  private DefaultSettings(Map<DayOfWeek, Settings> defaultSettings, PluginStore pluginStore) {
-    this.defaultSettings.putAll(defaultSettings);
-    DAYS_OF_WEEK.forEach(dayOfWeek -> this.defaultSettings
+  private DefaultSettings(Map<DayOfWeek, Settings> defaultSettingsMap, PluginStore pluginStore) {
+    this.defaultSettingsMap.putAll(defaultSettingsMap);
+    DAYS_OF_WEEK.forEach(dayOfWeek -> this.defaultSettingsMap
         .computeIfAbsent(dayOfWeek, day -> defaultSetting(pluginStore)));
   }
 
@@ -38,20 +38,20 @@ public final class DefaultSettings {
         .collect(toMap(Map.Entry::getKey, entry -> Settings.copy(entry.getValue())));
   }
 
-  public Map<DayOfWeek, Settings> getDefaultSettings() {
-    return copyHashMap(defaultSettings);
+  public Map<DayOfWeek, Settings> getDefaultSettingsMap() {
+    return copyHashMap(defaultSettingsMap);
   }
 
   @Override
   public String toString() {
     return "DefaultSettings{" + DAYS_OF_WEEK.stream()
-        .map(day -> "day=" + day.toString() + ", " + "settings=" + defaultSettings.get(day).toString())
+        .map(day -> "day=" + day.toString() + ", " + "settings=" + defaultSettingsMap.get(day).toString())
         .collect(joining(",")) + "}";
   }
 
   @Override
   public int hashCode() {
-    return 31 + defaultSettings.hashCode();
+    return 31 + defaultSettingsMap.hashCode();
   }
 
   @Override
@@ -63,6 +63,6 @@ public final class DefaultSettings {
       return false;
     }
     DefaultSettings other = (DefaultSettings) obj;
-    return other.defaultSettings.equals(defaultSettings);
+    return other.defaultSettingsMap.equals(defaultSettingsMap);
   }
 }

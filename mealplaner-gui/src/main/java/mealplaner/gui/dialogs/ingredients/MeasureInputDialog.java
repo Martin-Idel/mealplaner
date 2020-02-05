@@ -49,7 +49,7 @@ public class MeasureInputDialog implements DialogEditing<EnumMap<Measure, Nonneg
   @Override
   public EnumMap<Measure, NonnegativeFraction> showDialog(
       EnumMap<Measure, NonnegativeFraction> toEdit, DataStore data, PluginStore pluginStore) {
-    display(toEdit, data, pluginStore);
+    display(toEdit);
     dialogWindow.dispose();
     return tableMeasures
         .stream()
@@ -60,7 +60,7 @@ public class MeasureInputDialog implements DialogEditing<EnumMap<Measure, Nonneg
             () -> new EnumMap<>(Measure.class)));
   }
 
-  private void display(EnumMap<Measure, NonnegativeFraction> toEdit, DataStore dataStore, PluginStore pluginStore) {
+  private void display(EnumMap<Measure, NonnegativeFraction> toEdit) {
     oldMeasures = toEdit;
     tableMeasures = toList(toEdit);
     var table = MeasureTable.setupTable(tableMeasures, primaryMeasure);

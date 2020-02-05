@@ -62,7 +62,7 @@ public final class PluginsXmlUtils {
 
     var reloadedProposal = MealplanerDataReader.loadXml(filepath, pluginStore);
 
-    assertThat(reloadedProposal.getDefaultSettings().getDefaultSettings().get(MONDAY)).isEqualTo(settings);
+    assertThat(reloadedProposal.getDefaultSettings().getDefaultSettingsMap().get(MONDAY)).isEqualTo(settings);
   }
 
   private static void makeTemporaryDirectory(String filepath) {

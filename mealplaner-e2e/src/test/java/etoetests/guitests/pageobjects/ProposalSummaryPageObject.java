@@ -63,7 +63,7 @@ public class ProposalSummaryPageObject {
   }
 
   private void enterDefaultSettings(DefaultSettings defaultSettings, JTableFixture settingsTable) {
-    Map<DayOfWeek, Settings> settings = defaultSettings.getDefaultSettings();
+    Map<DayOfWeek, Settings> settings = defaultSettings.getDefaultSettingsMap();
     for (DayOfWeek day : DayOfWeek.values()) {
       enterSettingInDialog(settingsTable, settings.get(day), day.getValue() - 1, false);
     }
@@ -153,7 +153,7 @@ public class ProposalSummaryPageObject {
   }
 
   private String[][] defaultSettingsTableEntries(DefaultSettings defaultSettings) {
-    Map<DayOfWeek, Settings> settings = defaultSettings.getDefaultSettings();
+    Map<DayOfWeek, Settings> settings = defaultSettings.getDefaultSettingsMap();
     String[][] content = new String[NUMBER_OF_WEEKDAYS][NUMBER_OF_DEFAULT_SETTINGS_COLUMNS];
     for (DayOfWeek day : DayOfWeek.values()) {
       Settings setting = settings.get(day);

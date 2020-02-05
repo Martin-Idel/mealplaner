@@ -36,7 +36,7 @@ public class ProposalSummaryDataXmlInteractionTest extends EtoeXmlInteraction {
     defaultSettings.put(DayOfWeek.MONDAY, getSettings1());
     defaultSettings.put(DayOfWeek.WEDNESDAY, getSettings2());
     defaultSettings.put(DayOfWeek.FRIDAY, getSettings1());
-    assertThat(loadedProposalSummaryData.defaultSettings.getDefaultSettings())
+    assertThat(loadedProposalSummaryData.defaultSettings.getDefaultSettingsMap())
         .containsAllEntriesOf(defaultSettings);
   }
 }

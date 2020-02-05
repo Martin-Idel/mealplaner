@@ -10,5 +10,5 @@ public interface ProposalBuilderInterface {
 
   ProposalBuilderInterface firstProposal(boolean today);
 
-  Proposal propose(Settings[] settings);
+  Proposal propose(Settings... settings);
 }

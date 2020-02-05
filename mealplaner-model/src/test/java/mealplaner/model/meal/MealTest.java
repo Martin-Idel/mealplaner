@@ -14,20 +14,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import mealplaner.commons.errorhandling.MealException;
-import mealplaner.model.recipes.Recipe;
 import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.MealFact;
 import mealplaner.plugins.api.MealFactXml;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
-import testcommonsmodel.HiddenIngredientFact;
 import testcommonsmodel.HiddenMealFact;
 
 public class MealTest {
   private Meal sut;
 
   @BeforeEach
-  public void setup() throws MealException {
+  public void setUp() throws MealException {
     sut = meal()
         .name("Test")
         .daysPassed(FIVE)

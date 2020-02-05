@@ -46,7 +46,7 @@ public final class SettingsAdapter {
   }
 
   public static Map<DayOfWeek, SettingsXml> convertDefaultSettingsV3ToXml(DefaultSettings defaultSettings) {
-    return defaultSettings.getDefaultSettings()
+    return defaultSettings.getDefaultSettingsMap()
         .entrySet()
         .stream()
         .collect(toMap(Map.Entry::getKey,

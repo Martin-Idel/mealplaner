@@ -61,22 +61,14 @@ subprojects {
 subprojects {
     apply plugin: 'pmd'
     pmd {
-        toolVersion = "5.8.1"
+        toolVersion = "6.21.0"
         ignoreFailures = false
         reportsDir = file("$project.buildDir/reports/pmd")
-        ruleSets = [
-                "java-basic",
-                "java-braces",
-                "java-clone",
-                "java-empty",
-                "java-finalizers",
-                "java-strictexception",
-                "java-sunsecure",
-                "java-typeresolution",
-                "java-unnecessary",
-                "java-unusedcode",
-                "java-design",
-        ]
+        ruleSets = []
+        ruleSetFiles = files(
+                "$rootProject.projectDir/config/pmd/rulesets.xml",
+                "$rootProject.projectDir/config/pmd/rulesets-tests.xml"
+        )
     }
 }
 

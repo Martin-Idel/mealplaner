@@ -37,7 +37,7 @@ public final class TableColumnBuilder<T> {
 
   private BiFunction<T, Integer, Optional<Integer[]>> setValue = (value, row) -> empty();
   private Function<Integer, T> getValue = (integer) -> null;
-  private Predicate<Integer> isEditableIf = (bool) -> false;
+  private Predicate<Integer> isEditableIfPredicate = (bool) -> false;
   private int preferredSize = 100;
   private Optional<TableCellEditor> editor = empty();
   private Optional<TableCellRenderer> renderer = empty();
@@ -247,7 +247,7 @@ public final class TableColumnBuilder<T> {
    * @return the current builder
    */
   public TableColumnBuilder<T> isEditable() {
-    this.isEditableIf = (bool) -> true;
+    this.isEditableIfPredicate = (bool) -> true;
     return this;
   }
 
@@ -259,7 +259,7 @@ public final class TableColumnBuilder<T> {
    * @return the current builder
    */
   public TableColumnBuilder<T> isEditableIf(Predicate<Integer> predicate) {
-    this.isEditableIf = predicate;
+    this.isEditableIfPredicate = predicate;
     return this;
   }
 
@@ -328,7 +328,7 @@ public final class TableColumnBuilder<T> {
         name,
         setValue,
         getValue,
-        isEditableIf,
+        isEditableIfPredicate,
         preferredSize,
         editor,
         renderer,
@@ -347,7 +347,7 @@ public final class TableColumnBuilder<T> {
         name,
         setValue,
         getValue,
-        isEditableIf,
+        isEditableIfPredicate,
         preferredSize,
         editor,
         renderer,

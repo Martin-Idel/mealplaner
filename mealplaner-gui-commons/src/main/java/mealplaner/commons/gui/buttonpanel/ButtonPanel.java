@@ -8,14 +8,14 @@ import javax.swing.JPanel;
 import mealplaner.commons.gui.GuiComponent;
 
 public class ButtonPanel implements GuiComponent {
-  private final JPanel buttonPanel;
+  private final JPanel panel;
 
-  ButtonPanel(JPanel buttonPanel) {
-    this.buttonPanel = buttonPanel;
+  ButtonPanel(JPanel panel) {
+    this.panel = panel;
   }
 
   @Override
   public Component getComponent() {
-    return buttonPanel;
+    return panel;
   }
 }

@@ -77,6 +77,13 @@ public class NonnegativeFractionTest {
   }
 
   @Test
+  public void toRoundedStringReturnsCorrectNumberForWholeNumber() {
+    NonnegativeFraction fraction = fraction(12, 3);
+
+    assertThat(fraction.toString()).isEqualTo("4");
+  }
+
+  @Test
   public void toStringDoesNotShowDenominatorIfOne() {
     NonnegativeFraction fraction = fraction(3, 1);
 

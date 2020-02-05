@@ -20,10 +20,10 @@ import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 
 public final class ShoppingList {
-  private final Map<Ingredient, NonnegativeFraction> shoppingList;
+  private final Map<Ingredient, NonnegativeFraction> shoppingListMap;
 
   private ShoppingList(Map<Ingredient, NonnegativeFraction> recipes) {
-    shoppingList = recipes;
+    shoppingListMap = recipes;
   }
 
   public static ShoppingList from(List<Pair<Recipe, NonnegativeInteger>> recipes) {
@@ -37,7 +37,7 @@ public final class ShoppingList {
   }
 
   public List<QuantitativeIngredient> getList() {
-    return shoppingList.entrySet().stream()
+    return shoppingListMap.entrySet().stream()
         .map(entry -> createQuantitativeIngredient(
             entry.getKey(), entry.getKey().getMeasures().getPrimaryMeasure(), entry.getValue()))
         .sorted(Comparator.comparing(ingredient -> ingredient.getIngredient().getType()))
@@ -45,7 +45,7 @@ public final class ShoppingList {
   }
 
   public Map<Ingredient, NonnegativeFraction> getMap() {
-    return shoppingList;
+    return shoppingListMap;
   }
 
   @Override
@@ -57,11 +57,11 @@ public final class ShoppingList {
       return false;
     }
     ShoppingList that = (ShoppingList) o;
-    return Objects.equals(shoppingList, that.shoppingList);
+    return Objects.equals(shoppingListMap, that.shoppingListMap);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(shoppingList);
+    return Objects.hash(shoppingListMap);
   }
 }

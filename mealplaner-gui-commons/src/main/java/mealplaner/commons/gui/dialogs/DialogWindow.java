@@ -12,14 +12,14 @@ import mealplaner.commons.gui.GuiComponent;
 
 public final class DialogWindow extends JDialog {
   private static final long serialVersionUID = 1L;
-  private final Window window;
+  private final Window windowElement;
   private final JPanel mainPanel;
   private final BorderLayout borderLayout;
 
   private DialogWindow(JFrame frame, String name, String swingName) {
     super(frame, name, true);
     this.setName(swingName);
-    this.window = frame;
+    this.windowElement = frame;
     mainPanel = new JPanel();
     borderLayout = new BorderLayout();
     mainPanel.setLayout(borderLayout);
@@ -28,7 +28,7 @@ public final class DialogWindow extends JDialog {
   private DialogWindow(JDialog dialog, String name, String swingName) {
     super(dialog, name, true);
     this.setName(swingName);
-    this.window = dialog;
+    this.windowElement = dialog;
     mainPanel = new JPanel();
     borderLayout = new BorderLayout();
     mainPanel.setLayout(borderLayout);
@@ -79,6 +79,6 @@ public final class DialogWindow extends JDialog {
   public void arrangeWithSize(int width, int height) {
     getContentPane().add(mainPanel);
     setSize(width, height);
-    setLocationRelativeTo(window);
+    setLocationRelativeTo(windowElement);
   }
 }

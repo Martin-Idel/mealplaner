@@ -4,8 +4,6 @@ package mealplaner.commons;
 
 import static java.lang.Integer.compare;
 
-import mealplaner.commons.errorhandling.MealException;
-
 public final class NonnegativeInteger implements Comparable<NonnegativeInteger> {
   public static final NonnegativeInteger ZERO = new NonnegativeInteger(0);
   public static final NonnegativeInteger ONE = new NonnegativeInteger(1);
@@ -47,12 +45,12 @@ public final class NonnegativeInteger implements Comparable<NonnegativeInteger> 
 
   @Override
   public String toString() {
-    return "" + value;
+    return Integer.toString(value);
   }
 
   @Override
   public int hashCode() {
-    return 31 + value;
+    return value;
   }
 
   @Override

@@ -27,7 +27,7 @@ public class NonemptyTextCellEditor extends DefaultCellEditor {
   public boolean stopCellEditing() {
     try {
       String v = textField.getText();
-      if (v.trim().isEmpty()) {
+      if (checkTrimEmpty(v)) {
         textField.setBorder(red);
         return false;
       }
@@ -39,9 +39,18 @@ public class NonemptyTextCellEditor extends DefaultCellEditor {
   }
 
   @Override
-  public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected,
-      int row, int column) {
+  public Component getTableCellEditorComponent(
+      JTable table, Object value, boolean isSelected, int row, int column) {
     textField.setBorder(black);
     return super.getTableCellEditorComponent(table, value, isSelected, row, column);
+  }
+
+  private boolean checkTrimEmpty(String str) {
+    for (int i = 0; i < str.length(); i++) {
+      if (!Character.isWhitespace(str.charAt(i))) {
+        return false;
+      }
+    }
+    return true;
   }
 }

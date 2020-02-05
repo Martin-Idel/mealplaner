@@ -5,6 +5,7 @@ package mealplaner.io.xml.util;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ import mealplaner.plugins.api.MealFact;
 import mealplaner.plugins.api.MealFactXml;
 
 public class FactsAdapterTest {
-  private ArrayList<Object> unmarshalledFacts;
+  private List<Object> unmarshalledFacts;
   private PluginStore knownPlugins;
 
   @BeforeEach

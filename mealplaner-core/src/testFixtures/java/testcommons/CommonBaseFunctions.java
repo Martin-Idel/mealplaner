@@ -33,7 +33,6 @@ import static mealplaner.plugins.builtins.courses.CourseType.MAIN;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.List;
 
 import mealplaner.commons.NonnegativeFraction;

@@ -30,6 +30,7 @@ public class CookingPreferencePlugin implements PluginDescription {
   }
 
   public CookingPreferencePlugin(Map<Pair<CookingPreference, PreferenceSettings>, Integer> preferenceMap) {
+    this.preferenceMap = preferenceMap;
   }
 
   @Override

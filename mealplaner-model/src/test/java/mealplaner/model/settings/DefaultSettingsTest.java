@@ -28,7 +28,7 @@ public class DefaultSettingsTest {
     defaultSettings.put(SATURDAY, setting().numberOfPeople(THREE).create());
 
     Map<DayOfWeek, Settings> defaultSettingsActual = from(defaultSettings, new PluginStore())
-        .getDefaultSettings();
+        .getDefaultSettingsMap();
 
     assertThat(defaultSettingsActual).containsAllEntriesOf(defaultSettings);
   }

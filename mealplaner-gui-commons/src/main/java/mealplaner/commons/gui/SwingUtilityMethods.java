@@ -5,13 +5,7 @@ package mealplaner.commons.gui;
 import static javax.swing.KeyStroke.getKeyStroke;
 
 import java.awt.event.ActionListener;
-import java.util.List;
-import java.util.function.Function;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
-import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 
 public final class SwingUtilityMethods {
   private SwingUtilityMethods() {
