@@ -137,10 +137,11 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
   }
 
   private void saveIngredient(PluginStore pluginStore, Runnable postSaveAction) {
-    if (nameField.getUserInput().isPresent()) {
+    var name = nameField.getUserInput();
+    if (name.isPresent()) {
       ingredients.add(ingredientWithValidation(
           pluginStore.getRegisteredIngredientExtensions().getAllRegisteredFacts())
-          .withName(nameField.getUserInput().get())
+          .withName(name.get())
           .withType(typeField.getUserInput())
           .withPrimaryMeasure(primaryMeasureField.getUserInput())
           .withSecondaryMeasures(secondaryMeasuresField.getUserInput())
