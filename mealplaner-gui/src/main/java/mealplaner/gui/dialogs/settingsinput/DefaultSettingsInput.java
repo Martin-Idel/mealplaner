@@ -11,7 +11,7 @@ import static mealplaner.model.settings.DefaultSettings.from;
 
 import java.time.DayOfWeek;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.Optional;
 import javax.swing.JFrame;
@@ -58,7 +58,7 @@ public class DefaultSettingsInput extends SettingsInput implements DialogCreatin
   }
 
   private Optional<DefaultSettings> transformToDefault(PluginStore pluginStore, Settings... settings) {
-    Map<DayOfWeek, Settings> defaultSettings = new HashMap<>();
+    Map<DayOfWeek, Settings> defaultSettings = new EnumMap<>(DayOfWeek.class);
     for (int i = 0; i < settings.length; i++) {
       defaultSettings.put(MONDAY.plus(i), settings[i]);
     }

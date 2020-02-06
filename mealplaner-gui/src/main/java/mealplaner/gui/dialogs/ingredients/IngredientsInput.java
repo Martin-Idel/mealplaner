@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -42,7 +43,7 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
   private InputField<Optional<String>> nameField;
   private InputField<IngredientType> typeField;
   private InputField<Measure> primaryMeasureField;
-  private InputField<EnumMap<Measure, NonnegativeFraction>> secondaryMeasuresField;
+  private InputField<Map<Measure, NonnegativeFraction>> secondaryMeasuresField;
   private List<InputField<?>> factInputFields;
 
   private final List<Ingredient> ingredients;
@@ -122,8 +123,8 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
         .collect(Collectors.toList());
   }
 
-  private EnumMap<Measure, NonnegativeFraction> createMeasuresDialog(
-      DataStore mealPlan, EnumMap<Measure, NonnegativeFraction> measures, PluginStore pluginStore) {
+  private Map<Measure, NonnegativeFraction> createMeasuresDialog(
+      DataStore mealPlan, Map<Measure, NonnegativeFraction> measures, PluginStore pluginStore) {
     var measuresInput = MeasureInputDialog.measureInput(dialogWindow, primaryMeasureField.getUserInput());
     return measuresInput.showDialog(measures, mealPlan, pluginStore);
   }

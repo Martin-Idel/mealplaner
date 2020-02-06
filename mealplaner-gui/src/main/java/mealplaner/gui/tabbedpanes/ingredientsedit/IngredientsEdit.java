@@ -16,8 +16,8 @@ import static mealplaner.model.DataStoreEventType.INGREDIENTS_CHANGED;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 import javax.swing.JFrame;
@@ -77,7 +77,7 @@ public class IngredientsEdit implements DataStoreListener {
     return builder("IngredientsEdit")
         .addAddButton(action -> insertItems(ingredientsInput(frame).showDialog(mealPlan, pluginStore)))
         .addRemoveSelectedButton(action -> {
-          deleteSelectedRows(table, number -> ingredients.remove((int) number));
+          deleteSelectedRows(table, ingredients::remove);
           buttonPanel.enableButtons();
         })
         .addSaveButton(action -> {
@@ -140,7 +140,7 @@ public class IngredientsEdit implements DataStoreListener {
     buttonPanel.enableButtons();
   }
 
-  private EnumMap<Measure, NonnegativeFraction> editSecondaryMeasures(
+  private Map<Measure, NonnegativeFraction> editSecondaryMeasures(
       Measures measures, PluginStore pluginStore) {
     MeasureInputDialog measureInputDialog = MeasureInputDialog.measureInput(frame, measures.getPrimaryMeasure());
     return measureInputDialog.showDialog(measures.getSecondaries(), mealPlan, pluginStore);

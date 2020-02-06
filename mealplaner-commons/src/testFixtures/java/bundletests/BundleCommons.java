@@ -3,9 +3,9 @@
 package bundletests;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -174,29 +174,13 @@ public class BundleCommons {
     return ResourceBundle.getBundle(bundleName, locale);
   }
 
-  private static void assertEmptyKeyList(List<String> strings) {
-    if (!strings.isEmpty()) {
-      System.out.println("Size: " + strings.size());
-      System.out.println(strings);
-    }
-    assertTrue(strings.isEmpty());
-  }
-
-  private static void assertEmpty(List<Pair<Path, String>> filesWithErrors) {
-    if (!filesWithErrors.isEmpty()) {
-      filesWithErrors.forEach(file -> System.out.println(file.left + " "
-          + file.right));
-    }
-    assertTrue(filesWithErrors.isEmpty());
-  }
-
   public static Stream<Path> allJavaFiles() {
     try {
       return Files.find(Paths.get(".."), 999,
           (p, bfa) -> bfa.isRegularFile()
               && p.getFileName().toString().endsWith(".java")
-              && !p.toString().contains("/test/")
-              && !p.toString().contains("/mealplaner-plugins/")
+              && !p.toString().contains(File.separator + "test" + File.separator)
+              && !p.toString().contains(File.separator + "mealplaner-plugins" + File.separator)
       );
     } catch (IOException e) {
       e.printStackTrace();

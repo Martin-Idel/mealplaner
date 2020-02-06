@@ -8,7 +8,7 @@ import static mealplaner.model.settings.SettingsBuilder.defaultSetting;
 
 import java.time.DayOfWeek;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +16,7 @@ import mealplaner.plugins.PluginStore;
 
 public final class DefaultSettings {
   private static final List<DayOfWeek> DAYS_OF_WEEK = Arrays.asList(DayOfWeek.values());
-  private final Map<DayOfWeek, Settings> defaultSettingsMap = new HashMap<>();
+  private final Map<DayOfWeek, Settings> defaultSettingsMap = new EnumMap<>(DayOfWeek.class);
 
   private DefaultSettings(Map<DayOfWeek, Settings> defaultSettingsMap, PluginStore pluginStore) {
     this.defaultSettingsMap.putAll(defaultSettingsMap);
@@ -30,16 +30,19 @@ public final class DefaultSettings {
   }
 
   public static DefaultSettings createDefaultSettings(PluginStore pluginStore) {
-    return new DefaultSettings(new HashMap<>(), pluginStore);
+    return new DefaultSettings(new EnumMap<>(DayOfWeek.class), pluginStore);
   }
 
-  private static Map<DayOfWeek, Settings> copyHashMap(Map<DayOfWeek, Settings> defaultSettings) {
+  private static Map<DayOfWeek, Settings> copyMap(Map<DayOfWeek, Settings> defaultSettings) {
     return defaultSettings.entrySet().stream()
-        .collect(toMap(Map.Entry::getKey, entry -> Settings.copy(entry.getValue())));
+        .collect(toMap(Map.Entry::getKey,
+            entry -> SettingsBuilder.from(entry.getValue()).create(),
+            (l, r) -> l,
+            () -> new EnumMap<>(DayOfWeek.class)));
   }
 
   public Map<DayOfWeek, Settings> getDefaultSettingsMap() {
-    return copyHashMap(defaultSettingsMap);
+    return copyMap(defaultSettingsMap);
   }
 
   @Override

@@ -5,6 +5,7 @@ package mealplaner.io.xml.model.v3;
 import static mealplaner.model.recipes.Measure.NONE;
 
 import java.util.EnumMap;
+import java.util.Map;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -20,7 +21,7 @@ import mealplaner.model.recipes.Measures;
 public class MeasuresXml {
   public final Measure primaryMeasure;
   @XmlJavaTypeAdapter(value = MeasuresMapAdapter.class)
-  public final EnumMap<Measure, NonnegativeFraction> secondaryMeasures;
+  public final Map<Measure, NonnegativeFraction> secondaryMeasures;
 
   public MeasuresXml() {
     this(NONE, new EnumMap<>(Measure.class));
@@ -30,7 +31,7 @@ public class MeasuresXml {
     this(measures.getPrimaryMeasure(), measures.getSecondaries());
   }
 
-  public MeasuresXml(Measure primaryMeasure, EnumMap<Measure, NonnegativeFraction> secondaryMeasures) {
+  public MeasuresXml(Measure primaryMeasure, Map<Measure, NonnegativeFraction> secondaryMeasures) {
     this.primaryMeasure = primaryMeasure;
     this.secondaryMeasures = secondaryMeasures;
   }

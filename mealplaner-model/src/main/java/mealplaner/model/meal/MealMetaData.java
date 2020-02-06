@@ -14,7 +14,7 @@ import mealplaner.plugins.api.MealFact;
 
 public final class MealMetaData {
   private static final MealMetaData EMPTY_METADATA = new MealMetaData(
-      "EMPTY",
+      "<none>",
       new HashMap<>(),
       new ArrayList<>());
 

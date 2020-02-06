@@ -7,8 +7,8 @@ import static mealplaner.commons.BundleStore.BUNDLES;
 import static org.assertj.swing.data.TableCell.row;
 
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 import org.assertj.swing.fixture.DialogFixture;
 import org.assertj.swing.fixture.FrameFixture;
@@ -139,7 +139,7 @@ public class IngredientsEditPageObject {
   }
 
   private static void enterIngredientSecondaryMeasures(
-      EnumMap<Measure, NonnegativeFraction> secondaries, DialogFixture enterIngredientDialog) {
+      Map<Measure, NonnegativeFraction> secondaries, DialogFixture enterIngredientDialog) {
     JTableFixture ingredientsTable = enterIngredientDialog.table();
     var secondaryList = new ArrayList<>(secondaries.entrySet());
     for (int i = 0; i < secondaries.size(); i++) {

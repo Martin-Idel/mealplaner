@@ -24,16 +24,6 @@ public final class Settings {
     this.numberOfPeople = numberOfPeople;
   }
 
-  private Settings(Settings setting) {
-    this.numberOfPeople = setting.getNumberOfPeople();
-    this.subSettings = setting.getSubSettings();
-    this.hiddenSubSettings = setting.getHiddenSubSettings();
-  }
-
-  public static Settings copy(Settings setting) {
-    return new Settings(setting);
-  }
-
   public NonnegativeInteger getNumberOfPeople() {
     return numberOfPeople;
   }

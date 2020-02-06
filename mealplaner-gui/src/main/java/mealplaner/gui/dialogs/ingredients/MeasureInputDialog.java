@@ -9,6 +9,7 @@ import static mealplaner.commons.gui.dialogs.DialogWindow.window;
 
 import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -22,10 +23,10 @@ import mealplaner.model.DataStore;
 import mealplaner.model.recipes.Measure;
 import mealplaner.plugins.PluginStore;
 
-public class MeasureInputDialog implements DialogEditing<EnumMap<Measure, NonnegativeFraction>> {
+public class MeasureInputDialog implements DialogEditing<Map<Measure, NonnegativeFraction>> {
   private final DialogWindow dialogWindow;
   private Measure primaryMeasure;
-  private EnumMap<Measure, NonnegativeFraction> oldMeasures;
+  private Map<Measure, NonnegativeFraction> oldMeasures;
   private List<Pair<Measure, NonnegativeFraction>> tableMeasures;
 
   private MeasureInputDialog(JFrame parentFrame, Measure primaryMeasure) {
@@ -47,8 +48,8 @@ public class MeasureInputDialog implements DialogEditing<EnumMap<Measure, Nonneg
   }
 
   @Override
-  public EnumMap<Measure, NonnegativeFraction> showDialog(
-      EnumMap<Measure, NonnegativeFraction> toEdit, DataStore data, PluginStore pluginStore) {
+  public Map<Measure, NonnegativeFraction> showDialog(
+      Map<Measure, NonnegativeFraction> toEdit, DataStore data, PluginStore pluginStore) {
     display(toEdit);
     dialogWindow.dispose();
     return tableMeasures
@@ -60,7 +61,7 @@ public class MeasureInputDialog implements DialogEditing<EnumMap<Measure, Nonneg
             () -> new EnumMap<>(Measure.class)));
   }
 
-  private void display(EnumMap<Measure, NonnegativeFraction> toEdit) {
+  private void display(Map<Measure, NonnegativeFraction> toEdit) {
     oldMeasures = toEdit;
     tableMeasures = toList(toEdit);
     var table = MeasureTable.setupTable(tableMeasures, primaryMeasure);
@@ -80,7 +81,7 @@ public class MeasureInputDialog implements DialogEditing<EnumMap<Measure, Nonneg
         .build();
   }
 
-  private List<Pair<Measure, NonnegativeFraction>> toList(EnumMap<Measure, NonnegativeFraction> toEdit) {
+  private List<Pair<Measure, NonnegativeFraction>> toList(Map<Measure, NonnegativeFraction> toEdit) {
     return toEdit
         .entrySet()
         .stream()

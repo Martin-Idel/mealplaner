@@ -23,6 +23,7 @@ import javax.swing.JTable;
 import org.junit.jupiter.api.Test;
 
 import mealplaner.model.MealplanerData;
+import mealplaner.model.meal.Meal;
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.proposal.ProposedMenu;
 
@@ -36,8 +37,8 @@ public class ProposalTableTest {
 
     assertThat(proposalSwingTable.getColumnCount()).isEqualTo(3);
     assertThat(proposalSwingTable.getRowCount()).isEqualTo(2);
-    assertThat(proposalSwingTable.getValueAt(0, 2)).isEqualTo(getMeal1().getName());
-    assertThat(proposalSwingTable.getValueAt(1, 2)).isEqualTo(getMeal2().getName());
+    assertThat(proposalSwingTable.getValueAt(0, 2)).isEqualTo(getMeal1());
+    assertThat(proposalSwingTable.getValueAt(1, 2)).isEqualTo(getMeal2());
   }
 
   @Test
@@ -47,10 +48,10 @@ public class ProposalTableTest {
 
     assertThat(proposalSwingTable.getColumnCount()).isEqualTo(4);
     assertThat(proposalSwingTable.getRowCount()).isEqualTo(2);
-    assertThat(proposalSwingTable.getValueAt(0, 2)).isEqualTo(getMeal1().getName());
-    assertThat(proposalSwingTable.getValueAt(0, 3)).isEqualTo(getMealDesert().getName());
-    assertThat(proposalSwingTable.getValueAt(1, 2)).isEqualTo(getMeal2().getName());
-    assertThat(proposalSwingTable.getValueAt(1, 3)).isEqualTo("");
+    assertThat(proposalSwingTable.getValueAt(0, 2)).isEqualTo(getMeal1());
+    assertThat(proposalSwingTable.getValueAt(0, 3)).isEqualTo(getMealDesert());
+    assertThat(proposalSwingTable.getValueAt(1, 2)).isEqualTo(getMeal2());
+    assertThat(proposalSwingTable.getValueAt(1, 3)).isEqualTo(Meal.EMPTY_MEAL);
   }
 
   @Test
@@ -60,12 +61,12 @@ public class ProposalTableTest {
 
     assertThat(proposalSwingTable.getColumnCount()).isEqualTo(5);
     assertThat(proposalSwingTable.getRowCount()).isEqualTo(2);
-    assertThat(proposalSwingTable.getValueAt(0, 2)).isEqualTo(getMealEntry().getName());
-    assertThat(proposalSwingTable.getValueAt(0, 3)).isEqualTo(getMeal1().getName());
-    assertThat(proposalSwingTable.getValueAt(0, 4)).isEqualTo(getMealDesert().getName());
-    assertThat(proposalSwingTable.getValueAt(1, 2)).isEqualTo("");
-    assertThat(proposalSwingTable.getValueAt(1, 3)).isEqualTo(getMeal2().getName());
-    assertThat(proposalSwingTable.getValueAt(1, 4)).isEqualTo("");
+    assertThat(proposalSwingTable.getValueAt(0, 2)).isEqualTo(getMealEntry());
+    assertThat(proposalSwingTable.getValueAt(0, 3)).isEqualTo(getMeal1());
+    assertThat(proposalSwingTable.getValueAt(0, 4)).isEqualTo(getMealDesert());
+    assertThat(proposalSwingTable.getValueAt(1, 2)).isEqualTo(Meal.EMPTY_MEAL);
+    assertThat(proposalSwingTable.getValueAt(1, 3)).isEqualTo(getMeal2());
+    assertThat(proposalSwingTable.getValueAt(1, 4)).isEqualTo(Meal.EMPTY_MEAL);
   }
 
   @Test
@@ -73,76 +74,76 @@ public class ProposalTableTest {
     MealplanerData data = setupMealplanerDataWithAllMealsAndIngredients();
 
     JTable proposalSwingTable = createProposalTable(data, getProposal1());
-    proposalSwingTable.setValueAt(getMeal3().getName(), 1, 2);
+    proposalSwingTable.setValueAt(getMeal3(), 1, 2);
 
     assertThat(proposalSwingTable.getColumnCount()).isEqualTo(3);
     assertThat(proposalSwingTable.getRowCount()).isEqualTo(2);
-    assertThat(proposalSwingTable.getValueAt(0, 2)).isEqualTo(getMeal1().getName());
-    assertThat(proposalSwingTable.getValueAt(1, 2)).isEqualTo(getMeal3().getName());
+    assertThat(proposalSwingTable.getValueAt(0, 2)).isEqualTo(getMeal1());
+    assertThat(proposalSwingTable.getValueAt(1, 2)).isEqualTo(getMeal3());
   }
 
   @Test
   public void changingEntryCorrectlyChangesEntry() {
     JTable proposalSwingTable = setupProposalTableWithThreeCourseMeal();
 
-    proposalSwingTable.setValueAt(getMealEntry2().getName(), 0, 2);
+    proposalSwingTable.setValueAt(getMealEntry2(), 0, 2);
 
     assertThat(proposalSwingTable.getColumnCount()).isEqualTo(5);
     assertThat(proposalSwingTable.getRowCount()).isEqualTo(2);
-    assertThat(proposalSwingTable.getValueAt(0, 2)).isEqualTo(getMealEntry2().getName());
-    assertThat(proposalSwingTable.getValueAt(0, 3)).isEqualTo(getMeal1().getName());
-    assertThat(proposalSwingTable.getValueAt(0, 4)).isEqualTo(getMealDesert().getName());
-    assertThat(proposalSwingTable.getValueAt(1, 2)).isEqualTo("");
-    assertThat(proposalSwingTable.getValueAt(1, 3)).isEqualTo(getMeal2().getName());
-    assertThat(proposalSwingTable.getValueAt(1, 4)).isEqualTo("");
+    assertThat(proposalSwingTable.getValueAt(0, 2)).isEqualTo(getMealEntry2());
+    assertThat(proposalSwingTable.getValueAt(0, 3)).isEqualTo(getMeal1());
+    assertThat(proposalSwingTable.getValueAt(0, 4)).isEqualTo(getMealDesert());
+    assertThat(proposalSwingTable.getValueAt(1, 2)).isEqualTo(Meal.EMPTY_MEAL);
+    assertThat(proposalSwingTable.getValueAt(1, 3)).isEqualTo(getMeal2());
+    assertThat(proposalSwingTable.getValueAt(1, 4)).isEqualTo(Meal.EMPTY_MEAL);
   }
 
   @Test
   public void changingPreviouslyEmptyEntryCorrectlyChangesEntry() {
     JTable proposalSwingTable = setupProposalTableWithThreeCourseMeal();
 
-    proposalSwingTable.setValueAt(getMealEntry2().getName(), 1, 2);
+    proposalSwingTable.setValueAt(getMealEntry2(), 1, 2);
 
     assertThat(proposalSwingTable.getColumnCount()).isEqualTo(5);
     assertThat(proposalSwingTable.getRowCount()).isEqualTo(2);
-    assertThat(proposalSwingTable.getValueAt(0, 2)).isEqualTo(getMealEntry().getName());
-    assertThat(proposalSwingTable.getValueAt(0, 3)).isEqualTo(getMeal1().getName());
-    assertThat(proposalSwingTable.getValueAt(0, 4)).isEqualTo(getMealDesert().getName());
-    assertThat(proposalSwingTable.getValueAt(1, 2)).isEqualTo(getMealEntry2().getName());
-    assertThat(proposalSwingTable.getValueAt(1, 3)).isEqualTo(getMeal2().getName());
-    assertThat(proposalSwingTable.getValueAt(1, 4)).isEqualTo("");
+    assertThat(proposalSwingTable.getValueAt(0, 2)).isEqualTo(getMealEntry());
+    assertThat(proposalSwingTable.getValueAt(0, 3)).isEqualTo(getMeal1());
+    assertThat(proposalSwingTable.getValueAt(0, 4)).isEqualTo(getMealDesert());
+    assertThat(proposalSwingTable.getValueAt(1, 2)).isEqualTo(getMealEntry2());
+    assertThat(proposalSwingTable.getValueAt(1, 3)).isEqualTo(getMeal2());
+    assertThat(proposalSwingTable.getValueAt(1, 4)).isEqualTo(Meal.EMPTY_MEAL);
   }
 
   @Test
   public void changingEntryToEmptyMealWorksCorrectly() {
     JTable proposalSwingTable = setupProposalTableWithThreeCourseMeal();
 
-    proposalSwingTable.setValueAt("", 0, 2);
+    proposalSwingTable.setValueAt(Meal.EMPTY_MEAL, 0, 2);
 
     assertThat(proposalSwingTable.getColumnCount()).isEqualTo(5);
     assertThat(proposalSwingTable.getRowCount()).isEqualTo(2);
-    assertThat(proposalSwingTable.getValueAt(0, 2)).isEqualTo("");
-    assertThat(proposalSwingTable.getValueAt(0, 3)).isEqualTo(getMeal1().getName());
-    assertThat(proposalSwingTable.getValueAt(0, 4)).isEqualTo(getMealDesert().getName());
-    assertThat(proposalSwingTable.getValueAt(1, 2)).isEqualTo("");
-    assertThat(proposalSwingTable.getValueAt(1, 3)).isEqualTo(getMeal2().getName());
-    assertThat(proposalSwingTable.getValueAt(1, 4)).isEqualTo("");
+    assertThat(proposalSwingTable.getValueAt(0, 2)).isEqualTo(Meal.EMPTY_MEAL);
+    assertThat(proposalSwingTable.getValueAt(0, 3)).isEqualTo(getMeal1());
+    assertThat(proposalSwingTable.getValueAt(0, 4)).isEqualTo(getMealDesert());
+    assertThat(proposalSwingTable.getValueAt(1, 2)).isEqualTo(Meal.EMPTY_MEAL);
+    assertThat(proposalSwingTable.getValueAt(1, 3)).isEqualTo(getMeal2());
+    assertThat(proposalSwingTable.getValueAt(1, 4)).isEqualTo(Meal.EMPTY_MEAL);
   }
 
   @Test
   public void changingDesertToEmptyMealWorksCorrectly() {
     JTable proposalSwingTable = setupProposalTableWithThreeCourseMeal();
 
-    proposalSwingTable.setValueAt("", 0, 4);
+    proposalSwingTable.setValueAt(Meal.EMPTY_MEAL, 0, 4);
 
     assertThat(proposalSwingTable.getColumnCount()).isEqualTo(5);
     assertThat(proposalSwingTable.getRowCount()).isEqualTo(2);
-    assertThat(proposalSwingTable.getValueAt(0, 2)).isEqualTo(getMealEntry().getName());
-    assertThat(proposalSwingTable.getValueAt(0, 3)).isEqualTo(getMeal1().getName());
-    assertThat(proposalSwingTable.getValueAt(0, 4)).isEqualTo("");
-    assertThat(proposalSwingTable.getValueAt(1, 2)).isEqualTo("");
-    assertThat(proposalSwingTable.getValueAt(1, 3)).isEqualTo(getMeal2().getName());
-    assertThat(proposalSwingTable.getValueAt(1, 4)).isEqualTo("");
+    assertThat(proposalSwingTable.getValueAt(0, 2)).isEqualTo(getMealEntry());
+    assertThat(proposalSwingTable.getValueAt(0, 3)).isEqualTo(getMeal1());
+    assertThat(proposalSwingTable.getValueAt(0, 4)).isEqualTo(Meal.EMPTY_MEAL);
+    assertThat(proposalSwingTable.getValueAt(1, 2)).isEqualTo(Meal.EMPTY_MEAL);
+    assertThat(proposalSwingTable.getValueAt(1, 3)).isEqualTo(getMeal2());
+    assertThat(proposalSwingTable.getValueAt(1, 4)).isEqualTo(Meal.EMPTY_MEAL);
   }
 
   private JTable setupProposalTableWithDesert() {

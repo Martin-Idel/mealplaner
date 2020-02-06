@@ -9,8 +9,8 @@ import static mealplaner.commons.gui.tables.TableColumnBuilder.withEnumContent;
 import static mealplaner.model.recipes.IngredientBuilder.from;
 
 import java.util.Collection;
-import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 import mealplaner.commons.NonnegativeFraction;
@@ -30,7 +30,7 @@ final class IngredientsEditTable {
   public static Table createTable(
       List<Ingredient> ingredients,
       ButtonPanelEnabling buttonPanel,
-      Function<Measures, EnumMap<Measure, NonnegativeFraction>> measuresEdit,
+      Function<Measures, Map<Measure, NonnegativeFraction>> measuresEdit,
       Collection<IngredientEditExtension> ingredientEditExtensions) {
     var tableModelBuilder = createNewTable()
         .withRowCount(ingredients::size)
@@ -67,7 +67,7 @@ final class IngredientsEditTable {
             .buildWithOrderNumber(80))
         .addListenerToThisColumn(row -> {
           var measures = ingredients.get(row).getMeasures();
-          EnumMap<Measure, NonnegativeFraction> editedMeasures = measuresEdit.apply(measures);
+          Map<Measure, NonnegativeFraction> editedMeasures = measuresEdit.apply(measures);
           Ingredient newIngredient = IngredientBuilder.from(ingredients.get(row))
               .withSecondaryMeasures(editedMeasures)
               .create();

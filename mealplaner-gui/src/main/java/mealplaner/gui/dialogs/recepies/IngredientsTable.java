@@ -66,7 +66,7 @@ public final class IngredientsTable {
                 && !ingredients.get(row).getIngredient().getMeasures().getSecondaries().isEmpty())
             .build())
         .addDefaultRowToUnderlyingModel(() -> ingredients.add(QuantitativeIngredient.DEFAULT))
-        .deleteRowsOnDelete(row -> ingredients.remove((int) row))
+        .deleteRowsOnDelete(ingredients::remove)
         .buildDynamicTable();
   }
 

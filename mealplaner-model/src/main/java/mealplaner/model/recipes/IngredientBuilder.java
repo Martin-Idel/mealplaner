@@ -28,7 +28,7 @@ public class IngredientBuilder {
   private String name = "";
   private IngredientType type = OTHER;
   private Measure primaryMeasure = Measure.NONE;
-  private EnumMap<Measure, NonnegativeFraction> secondaryMeasures = new EnumMap<>(Measure.class);
+  private Map<Measure, NonnegativeFraction> secondaryMeasures = new EnumMap<>(Measure.class);
   private Map<Class, IngredientFact> facts = new HashMap<>();
   private List<Element> hiddenFacts = new ArrayList<>();
 
@@ -101,7 +101,7 @@ public class IngredientBuilder {
     return new SecondaryMeasureBuilder(measure, this);
   }
 
-  public IngredientBuilder withSecondaryMeasures(EnumMap<Measure, NonnegativeFraction> measures) {
+  public IngredientBuilder withSecondaryMeasures(Map<Measure, NonnegativeFraction> measures) {
     this.secondaryMeasures = measures;
     return this;
   }

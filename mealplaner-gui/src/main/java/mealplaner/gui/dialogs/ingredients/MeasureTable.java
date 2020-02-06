@@ -46,7 +46,7 @@ public final class MeasureTable {
             .overwriteTableCellRenderer(defineMeasureToRenderer(primaryMeasure))
             .build())
         .addDefaultRowToUnderlyingModel(() -> measures.add(Pair.of(removePrimary(primaryMeasure).get(0), ONE)))
-        .deleteRowsOnDelete(row -> measures.remove((int) row))
+        .deleteRowsOnDelete(measures::remove)
         .buildDynamicTable();
   }
 

@@ -16,8 +16,10 @@ import static mealplaner.model.proposal.ProposedMenu.proposed;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import mealplaner.commons.gui.tables.Table;
+import mealplaner.commons.gui.tables.cells.FlexibleClassRenderer;
 import mealplaner.model.DataStore;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.proposal.Proposal;
@@ -46,25 +48,27 @@ class UpdateTable {
                     .getDayOfWeek()
                     .getDisplayName(FULL, BUNDLES.locale()))
             .build())
-        .addColumn(withContent(String.class)
+        .addColumn(withContent(Meal.class)
             .withColumnName(BUNDLES.message("menu"))
             .getValueFromOrderedList(meals,
-                meal -> meal.main.equals(Meal.EMPTY_MEAL.getId())
-                    ? ""
-                    : store.getMeal(meal.main).get().getName())
+                meal -> store.getMeal(meal.main).orElse(Meal.EMPTY_MEAL))
             .setValueToOrderedImmutableList(meals,
-                (menuToBeReplace, name) -> replaceMainMenu(name, mealList, menuToBeReplace))
+                (menuToBeReplace, meal) -> replaceMainMenu(meal, menuToBeReplace))
             .isEditable()
-            .overwriteTableCellEditor(autoCompleteCellEditor(mealList, Meal::getName))
+            .overwriteTableCellEditor(autoCompleteCellEditor(
+                mealList, Meal.EMPTY_MEAL, getMealStringRepresentation()))
+            .overwriteTableCellRenderer(
+                new FlexibleClassRenderer(getMealStringRepresentation(), Meal.EMPTY_MEAL
+            ))
             .build())
         .buildTable();
   }
 
-  private ProposedMenu replaceMainMenu(String name, List<Meal> meals, ProposedMenu oldMenu) {
-    Meal newMeal = meals.stream()
-        .filter(meal -> meal.getName().equals(name))
-        .findAny()
-        .orElse(Meal.EMPTY_MEAL);
+  private Function<Object, String> getMealStringRepresentation() {
+    return object -> object instanceof Meal ? ((Meal) object).getName() : "";
+  }
+
+  private ProposedMenu replaceMainMenu(Meal newMeal, ProposedMenu oldMenu) {
     return proposed(oldMenu.entry, newMeal.getId(), oldMenu.desert, oldMenu.numberOfPeople);
   }
 

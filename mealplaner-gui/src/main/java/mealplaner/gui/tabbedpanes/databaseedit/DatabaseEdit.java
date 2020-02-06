@@ -69,7 +69,7 @@ public class DatabaseEdit implements DataStoreListener {
     return builder("DatabaseEdit")
         .addAddButton(action -> insertItem(mealinput(dataFrame).showDialog(mealplanerData, store)))
         .addRemoveSelectedButton(
-            action -> deleteSelectedRows(table, number -> meals.remove((int) number)))
+            action -> deleteSelectedRows(table, meals::remove))
         .addSaveButton(action -> {
           setData.accept(meals);
           fileIo.savePart(mealplanerData, DataParts.MEALS);
