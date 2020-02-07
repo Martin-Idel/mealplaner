@@ -19,18 +19,6 @@ public final class AutoCompleteEditors {
   private AutoCompleteEditors() {
   }
 
-  // TODO: Replace this method by the one below in tables
-  public static <T> ComboBoxCellEditor autoCompleteCellEditor(List<T> list, Function<T, String> label) {
-    String[] listAndEmptyElement = new String[list.size() + 1];
-    for (int i = 0; i < list.size(); i++) {
-      listAndEmptyElement[i] = label.apply(list.get(i));
-    }
-    listAndEmptyElement[listAndEmptyElement.length - 1] = "";
-    JComboBox<String> autoCompleteBox = new JComboBox<>(listAndEmptyElement);
-    AutoCompleteDecorator.decorate(autoCompleteBox);
-    return new ComboBoxCellEditor(autoCompleteBox);
-  }
-
   public static <T> ComboBoxCellEditor autoCompleteCellEditor(
       List<T> list, T emptyObject, Function<Object, String> toRepresentation) {
     JComboBox<T> autoCompleteBox = new JComboBox<>(new Vector<>(list));

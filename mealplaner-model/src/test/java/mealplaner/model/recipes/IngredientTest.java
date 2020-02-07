@@ -150,8 +150,8 @@ public class IngredientTest {
     var ingredient = getTestIngredient();
 
     assertThat(ingredient.toString()).isEqualTo("Ingredient{uuid=" + ingredient.getId() + ", "
-        + "name='Test', type=Baking Goods, measures=Measures{primary=pieces, secondaries={}}, "
-        + "ingredientFacts={class testcommonsmodel.TestIngredientFact=TEST_INGREDIENT_2}, "
+        + "name='Test', type=" + BAKING_GOODS.toString() + ", measures=Measures{primary=" + AMOUNT
+        + ", secondaries={}}, ingredientFacts={class testcommonsmodel.TestIngredientFact=TEST_INGREDIENT_2}, "
         + "hiddenIngredientFacts=[]}");
   }
 

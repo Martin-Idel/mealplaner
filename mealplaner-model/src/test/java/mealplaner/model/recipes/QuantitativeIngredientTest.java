@@ -3,6 +3,8 @@
 package mealplaner.model.recipes;
 
 import static mealplaner.commons.NonnegativeFraction.fraction;
+import static mealplaner.model.recipes.IngredientType.MEAT_PRODUCTS;
+import static mealplaner.model.recipes.Measure.TEASPOON;
 import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitativeIngredient;
 import static org.assertj.core.api.Assertions.assertThat;
 import static testcommonsmodel.CommonBaseFunctions.getIngredient4;
@@ -22,7 +24,7 @@ public class QuantitativeIngredientTest {
     var ingredient = getIngredient4();
 
     var quantitativeIngredient = createQuantitativeIngredient(
-        ingredient, Measure.TEASPOON, fraction(100, 1));
+        ingredient, TEASPOON, fraction(100, 1));
 
     assertThat(quantitativeIngredient.convertToPrimaryMeasure())
         .isEqualTo(createQuantitativeIngredient(ingredient, Measure.GRAM, fraction(50, 1)));
@@ -48,12 +50,13 @@ public class QuantitativeIngredientTest {
     var ingredient = getIngredient4();
 
     var quantitativeIngredient = createQuantitativeIngredient(
-        ingredient, Measure.TEASPOON, fraction(100, 1));
+        ingredient, TEASPOON, fraction(100, 1));
 
     assertThat(quantitativeIngredient.toString()).isEqualTo(
         "QuantitativeIngredient{ingredient=Ingredient{uuid=41d5e808-720c-3ee7-9257-214e952a6721, "
-            + "name='Test4', type=Meat products, measures=Measures{primary=g, secondaries={tsp=1/2}}, "
-            + "ingredientFacts={}, hiddenIngredientFacts=[]}, measure=tsp, amount=100}");
+            + "name='Test4', type=" + MEAT_PRODUCTS + ", measures=Measures{primary=g, secondaries={"
+            + TEASPOON + "=1/2}}, " + "ingredientFacts={}, hiddenIngredientFacts=[]}, measure="
+            + TEASPOON + ", amount=100}");
     assertThat(QuantitativeIngredient.class.getDeclaredFields().length).isEqualTo(3 + 1); // one static field
   }
 }
