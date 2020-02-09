@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 
 import mealplaner.commons.NonnegativeFraction;
 import mealplaner.commons.Pair;
+import mealplaner.commons.gui.MessageDialog;
 import mealplaner.commons.gui.buttonpanel.ButtonPanel;
 import mealplaner.commons.gui.dialogs.DialogWindow;
 import mealplaner.gui.dialogs.DialogEditing;
@@ -77,7 +78,14 @@ public class MeasureInputDialog implements DialogEditing<Map<Measure, Nonnegativ
           tableMeasures = toList(oldMeasures);
           dialogWindow.dispose();
         })
-        .addOkButton(action -> dialogWindow.dispose())
+        .addOkButton(action -> {
+          if (validate()) {
+            dialogWindow.dispose();
+          } else {
+            MessageDialog.errorMessages(dialogWindow,
+                BUNDLES.message("measuresNotZeroConversion"));
+          }
+        })
         .build();
   }
 
@@ -88,5 +96,10 @@ public class MeasureInputDialog implements DialogEditing<Map<Measure, Nonnegativ
         .filter(entry -> !entry.getKey().equals(primaryMeasure))
         .map(entry -> Pair.of(entry.getKey(), entry.getValue()))
         .collect(Collectors.toList());
+  }
+
+  private boolean validate() {
+    return !tableMeasures.stream()
+        .anyMatch(pair -> NonnegativeFraction.ZERO.equals(pair.right));
   }
 }

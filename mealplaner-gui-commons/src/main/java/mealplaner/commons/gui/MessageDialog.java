@@ -5,6 +5,7 @@ package mealplaner.commons.gui;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static mealplaner.commons.BundleStore.BUNDLES;
 
+import java.awt.Component;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -12,12 +13,12 @@ public final class MessageDialog {
   private MessageDialog() {
   }
 
-  public static void errorMessages(JFrame frame, String errorMessage) {
+  public static void errorMessages(Component frame, String errorMessage) {
     JOptionPane.showMessageDialog(frame, errorMessage,
         BUNDLES.errorMessage("ERR_HEADING"), ERROR_MESSAGE);
   }
 
-  public static void userErrorMessage(JFrame frame, String informationMessage) {
+  public static void userErrorMessage(Component frame, String informationMessage) {
     JOptionPane.showMessageDialog(frame, informationMessage,
         BUNDLES.message("errorHeading"), JOptionPane.INFORMATION_MESSAGE);
   }
