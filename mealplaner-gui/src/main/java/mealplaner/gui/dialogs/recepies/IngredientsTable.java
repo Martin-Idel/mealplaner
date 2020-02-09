@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 
+import mealplaner.commons.NonnegativeFraction;
 import mealplaner.commons.gui.tables.Table;
 import mealplaner.commons.gui.tables.cells.FlexibleClassRenderer;
 import mealplaner.commons.gui.tables.cells.FlexibleJComboBoxEditor;
@@ -53,6 +54,7 @@ public final class IngredientsTable {
                     ingredient.getIngredient(), ingredient.getMeasure(), amount))
             .isEditableIf(row -> (row < ingredients.size())
                 && !ingredients.get(row).getIngredient().getPrimaryMeasure().equals(Measure.NONE))
+            .overwriteTableCellRenderer(new FlexibleClassRenderer(IngredientsTable::representZeroAsEmptyString))
             .build())
         .addColumn(withContent(Measure.class)
             .withColumnName(BUNDLES.message("ingredientMeasureColumn"))
@@ -68,6 +70,13 @@ public final class IngredientsTable {
         .addDefaultRowToUnderlyingModel(() -> ingredients.add(QuantitativeIngredient.DEFAULT))
         .deleteRowsOnDelete(ingredients::remove)
         .buildDynamicTable();
+  }
+
+  private static String representZeroAsEmptyString(Object object) {
+    if (object instanceof NonnegativeFraction) {
+      return NonnegativeFraction.ZERO.equals(object) ? "" : ((NonnegativeFraction) object).toRoundedString();
+    }
+    return object.toString();
   }
 
   private static void updateComboBoxAccordingToSecondaryMeasuresOfIngredients(
