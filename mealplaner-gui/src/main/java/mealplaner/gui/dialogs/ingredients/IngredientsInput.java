@@ -115,7 +115,7 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
         BUNDLES.message("insertSecondaryMeasuresButtonLabel"),
         BUNDLES.message("insertSecondaryMeasuresButtonDefaultLabel"),
         new EnumMap<>(Measure.class),
-        content -> createMeasuresDialog(dataStore, content, pluginStore),
+        content -> createMeasuresDialogIfPrimaryMeasureIsNotNone(dataStore, content, pluginStore),
         3);
     factInputFields = ingredientInputDialogExtensions.stream()
         .flatMap(extension -> extension.createInputElements().stream())
@@ -123,9 +123,13 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
         .collect(Collectors.toList());
   }
 
-  private Map<Measure, NonnegativeFraction> createMeasuresDialog(
+  private Map<Measure, NonnegativeFraction> createMeasuresDialogIfPrimaryMeasureIsNotNone(
       DataStore mealPlan, Map<Measure, NonnegativeFraction> measures, PluginStore pluginStore) {
-    var measuresInput = MeasureInputDialog.measureInput(dialogWindow, primaryMeasureField.getUserInput());
+    var primaryMeasure = primaryMeasureField.getUserInput();
+    if (Measure.NONE.equals(primaryMeasure)) {
+      return new EnumMap<>(Measure.class);
+    }
+    var measuresInput = MeasureInputDialog.measureInput(dialogWindow, primaryMeasure);
     return measuresInput.showDialog(measures, mealPlan, pluginStore);
   }
 

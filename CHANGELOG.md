@@ -2,3 +2,6 @@
 
 - Bugfix: Prohibit entering zero as conversion factor between measures
 - Feature: Add new ingredient type "fresh herbs"
+- Feature: Add nwe measure "handful"
+- Feature: Print nothing if the amount is 0
+- Feature: Prohibit adding a secondary measure if the primary measure is "none"

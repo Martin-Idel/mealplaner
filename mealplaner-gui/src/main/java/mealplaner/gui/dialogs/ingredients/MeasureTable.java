@@ -45,7 +45,7 @@ public final class MeasureTable {
             .getValueFromOrderedList(measures, pair -> pair.right)
             .overwriteTableCellRenderer(defineMeasureToRenderer(primaryMeasure))
             .build())
-        .addDefaultRowToUnderlyingModel(() -> measures.add(Pair.of(removePrimary(primaryMeasure).get(0), ONE)))
+        .addDefaultRowToUnderlyingModel(() -> measures.add(Pair.of(removePrimaryAndNoMeasure(primaryMeasure).get(0), ONE)))
         .deleteRowsOnDelete(measures::remove)
         .buildDynamicTable();
   }
@@ -64,11 +64,13 @@ public final class MeasureTable {
 
   private static DefaultCellEditor defineCellEditorWithAllButPrimaryMeasure(Measure primaryMeasure) {
     return new DefaultCellEditor(
-        new JComboBox<>(new Vector<>(removePrimary(primaryMeasure))));
+        new JComboBox<>(new Vector<>(removePrimaryAndNoMeasure(primaryMeasure))));
   }
 
-  public static List<Measure> removePrimary(Measure primaryMeasure) {
+  public static List<Measure> removePrimaryAndNoMeasure(Measure primaryMeasure) {
     return Arrays.stream(Measure.values())
-        .filter(measure -> !measure.equals(primaryMeasure)).collect(Collectors.toList());
+        .filter(measure -> !measure.equals(primaryMeasure))
+        .filter(measure -> !measure.equals(Measure.NONE))
+        .collect(Collectors.toList());
   }
 }
