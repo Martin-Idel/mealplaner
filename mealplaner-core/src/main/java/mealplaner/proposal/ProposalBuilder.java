@@ -168,7 +168,7 @@ public class ProposalBuilder implements ProposalBuilderInterface {
   }
 
   private Pair<Meal, Integer> randomize(Pair<Meal, Integer> pair) {
-    return random ? Pair.of(pair.left, pair.right + randomIntGenerator.nextInt(7)) : pair;
+    return random ? Pair.of(pair.left, pair.right + randomIntGenerator.nextInt(100)) : pair;
   }
 
   private Pair<Meal, Integer> takeProposalIntoAccount(
