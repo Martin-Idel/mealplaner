@@ -45,7 +45,8 @@ public final class MeasureTable {
             .getValueFromOrderedList(measures, pair -> pair.right)
             .overwriteTableCellRenderer(defineMeasureToRenderer(primaryMeasure))
             .build())
-        .addDefaultRowToUnderlyingModel(() -> measures.add(Pair.of(removePrimaryAndNoMeasure(primaryMeasure).get(0), ONE)))
+        .addDefaultRowToUnderlyingModel(() -> measures.add(
+            Pair.of(removePrimaryAndNoMeasure(primaryMeasure).get(0), ONE)))
         .deleteRowsOnDelete(measures::remove)
         .buildDynamicTable();
   }
