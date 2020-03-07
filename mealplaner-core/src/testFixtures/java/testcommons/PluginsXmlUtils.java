@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import mealplaner.io.xml.MealplanerDataReader;
-import mealplaner.io.xml.MealplanerDataWriter;
+import mealplaner.io.xml.ProposalSummaryDataReader;
+import mealplaner.io.xml.ProposalSummaryDataWriter;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.proposal.Proposal;
@@ -58,11 +58,11 @@ public final class PluginsXmlUtils {
     mealPlan.setDefaultSettings(DefaultSettings.from(defaultSettings, new PluginStore()));
     mealPlan.setLastProposal(proposal);
 
-    MealplanerDataWriter.saveXml(mealPlan, filepath, pluginStore);
+    ProposalSummaryDataWriter.saveXml(mealPlan, filepath, pluginStore);
 
-    var reloadedProposal = MealplanerDataReader.loadXml(filepath, pluginStore);
+    var reloadedProposal = ProposalSummaryDataReader.loadXml(filepath, pluginStore);
 
-    assertThat(reloadedProposal.getDefaultSettings().getDefaultSettingsMap().get(MONDAY)).isEqualTo(settings);
+    assertThat(reloadedProposal.defaultSettings.getDefaultSettingsMap().get(MONDAY)).isEqualTo(settings);
   }
 
   private static void makeTemporaryDirectory(String filepath) {

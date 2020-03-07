@@ -3,16 +3,18 @@
 package mealplaner.io;
 
 import static java.util.Optional.empty;
-import static java.util.Optional.of;
-import static javax.swing.JOptionPane.showInputDialog;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.MessageDialog.errorMessages;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,8 +22,6 @@ import org.slf4j.LoggerFactory;
 import mealplaner.commons.errorhandling.MealException;
 import mealplaner.io.xml.IngredientsReader;
 import mealplaner.io.xml.IngredientsWriter;
-import mealplaner.io.xml.MealplanerDataReader;
-import mealplaner.io.xml.MealplanerDataWriter;
 import mealplaner.io.xml.MealsReader;
 import mealplaner.io.xml.MealsWriter;
 import mealplaner.io.xml.ProposalSummaryDataReader;
@@ -40,18 +40,97 @@ public class FileIo implements FileIoInterface {
   private static final String SAVE_FILE = "save.xml";
 
   private final JFrame frame;
-  private final String savePath;
+  private final String basePath;
+  private final String regularSavePath;
   private final PluginStore knownPlugins;
   private static final Logger logger = LoggerFactory.getLogger(FileIo.class);
 
-  public FileIo(JFrame frame, String savePath, PluginStore knownPlugins) {
+  public FileIo(JFrame frame, String basePath, PluginStore knownPlugins) {
     this.frame = frame;
-    this.savePath = savePath;
+    this.basePath = basePath;
     this.knownPlugins = knownPlugins;
+    this.regularSavePath = basePath + File.separator + "savefiles" + File.separator;
   }
 
   @Override
   public MealplanerData loadDatabase(PluginStore pluginStore) {
+    return load(pluginStore, regularSavePath);
+  }
+
+  @Override
+  public Optional<MealplanerData> loadBackup(PluginStore pluginStore) {
+    JFileChooser chooser = new JFileChooser(basePath);
+    FileNameExtensionFilter filter = new FileNameExtensionFilter("XML documents", "xml");
+    chooser.setFileFilter(filter);
+    int returnVal = chooser.showOpenDialog(frame);
+    if (returnVal == JFileChooser.APPROVE_OPTION) {
+      var bak = chooser.getSelectedFile();
+      load(pluginStore, bak.getParent() + File.separator);
+    }
+    return empty();
+  }
+
+  @Override
+  public void saveDatabase(MealplanerData mealPlan) {
+    save(mealPlan, regularSavePath);
+  }
+
+  @Override
+  public void createBackup(MealplanerData mealPlan) {
+    var timestamp = new SimpleDateFormat("yyyyMMdd", BUNDLES.locale()).format(new Date());
+    save(mealPlan, basePath + File.separator + timestamp + File.separator);
+    JOptionPane.showMessageDialog(
+        frame,
+        BUNDLES.message("successSave"),
+        BUNDLES.message("successHeading"),
+        JOptionPane.INFORMATION_MESSAGE);
+  }
+
+  @Override
+  public void savePart(MealplanerData mealPlan, DataParts part) {
+    createDirectoryIfMissing(regularSavePath);
+    try {
+      switch (part) {
+        case INGREDIENTS:
+          IngredientsWriter.saveXml(mealPlan.getIngredients(), regularSavePath + INGREDIENT_FILE, knownPlugins);
+          break;
+        case MEALS:
+          MealsWriter.saveXml(mealPlan.getMeals(), regularSavePath + MEAL_FILE, knownPlugins);
+          break;
+        case PROPOSAL:
+          ProposalSummaryDataWriter.saveXml(mealPlan, regularSavePath + SAVE_FILE, knownPlugins);
+          break;
+        default: // do nothing
+      }
+    } catch (MealException exc) {
+      errorMessages(frame, BUNDLES.errorMessage("MSG_SAVING_ERROR"));
+      logger.error("Could not save " + part.toString() + " of database: ", exc);
+    }
+  }
+
+  private void save(MealplanerData mealPlan, String savePath) {
+    createDirectoryIfMissing(savePath);
+    try {
+      ProposalSummaryDataWriter.saveXml(mealPlan, savePath + SAVE_FILE, knownPlugins);
+      MealsWriter.saveXml(mealPlan.getMeals(), savePath + MEAL_FILE, knownPlugins);
+      IngredientsWriter.saveXml(mealPlan.getIngredients(), savePath + INGREDIENT_FILE, knownPlugins);
+    } catch (MealException exc) {
+      errorMessages(frame, BUNDLES.errorMessage("MSG_SAVING_ERROR"));
+      logger.error("Could not save database: ", exc);
+    }
+  }
+
+  private void createDirectoryIfMissing(String regularSavePath) {
+    if (!new File(regularSavePath).exists()) {
+      boolean created = new File(regularSavePath).mkdirs();
+      if (!created) {
+        errorMessages(frame, BUNDLES.errorMessage("MSG_SAVING_ERROR"));
+        logger.error("Could not create savegame folder and folder does not exist");
+      }
+    }
+  }
+
+  private MealplanerData load(PluginStore pluginStore, String savePath) {
     MealplanerData mealPlan = MealplanerData.getInstance(pluginStore);
     try {
       mealPlan.clear();
@@ -69,79 +148,5 @@ public class FileIo implements FileIoInterface {
       logger.error("Could not load database: ", exc);
     }
     return mealPlan;
-  }
-
-  @Override
-  public void saveDatabase(MealplanerData mealPlan) {
-    if (!new File(savePath).exists()) {
-      boolean created = new File(savePath).mkdir();
-      if (!created) {
-        errorMessages(frame, BUNDLES.errorMessage("MSG_SAVING_ERROR"));
-        logger.error("Could not create savegame folder and folder does not exist");
-      }
-    }
-    try {
-      ProposalSummaryDataWriter.saveXml(mealPlan, savePath + SAVE_FILE, knownPlugins);
-      MealsWriter.saveXml(mealPlan.getMeals(), savePath + MEAL_FILE, knownPlugins);
-      IngredientsWriter.saveXml(mealPlan.getIngredients(), savePath + INGREDIENT_FILE, knownPlugins);
-    } catch (MealException exc) {
-      errorMessages(frame, BUNDLES.errorMessage("MSG_SAVING_ERROR"));
-      logger.error("Could not save database: ", exc);
-    }
-  }
-
-  @Override
-  public void savePart(MealplanerData mealPlan, DataParts part) {
-    try {
-      switch (part) {
-        case INGREDIENTS:
-          IngredientsWriter.saveXml(mealPlan.getIngredients(), savePath + INGREDIENT_FILE, knownPlugins);
-          break;
-        case MEALS:
-          MealsWriter.saveXml(mealPlan.getMeals(), savePath + MEAL_FILE, knownPlugins);
-          break;
-        case PROPOSAL:
-          ProposalSummaryDataWriter.saveXml(mealPlan, savePath + SAVE_FILE, knownPlugins);
-          break;
-        default: // do nothing
-      }
-    } catch (MealException exc) {
-      errorMessages(frame, BUNDLES.errorMessage("MSG_SAVING_ERROR"));
-      logger.error("Could not save " + part.toString() + " of database: ", exc);
-    }
-
-  }
-
-  @Override
-  public Optional<MealplanerData> loadBackup(PluginStore pluginStore) {
-    String bak = JOptionPane.showInputDialog(frame, BUNDLES.message("createLoadBackup"),
-        "*.xml");
-    if (bak != null) {
-      MealplanerData mealPlan = MealplanerData.getInstance(pluginStore);
-      try {
-        mealPlan = MealplanerDataReader.loadXml(bak, knownPlugins);
-      } catch (MealException exc) {
-        errorMessages(frame, BUNDLES.errorMessage("MSG_BACKUP_NOT_LOADED"));
-        logger.error("Could not load backup: ", exc);
-      }
-      return of(mealPlan);
-    }
-    return empty();
-  }
-
-  @Override
-  public void createBackup(MealplanerData mealPlan) {
-    String bak = showInputDialog(frame, BUNDLES.message("createLoadBackup"),
-        "*.xml");
-    if (bak != null) {
-      try {
-        MealplanerDataWriter.saveXml(mealPlan, bak, knownPlugins);
-        JOptionPane.showMessageDialog(frame, BUNDLES.message("successSave"),
-            BUNDLES.message("successHeading"), JOptionPane.INFORMATION_MESSAGE);
-      } catch (MealException exc) {
-        errorMessages(frame, BUNDLES.errorMessage("MSG_BACKUP_NOT_SAVED"));
-        logger.error("Could not load backup: ", exc);
-      }
-    }
   }
 }

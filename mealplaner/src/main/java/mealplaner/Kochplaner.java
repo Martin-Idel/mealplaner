@@ -25,7 +25,7 @@ import mealplaner.proposal.ProposalBuilderFactoryImpl;
 
 public final class Kochplaner {
   private static Logger logger = LoggerFactory.getLogger(Kochplaner.class);
-  private static final String SAVE_PATH = "savefiles" + File.separator;
+  private static final String SAVE_PATH = System.getProperty("user.home") + File.separator + ".mealplaner";
 
   private Kochplaner() {
   }
