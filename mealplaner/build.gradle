@@ -48,5 +48,6 @@ sourceSets {
 // Add all other libraries inside the lib-folder (currently using a subfolder is not possible)
 // This allows dropping in plugins
 startScripts {
-    classpath  += files('$APP_HOME/lib/*')
+    classpath += files('$APP_HOME/lib/*')
+    windowsStartScriptGenerator.template = resources.text.fromFile("windowsStartScriptWithoutConsole.txt")
 }
