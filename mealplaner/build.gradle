@@ -34,17 +34,6 @@ dependencies {
     implementation project(":mealplaner-plugins:utensil")
 }
 
-sourceSets {
-    main {
-        java {
-            srcDirs "src/main/java"
-        }
-        resources {
-            srcDirs "src/main/resources"
-        }
-    }
-}
-
 // Add all other libraries inside the lib-folder (currently using a subfolder is not possible)
 // This allows dropping in plugins
 startScripts {
