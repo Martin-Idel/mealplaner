@@ -32,6 +32,7 @@ dependencies {
     implementation project(":mealplaner-plugins:preference")
     implementation project(":mealplaner-plugins:sidedish")
     implementation project(":mealplaner-plugins:utensil")
+    implementation project(":mealplaner-plugins:vegetarian")
 }
 
 // Add all other libraries inside the lib-folder (currently using a subfolder is not possible)
