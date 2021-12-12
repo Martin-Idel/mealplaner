@@ -25,17 +25,17 @@ subprojects {
 }
 
 ext {
-    slf4jVersion = '1.7.30'
-    log4jVersion = '2.13.0'
+    slf4jVersion = '1.7.32'
+    log4jVersion = '2.15.0'
     jaxbVersion = '2.4.0-b180830.0359'
     jaxbRuntime = '2.4.0-b180830.0438'
     swingxVersion = '1.6.5-1'
 
-    jupyterVersion = '5.5.2'
-    jupyterPlatformVersion = '1.5.2'
-    assertjVersion = '3.14.0'
-    mockitoVersion = '3.2.4'
-    assertjSwingVersion = '3.9.2'
+    jupyterVersion = '5.8.2'
+    jupyterPlatformVersion = '1.8.2'
+    assertjVersion = '3.21.0'
+    mockitoVersion = '4.1.0'
+    assertjSwingVersion = '3.17.1'
     eqVerVersion = '3.1.11'
 }
 
