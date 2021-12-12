@@ -20,7 +20,7 @@ public class MealEditCookingPreference implements MealEditExtension {
     return table.addColumn(withEnumContent(CookingPreference.class)
         .withColumnName(BUNDLES.message("popularityColumn"))
         .setValueToOrderedImmutableList(meals,
-            (meal, preference) -> from(meal).addFact(new CookingPreferenceFact(preference))
+            (meal, preference) -> from(meal).changeFact(new CookingPreferenceFact(preference))
                 .create())
         .getValueFromOrderedList(
             meals, meal -> meal.getTypedMealFact(CookingPreferenceFact.class).getCookingPreference())
