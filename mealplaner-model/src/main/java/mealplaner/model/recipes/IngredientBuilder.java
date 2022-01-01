@@ -58,7 +58,7 @@ public class IngredientBuilder {
   }
 
   public IngredientBuilder withHiddenFacts(List<Element> hiddenFacts) {
-    this.hiddenFacts = hiddenFacts;
+    this.hiddenFacts = new ArrayList<>(hiddenFacts);
     return this;
   }
 
@@ -102,7 +102,8 @@ public class IngredientBuilder {
   }
 
   public IngredientBuilder withSecondaryMeasures(Map<Measure, NonnegativeFraction> measures) {
-    this.secondaryMeasures = measures;
+    this.secondaryMeasures = new HashMap<>();
+    this.secondaryMeasures.putAll(measures);
     return this;
   }
 

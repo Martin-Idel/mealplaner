@@ -78,11 +78,11 @@ public final class Ingredient {
   }
 
   public Map<Class, IngredientFact> getIngredientFacts() {
-    return ingredientFacts;
+    return new HashMap<>(ingredientFacts);
   }
 
   public List<Element> getHiddenFacts() {
-    return hiddenIngredientFacts;
+    return new ArrayList<>(hiddenIngredientFacts);
   }
 
   public Measure getPrimaryMeasure() {

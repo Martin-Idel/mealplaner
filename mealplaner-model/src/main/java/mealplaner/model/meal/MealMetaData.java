@@ -53,11 +53,11 @@ public final class MealMetaData {
   }
 
   public Map<Class, MealFact> getMealFacts() {
-    return mealFacts;
+    return new HashMap<>(mealFacts);
   }
 
   public List<Element> getHiddenMealFacts() {
-    return hiddenMealFacts;
+    return new ArrayList<>(hiddenMealFacts);
   }
 
   @Override

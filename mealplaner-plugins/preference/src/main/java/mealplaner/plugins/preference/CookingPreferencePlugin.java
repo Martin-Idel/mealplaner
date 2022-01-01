@@ -5,6 +5,7 @@ package mealplaner.plugins.preference;
 import static mealplaner.plugins.preference.mealextension.CookingPreference.NO_PREFERENCE;
 import static mealplaner.plugins.preference.proposal.PreferenceMap.getPreferenceMap;
 
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
@@ -30,7 +31,7 @@ public class CookingPreferencePlugin implements PluginDescription {
   }
 
   public CookingPreferencePlugin(Map<Pair<CookingPreference, PreferenceSettings>, Integer> preferenceMap) {
-    this.preferenceMap = preferenceMap;
+    this.preferenceMap = new HashMap<>(preferenceMap);
   }
 
   @Override

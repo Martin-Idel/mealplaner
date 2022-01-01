@@ -49,7 +49,8 @@ public class ProposalBuilder implements ProposalBuilderInterface {
   public ProposalBuilder(
       List<Meal> meals,
       Collection<ProposalBuilderStep> proposalBuilderSteps) {
-    this.proposalBuilderSteps = proposalBuilderSteps;
+    this.proposalBuilderSteps = new ArrayList<>();
+    this.proposalBuilderSteps.addAll(proposalBuilderSteps);
     meals.stream()
         .filter(meal -> meal.getTypedMealFact(CourseTypeFact.class).getCourseType().equals(ENTRY))
         .forEach(meal -> mealDataEntry.put(meal.getId(), meal));

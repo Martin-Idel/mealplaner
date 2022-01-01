@@ -5,6 +5,7 @@ package mealplaner.model.recipes;
 import static mealplaner.commons.NonnegativeFraction.ONE;
 
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -39,7 +40,7 @@ public final class Measures {
   }
 
   public Map<Measure, NonnegativeFraction> getSecondaries() {
-    return secondaries;
+    return new HashMap<>(secondaries);
   }
 
   public boolean contains(Measure measure) {

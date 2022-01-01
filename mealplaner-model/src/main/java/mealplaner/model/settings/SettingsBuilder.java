@@ -77,7 +77,7 @@ public class SettingsBuilder {
   }
 
   public SettingsBuilder addHiddenSubSettings(List<Element> hiddenSubSettings) {
-    this.hiddenSubSettings = hiddenSubSettings;
+    this.hiddenSubSettings = new ArrayList<>(hiddenSubSettings);
     return this;
   }
 

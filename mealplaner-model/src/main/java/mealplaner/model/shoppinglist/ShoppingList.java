@@ -8,6 +8,7 @@ import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitative
 
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -45,7 +46,7 @@ public final class ShoppingList {
   }
 
   public Map<Ingredient, NonnegativeFraction> getMap() {
-    return shoppingListMap;
+    return new HashMap<>(shoppingListMap);
   }
 
   @Override

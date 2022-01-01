@@ -34,7 +34,7 @@ public final class CookingTimeSubSetting implements Setting {
   }
 
   public CookingTimeSubSetting(Set<CookingTime> prohibitedCookingTime) {
-    this.prohibitedCookingTime = prohibitedCookingTime;
+    this.prohibitedCookingTime = new HashSet<>(prohibitedCookingTime);
   }
 
   public CookingTimeSubSetting prohibitCookingTime(CookingTime cookingTime) {

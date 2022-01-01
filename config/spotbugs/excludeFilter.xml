@@ -24,4 +24,109 @@
         <Field name="version"/>
         <Bug pattern="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD"/>
     </Match>
+    <Match>
+        <Class name="mealplaner.io.FileIo"/>
+        <Method name="&lt;init&gt;"/>
+        <Bug pattern="EI_EXPOSE_REP2"/>
+    </Match>
+    <Match>
+        <Class name="mealplaner.gui.MainContainer"/>
+        <Method name="&lt;init&gt;"/>
+        <Bug pattern="EI_EXPOSE_REP2"/>
+    </Match>
+    <Match>
+        <Class name="mealplaner.gui.dialogs.proposaloutput.ProposalTable"/>
+        <Method name="getTable"/>
+        <Bug pattern="EI_EXPOSE_REP"/>
+    </Match>
+    <Match>
+        <Class name="mealplaner.gui.MainGui"/>
+        <Method name="getFrame"/>
+        <Bug pattern="EI_EXPOSE_REP"/>
+    </Match>
+    <Match>
+        <Class name="mealplaner.commons.gui.tables.cells.FlexibleJComboBoxEditor"/>
+        <Method name="getTableCellEditorComponent"/>
+        <Bug pattern="EI_EXPOSE_REP"/>
+    </Match>
+    <Match>
+        <Class name="mealplaner.commons.gui.buttonpanel.ButtonPanel"/>
+        <Method name="getComponent"/>
+        <Bug pattern="EI_EXPOSE_REP"/>
+    </Match>
+    <Match>
+        <Class name="mealplaner.commons.gui.tables.Table"/>
+        <Method name="getTable"/>
+        <Bug pattern="EI_EXPOSE_REP"/>
+    </Match>
+    <Match>
+        <Class name="mealplaner.commons.gui.buttonpanel.ButtonPanelEnabling"/>
+        <Method name="getPanel"/>
+        <Bug pattern="EI_EXPOSE_REP"/>
+    </Match>
+    <Match>
+        <Class name="mealplaner.commons.gui.GridPanel"/>
+        <Method name="getComponent"/>
+        <Bug pattern="EI_EXPOSE_REP"/>
+    </Match>
+    <Match>
+        <Class name="mealplaner.gui.tabbedpanes.databaseedit.DatabaseEdit"/>
+        <Method name="getMeals"/>
+        <Bug pattern="EI_EXPOSE_REP"/>
+    </Match>
+    <Match>
+        <Class name="mealplaner.gui.dialogs.ingredients.IngredientsInput"/>
+        <Method name="showDialog"/>
+        <Bug pattern="EI_EXPOSE_REP"/>
+    </Match>
+    <Match>
+        <Class name="mealplaner.gui.tabbedpanes.proposal.ProposalSummary"/>
+        <Method name="buildProposalPanel"/>
+        <Bug pattern="EI_EXPOSE_REP"/>
+    </Match>
+    <Match>
+        <Class name="mealplaner.gui.tabbedpanes.ingredientsedit.IngredientsEdit"/>
+        <Method name="&lt;init&gt;"/>
+        <Bug pattern="EI_EXPOSE_REP2"/>
+    </Match>
+    <Match>
+        <Class name="mealplaner.gui.dialogs.proposaloutput.ProposalOutput"/>
+        <Method name="&lt;init&gt;"/>
+        <Bug pattern="EI_EXPOSE_REP2"/>
+    </Match>
+    <Match>
+        <Class name="mealplaner.gui.factories.DialogFactory"/>
+        <Method name="&lt;init&gt;"/>
+        <Bug pattern="EI_EXPOSE_REP2"/>
+    </Match>
+    <Match>
+        <Class name="mealplaner.gui.dialogs.mealinput.MealInput"/>
+        <Method name="&lt;init&gt;"/>
+        <Bug pattern="EI_EXPOSE_REP2"/>
+    </Match>
+    <Match>
+        <Class name="mealplaner.gui.tabbedpanes.databaseedit.DatabaseEdit"/>
+        <Method name="&lt;init&gt;"/>
+        <Bug pattern="EI_EXPOSE_REP2"/>
+    </Match>
+    <Match>
+        <Class name="mealplaner.gui.tabbedpanes.databaseedit.DatabaseEditPanel"/>
+        <Method name="&lt;init&gt;"/>
+        <Bug pattern="EI_EXPOSE_REP2"/>
+    </Match>
+    <Match>
+        <Class name="mealplaner.gui.tabbedpanes.proposal.ProposalSummaryPanel"/>
+        <Method name="&lt;init&gt;"/>
+        <Bug pattern="EI_EXPOSE_REP2"/>
+    </Match>
+    <Match>
+        <Class name="mealplaner.gui.tabbedpanes.ingredientsedit.IngredientsEditPanel"/>
+        <Method name="&lt;init&gt;"/>
+        <Bug pattern="EI_EXPOSE_REP2"/>
+    </Match>
+    <Match>
+        <Class name="mealplaner.gui.MainGui"/>
+        <Method name="&lt;init&gt;"/>
+        <Bug pattern="EI_EXPOSE_REP2"/>
+    </Match>
 </FindBugsFilter>

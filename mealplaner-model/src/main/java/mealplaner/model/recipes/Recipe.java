@@ -59,7 +59,7 @@ public final class Recipe {
   }
 
   public List<QuantitativeIngredient> getIngredientsAsIs() {
-    return ingredients;
+    return new ArrayList<>(ingredients);
   }
 
   public List<QuantitativeIngredient> getIngredientListFor(

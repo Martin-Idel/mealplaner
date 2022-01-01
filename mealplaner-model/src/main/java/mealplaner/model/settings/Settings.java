@@ -2,6 +2,8 @@
 
 package mealplaner.model.settings;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,11 +31,11 @@ public final class Settings {
   }
 
   public Map<Class, Setting> getSubSettings() {
-    return subSettings;
+    return new HashMap<>(subSettings);
   }
 
   public List<Element> getHiddenSubSettings() {
-    return hiddenSubSettings;
+    return new ArrayList<>(hiddenSubSettings);
   }
 
 

@@ -2,7 +2,6 @@
 
 package mealplaner.commons.gui;
 
-import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.BundleUtils.getLocalizedResource;
 
 import java.io.BufferedReader;
@@ -40,9 +39,6 @@ public final class HelpPanel {
       reader.lines().forEach(line -> content.append(line).append("\n"));
     } catch (IOException exc) {
       logger.error("The specified resource does not exist. ", exc);
-    } catch (NullPointerException exc) { // NOPMD
-      MessageDialog.errorMessages(null, BUNDLES.errorMessage("MSG_FAIL_HELP"));
-      logger.error("The specified resource does not exist.");
     }
     editorPane.setText(content.toString());
     editorPane.setSize(500, 400);

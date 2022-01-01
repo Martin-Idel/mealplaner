@@ -98,12 +98,12 @@ public final class MealBuilder {
   }
 
   public MealBuilder addMealMap(Map<Class, MealFact> facts) {
-    this.mealFactMap = facts;
+    this.mealFactMap = new HashMap<>(facts);
     return this;
   }
 
   public MealBuilder addHiddenMeals(List<Element> hiddenMealFacts) {
-    this.hiddenMealFacts = hiddenMealFacts;
+    this.hiddenMealFacts = new ArrayList<>(hiddenMealFacts);
     return this;
   }
 
