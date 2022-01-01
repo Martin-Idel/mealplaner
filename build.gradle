@@ -1,12 +1,5 @@
-buildscript {
-    repositories {
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-    dependencies {
-        classpath "com.github.spotbugs:spotbugs-gradle-plugin:3.0.0"
-    }
+plugins {
+    id "com.github.spotbugs" version "5.0.3"
 }
 
 plugins {
@@ -15,7 +8,6 @@ plugins {
 
 allprojects {
     repositories {
-        jcenter()
         mavenCentral()
     }
 }
@@ -26,7 +18,7 @@ subprojects {
 
 ext {
     slf4jVersion = '1.7.32'
-    log4jVersion = '2.15.0'
+    log4jVersion = '2.17.1'
     jaxbVersion = '2.4.0-b180830.0359'
     jaxbRuntime = '2.4.0-b180830.0438'
     swingxVersion = '1.6.5-1'
@@ -75,7 +67,7 @@ subprojects {
 subprojects {
     apply plugin: 'com.github.spotbugs'
     spotbugs {
-        toolVersion = "3.1.12"
+        toolVersion = "4.5.2"
         ignoreFailures = false
         effort = "max"
         excludeFilter = file("$rootProject.projectDir/config/spotbugs/excludeFilter.xml")
@@ -92,9 +84,9 @@ subprojects {
 
     jacocoTestReport {
         reports {
-            html.enabled = true
-            xml.enabled = true
-            csv.enabled = false
+            html.enabled(true)
+            xml.enabled(true)
+            csv.enabled(true)
         }
     }
 }
