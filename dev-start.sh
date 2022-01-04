@@ -1,1 +1,1 @@
-rm -rf mealplaner/build/distributions/mealplaner-2.1.3-SNAPSHOT && tar -xf mealplaner/build/distributions/mealplaner-2.1.3-SNAPSHOT.tar --directory mealplaner/build/distributions/ && ./mealplaner/build/distributions/mealplaner-2.1.3-SNAPSHOT/bin/mealplaner --info
+rm -rf mealplaner/build/distributions/mealplaner-2.2.1-SNAPSHOT && tar -xf mealplaner/build/distributions/mealplaner-2.2.1-SNAPSHOT.tar --directory mealplaner/build/distributions/ && ./mealplaner/build/distributions/mealplaner-2.2.1-SNAPSHOT/bin/mealplaner --info
