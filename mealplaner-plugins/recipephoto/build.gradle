@@ -1,0 +1,25 @@
+apply plugin: "java-library"
+
+dependencies {
+    api group: "org.slf4j", name: "slf4j-api", version: "${slf4jVersion}"
+    implementation group: "org.apache.logging.log4j", name: "log4j-slf4j-impl", version: "${log4jVersion}"
+    implementation group: "org.apache.logging.log4j", name: "log4j-api", version: "${log4jVersion}"
+    implementation group: "org.apache.logging.log4j", name: "log4j-core", version: "${log4jVersion}"
+    api group: "org.swinglabs.swingx", name: "swingx-all", version: "${swingxVersion}"
+    compileOnly group: "javax.xml.bind", name: "jaxb-api", version: "${jaxbVersion}"
+    runtimeOnly group: "org.glassfish.jaxb", name: "jaxb-runtime", version: "${jaxbRuntime}"
+    api project(":mealplaner-commons")
+    api project(":mealplaner-model")
+    api project(":mealplaner-gui-commons")
+
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: "${jupyterVersion}"
+    testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher', version: "${jupyterPlatformVersion}"
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: "${jupyterVersion}"
+    testImplementation group: 'org.assertj', name: 'assertj-core', version: "${assertjVersion}"
+    testImplementation(testFixtures(project(":mealplaner-core")))
+    testImplementation(testFixtures(project(":mealplaner-commons")))
+}
+
+test {
+    useJUnitPlatform()
+}
