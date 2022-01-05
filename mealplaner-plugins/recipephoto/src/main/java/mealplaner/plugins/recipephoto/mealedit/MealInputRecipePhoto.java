@@ -26,7 +26,7 @@ public class MealInputRecipePhoto implements MealInputDialogExtension {
         BUNDLES.message("changePhotoButton"),
         BUNDLES.message("noPhotoButton"),
         new RecipePhotoFact(),
-        (fact) -> copyAndSaveImage((RecipePhotoFact) fact, SAVE_PATH),
+        fact -> copyAndSaveImage((RecipePhotoFact) fact, SAVE_PATH),
         150));
   }
 

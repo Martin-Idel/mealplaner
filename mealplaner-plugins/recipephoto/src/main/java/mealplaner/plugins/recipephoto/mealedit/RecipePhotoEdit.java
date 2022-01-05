@@ -16,8 +16,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RecipePhotoEdit {
+public final class RecipePhotoEdit {
   private static final Logger logger = LoggerFactory.getLogger(RecipePhotoEdit.class);
+
+  private RecipePhotoEdit() {
+  }
 
   public static RecipePhotoFact copyAndSaveImage(RecipePhotoFact inputFact, String savePath) {
     var initialDirectory = inputFact
@@ -37,7 +40,7 @@ public class RecipePhotoEdit {
         return new RecipePhotoFact(newPath);
       } catch (IOException ex) {
         errorMessages(null, BUNDLES.errorMessage("MSG_PHOTO_IO_ERROR"));
-        logger.error("Could not handle file " + fileChooser.getSelectedFile().toString() + ": ", ex);
+        logger.error("Could not handle file {}: {}", fileChooser.getSelectedFile(), ex);
       }
     }
     return inputFact;

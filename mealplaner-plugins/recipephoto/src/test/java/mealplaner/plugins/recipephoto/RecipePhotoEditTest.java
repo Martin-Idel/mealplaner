@@ -14,12 +14,12 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-public class RecipePhotoEditTest {
+class RecipePhotoEditTest {
   public static final String TEST_FILE = "photo.png";
   public static final String TEST_CONTENT = "best photo ever";
 
   @Test
-  public void copyFileToNewLocationCopiesFileCorrectly(@TempDir Path saveLocation, @TempDir Path copyLocation)
+  void copyFileToNewLocationCopiesFileCorrectly(@TempDir Path saveLocation, @TempDir Path copyLocation)
       throws IOException {
     Path photo = saveLocation.resolve(TEST_FILE);
     Files.write(photo, List.of(TEST_CONTENT));
@@ -31,7 +31,7 @@ public class RecipePhotoEditTest {
   }
 
   @Test
-  public void copyFileToNewLocationThrowsOnNonexistentFile(@TempDir Path saveLocation, @TempDir Path copyLocation) {
+  void copyFileToNewLocationThrowsOnNonexistentFile(@TempDir Path saveLocation, @TempDir Path copyLocation) {
     assertThatThrownBy(() -> copyFileToNewLocation(saveLocation.resolve(TEST_FILE), copyLocation))
         .isInstanceOf(IOException.class);
   }

@@ -92,7 +92,7 @@ public class ShowPhotoDialog {
         imageLabel.setIcon(new ImageIcon(img.getScaledInstance(width, height, Image.SCALE_SMOOTH)));
       } catch (IOException e) {
         errorMessages(null, BUNDLES.errorMessage("MSG_PHOTO_IO_ERROR"));
-        logger.error("Could not load image from path: " + recipePhoto.getPath());
+        logger.error("Could not load image from path: {}", recipePhoto.getPath());
       }
     }
     dialogWindow.arrangeWithSize(width, height);

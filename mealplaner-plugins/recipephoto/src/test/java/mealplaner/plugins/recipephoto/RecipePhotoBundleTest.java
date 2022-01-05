@@ -8,9 +8,9 @@ import java.io.File;
 
 import org.junit.jupiter.api.Test;
 
-public class RecipePhotoBundleTest {
+class RecipePhotoBundleTest {
   @Test
-  public void testBundle() {
+  void testBundle() {
     allMessageTests("RecipePhotoMessagesBundle", "plugins" + File.separator + "recipephoto");
   }
 }

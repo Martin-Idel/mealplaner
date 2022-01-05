@@ -16,14 +16,14 @@ import mealplaner.plugins.recipephoto.mealedit.RecipePhotoFact;
 import testcommons.PluginsUtils;
 import testcommons.XmlInteraction;
 
-public class RecipePhotoFactXmlTest extends XmlInteraction {
+class RecipePhotoFactXmlTest extends XmlInteraction {
   @BeforeEach
   public void setUp() {
     PluginsUtils.setupMessageBundles(new RecipePhotoPlugin());
   }
 
   @Test
-  public void roundTripWithPhotoFactCanBeSavedCorrectly() {
+  void roundTripWithPhotoFactCanBeSavedCorrectly() {
     Meal meal = meal()
         .name("Test1")
         .daysPassed(ONE)
