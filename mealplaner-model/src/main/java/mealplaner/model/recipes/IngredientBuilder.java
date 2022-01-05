@@ -102,7 +102,7 @@ public class IngredientBuilder {
   }
 
   public IngredientBuilder withSecondaryMeasures(Map<Measure, NonnegativeFraction> measures) {
-    this.secondaryMeasures = new HashMap<>();
+    this.secondaryMeasures = new EnumMap<>(Measure.class);
     this.secondaryMeasures.putAll(measures);
     return this;
   }

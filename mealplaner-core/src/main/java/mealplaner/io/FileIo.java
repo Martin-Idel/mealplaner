@@ -104,7 +104,7 @@ public class FileIo implements FileIoInterface {
       }
     } catch (MealException exc) {
       errorMessages(frame, BUNDLES.errorMessage("MSG_SAVING_ERROR"));
-      logger.error("Could not save " + part.toString() + " of database: ", exc);
+      logger.error("Could not save {} of database: {}", part, exc);
     }
   }
 

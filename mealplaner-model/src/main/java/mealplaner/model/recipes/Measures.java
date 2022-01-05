@@ -40,7 +40,7 @@ public final class Measures {
   }
 
   public Map<Measure, NonnegativeFraction> getSecondaries() {
-    return new HashMap<>(secondaries);
+    return new EnumMap<>(secondaries);
   }
 
   public boolean contains(Measure measure) {
