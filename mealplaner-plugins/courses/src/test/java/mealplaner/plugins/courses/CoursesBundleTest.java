@@ -1,14 +1,16 @@
 // SPDX-License-Identifier: MIT
 
+package mealplaner.plugins.courses;
+
 import static bundletests.BundleCommons.allMessageTests;
 
 import java.io.File;
 
 import org.junit.jupiter.api.Test;
 
-public class CoursesBundleTest {
+class CoursesBundleTest {
   @Test
-  public void testBundle() {
+  void testBundle() {
     allMessageTests("CoursesMessagesBundle", "plugins" + File.separator + "courses");
   }
 }

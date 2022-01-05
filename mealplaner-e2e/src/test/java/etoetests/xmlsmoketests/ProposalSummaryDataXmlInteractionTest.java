@@ -19,11 +19,11 @@ import mealplaner.io.xml.ProposalSummaryModel;
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.settings.Settings;
 
-public class ProposalSummaryDataXmlInteractionTest extends EtoeXmlInteraction {
+class ProposalSummaryDataXmlInteractionTest extends EtoeXmlInteraction {
   private static final String RESOURCE_FILE_WITH_PROPOSAL_V3 = "src/test/resources/proposalSummaryXmlV3.xml";
 
   @Test
-  public void loadingProposalSummaryWorksCorrectlyForV3() {
+  void loadingProposalSummaryWorksCorrectlyForV3() {
     Proposal proposal = getProposal1();
     LocalDate time = LocalDate.of(2017, 5, 3);
     loadFileWithName(RESOURCE_FILE_WITH_PROPOSAL_V3);

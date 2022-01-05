@@ -27,10 +27,10 @@ import mealplaner.model.meal.Meal;
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.proposal.ProposedMenu;
 
-public class ProposalTableTest {
+class ProposalTableTest {
 
   @Test
-  public void tableHasCorrectNumberOfRowsForOnlyMainCourses() {
+  void tableHasCorrectNumberOfRowsForOnlyMainCourses() {
     MealplanerData data = setupMealplanerDataWithAllMealsAndIngredients();
 
     JTable proposalSwingTable = createProposalTable(data, getProposal1());
@@ -42,7 +42,7 @@ public class ProposalTableTest {
   }
 
   @Test
-  public void tableHasCorrectNumberOfRowsIncludingADesert() {
+  void tableHasCorrectNumberOfRowsIncludingADesert() {
 
     JTable proposalSwingTable = setupProposalTableWithDesert();
 
@@ -55,7 +55,7 @@ public class ProposalTableTest {
   }
 
   @Test
-  public void tableHasCorrectNumberOfRowsIncludingThreeCourseMenu() {
+  void tableHasCorrectNumberOfRowsIncludingThreeCourseMenu() {
 
     JTable proposalSwingTable = setupProposalTableWithThreeCourseMeal();
 
@@ -70,7 +70,7 @@ public class ProposalTableTest {
   }
 
   @Test
-  public void changingMainCorrectlyChangesMeal() {
+  void changingMainCorrectlyChangesMeal() {
     MealplanerData data = setupMealplanerDataWithAllMealsAndIngredients();
 
     JTable proposalSwingTable = createProposalTable(data, getProposal1());
@@ -83,7 +83,7 @@ public class ProposalTableTest {
   }
 
   @Test
-  public void changingEntryCorrectlyChangesEntry() {
+  void changingEntryCorrectlyChangesEntry() {
     JTable proposalSwingTable = setupProposalTableWithThreeCourseMeal();
 
     proposalSwingTable.setValueAt(getMealEntry2(), 0, 2);
@@ -99,7 +99,7 @@ public class ProposalTableTest {
   }
 
   @Test
-  public void changingPreviouslyEmptyEntryCorrectlyChangesEntry() {
+  void changingPreviouslyEmptyEntryCorrectlyChangesEntry() {
     JTable proposalSwingTable = setupProposalTableWithThreeCourseMeal();
 
     proposalSwingTable.setValueAt(getMealEntry2(), 1, 2);
@@ -115,7 +115,7 @@ public class ProposalTableTest {
   }
 
   @Test
-  public void changingEntryToEmptyMealWorksCorrectly() {
+  void changingEntryToEmptyMealWorksCorrectly() {
     JTable proposalSwingTable = setupProposalTableWithThreeCourseMeal();
 
     proposalSwingTable.setValueAt(Meal.EMPTY_MEAL, 0, 2);
@@ -131,7 +131,7 @@ public class ProposalTableTest {
   }
 
   @Test
-  public void changingDesertToEmptyMealWorksCorrectly() {
+  void changingDesertToEmptyMealWorksCorrectly() {
     JTable proposalSwingTable = setupProposalTableWithThreeCourseMeal();
 
     proposalSwingTable.setValueAt(Meal.EMPTY_MEAL, 0, 4);

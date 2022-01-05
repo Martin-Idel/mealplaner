@@ -27,10 +27,10 @@ import nl.jqno.equalsverifier.Warning;
 import testcommonsmodel.HiddenIngredientFact;
 import testcommonsmodel.TestIngredientFact;
 
-public class IngredientTest {
+class IngredientTest {
 
   @Test
-  public void validationWorksForSimpleFact() {
+  void validationWorksForSimpleFact() {
     Ingredient testIngredient = getTestIngredient();
 
     assertThat(testIngredient.getName()).isEqualTo("Test");
@@ -44,7 +44,7 @@ public class IngredientTest {
   }
 
   @Test
-  public void validationFailsIfFactIsMissing() {
+  void validationFailsIfFactIsMissing() {
     var set = new HashSet<Class<? extends Fact>>();
     set.add(TestIngredientFact.class);
 
@@ -56,7 +56,7 @@ public class IngredientTest {
   }
 
   @Test
-  public void nameMustNotBeEmpty() {
+  void nameMustNotBeEmpty() {
     assertThrows(MealException.class, () -> ingredient()
         .withName("")
         .withType(BAKING_GOODS)
@@ -65,7 +65,7 @@ public class IngredientTest {
   }
 
   @Test
-  public void validationPassesIfAdditionalFactsArePresent() {
+  void validationPassesIfAdditionalFactsArePresent() {
     var set = new HashSet<Class<? extends Fact>>();
     set.add(TestIngredientFact.class);
 
@@ -82,7 +82,7 @@ public class IngredientTest {
   }
 
   @Test
-  public void copyingAndChangingMealFactsWorksAsExpected() {
+  void copyingAndChangingMealFactsWorksAsExpected() {
     var ingredient = getTestIngredient();
     var changedIngredient = IngredientBuilder.from(ingredient)
         .changeFact(new TestIngredientFact(TestIngredientFact.TestIngredientEnum.TEST_INGREDIENT_1))
@@ -97,7 +97,7 @@ public class IngredientTest {
   }
 
   @Test
-  public void addingSecondaryIngredientsOneByOneAddsThemAll() {
+  void addingSecondaryIngredientsOneByOneAddsThemAll() {
     var testIngredient = ingredient()
         .withName("Test")
         .withType(BAKING_GOODS)
@@ -120,7 +120,7 @@ public class IngredientTest {
   }
 
   @Test
-  public void addingSecondariesOnBulkOverrides() {
+  void addingSecondariesOnBulkOverrides() {
     var expected = new EnumMap<Measure, NonnegativeFraction>(Measure.class);
     expected.put(GRAM, wholeNumber(FOUR));
     expected.put(MILLILITRE, ONE);
@@ -139,14 +139,14 @@ public class IngredientTest {
   }
 
   @Test
-  public void equalsContract() {
+  void equalsContract() {
     EqualsVerifier.forClass(Ingredient.class)
         .suppress(Warning.NULL_FIELDS)
         .verify();
   }
 
   @Test
-  public void toStringTest() {
+  void toStringTest() {
     var ingredient = getTestIngredient();
 
     assertThat(ingredient.toString()).isEqualTo("Ingredient{uuid=" + ingredient.getId() + ", "

@@ -11,10 +11,10 @@ import org.junit.jupiter.api.Test;
 
 import mealplaner.commons.NonnegativeInteger;
 
-public class FlexibleTableBuilderTest {
+class FlexibleTableBuilderTest {
 
   @Test
-  public void buildingATableWithCustomTableOrderNumbersCorrectlyOrdersTableColumns() {
+  void buildingATableWithCustomTableOrderNumbersCorrectlyOrdersTableColumns() {
     var table = createNewTable()
         .addColumn(withContent(String.class)
             .withColumnName("new Column")
@@ -29,7 +29,7 @@ public class FlexibleTableBuilderTest {
   }
 
   @Test
-  public void theDefaultSystemCreatesAStableColumnOrder() {
+  void theDefaultSystemCreatesAStableColumnOrder() {
     var table = createNewTable()
         .addColumn(withContent(String.class)
             .withColumnName("new Column")
@@ -44,7 +44,7 @@ public class FlexibleTableBuilderTest {
   }
 
   @Test
-  public void columnListenersGetRedirectedCorrectly() {
+  void columnListenersGetRedirectedCorrectly() {
     var table = createNewTable()
         .addColumn(withContent(String.class)
             .withColumnName("new Column")

@@ -16,10 +16,10 @@ import mealplaner.model.recipes.Ingredient;
 import mealplaner.plugins.PluginStore;
 import xmlcommons.TestIngredientFact;
 
-public class IngredientAdapterTest {
+class IngredientAdapterTest {
 
   @Test
-  public void adapterTest() {
+  void adapterTest() {
     Ingredient ingredient = ingredient()
         .withName("Test1")
         .withType(MEAT_PRODUCTS)

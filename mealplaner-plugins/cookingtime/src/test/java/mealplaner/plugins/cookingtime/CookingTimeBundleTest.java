@@ -6,9 +6,9 @@ import static bundletests.BundleCommons.allMessageTests;
 
 import org.junit.jupiter.api.Test;
 
-public class CookingTimeBundleTest {
+class CookingTimeBundleTest {
   @Test
-  public void testBundle() {
+  void testBundle() {
     allMessageTests("CookingTimeMessagesBundle", "cookingtime");
   }
 }

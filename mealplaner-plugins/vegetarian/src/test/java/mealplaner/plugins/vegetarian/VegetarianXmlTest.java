@@ -14,14 +14,14 @@ import mealplaner.plugins.vegetarian.mealextension.VegetarianFact;
 import testcommons.PluginsUtils;
 import testcommons.XmlInteraction;
 
-public class VegetarianXmlTest extends XmlInteraction {
+class VegetarianXmlTest extends XmlInteraction {
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     PluginsUtils.setupMessageBundles(new VegetarianPlugin());
   }
 
   @Test
-  public void roundTripWithCookingTimeCanBeSavedCorrectly() {
+  void roundTripWithCookingTimeCanBeSavedCorrectly() {
     Meal meal = meal()
         .name("Test1")
         .daysPassed(ONE)

@@ -27,14 +27,14 @@ import mealplaner.plugins.sidedish.proposal.SideDishProposalStep;
 import mealplaner.proposal.ProposalBuilder;
 import testcommons.PluginsUtils;
 
-public class SideDishProposalStepTest {
+class SideDishProposalStepTest {
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     PluginsUtils.setupMessageBundles(new SideDishPlugin());
   }
 
   @Test
-  public void applyPluginSuggestionsDoesNotAllowForTimesSameSideDishInARow() {
+  void applyPluginSuggestionsDoesNotAllowForTimesSameSideDishInARow() {
     var meal1 = meal()
         .name("Test1")
         .daysPassed(nonNegative(102))
@@ -81,7 +81,7 @@ public class SideDishProposalStepTest {
   }
 
   @Test
-  public void applyPluginSuggestionsLowersProbabilityOfSideDishIfItOccurredLast() {
+  void applyPluginSuggestionsLowersProbabilityOfSideDishIfItOccurredLast() {
     var meal1 = meal()
         .name("Test1")
         .daysPassed(nonNegative(100))
@@ -121,7 +121,7 @@ public class SideDishProposalStepTest {
   }
 
   @Test
-  public void applyPluginSuggestionsResetsCorrectlyAfterDifferentSideDish() {
+  void applyPluginSuggestionsResetsCorrectlyAfterDifferentSideDish() {
     var meal1 = meal()
         .name("Test1")
         .daysPassed(nonNegative(100))
@@ -168,7 +168,7 @@ public class SideDishProposalStepTest {
   }
 
   @Test
-  public void applyPluginSuggestionsCorrectlyTakesHistoricMealsIntoAccount() {
+  void applyPluginSuggestionsCorrectlyTakesHistoricMealsIntoAccount() {
     var meal1 = meal()
         .name("Test1")
         .daysPassed(ZERO)

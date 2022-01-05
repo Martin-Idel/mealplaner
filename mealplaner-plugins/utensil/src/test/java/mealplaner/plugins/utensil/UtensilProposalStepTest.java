@@ -33,14 +33,14 @@ import mealplaner.plugins.utensil.settingextension.CasseroleSubSetting;
 import mealplaner.proposal.ProposalBuilder;
 import testcommons.PluginsUtils;
 
-public class UtensilProposalStepTest {
+class UtensilProposalStepTest {
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     PluginsUtils.setupMessageBundles(new ObligatoryUtensilPlugin());
   }
 
   @Test
-  public void applyPluginSuggestionsEliminatesCasseroleDishesIfNoCasserolesAllowed() {
+  void applyPluginSuggestionsEliminatesCasseroleDishesIfNoCasserolesAllowed() {
     var meal1 = meal()
         .name("Test1")
         .daysPassed(nonNegative(100))
@@ -67,7 +67,7 @@ public class UtensilProposalStepTest {
   }
 
   @Test
-  public void applyPluginSuggestionsEliminatesPanIfTooManyPeopleEat() {
+  void applyPluginSuggestionsEliminatesPanIfTooManyPeopleEat() {
     var meal1 = meal()
         .name("Test1")
         .daysPassed(nonNegative(100))
@@ -94,7 +94,7 @@ public class UtensilProposalStepTest {
   }
 
   @Test
-  public void applyPluginSuggestionsUsesDifferentUtensilsForMainCourseAndDesert() {
+  void applyPluginSuggestionsUsesDifferentUtensilsForMainCourseAndDesert() {
     var meal1 = meal()
         .name("Test1")
         .daysPassed(ZERO)

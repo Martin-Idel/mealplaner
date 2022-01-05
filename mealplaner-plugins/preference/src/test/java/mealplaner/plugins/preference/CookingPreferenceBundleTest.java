@@ -8,9 +8,9 @@ import java.io.File;
 
 import org.junit.jupiter.api.Test;
 
-public class CookingPreferenceBundleTest {
+class CookingPreferenceBundleTest {
   @Test
-  public void testBundle() {
+  void testBundle() {
     allMessageTests("CookingPreferenceMessagesBundle", "plugins" + File.separator + "preference");
   }
 }

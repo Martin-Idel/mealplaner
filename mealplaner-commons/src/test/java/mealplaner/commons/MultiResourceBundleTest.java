@@ -10,13 +10,13 @@ import java.util.TreeMap;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class MultiResourceBundleTest {
+class MultiResourceBundleTest {
   private static ResourceBundleMock firstBundle;
   private static ResourceBundleMock secondBundle;
   private static ResourceBundleMock thirdBundle;
 
   @BeforeAll
-  public static void setUp() {
+  static void setUp() {
     TreeMap<String, String> tm = new TreeMap<>();
     tm.put("key", "value");
     firstBundle = new ResourceBundleMock(tm);
@@ -31,7 +31,7 @@ public class MultiResourceBundleTest {
   }
 
   @Test
-  public void multiResourceBundleFindsAllKeysInAllBundles() {
+  void multiResourceBundleFindsAllKeysInAllBundles() {
     var multiResourceBundle = new MultiResourceBundle();
     multiResourceBundle.addResourceBundle(firstBundle);
     multiResourceBundle.addResourceBundle(secondBundle);
@@ -43,7 +43,7 @@ public class MultiResourceBundleTest {
   }
 
   @Test
-  public void multiResourceBundleTakesFirstKeyOfDuplicates() {
+  void multiResourceBundleTakesFirstKeyOfDuplicates() {
     var multiResourceBundle = new MultiResourceBundle();
     multiResourceBundle.addResourceBundle(firstBundle);
     multiResourceBundle.addResourceBundle(thirdBundle);
@@ -53,7 +53,7 @@ public class MultiResourceBundleTest {
   }
 
   @Test
-  public void multiResourceBundleReturnsAllKeysOfAllBundles() {
+  void multiResourceBundleReturnsAllKeysOfAllBundles() {
     var multiResourceBundle = new MultiResourceBundle();
     multiResourceBundle.addResourceBundle(firstBundle);
     multiResourceBundle.addResourceBundle(secondBundle);

@@ -12,10 +12,10 @@ import org.junit.jupiter.api.Test;
 
 import mealplaner.model.proposal.Proposal;
 
-public class ProposalAdapterTest {
+class ProposalAdapterTest {
 
   @Test
-  public void adapterTest() {
+  void adapterTest() {
     Proposal proposal1 = getProposal1();
     Proposal proposal2 = getProposal2();
 

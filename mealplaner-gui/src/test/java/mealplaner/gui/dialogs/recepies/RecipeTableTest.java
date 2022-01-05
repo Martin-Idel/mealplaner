@@ -25,18 +25,18 @@ import mealplaner.model.recipes.Measure;
 import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 
-public class RecipeTableTest {
+class RecipeTableTest {
   private RecipeTable recipeTable;
   private List<Ingredient> ingredients;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     ingredients = Arrays.asList(getIngredient1(), getIngredient2(),
         getIngredient3());
   }
 
   @Test
-  public void recipeGetsDisplayedCorrectly() {
+  void recipeGetsDisplayedCorrectly() {
     Recipe recipe = getRecipe3();
     recipeTable = new RecipeTable(recipe, ingredients);
 
@@ -50,7 +50,7 @@ public class RecipeTableTest {
   }
 
   @Test
-  public void recipeGetsReturnedCorrectly() {
+  void recipeGetsReturnedCorrectly() {
     Recipe recipe = getRecipe3();
     recipeTable = new RecipeTable(recipe, ingredients);
     recipeTable.setupTable();
@@ -61,7 +61,7 @@ public class RecipeTableTest {
   }
 
   @Test
-  public void addingAnIngredientWorksCorrectly() {
+  void addingAnIngredientWorksCorrectly() {
     Recipe recipe = getRecipe3();
     recipeTable = new RecipeTable(recipe, ingredients);
     JTable table = recipeTable.setupTable().getTable();
@@ -82,7 +82,7 @@ public class RecipeTableTest {
   }
 
   @Test
-  public void changingAnIngredientWorksCorrectly() {
+  void changingAnIngredientWorksCorrectly() {
     Recipe recipe = getRecipe3();
     recipeTable = new RecipeTable(recipe, ingredients);
     JTable table = recipeTable.setupTable().getTable();

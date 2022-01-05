@@ -11,11 +11,11 @@ import mealplaner.commons.errorhandling.MealException;
 import mealplaner.plugins.api.MealFact;
 import mealplaner.plugins.api.MealFactXml;
 
-public class ModelExtensionTest {
+class ModelExtensionTest {
   private ModelExtension<MealFact, MealFactXml> modelExtension = new ModelExtension<>();
 
   @Test
-  public void containsFactIsTrueIfFactIsReallyKnown() {
+  void containsFactIsTrueIfFactIsReallyKnown() {
     modelExtension.registerClass(SomeTestFactXml.class, SomeTestFactXml.class, () -> new SomeTestFactXml("test"));
 
     assertThat(modelExtension.containsFact(SomeTestFactXml.class)).isTrue();
@@ -25,7 +25,7 @@ public class ModelExtensionTest {
   }
 
   @Test
-  public void containsFactXmlIsTrueIfFactIsReallyKnown() {
+  void containsFactXmlIsTrueIfFactIsReallyKnown() {
     modelExtension.registerClass(SomeTestFactXml.class, SomeTestFactXml.class, () -> new SomeTestFactXml("test"));
 
     assertThat(modelExtension.containsFactXml(SomeTestFactXml.class)).isTrue();
@@ -35,21 +35,21 @@ public class ModelExtensionTest {
   }
 
   @Test
-  public void obtainFactClassReturnsClassIfPresent() {
+  void obtainFactClassReturnsClassIfPresent() {
     modelExtension.registerClass(SomeTestFactXml.class, SomeTestFactXml.class, () -> new SomeTestFactXml("test"));
 
     assertThat(modelExtension.obtainFactClass(SomeTestFactXml.class)).isEqualTo(SomeTestFactXml.class);
   }
 
   @Test
-  public void obtainFactClassThrowsIfClassUnknown() {
+  void obtainFactClassThrowsIfClassUnknown() {
     modelExtension.registerClass(SomeTestFactXml.class, SomeTestFactXml.class, () -> new SomeTestFactXml("test"));
 
     assertThrows(MealException.class, () -> modelExtension.obtainFactClass(SomeUnknownTestFactXml.class));
   }
 
   @Test
-  public void getDefaultReturnsDefaultObjectOfClass() {
+  void getDefaultReturnsDefaultObjectOfClass() {
     modelExtension.registerClass(SomeTestFactXml.class, SomeTestFactXml.class, () -> new SomeTestFactXml("test"));
 
     assertThat(modelExtension.getDefault(SomeTestFactXml.class)).isInstanceOf(SomeTestFactXml.class);

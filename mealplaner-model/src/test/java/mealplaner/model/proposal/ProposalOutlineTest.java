@@ -12,9 +12,9 @@ import org.junit.jupiter.api.Test;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 
-public class ProposalOutlineTest {
+class ProposalOutlineTest {
   @Test
-  public void proposalOutlineBuildingSetsValuesCorrectly() {
+  void proposalOutlineBuildingSetsValuesCorrectly() {
     ProposalOutline proposalOutline = of(5, LocalDate.of(2020, 1, 1))
         .takeDefaultSettings()
         .randomise()
@@ -29,7 +29,7 @@ public class ProposalOutlineTest {
   }
 
   @Test
-  public void testToString() {
+  void testToString() {
     assertThat(ProposalOutline.class.getDeclaredFields().length).isEqualTo(5);
     assertThat(of(5, LocalDate.of(2020, 1, 1)).build().toString())
         .isEqualTo("ProposalOutline{numberOfDays=5, includedToday=false, shallBeRandomised=false, "
@@ -37,7 +37,7 @@ public class ProposalOutlineTest {
   }
 
   @Test
-  public void equalsContract() {
+  void equalsContract() {
     EqualsVerifier.forClass(ProposalOutline.class)
         .suppress(Warning.NULL_FIELDS)
         .verify();

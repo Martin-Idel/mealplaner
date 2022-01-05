@@ -1,4 +1,7 @@
-# Version 2.1.2-SNAPSHOT
+# Version 2.2.0
+
+- New Plugin: Vegetarian plugin
+- New Plugin: Add a photo of the recepie
 
 # Version 2.1.1
 

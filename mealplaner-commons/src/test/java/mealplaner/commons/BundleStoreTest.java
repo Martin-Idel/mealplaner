@@ -10,12 +10,12 @@ import java.util.TreeMap;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class BundleStoreTest {
+class BundleStoreTest {
   private static ResourceBundleMock firstBundle;
   private static ResourceBundleMock secondBundle;
 
   @BeforeAll
-  public static void setUp() {
+  static void setUp() {
     TreeMap<String, String> tm = new TreeMap<>();
     tm.put("key", "value");
     firstBundle = new ResourceBundleMock(tm);
@@ -26,7 +26,7 @@ public class BundleStoreTest {
   }
 
   @Test
-  public void bundleStore() {
+  void bundleStore() {
     BUNDLES.addMessageBundle(firstBundle);
     BUNDLES.addErrorBundle(secondBundle);
 

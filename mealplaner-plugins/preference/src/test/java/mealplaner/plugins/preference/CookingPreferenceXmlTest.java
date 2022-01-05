@@ -21,14 +21,14 @@ import mealplaner.plugins.preference.settingextension.CookingPreferenceSubSettin
 import testcommons.PluginsUtils;
 import testcommons.XmlInteraction;
 
-public class CookingPreferenceXmlTest extends XmlInteraction {
+class CookingPreferenceXmlTest extends XmlInteraction {
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     PluginsUtils.setupMessageBundles(new CookingPreferencePlugin());
   }
 
   @Test
-  public void roundTripWithCookingTimeCanBeSavedCorrectly() {
+  void roundTripWithCookingTimeCanBeSavedCorrectly() {
     Meal meal = meal()
         .name("Test1")
         .daysPassed(ONE)
@@ -39,7 +39,7 @@ public class CookingPreferenceXmlTest extends XmlInteraction {
   }
 
   @Test
-  public void roundTripWithCookingTimeSubSettingWorksCorrectly() {
+  void roundTripWithCookingTimeSubSettingWorksCorrectly() {
     Settings settings = setting()
         .numberOfPeople(TWO)
         .addSetting(new CookingPreferenceSubSetting(RARE_NONE))

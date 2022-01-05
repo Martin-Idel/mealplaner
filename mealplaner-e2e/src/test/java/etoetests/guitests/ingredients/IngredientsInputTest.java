@@ -35,10 +35,9 @@ public class IngredientsInputTest extends AssertJMealplanerTestCase {
     List<Ingredient> ingredientsAfterSaving = IngredientsReader
         .loadXml(DESTINATION_INGREDIENT_FILE_PATH, new PluginStore());
 
-    assertThat(ingredientsAfterSaving).hasSize(4);
-    assertThat(ingredientsAfterSaving).contains(getIngredient1(),
-        getIngredient2(),
-        getIngredient3());
+    assertThat(ingredientsAfterSaving)
+        .hasSize(4)
+        .contains(getIngredient1(), getIngredient2(), getIngredient3());
     // UUID is random upon creation, so we can't compare ingredients directly
     assertThat(ingredientsAfterSaving.get(3).getName()).isEqualTo(ingredient.getName());
     assertThat(ingredientsAfterSaving.get(3).getType()).isEqualTo(ingredient.getType());

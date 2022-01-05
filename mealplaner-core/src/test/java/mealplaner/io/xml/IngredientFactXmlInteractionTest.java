@@ -23,9 +23,9 @@ import testcommons.XmlInteraction;
 import xmlcommons.HiddenIngredientFact;
 import xmlcommons.TestIngredientFact;
 
-public class IngredientFactXmlInteractionTest extends XmlInteraction {
+class IngredientFactXmlInteractionTest extends XmlInteraction {
   @Test
-  public void roundTripWorksWithHiddenFacts() {
+  void roundTripWorksWithHiddenFacts() {
     List<Ingredient> ingredients = singletonList(ingredient()
         .withName("Test1")
         .withMeasures(DEFAULT_MEASURES)
@@ -57,7 +57,7 @@ public class IngredientFactXmlInteractionTest extends XmlInteraction {
   }
 
   @Test
-  public void roundTripInitialisesDefaultsCorrectly() {
+  void roundTripInitialisesDefaultsCorrectly() {
     Ingredient ingredient = ingredient()
         .withUuid(nameUUIDFromBytes("Test1Meal".getBytes(UTF_8)))
         .withName("Test1")

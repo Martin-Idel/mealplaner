@@ -17,10 +17,10 @@ import mealplaner.model.meal.Meal;
 import mealplaner.plugins.PluginStore;
 import xmlcommons.TestMealFact;
 
-public class MealAdapterTest {
+class MealAdapterTest {
 
   @Test
-  public void adapterTest() {
+  void adapterTest() {
     MealplanerData mealPlan = setupMealplanerDataWithAllIngredients();
 
     Meal meal1 = meal()

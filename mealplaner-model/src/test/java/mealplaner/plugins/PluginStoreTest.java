@@ -12,9 +12,9 @@ import testcommonsmodel.HiddenMealFact;
 import testcommonsmodel.TestIngredientFact;
 import testcommonsmodel.TestSubSetting;
 
-public class PluginStoreTest {
+class PluginStoreTest {
   @Test
-  public void pluginStoreRegistrationIsPossible() {
+  void pluginStoreRegistrationIsPossible() {
     PluginStore store = new PluginStore();
     store.registerMealExtension(HiddenMealFact.class, HiddenMealFact.class, HiddenMealFact::new);
     store.registerSettingExtension(TestSubSetting.class, TestSubSetting.class, TestSubSetting::new);
@@ -28,7 +28,7 @@ public class PluginStoreTest {
   }
 
   @Test
-  public void pluginStoreThrowsIfClassIsRegisteredTwice() {
+  void pluginStoreThrowsIfClassIsRegisteredTwice() {
     PluginStore store = new PluginStore();
     store.registerMealExtension(HiddenMealFact.class, HiddenMealFact.class, HiddenMealFact::new);
 

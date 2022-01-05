@@ -27,44 +27,44 @@ import org.junit.jupiter.params.provider.MethodSource;
 import bundletests.BundleCommons;
 import bundletests.MessageBundleRepresentation;
 
-public class MessageBundleTest {
+class MessageBundleTest {
   private final Representation errorText = new MessageBundleRepresentation();
 
   @ParameterizedTest
   @MethodSource("bundles")
-  public void allLinesInMessageBundleAreMatchedInJavaFiles(String bundle, Locale locale) {
+  void allLinesInMessageBundleAreMatchedInJavaFiles(String bundle, Locale locale) {
     assertThat(allLinesInResourceBundleAreMatchedInJavaFiles(bundle, locale, BundleCommons::allJavaFiles))
         .withRepresentation(errorText).isEmpty();
   }
 
   @ParameterizedTest
   @MethodSource("bundlesPatterns")
-  public void allCallsInJavaFilesAreMatchedInMessageBundle(String bundle, Locale locale, Pattern pattern) {
+  void allCallsInJavaFilesAreMatchedInMessageBundle(String bundle, Locale locale, Pattern pattern) {
     assertThat(allCallsInJavaFilesAreMatchedInResourceBundle(bundle, locale, pattern, BundleCommons::allJavaFiles))
         .withRepresentation(errorText).isEmpty();
   }
 
   @Test
-  public void noCallsToMessageBundleAreLineBroken() {
+  void noCallsToMessageBundleAreLineBroken() {
     assertThat(noCallsToResourceBundleAreLineBroken(GET_STRING_AT_FILE_END, BundleCommons::allJavaFiles))
         .withRepresentation(errorText).isEmpty();
   }
 
   @Test
-  public void noCallsToMessageBundleUseStringParameters() {
+  void noCallsToMessageBundleUseStringParameters() {
     assertThat(noCallsToResourceBundleUseStringParameters(
         GET_STRING_WITHOUT_QUOTE_PATTERN, BundleCommons::allJavaFiles))
         .withRepresentation(errorText).isEmpty();
   }
 
   @Test
-  public void noCallsToErrorBundleAreLineBroken() {
+  void noCallsToErrorBundleAreLineBroken() {
     assertThat(noCallsToResourceBundleAreLineBroken(GET_ERROR_AT_FILE_END, BundleCommons::allJavaFiles))
         .withRepresentation(errorText).isEmpty();
   }
 
   @Test
-  public void noCallsToErrorBundleUseStringParameters() {
+  void noCallsToErrorBundleUseStringParameters() {
     assertThat(noCallsToResourceBundleUseStringParameters(
         GET_ERROR_WITHOUT_QUOTE_PATTERN, BundleCommons::allJavaFiles))
         .withRepresentation(errorText).isEmpty();

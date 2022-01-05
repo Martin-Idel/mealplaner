@@ -15,9 +15,9 @@ import org.junit.jupiter.api.Test;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 
-public class NonnegativeFractionTest {
+class NonnegativeFractionTest {
   @Test
-  public void nonnegativeFractionsGetStoredCorrectly() {
+  void nonnegativeFractionsGetStoredCorrectly() {
     NonnegativeFraction fraction = wholeNumber(nonNegative(4));
 
     assertThat(fraction.getNumerator()).isEqualTo(4);
@@ -25,7 +25,7 @@ public class NonnegativeFractionTest {
   }
 
   @Test
-  public void fractionsGetReducedCorrectly() {
+  void fractionsGetReducedCorrectly() {
     NonnegativeFraction fraction = fraction(10, 5);
 
     assertThat(fraction.getNumerator()).isEqualTo(2);
@@ -33,22 +33,22 @@ public class NonnegativeFractionTest {
   }
 
   @Test
-  public void parseThrowsOnUnparseableString() {
+  void parseThrowsOnUnparseableString() {
     assertThrows(NumberFormatException.class, () -> parse("not_correct"));
   }
 
   @Test
-  public void negativeFractionThrowsException() {
+  void negativeFractionThrowsException() {
     assertThrows(NumberFormatException.class, () -> fraction(10, -4));
   }
 
   @Test
-  public void zeroDenominatorThrowsException() {
+  void zeroDenominatorThrowsException() {
     assertThrows(NumberFormatException.class, () -> fraction(10, 0));
   }
 
   @Test
-  public void positiveFractionWithNegativeSignsGetsSignsCorrected() {
+  void positiveFractionWithNegativeSignsGetsSignsCorrected() {
     NonnegativeFraction fraction = fraction(-6, -4);
 
     assertThat(fraction.getNumerator()).isEqualTo(3);
@@ -56,56 +56,56 @@ public class NonnegativeFractionTest {
   }
 
   @Test
-  public void toRoundedStringRoundsUpIfTheNumberIsHigh() {
+  void toRoundedStringRoundsUpIfTheNumberIsHigh() {
     NonnegativeFraction fraction = fraction(16, 3);
 
     assertThat(fraction.toRoundedString()).isEqualTo("6");
   }
 
   @Test
-  public void toRoundedStringRoundsUpDenominatorGetsTooLarge() {
+  void toRoundedStringRoundsUpDenominatorGetsTooLarge() {
     NonnegativeFraction fraction = fraction(33, 7);
 
     assertThat(fraction.toRoundedString()).isEqualTo("5");
   }
 
   @Test
-  public void toRoundedStringRevertsToNormalToStringForSmallNumbers() {
+  void toRoundedStringRevertsToNormalToStringForSmallNumbers() {
     NonnegativeFraction fraction = fraction(2, 3);
 
     assertThat(fraction.toString()).isEqualTo("2/3");
   }
 
   @Test
-  public void toRoundedStringReturnsCorrectNumberForWholeNumber() {
+  void toRoundedStringReturnsCorrectNumberForWholeNumber() {
     NonnegativeFraction fraction = fraction(12, 3);
 
     assertThat(fraction.toString()).isEqualTo("4");
   }
 
   @Test
-  public void toStringDoesNotShowDenominatorIfOne() {
+  void toStringDoesNotShowDenominatorIfOne() {
     NonnegativeFraction fraction = fraction(3, 1);
 
     assertThat(fraction.toString()).isEqualTo("3");
   }
 
   @Test
-  public void toStringShowsDenominatorForOtherFractions() {
+  void toStringShowsDenominatorForOtherFractions() {
     NonnegativeFraction fraction = fraction(1, 2);
 
     assertThat(fraction.toString()).isEqualTo("1/2");
   }
 
   @Test
-  public void parseIdentifiesEmptyStringAsZero() {
+  void parseIdentifiesEmptyStringAsZero() {
     NonnegativeFraction fraction = parse(" ");
 
     assertThat(fraction).isEqualTo(NonnegativeFraction.ZERO);
   }
 
   @Test
-  public void parseIdentifiesIntegers() {
+  void parseIdentifiesIntegers() {
     NonnegativeFraction fraction = parse("4");
 
     assertThat(fraction.getNumerator()).isEqualTo(4);
@@ -113,7 +113,7 @@ public class NonnegativeFractionTest {
   }
 
   @Test
-  public void parseIdentifiesFractionsSeparatedBySlash() {
+  void parseIdentifiesFractionsSeparatedBySlash() {
     NonnegativeFraction fraction = parse("1/2");
 
     assertThat(fraction.getNumerator()).isEqualTo(1);
@@ -121,7 +121,7 @@ public class NonnegativeFractionTest {
   }
 
   @Test
-  public void parseIdentifiesFractionsSeparatedByComma() {
+  void parseIdentifiesFractionsSeparatedByComma() {
     NonnegativeFraction fraction = parse("4,3");
 
     assertThat(fraction.getNumerator()).isEqualTo(43);
@@ -129,7 +129,7 @@ public class NonnegativeFractionTest {
   }
 
   @Test
-  public void parseIdentifiesFractionsSeparatedByDot() {
+  void parseIdentifiesFractionsSeparatedByDot() {
     NonnegativeFraction fraction = parse("4.3");
 
     assertThat(fraction.getNumerator()).isEqualTo(43);
@@ -137,7 +137,7 @@ public class NonnegativeFractionTest {
   }
 
   @Test
-  public void parseIdentifiesFractionsIncludingWhitespace() {
+  void parseIdentifiesFractionsIncludingWhitespace() {
     NonnegativeFraction fraction = parse("4 /3 ");
 
     assertThat(fraction.getNumerator()).isEqualTo(4);
@@ -145,7 +145,7 @@ public class NonnegativeFractionTest {
   }
 
   @Test
-  public void parseIdentifiesFractionsWithStartingDot() {
+  void parseIdentifiesFractionsWithStartingDot() {
     NonnegativeFraction fraction = parse(".3");
 
     assertThat(fraction.getNumerator()).isEqualTo(3);
@@ -153,7 +153,7 @@ public class NonnegativeFractionTest {
   }
 
   @Test
-  public void parseIdentifiesFractionsWithTrailingDot() {
+  void parseIdentifiesFractionsWithTrailingDot() {
     NonnegativeFraction fraction = parse("3.");
 
     assertThat(fraction.getNumerator()).isEqualTo(3);
@@ -161,7 +161,7 @@ public class NonnegativeFractionTest {
   }
 
   @Test
-  public void parseIdentifiesFractionsWithStartingSlash() {
+  void parseIdentifiesFractionsWithStartingSlash() {
     NonnegativeFraction fraction = parse("/3");
 
     assertThat(fraction.getNumerator()).isEqualTo(0);
@@ -169,7 +169,7 @@ public class NonnegativeFractionTest {
   }
 
   @Test
-  public void parseIdentifiesFractionsWithTrailingSlash() {
+  void parseIdentifiesFractionsWithTrailingSlash() {
     NonnegativeFraction fraction = parse("3/");
 
     assertThat(fraction.getNumerator()).isEqualTo(3);
@@ -177,7 +177,7 @@ public class NonnegativeFractionTest {
   }
 
   @Test
-  public void plusCorrectlyAddsFractions() {
+  void plusCorrectlyAddsFractions() {
     NonnegativeFraction fraction = fraction(6, 4);
     NonnegativeFraction secondFraction = fraction(2, 6);
 
@@ -188,7 +188,7 @@ public class NonnegativeFractionTest {
   }
 
   @Test
-  public void roundTripParsingWorksCorrectly() {
+  void roundTripParsingWorksCorrectly() {
     NonnegativeFraction fraction = fraction(10, 3);
 
     NonnegativeFraction roundtripFraction = parse(fraction.toString());
@@ -197,7 +197,7 @@ public class NonnegativeFractionTest {
   }
 
   @Test
-  public void multiplyByCorrectlyMultipliesFraction() {
+  void multiplyByCorrectlyMultipliesFraction() {
     NonnegativeFraction fraction = fraction(5, 3);
 
     NonnegativeFraction multipliedFraction = fraction.multiplyBy(TWO);
@@ -207,7 +207,7 @@ public class NonnegativeFractionTest {
   }
 
   @Test
-  public void divideByCorrectlyMultipliesFraction() {
+  void divideByCorrectlyMultipliesFraction() {
     NonnegativeFraction fraction = fraction(5, 3);
 
     NonnegativeFraction multipliedFraction = fraction.divideBy(TWO);
@@ -217,7 +217,7 @@ public class NonnegativeFractionTest {
   }
 
   @Test
-  public void multiplyByFractionCorrectlyMultipliesTwoFractions() {
+  void multiplyByFractionCorrectlyMultipliesTwoFractions() {
     NonnegativeFraction fraction = fraction(5, 3);
 
     NonnegativeFraction multipliedFraction = fraction.multiplyBy(fraction(3, 5));
@@ -227,7 +227,7 @@ public class NonnegativeFractionTest {
   }
 
   @Test
-  public void invertInvertsFraction() {
+  void invertInvertsFraction() {
     NonnegativeFraction fraction = fraction(5, 3);
 
     NonnegativeFraction invertedFraction = fraction.invert();
@@ -237,7 +237,7 @@ public class NonnegativeFractionTest {
   }
 
   @Test
-  public void equalsContract() {
+  void equalsContract() {
     EqualsVerifier.forClass(NonnegativeFraction.class)
         .suppress(Warning.NULL_FIELDS)
         .verify();

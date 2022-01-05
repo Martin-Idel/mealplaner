@@ -9,10 +9,10 @@ import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
 
-public class BundleUtilsTest {
+class BundleUtilsTest {
 
   @Test
-  public void getLocalizedResourceWithGermanLocaleReturnsGermanFile() {
+  void getLocalizedResourceWithGermanLocaleReturnsGermanFile() {
     String localizedResource = getLocalizedResource("/help/DatabaseEditHelp", "txt",
         Locale.GERMANY);
 
@@ -21,7 +21,7 @@ public class BundleUtilsTest {
   }
 
   @Test
-  public void getLocalizedResourceWithDifferentLocaleReturnsDefaultEnglishFile() {
+  void getLocalizedResourceWithDifferentLocaleReturnsDefaultEnglishFile() {
     String localizedResource = getLocalizedResource("/help/DatabaseEditHelp", "txt", Locale.FRENCH);
 
     assertThat(localizedResource)

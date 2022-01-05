@@ -8,9 +8,9 @@ import java.io.File;
 
 import org.junit.jupiter.api.Test;
 
-public class VegetarianMessagesBundleTest {
+class VegetarianMessagesBundleTest {
   @Test
-  public void testBundle() {
+  void testBundle() {
     allMessageTests("VegetarianMessagesBundle", "plugins" + File.separator + "vegetarian");
   }
 }

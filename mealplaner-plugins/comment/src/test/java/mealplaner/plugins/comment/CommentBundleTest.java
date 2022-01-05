@@ -6,9 +6,9 @@ import static bundletests.BundleCommons.allMessageTests;
 
 import org.junit.jupiter.api.Test;
 
-public class CommentBundleTest {
+class CommentBundleTest {
   @Test
-  public void testBundle() {
+  void testBundle() {
     allMessageTests("CommentMessagesBundle", "comment");
   }
 }

@@ -18,9 +18,9 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 import testcommonsmodel.TestSubSetting;
 
-public class SettingsTest {
+class SettingsTest {
   @Test
-  public void validationThrowsExceptionIfNotAllFactsArePresent() {
+  void validationThrowsExceptionIfNotAllFactsArePresent() {
     var settingMap = new HashSet<Class<? extends Fact>>();
     settingMap.add(TestSubSetting.class);
 
@@ -31,7 +31,7 @@ public class SettingsTest {
   }
 
   @Test
-  public void getTypedSettingsOrDefaultDefaultsIfSettingIsMissing() {
+  void getTypedSettingsOrDefaultDefaultsIfSettingIsMissing() {
     Settings settings = SettingsBuilder.setting()
         .numberOfPeople(TWO)
         .create();
@@ -45,7 +45,7 @@ public class SettingsTest {
   }
 
   @Test
-  public void defaultSettingsProvidesValidSettings() {
+  void defaultSettingsProvidesValidSettings() {
     var pluginStore = new PluginStore();
     pluginStore.registerSettingExtension(TestSubSetting.class, TestSubSetting.class, TestSubSetting::new);
 
@@ -66,7 +66,7 @@ public class SettingsTest {
   }
 
   @Test
-  public void copyingAndChangingSubSettingsDoesNotModifyOriginalSetting() {
+  void copyingAndChangingSubSettingsDoesNotModifyOriginalSetting() {
     var pluginStore = new PluginStore();
     pluginStore.registerSettingExtension(TestSubSetting.class, TestSubSetting.class, TestSubSetting::new);
 
@@ -84,14 +84,14 @@ public class SettingsTest {
   }
 
   @Test
-  public void equalsContract() {
+  void equalsContract() {
     EqualsVerifier.forClass(Settings.class)
         .suppress(Warning.NULL_FIELDS)
         .verify();
   }
 
   @Test
-  public void testToString() {
+  void testToString() {
     assertThat(getSettings1().toString())
         .isEqualTo("Settings{numberOfPeople=3, subSettings={}, hiddenSubSettings=[]}");
     assertThat(Settings.class.getDeclaredFields().length).isEqualTo(3);

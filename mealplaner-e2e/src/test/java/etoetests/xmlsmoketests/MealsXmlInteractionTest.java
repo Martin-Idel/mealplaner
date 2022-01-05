@@ -17,11 +17,11 @@ import org.junit.jupiter.api.Test;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
 
-public class MealsXmlInteractionTest extends EtoeXmlInteraction {
+class MealsXmlInteractionTest extends EtoeXmlInteraction {
   private static final String RESOURCE_FILE_WITH_THREE_MEALS_V3 = "src/test/resources/mealsXmlV3.xml";
 
   @Test
-  public void loadingMealsWorksCorrectlyForVersion3() {
+  void loadingMealsWorksCorrectlyForVersion3() {
     List<Meal> meals = new ArrayList<>();
     meals.add(getMeal1());
     meals.add(getMeal2());

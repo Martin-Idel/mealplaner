@@ -42,7 +42,7 @@ import mealplaner.model.recipes.Ingredient;
 import mealplaner.plugins.PluginStore;
 
 @ExtendWith(MockitoExtension.class)
-public class MealplanerDataTest {
+class MealplanerDataTest {
   private final List<Meal> meals = new ArrayList<>();
   private Meal meal1;
   private Meal meal3;
@@ -56,7 +56,7 @@ public class MealplanerDataTest {
   private final MealplanerData sut = getInstance(pluginStore);
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     addInitializedMeals();
     date = of(2017, 5, 7);
     proposal = createProposal();
@@ -75,7 +75,7 @@ public class MealplanerDataTest {
   }
 
   @Test
-  public void addMealAtSortedPosition() {
+  void addMealAtSortedPosition() {
 
     sut.addMeal(meal3);
 
@@ -84,7 +84,7 @@ public class MealplanerDataTest {
   }
 
   @Test
-  public void setMealsNotifiesCorrectListeners() {
+  void setMealsNotifiesCorrectListeners() {
     List<Meal> meals = new ArrayList<>();
     meals.add(initializeNewMeal());
 
@@ -94,7 +94,7 @@ public class MealplanerDataTest {
   }
 
   @Test
-  public void addMealNotifiesCorrectListeners() {
+  void addMealNotifiesCorrectListeners() {
 
     sut.addMeal(meal3);
 
@@ -102,7 +102,7 @@ public class MealplanerDataTest {
   }
 
   @Test
-  public void updateMealCorrectlyAddsDaysToNonCookedMeals() {
+  void updateMealCorrectlyAddsDaysToNonCookedMeals() {
 
     sut.update(proposal.getProposalList(), date.plusDays(10));
 
@@ -113,7 +113,7 @@ public class MealplanerDataTest {
   }
 
   @Test
-  public void proposalsAreCorrectlyAdded() {
+  void proposalsAreCorrectlyAdded() {
     addInitializedMeals();
     List<ProposedMenu> proposalMeals = new ArrayList<>();
     proposalMeals.add(mainOnly(meal1.getId(), TWO));
@@ -130,7 +130,7 @@ public class MealplanerDataTest {
   }
 
   @Test
-  public void updateMealCorrectlyUpdatesCookedMeals() {
+  void updateMealCorrectlyUpdatesCookedMeals() {
     List<ProposedMenu> proposalMeals = new ArrayList<>();
     proposalMeals.add(mainOnly(meal1.getId(), TWO));
     proposalMeals.add(mainOnly(meal4.getId(), TWO));
@@ -148,7 +148,7 @@ public class MealplanerDataTest {
   }
 
   @Test
-  public void updateMealNotifiesCorrectListeners() {
+  void updateMealNotifiesCorrectListeners() {
 
     sut.update(proposal.getProposalList(), date.plusDays(1));
 
@@ -157,7 +157,7 @@ public class MealplanerDataTest {
   }
 
   @Test
-  public void setLastProposalNotifiesCorrectListeners() {
+  void setLastProposalNotifiesCorrectListeners() {
 
     sut.setLastProposal(proposal);
 
@@ -165,7 +165,7 @@ public class MealplanerDataTest {
   }
 
   @Test
-  public void setDefaultSettingsNotifiesCorrectListeners() {
+  void setDefaultSettingsNotifiesCorrectListeners() {
 
     sut.setDefaultSettings(createDefaultSettings(pluginStore));
 
@@ -173,7 +173,7 @@ public class MealplanerDataTest {
   }
 
   @Test
-  public void setIngredientsGuardsAgainstAddingFurtherIngredients() {
+  void setIngredientsGuardsAgainstAddingFurtherIngredients() {
     List<Ingredient> testAgainst = createIngredientsList();
 
     sut.setIngredients(testAgainst);
@@ -186,7 +186,7 @@ public class MealplanerDataTest {
   }
 
   @Test
-  public void getIngredientsGuardsAgainstChangesFromOutside() {
+  void getIngredientsGuardsAgainstChangesFromOutside() {
     List<Ingredient> testAgainst = sut.getIngredients();
 
     testAgainst.add(getIngredient3());
@@ -197,14 +197,14 @@ public class MealplanerDataTest {
   }
 
   @Test
-  public void setIngredientsThrowsExceptionIfIngredientIsDeletedButStillInUse() {
+  void setIngredientsThrowsExceptionIfIngredientIsDeletedButStillInUse() {
     sut.addMeal(getMeal2());
 
     Assertions.assertThrows(MealException.class, () -> sut.setIngredients(new ArrayList<>()));
   }
 
   @Test
-  public void deletedIngredientsStillInUseReturnsNonemptyListIfIngredientIsStillUsed() {
+  void deletedIngredientsStillInUseReturnsNonemptyListIfIngredientIsStillUsed() {
     sut.addMeal(getMeal2());
 
     List<Ingredient> deletedIngredientsStillInUse = sut
@@ -214,7 +214,7 @@ public class MealplanerDataTest {
   }
 
   @Test
-  public void setMealsProhibitsAddingFurtherIngredients() {
+  void setMealsProhibitsAddingFurtherIngredients() {
     List<Meal> testAgainst = new ArrayList<>();
     testAgainst.add(meal1);
 
@@ -228,7 +228,7 @@ public class MealplanerDataTest {
   }
 
   @Test
-  public void getMealsGuardsAgainstChangesFromOutside() {
+  void getMealsGuardsAgainstChangesFromOutside() {
     List<Meal> testAgainst = sut.getMeals();
 
     testAgainst.add(meal4);

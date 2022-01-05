@@ -31,14 +31,14 @@ import mealplaner.plugins.preference.settingextension.CookingPreferenceSubSettin
 import mealplaner.proposal.ProposalBuilder;
 import testcommons.PluginsUtils;
 
-public class CookingPreferenceProposalStepTest {
+class CookingPreferenceProposalStepTest {
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     PluginsUtils.setupMessageBundles(new CookingPreferencePlugin());
   }
 
   @Test
-  public void applyPluginSuggestionsEliminatesUnwantedPreferences() {
+  void applyPluginSuggestionsEliminatesUnwantedPreferences() {
     var meal1 = meal()
         .name("Test1")
         .daysPassed(nonNegative(100))
@@ -67,7 +67,7 @@ public class CookingPreferenceProposalStepTest {
   }
 
   @Test
-  public void applyPluginSuggestionsChangesPreferencesAccordingToPreferenceMap() {
+  void applyPluginSuggestionsChangesPreferencesAccordingToPreferenceMap() {
     var meal1 = meal()
         .name("Test1")
         .daysPassed(TWO)

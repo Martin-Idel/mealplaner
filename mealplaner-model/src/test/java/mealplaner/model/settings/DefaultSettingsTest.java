@@ -20,9 +20,9 @@ import mealplaner.plugins.PluginStore;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 
-public class DefaultSettingsTest {
+class DefaultSettingsTest {
   @Test
-  public void constructingFromMapAndGettingAMapCopyWorks() {
+  void constructingFromMapAndGettingAMapCopyWorks() {
     Map<DayOfWeek, Settings> defaultSettings = new HashMap<>();
     defaultSettings.put(TUESDAY, setting().numberOfPeople(TWO).create());
     defaultSettings.put(SATURDAY, setting().numberOfPeople(THREE).create());
@@ -34,7 +34,7 @@ public class DefaultSettingsTest {
   }
 
   @Test
-  public void testToString() {
+  void testToString() {
     Map<DayOfWeek, Settings> defaultSettings = new HashMap<>();
     defaultSettings.put(TUESDAY, setting().numberOfPeople(TWO).create());
     defaultSettings.put(SATURDAY, setting().numberOfPeople(THREE).create());
@@ -48,7 +48,7 @@ public class DefaultSettingsTest {
   }
 
   @Test
-  public void equalsContract() {
+  void equalsContract() {
     EqualsVerifier.forClass(DefaultSettings.class)
         .suppress(Warning.NULL_FIELDS)
         .verify();

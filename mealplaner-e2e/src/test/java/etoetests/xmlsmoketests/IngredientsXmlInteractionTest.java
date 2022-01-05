@@ -15,11 +15,11 @@ import org.junit.jupiter.api.Test;
 
 import mealplaner.model.recipes.Ingredient;
 
-public class IngredientsXmlInteractionTest extends EtoeXmlInteraction {
+class IngredientsXmlInteractionTest extends EtoeXmlInteraction {
   private static final String RESOURCE_FILE_WITH_THREE_INGREDIENTS_V3 = "src/test/resources/ingredientsXmlV3.xml";
 
   @Test
-  public void loadingIngredientsWorksCorrectlyWithVersion3() {
+  void loadingIngredientsWorksCorrectlyWithVersion3() {
     List<Ingredient> ingredients = new ArrayList<>();
     ingredients.add(getIngredient1());
     ingredients.add(getIngredient2());

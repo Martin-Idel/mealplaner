@@ -16,9 +16,9 @@ import mealplaner.commons.NonnegativeInteger;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 
-public class ProposalTest {
+class ProposalTest {
   @Test
-  public void proposalReturnsCorrectDateOfFirstEntry() {
+  void proposalReturnsCorrectDateOfFirstEntry() {
     var dateOfFirstProposedMenu = LocalDate.of(2020, 1, 1);
     Proposal proposalToday = getProposalWithOneDay(true, dateOfFirstProposedMenu);
     Proposal proposalTomorrow = getProposalWithOneDay(false, dateOfFirstProposedMenu);
@@ -28,7 +28,7 @@ public class ProposalTest {
   }
 
   @Test
-  public void proposalContainsCorrectData() {
+  void proposalContainsCorrectData() {
     var dateOfFirstProposedMenu = LocalDate.of(2020, 1, 1);
     Proposal proposalToday = getProposalWithOneDay(true, dateOfFirstProposedMenu);
 
@@ -49,14 +49,14 @@ public class ProposalTest {
   }
 
   @Test
-  public void testToString() {
+  void testToString() {
     assertThat(Proposal.class.getDeclaredFields().length).isEqualTo(3);
     assertThat(Proposal.from(false, new ArrayList<>(), LocalDate.of(2020, 2, 2)).toString())
         .isEqualTo("Proposal{mealList=[], calendar=2020-02-02, includeToday=false}");
   }
 
   @Test
-  public void equalsContract() {
+  void equalsContract() {
     EqualsVerifier.forClass(Proposal.class)
         .suppress(Warning.NULL_FIELDS)
         .verify();

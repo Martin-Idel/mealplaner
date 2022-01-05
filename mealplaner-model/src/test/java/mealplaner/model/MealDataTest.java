@@ -47,7 +47,7 @@ import mealplaner.model.recipes.Recipe;
 import mealplaner.plugins.PluginStore;
 import testcommonsmodel.CommonBaseFunctions;
 
-public class MealDataTest {
+class MealDataTest {
   private Meal meal1;
   private Meal meal2;
   private Meal meal3;
@@ -57,19 +57,19 @@ public class MealDataTest {
   private final PluginStore pluginStore = new PluginStore();
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     data = MealplanerData.getInstance(pluginStore);
     data.clear();
     meals.clear();
   }
 
   @AfterEach
-  public void tearDown() {
+  void tearDown() {
     data.deregister(sut);
   }
 
   @Test
-  public void putAndGetMealsDoesNotChangeMealsWithoutRecipes() {
+  void putAndGetMealsDoesNotChangeMealsWithoutRecipes() {
     addInitializedMeals();
     MealplanerData data = MealplanerData.getInstance(pluginStore);
     sut = createData(data);
@@ -82,7 +82,7 @@ public class MealDataTest {
   }
 
   @Test
-  public void putAndGetMealWithRecipeDoesNotChangeRecipe() {
+  void putAndGetMealWithRecipeDoesNotChangeRecipe() {
     meal1 = meal()
         .name("Meal1")
         .addDaysPassed(nonNegative(50))
@@ -99,7 +99,7 @@ public class MealDataTest {
   }
 
   @Test
-  public void getMealReturnsCorrectMealIfItCanBeFound() {
+  void getMealReturnsCorrectMealIfItCanBeFound() {
     addInitializedMeals();
     MealplanerData data = MealplanerData.getInstance(pluginStore);
     sut = MealData.createData(data);
@@ -114,7 +114,7 @@ public class MealDataTest {
   }
 
   @Test
-  public void addingMealAddsAllIngredients() {
+  void addingMealAddsAllIngredients() {
     Ingredient ingredient1 = getIngredient1();
     Ingredient ingredient2 = getIngredient2();
     setupOneMeal(ingredient1, ingredient2);
@@ -130,7 +130,7 @@ public class MealDataTest {
   }
 
   @Test
-  public void addedIngredientsDoNotChangeRecipe() {
+  void addedIngredientsDoNotChangeRecipe() {
     setupOneMeal(getIngredient1(), getIngredient2());
 
     sut = MealData.createData(data);
@@ -144,7 +144,7 @@ public class MealDataTest {
   }
 
   @Test
-  public void updatingIngredientsInMealWorksCorrectly() {
+  void updatingIngredientsInMealWorksCorrectly() {
     List<Ingredient> ingredients = new ArrayList<>();
     Ingredient ingredient1 = getIngredient1();
     Ingredient ingredient2 = getIngredient2();
@@ -177,7 +177,7 @@ public class MealDataTest {
   }
 
   @Test
-  public void throwsExceptionIfSomethingWentWrongWithIngredients() {
+  void throwsExceptionIfSomethingWentWrongWithIngredients() {
     List<Ingredient> ingredients = new ArrayList<>();
     Ingredient ingredient1 = getIngredient1();
     Ingredient ingredient2 = getIngredient2();
@@ -201,7 +201,7 @@ public class MealDataTest {
   }
 
   @Test
-  public void updateAddsCorrectNumberOfDays() {
+  void updateAddsCorrectNumberOfDays() {
     addInitializedMeals();
     MealplanerData data = MealplanerData.getInstance(pluginStore);
     sut = createData(data);
@@ -221,7 +221,7 @@ public class MealDataTest {
   }
 
   @Test
-  public void updateAddsCorrectNumberOfDaysIncludingEntry() {
+  void updateAddsCorrectNumberOfDaysIncludingEntry() {
     addInitializedMeals();
     MealplanerData data = MealplanerData.getInstance(pluginStore);
     sut = createData(data);
@@ -241,7 +241,7 @@ public class MealDataTest {
   }
 
   @Test
-  public void updateAddsCorrectNumberOfDaysIncludingDesert() {
+  void updateAddsCorrectNumberOfDaysIncludingDesert() {
     addInitializedMeals();
     MealplanerData data = MealplanerData.getInstance(pluginStore);
     sut = createData(data);
@@ -261,7 +261,7 @@ public class MealDataTest {
   }
 
   @Test
-  public void ingredientInUseIdentifiesUsedIngredientId() {
+  void ingredientInUseIdentifiesUsedIngredientId() {
     setupOneMeal(getIngredient1(), getIngredient2());
     MealplanerData data = MealplanerData.getInstance(pluginStore);
     sut = createData(data);
@@ -272,7 +272,7 @@ public class MealDataTest {
   }
 
   @Test
-  public void replaceIngredientReplacesIngredientIfPresent() {
+  void replaceIngredientReplacesIngredientIfPresent() {
     setupOneMeal(getIngredient1(), getIngredient2());
     MealplanerData data = MealplanerData.getInstance(pluginStore);
     sut = createData(data);
@@ -288,7 +288,7 @@ public class MealDataTest {
   }
 
   @Test
-  public void replaceIngredientReplacesIngredientEvenForSameIngredients() {
+  void replaceIngredientReplacesIngredientEvenForSameIngredients() {
     setupOneMeal(getIngredient1(), getIngredient2());
     MealplanerData data = MealplanerData.getInstance(pluginStore);
     sut = createData(data);
@@ -306,7 +306,7 @@ public class MealDataTest {
   }
 
   @Test
-  public void replaceIngredientDoesNothingIfIngredientIsAbsent() {
+  void replaceIngredientDoesNothingIfIngredientIsAbsent() {
     setupOneMeal(getIngredient1(), getIngredient3());
     MealplanerData data = MealplanerData.getInstance(pluginStore);
     sut = createData(data);
@@ -328,7 +328,7 @@ public class MealDataTest {
   }
 
   @Test
-  public void replaceIngredientKeepsMeasureIfReplacingIngredientHasSameMeasure() {
+  void replaceIngredientKeepsMeasureIfReplacingIngredientHasSameMeasure() {
     var secondaries = new EnumMap<Measure, NonnegativeFraction>(Measure.class);
     secondaries.put(Measure.GRAM, fraction(1, 2));
     setupOneMeal(getIngredient1(), getIngredient3());

@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Test;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 
-public class PairTest {
+class PairTest {
   @Test
-  public void mapRightLeftAllowsSimpleMap() {
+  void mapRightLeftAllowsSimpleMap() {
     var pair = Pair.of(NonnegativeInteger.nonNegative(3), NonnegativeFraction.fraction(1, 3));
     var mappedPair = pair.mapLeft(NonnegativeInteger::toString).mapRight(NonnegativeFraction::getDenominator);
 
@@ -20,7 +20,7 @@ public class PairTest {
   }
 
   @Test
-  public void equalsContract() {
+  void equalsContract() {
     EqualsVerifier.forClass(Pair.class)
         .suppress(Warning.NULL_FIELDS)
         .verify();

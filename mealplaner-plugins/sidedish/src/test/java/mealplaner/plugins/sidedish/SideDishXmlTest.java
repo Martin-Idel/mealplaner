@@ -14,9 +14,9 @@ import mealplaner.plugins.sidedish.mealextension.SidedishFact;
 import testcommons.PluginsUtils;
 import testcommons.XmlInteraction;
 
-public class SideDishXmlTest extends XmlInteraction {
+class SideDishXmlTest extends XmlInteraction {
   @Test
-  public void roundTripWithCookingTimeCanBeSavedCorrectly() {
+  void roundTripWithCookingTimeCanBeSavedCorrectly() {
     PluginsUtils.setupMessageBundles(new SideDishPlugin());
     Meal meal = meal()
         .name("Test1")

@@ -14,12 +14,12 @@ import mealplaner.plugins.PluginStore;
 import mealplaner.plugins.api.MealFact;
 import mealplaner.plugins.api.MealFactXml;
 
-public class FactsAdapterTest {
+class FactsAdapterTest {
   private List<Object> unmarshalledFacts;
   private PluginStore knownPlugins;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     unmarshalledFacts = new ArrayList<>();
     unmarshalledFacts.add(new SomeTestFactXml("known"));
     unmarshalledFacts.add(new SomeUnknownTestFactXml("unknown"));
@@ -28,7 +28,7 @@ public class FactsAdapterTest {
   }
 
   @Test
-  public void extractMealFactsFindsKnownPluginAndCastsToCorrectClass() {
+  void extractMealFactsFindsKnownPluginAndCastsToCorrectClass() {
     var mealFacts = FactsAdapter.extractFacts(unmarshalledFacts, knownPlugins.getRegisteredMealExtensions());
 
     assertThat(mealFacts).containsOnlyKeys(SomeTestFactXml.class);
@@ -37,7 +37,7 @@ public class FactsAdapterTest {
   }
 
   @Test
-  public void extractMealFactsDefaultsKnownPluginAsGivenBySupplier() {
+  void extractMealFactsDefaultsKnownPluginAsGivenBySupplier() {
     var emptyFacts = new ArrayList<>();
     var mealFacts = FactsAdapter.extractFacts(emptyFacts, knownPlugins.getRegisteredMealExtensions());
 

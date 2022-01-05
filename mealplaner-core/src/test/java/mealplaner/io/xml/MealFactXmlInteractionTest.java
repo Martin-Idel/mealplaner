@@ -23,9 +23,9 @@ import testcommons.XmlInteraction;
 import xmlcommons.HiddenMealFact;
 import xmlcommons.TestMealFact;
 
-public class MealFactXmlInteractionTest extends XmlInteraction {
+class MealFactXmlInteractionTest extends XmlInteraction {
   @Test
-  public void roundTripWorksWithHiddenFacts() {
+  void roundTripWorksWithHiddenFacts() {
     List<Meal> meals = singletonList(meal()
         .name("Test1")
         .daysPassed(ONE)
@@ -56,7 +56,7 @@ public class MealFactXmlInteractionTest extends XmlInteraction {
   }
 
   @Test
-  public void roundTripInitialisesDefaultsCorrectly() {
+  void roundTripInitialisesDefaultsCorrectly() {
     Meal meal = meal()
         .id(nameUUIDFromBytes("Test1Meal".getBytes(UTF_8)))
         .name("Test1")

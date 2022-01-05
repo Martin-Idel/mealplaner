@@ -10,16 +10,16 @@ import org.junit.jupiter.api.Test;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 
-public class MealMetaDataTest {
+class MealMetaDataTest {
   @Test
-  public void testToString() {
+  void testToString() {
     assertThat(getMeal1().getMetaData().toString())
         .isEqualTo("MealMetaData{name=Test1, mealFacts={}, hiddenMealFacts=[]}");
     assertThat(MealMetaData.class.getDeclaredFields().length).isEqualTo(3 + 1);  // one static field
   }
 
   @Test
-  public void equalsContract() {
+  void equalsContract() {
     EqualsVerifier.forClass(MealMetaData.class)
         .suppress(Warning.NULL_FIELDS)
         .verify();

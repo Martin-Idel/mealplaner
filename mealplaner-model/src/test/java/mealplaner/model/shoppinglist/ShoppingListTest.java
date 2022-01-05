@@ -28,10 +28,10 @@ import mealplaner.model.recipes.Recipe;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 
-public class ShoppingListTest {
+class ShoppingListTest {
 
   @Test
-  public void addsRecipesTogetherFaithfully() {
+  void addsRecipesTogetherFaithfully() {
     List<Pair<Recipe, NonnegativeInteger>> recipes = getRecipeListForShoppingList();
     Map<Ingredient, NonnegativeFraction> expected = new HashMap<>();
     expected.put(getIngredient1(), wholeNumber(nonNegative(300)));
@@ -45,7 +45,7 @@ public class ShoppingListTest {
   }
 
   @Test
-  public void getListReturnsGoodList() {
+  void getListReturnsGoodList() {
     List<Pair<Recipe, NonnegativeInteger>> recipes = getRecipeListForShoppingList();
 
     ShoppingList shoppingList = ShoppingList.from(recipes);
@@ -61,7 +61,7 @@ public class ShoppingListTest {
   }
 
   @Test
-  public void addsRecipesTogetherFaithfullyIncludingFractions() {
+  void addsRecipesTogetherFaithfullyIncludingFractions() {
     List<QuantitativeIngredient> ingredients = new ArrayList<>();
     ingredients.add(createQuantitativeIngredient(
         getIngredient1(), fraction(10, 3)));
@@ -87,7 +87,7 @@ public class ShoppingListTest {
   }
 
   @Test
-  public void equalsContract() {
+  void equalsContract() {
     EqualsVerifier.forClass(ShoppingList.class)
         .suppress(Warning.NULL_FIELDS)
         .verify();

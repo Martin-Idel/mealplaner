@@ -18,10 +18,10 @@ import org.junit.jupiter.api.Test;
 
 import mealplaner.commons.gui.buttonpanel.ButtonPanelEnabling;
 
-public class UpdateSizeTableModelTest {
+class UpdateSizeTableModelTest {
 
   @Test
-  public void oneStringColumnOnlyReturnsCorrectSize() {
+  void oneStringColumnOnlyReturnsCorrectSize() {
     List<String> columnContent = new ArrayList<>();
     columnContent.add("Test1");
     columnContent.add("Test2");
@@ -32,7 +32,7 @@ public class UpdateSizeTableModelTest {
   }
 
   @Test
-  public void oneStringColumnHasACorrectNameWhenSet() {
+  void oneStringColumnHasACorrectNameWhenSet() {
     List<String> columnContent = new ArrayList<>();
     columnContent.add("Test1");
     columnContent.add("Test2");
@@ -42,7 +42,7 @@ public class UpdateSizeTableModelTest {
   }
 
   @Test
-  public void oneStringColumnOnlyHasCorrectContent() {
+  void oneStringColumnOnlyHasCorrectContent() {
     List<String> columnContent = new ArrayList<>();
     columnContent.add("Test1");
     columnContent.add("Test2");
@@ -53,7 +53,7 @@ public class UpdateSizeTableModelTest {
   }
 
   @Test
-  public void oneStringColumnCannotSetValueIfNotEditable() {
+  void oneStringColumnCannotSetValueIfNotEditable() {
     List<String> columnContent = new ArrayList<>();
     columnContent.add("Test1");
     columnContent.add("Test2");
@@ -67,7 +67,7 @@ public class UpdateSizeTableModelTest {
   }
 
   @Test
-  public void settingNullValueDoesNothing() {
+  void settingNullValueDoesNothing() {
     List<String> columnContent = new ArrayList<>();
     columnContent.add("Test1");
     columnContent.add("Test2");
@@ -84,7 +84,7 @@ public class UpdateSizeTableModelTest {
   }
 
   @Test
-  public void oneStringColumnArrayListWorksWithConvenienceMethods() {
+  void oneStringColumnArrayListWorksWithConvenienceMethods() {
     List<TestClass> columnContent = new ArrayList<>();
     columnContent.add(new TestClass("Test1"));
     columnContent.add(new TestClass("Test2"));
@@ -108,7 +108,7 @@ public class UpdateSizeTableModelTest {
   }
 
   @Test
-  public void oneStringColumnArrayListOfImmutablesWorksWithConvenienceMethods() {
+  void oneStringColumnArrayListOfImmutablesWorksWithConvenienceMethods() {
     List<TestClass> columnContent = new ArrayList<>();
     columnContent.add(new TestClass("Test1"));
     columnContent.add(new TestClass("Test2"));
@@ -135,7 +135,7 @@ public class UpdateSizeTableModelTest {
   }
 
   @Test
-  public void enablingAButtonWorksCorrectly() {
+  void enablingAButtonWorksCorrectly() {
     ButtonPanelEnabling panel = mock(ButtonPanelEnabling.class);
     List<TestClass> columnContent = new ArrayList<>();
     columnContent.add(new TestClass("Test1"));
@@ -165,7 +165,7 @@ public class UpdateSizeTableModelTest {
   }
 
   @Test
-  public void oneStringColumnSetsValueIfEditable() {
+  void oneStringColumnSetsValueIfEditable() {
     List<String> columnContent = new ArrayList<>();
     columnContent.add("Test1");
     columnContent.add("Test2");
@@ -190,7 +190,7 @@ public class UpdateSizeTableModelTest {
   }
 
   @Test
-  public void oneStringColumnAddingToInternalRepresentationWorksCorrectly() {
+  void oneStringColumnAddingToInternalRepresentationWorksCorrectly() {
     List<String> columnContent = new ArrayList<>();
     columnContent.add("Test1");
     columnContent.add("Test2");
@@ -205,7 +205,7 @@ public class UpdateSizeTableModelTest {
   }
 
   @Test
-  public void oneStringAndOneEnumColumnResultInCorrectScale() {
+  void oneStringAndOneEnumColumnResultInCorrectScale() {
     List<String> firstColumnContent = new ArrayList<>();
     firstColumnContent.add("Test1");
     firstColumnContent.add("Test2");
@@ -220,7 +220,7 @@ public class UpdateSizeTableModelTest {
   }
 
   @Test
-  public void oneStringAndOneEnumColumnResultValuesCanBeChangedCorrectly() {
+  void oneStringAndOneEnumColumnResultValuesCanBeChangedCorrectly() {
     List<String> firstColumnContent = new ArrayList<>();
     firstColumnContent.add("Test1");
     firstColumnContent.add("Test2");
@@ -239,7 +239,7 @@ public class UpdateSizeTableModelTest {
   }
 
   @Test
-  public void changingAnIntegerValueWorksCorrectly() {
+  void changingAnIntegerValueWorksCorrectly() {
     List<Integer> firstColumnContent = new ArrayList<>();
     firstColumnContent.add(1);
     firstColumnContent.add(2);
@@ -262,7 +262,7 @@ public class UpdateSizeTableModelTest {
   }
 
   @Test
-  public void twoColumnsOneChangingTheOtherWorksCorrectly() {
+  void twoColumnsOneChangingTheOtherWorksCorrectly() {
     List<String> firstColumnContent = new ArrayList<>();
     firstColumnContent.add("Test1");
     firstColumnContent.add("Test2");
@@ -301,7 +301,7 @@ public class UpdateSizeTableModelTest {
   }
 
   @Test
-  public void runningCommandAfterSetValueRuns() {
+  void runningCommandAfterSetValueRuns() {
     Runnable forTesting = mock(Runnable.class);
 
     List<String> firstColumnContent = new ArrayList<>();
@@ -327,7 +327,7 @@ public class UpdateSizeTableModelTest {
   }
 
   @Test
-  public void runningCommandAfterSetValueDoesNotRunOnEqualInput() {
+  void runningCommandAfterSetValueDoesNotRunOnEqualInput() {
     Runnable forTesting = mock(Runnable.class);
 
     List<String> firstColumnContent = new ArrayList<>();
@@ -353,7 +353,7 @@ public class UpdateSizeTableModelTest {
   }
 
   @Test
-  public void runningCommandAfterSetValueWorksWithImmutableListConvenienceMethods() {
+  void runningCommandAfterSetValueWorksWithImmutableListConvenienceMethods() {
     Runnable forTesting = mock(Runnable.class);
     List<TestClass> columnContent = new ArrayList<>();
     columnContent.add(new TestClass("Test1"));

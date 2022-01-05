@@ -21,14 +21,14 @@ import mealplaner.plugins.utensil.settingextension.CasseroleSubSetting;
 import testcommons.PluginsUtils;
 import testcommons.XmlInteraction;
 
-public class UtensilXmlTest extends XmlInteraction {
+class UtensilXmlTest extends XmlInteraction {
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     PluginsUtils.setupMessageBundles(new ObligatoryUtensilPlugin());
   }
 
   @Test
-  public void roundTripWithCookingTimeCanBeSavedCorrectly() {
+  void roundTripWithCookingTimeCanBeSavedCorrectly() {
     Meal meal = meal()
         .name("Test1")
         .daysPassed(ONE)
@@ -39,7 +39,7 @@ public class UtensilXmlTest extends XmlInteraction {
   }
 
   @Test
-  public void roundTripWithCookingTimeSubSettingWorksCorrectly() {
+  void roundTripWithCookingTimeSubSettingWorksCorrectly() {
     Settings settings = setting()
         .numberOfPeople(TWO)
         .addSetting(new CasseroleSubSetting(ONLY))

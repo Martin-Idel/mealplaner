@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 
-public class RecipeTest {
+class RecipeTest {
   private Ingredient anIngredient1;
   private Ingredient anIngredient2;
   private Ingredient anIngredient3;
@@ -29,7 +29,7 @@ public class RecipeTest {
   private QuantitativeIngredient quantitativeIngredient2;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     anIngredient1 = getIngredient1();
     anIngredient2 = getIngredient2();
     anIngredient3 = getIngredient4();
@@ -38,7 +38,7 @@ public class RecipeTest {
   }
 
   @Test
-  public void initializerCreatesCorrectMapWithDistinctEntries() {
+  void initializerCreatesCorrectMapWithDistinctEntries() {
     List<QuantitativeIngredient> ingredientList = new ArrayList<>();
     ingredientList.add(quantitativeIngredient1);
     ingredientList.add(quantitativeIngredient2);
@@ -51,7 +51,7 @@ public class RecipeTest {
   }
 
   @Test
-  public void getIngredientsListReturnsDoubleAmountsForDoubleNumberOfPeople() {
+  void getIngredientsListReturnsDoubleAmountsForDoubleNumberOfPeople() {
     List<QuantitativeIngredient> ingredients = new ArrayList<>();
     ingredients.add(createQuantitativeIngredient(anIngredient1, wholeNumber(nonNegative(100))));
     ingredients.add(createQuantitativeIngredient(anIngredient2, wholeNumber(nonNegative(300))));
@@ -66,7 +66,7 @@ public class RecipeTest {
   }
 
   @Test
-  public void getIngredientsListReturnsHalfAmountsForHalfTheNumberOfPeople() {
+  void getIngredientsListReturnsHalfAmountsForHalfTheNumberOfPeople() {
     List<QuantitativeIngredient> ingredients = new ArrayList<>();
     ingredients.add(createQuantitativeIngredient(anIngredient1, wholeNumber(nonNegative(100))));
     ingredients.add(createQuantitativeIngredient(anIngredient2, wholeNumber(nonNegative(300))));
@@ -81,7 +81,7 @@ public class RecipeTest {
   }
 
   @Test
-  public void getIngredientsListCombinesIngredientsCorrectly() {
+  void getIngredientsListCombinesIngredientsCorrectly() {
     List<QuantitativeIngredient> ingredients = new ArrayList<>();
     ingredients.add(createQuantitativeIngredient(anIngredient1, wholeNumber(nonNegative(100))));
     ingredients.add(createQuantitativeIngredient(anIngredient1, wholeNumber(nonNegative(300))));
@@ -95,7 +95,7 @@ public class RecipeTest {
   }
 
   @Test
-  public void getIngredientsWithPrimaryMeasureForReturnsAmountInPrimaryMeasure() {
+  void getIngredientsWithPrimaryMeasureForReturnsAmountInPrimaryMeasure() {
     List<QuantitativeIngredient> ingredients = new ArrayList<>();
     ingredients.add(createQuantitativeIngredient(anIngredient1, wholeNumber(nonNegative(100))));
     ingredients.add(createQuantitativeIngredient(
@@ -111,14 +111,14 @@ public class RecipeTest {
   }
 
   @Test
-  public void equalsContract() {
+  void equalsContract() {
     EqualsVerifier.forClass(Recipe.class)
         .suppress(Warning.NULL_FIELDS)
         .verify();
   }
 
   @Test
-  public void testToString() {
+  void testToString() {
     Recipe recipe = Recipe.createRecipe();
 
     assertThat(recipe.toString()).isEqualTo("Recipe{numberOfPortions=1, ingredients=[]}");

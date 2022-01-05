@@ -18,10 +18,10 @@ import mealplaner.plugins.api.Setting;
 import mealplaner.plugins.api.SettingXml;
 import xmlcommons.TestSubSetting;
 
-public class SettingsAdapterTest {
+class SettingsAdapterTest {
 
   @Test
-  public void adapterTestRoundtripOfSettings() {
+  void adapterTestRoundtripOfSettings() {
     Settings settings1 = setting()
         .numberOfPeople(TWO)
         .addSetting(new TestSubSetting(TEST2))
@@ -37,7 +37,7 @@ public class SettingsAdapterTest {
   }
 
   @Test
-  public void adapterTestAddsDefaultsForMissingSettings() {
+  void adapterTestAddsDefaultsForMissingSettings() {
     Settings settings1 = setting()
         .numberOfPeople(TWO)
         .create();

@@ -19,10 +19,10 @@ import mealplaner.commons.errorhandling.MealException;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 
-public class MeasuresTest {
+class MeasuresTest {
 
   @Test
-  public void getConversionFactorConvertsCorrectlyToPrimaryMeasure() {
+  void getConversionFactorConvertsCorrectlyToPrimaryMeasure() {
     var secondaries = new EnumMap<Measure, NonnegativeFraction>(Measure.class);
     secondaries.put(TABLESPOON, fraction(1, 2));
     Measures measures = createMeasures(MILLILITRE, secondaries);
@@ -32,7 +32,7 @@ public class MeasuresTest {
   }
 
   @Test
-  public void getConversionFactorConvertsCorrectlyFromPrimaryMeasure() {
+  void getConversionFactorConvertsCorrectlyFromPrimaryMeasure() {
     var secondaries = new EnumMap<Measure, NonnegativeFraction>(Measure.class);
     secondaries.put(TABLESPOON, fraction(1, 2));
     Measures measures = createMeasures(MILLILITRE, secondaries);
@@ -42,7 +42,7 @@ public class MeasuresTest {
   }
 
   @Test
-  public void getConversionFactorConvertsCorrectlyBetweenMeasures() {
+  void getConversionFactorConvertsCorrectlyBetweenMeasures() {
     var secondaries = new EnumMap<Measure, NonnegativeFraction>(Measure.class);
     secondaries.put(TABLESPOON, fraction(1, 2));
     secondaries.put(GRAM, fraction(1, 4));
@@ -53,7 +53,7 @@ public class MeasuresTest {
   }
 
   @Test
-  public void getConversionFactorThrowsExceptionWhenFromMeasureIsNotContainedInMeasures() {
+  void getConversionFactorThrowsExceptionWhenFromMeasureIsNotContainedInMeasures() {
     var secondaries = new EnumMap<Measure, NonnegativeFraction>(Measure.class);
     secondaries.put(TABLESPOON, fraction(1, 2));
     Measures measures = createMeasures(MILLILITRE, secondaries);
@@ -62,7 +62,7 @@ public class MeasuresTest {
   }
 
   @Test
-  public void getConversionFactorThrowsExceptionWhenToMeasureIsNotContainedInMeasures() {
+  void getConversionFactorThrowsExceptionWhenToMeasureIsNotContainedInMeasures() {
     var secondaries = new EnumMap<Measure, NonnegativeFraction>(Measure.class);
     secondaries.put(TABLESPOON, fraction(1, 2));
     Measures measures = createMeasures(MILLILITRE, secondaries);
@@ -71,7 +71,7 @@ public class MeasuresTest {
   }
 
   @Test
-  public void createMeasuresRemovesPrimaryMeasuresFromSecondaries() {
+  void createMeasuresRemovesPrimaryMeasuresFromSecondaries() {
     var secondaries = new EnumMap<Measure, NonnegativeFraction>(Measure.class);
     secondaries.put(TABLESPOON, fraction(1, 2));
     secondaries.put(MILLILITRE, fraction(1, 2));
@@ -81,16 +81,15 @@ public class MeasuresTest {
     assertThat(measures.getSecondaries()).containsKey(TABLESPOON);
   }
 
-
   @Test
-  public void equalsContract() {
+  void equalsContract() {
     EqualsVerifier.forClass(Measures.class)
         .suppress(Warning.NULL_FIELDS)
         .verify();
   }
 
   @Test
-  public void testToString() {
+  void testToString() {
     assertThat(Measures.DEFAULT_MEASURES.toString()).isEqualTo("Measures{primary=-, secondaries={}}");
     assertThat(Measures.class.getDeclaredFields().length).isEqualTo(2 + 1); // one static field
   }

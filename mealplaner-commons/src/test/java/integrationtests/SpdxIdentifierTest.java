@@ -15,10 +15,10 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
-public class SpdxIdentifierTest {
+class SpdxIdentifierTest {
 
   @Test
-  public void allJavaFilesContainSpdxIdentifier() {
+  void allJavaFilesContainSpdxIdentifier() {
     try {
       List<Path> filesWithErrors = Files
           .find(Paths.get(".."), 999,

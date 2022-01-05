@@ -38,10 +38,10 @@ import mealplaner.plugins.api.ProposalBuilderStep;
 import mealplaner.plugins.builtins.courses.CourseTypeFact;
 import mealplaner.plugins.builtins.courses.CourseTypeSetting;
 
-public class ProposalBuilderTest {
+class ProposalBuilderTest {
 
   @Test
-  public void proposalBuilderProposesMealsAccordingToLastCooked() {
+  void proposalBuilderProposesMealsAccordingToLastCooked() {
     var meal1 = meal()
         .name("Test1")
         .daysPassed(nonNegative(10))
@@ -72,7 +72,7 @@ public class ProposalBuilderTest {
   }
 
   @Test
-  public void proposalBuilderCorrectlyTakesProposalIntoAccount() {
+  void proposalBuilderCorrectlyTakesProposalIntoAccount() {
     var meal1 = meal()
         .name("Test1")
         .daysPassed(nonNegative(10))
@@ -97,7 +97,7 @@ public class ProposalBuilderTest {
   }
 
   @Test
-  public void proposalBuilderUsesTodayIfTodayElseTomorrow() {
+  void proposalBuilderUsesTodayIfTodayElseTomorrow() {
     var meal1 = meal()
         .name("Test1")
         .daysPassed(nonNegative(10))
@@ -128,7 +128,7 @@ public class ProposalBuilderTest {
   }
 
   @Test
-  public void proposalBuilderProposesMainAndEntryIfSettingIsAccordingly() {
+  void proposalBuilderProposesMainAndEntryIfSettingIsAccordingly() {
     var meal1 = meal()
         .name("Test1")
         .daysPassed(nonNegative(10))
@@ -162,7 +162,7 @@ public class ProposalBuilderTest {
 
 
   @Test
-  public void proposalBuilderProposesNothingIfNoMainInList() {
+  void proposalBuilderProposesNothingIfNoMainInList() {
     var meal1 = meal()
         .name("Test1")
         .daysPassed(nonNegative(10))
@@ -183,7 +183,7 @@ public class ProposalBuilderTest {
 
   @Test
   @SuppressWarnings("unchecked")
-  public void proposalBuilderCorrectlyCallsProposalSteps() {
+  void proposalBuilderCorrectlyCallsProposalSteps() {
     ProposalBuilderStep step = Mockito.mock(ProposalBuilderStep.class);
     when(step.applyPluginSuggestions(any(), any()))
         .thenAnswer((Answer<Stream<Pair<Meal, Integer>>>) invocation

@@ -14,9 +14,9 @@ import mealplaner.commons.NonnegativeInteger;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 
-public class ProposedMenuTest {
+class ProposedMenuTest {
   @Test
-  public void testToString() {
+  void testToString() {
     assertThat(ProposedMenu.class.getDeclaredFields().length).isEqualTo(4);
     assertThat(ProposedMenu.proposed(
         Optional.of(nameUUIDFromBytes("Entry".getBytes(StandardCharsets.UTF_8))),
@@ -29,7 +29,7 @@ public class ProposedMenuTest {
   }
 
   @Test
-  public void equalsContract() {
+  void equalsContract() {
     EqualsVerifier.forClass(ProposedMenu.class)
         .suppress(Warning.NULL_FIELDS)
         .verify();

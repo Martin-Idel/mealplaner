@@ -21,11 +21,11 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 import testcommonsmodel.HiddenMealFact;
 
-public class MealTest {
+class MealTest {
   private Meal sut;
 
   @BeforeEach
-  public void setUp() throws MealException {
+  void setUp() throws MealException {
     sut = meal()
         .name("Test")
         .daysPassed(FIVE)
@@ -34,7 +34,7 @@ public class MealTest {
   }
 
   @Test
-  public void setNameThrowsForEmptyNames() throws MealException {
+  void setNameThrowsForEmptyNames() throws MealException {
     assertThrows(MealException.class, () -> meal()
         .name("")
         .daysPassed(FIVE)
@@ -42,7 +42,7 @@ public class MealTest {
   }
 
   @Test
-  public void copyingMealCopiesAllAspects() throws MealException {
+  void copyingMealCopiesAllAspects() throws MealException {
     var meal = getMeal1();
     var copiedMeal = MealBuilder.from(meal).changeFact(new SomeFact()).create();
 
@@ -54,7 +54,7 @@ public class MealTest {
   }
 
   @Test
-  public void validationFailsForMealWithMissingFacts() throws MealException {
+  void validationFailsForMealWithMissingFacts() throws MealException {
     var pluginStore = new PluginStore();
     pluginStore.registerMealExtension(SomeFact.class, SomeFact.class, SomeFact::new);
     pluginStore.registerMealExtension(HiddenMealFact.class, HiddenMealFact.class, HiddenMealFact::new);
@@ -65,7 +65,7 @@ public class MealTest {
   }
 
   @Test
-  public void validationSucceedsIfAllFactsArePresent() throws MealException {
+  void validationSucceedsIfAllFactsArePresent() throws MealException {
     var pluginStore = new PluginStore();
     pluginStore.registerMealExtension(SomeFact.class, SomeFact.class, SomeFact::new);
 
@@ -78,7 +78,7 @@ public class MealTest {
   }
 
   @Test
-  public void compareToWithName() throws MealException {
+  void compareToWithName() throws MealException {
     Meal compareMeal = getMeal2();
 
     int compareResult = sut.compareTo(compareMeal);
@@ -87,14 +87,14 @@ public class MealTest {
   }
 
   @Test
-  public void getTypedMealFactReturnsCorrectlyTypedFact() {
+  void getTypedMealFactReturnsCorrectlyTypedFact() {
     TestMealFact mealFact = sut.getTypedMealFact(TestMealFact.class);
 
     assertThat(mealFact.testString).startsWith("unmodifiable");
   }
 
   @Test
-  public void getMealFactsReturnsListWhichCannotBeModified() {
+  void getMealFactsReturnsListWhichCannotBeModified() {
     var mealFacts = sut.getMealFacts();
 
     mealFacts.computeIfPresent(TestMealFact.class, (clazz, mealFact) -> new TestMealFact("modified"));
@@ -103,7 +103,7 @@ public class MealTest {
   }
 
   @Test
-  public void testToString() {
+  void testToString() {
     assertThat(getMeal1().toString())
         .isEqualTo("Meal{uuid=0e6db2d7-8818-31ff-80d4-c21e0f2f4a7b, "
             + "metadata=MealMetaData{name=Test1, mealFacts={}, hiddenMealFacts=[]}, "
@@ -112,7 +112,7 @@ public class MealTest {
   }
 
   @Test
-  public void equalsContract() {
+  void equalsContract() {
     EqualsVerifier.forClass(Meal.class)
         .suppress(Warning.NULL_FIELDS)
         .verify();

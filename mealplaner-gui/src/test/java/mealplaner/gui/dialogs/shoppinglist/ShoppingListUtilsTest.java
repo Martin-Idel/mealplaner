@@ -31,16 +31,16 @@ import mealplaner.model.recipes.Recipe;
 import mealplaner.model.shoppinglist.ShoppingList;
 import mealplaner.plugins.PluginStore;
 
-public class ShoppingListUtilsTest {
+class ShoppingListUtilsTest {
   private final MealplanerData data = getInstance(new PluginStore());
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     data.clear();
   }
 
   @Test
-  public void someRecipesMissingForCompleteListFindsMissingRecipe() {
+  void someRecipesMissingForCompleteListFindsMissingRecipe() {
     List<Meal> meals = initialiseProposalMeals();
     data.setMeals(meals);
 
@@ -50,7 +50,7 @@ public class ShoppingListUtilsTest {
   }
 
   @Test
-  public void someRecipesMissingForCompleteListOkIfAllRecipesArePresent() {
+  void someRecipesMissingForCompleteListOkIfAllRecipesArePresent() {
     List<Meal> meals = initialiseProposal2Meals();
     data.setMeals(meals);
 
@@ -60,7 +60,7 @@ public class ShoppingListUtilsTest {
   }
 
   @Test
-  public void correctlyAvoidsMissingRecipesWhenPrinting() {
+  void correctlyAvoidsMissingRecipesWhenPrinting() {
     List<Meal> meals = initialiseProposalMeals();
     data.setMeals(meals);
 
@@ -75,7 +75,7 @@ public class ShoppingListUtilsTest {
   }
 
   @Test
-  public void correctlyAccumulatesRecipes() {
+  void correctlyAccumulatesRecipes() {
     List<Meal> meals = initialiseProposal2Meals();
     data.setMeals(meals);
     Proposal testProposal = getProposal2();

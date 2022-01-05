@@ -17,10 +17,10 @@ import org.junit.jupiter.api.Test;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 
-public class QuantitativeIngredientTest {
+class QuantitativeIngredientTest {
 
   @Test
-  public void convertToMeasureMultipliesAmounts() {
+  void convertToMeasureMultipliesAmounts() {
     var ingredient = getIngredient4();
 
     var quantitativeIngredient = createQuantitativeIngredient(
@@ -31,7 +31,7 @@ public class QuantitativeIngredientTest {
   }
 
   @Test
-  public void constructionThrowsIfMeasureIsNotKnownToIngredient() {
+  void constructionThrowsIfMeasureIsNotKnownToIngredient() {
     var ingredient = getIngredient4();
 
     Assertions.assertThrows(InvalidParameterException.class, () -> createQuantitativeIngredient(
@@ -39,14 +39,14 @@ public class QuantitativeIngredientTest {
   }
 
   @Test
-  public void equalsContract() {
+  void equalsContract() {
     EqualsVerifier.forClass(QuantitativeIngredient.class)
         .suppress(Warning.NULL_FIELDS)
         .verify();
   }
 
   @Test
-  public void toStringTest() {
+  void toStringTest() {
     var ingredient = getIngredient4();
 
     var quantitativeIngredient = createQuantitativeIngredient(

@@ -5,7 +5,6 @@ package mealplaner.model.recipes;
 import static mealplaner.commons.NonnegativeFraction.ONE;
 
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 

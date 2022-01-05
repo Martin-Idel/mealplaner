@@ -18,9 +18,9 @@ import org.junit.jupiter.api.Test;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.recipes.Recipe;
 
-public class RecipeAdapterTest {
+class RecipeAdapterTest {
   @Test
-  public void adapterTest() {
+  void adapterTest() {
     MealplanerData mealplan = setupMealplanerDataWithAllIngredients();
     Optional<Recipe> recipe1 = of(getRecipe1());
     Optional<Recipe> recipe2 = of(getRecipe2());
@@ -35,7 +35,7 @@ public class RecipeAdapterTest {
   }
 
   @Test
-  public void correctlyHandlesEmptyOptionals() {
+  void correctlyHandlesEmptyOptionals() {
     MealplanerData mealplan = setupMealplanerDataWithAllIngredients();
     Optional<Recipe> emptyRecipe = empty();
 

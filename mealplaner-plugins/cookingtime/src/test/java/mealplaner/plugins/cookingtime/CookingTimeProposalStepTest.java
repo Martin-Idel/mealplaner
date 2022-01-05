@@ -28,9 +28,9 @@ import mealplaner.plugins.cookingtime.settingextension.CookingTimeSubSetting;
 import mealplaner.proposal.ProposalBuilder;
 import testcommons.PluginsUtils;
 
-public class CookingTimeProposalStepTest {
+class CookingTimeProposalStepTest {
   @Test
-  public void applyPluginSuggestionsEliminatesUnwantedCookingTimes() {
+  void applyPluginSuggestionsEliminatesUnwantedCookingTimes() {
     PluginsUtils.setupMessageBundles(new CookingTimePlugin());
     var meal1 = meal()
         .name("Test1")

@@ -27,9 +27,9 @@ import testcommons.XmlInteraction;
 import xmlcommons.HiddenSubSetting;
 import xmlcommons.TestSubSetting;
 
-public class SubSettingsXmlInteractionTest extends XmlInteraction {
+class SubSettingsXmlInteractionTest extends XmlInteraction {
   @Test
-  public void roundTripWorksCorrectlyWithSettingFacts() {
+  void roundTripWorksCorrectlyWithSettingFacts() {
     Settings settings = setting()
         .numberOfPeople(TWO)
         .addSetting(new TestSubSetting(TEST2))
@@ -76,7 +76,7 @@ public class SubSettingsXmlInteractionTest extends XmlInteraction {
   }
 
   @Test
-  public void roundTripSetsCorrectDefaultsIfNecessary() {
+  void roundTripSetsCorrectDefaultsIfNecessary() {
     Settings settings = setting()
         .numberOfPeople(TWO)
         .create();

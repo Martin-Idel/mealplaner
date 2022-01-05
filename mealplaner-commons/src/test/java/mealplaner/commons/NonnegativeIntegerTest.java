@@ -14,32 +14,32 @@ import org.junit.jupiter.api.Test;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 
-public class NonnegativeIntegerTest {
+class NonnegativeIntegerTest {
   @Test
-  public void throwsOnNegativeInteger() {
+  void throwsOnNegativeInteger() {
     assertThrows(NumberFormatException.class, () -> nonNegative(-3));
   }
 
   @Test
-  public void correctlyAllowsOperationsIgnoringMathematicalPrecedence() {
+  void correctlyAllowsOperationsIgnoringMathematicalPrecedence() {
     assertThat(THREE.add(TWO).multiplyBy(TWO).divideBy(FOUR))
         .isEqualTo(TWO);
   }
 
   @Test
-  public void comparisonWorksCorrectly() {
+  void comparisonWorksCorrectly() {
     assertThat(THREE.compareTo(TWO)).isEqualTo(1);
     assertThat(TWO.compareTo(nonNegative(2))).isEqualTo(0);
     assertThat(TWO.compareTo(THREE)).isEqualTo(-1);
   }
 
   @Test
-  public void testToString() {
+  void testToString() {
     assertThat(THREE.toString()).isEqualTo("3");
   }
 
   @Test
-  public void equalsContract() {
+  void equalsContract() {
     EqualsVerifier.forClass(NonnegativeInteger.class)
         .suppress(Warning.NULL_FIELDS)
         .verify();

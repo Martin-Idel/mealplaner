@@ -31,7 +31,7 @@ import mealplaner.plugins.preference.settingextension.PreferenceSettings;
 import testcommons.PluginsUtils;
 
 @ExtendWith(MockitoExtension.class)
-public class CookingPreferenceSettingsTest {
+class CookingPreferenceSettingsTest {
 
   @Mock
   private Set<CookingPreference> prohibitedPreference;
@@ -39,13 +39,13 @@ public class CookingPreferenceSettingsTest {
   private CookingPreferenceSettings utensilSetting;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     PluginsUtils.setupMessageBundles(new CookingPreferencePlugin());
     utensilSetting = from(prohibitedPreference);
   }
 
   @Test
-  public void setCookingPreference() {
+  void setCookingPreference() {
     utensilSetting.setCookingPreferences(PreferenceSettings.RARE_NONE);
 
     verify(prohibitedPreference).add(CookingPreference.RARE);
@@ -54,7 +54,7 @@ public class CookingPreferenceSettingsTest {
   }
 
   @Test
-  public void setCasseroleSettingsOnly() {
+  void setCasseroleSettingsOnly() {
     utensilSetting.setCookingPreferences(PreferenceSettings.VERY_POPULAR_ONLY);
 
     verify(prohibitedPreference).addAll(any());
@@ -62,7 +62,7 @@ public class CookingPreferenceSettingsTest {
   }
 
   @Test
-  public void reset() {
+  void reset() {
     Set<CookingPreference> prohibitedUtensil = new HashSet<>();
     utensilSetting = from(prohibitedUtensil);
     utensilSetting.setCookingPreferences(PreferenceSettings.RARE_NONE);
@@ -73,7 +73,7 @@ public class CookingPreferenceSettingsTest {
   }
 
   @Test
-  public void prohibit() {
+  void prohibit() {
     utensilSetting = createCookingPreferenceSettings();
     Meal rareMeal = meal().name("test").addFact(new CookingPreferenceFact(RARE)).create();
     Meal veryPopularMeal = meal().name("test").addFact(new CookingPreferenceFact(VERY_POPULAR)).create();

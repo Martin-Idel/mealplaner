@@ -31,7 +31,7 @@ import mealplaner.plugins.utensil.settingextension.CasseroleSettings;
 import testcommons.PluginsUtils;
 
 @ExtendWith(MockitoExtension.class)
-public class CookingUtensilSettingTest {
+class CookingUtensilSettingTest {
 
   @Mock
   private Set<ObligatoryUtensil> prohibitedUtensil;
@@ -39,13 +39,13 @@ public class CookingUtensilSettingTest {
   private CookingUtensilSetting utensilSetting;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     PluginsUtils.setupMessageBundles(new ObligatoryUtensilPlugin());
     utensilSetting = from(prohibitedUtensil);
   }
 
   @Test
-  public void setCasseroleSettingsNone() {
+  void setCasseroleSettingsNone() {
     utensilSetting.setCasseroleSettings(CasseroleSettings.NONE);
 
     verify(prohibitedUtensil).add(ObligatoryUtensil.CASSEROLE);
@@ -54,7 +54,7 @@ public class CookingUtensilSettingTest {
   }
 
   @Test
-  public void setCasseroleSettingsOnly() {
+  void setCasseroleSettingsOnly() {
     utensilSetting.setCasseroleSettings(CasseroleSettings.ONLY);
 
     verify(prohibitedUtensil).addAll(any());
@@ -62,14 +62,14 @@ public class CookingUtensilSettingTest {
   }
 
   @Test
-  public void setNumberOfPeopleProhibitsPanForMany() {
+  void setNumberOfPeopleProhibitsPanForMany() {
     utensilSetting.setNumberOfPeople(nonNegative(5));
 
     verify(prohibitedUtensil).add(ObligatoryUtensil.PAN);
   }
 
   @Test
-  public void reset() {
+  void reset() {
     Set<ObligatoryUtensil> prohibitedUtensil = new HashSet<>();
     utensilSetting = from(prohibitedUtensil);
     utensilSetting.setCasseroleSettings(CasseroleSettings.NONE);
@@ -80,7 +80,7 @@ public class CookingUtensilSettingTest {
   }
 
   @Test
-  public void prohibit() {
+  void prohibit() {
     utensilSetting = createCookingUtensilSettings();
     Meal meal = meal().name("test").addFact(new ObligatoryUtensilFact(POT)).create();
     Meal mealPan = meal().name("test").addFact(new ObligatoryUtensilFact(PAN)).create();
@@ -91,7 +91,7 @@ public class CookingUtensilSettingTest {
   }
 
   @Test
-  public void isUtensilProhibited() {
+  void isUtensilProhibited() {
     utensilSetting = createCookingUtensilSettings();
     utensilSetting.setNumberOfPeople(nonNegative(5));
 

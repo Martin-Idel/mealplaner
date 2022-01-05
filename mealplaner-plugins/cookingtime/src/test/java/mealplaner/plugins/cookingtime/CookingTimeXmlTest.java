@@ -21,14 +21,14 @@ import mealplaner.plugins.cookingtime.mealextension.CookingTimeFact;
 import testcommons.PluginsUtils;
 import testcommons.XmlInteraction;
 
-public class CookingTimeXmlTest extends XmlInteraction {
+class CookingTimeXmlTest extends XmlInteraction {
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     PluginsUtils.setupMessageBundles(new CookingTimePlugin());
   }
 
   @Test
-  public void roundTripWithCookingTimeCanBeSavedCorrectly() {
+  void roundTripWithCookingTimeCanBeSavedCorrectly() {
     Meal meal = meal()
         .name("Test1")
         .daysPassed(ONE)
@@ -39,7 +39,7 @@ public class CookingTimeXmlTest extends XmlInteraction {
   }
 
   @Test
-  public void roundTripWithCookingTimeSubSettingWorksCorrectly() {
+  void roundTripWithCookingTimeSubSettingWorksCorrectly() {
     Settings settings = SettingsBuilder.setting()
         .numberOfPeople(TWO)
         .addSetting(cookingTimeWithProhibited(SHORT, LONG))

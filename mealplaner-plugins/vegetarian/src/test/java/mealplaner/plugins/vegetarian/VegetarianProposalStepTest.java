@@ -22,14 +22,14 @@ import mealplaner.plugins.vegetarian.mealextension.VegetarianFact;
 import mealplaner.proposal.ProposalBuilder;
 import testcommons.PluginsUtils;
 
-public class VegetarianProposalStepTest {
+class VegetarianProposalStepTest {
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     PluginsUtils.setupMessageBundles(new VegetarianPlugin());
   }
 
   @Test
-  public void applyPluginSuggestionsDoesNotEasilyProposeTwoMeatMealsInARow() {
+  void applyPluginSuggestionsDoesNotEasilyProposeTwoMeatMealsInARow() {
     var meal1 = meal()
         .name("Test1")
         .daysPassed(TWO)
@@ -69,7 +69,7 @@ public class VegetarianProposalStepTest {
   }
 
   @Test
-  public void applyPluginSuggestionsTakesHistoryIntoAccount() {
+  void applyPluginSuggestionsTakesHistoryIntoAccount() {
     var meal1 = meal()
         .name("Test1")
         .daysPassed(ZERO)

@@ -13,9 +13,9 @@ import javax.swing.JTable;
 
 import org.junit.jupiter.api.Test;
 
-public class DynamicSizeTableModelTest {
+class DynamicSizeTableModelTest {
   @Test
-  public void oneStringColumnOnlyHasCorrectContent() {
+  void oneStringColumnOnlyHasCorrectContent() {
     List<String> columnContent = new ArrayList<>();
     columnContent.add("Test1");
     columnContent.add("Test2");
@@ -27,7 +27,7 @@ public class DynamicSizeTableModelTest {
   }
 
   @Test
-  public void oneStringAndOneEnumColumnResultInCorrectScale() {
+  void oneStringAndOneEnumColumnResultInCorrectScale() {
     List<String> firstColumnContent = new ArrayList<>();
     firstColumnContent.add("Test1");
     firstColumnContent.add("Test2");
@@ -42,7 +42,7 @@ public class DynamicSizeTableModelTest {
   }
 
   @Test
-  public void oneStringAndOneEnumColumnResultValuesCanBeChangedCorrectly() {
+  void oneStringAndOneEnumColumnResultValuesCanBeChangedCorrectly() {
     List<String> firstColumnContent = new ArrayList<>();
     firstColumnContent.add("Test1");
     firstColumnContent.add("Test2");
@@ -63,7 +63,7 @@ public class DynamicSizeTableModelTest {
   }
 
   @Test
-  public void twoColumnsOneChangingTheOtherWorksCorrectly() {
+  void twoColumnsOneChangingTheOtherWorksCorrectly() {
     List<String> firstColumnContent = new ArrayList<>();
     firstColumnContent.add("Test1");
     firstColumnContent.add("Test2");
@@ -104,7 +104,7 @@ public class DynamicSizeTableModelTest {
   }
 
   @Test
-  public void addingARowAddsARowToArrayList() {
+  void addingARowAddsARowToArrayList() {
     List<String> firstColumnContent = new ArrayList<>();
     firstColumnContent.add("Test1");
     firstColumnContent.add("Test2");
