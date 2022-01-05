@@ -1,3 +1,8 @@
+# Version 2.3.0
+
+- Task: Various cleanup was done
+- Feature: Print shopping list to JSON
+
 # Version 2.2.0
 
 - New Plugin: Vegetarian plugin

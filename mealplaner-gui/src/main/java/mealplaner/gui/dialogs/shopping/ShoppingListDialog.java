@@ -17,18 +17,23 @@ import mealplaner.commons.gui.buttonpanel.ButtonPanel;
 import mealplaner.commons.gui.dialogs.DialogWindow;
 import mealplaner.commons.gui.tables.Table;
 import mealplaner.gui.dialogs.recepies.IngredientsTable;
+import mealplaner.ioapi.FileIoInterface;
 import mealplaner.model.DataStore;
 import mealplaner.model.proposal.Proposal;
 import mealplaner.model.recipes.Ingredient;
+import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.shoppinglist.ShoppingList;
 
 public class ShoppingListDialog {
   private final DialogWindow dialogWindow;
+  private FileIoInterface fileIo;
   private Table table;
+  private List<QuantitativeIngredient> tableShoppingList;
 
-  public ShoppingListDialog(JFrame parent) {
+  public ShoppingListDialog(JFrame parent, FileIoInterface fileIo) {
     dialogWindow = window(parent, BUNDLES.message("createShoppingListDialogTitle"),
         "ShoppingListDialog");
+    this.fileIo = fileIo;
   }
 
   public void showDialog(Proposal proposal, DataStore dataStore) {
@@ -50,6 +55,7 @@ public class ShoppingListDialog {
   }
 
   private void display(ShoppingList shoppingList, List<Ingredient> ingredients) {
+    tableShoppingList = shoppingList.getList();
     table = IngredientsTable.setupTable(shoppingList.getList(), ingredients);
 
     ButtonPanel buttonPanel = displayButtons();
@@ -62,6 +68,9 @@ public class ShoppingListDialog {
 
   private ButtonPanel displayButtons() {
     return builder("ShoppingListDialog")
+        .addButton(BUNDLES.message("saveJsonButton"),
+            BUNDLES.message("saveJsonButtonMnemonic"),
+            action -> fileIo.saveShoppingList(tableShoppingList))
         .addButton(BUNDLES.message("printButton"),
             BUNDLES.message("printButtonMnemonic"),
             action -> table.printTable(dialogWindow.getParent()))

@@ -5,9 +5,15 @@ package mealplaner.io;
 import static java.util.Optional.empty;
 import static mealplaner.commons.BundleStore.BUNDLES;
 import static mealplaner.commons.gui.MessageDialog.errorMessages;
+import static mealplaner.io.json.ShoppingListJsonWriter.serializeShoppingList;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -32,8 +38,10 @@ import mealplaner.ioapi.FileIoInterface;
 import mealplaner.model.MealplanerData;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.recipes.Ingredient;
+import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.plugins.PluginStore;
 
+// TODO: This contains mostly gui elements and GUI logic and therefore must be moved to GUI part
 public class FileIo implements FileIoInterface {
   private static final String INGREDIENT_FILE = "ingredients.xml";
   private static final String MEAL_FILE = "meals.xml";
@@ -42,6 +50,7 @@ public class FileIo implements FileIoInterface {
   private final JFrame frame;
   private final String basePath;
   private final String regularSavePath;
+  private final String shoppingListPath;
   private final PluginStore knownPlugins;
   private static final Logger logger = LoggerFactory.getLogger(FileIo.class);
 
@@ -50,6 +59,7 @@ public class FileIo implements FileIoInterface {
     this.basePath = basePath;
     this.knownPlugins = knownPlugins;
     this.regularSavePath = basePath + File.separator + "savefiles" + File.separator;
+    this.shoppingListPath = basePath + File.separator + "shoppinglist" + File.separator;
   }
 
   @Override
@@ -87,6 +97,24 @@ public class FileIo implements FileIoInterface {
   }
 
   @Override
+  public void saveShoppingList(List<QuantitativeIngredient> shoppingList) {
+    createDirectoryIfMissing(shoppingListPath);
+    JFileChooser chooser = new JFileChooser(shoppingListPath);
+    FileNameExtensionFilter filter = new FileNameExtensionFilter("JSON documents", ".json");
+    chooser.setFileFilter(filter);
+    int returnVal = chooser.showSaveDialog(frame);
+    if (returnVal == JFileChooser.APPROVE_OPTION) {
+      var selectedFile = chooser.getSelectedFile();
+      try (OutputStream outputStream = Files.newOutputStream(selectedFile.toPath())) {
+        outputStream.write(serializeShoppingList(LocalDate.now(), shoppingList).getBytes(StandardCharsets.UTF_8));
+      } catch (IOException ex) {
+        errorMessages(frame, BUNDLES.errorMessage("MSG_SAVING_ERROR")); // NOPMD
+        logger.error("Could not save shopping list to json:", ex);
+      }
+    }
+  }
+
+  @Override
   public void savePart(MealplanerData mealPlan, DataParts part) {
     createDirectoryIfMissing(regularSavePath);
     try {
@@ -103,7 +131,7 @@ public class FileIo implements FileIoInterface {
         default: // do nothing
       }
     } catch (MealException exc) {
-      errorMessages(frame, BUNDLES.errorMessage("MSG_SAVING_ERROR"));
+      errorMessages(frame, BUNDLES.errorMessage("MSG_SAVING_ERROR")); // NOPMD
       logger.error("Could not save {} of database: {}", part, exc);
     }
   }
@@ -115,7 +143,7 @@ public class FileIo implements FileIoInterface {
       MealsWriter.saveXml(mealPlan.getMeals(), savePath + MEAL_FILE, knownPlugins);
       IngredientsWriter.saveXml(mealPlan.getIngredients(), savePath + INGREDIENT_FILE, knownPlugins);
     } catch (MealException exc) {
-      errorMessages(frame, BUNDLES.errorMessage("MSG_SAVING_ERROR"));
+      errorMessages(frame, BUNDLES.errorMessage("MSG_SAVING_ERROR")); // NOPMD
       logger.error("Could not save database: ", exc);
     }
   }
@@ -124,7 +152,7 @@ public class FileIo implements FileIoInterface {
     if (!new File(regularSavePath).exists()) {
       boolean created = new File(regularSavePath).mkdirs();
       if (!created) {
-        errorMessages(frame, BUNDLES.errorMessage("MSG_SAVING_ERROR"));
+        errorMessages(frame, BUNDLES.errorMessage("MSG_SAVING_ERROR")); // NOPMD
         logger.error("Could not create savegame folder and folder does not exist");
       }
     }

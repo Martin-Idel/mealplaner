@@ -21,6 +21,7 @@ ext {
     log4jVersion = '2.17.1'
     jaxbVersion = '2.4.0-b180830.0359'
     jaxbRuntime = '2.4.0-b180830.0438'
+    jsonSimpleVersion = '4.0.0'
     swingxVersion = '1.6.5-1'
 
     jupyterVersion = '5.8.2'

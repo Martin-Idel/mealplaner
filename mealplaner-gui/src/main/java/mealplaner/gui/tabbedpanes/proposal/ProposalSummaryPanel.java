@@ -109,7 +109,7 @@ public class ProposalSummaryPanel {
     Proposal updatedProposal = dialogs.createProposalOutputDialog()
         .showDialog(mealPlan, pluginStore);
     mealPlan.setLastProposal(updatedProposal);
-    dialogs.createShoppingListDialog().showDialog(updatedProposal, mealPlan);
+    dialogs.createShoppingListDialog(fileIo).showDialog(updatedProposal, mealPlan);
   }
 
   private void updatePastMeals(PluginStore pluginStore) {

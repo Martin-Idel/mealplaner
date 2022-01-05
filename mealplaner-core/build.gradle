@@ -6,6 +6,7 @@ dependencies {
     implementation group: "org.apache.logging.log4j", name: "log4j-slf4j-impl", version: "${log4jVersion}"
     implementation group: "org.apache.logging.log4j", name: "log4j-api", version: "${log4jVersion}"
     implementation group: "org.apache.logging.log4j", name: "log4j-core", version: "${log4jVersion}"
+    implementation group: "com.github.cliftonlabs", name: "json-simple", version: "${jsonSimpleVersion}"
     api project(":mealplaner-commons")
     api project(":mealplaner-model")
 
