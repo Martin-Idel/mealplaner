@@ -84,17 +84,18 @@ public class ShowPhotoDialog {
   private void setPhoto(RecipePhotoFact recipePhoto) {
     int width = 300;
     int height = 200;
-    if (recipePhoto.getPath().isPresent()) {
-      try {
-        BufferedImage img = ImageIO.read(recipePhoto.getPath().get().toFile());
+    try {
+      var photoPath = recipePhoto.getPath();
+      if (photoPath.isPresent()) {
+        BufferedImage img = ImageIO.read(photoPath.get().toFile());
         width = 1000;
         height = width / img.getWidth() * img.getHeight();
         imageLabel.setIcon(new ImageIcon(img.getScaledInstance(width, height, Image.SCALE_SMOOTH)));
-      } catch (IOException e) {
+      }
+    } catch (IOException e) {
         errorMessages(null, BUNDLES.errorMessage("MSG_PHOTO_IO_ERROR"));
         logger.error("Could not load image from path: {}", recipePhoto.getPath());
       }
-    }
     dialogWindow.arrangeWithSize(width, height);
   }
 }
