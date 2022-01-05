@@ -29,7 +29,7 @@ class NonnegativeIntegerTest {
   @Test
   void comparisonWorksCorrectly() {
     assertThat(THREE.compareTo(TWO)).isEqualTo(1);
-    assertThat(TWO.compareTo(nonNegative(2))).isZero();
+    assertThat(TWO).isEqualByComparingTo(nonNegative(2));
     assertThat(TWO.compareTo(THREE)).isEqualTo(-1);
   }
 

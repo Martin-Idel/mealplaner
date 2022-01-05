@@ -21,8 +21,8 @@ import mealplaner.plugins.builtins.courses.CourseTypeFact;
 import mealplaner.plugins.comment.mealextension.CommentFact;
 import mealplaner.plugins.cookingtime.mealextension.CookingTimeFact;
 
-public class DatabaseEditChangeMeals extends AssertJMealplanerTestCase {
-  public DatabaseEditChangeMeals() {
+public class DatabaseEditChangeMealsTest extends AssertJMealplanerTestCase {
+  public DatabaseEditChangeMealsTest() {
     super("src/test/resources/mealsXmlOnlyOneMeal.xml",
         "src/test/resources/save.xml",
         "src/test/resources/ingredients.xml");

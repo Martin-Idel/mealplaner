@@ -108,8 +108,9 @@ class MealDataTest {
 
     var meal = sut.getMeal(meal1.getId());
 
-    assertThat(meal).isPresent();
-    assertThat(meal).contains(meal1);
+    assertThat(meal)
+        .isPresent()
+        .contains(meal1);
     assertThat(sut.getMeal(CommonBaseFunctions.getMeal3().getId())).isEmpty();
   }
 
