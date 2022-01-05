@@ -29,13 +29,13 @@ class NonnegativeIntegerTest {
   @Test
   void comparisonWorksCorrectly() {
     assertThat(THREE.compareTo(TWO)).isEqualTo(1);
-    assertThat(TWO.compareTo(nonNegative(2))).isEqualTo(0);
+    assertThat(TWO.compareTo(nonNegative(2))).isZero();
     assertThat(TWO.compareTo(THREE)).isEqualTo(-1);
   }
 
   @Test
   void testToString() {
-    assertThat(THREE.toString()).isEqualTo("3");
+    assertThat(THREE.toString()).hasToString("3");
   }
 
   @Test

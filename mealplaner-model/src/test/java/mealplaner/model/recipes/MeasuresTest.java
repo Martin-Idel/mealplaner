@@ -90,7 +90,7 @@ class MeasuresTest {
 
   @Test
   void testToString() {
-    assertThat(Measures.DEFAULT_MEASURES.toString()).isEqualTo("Measures{primary=-, secondaries={}}");
-    assertThat(Measures.class.getDeclaredFields().length).isEqualTo(2 + 1); // one static field
+    assertThat(Measures.DEFAULT_MEASURES.toString()).hasToString("Measures{primary=-, secondaries={}}");
+    assertThat(Measures.class.getDeclaredFields()).hasSize(2 + 1); // one static field
   }
 }

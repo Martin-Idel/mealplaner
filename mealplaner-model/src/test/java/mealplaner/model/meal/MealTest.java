@@ -105,10 +105,10 @@ class MealTest {
   @Test
   void testToString() {
     assertThat(getMeal1().toString())
-        .isEqualTo("Meal{uuid=0e6db2d7-8818-31ff-80d4-c21e0f2f4a7b, "
+        .hasToString("Meal{uuid=0e6db2d7-8818-31ff-80d4-c21e0f2f4a7b, "
             + "metadata=MealMetaData{name=Test1, mealFacts={}, hiddenMealFacts=[]}, "
             + "daysPassed=5, recipe=Optional.empty}");
-    assertThat(Meal.class.getDeclaredFields().length).isEqualTo(4 + 1);  // one static field
+    assertThat(Meal.class.getDeclaredFields()).hasSize(4 + 1);  // one static field
   }
 
   @Test

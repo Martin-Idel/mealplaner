@@ -108,8 +108,8 @@ class MealDataTest {
 
     var meal = sut.getMeal(meal1.getId());
 
-    assertThat(meal.isPresent()).isTrue();
-    assertThat(meal.get()).isEqualTo(meal1);
+    assertThat(meal).isPresent();
+    assertThat(meal).contains(meal1);
     assertThat(sut.getMeal(CommonBaseFunctions.getMeal3().getId())).isEmpty();
   }
 
@@ -283,8 +283,8 @@ class MealDataTest {
     assertThat(sut.ingredientInUse(getIngredient2())).isFalse();
     assertThat(sut.ingredientInUse(getIngredient3())).isTrue();
 
-    assertThat(sut.getMealsInList().get(0).getRecipe().get())
-        .isEqualTo(getRecipe(getIngredient1(), getIngredient3()));
+    assertThat(sut.getMealsInList().get(0).getRecipe())
+        .contains(getRecipe(getIngredient1(), getIngredient3()));
   }
 
   @Test
@@ -301,8 +301,8 @@ class MealDataTest {
     ingredients.add(createQuantitativeIngredient(getIngredient1(), wholeNumber(nonNegative(200))));
     Recipe recipe = Recipe.from(nonNegative(2), ingredients);
 
-    assertThat(sut.getMealsInList().get(0).getRecipe().get())
-        .isEqualTo(recipe);
+    assertThat(sut.getMealsInList().get(0).getRecipe())
+        .contains(recipe);
   }
 
   @Test
@@ -315,16 +315,16 @@ class MealDataTest {
     assertThat(sut.ingredientInUse(getIngredient2())).isFalse();
     assertThat(sut.ingredientInUse(getIngredient3())).isTrue();
 
-    assertThat(sut.getMealsInList().get(0).getRecipe().get())
-        .isEqualTo(getRecipe(getIngredient1(), getIngredient3()));
+    assertThat(sut.getMealsInList().get(0).getRecipe())
+        .contains(getRecipe(getIngredient1(), getIngredient3()));
 
     sut.replaceIngredient(getIngredient2(), getIngredient3());
 
     assertThat(sut.ingredientInUse(getIngredient2())).isFalse();
     assertThat(sut.ingredientInUse(getIngredient3())).isTrue();
 
-    assertThat(sut.getMealsInList().get(0).getRecipe().get())
-        .isEqualTo(getRecipe(getIngredient1(), getIngredient3()));
+    assertThat(sut.getMealsInList().get(0).getRecipe())
+        .contains(getRecipe(getIngredient1(), getIngredient3()));
   }
 
   @Test
@@ -354,8 +354,8 @@ class MealDataTest {
         getIngredient1(), wholeNumber(nonNegative(100))));
     ingredients.add(createQuantitativeIngredient(
         ingredient4, GRAM, wholeNumber(nonNegative(200))));
-    assertThat(sut.getMealsInList().get(0).getRecipe().get())
-        .isEqualTo(Recipe.from(nonNegative(2), ingredients));
+    assertThat(sut.getMealsInList().get(0).getRecipe())
+        .contains(Recipe.from(nonNegative(2), ingredients));
   }
 
   private void setupOneMeal(Ingredient ingredient1, Ingredient ingredient2) {

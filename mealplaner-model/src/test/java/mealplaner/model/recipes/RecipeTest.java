@@ -121,7 +121,7 @@ class RecipeTest {
   void testToString() {
     Recipe recipe = Recipe.createRecipe();
 
-    assertThat(recipe.toString()).isEqualTo("Recipe{numberOfPortions=1, ingredients=[]}");
-    assertThat(Recipe.class.getDeclaredFields().length).isEqualTo(2);
+    assertThat(recipe.toString()).hasToString("Recipe{numberOfPortions=1, ingredients=[]}");
+    assertThat(Recipe.class.getDeclaredFields()).hasSize(2);
   }
 }

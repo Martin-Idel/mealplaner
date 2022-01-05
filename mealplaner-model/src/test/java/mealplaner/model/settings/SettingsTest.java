@@ -93,7 +93,7 @@ class SettingsTest {
   @Test
   void testToString() {
     assertThat(getSettings1().toString())
-        .isEqualTo("Settings{numberOfPeople=3, subSettings={}, hiddenSubSettings=[]}");
-    assertThat(Settings.class.getDeclaredFields().length).isEqualTo(3);
+        .hasToString("Settings{numberOfPeople=3, subSettings={}, hiddenSubSettings=[]}");
+    assertThat(Settings.class.getDeclaredFields()).hasSize(3);
   }
 }

@@ -14,8 +14,8 @@ class MealMetaDataTest {
   @Test
   void testToString() {
     assertThat(getMeal1().getMetaData().toString())
-        .isEqualTo("MealMetaData{name=Test1, mealFacts={}, hiddenMealFacts=[]}");
-    assertThat(MealMetaData.class.getDeclaredFields().length).isEqualTo(3 + 1);  // one static field
+        .hasToString("MealMetaData{name=Test1, mealFacts={}, hiddenMealFacts=[]}");
+    assertThat(MealMetaData.class.getDeclaredFields()).hasSize(3 + 1);  // one static field
   }
 
   @Test

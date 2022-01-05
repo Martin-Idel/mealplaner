@@ -30,9 +30,9 @@ class ProposalOutlineTest {
 
   @Test
   void testToString() {
-    assertThat(ProposalOutline.class.getDeclaredFields().length).isEqualTo(5);
+    assertThat(ProposalOutline.class.getDeclaredFields()).hasSize(5);
     assertThat(of(5, LocalDate.of(2020, 1, 1)).build().toString())
-        .isEqualTo("ProposalOutline{numberOfDays=5, includedToday=false, shallBeRandomised=false, "
+        .hasToString("ProposalOutline{numberOfDays=5, includedToday=false, shallBeRandomised=false, "
             + "dateToday=2020-01-01, takeDefaultSettings=false}");
   }
 

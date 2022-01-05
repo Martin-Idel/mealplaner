@@ -44,7 +44,7 @@ class DefaultSettingsTest {
     assertThat(defaultSettingsActual.toString())
         .contains("day=SATURDAY, settings=Settings{numberOfPeople=3, subSettings={}, hiddenSubSettings=[]}")
         .contains("day=FRIDAY, settings=Settings{numberOfPeople=2, subSettings={}, hiddenSubSettings=[]}");
-    assertThat(DefaultSettings.class.getDeclaredFields().length).isEqualTo(1 + 1); // one static field
+    assertThat(DefaultSettings.class.getDeclaredFields()).hasSize(1 + 1); // one static field
   }
 
   @Test

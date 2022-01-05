@@ -50,9 +50,9 @@ class ProposalTest {
 
   @Test
   void testToString() {
-    assertThat(Proposal.class.getDeclaredFields().length).isEqualTo(3);
+    assertThat(Proposal.class.getDeclaredFields()).hasSize(3);
     assertThat(Proposal.from(false, new ArrayList<>(), LocalDate.of(2020, 2, 2)).toString())
-        .isEqualTo("Proposal{mealList=[], calendar=2020-02-02, includeToday=false}");
+        .hasToString("Proposal{mealList=[], calendar=2020-02-02, includeToday=false}");
   }
 
   @Test

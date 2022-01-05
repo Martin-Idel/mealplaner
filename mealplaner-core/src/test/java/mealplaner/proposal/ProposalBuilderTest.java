@@ -178,7 +178,7 @@ class ProposalBuilderTest {
 
     Proposal proposal = sut.propose(settings);
 
-    assertThat(proposal.getProposalList()).hasSize(0);
+    assertThat(proposal.getProposalList()).isEmpty();
   }
 
   @Test

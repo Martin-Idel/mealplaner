@@ -57,7 +57,7 @@ class RecipeTableTest {
 
     Optional<Recipe> returned = recipeTable.getRecipe(nonNegative(1));
 
-    assertThat(returned.get()).isEqualTo(recipe);
+    assertThat(returned).contains(recipe);
   }
 
   @Test
@@ -78,7 +78,7 @@ class RecipeTableTest {
     Recipe expectedRecipe = Recipe.from(nonNegative(1), recipeIngredients);
     Optional<Recipe> returned = recipeTable.getRecipe(nonNegative(1));
     assertThat(table.getRowCount()).isEqualTo(4);
-    assertThat(returned.get()).isEqualTo(expectedRecipe);
+    assertThat(returned).contains(expectedRecipe);
   }
 
   @Test
@@ -98,6 +98,6 @@ class RecipeTableTest {
     Optional<Recipe> returned = recipeTable.getRecipe(nonNegative(1));
     assertThat(table.getRowCount()).isEqualTo(3);
     assertThat(table.getValueAt(1, 2)).isEqualTo(Measure.GRAM);
-    assertThat(returned.get()).isEqualTo(expectedRecipe);
+    assertThat(returned).contains(expectedRecipe);
   }
 }

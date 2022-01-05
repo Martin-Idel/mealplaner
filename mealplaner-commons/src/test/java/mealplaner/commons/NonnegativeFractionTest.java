@@ -59,42 +59,42 @@ class NonnegativeFractionTest {
   void toRoundedStringRoundsUpIfTheNumberIsHigh() {
     NonnegativeFraction fraction = fraction(16, 3);
 
-    assertThat(fraction.toRoundedString()).isEqualTo("6");
+    assertThat(fraction.toRoundedString()).hasToString("6");
   }
 
   @Test
   void toRoundedStringRoundsUpDenominatorGetsTooLarge() {
     NonnegativeFraction fraction = fraction(33, 7);
 
-    assertThat(fraction.toRoundedString()).isEqualTo("5");
+    assertThat(fraction.toRoundedString()).hasToString("5");
   }
 
   @Test
   void toRoundedStringRevertsToNormalToStringForSmallNumbers() {
     NonnegativeFraction fraction = fraction(2, 3);
 
-    assertThat(fraction.toString()).isEqualTo("2/3");
+    assertThat(fraction.toString()).hasToString("2/3");
   }
 
   @Test
   void toRoundedStringReturnsCorrectNumberForWholeNumber() {
     NonnegativeFraction fraction = fraction(12, 3);
 
-    assertThat(fraction.toString()).isEqualTo("4");
+    assertThat(fraction.toString()).hasToString("4");
   }
 
   @Test
   void toStringDoesNotShowDenominatorIfOne() {
     NonnegativeFraction fraction = fraction(3, 1);
 
-    assertThat(fraction.toString()).isEqualTo("3");
+    assertThat(fraction.toString()).hasToString("3");
   }
 
   @Test
   void toStringShowsDenominatorForOtherFractions() {
     NonnegativeFraction fraction = fraction(1, 2);
 
-    assertThat(fraction.toString()).isEqualTo("1/2");
+    assertThat(fraction.toString()).hasToString("1/2");
   }
 
   @Test
@@ -164,7 +164,7 @@ class NonnegativeFractionTest {
   void parseIdentifiesFractionsWithStartingSlash() {
     NonnegativeFraction fraction = parse("/3");
 
-    assertThat(fraction.getNumerator()).isEqualTo(0);
+    assertThat(fraction.getNumerator()).isZero();
     assertThat(fraction.getDenominator()).isEqualTo(1);
   }
 

@@ -52,11 +52,11 @@ class QuantitativeIngredientTest {
     var quantitativeIngredient = createQuantitativeIngredient(
         ingredient, TEASPOON, fraction(100, 1));
 
-    assertThat(quantitativeIngredient.toString()).isEqualTo(
+    assertThat(quantitativeIngredient.toString()).hasToString(
         "QuantitativeIngredient{ingredient=Ingredient{uuid=41d5e808-720c-3ee7-9257-214e952a6721, "
             + "name='Test4', type=" + MEAT_PRODUCTS + ", measures=Measures{primary=g, secondaries={"
             + TEASPOON + "=1/2}}, " + "ingredientFacts={}, hiddenIngredientFacts=[]}, measure="
             + TEASPOON + ", amount=100}");
-    assertThat(QuantitativeIngredient.class.getDeclaredFields().length).isEqualTo(3 + 1); // one static field
+    assertThat(QuantitativeIngredient.class.getDeclaredFields()).hasSize(3 + 1); // one static field
   }
 }
