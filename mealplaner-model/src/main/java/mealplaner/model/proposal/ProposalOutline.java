@@ -21,12 +21,6 @@ public final class ProposalOutline {
     this.dateToday = dateToday;
   }
 
-  private static ProposalOutline outline(int numberOfDays, boolean includedToday, boolean shallBeRandomised,
-                                         boolean takeDefaultSettings, LocalDate dateToday) {
-    return new ProposalOutline(numberOfDays, includedToday, shallBeRandomised, takeDefaultSettings,
-        dateToday);
-  }
-
   public int getNumberOfDays() {
     return numberOfDays;
   }
@@ -79,7 +73,7 @@ public final class ProposalOutline {
     }
 
     public ProposalOutline build() {
-      return outline(numberOfDays, includedToday, shallBeRandomised, takeDefaultSettings,  // NOPMD
+      return new ProposalOutline(numberOfDays, includedToday, shallBeRandomised, takeDefaultSettings,  // NOPMD
           dateToday);  // NOPMD
     }
   }

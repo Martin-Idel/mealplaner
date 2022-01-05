@@ -99,7 +99,7 @@ public class MeasureInputDialog implements DialogEditing<Map<Measure, Nonnegativ
   }
 
   private boolean validate() {
-    return !tableMeasures.stream()
-        .anyMatch(pair -> NonnegativeFraction.ZERO.equals(pair.right));
+    return tableMeasures.stream()
+        .noneMatch(pair -> NonnegativeFraction.ZERO.equals(pair.right));
   }
 }

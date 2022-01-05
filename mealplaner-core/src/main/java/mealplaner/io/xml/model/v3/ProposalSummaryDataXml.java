@@ -4,7 +4,7 @@ package mealplaner.io.xml.model.v3;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -28,7 +28,7 @@ public class ProposalSummaryDataXml {
   public final ProposalXml proposal;
 
   public ProposalSummaryDataXml() {
-    this(new HashMap<>(), LocalDate.MIN, new ProposalXml());
+    this(new EnumMap<>(DayOfWeek.class), LocalDate.MIN, new ProposalXml());
   }
 
   public ProposalSummaryDataXml(Map<DayOfWeek, SettingsXml> defaultSettings,

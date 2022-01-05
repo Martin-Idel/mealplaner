@@ -25,6 +25,7 @@ import static testcommonsmodel.CommonBaseFunctions.getMeal2;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
@@ -200,7 +201,7 @@ class MealplanerDataTest {
   void setIngredientsThrowsExceptionIfIngredientIsDeletedButStillInUse() {
     sut.addMeal(getMeal2());
 
-    Assertions.assertThrows(MealException.class, () -> sut.setIngredients(new ArrayList<>()));
+    Assertions.assertThrows(MealException.class, () -> sut.setIngredients(Collections.emptyList()));
   }
 
   @Test

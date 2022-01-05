@@ -2,6 +2,7 @@
 
 package mealplaner.gui.tabbedpanes.proposal;
 
+import static java.lang.Boolean.TRUE;
 import static java.time.format.DateTimeFormatter.ofLocalizedDate;
 import static java.time.format.FormatStyle.LONG;
 import static mealplaner.commons.BundleStore.BUNDLES;
@@ -106,13 +107,13 @@ public class ProposalSummary implements DataStoreListener {
   public ProposalOutline getProposalOutline() {
     ProposalOutlineBuilder builder = ProposalOutline.ProposalOutlineBuilder
         .of(numberOfDaysField.getUserInput().value, mealPlan.getTime());
-    if (randomiseCheckBox.getUserInput()) {
+    if (TRUE.equals(randomiseCheckBox.getUserInput())) {
       builder.randomise();
     }
-    if (takeTodayCheckBox.getUserInput()) {
+    if (TRUE.equals(takeTodayCheckBox.getUserInput())) {
       builder.includeToday();
     }
-    if (takeDefaultCheckBox.getUserInput()) {
+    if (TRUE.equals(takeDefaultCheckBox.getUserInput())) {
       builder.takeDefaultSettings();
     }
 
