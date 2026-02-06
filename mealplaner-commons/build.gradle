@@ -7,13 +7,13 @@ dependencies {
     implementation group: "org.apache.logging.log4j", name: "log4j-api", version: "${log4jVersion}"
     implementation group: "org.apache.logging.log4j", name: "log4j-core", version: "${log4jVersion}"
 
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: "${jupyterVersion}"
-    testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher', version: "${jupyterPlatformVersion}"
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: "${jupiterVersion}"
+    testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher', version: "${jupiterPlatformVersion}"
     testImplementation group: 'org.assertj', name: 'assertj-core', version: "${assertjVersion}"
     testImplementation group: "nl.jqno.equalsverifier", name: "equalsverifier", version: "${eqVerVersion}"
 
-    testFixturesApi group: 'org.junit.jupiter', name: 'junit-jupiter', version: "${jupyterVersion}"
-    testFixturesApi group: 'org.junit.platform', name: 'junit-platform-launcher', version: "${jupyterPlatformVersion}"
+    testFixturesApi group: 'org.junit.jupiter', name: 'junit-jupiter', version: "${jupiterVersion}"
+    testFixturesApi group: 'org.junit.platform', name: 'junit-platform-launcher', version: "${jupiterPlatformVersion}"
     testFixturesApi group: 'org.assertj', name: 'assertj-core', version: "${assertjVersion}"
 }
 

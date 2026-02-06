@@ -13,9 +13,7 @@
         <exclude name="JUnitTestsShouldIncludeAssert"/>
     </rule>
     <rule ref="category/java/errorprone.xml">
-        <exclude name="BeanMembersShouldSerialize"/>
         <exclude name="AvoidDuplicateLiterals"/>
-        <exclude name="DataflowAnomalyAnalysis"/>
     </rule>
     <rule ref="category/java/performance.xml">
     </rule>

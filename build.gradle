@@ -1,9 +1,7 @@
 plugins {
-    id "com.github.spotbugs" version "5.0.3"
-}
-
-plugins {
-    id "org.sonarqube" version "2.8"
+    id "java"
+    id "com.github.spotbugs" version "6.0.26" apply false
+    id "org.sonarqube" version "5.1.0.4882"
 }
 
 allprojects {
@@ -17,25 +15,25 @@ subprojects {
 }
 
 ext {
-    slf4jVersion = '1.7.32'
-    log4jVersion = '2.17.1'
+    slf4jVersion = '2.0.16'
+    log4jVersion = '2.24.3'
     jaxbVersion = '2.4.0-b180830.0359'
     jaxbRuntime = '2.4.0-b180830.0438'
-    jsonSimpleVersion = '4.0.0'
+    jsonSimpleVersion = '4.0.1'
     swingxVersion = '1.6.5-1'
 
-    jupyterVersion = '5.8.2'
-    jupyterPlatformVersion = '1.8.2'
-    assertjVersion = '3.21.0'
-    mockitoVersion = '4.1.0'
+    jupiterVersion = '5.11.4'
+    jupiterPlatformVersion = '1.11.4'
+    assertjVersion = '3.26.3'
+    mockitoVersion = '5.15.2'
     assertjSwingVersion = '3.17.1'
-    eqVerVersion = '3.1.11'
+    eqVerVersion = '3.18.2'
 }
 
 subprojects {
     apply plugin: 'checkstyle'
     checkstyle {
-        toolVersion = "8.29"
+        toolVersion = "10.21.2"
         ignoreFailures = false
     }
 
@@ -54,7 +52,7 @@ subprojects {
 subprojects {
     apply plugin: 'pmd'
     pmd {
-        toolVersion = "6.21.0"
+        toolVersion = "7.9.0"
         ignoreFailures = false
         reportsDir = file("$project.buildDir/reports/pmd")
         ruleSets = []
@@ -68,9 +66,9 @@ subprojects {
 subprojects {
     apply plugin: 'com.github.spotbugs'
     spotbugs {
-        toolVersion = "4.5.2"
+        toolVersion = "4.9.1"
         ignoreFailures = false
-        effort = "max"
+        effort = com.github.spotbugs.snom.Effort.MAX
         excludeFilter = file("$rootProject.projectDir/config/spotbugs/excludeFilter.xml")
     }
 }
@@ -80,16 +78,16 @@ subprojects {
     apply plugin: 'java'
 
     jacoco {
-        toolVersion = "0.8.5"
+        toolVersion = "0.8.12"
     }
 
-    jacocoTestReport {
-        reports {
-            html.enabled(true)
-            xml.enabled(true)
-            csv.enabled(true)
-        }
+jacocoTestReport {
+    reports {
+        html.required.set(true)
+        xml.required.set(true)
+        csv.required.set(true)
     }
+}
 }
 
 sonarqube {

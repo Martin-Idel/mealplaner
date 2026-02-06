@@ -12,8 +12,6 @@
     <rule ref="category/java/errorprone.xml">
         <exclude name="AvoidFieldNameMatchingMethodName"/>
         <exclude name="AvoidLiteralsInIfCondition"/>
-        <exclude name="BeanMembersShouldSerialize"/>
-        <exclude name="DataflowAnomalyAnalysis"/>
     </rule>
     <rule ref="category/java/performance.xml">
         <exclude name="RedundantFieldInitializer"/>

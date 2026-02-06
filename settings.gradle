@@ -15,7 +15,4 @@ include 'mealplaner-plugins:sidedish'
 include 'mealplaner-plugins:utensil'
 include 'mealplaner-plugins:vegetarian'
 include 'mealplaner-e2e'
-include 'recipephoto'
-include 'recipephoto'
-include 'mealplaner-plugins:recipephoto'
 
