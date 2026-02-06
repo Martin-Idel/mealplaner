@@ -1,4 +1,4 @@
-/bin/
+**/bin/**
 /.gradle/
 **/build/**
 /.project/
@@ -6,3 +6,7 @@
 **/logs/**
 /savefiles/
 /.idea/
+/.classpath
+**/.classpath
+**/.project
+**/.settings/

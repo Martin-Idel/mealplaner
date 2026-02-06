@@ -8,7 +8,6 @@ dependencies {
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: "${jupiterVersion}"
     testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher', version: "${jupiterPlatformVersion}"
     testImplementation group: 'org.assertj', name: 'assertj-core', version: "${assertjVersion}"
-    testImplementation group: "org.assertj", name: "assertj-swing-junit", version: "${assertjSwingVersion}"
     testImplementation project(":mealplaner-commons")
     testImplementation project(":mealplaner-gui-commons")
     testImplementation project(":mealplaner-model")
@@ -23,12 +22,26 @@ dependencies {
     testImplementation(testFixtures(project(":mealplaner-core")))
 }
 
-// AssertJ Swing test need junit 4 runner. Upgrade if available
 test {
-    if(! Boolean.parseBoolean(System.getProperty("rune2etests").toString())) {
-        useJUnitPlatform()
-        exclude '**/guitests/**'
-    } else {
-        exclude '**/xmlsmoketests/**'
-    }
+    useJUnitPlatform()
+    jvmArgs += [
+        '--add-opens=java.base/java.lang=ALL-UNNAMED',
+        '--add-opens=java.base/java.lang.reflect=ALL-UNNAMED',
+        '--add-opens=java.base/java.util=ALL-UNNAMED',
+        '--add-opens=java.base/sun.nio.ch=ALL-UNNAMED',
+        '--add-opens=java.desktop/java.awt=ALL-UNNAMED',
+        '--add-opens=java.desktop/javax.swing=ALL-UNNAMED',
+        '--add-opens=java.desktop/javax.swing.text=ALL-UNNAMED',
+        '--add-opens=java.desktop/javax.swing.plaf.basic=ALL-UNNAMED',
+        '--add-opens=java.desktop/sun.font=ALL-UNNAMED',
+        '--add-opens=java.desktop/sun.java2d=ALL-UNNAMED',
+        '--add-opens=java.desktop/sun.swing=ALL-UNNAMED',
+        '--add-opens=java.desktop/com.sun.java.swing=ALL-UNNAMED',
+        '--add-opens=java.desktop/javax.accessibility=ALL-UNNAMED',
+        '--add-exports=java.desktop/sun.awt=ALL-UNNAMED',
+        '--add-exports=java.desktop/sun.swing=ALL-UNNAMED',
+        '--add-exports=java.desktop/com.sun.java.swing=ALL-UNNAMED',
+        '--add-exports=java.base/sun.reflect=ALL-UNNAMED',
+        '-Djava.awt.headless=false'
+    ]
 }

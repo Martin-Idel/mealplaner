@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-package etoetests.guitests;
+package etoetests.nativeguitests;
 
 import static etoetests.CommonFunctions.getMeal1;
 import static etoetests.CommonFunctions.getMeal2;
@@ -19,10 +19,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import etoetests.CommonFunctions;
-import etoetests.guitests.helpers.AssertJMealplanerTestCase;
+import etoetests.guitests.helpers.NonAssertJMealplanerTestCase;
+import etoetests.guitests.pageobjects.ProposalSummaryPageObjectNative;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.Pair;
 import mealplaner.model.meal.Meal;
@@ -30,15 +31,15 @@ import mealplaner.model.recipes.Recipe;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
 
-public class ProposalTest extends AssertJMealplanerTestCase {
-  public ProposalTest() {
+public class ProposalTestNative extends NonAssertJMealplanerTestCase {
+  public ProposalTestNative() {
     super("src/test/resources/mealsXmlV3.xml",
         "src/test/resources/save.xml",
         "src/test/resources/ingredients.xml");
   }
 
   @Test
-  public void saveDefaultSettings() {
+  public void saveDefaultSettings() throws Exception {
     Settings defaultSettingTuesday = getSettings1();
     Settings defaultSettingWednesday = getSettings2();
     Map<DayOfWeek, Settings> defaultSettingsMap = new HashMap<>();
@@ -46,13 +47,13 @@ public class ProposalTest extends AssertJMealplanerTestCase {
     defaultSettingsMap.put(WEDNESDAY, defaultSettingWednesday);
     DefaultSettings defaultSettings = DefaultSettings.from(defaultSettingsMap, CommonFunctions.registerPlugins());
 
-    windowHelpers.getProposalPane()
+    windowHelpersNative.getProposalPane()
         .enterDefaultSettings(defaultSettings)
-        .compareDefaultSettings(defaultSettings);
+        .compareDefaultSettings(defaultSettingsMap);
   }
 
   @Test
-  public void makeProposalShowsCorrectOutput() {
+  public void makeProposalShowsCorrectOutput() throws Exception {
     Meal meal1 = getMeal1();
     Meal meal2 = getMeal2();
     Meal meal3 = getMeal3();
@@ -66,7 +67,7 @@ public class ProposalTest extends AssertJMealplanerTestCase {
     recipeList.add(of(meal2.getRecipe().get(), nonNegative(2)));
     recipeList.add(of(meal3.getRecipe().get(), nonNegative(4)));
 
-    windowHelpers.getProposalPane()
+    windowHelpersNative.getProposalPane()
         .updateCookedLast()
         .enterNumberOfDaysForProposal(nonNegative(3))
         .proposeWithSettings(getSettings2())

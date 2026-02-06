@@ -138,9 +138,16 @@ public final class FlexibleTableBuilder {
    * provides a view on the data.
    */
   public Table buildTable() {
+    return buildTable(null);
+  }
+
+  public Table buildTable(String tableName) {
     sortTableColumns();
     UpdateSizeTableModel tableModel = UpdateSizeTableModel.from(columns, rowCount);
     table = new JTable(tableModel);
+    if (tableName != null) {
+      table.setName(tableName);
+    }
 
     setGuiAppearanceForColumns();
     setColumnListenersIfNecessary();

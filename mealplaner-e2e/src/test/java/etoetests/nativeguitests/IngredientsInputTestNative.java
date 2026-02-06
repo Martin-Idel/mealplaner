@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-package etoetests.guitests.ingredients;
+package etoetests.nativeguitests;
 
 import static etoetests.CommonFunctions.getIngredient1;
 import static etoetests.CommonFunctions.getIngredient2;
@@ -13,24 +13,33 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import etoetests.guitests.helpers.AssertJMealplanerTestCase;
+import etoetests.guitests.helpers.NonAssertJMealplanerTestCase;
 import mealplaner.io.xml.IngredientsReader;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.plugins.PluginStore;
 
-public class IngredientsInputTest extends AssertJMealplanerTestCase {
+public class IngredientsInputTestNative extends NonAssertJMealplanerTestCase {
 
   @Test
-  public void createIngredient() {
+  public void testFrameExists() throws Exception {
+    assertThat(mainFrame).isNotNull();
+    assertThat(mainFrame.isVisible()).isTrue();
+    Thread.sleep(500);
+  }
+
+  @Test
+  public void createIngredient() throws Exception {
     Ingredient ingredient = ingredient()
         .withName("Test4")
         .withType(SPICE)
         .withMeasures(createMeasures(NONE))
         .create();
 
-    windowHelpers.getIngredientsPane().addIngredient(ingredient);
+    windowHelpersNative.getIngredientsPane().addIngredient(ingredient);
+
+    Thread.sleep(500);
 
     List<Ingredient> ingredientsAfterSaving = IngredientsReader
         .loadXml(DESTINATION_INGREDIENT_FILE_PATH, new PluginStore());
@@ -38,7 +47,6 @@ public class IngredientsInputTest extends AssertJMealplanerTestCase {
     assertThat(ingredientsAfterSaving)
         .hasSize(4)
         .contains(getIngredient1(), getIngredient2(), getIngredient3());
-    // UUID is random upon creation, so we can't compare ingredients directly
     assertThat(ingredientsAfterSaving.get(3).getName()).isEqualTo(ingredient.getName());
     assertThat(ingredientsAfterSaving.get(3).getType()).isEqualTo(ingredient.getType());
     assertThat(ingredientsAfterSaving.get(3).getPrimaryMeasure()).isEqualTo(ingredient.getPrimaryMeasure());

@@ -16,7 +16,11 @@ If you want to provide your own versions of these libraries, you need to adapt t
 ## Testing
 
 - New code should always be accompanied by unit tests (junit 5 with Mockito and AssertJ assertions)
-- New GUI-features should have also be accompanied by a smoke end-to-end test. To build the end to end tests, run `./gradlew build -Drune2etests=True`. The end to end tests use AssertJ-Swing to click through the Swing-GUI
+- New GUI-features should also be accompanied by a smoke end-to-end test. Run end-to-end tests with `./gradlew :mealplaner-e2e:test`
+- Run all native GUI tests: `./gradlew :mealplaner-e2e:test --tests "*nativeguitests*"`
+- Run single test: `./gradlew :mealplaner-e2e:test --tests "*YourTestName*"`
+- Run test with debug info: `./gradlew :mealplaner-e2e:test --tests "*YourTestName*" --info --stacktrace`
+- For Java debugging with breakpoints: `./gradlew :mealplaner-e2e:test --tests "*YourTestName*" -Dorg.gradle.jvmargs=-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005`, then attach IDE debugger to `localhost:5005`
 
 ## Code-Style
 

@@ -95,6 +95,7 @@ public class IngredientsEdit implements DataStoreListener {
         .deletedIngredientsStillInUse(ingredients);
     deletedIngredientsStillInUse.forEach(replaceIngredientOrDoNotDelete());
     mealPlan.setIngredients(ingredients);
+    updateTable();
     fileIo.savePart(mealPlan, INGREDIENTS);
     fileIo.savePart(mealPlan, MEALS);
   }

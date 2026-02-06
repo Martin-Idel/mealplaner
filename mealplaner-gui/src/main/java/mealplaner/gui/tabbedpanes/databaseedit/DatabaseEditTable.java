@@ -65,7 +65,7 @@ final class DatabaseEditTable {
     for (var extension : extensions) {
       tableModelBuilder = extension.addTableColumns(tableModelBuilder, meals, buttonPanel);
     }
-    return tableModelBuilder.buildTable();
+    return tableModelBuilder.buildTable("DatabaseEditTable");
   }
 
 }

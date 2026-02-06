@@ -7,10 +7,7 @@
     <exclude-pattern>.*/src/main/.*</exclude-pattern>
     <exclude-pattern>.*/BundleCommons.java</exclude-pattern>
     <rule ref="category/java/bestpractices.xml">
-        <exclude name="JUnitTestContainsTooManyAsserts"/>
-        <exclude name="JUnitAssertionsShouldIncludeMessage"/>
         <exclude name="UnusedPrivateMethod"/>
-        <exclude name="JUnitTestsShouldIncludeAssert"/>
     </rule>
     <rule ref="category/java/errorprone.xml">
         <exclude name="AvoidDuplicateLiterals"/>

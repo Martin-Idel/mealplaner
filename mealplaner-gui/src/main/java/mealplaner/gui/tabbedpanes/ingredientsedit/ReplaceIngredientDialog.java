@@ -33,7 +33,6 @@ final class ReplaceIngredientDialog {
 
     int result = showDialogForEitherNotDeletingOrReplacing(frame, optionPanel);
 
-    // YES_OPTION == first button pressed
     return result == YES_OPTION ? empty() : findReplacingIngredient(ingredients, ingredientField);
   }
 

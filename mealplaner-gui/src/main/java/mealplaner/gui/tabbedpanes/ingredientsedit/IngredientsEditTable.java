@@ -77,7 +77,7 @@ final class IngredientsEditTable {
     for (var ingredientEditExtension : ingredientEditExtensions) {
       ingredientEditExtension.addTableColumns(tableModelBuilder, ingredients);
     }
-    return tableModelBuilder.buildTable();
+    return tableModelBuilder.buildTable("IngredientsEditTable");
   }
 
 }

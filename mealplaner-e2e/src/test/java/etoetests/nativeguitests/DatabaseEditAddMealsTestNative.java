@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-package etoetests.guitests.databaseedit;
+package etoetests.nativeguitests;
 
 import static etoetests.CommonFunctions.getIngredient1;
 import static etoetests.CommonFunctions.getIngredient2;
@@ -16,36 +16,42 @@ import static mealplaner.model.recipes.IngredientType.CANNED_FRUIT;
 import static mealplaner.model.recipes.Measure.GRAM;
 import static mealplaner.model.recipes.Measures.createMeasures;
 import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitativeIngredient;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import etoetests.guitests.helpers.AssertJMealplanerTestCase;
-import etoetests.guitests.pageobjects.MealsEditPageObject;
+import etoetests.guitests.helpers.NonAssertJMealplanerTestCase;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 
-public class DatabaseEditAddMealsTest extends AssertJMealplanerTestCase {
+public class DatabaseEditAddMealsTestNative extends NonAssertJMealplanerTestCase {
   @Test
-  public void addMealAddsMealsInCorrectOrder() {
+  public void addMealAddsMealsInCorrectOrder() throws Exception {
     List<Meal> meals = new ArrayList<>();
     meals.add(getMeal1());
     meals.add(getMeal2());
-    MealsEditPageObject database = windowHelpers.getMealsPane()
+    windowHelpersNative.getMealsPane()
         .addMeal(getMeal2())
         .addMeal(getMeal1())
         .compareDatabaseInTable(meals);
-    database.cancelButton().requireEnabled();
-    database.saveButton().requireEnabled();
+    javax.swing.SwingUtilities.invokeLater(() -> {
+      windowHelpersNative.getMealsPane().cancelButton().doClick();
+    });
+    Thread.sleep(500);
+    javax.swing.SwingUtilities.invokeAndWait(() -> {
+      assertThat(windowHelpersNative.getMealsPane().cancelButton().isEnabled()).isFalse();
+      assertThat(windowHelpersNative.getMealsPane().saveButton().isEnabled()).isFalse();
+    });
   }
 
   @Test
-  public void addMealWithNewIngredientsAddsIngredientsToIngredientsList() {
+  public void addMealWithNewIngredientsAddsIngredientsToIngredientsList() throws Exception {
     List<Meal> meals = new ArrayList<>();
     meals.add(getMealWithNewIngredient());
     List<Ingredient> ingredients = new ArrayList<>();
@@ -53,11 +59,11 @@ public class DatabaseEditAddMealsTest extends AssertJMealplanerTestCase {
     ingredients.add(getIngredient2());
     ingredients.add(getIngredient3());
     ingredients.add(getIngredient4());
-    windowHelpers.getMealsPane()
+    windowHelpersNative.getMealsPane()
         .addMeal(getMealWithNewIngredient(), getIngredient4())
         .save()
         .compareDatabaseInTable(meals);
-    windowHelpers.getIngredientsPane()
+    windowHelpersNative.getIngredientsPane()
         .compareIngredientsInTable(ingredients);
   }
 
