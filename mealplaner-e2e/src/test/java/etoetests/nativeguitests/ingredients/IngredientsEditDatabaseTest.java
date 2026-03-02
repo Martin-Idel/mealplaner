@@ -5,30 +5,25 @@ package etoetests.nativeguitests.ingredients;
 import static etoetests.CommonFunctions.getIngredient1;
 import static etoetests.CommonFunctions.getIngredient2;
 import static etoetests.CommonFunctions.getIngredient3;
-import static mealplaner.commons.NonnegativeInteger.nonNegative;
 import static mealplaner.model.recipes.IngredientBuilder.ingredient;
 import static mealplaner.model.recipes.IngredientType.FLUID;
 import static mealplaner.model.recipes.Measure.TEASPOON;
 import static mealplaner.model.recipes.Measures.createMeasures;
 import static mealplaner.model.recipes.QuantitativeIngredient.createQuantitativeIngredient;
-import static mealplaner.commons.NonnegativeFraction.wholeNumber;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JTable;
-
 import org.junit.jupiter.api.Test;
 
-import etoetests.guitests.helpers.NonAssertJMealplanerTestCase;
+import etoetests.guitests.constants.ComponentNames;
+import etoetests.guitests.helpers.MealplanerTestCase;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.IngredientBuilder;
-import mealplaner.model.recipes.QuantitativeIngredient;
-import mealplaner.model.recipes.Recipe;
 
-public class IngredientsEditDatabaseTestNative extends NonAssertJMealplanerTestCase {
-  public IngredientsEditDatabaseTestNative() {
+public class IngredientsEditDatabaseTest extends MealplanerTestCase {
+  public IngredientsEditDatabaseTest() {
     super("src/test/resources/mealsXmlV3.xml",
         "src/test/resources/save.xml",
         "src/test/resources/ingredientsXmlV3.xml");
@@ -47,7 +42,7 @@ public class IngredientsEditDatabaseTestNative extends NonAssertJMealplanerTestC
     ingredients.add(getIngredient2());
     ingredients.add(getIngredient3());
 
-    windowHelpersNative.getIngredientsPane()
+    windowHelpers.getIngredientsPane()
         .changeName(0, newIngredient.getName())
         .changeType(0, newIngredient.getType())
         .changeMeasure(0, newIngredient.getPrimaryMeasure())
@@ -61,31 +56,19 @@ public class IngredientsEditDatabaseTestNative extends NonAssertJMealplanerTestC
     ingredients.add(getIngredient2());
     ingredients.add(getIngredient3());
 
-    windowHelpersNative.getIngredientsPane()
+    windowHelpers.getIngredientsPane()
         .changeName(0, "New name");
-    Thread.sleep(100);
-    javax.swing.SwingUtilities.invokeLater(() -> {
-      windowHelpersNative.getIngredientsPane().cancelButton().doClick();
-    });
-    Thread.sleep(500);
+    clickButtonAndWaitForDisabledThenAssert(mainFrame, ComponentNames.BUTTON_INGREDIENTSEDIT_CANCEL);
 
-    windowHelpersNative.getIngredientsPane()
+    windowHelpers.getIngredientsPane()
         .changeType(0, FLUID);
-    Thread.sleep(100);
-    javax.swing.SwingUtilities.invokeLater(() -> {
-      windowHelpersNative.getIngredientsPane().cancelButton().doClick();
-    });
-    Thread.sleep(500);
+    clickButtonAndWaitForDisabledThenAssert(mainFrame, ComponentNames.BUTTON_INGREDIENTSEDIT_CANCEL);
 
-    windowHelpersNative.getIngredientsPane()
+    windowHelpers.getIngredientsPane()
         .changeMeasure(0, TEASPOON);
-    Thread.sleep(100);
-    javax.swing.SwingUtilities.invokeLater(() -> {
-      windowHelpersNative.getIngredientsPane().cancelButton().doClick();
-    });
-    Thread.sleep(500);
+    clickButtonAndWaitForDisabledThenAssert(mainFrame, ComponentNames.BUTTON_INGREDIENTSEDIT_CANCEL);
 
-    windowHelpersNative.getIngredientsPane()
+    windowHelpers.getIngredientsPane()
         .compareIngredientsInTable(ingredients);
   }
 
@@ -95,18 +78,12 @@ public class IngredientsEditDatabaseTestNative extends NonAssertJMealplanerTestC
     ingredients.add(getIngredient1());
     ingredients.add(getIngredient3());
 
-    windowHelpersNative.getIngredientsPane()
+    windowHelpers.getIngredientsPane()
         .removeIngredients(1)
         .saveAndReplaceIngredientsWithDefaults()
         .compareIngredientsInTable(ingredients);
-    
-    javax.swing.SwingUtilities.invokeLater(() -> {
-      windowHelpersNative.getIngredientsPane().saveButton().doClick();
-    });
-    Thread.sleep(1000);
-    javax.swing.SwingUtilities.invokeAndWait(() -> {
-      assertThat(windowHelpersNative.getIngredientsPane().saveButton().isEnabled()).isFalse();
-    });
+
+    clickButtonAndWaitForDisabledThenAssert(mainFrame, ComponentNames.BUTTON_INGREDIENTSEDIT_SAVE);
   }
 
   @Test
@@ -117,16 +94,13 @@ public class IngredientsEditDatabaseTestNative extends NonAssertJMealplanerTestC
     ingredients.add(getIngredient2());
     ingredients.add(getIngredient3());
 
-    windowHelpersNative.getIngredientsPane()
+    windowHelpers.getIngredientsPane()
         .changeName(0, newIngredient.getName())
         .changeType(0, newIngredient.getType())
         .changeMeasure(0, newIngredient.getPrimaryMeasure())
         .compareIngredientsInTable(ingredients);
-    
-    javax.swing.SwingUtilities.invokeLater(() -> {
-      windowHelpersNative.getIngredientsPane().saveButton().doClick();
-    });
-    Thread.sleep(500);
+
+    clickButtonAndWaitForDisabledThenAssert(mainFrame, ComponentNames.BUTTON_INGREDIENTSEDIT_SAVE);
   }
 
   @Test
@@ -136,25 +110,14 @@ public class IngredientsEditDatabaseTestNative extends NonAssertJMealplanerTestC
     ingredients.add(getIngredient2());
     ingredients.add(getIngredient3());
 
-    windowHelpersNative.getIngredientsPane()
+    windowHelpers.getIngredientsPane()
         .removeIngredients(1)
         .saveButDoNotRemoveUsedIngredients();
-    
-    Thread.sleep(1500);
-    
-    javax.swing.SwingUtilities.invokeAndWait(() -> {
-      System.out.println("Save button enabled: " + windowHelpersNative.getIngredientsPane().saveButton().isEnabled());
-    });
-    
-    windowHelpersNative.getIngredientsPane().compareIngredientsInTable(ingredients);
-    
-    javax.swing.SwingUtilities.invokeLater(() -> {
-      windowHelpersNative.getIngredientsPane().saveButton().doClick();
-    });
-    Thread.sleep(500);
-    
-    javax.swing.SwingUtilities.invokeAndWait(() -> {
-      assertThat(windowHelpersNative.getIngredientsPane().saveButton().isEnabled()).isFalse();
-    });
+
+    assertButtonIsDisabled(mainFrame, ComponentNames.BUTTON_INGREDIENTSEDIT_SAVE);
+
+    windowHelpers.getIngredientsPane().compareIngredientsInTable(ingredients);
+
+    clickButtonAndWaitForDisabledThenAssert(mainFrame, ComponentNames.BUTTON_INGREDIENTSEDIT_SAVE);
   }
 }

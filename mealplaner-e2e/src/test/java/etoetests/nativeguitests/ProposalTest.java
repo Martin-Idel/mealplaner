@@ -22,8 +22,7 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 import etoetests.CommonFunctions;
-import etoetests.guitests.helpers.NonAssertJMealplanerTestCase;
-import etoetests.guitests.pageobjects.ProposalSummaryPageObjectNative;
+import etoetests.guitests.helpers.MealplanerTestCase;
 import mealplaner.commons.NonnegativeInteger;
 import mealplaner.commons.Pair;
 import mealplaner.model.meal.Meal;
@@ -31,8 +30,8 @@ import mealplaner.model.recipes.Recipe;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
 
-public class ProposalTestNative extends NonAssertJMealplanerTestCase {
-  public ProposalTestNative() {
+public class ProposalTest extends MealplanerTestCase {
+  public ProposalTest() {
     super("src/test/resources/mealsXmlV3.xml",
         "src/test/resources/save.xml",
         "src/test/resources/ingredients.xml");
@@ -47,7 +46,7 @@ public class ProposalTestNative extends NonAssertJMealplanerTestCase {
     defaultSettingsMap.put(WEDNESDAY, defaultSettingWednesday);
     DefaultSettings defaultSettings = DefaultSettings.from(defaultSettingsMap, CommonFunctions.registerPlugins());
 
-    windowHelpersNative.getProposalPane()
+    windowHelpers.getProposalPane()
         .enterDefaultSettings(defaultSettings)
         .compareDefaultSettings(defaultSettingsMap);
   }
@@ -67,7 +66,7 @@ public class ProposalTestNative extends NonAssertJMealplanerTestCase {
     recipeList.add(of(meal2.getRecipe().get(), nonNegative(2)));
     recipeList.add(of(meal3.getRecipe().get(), nonNegative(4)));
 
-    windowHelpersNative.getProposalPane()
+    windowHelpers.getProposalPane()
         .updateCookedLast()
         .enterNumberOfDaysForProposal(nonNegative(3))
         .proposeWithSettings(getSettings2())

@@ -15,14 +15,15 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import etoetests.guitests.helpers.NonAssertJMealplanerTestCase;
+import etoetests.guitests.constants.ComponentNames;
+import etoetests.guitests.helpers.MealplanerTestCase;
 import mealplaner.model.meal.Meal;
 import mealplaner.plugins.builtins.courses.CourseTypeFact;
 import mealplaner.plugins.comment.mealextension.CommentFact;
 import mealplaner.plugins.cookingtime.mealextension.CookingTimeFact;
 
-public class DatabaseEditChangeMealsTestNative extends NonAssertJMealplanerTestCase {
-  public DatabaseEditChangeMealsTestNative() {
+public class DatabaseEditChangeMealsTest extends MealplanerTestCase {
+  public DatabaseEditChangeMealsTest() {
     super("src/test/resources/mealsXmlOnlyOneMeal.xml",
         "src/test/resources/save.xml",
         "src/test/resources/ingredients.xml");
@@ -38,7 +39,7 @@ public class DatabaseEditChangeMealsTestNative extends NonAssertJMealplanerTestC
     List<Meal> meals = new ArrayList<>();
     meals.add(newMeal);
 
-    windowHelpersNative.getMealsPane()
+    windowHelpers.getMealsPane()
         .changeCookingTime(0, newMeal.getTypedMealFact(CookingTimeFact.class).getCookingTime())
         .changeCourseType(0, newMeal.getTypedMealFact(CourseTypeFact.class).getCourseType())
         .changeComment(0, "New comment")
@@ -51,29 +52,17 @@ public class DatabaseEditChangeMealsTestNative extends NonAssertJMealplanerTestC
     List<Meal> meals = new ArrayList<>();
     meals.add(getMeal1());
 
-    windowHelpersNative.getMealsPane().mealsTabbedPane();
-    javax.swing.SwingUtilities.invokeLater(() -> {
-      windowHelpersNative.getMealsPane().cancelButton().doClick();
-    });
-    Thread.sleep(500);
-    javax.swing.SwingUtilities.invokeAndWait(() -> {
-      assertThat(windowHelpersNative.getMealsPane().cancelButton().isEnabled()).isFalse();
-      assertThat(windowHelpersNative.getMealsPane().saveButton().isEnabled()).isFalse();
-    });
-    
-windowHelpersNative.getMealsPane()
+    windowHelpers.getMealsPane().mealsTabbedPane();
+    clickButtonAndWaitForDisabledThenAssert(mainFrame, ComponentNames.BUTTON_DATABASEEDIT_CANCEL);
+    assertButtonIsDisabled(mainFrame, ComponentNames.BUTTON_DATABASEEDIT_SAVE);
+
+windowHelpers.getMealsPane()
     .changeCookingTime(0, MEDIUM)
     .changeSideDish(0, RICE)
     .changeComment(0, "New comment");
-    javax.swing.SwingUtilities.invokeLater(() -> {
-      windowHelpersNative.getMealsPane().cancelButton().doClick();
-    });
-    Thread.sleep(500);
-    windowHelpersNative.getMealsPane().compareDatabaseInTable(meals);
-    Thread.sleep(500);
-    javax.swing.SwingUtilities.invokeAndWait(() -> {
-      assertThat(windowHelpersNative.getMealsPane().cancelButton().isEnabled()).isFalse();
-      assertThat(windowHelpersNative.getMealsPane().saveButton().isEnabled()).isFalse();
-    });
+    clickButtonAndWaitForDisabledThenAssert(mainFrame, ComponentNames.BUTTON_DATABASEEDIT_CANCEL);
+    windowHelpers.getMealsPane().compareDatabaseInTable(meals);
+    assertButtonIsDisabled(mainFrame, ComponentNames.BUTTON_DATABASEEDIT_CANCEL);
+    assertButtonIsDisabled(mainFrame, ComponentNames.BUTTON_DATABASEEDIT_SAVE);
   }
 }

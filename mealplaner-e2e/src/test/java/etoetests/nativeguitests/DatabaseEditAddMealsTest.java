@@ -24,30 +24,25 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import etoetests.guitests.helpers.NonAssertJMealplanerTestCase;
+import etoetests.guitests.constants.ComponentNames;
+import etoetests.guitests.helpers.MealplanerTestCase;
 import mealplaner.model.meal.Meal;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 
-public class DatabaseEditAddMealsTestNative extends NonAssertJMealplanerTestCase {
+public class DatabaseEditAddMealsTest extends MealplanerTestCase {
   @Test
   public void addMealAddsMealsInCorrectOrder() throws Exception {
     List<Meal> meals = new ArrayList<>();
     meals.add(getMeal1());
     meals.add(getMeal2());
-    windowHelpersNative.getMealsPane()
+    windowHelpers.getMealsPane()
         .addMeal(getMeal2())
         .addMeal(getMeal1())
         .compareDatabaseInTable(meals);
-    javax.swing.SwingUtilities.invokeLater(() -> {
-      windowHelpersNative.getMealsPane().cancelButton().doClick();
-    });
-    Thread.sleep(500);
-    javax.swing.SwingUtilities.invokeAndWait(() -> {
-      assertThat(windowHelpersNative.getMealsPane().cancelButton().isEnabled()).isFalse();
-      assertThat(windowHelpersNative.getMealsPane().saveButton().isEnabled()).isFalse();
-    });
+    clickButtonAndWaitForDisabledThenAssert(mainFrame, ComponentNames.BUTTON_DATABASEEDIT_CANCEL);
+    assertButtonIsDisabled(mainFrame, ComponentNames.BUTTON_DATABASEEDIT_SAVE);
   }
 
   @Test
@@ -59,11 +54,11 @@ public class DatabaseEditAddMealsTestNative extends NonAssertJMealplanerTestCase
     ingredients.add(getIngredient2());
     ingredients.add(getIngredient3());
     ingredients.add(getIngredient4());
-    windowHelpersNative.getMealsPane()
+    windowHelpers.getMealsPane()
         .addMeal(getMealWithNewIngredient(), getIngredient4())
         .save()
         .compareDatabaseInTable(meals);
-    windowHelpersNative.getIngredientsPane()
+    windowHelpers.getIngredientsPane()
         .compareIngredientsInTable(ingredients);
   }
 

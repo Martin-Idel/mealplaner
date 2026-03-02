@@ -10,11 +10,12 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import etoetests.guitests.helpers.NonAssertJMealplanerTestCase;
+import etoetests.guitests.constants.ComponentNames;
+import etoetests.guitests.helpers.MealplanerTestCase;
 import mealplaner.model.meal.Meal;
 
-public class DatabaseEditRemoveMealsTestNative extends NonAssertJMealplanerTestCase {
-  public DatabaseEditRemoveMealsTestNative() {
+public class DatabaseEditRemoveMealsTest extends MealplanerTestCase {
+  public DatabaseEditRemoveMealsTest() {
     super("src/test/resources/mealsXmlV3.xml",
         "src/test/resources/save.xml",
         "src/test/resources/ingredients.xml");
@@ -25,17 +26,11 @@ public class DatabaseEditRemoveMealsTestNative extends NonAssertJMealplanerTestC
     List<Meal> meals = new ArrayList<>();
     meals.add(getMeal3());
 
-    windowHelpersNative.getMealsPane()
+    windowHelpers.getMealsPane()
         .removeSelectedMeals(0, 1)
         .compareDatabaseInTable(meals);
-    
-    javax.swing.SwingUtilities.invokeLater(() -> {
-      windowHelpersNative.getMealsPane().cancelButton().doClick();
-    });
-    Thread.sleep(500);
-    javax.swing.SwingUtilities.invokeAndWait(() -> {
-      assertThat(windowHelpersNative.getMealsPane().cancelButton().isEnabled()).isFalse();
-      assertThat(windowHelpersNative.getMealsPane().saveButton().isEnabled()).isFalse();
-    });
+
+    clickButtonAndWaitForDisabledThenAssert(mainFrame, ComponentNames.BUTTON_DATABASEEDIT_CANCEL);
+    assertButtonIsDisabled(mainFrame, ComponentNames.BUTTON_DATABASEEDIT_SAVE);
   }
 }

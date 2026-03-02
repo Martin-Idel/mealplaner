@@ -15,18 +15,17 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import etoetests.guitests.helpers.NonAssertJMealplanerTestCase;
+import etoetests.guitests.helpers.MealplanerTestCase;
 import mealplaner.io.xml.IngredientsReader;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.plugins.PluginStore;
 
-public class IngredientsInputTestNative extends NonAssertJMealplanerTestCase {
+public class IngredientsInputTest extends MealplanerTestCase {
 
   @Test
   public void testFrameExists() throws Exception {
     assertThat(mainFrame).isNotNull();
     assertThat(mainFrame.isVisible()).isTrue();
-    Thread.sleep(500);
   }
 
   @Test
@@ -37,9 +36,7 @@ public class IngredientsInputTestNative extends NonAssertJMealplanerTestCase {
         .withMeasures(createMeasures(NONE))
         .create();
 
-    windowHelpersNative.getIngredientsPane().addIngredient(ingredient);
-
-    Thread.sleep(500);
+    windowHelpers.getIngredientsPane().addIngredient(ingredient);
 
     List<Ingredient> ingredientsAfterSaving = IngredientsReader
         .loadXml(DESTINATION_INGREDIENT_FILE_PATH, new PluginStore());
