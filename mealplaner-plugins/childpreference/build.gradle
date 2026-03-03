@@ -1,0 +1,26 @@
+apply plugin: "java-library"
+
+dependencies {
+    api "org.slf4j:slf4j-api:${slf4jVersion}"
+    implementation "org.apache.logging.log4j:log4j-slf4j-impl:${log4jVersion}"
+    implementation "org.apache.logging.log4j:log4j-api:${log4jVersion}"
+    implementation "org.apache.logging.log4j:log4j-core:${log4jVersion}"
+    api "org.swinglabs.swingx:swingx-all:${swingxVersion}"
+    compileOnly "javax.xml.bind:jaxb-api:${jaxbVersion}"
+    runtimeOnly "org.glassfish.jaxb:jaxb-runtime:${jaxbRuntime}"
+    api project(":mealplaner-commons")
+    api project(":mealplaner-model")
+    api project(":mealplaner-gui-commons")
+
+    testImplementation "org.junit.jupiter:junit-jupiter:${jupiterVersion}"
+    testImplementation "org.junit.platform:junit-platform-launcher:${jupiterPlatformVersion}"
+    testImplementation "org.assertj:assertj-core:${assertjVersion}"
+    testImplementation "org.mockito:mockito-core:${mockitoVersion}"
+    testImplementation "org.mockito:mockito-junit-jupiter:${mockitoVersion}"
+    testImplementation(testFixtures(project(":mealplaner-core")))
+    testImplementation(testFixtures(project(":mealplaner-commons")))
+}
+
+test {
+    useJUnitPlatform()
+}
