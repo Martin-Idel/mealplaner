@@ -25,7 +25,7 @@ ext {
     jupiterVersion = '5.11.4'
     jupiterPlatformVersion = '1.11.4'
     assertjVersion = '3.26.3'
-    mockitoVersion = '5.15.2'
+    mockitoVersion = '5.22.0'
     eqVerVersion = '3.18.2'
 }
 

@@ -1,18 +1,18 @@
 apply plugin: "java-library"
 
 dependencies {
-    api group: "org.slf4j", name: "slf4j-api", version: "${slf4jVersion}"
-    implementation group: "org.apache.logging.log4j", name: "log4j-slf4j-impl", version: "${log4jVersion}"
-    implementation group: "org.apache.logging.log4j", name: "log4j-api", version: "${log4jVersion}"
-    implementation group: "org.apache.logging.log4j", name: "log4j-core", version: "${log4jVersion}"
-    api group: "org.swinglabs.swingx", name: "swingx-all", version: "${swingxVersion}"
+    api "org.slf4j:slf4j-api:${slf4jVersion}"
+    implementation "org.apache.logging.log4j:log4j-slf4j-impl:${log4jVersion}"
+    implementation "org.apache.logging.log4j:log4j-api:${log4jVersion}"
+    implementation "org.apache.logging.log4j:log4j-core:${log4jVersion}"
+    api "org.swinglabs.swingx:swingx-all:${swingxVersion}"
     api project(":mealplaner-commons")
     api project(":mealplaner-gui-commons")
     api project(":mealplaner-model")
 
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: "${jupiterVersion}"
-    testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher', version: "${jupiterPlatformVersion}"
-    testImplementation group: 'org.assertj', name: 'assertj-core', version: "${assertjVersion}"
+    testImplementation "org.junit.jupiter:junit-jupiter:${jupiterVersion}"
+    testImplementation "org.junit.platform:junit-platform-launcher:${jupiterPlatformVersion}"
+    testImplementation "org.assertj:assertj-core:${assertjVersion}"
     testImplementation(testFixtures(project(":mealplaner-core")))
 }
 
