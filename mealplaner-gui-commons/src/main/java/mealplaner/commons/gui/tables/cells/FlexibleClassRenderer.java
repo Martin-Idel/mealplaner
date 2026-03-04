@@ -15,11 +15,13 @@ public class FlexibleClassRenderer extends DefaultTableCellRenderer {
   private final transient Optional<Object> defaultObject;
 
   public FlexibleClassRenderer(Function<Object, String> getStringRepresentation, Object defaultObject) {
+    super();
     this.getStringRepresentation = getStringRepresentation;
     this.defaultObject = Optional.of(defaultObject);
   }
 
   public FlexibleClassRenderer(Function<Object, String> getStringRepresentation) {
+    super();
     this.getStringRepresentation = getStringRepresentation;
     this.defaultObject = Optional.empty();
   }

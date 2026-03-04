@@ -17,6 +17,7 @@ public class FlexibleJComboBoxEditor<T> extends AbstractCellEditor implements Ta
   private transient BiConsumer<DefaultComboBoxModel<T>, Object> addValuesToModel;
 
   public FlexibleJComboBoxEditor(int columnToGetValues, BiConsumer<DefaultComboBoxModel<T>, Object> addValuesToModel) {
+    super();
     this.columnToGetValues = columnToGetValues;
     this.addValuesToModel = addValuesToModel;
     editor = new JComboBox<>();

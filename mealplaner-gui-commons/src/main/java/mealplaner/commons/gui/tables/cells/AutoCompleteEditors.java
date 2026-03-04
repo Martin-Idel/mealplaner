@@ -38,10 +38,11 @@ public final class AutoCompleteEditors {
     private final transient Function<Object, String> getStringRepresentation;
     private final transient Object emptyObject;
 
-    public ObjectRenderer(Function<Object, String> getStringRepresentation, Object emptyObject) {
-      this.getStringRepresentation = getStringRepresentation;
-      this.emptyObject = emptyObject;
-    }
+public ObjectRenderer(Function<Object, String> getStringRepresentation, Object emptyObject) {
+    super();
+    this.getStringRepresentation = getStringRepresentation;
+    this.emptyObject = emptyObject;
+  }
 
     @Override
     public Component getListCellRendererComponent(

@@ -45,7 +45,7 @@ public final class MealplanerData implements DataStore {
     private static MealplanerData instance; // NOPMD
   }
 
-  public static MealplanerData getInstance(PluginStore pluginStore) {
+  public static synchronized MealplanerData getInstance(PluginStore pluginStore) {
     if (MealplanerDataHolder.instance == null) {
       MealplanerDataHolder.instance = new MealplanerData(pluginStore);
     }

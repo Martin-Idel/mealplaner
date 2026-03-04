@@ -54,7 +54,8 @@ class SettingTable {
     List<Settings> newSettings = new ArrayList<>(this.settings.size());
     Map<DayOfWeek, Settings> defaults = defaultSettings.getDefaultSettingsMap();
     DayOfWeek dayOfWeek = date.getDayOfWeek();
-    for (int i = 0; i < this.settings.size(); i++) {
+    int size = this.settings.size();
+    for (int i = 0; i < size; i++) {
       newSettings.add(defaults.get(dayOfWeek));
       dayOfWeek = dayOfWeek.plus(1);
     }

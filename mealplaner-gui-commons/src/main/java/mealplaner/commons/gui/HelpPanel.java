@@ -36,7 +36,7 @@ public final class HelpPanel {
         .getResourceAsStream(getLocalizedResource(resourcePath + resourceName, suffix));
          InputStreamReader inputReader = new InputStreamReader(in, StandardCharsets.UTF_8);
          BufferedReader reader = new BufferedReader(inputReader)) {
-      reader.lines().forEach(line -> content.append(line).append("\n"));
+      reader.lines().forEach(line -> content.append(line).append('\n'));
     } catch (IOException exc) {
       logger.error("The specified resource does not exist. ", exc);
     }

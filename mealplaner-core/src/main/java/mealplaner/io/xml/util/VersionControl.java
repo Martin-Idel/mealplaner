@@ -46,7 +46,7 @@ public final class VersionControl {
       for (int i = 0; i < allChildren.getLength(); i++) {
         Node potentialVersionNode = allChildren.item(i);
         if (potentialVersionNode.getNodeType() == Node.ELEMENT_NODE
-            && potentialVersionNode.getNodeName().equals("version")) {
+            && "version".equals(potentialVersionNode.getNodeName())) {
           try {
             return Integer.parseInt(potentialVersionNode.getTextContent());
           } catch (NumberFormatException ex) {

@@ -21,7 +21,7 @@ public final class PreferenceMap {
   }
 
   public static Map<Pair<CookingPreference, PreferenceSettings>, Integer> getPreferenceMap() {
-    HashMap<Pair<CookingPreference, PreferenceSettings>, Integer> preferenceMap = new HashMap<>();
+    Map<Pair<CookingPreference, PreferenceSettings>, Integer> preferenceMap = new HashMap<>();
     preferenceMap.put(Pair.of(VERY_POPULAR, NORMAL), 4);
     preferenceMap.put(Pair.of(VERY_POPULAR, RARE_NONE), 4);
     preferenceMap.put(Pair.of(NO_PREFERENCE, NORMAL), 2);

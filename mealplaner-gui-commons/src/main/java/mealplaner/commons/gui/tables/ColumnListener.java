@@ -12,6 +12,7 @@ public final class ColumnListener extends MouseAdapter {
   private final IntConsumer onClick;
 
   private ColumnListener(int columnNumber, IntConsumer onClick) {
+    super();
     this.columnNumber = columnNumber;
     this.onClick = onClick;
   }

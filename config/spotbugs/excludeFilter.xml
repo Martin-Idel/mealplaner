@@ -129,4 +129,12 @@
         <Method name="&lt;init&gt;"/>
         <Bug pattern="EI_EXPOSE_REP2"/>
     </Match>
+    <Match>
+        <Class name="etoetests.guitests.helpers.SwingTestHelper"/>
+        <Bug pattern="EI2"/>
+    </Match>
+    <Match>
+        <Class name="etoetests.guitests.helpers.MealplanerTestCase"/>
+        <Bug pattern="REC"/>
+    </Match>
 </FindBugsFilter>

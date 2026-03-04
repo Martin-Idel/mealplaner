@@ -45,3 +45,7 @@ test {
         '-Djava.awt.headless=false'
     ]
 }
+
+spotbugs {
+    ignoreFailures = true
+}

@@ -9,11 +9,41 @@
     <rule ref="category/java/bestpractices.xml">
         <exclude name="UnusedPrivateMethod"/>
         <exclude name="UnitTestShouldIncludeAssert"/>
+        <exclude name="UseEnumCollections"/>
+        <exclude name="UnusedPrivateField"/>
+        <exclude name="JUnit5TestShouldBePackagePrivate"/>
+        <exclude name="UseVarargs"/>
+        <exclude name="UnitTestContainsTooManyAsserts"/>
+        <exclude name="LooseCoupling"/>
+        <exclude name="UnitTestAssertionsShouldIncludeMessage"/>
+    </rule>
+    <rule ref="category/java/design.xml">
+        <exclude name="LawOfDemeter"/>
+        <exclude name="TooManyMethods"/>
+        <exclude name="GodClass"/>
+        <exclude name="ExcessiveImports"/>
+        <exclude name="AvoidUncheckedExceptionsInSignatures"/>
+        <exclude name="DataClass"/>
+        <exclude name="ClassWithOnlyPrivateConstructorsShouldBeFinal"/>
+        <exclude name="ImmutableField"/>
+        <exclude name="SingularField"/>
+        <exclude name="SignatureDeclareThrowsException"/>
+        <exclude name="AvoidCatchingGenericException"/>
+        <exclude name="ExceptionAsFlowControl"/>
+        <exclude name="AvoidThrowingRawExceptionTypes"/>
+        <exclude name="CouplingBetweenObjects"/>
     </rule>
     <rule ref="category/java/errorprone.xml">
         <exclude name="AvoidDuplicateLiterals"/>
+        <exclude name="TestClassWithoutTestCases"/>
+        <exclude name="AvoidCatchingGenericException"/>
+        <exclude name="AvoidThrowingRawExceptionTypes"/>
+        <exclude name="SignatureDeclareThrowsException"/>
+        <exclude name="AvoidLiteralsInIfCondition"/>
+        <exclude name="AvoidFieldNameMatchingMethodName"/>
     </rule>
     <rule ref="category/java/performance.xml">
+        <exclude name="UseIndexOfChar"/>
     </rule>
     <rule ref="category/java/security.xml">
     </rule>

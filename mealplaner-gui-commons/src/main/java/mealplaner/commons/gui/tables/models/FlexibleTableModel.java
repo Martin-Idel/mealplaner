@@ -23,6 +23,7 @@ public abstract class FlexibleTableModel extends AbstractTableModel {
   private final transient IntSupplier rowCount;
 
   FlexibleTableModel(List<TableColumnData<?>> tableColumns, IntSupplier rowCount) {
+    super();
     columns = tableColumns;
     this.rowCount = rowCount;
   }

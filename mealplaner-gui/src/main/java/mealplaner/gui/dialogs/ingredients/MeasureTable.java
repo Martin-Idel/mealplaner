@@ -10,7 +10,6 @@ import static mealplaner.commons.gui.tables.TableColumnBuilder.withNonnegativeFr
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Vector;
 import java.util.stream.Collectors;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
@@ -64,8 +63,12 @@ public final class MeasureTable {
   }
 
   private static DefaultCellEditor defineCellEditorWithAllButPrimaryMeasure(Measure primaryMeasure) {
-    return new DefaultCellEditor(
-        new JComboBox<>(new Vector<>(removePrimaryAndNoMeasure(primaryMeasure))));
+    List<Measure> measures = removePrimaryAndNoMeasure(primaryMeasure);
+    JComboBox<Measure> comboBox = new JComboBox<>();
+    for (Measure measure : measures) {
+      comboBox.addItem(measure);
+    }
+    return new DefaultCellEditor(comboBox);
   }
 
   public static List<Measure> removePrimaryAndNoMeasure(Measure primaryMeasure) {

@@ -12,8 +12,8 @@ import java.util.ResourceBundle;
 public enum BundleStore {
   BUNDLES();
 
-  private MultiResourceBundle messages;
-  private MultiResourceBundle errors;
+  private transient MultiResourceBundle messages;
+  private transient MultiResourceBundle errors;
   private final Locale currentLocale;
 
   BundleStore() {

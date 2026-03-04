@@ -225,6 +225,7 @@ public final class FlexibleTableBuilder {
     private final transient IntConsumer deleteRow;
 
     DeleteAction(FlexibleTableModel tableModel, JTable table, IntConsumer deleteRow) {
+      super();
       this.tableModel = tableModel;
       this.table = table;
       this.deleteRow = deleteRow;
