@@ -56,7 +56,7 @@ public final class MealInputGrid {
         "Recipe",
         BUNDLES.message("editRecipeButtonLabel"),
         BUNDLES.message("createRecipeButtonLabel"),
-        empty(), content -> createRecipeDialog(mealPlan, content, pluginStore), 10000);
+        empty(), content -> createRecipeDialog(mealPlan, content, pluginStore), 10_000);
     mealFactFields = pluginStore
         .getRegisteredMealInputGuiExtensions()
         .stream()

@@ -32,7 +32,6 @@
         <exclude name="ShortVariable"/>
         <exclude name="LocalVariableCouldBeFinal"/>
         <exclude name="OnlyOneReturn"/>
-        <exclude name="UseUnderscoresInNumericLiterals"/>
         <exclude name="UseExplicitTypes"/>
         <exclude name="UnnecessaryFullyQualifiedName"/>
         <exclude name="ShortClassName"/>

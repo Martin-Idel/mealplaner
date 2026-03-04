@@ -15,8 +15,8 @@ public final class NonnegativeFraction {
 
   private static final Pattern INTEGER_PATTERN = compile("^\\d*$");
   private static final Pattern FRACTION_PATTERN = compile("^\\d*[,/.]?\\d*$");
-  private static final int[] POWERS_OF_10 = { 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000,
-      100000000, 1000000000 };
+  private static final int[] POWERS_OF_10 = { 1, 10, 100, 1_000, 10_000, 100_000, 1_000_000, 10_000_000,
+      100_000_000, 1_000_000_000 };
 
   private final int numerator;
   private final int denominator;
