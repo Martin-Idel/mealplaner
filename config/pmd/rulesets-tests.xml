@@ -21,6 +21,7 @@
         <exclude name="LawOfDemeter"/>
         <exclude name="TooManyMethods"/>
         <exclude name="GodClass"/>
+	<exclude name="LoosePackageCoupling"/>
         <exclude name="ExcessiveImports"/>
         <exclude name="AvoidUncheckedExceptionsInSignatures"/>
         <exclude name="DataClass"/>
@@ -32,15 +33,15 @@
         <exclude name="ExceptionAsFlowControl"/>
         <exclude name="AvoidThrowingRawExceptionTypes"/>
         <exclude name="CouplingBetweenObjects"/>
+        <exclude name="PublicMemberInNonPublicType"/>
     </rule>
     <rule ref="category/java/errorprone.xml">
         <exclude name="AvoidDuplicateLiterals"/>
         <exclude name="TestClassWithoutTestCases"/>
-        <exclude name="AvoidCatchingGenericException"/>
-        <exclude name="AvoidThrowingRawExceptionTypes"/>
-        <exclude name="SignatureDeclareThrowsException"/>
         <exclude name="AvoidLiteralsInIfCondition"/>
         <exclude name="AvoidFieldNameMatchingMethodName"/>
+        <exclude name="AssignmentInOperand"/>
+        <exclude name="AvoidCatchingGenericException"/>
     </rule>
     <rule ref="category/java/performance.xml">
         <exclude name="UseIndexOfChar"/>

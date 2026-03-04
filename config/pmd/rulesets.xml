@@ -8,20 +8,24 @@
     <exclude-pattern>.*/src/testFixtures/.*</exclude-pattern>
     <rule ref="category/java/bestpractices.xml">
         <exclude name="GuardLogStatement"/>
-        <exclude name="ReplaceVectorWithList"/>
+        <exclude name="LooseCoupling"/>
         <exclude name="UseEnumCollections"/>
+        <exclude name="ExhaustiveSwitchHasDefault"/>
+        <exclude name="ImplicitFunctionalInterface"/>
     </rule>
     <rule ref="category/java/errorprone.xml">
         <exclude name="AvoidFieldNameMatchingMethodName"/>
         <exclude name="AvoidLiteralsInIfCondition"/>
         <exclude name="ConstructorCallsOverridableMethod"/>
+        <exclude name="AssignmentInOperand"/>
+        <exclude name="AvoidDuplicateLiterals"/>
     </rule>
     <rule ref="category/java/performance.xml">
         <exclude name="RedundantFieldInitializer"/>
         <exclude name="UseArrayListInsteadOfVector"/>
+        <exclude name="AvoidInstantiatingObjectsInLoops"/>
     </rule>
     <rule ref="category/java/codestyle.xml">
-        <exclude name="ForLoopCanBeForeach"/>
         <exclude name="MethodArgumentCouldBeFinal"/>
         <exclude name="AtLeastOneConstructor"/>
         <exclude name="LongVariable"/>
@@ -30,8 +34,6 @@
         <exclude name="OnlyOneReturn"/>
         <exclude name="UseUnderscoresInNumericLiterals"/>
         <exclude name="UseExplicitTypes"/>
-        <exclude name="ImmutableField"/>
-        <exclude name="DefaultPackage"/>
         <exclude name="UnnecessaryFullyQualifiedName"/>
         <exclude name="ShortClassName"/>
         <exclude name="ShortMethodName"/>
@@ -39,49 +41,23 @@
         <exclude name="CommentDefaultAccessModifier"/>
         <exclude name="TooManyStaticImports"/>
         <exclude name="GenericsNaming"/>
-        <exclude name="ExcessiveImports"/>
         <exclude name="UnnecessaryAnnotationValueElement"/>
-        <exclude name="UnnecessaryModifier"/>
         <exclude name="LinguisticNaming"/>
+        <exclude name="UnnecessaryModifier"/>
+        <exclude name="CallSuperInConstructor"/>
+        <exclude name="TypeParameterNamingConventions"/>
     </rule>
     <rule ref="category/java/design.xml">
-        <exclude name="NonSerializableClass"/>
         <exclude name="TooManyMethods"/>
         <exclude name="LawOfDemeter"/>
         <exclude name="DataClass"/>
         <exclude name="LoosePackageCoupling"/>
         <exclude name="SingularField"/>
         <exclude name="ImmutableField"/>
-        <exclude name="UseEnumCollections"/>
-        <exclude name="LinguisticNaming"/>
         <exclude name="ClassWithOnlyPrivateConstructorsShouldBeFinal"/>
         <exclude name="CouplingBetweenObjects"/>
         <exclude name="ExcessiveImports"/>
-    </rule>
-    <rule ref="category/java/codestyle.xml">
-        <exclude name="ForLoopCanBeForeach"/>
-        <exclude name="MethodArgumentCouldBeFinal"/>
-        <exclude name="AtLeastOneConstructor"/>
-        <exclude name="LongVariable"/>
-        <exclude name="ShortVariable"/>
-        <exclude name="LocalVariableCouldBeFinal"/>
-        <exclude name="OnlyOneReturn"/>
-        <exclude name="UseUnderscoresInNumericLiterals"/>
-        <exclude name="UseExplicitTypes"/>
-        <exclude name="ImmutableField"/>
-        <exclude name="DefaultPackage"/>
-        <exclude name="UnnecessaryFullyQualifiedName"/>
-        <exclude name="ShortClassName"/>
-        <exclude name="ShortMethodName"/>
-        <exclude name="FieldNamingConventions"/>
-        <exclude name="CommentDefaultAccessModifier"/>
-        <exclude name="TooManyStaticImports"/>
-        <exclude name="GenericsNaming"/>
-        <exclude name="ExcessiveImports"/>
-        <exclude name="UnnecessaryAnnotationValueElement"/>
-        <exclude name="UnnecessaryModifier"/>
-        <exclude name="LinguisticNaming"/>
-        <exclude name="CallSuperInConstructor"/>
+        <exclude name="PublicMemberInNonPublicType"/>
     </rule>
     <rule ref="category/java/security.xml">
     </rule>

@@ -92,7 +92,7 @@ public final class QuantitativeIngredient {
     }
     QuantitativeIngredient other = (QuantitativeIngredient) obj;
     return ingredient.equals(other.ingredient)
-        && measure.equals(other.measure)
+        && measure == other.measure
         && amount.equals(other.amount);
   }
 

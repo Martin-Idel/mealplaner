@@ -113,7 +113,7 @@ public final class MealData implements DataStoreListener {
 
   @Override
   public void updateData(DataStoreEventType event) {
-    if (event.equals(DataStoreEventType.INGREDIENTS_CHANGED)) {
+    if (event == DataStoreEventType.INGREDIENTS_CHANGED) {
       recomputeRecipes();
     }
   }

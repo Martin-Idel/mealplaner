@@ -12,9 +12,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import javax.swing.JFileChooser;
@@ -87,7 +86,7 @@ public class FileIo implements FileIoInterface {
 
   @Override
   public void createBackup(MealplanerData mealPlan) {
-    var timestamp = new SimpleDateFormat("yyyyMMdd", BUNDLES.locale()).format(new Date());
+    var timestamp = DateTimeFormatter.ofPattern("yyyyMMdd", BUNDLES.locale()).format(LocalDate.now());
     save(mealPlan, basePath + File.separator + timestamp + File.separator);
     JOptionPane.showMessageDialog(
         frame,
@@ -108,7 +107,7 @@ public class FileIo implements FileIoInterface {
       try (OutputStream outputStream = Files.newOutputStream(selectedFile.toPath())) {
         outputStream.write(serializeShoppingList(LocalDate.now(), shoppingList).getBytes(StandardCharsets.UTF_8));
       } catch (IOException ex) {
-        errorMessages(frame, BUNDLES.errorMessage("MSG_SAVING_ERROR")); // NOPMD
+        errorMessages(frame, BUNDLES.errorMessage("MSG_SAVING_ERROR"));
         logger.error("Could not save shopping list to json:", ex);
       }
     }
@@ -128,10 +127,9 @@ public class FileIo implements FileIoInterface {
         case PROPOSAL:
           ProposalSummaryDataWriter.saveXml(mealPlan, regularSavePath + SAVE_FILE, knownPlugins);
           break;
-        default: // do nothing
       }
     } catch (MealException exc) {
-      errorMessages(frame, BUNDLES.errorMessage("MSG_SAVING_ERROR")); // NOPMD
+      errorMessages(frame, BUNDLES.errorMessage("MSG_SAVING_ERROR"));
       logger.error("Could not save {} of database: {}", part, exc);
     }
   }
@@ -143,7 +141,7 @@ public class FileIo implements FileIoInterface {
       MealsWriter.saveXml(mealPlan.getMeals(), savePath + MEAL_FILE, knownPlugins);
       IngredientsWriter.saveXml(mealPlan.getIngredients(), savePath + INGREDIENT_FILE, knownPlugins);
     } catch (MealException exc) {
-      errorMessages(frame, BUNDLES.errorMessage("MSG_SAVING_ERROR")); // NOPMD
+      errorMessages(frame, BUNDLES.errorMessage("MSG_SAVING_ERROR"));
       logger.error("Could not save database: ", exc);
     }
   }
@@ -152,7 +150,7 @@ public class FileIo implements FileIoInterface {
     if (!new File(regularSavePath).exists()) {
       boolean created = new File(regularSavePath).mkdirs();
       if (!created) {
-        errorMessages(frame, BUNDLES.errorMessage("MSG_SAVING_ERROR")); // NOPMD
+        errorMessages(frame, BUNDLES.errorMessage("MSG_SAVING_ERROR"));
         logger.error("Could not create savegame folder and folder does not exist");
       }
     }

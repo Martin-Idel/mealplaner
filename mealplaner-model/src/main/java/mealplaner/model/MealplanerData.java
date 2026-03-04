@@ -42,7 +42,7 @@ public final class MealplanerData implements DataStore {
   private final List<DataStoreListener> listeners = new ArrayList<>();
 
   private static class MealplanerDataHolder {
-    private static MealplanerData instance; // NOPMD
+    private static MealplanerData instance;
   }
 
   public static synchronized MealplanerData getInstance(PluginStore pluginStore) {

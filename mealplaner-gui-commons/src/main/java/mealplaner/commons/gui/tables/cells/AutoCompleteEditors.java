@@ -5,7 +5,6 @@ package mealplaner.commons.gui.tables.cells;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.List;
-import java.util.Vector;
 import java.util.function.Function;
 import javax.swing.JComboBox;
 import javax.swing.JList;
@@ -21,7 +20,9 @@ public final class AutoCompleteEditors {
 
   public static <T> ComboBoxCellEditor autoCompleteCellEditor(
       List<T> list, T emptyObject, Function<Object, String> toRepresentation) {
-    JComboBox<T> autoCompleteBox = new JComboBox<>(new Vector<>(list));
+    @SuppressWarnings("unchecked")
+    T[] array = (T[]) list.toArray(new Object[0]);
+    JComboBox<T> autoCompleteBox = new JComboBox<>(array);
     autoCompleteBox.addItem(emptyObject);
     autoCompleteBox.setRenderer(new ObjectRenderer(toRepresentation, emptyObject));
     AutoCompleteDecorator.decorate(autoCompleteBox, new ObjectToStringConverter() {

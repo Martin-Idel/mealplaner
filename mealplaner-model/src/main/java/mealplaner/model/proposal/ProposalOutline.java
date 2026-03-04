@@ -73,8 +73,8 @@ public final class ProposalOutline {
     }
 
     public ProposalOutline build() {
-      return new ProposalOutline(numberOfDays, includedToday, shallBeRandomised, takeDefaultSettings,  // NOPMD
-          dateToday);  // NOPMD
+      return new ProposalOutline(numberOfDays, includedToday, shallBeRandomised, takeDefaultSettings,
+          dateToday);
     }
   }
 

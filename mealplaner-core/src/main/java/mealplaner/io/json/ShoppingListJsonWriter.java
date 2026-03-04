@@ -20,7 +20,7 @@ public final class ShoppingListJsonWriter {
     shoppingListJson.put("creationDate", creationDate.toString());
     var shoppingListArray = new JsonArray();
     for (var ingredient: list) {
-      JsonObject shoppingListEntry = new JsonObject(); // NOPMD
+      JsonObject shoppingListEntry = new JsonObject();
       shoppingListEntry.put("name", ingredient.getIngredient().getName());
       shoppingListEntry.put("type", ingredient.getIngredient().getType().toString());
       shoppingListEntry.put("amount", ingredient.getAmount().toRoundedString());

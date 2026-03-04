@@ -93,7 +93,7 @@ public class MeasureInputDialog implements DialogEditing<Map<Measure, Nonnegativ
     return toEdit
         .entrySet()
         .stream()
-        .filter(entry -> !entry.getKey().equals(primaryMeasure))
+        .filter(entry -> entry.getKey() != primaryMeasure)
         .map(entry -> Pair.of(entry.getKey(), entry.getValue()))
         .collect(Collectors.toList());
   }

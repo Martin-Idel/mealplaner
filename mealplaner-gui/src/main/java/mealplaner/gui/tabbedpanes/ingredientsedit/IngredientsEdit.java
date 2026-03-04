@@ -149,7 +149,7 @@ public class IngredientsEdit implements DataStoreListener {
 
   @Override
   public void updateData(DataStoreEventType event) {
-    if (event.equals(INGREDIENTS_CHANGED)) {
+    if (event == INGREDIENTS_CHANGED) {
       updateTable();
     }
   }

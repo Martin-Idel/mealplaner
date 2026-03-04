@@ -51,7 +51,7 @@ subprojects {
 subprojects {
     apply plugin: 'pmd'
     pmd {
-        toolVersion = "7.9.0"
+        toolVersion = "7.22.0"
         ignoreFailures = false
         reportsDir = file("$project.buildDir/reports/pmd")
         ruleSets = []

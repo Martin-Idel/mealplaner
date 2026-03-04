@@ -34,6 +34,6 @@ public class CookingTimeSubSettingXml implements SettingXml {
   @Override
   public Fact convertToFact() {
     return cookingTimeWithProhibited(
-        cookingTimes.toArray(new CookingTime[0]));  // NOPMD
+        cookingTimes.toArray(new CookingTime[0]));
   }
 }

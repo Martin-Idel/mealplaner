@@ -43,12 +43,12 @@ public final class Measures {
   }
 
   public boolean contains(Measure measure) {
-    return measure.equals(primary) || secondaries.containsKey(measure);
+    return measure == primary || secondaries.containsKey(measure);
   }
 
   public NonnegativeFraction getConversionFactor(Measure measureFrom, Measure measureTo) {
-    var conversionMeasureFromToPrimary = measureFrom.equals(primary) ? ONE : secondaries.get(measureFrom);
-    var conversionMeasureToToPrimary = measureTo.equals(primary) ? ONE : secondaries.get(measureTo);
+    var conversionMeasureFromToPrimary = measureFrom == primary ? ONE : secondaries.get(measureFrom);
+    var conversionMeasureToToPrimary = measureTo == primary ? ONE : secondaries.get(measureTo);
     if (conversionMeasureFromToPrimary == null) {
       throw new MealException("Measure " + measureFrom + " is not contained in secondaries");
     } else if (conversionMeasureToToPrimary == null) {

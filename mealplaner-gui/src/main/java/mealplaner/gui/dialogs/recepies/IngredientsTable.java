@@ -53,7 +53,7 @@ public final class IngredientsTable {
                 (ingredient, amount) -> createQuantitativeIngredient(
                     ingredient.getIngredient(), ingredient.getMeasure(), amount))
             .isEditableIf(row -> (row < ingredients.size())
-                && !ingredients.get(row).getIngredient().getPrimaryMeasure().equals(Measure.NONE))
+                && ingredients.get(row).getIngredient().getPrimaryMeasure() != Measure.NONE)
             .overwriteTableCellRenderer(new FlexibleClassRenderer(IngredientsTable::representZeroAsEmptyString))
             .build())
         .addColumn(withContent(Measure.class)

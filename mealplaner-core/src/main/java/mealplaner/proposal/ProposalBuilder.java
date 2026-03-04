@@ -52,13 +52,13 @@ public class ProposalBuilder implements ProposalBuilderInterface {
     this.proposalBuilderSteps = new ArrayList<>();
     this.proposalBuilderSteps.addAll(proposalBuilderSteps);
     meals.stream()
-        .filter(meal -> meal.getTypedMealFact(CourseTypeFact.class).getCourseType().equals(ENTRY))
+        .filter(meal -> meal.getTypedMealFact(CourseTypeFact.class).getCourseType() == ENTRY)
         .forEach(meal -> mealDataEntry.put(meal.getId(), meal));
     meals.stream()
-        .filter(meal -> meal.getTypedMealFact(CourseTypeFact.class).getCourseType().equals(MAIN))
+        .filter(meal -> meal.getTypedMealFact(CourseTypeFact.class).getCourseType() == MAIN)
         .forEach(meal -> mealDataMain.put(meal.getId(), meal));
     meals.stream()
-        .filter(meal -> meal.getTypedMealFact(CourseTypeFact.class).getCourseType().equals(DESERT))
+        .filter(meal -> meal.getTypedMealFact(CourseTypeFact.class).getCourseType() == DESERT)
         .forEach(meal -> mealDataDesert.put(meal.getId(), meal));
     proposalList = new ArrayList<>();
   }
@@ -76,7 +76,7 @@ public class ProposalBuilder implements ProposalBuilderInterface {
   }
 
   @Override
-  public Proposal propose(Settings... settings) { // NOPMD
+  public Proposal propose(Settings... settings) {
     for (var step : proposalBuilderSteps) {
       step.setupProposalStep(mealDataMain);
     }

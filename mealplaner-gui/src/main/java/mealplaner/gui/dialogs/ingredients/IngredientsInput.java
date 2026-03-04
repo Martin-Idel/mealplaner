@@ -126,7 +126,7 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
   private Map<Measure, NonnegativeFraction> createMeasuresDialogIfPrimaryMeasureIsNotNone(
       DataStore mealPlan, Map<Measure, NonnegativeFraction> measures, PluginStore pluginStore) {
     var primaryMeasure = primaryMeasureField.getUserInput();
-    if (Measure.NONE.equals(primaryMeasure)) {
+    if (primaryMeasure == Measure.NONE) {
       return new EnumMap<>(Measure.class);
     }
     var measuresInput = MeasureInputDialog.measureInput(dialogWindow, primaryMeasure);

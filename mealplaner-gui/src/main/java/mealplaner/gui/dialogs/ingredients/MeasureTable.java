@@ -73,8 +73,8 @@ public final class MeasureTable {
 
   public static List<Measure> removePrimaryAndNoMeasure(Measure primaryMeasure) {
     return Arrays.stream(Measure.values())
-        .filter(measure -> !measure.equals(primaryMeasure))
-        .filter(measure -> !measure.equals(Measure.NONE))
+        .filter(measure -> measure != primaryMeasure)
+        .filter(measure -> measure != Measure.NONE)
         .collect(Collectors.toList());
   }
 }
