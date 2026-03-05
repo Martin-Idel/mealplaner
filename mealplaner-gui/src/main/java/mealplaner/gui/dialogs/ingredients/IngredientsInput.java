@@ -35,6 +35,7 @@ import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.IngredientType;
 import mealplaner.model.recipes.Measure;
 import mealplaner.plugins.PluginStore;
+import mealplaner.plugins.api.IngredientFact;
 import mealplaner.plugins.api.IngredientInputDialogExtension;
 
 public class IngredientsInput implements DialogCreating<List<Ingredient>> {
@@ -144,13 +145,16 @@ public class IngredientsInput implements DialogCreating<List<Ingredient>> {
   private void saveIngredient(PluginStore pluginStore, Runnable postSaveAction) {
     var name = nameField.getUserInput();
     if (name.isPresent()) {
-      ingredients.add(ingredientWithValidation(
+      var builder = ingredientWithValidation(
           pluginStore.getRegisteredIngredientExtensions().getAllRegisteredFacts())
           .withName(name.get())
           .withType(typeField.getUserInput())
           .withPrimaryMeasure(primaryMeasureField.getUserInput())
-          .withSecondaryMeasures(secondaryMeasuresField.getUserInput())
-          .create());
+          .withSecondaryMeasures(secondaryMeasuresField.getUserInput());
+      for (var factField : factInputFields) {
+        builder.addFact((IngredientFact) factField.getUserInput());
+      }
+      ingredients.add(builder.create());
       postSaveAction.run();
     }
   }

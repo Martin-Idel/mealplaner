@@ -33,6 +33,7 @@ dependencies {
     implementation project(":mealplaner-plugins:cookingtime")
     implementation project(":mealplaner-plugins:courses")
     implementation project(":mealplaner-plugins:preference")
+    implementation project(":mealplaner-plugins:seasonal")
     implementation project(":mealplaner-plugins:sidedish")
     implementation project(":mealplaner-plugins:utensil")
     implementation project(":mealplaner-plugins:vegetarian")

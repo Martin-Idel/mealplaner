@@ -15,5 +15,6 @@ include 'mealplaner-plugins:recipephoto'
 include 'mealplaner-plugins:sidedish'
 include 'mealplaner-plugins:utensil'
 include 'mealplaner-plugins:vegetarian'
+include 'mealplaner-plugins:seasonal'
 include 'mealplaner-e2e'
 

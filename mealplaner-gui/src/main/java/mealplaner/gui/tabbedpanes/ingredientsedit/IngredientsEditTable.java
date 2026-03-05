@@ -75,7 +75,7 @@ final class IngredientsEditTable {
           buttonPanel.enableButtons();
         });
     for (var ingredientEditExtension : ingredientEditExtensions) {
-      ingredientEditExtension.addTableColumns(tableModelBuilder, ingredients);
+      tableModelBuilder = ingredientEditExtension.addTableColumns(tableModelBuilder, ingredients, buttonPanel);
     }
     return tableModelBuilder.buildTable("IngredientsEditTable");
   }
