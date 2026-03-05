@@ -23,7 +23,7 @@ public class SettingsChildPreferenceSettings implements SettingsInputDialogExten
             from(element).changeSetting(new ChildPreferenceSubSetting(Boolean.TRUE.equals(value))).create())
         .isEditable()
         .setPreferredSize(80)
-        .buildWithOrderNumber(10));
+        .buildWithOrderNumber(28));
     return table;
   }
 }
