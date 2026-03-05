@@ -65,7 +65,7 @@ subprojects {
 subprojects {
     apply plugin: 'com.github.spotbugs'
     spotbugs {
-        toolVersion = "4.9.1"
+        toolVersion = "4.9.8"
         ignoreFailures = false
         effort = com.github.spotbugs.snom.Effort.MAX
         excludeFilter = file("$rootProject.projectDir/config/spotbugs/excludeFilter.xml")
