@@ -15,6 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import etoetests.guitests.constants.ComponentNames;
@@ -22,6 +23,7 @@ import etoetests.guitests.helpers.MealplanerTestCase;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.IngredientBuilder;
 
+@Tag("guitest")
 public class IngredientsEditDatabaseTest extends MealplanerTestCase {
   public IngredientsEditDatabaseTest() {
     super("src/test/resources/mealsXmlV3.xml",

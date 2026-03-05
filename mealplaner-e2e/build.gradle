@@ -44,6 +44,24 @@ test {
         '--add-exports=java.base/sun.reflect=ALL-UNNAMED',
         '-Djava.awt.headless=false'
     ]
+    if (System.getenv('CI') || System.getenv('DISPLAY') == null) {
+        useJUnitPlatform {
+            excludeTags 'guitest'
+        }
+    }
+}
+
+tasks.register('testHeadless', Test) {
+    description = 'Runs tests without GUI (excludes guitest tag)'
+    group = 'verification'
+    useJUnitPlatform {
+        excludeTags 'guitest'
+    }
+    testClassesDirs = files(sourceSets.test.output.classesDirs)
+    classpath = sourceSets.test.runtimeClasspath
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
 }
 
 spotbugs {

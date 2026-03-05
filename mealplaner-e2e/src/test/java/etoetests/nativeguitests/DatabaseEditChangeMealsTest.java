@@ -13,6 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import etoetests.guitests.constants.ComponentNames;
@@ -22,6 +23,7 @@ import mealplaner.plugins.builtins.courses.CourseTypeFact;
 import mealplaner.plugins.comment.mealextension.CommentFact;
 import mealplaner.plugins.cookingtime.mealextension.CookingTimeFact;
 
+@Tag("guitest")
 public class DatabaseEditChangeMealsTest extends MealplanerTestCase {
   public DatabaseEditChangeMealsTest() {
     super("src/test/resources/mealsXmlOnlyOneMeal.xml",
@@ -56,10 +58,10 @@ public class DatabaseEditChangeMealsTest extends MealplanerTestCase {
     clickButtonAndWaitForDisabledThenAssert(mainFrame, ComponentNames.BUTTON_DATABASEEDIT_CANCEL);
     assertButtonIsDisabled(mainFrame, ComponentNames.BUTTON_DATABASEEDIT_SAVE);
 
-windowHelpers.getMealsPane()
-    .changeCookingTime(0, MEDIUM)
-    .changeSideDish(0, RICE)
-    .changeComment(0, "New comment");
+    windowHelpers.getMealsPane()
+        .changeCookingTime(0, MEDIUM)
+        .changeSideDish(0, RICE)
+        .changeComment(0, "New comment");
     clickButtonAndWaitForDisabledThenAssert(mainFrame, ComponentNames.BUTTON_DATABASEEDIT_CANCEL);
     windowHelpers.getMealsPane().compareDatabaseInTable(meals);
     assertButtonIsDisabled(mainFrame, ComponentNames.BUTTON_DATABASEEDIT_CANCEL);

@@ -13,6 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import etoetests.guitests.helpers.MealplanerTestCase;
@@ -20,6 +21,7 @@ import mealplaner.io.xml.IngredientsReader;
 import mealplaner.model.recipes.Ingredient;
 import mealplaner.plugins.PluginStore;
 
+@Tag("guitest")
 public class IngredientsInputTest extends MealplanerTestCase {
 
   @Test

@@ -80,13 +80,13 @@ subprojects {
         toolVersion = "0.8.14"
     }
 
-jacocoTestReport {
-    reports {
-        html.required.set(true)
-        xml.required.set(true)
-        csv.required.set(true)
+    jacocoTestReport {
+        reports {
+            html.required.set(true)
+            xml.required.set(true)
+            csv.required.set(true)
+        }
     }
-}
 }
 
 sonarqube {

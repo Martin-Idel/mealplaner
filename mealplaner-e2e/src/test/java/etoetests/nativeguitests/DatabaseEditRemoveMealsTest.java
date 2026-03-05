@@ -8,12 +8,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import etoetests.guitests.constants.ComponentNames;
 import etoetests.guitests.helpers.MealplanerTestCase;
 import mealplaner.model.meal.Meal;
 
+@Tag("guitest")
 public class DatabaseEditRemoveMealsTest extends MealplanerTestCase {
   public DatabaseEditRemoveMealsTest() {
     super("src/test/resources/mealsXmlV3.xml",

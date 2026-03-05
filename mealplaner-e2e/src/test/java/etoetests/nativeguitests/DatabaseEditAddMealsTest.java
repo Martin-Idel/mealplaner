@@ -22,6 +22,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import etoetests.guitests.constants.ComponentNames;
@@ -31,6 +32,7 @@ import mealplaner.model.recipes.Ingredient;
 import mealplaner.model.recipes.QuantitativeIngredient;
 import mealplaner.model.recipes.Recipe;
 
+@Tag("guitest")
 public class DatabaseEditAddMealsTest extends MealplanerTestCase {
   @Test
   public void addMealAddsMealsInCorrectOrder() throws Exception {

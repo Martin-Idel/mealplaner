@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import etoetests.CommonFunctions;
@@ -30,6 +31,7 @@ import mealplaner.model.recipes.Recipe;
 import mealplaner.model.settings.DefaultSettings;
 import mealplaner.model.settings.Settings;
 
+@Tag("guitest")
 public class ProposalTest extends MealplanerTestCase {
   public ProposalTest() {
     super("src/test/resources/mealsXmlV3.xml",
