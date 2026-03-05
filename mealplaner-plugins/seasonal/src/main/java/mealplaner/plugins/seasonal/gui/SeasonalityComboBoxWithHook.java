@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.plugins.seasonal.gui;
 
 import java.util.function.Consumer;
@@ -18,7 +20,6 @@ public class SeasonalityComboBoxWithHook {
   public SeasonalityComboBoxWithHook(
       String label,
       String name,
-      Class<Seasonality> enumType,
       Seasonality defaultValue,
       int orderNumber) {
     this.label = label;

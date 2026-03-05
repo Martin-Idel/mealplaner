@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.plugins.seasonal.ingredientextension;
 
 import static mealplaner.commons.BundleStore.BUNDLES;

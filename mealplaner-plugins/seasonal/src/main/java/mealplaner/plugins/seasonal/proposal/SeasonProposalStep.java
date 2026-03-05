@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.plugins.seasonal.proposal;
 
 import static java.time.LocalDate.now;
@@ -20,11 +22,15 @@ import mealplaner.plugins.seasonal.ingredientextension.Seasonality;
 import mealplaner.plugins.seasonal.ingredientextension.SeasonalityFact;
 
 public class SeasonProposalStep implements ProposalBuilderStep {
+  public static final float IN_SEASON_VERY_SEASONAL_MULTIPLIER = 0.5f;
+  public static final float IN_SEASON_MILDLY_SEASONAL_MULTIPLIER = 0.75f;
+  public static final float OUT_SEASON_VERY_SEASONAL_MULTIPLIER = 3f;
+  public static final float OUT_SEASON_MILDLY_SEASONAL_MULTIPLIER = 1.5f;
+
   private LocalDate proposalDate;
 
   @Override
   public Stream<Pair<Meal, Integer>> applyPluginSuggestions(Stream<Pair<Meal, Integer>> meals, Settings settings) {
-    proposalDate = now();
     return meals.map(this::applySeasonalityMultiplier);
   }
 
@@ -74,11 +80,15 @@ public class SeasonProposalStep implements ProposalBuilderStep {
     Set<String> offSeason = seasonalityFact.getOffSeasonMonths();
 
     if (mainSeason.contains(currentMonth)) {
-      return (seasonality == Seasonality.VERY_SEASONAL) ? 0.5 : 0.75;
+      return (seasonality == Seasonality.VERY_SEASONAL)
+          ? IN_SEASON_VERY_SEASONAL_MULTIPLIER
+          : IN_SEASON_MILDLY_SEASONAL_MULTIPLIER;
     } else if (offSeason.contains(currentMonth)) {
       return 1.0;
     } else {
-      return (seasonality == Seasonality.VERY_SEASONAL) ? 3.0 : 1.5;
+      return (seasonality == Seasonality.VERY_SEASONAL)
+          ? OUT_SEASON_VERY_SEASONAL_MULTIPLIER
+          : OUT_SEASON_MILDLY_SEASONAL_MULTIPLIER;
     }
   }
 }

@@ -1,17 +1,22 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.plugins.seasonal.gui;
 
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.io.Serial;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import mealplaner.plugins.seasonal.ingredientextension.Seasonality;
 import mealplaner.plugins.seasonal.ingredientextension.SeasonalityFact;
+import mealplaner.plugins.seasonal.util.SeasonalConstants;
 
 public class SeasonalityBandRenderer extends DefaultTableCellRenderer {
+  @Serial
   private static final long serialVersionUID = 1L;
   private static final int NUM_MONTHS = 12;
   private static final int BAND_HEIGHT = 16;
@@ -31,6 +36,7 @@ public class SeasonalityBandRenderer extends DefaultTableCellRenderer {
   }
 
   private static class SeasonalityBandPanel extends JPanel {
+    @Serial
     private static final long serialVersionUID = 1L;
     private final transient SeasonalityFact fact;
     private final transient Color tableBackground;
@@ -57,11 +63,11 @@ public class SeasonalityBandRenderer extends DefaultTableCellRenderer {
         Color color;
 
         if (fact.getMainSeasonMonths().contains(month)) {
-          color = new Color(220, 80, 80);
+          color = SeasonalConstants.getMonthColorForMainSeason();
         } else if (fact.getOffSeasonMonths().contains(month)) {
-          color = new Color(240, 220, 100);
+          color = SeasonalConstants.getMonthColorForOffSeason();
         } else {
-          color = Color.LIGHT_GRAY;
+          color = SeasonalConstants.getMonthColorForNoSeason();
         }
 
         g.setColor(color);

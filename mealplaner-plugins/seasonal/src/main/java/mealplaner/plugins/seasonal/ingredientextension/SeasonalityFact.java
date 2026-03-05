@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 package mealplaner.plugins.seasonal.ingredientextension;
 
 import static java.util.Collections.emptySet;
@@ -17,7 +19,6 @@ import mealplaner.plugins.api.IngredientFactXml;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SeasonalityFact implements IngredientFact, IngredientFactXml {
-  private static final long serialVersionUID = 1L;
   private Seasonality seasonality;
   private Set<String> mainSeasonMonths;
   private Set<String> offSeasonMonths;
